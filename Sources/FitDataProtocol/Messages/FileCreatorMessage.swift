@@ -30,7 +30,7 @@ open class FileCreatorMessage: FitMessage, FitMessageKeys {
     /// Hardware Version
     private(set) public var hardwareVersion: UInt8?
 
-    internal override init() {}
+    public required init() {}
 
     public init(softwareVersion: UInt16?, hardwareVersion: UInt8?) {
         self.softwareVersion = softwareVersion

@@ -52,7 +52,7 @@ open class EventMessage: FitMessage, FitMessageKeys {
     /// Event Group
     private(set) public var eventGroup: UInt8?
 
-    internal override init() {}
+    public required init() {}
 
     public init(timeStamp: FitTime?, eventData: UInt16?, eventMoreData: UInt32?, event: Event?, eventType: EventType?, eventGroup: UInt8?) {
         self.timeStamp = timeStamp

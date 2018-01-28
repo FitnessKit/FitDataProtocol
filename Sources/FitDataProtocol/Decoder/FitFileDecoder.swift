@@ -17,11 +17,11 @@ public struct FitFileDecoder {
     private var definitionDict: [UInt8 : DefinitionMessage]
 
     /// Default FIT Messages for Decoding
-    public static let defaultMessages = [FileIdMessage(),
-                                         RecordMessage(),
-                                         EventMessage(),
-                                         ActivityMessage(),
-                                         FileCreatorMessage(),
+    public static let defaultMessages = [FileIdMessage.self,
+                                         RecordMessage.self,
+                                         EventMessage.self,
+                                         ActivityMessage.self,
+                                         FileCreatorMessage.self,
                                         ]
 
     /// Options for CRC Checking
@@ -41,7 +41,7 @@ public struct FitFileDecoder {
         self.definitionDict = [UInt8 : DefinitionMessage]()
     }
 
-    public mutating func decode(data: Data, messages: [FitMessage], decoded: ((_: FitMessage) -> Void)? ) throws {
+    public mutating func decode(data: Data, messages: [FitMessage.Type], decoded: ((_: FitMessage) -> Void)? ) throws {
 
         var shouldValidate: Bool = true
         switch crcDecodingStrategy {
@@ -70,13 +70,15 @@ public struct FitFileDecoder {
                 print("Data Message")
 
                 var hasMessageDecoder = false
-                var messageType = FitMessage()
+                var messageType: FitMessage = FitMessage.init()
 
                 for item in messages {
-                    if item.globalMessageNumber() == definitionDict[header.localMessageType]!.globalMessageNumber {
-                        hasMessageDecoder = true
-                        messageType = item
+                    let message = item.init()
 
+                    if message.globalMessageNumber() == definitionDict[header.localMessageType]!.globalMessageNumber {
+                        hasMessageDecoder = true
+                        messageType = message
+                        break;
                     }
                 }
 

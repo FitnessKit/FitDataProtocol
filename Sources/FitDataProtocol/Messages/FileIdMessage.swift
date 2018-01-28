@@ -47,7 +47,7 @@ open class FileIdMessage: FitMessage, FitMessageKeys {
     /// File Type
     private(set) public var fileType: FileType?
 
-    internal override init() {}
+    public required init() {}
 
     public init(deviceSerialNumber: UInt32?, fileCreationDate: FitTime?, manufacturer: AntManufacturer?, product: UInt16?, fileNumber: UInt16?, fileType: FileType?) {
         self.deviceSerialNumber = deviceSerialNumber

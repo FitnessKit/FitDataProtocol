@@ -131,7 +131,7 @@ open class RecordMessage: FitMessage, FitMessageKeys {
     /// Device Index
     private(set) public var deviceIndex: UInt8?
 
-    internal override init() {}
+    public required init() {}
 
     public init(timeStamp: FitTime?, distance: Measurement<UnitLength>?, timeFromCourse: Measurement<UnitDuration>?, totalCycles: UInt32?, accumulatedPower: Measurement<UnitPower>?, enhancedSpeed: Measurement<UnitSpeed>?, enhancedAltitude: Measurement<UnitLength>?, altitude: Measurement<UnitLength>?, speed: Measurement<UnitSpeed>?, power: Measurement<UnitPower>?, verticalSpeed: Measurement<UnitSpeed>?, calories: Measurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: UInt8?, temperature: Measurement<UnitTemperature>?, activity: ActivityType?, zone: UInt8?, deviceIndex: UInt8?) {
 

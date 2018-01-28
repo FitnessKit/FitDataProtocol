@@ -15,6 +15,8 @@ public protocol FitMessageKeys {
 /// Base Class for FIT Messages
 open class FitMessage {
 
+    public required init() {}
+
     func globalMessageNumber() -> UInt16 {
         fatalError("*** You must override in your class.")
     }

@@ -59,7 +59,7 @@ open class ActivityMessage: FitMessage, FitMessageKeys {
     private(set) public var eventGroup: UInt8?
 
 
-    internal override init() {}
+    public required init() {}
 
     public init(timeStamp: FitTime?, totalTimerTime: Measurement<UnitDuration>?, localTimeStamp: FitTime?, numberOfSessions: UInt16?, activity: Activity?, event: Event?, eventType: EventType?, eventGroup: UInt8?) {
         self.timeStamp = timeStamp

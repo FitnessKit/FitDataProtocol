@@ -47,7 +47,7 @@ open class WorkoutMessage: FitMessage, FitMessageKeys {
     /// Sub Sport
     private(set) public var subSport: SubSport?
 
-    internal override init() {}
+    public required init() {}
 
     public init(workoutName: String?, numberOfValidSteps: UInt16?, poolLength: Measurement<UnitLength>?, poolLenghtUnit: MeasurementDisplayType?, sport: Sport?, subSport: SubSport?) {
         self.workoutName = workoutName
