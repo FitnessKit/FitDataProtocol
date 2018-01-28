@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "DataDecoder",
+        "repositoryURL": "https://github.com/FitnessKit/DataDecoder",
+        "state": {
+          "branch": null,
+          "revision": "24e83648db32bb7457e6150a336f72c06da6dbd5",
+          "version": "4.0.3"
+        }
+      },
+      {
+        "package": "FitnessUnits",
+        "repositoryURL": "https://github.com/FitnessKit/FitnessUnits",
+        "state": {
+          "branch": null,
+          "revision": "0dbefbd3c0af902caff7b351e7ca4aab7aba2923",
+          "version": "1.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
