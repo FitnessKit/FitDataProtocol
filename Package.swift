@@ -29,5 +29,7 @@ let package = Package(
         .testTarget(
             name: "FitDataProtocolTests",
             dependencies: ["FitDataProtocol"]),
-    ]
+    ],
+    swiftLanguageVersions: [3, 4]
 )
+
