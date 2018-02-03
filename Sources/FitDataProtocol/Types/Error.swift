@@ -41,6 +41,9 @@ public enum ErrorReasons {
     /// FIT File Conversion Issue
     case fitFileConversion
 
+    /// Manufactuer Registration
+    case manufactuerRegistration(String)
+
     //Generic
     case generic(String)
 }

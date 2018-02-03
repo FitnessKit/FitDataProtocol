@@ -17,7 +17,7 @@ open class FitMessage {
 
     public required init() {}
 
-    func globalMessageNumber() -> UInt16 {
+    public class func globalMessageNumber() -> UInt16 {
         fatalError("*** You must override in your class.")
     }
 

@@ -9,11 +9,11 @@ import Foundation
 import DataDecoder
 
 /// FIT Field ID Message
-@available(swift 3.1)
+@available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class FileIdMessage: FitMessage, FitMessageKeys {
 
-    public override func globalMessageNumber() -> UInt16 {
+    public override class func globalMessageNumber() -> UInt16 {
         return 0
     }
 
@@ -36,7 +36,7 @@ open class FileIdMessage: FitMessage, FitMessageKeys {
     private(set) public var fileCreationDate: FitTime?
 
     /// Manufacturer
-    private(set) public var manufacturer: AntManufacturer?
+    private(set) public var manufacturer: Manufacturer?
 
     /// Product
     private(set) public var product: UInt16?
@@ -49,7 +49,7 @@ open class FileIdMessage: FitMessage, FitMessageKeys {
 
     public required init() {}
 
-    public init(deviceSerialNumber: UInt32?, fileCreationDate: FitTime?, manufacturer: AntManufacturer?, product: UInt16?, fileNumber: UInt16?, fileType: FileType?) {
+    public init(deviceSerialNumber: UInt32?, fileCreationDate: FitTime?, manufacturer: Manufacturer?, product: UInt16?, fileNumber: UInt16?, fileType: FileType?) {
         self.deviceSerialNumber = deviceSerialNumber
         self.fileCreationDate = fileCreationDate
         self.manufacturer = manufacturer
@@ -62,7 +62,7 @@ open class FileIdMessage: FitMessage, FitMessageKeys {
 
         var deviceSerialNumber: UInt32?
         var fileCreationDate: FitTime?
-        var manufacturer: AntManufacturer?
+        var manufacturer: Manufacturer?
         var product: UInt16?
         var fileNumber: UInt16?
         var fileType: FileType?
@@ -87,13 +87,14 @@ open class FileIdMessage: FitMessage, FitMessageKeys {
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) == definition.baseType.invalid {
                         fileType = FileType.invalid
+                    } else {
+                        fileType = FileType(rawType: value)
                     }
-                    fileType = FileType(rawType: value)
 
                 case .manufacturer:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        manufacturer = AntManufacturer(rawValue: value)
+                        manufacturer = Manufacturer.company(id: value)
                     }
 
                 case .product:

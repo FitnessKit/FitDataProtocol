@@ -9,7 +9,7 @@ import Foundation
 import DataDecoder
 
 /// FIT File Decoder
-@available(swift 3.1)
+@available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 public struct FitFileDecoder {
     private var messageData: Data
@@ -70,14 +70,13 @@ public struct FitFileDecoder {
                 print("Data Message")
 
                 var hasMessageDecoder = false
-                var messageType: FitMessage = FitMessage.init()
+                var messageType: FitMessage!
 
-                for item in messages {
-                    let message = item.init()
+                for message in messages {
 
                     if message.globalMessageNumber() == definitionDict[header.localMessageType]!.globalMessageNumber {
                         hasMessageDecoder = true
-                        messageType = message
+                        messageType = message.init()
                         break;
                     }
                 }

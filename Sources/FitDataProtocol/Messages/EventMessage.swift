@@ -9,11 +9,11 @@ import Foundation
 import DataDecoder
 
 /// FIT Event Message
-@available(swift 3.1)
+@available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class EventMessage: FitMessage, FitMessageKeys {
 
-    public override func globalMessageNumber() -> UInt16 {
+    public override class func globalMessageNumber() -> UInt16 {
         return 21
     }
 
