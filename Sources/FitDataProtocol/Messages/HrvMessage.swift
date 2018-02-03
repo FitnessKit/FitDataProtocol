@@ -45,13 +45,13 @@ open class HrvMessage: FitMessage {
         self.hrv = hrv
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> HrvMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> HrvMessage  {
 
         var hrv: [Measurement<UnitDuration>]?
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData)
+        var localDecoder = DataDecoder(fieldData.fieldData)
 
         for definition in definition.fieldDefinitions {
 

@@ -74,7 +74,7 @@ open class ActivityMessage: FitMessage {
         self.eventGroup = eventGroup
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> ActivityMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> ActivityMessage  {
 
         var timeStamp: FitTime?
         var totalTimerTime: Measurement<UnitDuration>?
@@ -87,7 +87,7 @@ open class ActivityMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData)
+        var localDecoder = DataDecoder(fieldData.fieldData)
 
         for definition in definition.fieldDefinitions {
 

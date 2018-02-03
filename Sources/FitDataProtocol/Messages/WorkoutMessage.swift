@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import AntMessageProtocol
 
 /// FIT Workout Message
 @available(swift 4.0)
@@ -68,7 +69,7 @@ open class WorkoutMessage: FitMessage {
         self.subSport = subSport
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> WorkoutMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> WorkoutMessage  {
 
         var timestamp: FitTime?
         var workoutName: String?
@@ -80,7 +81,7 @@ open class WorkoutMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData)
+        var localDecoder = DataDecoder(fieldData.fieldData)
 
         for definition in definition.fieldDefinitions {
 

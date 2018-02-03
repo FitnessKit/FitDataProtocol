@@ -30,7 +30,6 @@ import DataDecoder
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 public struct FitFileDecoder {
     private var messageData: Data
-    private var lastDefinition: DefinitionMessage!
     private var definitionDict: [UInt8 : DefinitionMessage]
 
     /// Default FIT Messages for Decoding
@@ -82,7 +81,7 @@ public struct FitFileDecoder {
             print(header)
 
             if header.isDataMessage == false {
-                lastDefinition = try DefinitionMessage.decode(decoder: &decoder, header: header)
+                let lastDefinition = try DefinitionMessage.decode(decoder: &decoder, header: header)
                 definitionDict[header.localMessageType] = lastDefinition
 
                 print(definitionDict[header.localMessageType] as Any)
@@ -108,19 +107,21 @@ public struct FitFileDecoder {
                     fieldSize = fieldSize + Int(msg.size)
                 }
 
-                let fieldData = decoder.decodeData(length: fieldSize)
+                let stdData = decoder.decodeData(length: fieldSize)
 
                 var devSize: Int = 0
                 for msg in definitionDict[header.localMessageType]!.developerFieldDefinitions {
                     devSize = devSize + Int(msg.size)
                 }
 
-                let _ = decoder.decodeData(length: devSize)
+                let devData = decoder.decodeData(length: devSize)
 
+                let fieldData = FieldData(fieldData: stdData, developerFieldData: devData)
 
                 if hasMessageDecoder == true {
                     let message = try messageType.decode(fieldData: fieldData, definition: definitionDict[header.localMessageType]!)
                     decoded?(message)
+                    
                 } else {
                     print("NO Decoder for type")
 

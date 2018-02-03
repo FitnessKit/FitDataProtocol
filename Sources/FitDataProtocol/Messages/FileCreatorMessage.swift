@@ -47,14 +47,14 @@ open class FileCreatorMessage: FitMessage {
         self.hardwareVersion = hardwareVersion
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> FileCreatorMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> FileCreatorMessage  {
 
         var softwareVersion: UInt16?
         var hardwareVersion: UInt8?
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData)
+        var localDecoder = DataDecoder(fieldData.fieldData)
 
         for definition in definition.fieldDefinitions {
 

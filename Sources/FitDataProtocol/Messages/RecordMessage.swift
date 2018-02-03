@@ -130,7 +130,7 @@ open class RecordMessage: FitMessage {
         self.deviceIndex = deviceIndex
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> RecordMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> RecordMessage  {
 
         var timestamp: FitTime?
         var distance: Measurement<UnitLength>?
@@ -154,7 +154,7 @@ open class RecordMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData)
+        var localDecoder = DataDecoder(fieldData.fieldData)
 
         for definition in definition.fieldDefinitions {
 

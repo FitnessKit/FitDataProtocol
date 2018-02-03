@@ -1,8 +1,8 @@
 //
-//  AntBatteryStatus.swift
+//  FieldData.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 1/20/18.
+//  Created by Kevin Hoogheem on 2/3/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,35 +25,13 @@
 import Foundation
 
 
-enum AntBatteryStatus: UInt8 {
-    case invalid        = 0
-    case new            = 1
-    case good           = 2
-    case ok             = 3
-    case low            = 4
-    case critical       = 5
-    case charging       = 6
-    case unknown        = 7
-}
+/// Field Data
+internal struct FieldData {
 
-extension AntBatteryStatus {
+    /// Standard Field Data
+    private(set) internal var fieldData: Data!
 
-    public var stringValue: String {
-        switch self {
-        case .new:
-            return "New"
-        case .good:
-            return "Good"
-        case .ok:
-            return "Ok"
-        case .low:
-            return "Low"
-        case .critical:
-            return "Critical"
-        case .charging:
-            return "Charging"
-        default:
-            return "Unknown"
-        }
-    }
+    /// Developer Field Data
+    private(set) internal var developerFieldData: Data!
+    
 }

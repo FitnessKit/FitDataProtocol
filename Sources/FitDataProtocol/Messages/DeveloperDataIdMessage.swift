@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import AntMessageProtocol
 
 /// FIT Developer Data ID Message
 @available(swift 4.0)
@@ -59,7 +60,7 @@ open class DeveloperDataIdMessage: FitMessage {
         self.dataIndex = dataIndex
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> DeveloperDataIdMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> DeveloperDataIdMessage  {
 
         var developerId: Data?
         var applicationId: Data?
@@ -69,7 +70,7 @@ open class DeveloperDataIdMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData)
+        var localDecoder = DataDecoder(fieldData.fieldData)
 
         for definition in definition.fieldDefinitions {
 

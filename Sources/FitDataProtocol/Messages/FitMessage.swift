@@ -38,7 +38,7 @@ open class FitMessage {
         fatalError("*** You must override in your class.")
     }
 
-    internal func decode(fieldData: Data, definition: DefinitionMessage) throws -> Self  {
+    internal func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> Self  {
         fatalError("*** You must override in your class.")
     }
 

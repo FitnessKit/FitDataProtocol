@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import AntMessageProtocol
 
 /// FIT Field ID Message
 @available(swift 4.0)
@@ -63,7 +64,7 @@ open class FileIdMessage: FitMessage {
         self.fileType = fileType
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> FileIdMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> FileIdMessage  {
 
         var deviceSerialNumber: UInt32?
         var fileCreationDate: FitTime?
@@ -74,7 +75,7 @@ open class FileIdMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData)
+        var localDecoder = DataDecoder(fieldData.fieldData)
 
         for definition in definition.fieldDefinitions {
 

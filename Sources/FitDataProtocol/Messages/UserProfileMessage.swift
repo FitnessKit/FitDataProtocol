@@ -25,6 +25,7 @@
 import Foundation
 import DataDecoder
 import FitnessUnits
+import AntMessageProtocol
 
 /// FIT File User Profile Message
 @available(swift 4.0)
@@ -118,7 +119,7 @@ open class UserProfileMessage: FitMessage {
 
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> UserProfileMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> UserProfileMessage  {
 
         var timestamp: FitTime?
         var friendlyName: String?
@@ -137,7 +138,7 @@ open class UserProfileMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData)
+        var localDecoder = DataDecoder(fieldData.fieldData)
 
         for definition in definition.fieldDefinitions {
 
