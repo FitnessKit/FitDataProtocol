@@ -60,7 +60,7 @@ open class DeveloperDataIdMessage: FitMessage {
         self.dataIndex = dataIndex
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> DeveloperDataIdMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> DeveloperDataIdMessage  {
 
         var developerId: Data?
         var applicationId: Data?
@@ -102,17 +102,33 @@ open class DeveloperDataIdMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         manufacturer = Manufacturer.company(id: value)
                     }
-
+                    
                 case .dataIndex:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         dataIndex = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            dataIndex = UInt8(definition.baseType.invalid)
+                        }
                     }
 
                 case .applicationVersion:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         applicationVersion = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            applicationVersion = UInt32(definition.baseType.invalid)
+                        }
                     }
 
                 }

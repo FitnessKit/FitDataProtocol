@@ -63,7 +63,7 @@ open class EventMessage: FitMessage {
         self.eventGroup = eventGroup
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> EventMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> EventMessage  {
 
         var timeStamp: FitTime?
         var eventData: UInt16?
@@ -91,28 +91,72 @@ open class EventMessage: FitMessage {
 
                 case .event:
                     let value = localDecoder.decodeUInt8()
-                    event = Event(rawValue: value)
+                    if UInt64(value) != definition.baseType.invalid {
+                        event = Event(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            event = Event.invalid
+                        }
+                    }
 
                 case .eventType:
                     let value = localDecoder.decodeUInt8()
-                    eventType = EventType(rawValue: value)
+                    if UInt64(value) != definition.baseType.invalid {
+                        eventType = EventType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            eventType = EventType.invalid
+                        }
+                    }
 
                 case .data16:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         eventData = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            eventData = UInt16(definition.baseType.invalid)
+                        }
                     }
 
                 case .data32:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         eventMoreData = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            eventMoreData = UInt32(definition.baseType.invalid)
+                        }
                     }
 
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         eventGroup = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            eventGroup = UInt8(definition.baseType.invalid)
+                        }
                     }
 
                 case .score:

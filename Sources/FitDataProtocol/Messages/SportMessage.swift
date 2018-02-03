@@ -52,7 +52,7 @@ open class SportMessage: FitMessage {
         self.subSport = subSport
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> SportMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SportMessage  {
 
         var name: String?
         var sport: Sport?
@@ -79,12 +79,28 @@ open class SportMessage: FitMessage {
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         sport = Sport(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            sport = Sport.invalid
+                        }
                     }
 
                 case .subSport:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         subSport = SubSport(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            subSport = SubSport.invalid
+                        }
                     }
 
                 case .name:

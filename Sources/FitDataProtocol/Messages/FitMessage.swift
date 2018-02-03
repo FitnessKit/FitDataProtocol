@@ -30,6 +30,8 @@ public protocol FitMessageKeys {
 }
 
 /// Base Class for FIT Messages
+@available(swift 4.0)
+@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class FitMessage {
 
     public required init() {}
@@ -38,7 +40,7 @@ open class FitMessage {
         fatalError("*** You must override in your class.")
     }
 
-    internal func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> Self  {
+    internal func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> Self  {
         fatalError("*** You must override in your class.")
     }
 

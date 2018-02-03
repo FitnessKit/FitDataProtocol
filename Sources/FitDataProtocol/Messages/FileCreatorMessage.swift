@@ -47,7 +47,7 @@ open class FileCreatorMessage: FitMessage {
         self.hardwareVersion = hardwareVersion
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> FileCreatorMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileCreatorMessage  {
 
         var softwareVersion: UInt16?
         var hardwareVersion: UInt8?
@@ -73,6 +73,14 @@ open class FileCreatorMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         softwareVersion = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            softwareVersion = UInt16(definition.baseType.invalid)
+                        }
                     }
 
 
@@ -80,6 +88,14 @@ open class FileCreatorMessage: FitMessage {
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         hardwareVersion = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            hardwareVersion = UInt8(definition.baseType.invalid)
+                        }
                     }
 
                 }

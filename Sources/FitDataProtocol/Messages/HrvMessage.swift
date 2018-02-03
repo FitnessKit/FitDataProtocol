@@ -45,7 +45,7 @@ open class HrvMessage: FitMessage {
         self.hrv = hrv
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> HrvMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> HrvMessage  {
 
         var hrv: [Measurement<UnitDuration>]?
 

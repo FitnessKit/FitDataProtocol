@@ -69,7 +69,7 @@ open class WorkoutMessage: FitMessage {
         self.subSport = subSport
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> WorkoutMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WorkoutMessage  {
 
         var timestamp: FitTime?
         var workoutName: String?
@@ -98,7 +98,17 @@ open class WorkoutMessage: FitMessage {
 
                 case .sport:
                     let value = localDecoder.decodeUInt8()
-                    sport = Sport(rawValue: value)
+                    if UInt64(value) != definition.baseType.invalid {
+                        sport = Sport(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            sport = Sport.invalid
+                        }
+                    }
 
                 case .capabilities:
                     // We still need to pull this data off the stack
@@ -108,6 +118,14 @@ open class WorkoutMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         numberOfValidSteps = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            numberOfValidSteps = UInt16(definition.baseType.invalid)
+                        }
                     }
 
                 case .workoutName:
@@ -119,7 +137,17 @@ open class WorkoutMessage: FitMessage {
 
                 case .subSport:
                     let value = localDecoder.decodeUInt8()
-                    subSport = SubSport(rawValue: value)
+                    if UInt64(value) != definition.baseType.invalid {
+                        subSport = SubSport(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            subSport = SubSport.invalid
+                        }
+                    }
 
                 case .poolLength:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
@@ -127,11 +155,29 @@ open class WorkoutMessage: FitMessage {
                         //  100 * m + 0
                         let value = Double(value) / 100
                         poolLength = Measurement(value: value, unit: UnitLength.meters)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            poolLength = Measurement(value: Double(UInt16(definition.baseType.invalid)), unit: UnitLength.meters)
+                        }
                     }
 
                 case .poolLenghtUnit:
                     let value = localDecoder.decodeUInt8()
-                    poolLenghtUnit = MeasurementDisplayType(rawValue: value)
+                    if UInt64(value) != definition.baseType.invalid {
+                        poolLenghtUnit = MeasurementDisplayType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            poolLenghtUnit = MeasurementDisplayType.invalid
+                        }
+                    }
 
                 case .timestamp:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian

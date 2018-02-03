@@ -64,7 +64,7 @@ open class FileIdMessage: FitMessage {
         self.fileType = fileType
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> FileIdMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileIdMessage  {
 
         var deviceSerialNumber: UInt32?
         var fileCreationDate: FitTime?
@@ -92,7 +92,14 @@ open class FileIdMessage: FitMessage {
                 case .fileType:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) == definition.baseType.invalid {
-                        fileType = FileType.invalid
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            fileType = FileType.invalid
+                        }
+
                     } else {
                         fileType = FileType(rawType: value)
                     }
@@ -102,17 +109,33 @@ open class FileIdMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         manufacturer = Manufacturer.company(id: value)
                     }
-
+                    
                 case .product:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         product = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            product = UInt16(definition.baseType.invalid)
+                        }
                     }
 
                 case .serialNumber:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         deviceSerialNumber = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            deviceSerialNumber = UInt32(definition.baseType.invalid)
+                        }
                     }
 
                 case .fileCreationDate:
@@ -125,6 +148,14 @@ open class FileIdMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         fileNumber = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            fileNumber = UInt16(definition.baseType.invalid)
+                        }
                     }
 
                     

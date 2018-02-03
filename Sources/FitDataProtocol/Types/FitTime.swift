@@ -46,4 +46,5 @@ public struct FitTime {
             }
         }
     }
+
 }

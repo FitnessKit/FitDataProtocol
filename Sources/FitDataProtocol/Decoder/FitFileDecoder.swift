@@ -56,8 +56,21 @@ public struct FitFileDecoder {
     /// The strategy to use for CRC Checking. Defaults to `.throws`.
     public var crcDecodingStrategy: CrcDecodingStrategy
 
-    public init(crcDecodingStrategy: CrcDecodingStrategy = .throws) {
+    /// Options for Data Decoding
+    public enum DataDecodingStrategy {
+        /// Use nil for Invalid Values.  This is the default strategy.
+        case `nil`
+        /// Decode using Invalid Value
+        case useInvalid
+    }
+
+    /// The strategy to use for Data Decoding. Defaults to `.nil`.
+    public var dataDecodingStrategy: DataDecodingStrategy
+
+
+    public init(crcDecodingStrategy: CrcDecodingStrategy = .throws, dataDecodingStrategy: DataDecodingStrategy = .nil) {
         self.crcDecodingStrategy = crcDecodingStrategy
+        self.dataDecodingStrategy = dataDecodingStrategy
         self.messageData = Data()
         self.definitionDict = [UInt8 : DefinitionMessage]()
     }
@@ -119,7 +132,7 @@ public struct FitFileDecoder {
                 let fieldData = FieldData(fieldData: stdData, developerFieldData: devData)
 
                 if hasMessageDecoder == true {
-                    let message = try messageType.decode(fieldData: fieldData, definition: definitionDict[header.localMessageType]!)
+                    let message = try messageType.decode(fieldData: fieldData, definition: definitionDict[header.localMessageType]!, dataStrategy: dataDecodingStrategy)
                     decoded?(message)
                     
                 } else {

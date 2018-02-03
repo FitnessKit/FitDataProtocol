@@ -119,7 +119,7 @@ open class UserProfileMessage: FitMessage {
 
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> UserProfileMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> UserProfileMessage  {
 
         var timestamp: FitTime?
         var friendlyName: String?
@@ -163,6 +163,14 @@ open class UserProfileMessage: FitMessage {
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         gender = Gender(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            gender = Gender.invalid
+                        }
                     }
 
                 case .age:
@@ -170,6 +178,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         /// 1 * years + 0
                         age = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            age = UInt8(definition.baseType.invalid)
+                        }
                     }
 
                 case .height:
@@ -178,6 +194,14 @@ open class UserProfileMessage: FitMessage {
                         //  100 * m + 0
                         let value = Double(value) / 100
                         height = Measurement(value: value, unit: UnitLength.meters)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            height = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
+                        }
                     }
 
                 case .weight:
@@ -186,12 +210,28 @@ open class UserProfileMessage: FitMessage {
                         //  10 * kg + 0
                         let value = Double(value) / 10
                         weight = Measurement(value: value, unit: UnitMass.kilograms)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            weight = Measurement(value: Double(definition.baseType.invalid), unit: UnitMass.kilograms)
+                        }
                     }
 
                 case .language:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         language = Language(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            language = Language.invalid
+                        }
                     }
 
                 case .elevationSetting:
@@ -205,6 +245,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * bpm + 0
                         restingHeartRate = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            restingHeartRate = UInt8(definition.baseType.invalid)
+                        }
                     }
 
                 case .defaultMaxRunningHeartRate:
@@ -212,6 +260,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * bpm + 0
                         maxRunningHeartRate = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            maxRunningHeartRate = UInt8(definition.baseType.invalid)
+                        }
                     }
 
                 case .defaultMaxBikingHeartRate:
@@ -219,6 +275,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * bpm + 0
                         maxBikingHeartRate = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            maxBikingHeartRate = UInt8(definition.baseType.invalid)
+                        }
                     }
 
                 case .defaultMaxHeartRate:
@@ -226,6 +290,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * bpm + 0
                         maxHeartRate = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            maxHeartRate = UInt8(definition.baseType.invalid)
+                        }
                     }
 
                 case .heartRateSetting:
@@ -253,6 +325,14 @@ open class UserProfileMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         localID = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            localID = UInt16(definition.baseType.invalid)
+                        }
                     }
 
                 case .globalID:
@@ -267,6 +347,14 @@ open class UserProfileMessage: FitMessage {
                         // 1000 * m + 0, User defined running step length set to 0 for auto length
                         let value = Double(value) / 1000
                         runningStepLength = Measurement(value: value, unit: UnitLength.meters)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            runningStepLength = Measurement(value: Double(UInt16(definition.baseType.invalid)), unit: UnitLength.meters)
+                        }
                     }
 
                 case .walkingStepLength:
@@ -275,6 +363,14 @@ open class UserProfileMessage: FitMessage {
                         // 1000 * m + 0, User defined running step length set to 0 for auto length
                         let value = Double(value) / 1000
                         walkingStepLength = Measurement(value: value, unit: UnitLength.meters)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            walkingStepLength = Measurement(value: Double(UInt16(definition.baseType.invalid)), unit: UnitLength.meters)
+                        }
                     }
 
                 case .timestamp:

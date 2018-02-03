@@ -74,7 +74,7 @@ open class ActivityMessage: FitMessage {
         self.eventGroup = eventGroup
     }
 
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage) throws -> ActivityMessage  {
+    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> ActivityMessage  {
 
         var timeStamp: FitTime?
         var totalTimerTime: Measurement<UnitDuration>?
@@ -113,19 +113,57 @@ open class ActivityMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         numberOfSessions = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            numberOfSessions = UInt16(definition.baseType.invalid)
+                        }
                     }
-                    
+
                 case .activityType:
                     let value = localDecoder.decodeUInt8()
-                    activity = Activity(rawValue: value)
+                    if UInt64(value) != definition.baseType.invalid {
+                        activity = Activity(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            activity = Activity.invalid
+                        }
+                    }
 
                 case .event:
                     let value = localDecoder.decodeUInt8()
-                    event = Event(rawValue: value)
+                    if UInt64(value) != definition.baseType.invalid {
+                        event = Event(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            event = Event.invalid
+                        }
+                    }
 
                 case .eventType:
                     let value = localDecoder.decodeUInt8()
-                    eventType = EventType(rawValue: value)
+                    if UInt64(value) != definition.baseType.invalid {
+                        eventType = EventType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            eventType = EventType.invalid
+                        }
+                    }
 
                 case .localTimestamp:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
@@ -137,8 +175,16 @@ open class ActivityMessage: FitMessage {
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         eventGroup = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            eventGroup = UInt8(definition.baseType.invalid)
+                        }
                     }
-                    
+
                 case .timestamp:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
