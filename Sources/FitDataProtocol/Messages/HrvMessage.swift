@@ -14,7 +14,7 @@ import DataDecoder
 open class HrvMessage: FitMessage {
 
     public override class func globalMessageNumber() -> UInt16 {
-        return 72
+        return 78
     }
 
     /// Heart Rate Variability
@@ -50,6 +50,22 @@ open class HrvMessage: FitMessage {
                 case .time:
                     let timeData = localDecoder.decodeData(length: Int(definition.size))
                     print(timeData.count)
+
+                    var localDecoder = DataDecoder(timeData)
+
+                    var seconds = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+
+                    while seconds != 0 {
+                        let interval = Measurement(value: (Double(seconds) / 1024), unit: UnitDuration.seconds)
+
+                        if hrv == nil {
+                            hrv = [Measurement<UnitDuration>]()
+                        }
+                        hrv?.append(interval)
+
+                        seconds = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    }
+
 
                 }
             }

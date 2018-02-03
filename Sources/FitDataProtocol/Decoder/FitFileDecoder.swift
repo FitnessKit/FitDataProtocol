@@ -34,7 +34,6 @@ public struct FitFileDecoder {
     private var definitionDict: [UInt8 : DefinitionMessage]
 
     /// session
-    /// hrv 
 
     /// Default FIT Messages for Decoding
     public static let defaultMessages = [FileIdMessage.self,
