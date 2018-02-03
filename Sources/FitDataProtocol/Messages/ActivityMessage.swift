@@ -4,6 +4,23 @@
 //
 //  Created by Kevin Hoogheem on 1/28/18.
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 
 import Foundation
 import DataDecoder
@@ -11,25 +28,11 @@ import DataDecoder
 /// FIT Activity Message
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-open class ActivityMessage: FitMessage, FitMessageKeys {
+open class ActivityMessage: FitMessage {
 
     public override class func globalMessageNumber() -> UInt16 {
         return 34
     }
-
-    public enum MessageKeys: Int, CodingKey {
-        case totalTimerTime     = 0
-        case numberOfSessions   = 1
-        case activityType       = 2
-        case event              = 3
-        case eventType          = 4
-        case localTimestamp     = 5
-        case eventGroup         = 6
-
-        case timestamp          = 253
-    }
-
-    public typealias FitCodingKeys = MessageKeys
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -154,5 +157,22 @@ open class ActivityMessage: FitMessage, FitMessageKeys {
                                event: event, eventType: eventType,
                                eventGroup: eventGroup)
     }
+}
 
+@available(swift 4.0)
+@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
+extension ActivityMessage: FitMessageKeys {
+    public typealias FitCodingKeys = MessageKeys
+
+    public enum MessageKeys: Int, CodingKey {
+        case totalTimerTime     = 0
+        case numberOfSessions   = 1
+        case activityType       = 2
+        case event              = 3
+        case eventType          = 4
+        case localTimestamp     = 5
+        case eventGroup         = 6
+
+        case timestamp          = 253
+    }
 }

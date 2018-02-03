@@ -1,8 +1,8 @@
 //
-//  MeasurementDisplayType.swift
+//  Gender.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 1/28/18.
+//  Created by Kevin Hoogheem on 2/3/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,13 @@
 
 import Foundation
 
-/// Display Type for Measurement
-public enum MeasurementDisplayType: UInt8 {
-    /// Metric
-    case metric         = 0
-    /// Statute
-    case statute        = 1
-    /// Nautical
-    case nautical       = 2
 
+/// Gender Type
+public enum Gender: UInt8 {
+    /// Female
+    case female     = 0
+    /// Male
+    case male       = 1
     /// Invalid
-    case invalid        = 255
+    case invalid    = 255
 }

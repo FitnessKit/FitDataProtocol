@@ -4,6 +4,23 @@
 //
 //  Created by Kevin Hoogheem on 1/27/18.
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 
 import Foundation
 import DataDecoder
@@ -11,28 +28,11 @@ import DataDecoder
 /// FIT Event Message
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-open class EventMessage: FitMessage, FitMessageKeys {
+open class EventMessage: FitMessage {
 
     public override class func globalMessageNumber() -> UInt16 {
         return 21
     }
-
-    public enum MessageKeys: Int, CodingKey {
-        case event              = 0
-        case eventType          = 1
-        case data16             = 2
-        case data32             = 3
-        case eventGroup         = 4
-        case score              = 7
-        case opponentScore      = 8
-        case frontGearNumber    = 9
-        case frontGear          = 10
-        case rearGearNumber     = 11
-        case rearGear           = 12
-        case timestamp          = 253
-    }
-
-    public typealias FitCodingKeys = MessageKeys
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -161,5 +161,26 @@ open class EventMessage: FitMessage, FitMessageKeys {
                             event: event,
                             eventType: eventType,
                             eventGroup: eventGroup)
+    }
+}
+
+@available(swift 4.0)
+@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
+extension EventMessage: FitMessageKeys {
+    public typealias FitCodingKeys = MessageKeys
+
+    public enum MessageKeys: Int, CodingKey {
+        case event              = 0
+        case eventType          = 1
+        case data16             = 2
+        case data32             = 3
+        case eventGroup         = 4
+        case score              = 7
+        case opponentScore      = 8
+        case frontGearNumber    = 9
+        case frontGear          = 10
+        case rearGearNumber     = 11
+        case rearGear           = 12
+        case timestamp          = 253
     }
 }
