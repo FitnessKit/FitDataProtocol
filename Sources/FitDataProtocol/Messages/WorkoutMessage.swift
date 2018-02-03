@@ -34,6 +34,9 @@ open class WorkoutMessage: FitMessage {
         return 26
     }
 
+    /// Timestamp
+    private(set) public var timeStamp: FitTime?
+
     /// Workout Name
     private(set) public var workoutName: String?
 
@@ -54,7 +57,9 @@ open class WorkoutMessage: FitMessage {
 
     public required init() {}
 
-    public init(workoutName: String?, numberOfValidSteps: UInt16?, poolLength: Measurement<UnitLength>?, poolLenghtUnit: MeasurementDisplayType?, sport: Sport?, subSport: SubSport?) {
+    public init(timeStamp: FitTime?, workoutName: String?, numberOfValidSteps: UInt16?, poolLength: Measurement<UnitLength>?, poolLenghtUnit: MeasurementDisplayType?, sport: Sport?, subSport: SubSport?) {
+
+        self.timeStamp = timeStamp
         self.workoutName = workoutName
         self.numberOfValidSteps = numberOfValidSteps
         self.poolLength = poolLength
@@ -65,6 +70,7 @@ open class WorkoutMessage: FitMessage {
 
     internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> WorkoutMessage  {
 
+        var timestamp: FitTime?
         var workoutName: String?
         var numberOfValidSteps: UInt16?
         var poolLength: Measurement<UnitLength>?
@@ -126,11 +132,18 @@ open class WorkoutMessage: FitMessage {
                     let value = localDecoder.decodeUInt8()
                     poolLenghtUnit = MeasurementDisplayType(rawValue: value)
 
+                case .timestamp:
+                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        timestamp = FitTime(time: value)
+                    }
+
                 }
             }
         }
 
-        return WorkoutMessage(workoutName: workoutName,
+        return WorkoutMessage(timeStamp: timestamp,
+                              workoutName: workoutName,
                               numberOfValidSteps: numberOfValidSteps,
                               poolLength: poolLength,
                               poolLenghtUnit: poolLenghtUnit,
@@ -153,5 +166,7 @@ extension WorkoutMessage: FitMessageKeys {
         case subSport               = 11
         case poolLength             = 14
         case poolLenghtUnit         = 15
+
+        case timestamp              = 253
     }
 }

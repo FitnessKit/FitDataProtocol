@@ -35,6 +35,9 @@ open class UserProfileMessage: FitMessage {
         return 3
     }
 
+    /// Timestamp
+    private(set) public var timeStamp: FitTime?
+
     /// Friendly Name
     private(set) public var friendlyName: String?
 
@@ -76,8 +79,9 @@ open class UserProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(friendlyName: String?, weight: Measurement<UnitMass>?, localID: UInt16?, runningStepLength: Measurement<UnitLength>?, walkingStepLength: Measurement<UnitLength>?, gender: Gender?, age: UInt8?, height: Measurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
+    public init(timeStamp: FitTime?, friendlyName: String?, weight: Measurement<UnitMass>?, localID: UInt16?, runningStepLength: Measurement<UnitLength>?, walkingStepLength: Measurement<UnitLength>?, gender: Gender?, age: UInt8?, height: Measurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
 
+        self.timeStamp = timeStamp
         self.friendlyName = friendlyName
         self.weight = weight
         self.localID = localID
@@ -116,6 +120,7 @@ open class UserProfileMessage: FitMessage {
 
     internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> UserProfileMessage  {
 
+        var timestamp: FitTime?
         var friendlyName: String?
         var weight: Measurement<UnitMass>?
         var localID: UInt16?
@@ -271,6 +276,12 @@ open class UserProfileMessage: FitMessage {
                         walkingStepLength = Measurement(value: value, unit: UnitLength.meters)
                     }
 
+                case .timestamp:
+                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        timestamp = FitTime(time: value)
+                    }
+
                 case .messageIndex:
                     let _ = localDecoder.decodeData(length: Int(definition.size))
 
@@ -278,7 +289,8 @@ open class UserProfileMessage: FitMessage {
             }
         }
 
-        return UserProfileMessage(friendlyName: friendlyName,
+        return UserProfileMessage(timeStamp: timestamp,
+                                  friendlyName: friendlyName,
                                   weight: weight,
                                   localID: localID,
                                   runningStepLength: runningStepLength,
@@ -325,6 +337,7 @@ extension UserProfileMessage: FitMessageKeys {
         case runningStepLength              = 31
         case walkingStepLength              = 32
 
+        case timestamp                      = 253
         case messageIndex                   = 254
     }
 }

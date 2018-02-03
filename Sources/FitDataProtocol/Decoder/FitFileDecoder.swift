@@ -33,12 +33,19 @@ public struct FitFileDecoder {
     private var lastDefinition: DefinitionMessage!
     private var definitionDict: [UInt8 : DefinitionMessage]
 
+    /// session
+    /// hrv 
+
     /// Default FIT Messages for Decoding
     public static let defaultMessages = [FileIdMessage.self,
+                                         FileCreatorMessage.self,
+                                         UserProfileMessage.self,
+                                         SportMessage.self,
                                          RecordMessage.self,
                                          EventMessage.self,
+                                         WorkoutMessage.self,
                                          ActivityMessage.self,
-                                         FileCreatorMessage.self,
+                                         HrvMessage.self
                                         ]
 
     /// Options for CRC Checking

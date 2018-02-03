@@ -1,8 +1,8 @@
 //
-//  FileCreatorMessage.swift
+//  SportMessage.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 1/27/18.
+//  Created by Kevin Hoogheem on 2/3/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,34 +25,39 @@
 import Foundation
 import DataDecoder
 
-/// FIT File Creator Message
+/// FIT Sport Message
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-open class FileCreatorMessage: FitMessage {
+open class SportMessage: FitMessage {
 
     public override class func globalMessageNumber() -> UInt16 {
-        return 49
+        return 12
     }
 
-    /// Software Version
-    private(set) public var softwareVersion: UInt16?
+    /// Sport Name
+    private(set) public var name: String?
 
-    /// Hardware Version
-    private(set) public var hardwareVersion: UInt8?
+    /// Sport
+    private(set) public var sport: Sport?
+
+    /// Sub Sport
+    private(set) public var subSport: SubSport?
 
     public required init() {}
 
-    public init(softwareVersion: UInt16?, hardwareVersion: UInt8?) {
-        self.softwareVersion = softwareVersion
-        self.hardwareVersion = hardwareVersion
+    public init(name: String?, sport: Sport?, subSport: SubSport?) {
+        self.name = name
+        self.sport = sport
+        self.subSport = subSport
     }
 
-    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> FileCreatorMessage  {
+    internal override func decode(fieldData: Data, definition: DefinitionMessage) throws -> SportMessage  {
 
-        var softwareVersion: UInt16?
-        var hardwareVersion: UInt8?
+        var name: String?
+        var sport: Sport?
+        var subSport: SubSport?
 
-        let arch = definition.architecture
+        ///let arch = definition.architecture
 
         var localDecoder = DataDecoder(fieldData)
 
@@ -69,35 +74,47 @@ open class FileCreatorMessage: FitMessage {
             case .some(let converter):
                 switch converter {
 
-                case .softwareVersion:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
-                    if UInt64(value) != definition.baseType.invalid {
-                        softwareVersion = value
-                    }
-
-
-                case .hardwareVersion:
+                case .sport:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        hardwareVersion = value
+                        sport = Sport(rawValue: value)
                     }
+
+                case .subSport:
+                    let value = localDecoder.decodeUInt8()
+                    if UInt64(value) != definition.baseType.invalid {
+                        subSport = SubSport(rawValue: value)
+                    }
+
+                case .name:
+                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    if UInt64(stringData.count) != definition.baseType.invalid {
+                        name = stringData.smartString
+                    }
+
+                case .timestamp:
+                    let _ = localDecoder.decodeData(length: Int(definition.size))
 
                 }
             }
         }
 
-        return FileCreatorMessage(softwareVersion: softwareVersion,
-                                  hardwareVersion: hardwareVersion)
+        return SportMessage(name: name,
+                            sport: sport,
+                            subSport: subSport)
     }
 }
 
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension FileCreatorMessage: FitMessageKeys {
+extension SportMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
     public enum MessageKeys: Int, CodingKey {
-        case softwareVersion    = 0
-        case hardwareVersion    = 1
+        case sport      = 0
+        case subSport   = 1
+        case name       = 3
+
+        case timestamp  = 253
     }
 }
