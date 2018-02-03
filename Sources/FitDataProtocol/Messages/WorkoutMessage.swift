@@ -129,7 +129,6 @@ open class WorkoutMessage: FitMessage {
                     }
 
                 case .workoutName:
-                    // We still need to pull this data off the stack
                     let stringData = localDecoder.decodeData(length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         workoutName = stringData.smartString

@@ -19,7 +19,7 @@ Swift Package Manager:
 
 ## Author
 
-Kevin A. Hoogheem, kevin@hoogheem.net
+Kevin A. Hoogheem
 
 ## License
 

@@ -40,6 +40,7 @@ public struct FitFileDecoder {
                                          RecordMessage.self,
                                          EventMessage.self,
                                          WorkoutMessage.self,
+                                         WorkoutStepMessage.self,
                                          ActivityMessage.self,
                                          HrvMessage.self,
                                          DeveloperDataIdMessage.self,
