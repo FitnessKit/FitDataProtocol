@@ -92,11 +92,11 @@ open class RecordMessage: FitMessage {
     private(set) public var zone: UInt8?
 
     /// Device Index
-    private(set) public var deviceIndex: UInt8?
+    private(set) public var deviceIndex: DeviceIndex?
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, distance: Measurement<UnitLength>?, timeFromCourse: Measurement<UnitDuration>?, totalCycles: UInt32?, accumulatedPower: Measurement<UnitPower>?, enhancedSpeed: Measurement<UnitSpeed>?, enhancedAltitude: Measurement<UnitLength>?, altitude: Measurement<UnitLength>?, speed: Measurement<UnitSpeed>?, power: Measurement<UnitPower>?, verticalSpeed: Measurement<UnitSpeed>?, calories: Measurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: UInt8?, temperature: Measurement<UnitTemperature>?, activity: ActivityType?, zone: UInt8?, deviceIndex: UInt8?) {
+    public init(timeStamp: FitTime?, distance: Measurement<UnitLength>?, timeFromCourse: Measurement<UnitDuration>?, totalCycles: UInt32?, accumulatedPower: Measurement<UnitPower>?, enhancedSpeed: Measurement<UnitSpeed>?, enhancedAltitude: Measurement<UnitLength>?, altitude: Measurement<UnitLength>?, speed: Measurement<UnitSpeed>?, power: Measurement<UnitPower>?, verticalSpeed: Measurement<UnitSpeed>?, calories: Measurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: UInt8?, temperature: Measurement<UnitTemperature>?, activity: ActivityType?, zone: UInt8?, deviceIndex: DeviceIndex?) {
 
         self.timeStamp = timeStamp
         self.distance = distance
@@ -150,7 +150,7 @@ open class RecordMessage: FitMessage {
         var temperature: Measurement<UnitTemperature>?
         var activity: ActivityType?
         var zone: UInt8?
-        var deviceIndex: UInt8?
+        var deviceIndex: DeviceIndex?
 
         let arch = definition.architecture
 
@@ -516,14 +516,14 @@ open class RecordMessage: FitMessage {
                 case .deviceIndex:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        deviceIndex = value
+                        deviceIndex = DeviceIndex(index: value)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            deviceIndex = UInt8(definition.baseType.invalid)
+                            deviceIndex = DeviceIndex(index: UInt8(definition.baseType.invalid))
                         }
                     }
 

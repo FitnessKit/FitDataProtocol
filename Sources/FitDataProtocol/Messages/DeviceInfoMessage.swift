@@ -73,6 +73,9 @@ open class DeviceInfoMessage: FitMessage {
     /// Device Type
     private(set) public var deviceType: DeviceType?
 
+    /// Device Index
+    private(set) public var deviceIndex: DeviceIndex?
+
     /// Sensor Description
     private(set) public var sensorDescription: String?
 
@@ -91,7 +94,7 @@ open class DeviceInfoMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, serialNumber: UInt32?, cumulativeOpTime: Measurement<UnitDuration>?, productName: String?, manufacturer: Manufacturer?, product: UInt16?, softwareVersion: UInt16?, hardwareVersion: UInt8?, batteryVoltage: Measurement<UnitElectricPotentialDifference>?, batteryStatus: BatteryStatus?, deviceNumber: UInt16?, deviceType: DeviceType?, sensorDescription: String?, bodylocation: BodyLocation?, transmissionType: TransmissionType?, antNetwork: NetworkType?, source: SourceType?) {
+    public init(timeStamp: FitTime?, serialNumber: UInt32?, cumulativeOpTime: Measurement<UnitDuration>?, productName: String?, manufacturer: Manufacturer?, product: UInt16?, softwareVersion: UInt16?, hardwareVersion: UInt8?, batteryVoltage: Measurement<UnitElectricPotentialDifference>?, batteryStatus: BatteryStatus?, deviceNumber: UInt16?, deviceType: DeviceType?, deviceIndex: DeviceIndex?, sensorDescription: String?, bodylocation: BodyLocation?, transmissionType: TransmissionType?, antNetwork: NetworkType?, source: SourceType?) {
 
         self.timeStamp = timeStamp
         self.serialNumber = serialNumber
@@ -105,6 +108,7 @@ open class DeviceInfoMessage: FitMessage {
         self.batteryStatus = batteryStatus
         self.deviceNumber = deviceNumber
         self.deviceType = deviceType
+        self.deviceIndex = deviceIndex
         self.sensorDescription = sensorDescription
         self.bodylocation = bodylocation
         self.transmissionType = transmissionType
@@ -126,6 +130,7 @@ open class DeviceInfoMessage: FitMessage {
         var batteryStatus: BatteryStatus?
         var deviceNumber: UInt16?
         var deviceType: DeviceType?
+        var deviceIndex: DeviceIndex?
         var sensorDescription: String?
         var bodylocation: BodyLocation?
         var transmissionType: TransmissionType?
@@ -150,7 +155,18 @@ open class DeviceInfoMessage: FitMessage {
                 switch converter {
 
                 case .deviceIndex:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8()
+                    if UInt64(value) != definition.baseType.invalid {
+                        deviceIndex = DeviceIndex(index: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            deviceIndex = DeviceIndex(index: UInt8(definition.baseType.invalid))
+                        }
+                    }
 
                 case .deviceType:
                     let value = localDecoder.decodeUInt8()
@@ -362,6 +378,7 @@ open class DeviceInfoMessage: FitMessage {
                                  batteryStatus: batteryStatus,
                                  deviceNumber: deviceNumber,
                                  deviceType: deviceType,
+                                 deviceIndex: deviceIndex,
                                  sensorDescription: sensorDescription,
                                  bodylocation: bodylocation,
                                  transmissionType: transmissionType,
