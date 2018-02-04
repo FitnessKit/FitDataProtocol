@@ -38,6 +38,9 @@ open class WorkoutMessage: FitMessage {
     /// Timestamp
     private(set) public var timeStamp: FitTime?
 
+    /// Message Index
+    private(set) public var messageIndex: MessageIndex?
+
     /// Workout Name
     private(set) public var workoutName: String?
 
@@ -58,9 +61,10 @@ open class WorkoutMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, workoutName: String?, numberOfValidSteps: UInt16?, poolLength: Measurement<UnitLength>?, poolLenghtUnit: MeasurementDisplayType?, sport: Sport?, subSport: SubSport?) {
+    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, workoutName: String?, numberOfValidSteps: UInt16?, poolLength: Measurement<UnitLength>?, poolLenghtUnit: MeasurementDisplayType?, sport: Sport?, subSport: SubSport?) {
 
         self.timeStamp = timeStamp
+        self.messageIndex = messageIndex
         self.workoutName = workoutName
         self.numberOfValidSteps = numberOfValidSteps
         self.poolLength = poolLength
@@ -72,6 +76,7 @@ open class WorkoutMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WorkoutMessage  {
 
         var timestamp: FitTime?
+        var messageIndex: MessageIndex?
         var workoutName: String?
         var numberOfValidSteps: UInt16?
         var poolLength: Measurement<UnitLength>?
@@ -184,11 +189,18 @@ open class WorkoutMessage: FitMessage {
                         timestamp = FitTime(time: value)
                     }
 
+                case .messageIndex:
+                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        messageIndex = MessageIndex(value: value)
+                    }
+
                 }
             }
         }
 
         return WorkoutMessage(timeStamp: timestamp,
+                              messageIndex: messageIndex,
                               workoutName: workoutName,
                               numberOfValidSteps: numberOfValidSteps,
                               poolLength: poolLength,
@@ -214,5 +226,6 @@ extension WorkoutMessage: FitMessageKeys {
         case poolLenghtUnit         = 15
 
         case timestamp              = 253
+        case messageIndex           = 254
     }
 }

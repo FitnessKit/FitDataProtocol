@@ -34,6 +34,9 @@ open class WorkoutStepMessage: FitMessage {
         return 27
     }
 
+    /// Message Index
+    private(set) public var messageIndex: MessageIndex?
+
     /// Workout Step Name
     private(set) public var name: String?
 
@@ -70,7 +73,9 @@ open class WorkoutStepMessage: FitMessage {
 
     public required init() {}
 
-    public init(name: String?, duration: UInt32?, durationType: WorkoutStepDurationType?, target: UInt32?, targetLow: UInt32?, targetHigh: UInt32?, targetType: WorkoutStepTargetType?, category: ExerciseCategory?, intensity: Intensity?, notes: String?, equipment: WorkoutEquipment?) {
+    public init(messageIndex: MessageIndex?, name: String?, duration: UInt32?, durationType: WorkoutStepDurationType?, target: UInt32?, targetLow: UInt32?, targetHigh: UInt32?, targetType: WorkoutStepTargetType?, category: ExerciseCategory?, intensity: Intensity?, notes: String?, equipment: WorkoutEquipment?) {
+
+        self.messageIndex = messageIndex
         self.name = name
         self.duration = duration
         self.durationType = durationType
@@ -86,6 +91,7 @@ open class WorkoutStepMessage: FitMessage {
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WorkoutStepMessage  {
 
+        var messageIndex: MessageIndex?
         var name: String?
         var duration: UInt32?
         var durationType: WorkoutStepDurationType?
@@ -239,9 +245,6 @@ open class WorkoutStepMessage: FitMessage {
                         }
                     }
 
-                case .messageIndex:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
-
                 case .category:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
@@ -256,11 +259,18 @@ open class WorkoutStepMessage: FitMessage {
                         }
                     }
 
+                case .messageIndex:
+                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        messageIndex = MessageIndex(value: value)
+                    }
+
                 }
             }
         }
 
-        return WorkoutStepMessage(name: name,
+        return WorkoutStepMessage(messageIndex: messageIndex,
+                                  name: name,
                                   duration: duration,
                                   durationType: durationType,
                                   target: target,

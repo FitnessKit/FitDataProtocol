@@ -39,6 +39,9 @@ open class UserProfileMessage: FitMessage {
     /// Timestamp
     private(set) public var timeStamp: FitTime?
 
+    /// Message Index
+    private(set) public var messageIndex: MessageIndex?
+
     /// Friendly Name
     private(set) public var friendlyName: String?
 
@@ -80,9 +83,11 @@ open class UserProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, friendlyName: String?, weight: Measurement<UnitMass>?, localID: UInt16?, runningStepLength: Measurement<UnitLength>?, walkingStepLength: Measurement<UnitLength>?, gender: Gender?, age: UInt8?, height: Measurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
+    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, friendlyName: String?, weight: Measurement<UnitMass>?, localID: UInt16?, runningStepLength: Measurement<UnitLength>?, walkingStepLength: Measurement<UnitLength>?, gender: Gender?, age: UInt8?, height: Measurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
 
         self.timeStamp = timeStamp
+        self.messageIndex = messageIndex
+
         self.friendlyName = friendlyName
         self.weight = weight
         self.localID = localID
@@ -122,6 +127,7 @@ open class UserProfileMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> UserProfileMessage  {
 
         var timestamp: FitTime?
+        var messageIndex: MessageIndex?
         var friendlyName: String?
         var weight: Measurement<UnitMass>?
         var localID: UInt16?
@@ -380,13 +386,17 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .messageIndex:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        messageIndex = MessageIndex(value: value)
+                    }
 
                 }
             }
         }
 
         return UserProfileMessage(timeStamp: timestamp,
+                                  messageIndex: messageIndex,
                                   friendlyName: friendlyName,
                                   weight: weight,
                                   localID: localID,
