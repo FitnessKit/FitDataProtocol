@@ -79,6 +79,13 @@ public struct FitFileDecoder {
 
     public mutating func decode(data: Data, messages: [FitMessage.Type], decoded: ((_: FitMessage) -> Void)? ) throws {
 
+        let globalMsgs = messages.map {$0.globalMessageNumber()}
+        let duplicates = Array(Set(globalMsgs.filter({ (i: UInt16) in globalMsgs.filter({ $0 == i }).count > 1})))
+
+        guard duplicates.count == 0 else {
+            throw FitError(.generic("Duplicate FitMessage types."))
+        }
+
         var shouldValidate: Bool = true
         switch crcDecodingStrategy {
         case .ignore:

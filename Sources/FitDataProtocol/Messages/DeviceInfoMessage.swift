@@ -237,7 +237,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .batteryVoltage:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 256 * V + 0
                         let value = Double(value) / 256

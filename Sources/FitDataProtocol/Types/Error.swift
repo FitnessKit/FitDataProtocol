@@ -50,11 +50,11 @@ public struct FitError: Error {
 
     public let type: ErrorReasons
 
-    init(_ type: ErrorReasons) {
+    public init(_ type: ErrorReasons) {
         self.type = type
     }
 
-    init(message: String) {
+    public init(message: String) {
         self.type = .generic(message)
     }
 }
