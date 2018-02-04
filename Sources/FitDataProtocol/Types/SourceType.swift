@@ -26,12 +26,19 @@ import Foundation
 
 /// FIT Source Type
 public enum SourceType: UInt8 {
+    /// ANT Public
     case ant            = 0
+    /// ANT+
     case antPlus        = 1
+    /// Bluetooth
     case bluetooth      = 2
+    /// BLE
     case ble            = 3
+    /// WIFI
     case wifi           = 4
+    /// Local
     case local          = 5
+    /// Invalid
     case invalid        = 255
 }
 

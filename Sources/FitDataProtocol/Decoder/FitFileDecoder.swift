@@ -39,6 +39,7 @@ public struct FitFileDecoder {
                                          SportMessage.self,
                                          RecordMessage.self,
                                          EventMessage.self,
+                                         DeviceInfoMessage.self,
                                          WorkoutMessage.self,
                                          WorkoutStepMessage.self,
                                          ActivityMessage.self,
