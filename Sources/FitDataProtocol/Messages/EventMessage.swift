@@ -187,7 +187,6 @@ open class EventMessage: FitMessage {
                 case .rearGear:
                     // We still need to pull this data off the stack
                     let _ = localDecoder.decodeData(length: Int(definition.size))
-                    print("Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
                 case .timestamp:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian

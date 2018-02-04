@@ -28,6 +28,15 @@ import DataDecoder
 public let kProtocolVersionMajor: UInt8 = 20
 public let kProtocolVersionMinor: UInt8 = 54
 
+private func ProtocolVersionMajor(_ value: UInt8) -> UInt8 {
+    return (value >> 4)
+}
+
+private var protocolVersion20: UInt8 {
+    return (2 << 4) | 0
+}
+
+
 internal struct FileHeader {
 
     /// Size of Header
@@ -47,7 +56,7 @@ internal struct FileHeader {
 
     internal init(dataSize: UInt32) {
         self.headerSize = 14
-        self.protocolVersion = 23  // 2.3
+        self.protocolVersion = protocolVersion20
         self.profileVersion = 2054
         self.dataSize = dataSize
         self.crc = 0
@@ -73,7 +82,7 @@ internal extension FileHeader {
 
         let protocolVersion = decoder.decodeUInt8()
 
-        guard protocolVersion >> 4 <= kProtocolVersionMajor else { throw FitError(.protocolVersionNotSupported) }
+        guard ProtocolVersionMajor(protocolVersion) <= ProtocolVersionMajor(protocolVersion20) else { throw FitError(.protocolVersionNotSupported) }
 
         let profileVersion = decoder.decodeUInt16()
         let dataSize = decoder.decodeUInt32()
