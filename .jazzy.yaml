@@ -25,6 +25,7 @@ custom_categories:
     - FitMessage
     - ActivityMessage
     - CourseMessage
+    - CoursePointMessage
     - DeveloperDataIdMessage
     - DeviceInfoMessage
     - EventMessage
