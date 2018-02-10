@@ -27,6 +27,11 @@ import Foundation
 
 extension Data {
 
+    init<T>(from value: T) {
+        var value = value
+        self.init(buffer: UnsafeBufferPointer(start: &value, count: 1))
+    }
+
     /// Smartly Decodes String
     var smartString: String? {
         var stringvalue: String?

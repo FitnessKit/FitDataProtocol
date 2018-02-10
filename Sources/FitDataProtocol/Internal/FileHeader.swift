@@ -28,11 +28,11 @@ import DataDecoder
 public let kProtocolVersionMajor: UInt8 = 20
 public let kProtocolVersionMinor: UInt8 = 54
 
-private func ProtocolVersionMajor(_ value: UInt8) -> UInt8 {
+internal func ProtocolVersionMajor(_ value: UInt8) -> UInt8 {
     return (value >> 4)
 }
 
-private var protocolVersion20: UInt8 {
+internal var protocolVersion20: UInt8 {
     return (2 << 4) | 0
 }
 
@@ -71,6 +71,39 @@ internal struct FileHeader {
     }
 }
 
+extension FileHeader: Equatable {
+
+    internal static func == (lhs: FileHeader, rhs: FileHeader) -> Bool {
+        return (lhs.headerSize == rhs.headerSize) &&
+            (lhs.protocolVersion == rhs.protocolVersion) &&
+            (lhs.profileVersion == rhs.profileVersion) &&
+            (lhs.dataSize == rhs.dataSize) &&
+            (lhs.crc == rhs.crc)
+    }
+}
+
+internal extension FileHeader {
+
+    internal var encodedData: Data {
+        var encode = Data()
+
+        encode.append(headerSize)
+        encode.append(protocolVersion)
+        encode.append(Data(from: profileVersion.littleEndian))
+        encode.append(Data(from: dataSize.littleEndian))
+        encode.append(46)
+        encode.append(70)
+        encode.append(73)
+        encode.append(84)
+
+        if headerSize == 14 {
+            let crcCheck = CRC16(data: encode).crc
+            encode.append(Data(from:crcCheck.littleEndian))
+        }
+        return encode
+    }
+}
+
 internal extension FileHeader {
 
     internal static func decode(data: Data, validateCrc: Bool = true) throws -> FileHeader {
@@ -99,14 +132,14 @@ internal extension FileHeader {
 
             if crcValue != 0 {
                 crc = crcValue
-            }
 
-            if validateCrc == true {
-                let crcData = data[0...11]
+                if validateCrc == true {
+                    let crcData = data[0...11]
 
-                let value = CRC16(data: crcData).crc
+                    let value = CRC16(data: crcData).crc
 
-                guard value == crc else { throw FitError(.invalidHeaderCrc) }
+                    guard value == crc else { throw FitError(.invalidHeaderCrc) }
+                }
             }
         }
 

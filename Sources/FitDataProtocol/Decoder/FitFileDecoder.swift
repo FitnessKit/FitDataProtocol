@@ -48,7 +48,7 @@ public struct FitFileDecoder {
                                         ]
 
     /// Options for CRC Checking
-    public enum CrcDecodingStrategy {
+    public enum CrcCheckingStrategy {
         /// Throw upon encountering invalid CRCs. This is the default strategy.
         case `throws`
         /// Don't Check CRC Values
@@ -56,7 +56,7 @@ public struct FitFileDecoder {
     }
 
     /// The strategy to use for CRC Checking. Defaults to `.throws`.
-    public var crcDecodingStrategy: CrcDecodingStrategy
+    public var crcCheckingStrategy: CrcCheckingStrategy
 
     /// Options for Data Decoding
     public enum DataDecodingStrategy {
@@ -70,8 +70,8 @@ public struct FitFileDecoder {
     public var dataDecodingStrategy: DataDecodingStrategy
 
 
-    public init(crcDecodingStrategy: CrcDecodingStrategy = .throws, dataDecodingStrategy: DataDecodingStrategy = .nil) {
-        self.crcDecodingStrategy = crcDecodingStrategy
+    public init(crcCheckingStrategy: CrcCheckingStrategy = .throws, dataDecodingStrategy: DataDecodingStrategy = .nil) {
+        self.crcCheckingStrategy = crcCheckingStrategy
         self.dataDecodingStrategy = dataDecodingStrategy
         self.messageData = Data()
         self.definitionDict = [UInt8 : DefinitionMessage]()
@@ -87,7 +87,7 @@ public struct FitFileDecoder {
         }
 
         var shouldValidate: Bool = true
-        switch crcDecodingStrategy {
+        switch crcCheckingStrategy {
         case .ignore:
             shouldValidate = false
         default:
@@ -157,7 +157,7 @@ public struct FitFileDecoder {
 }
 
 
-@available(swift 3.1)
+@available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 private extension FitFileDecoder {
 
