@@ -87,7 +87,7 @@ extension ActivityType {
 //MARK: - FIT Activity Sub Type
 
 /// FIT Activity Sub Type
-public enum FITActivitySubType: UInt8 {
+public enum ActivitySubType: UInt8 {
     case generic        = 0
     case treadmill      = 1     //Run
     case street         = 2     //Run
@@ -112,7 +112,7 @@ public enum FITActivitySubType: UInt8 {
     case Invalid        = 255
 }
 
-extension FITActivitySubType {
+extension ActivitySubType {
 
     var stringValue: String {
         switch self {
@@ -165,7 +165,7 @@ extension FITActivitySubType {
 //MARK: - FIT Activity Level
 
 /// FIT Activity Level
-public enum FITActivityLevel: UInt8 {
+public enum ActivityLevel: UInt8 {
     case low        = 0
     case medium     = 1
     case high       = 2
@@ -173,7 +173,7 @@ public enum FITActivityLevel: UInt8 {
     case invalid    = 255
 }
 
-extension FITActivityLevel {
+extension ActivityLevel {
 
     var stringValue: String {
         switch self {

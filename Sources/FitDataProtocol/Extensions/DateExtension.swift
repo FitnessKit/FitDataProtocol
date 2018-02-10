@@ -24,7 +24,7 @@
 
 import Foundation
 
-extension Date {
+internal extension Date {
 
     /**
      Creates a Date from a given year, month, day
@@ -35,7 +35,7 @@ extension Date {
 
      - returns: an Date object with the given
      */
-    init(year:Int, month:Int, day:Int) {
+    internal init(year:Int, month:Int, day:Int) {
         var c = DateComponents()
         c.year = year
         c.month = month
@@ -48,7 +48,7 @@ extension Date {
     }
 
     /// ANT+ EPOCH
-    public static var antEPOCH: Date {
+    internal static var antEPOCH: Date {
         var comps = DateComponents(year: 1989,
                                    month: 12,
                                    day: 31)
@@ -57,7 +57,7 @@ extension Date {
         return Calendar(identifier: .gregorian).date(from: comps)!
     }
 
-    public static var localAntEPOCH: Date {
+    internal static var localAntEPOCH: Date {
         var comps = DateComponents(year: 1989,
                                    month: 12,
                                    day: 31)

@@ -36,6 +36,7 @@ public struct FitFileDecoder {
     public static let defaultMessages = [FileIdMessage.self,
                                          FileCreatorMessage.self,
                                          UserProfileMessage.self,
+                                         HeartRateZoneMessage.self,
                                          SportMessage.self,
                                          RecordMessage.self,
                                          EventMessage.self,
@@ -45,6 +46,7 @@ public struct FitFileDecoder {
                                          ActivityMessage.self,
                                          HrvMessage.self,
                                          DeveloperDataIdMessage.self,
+                                         ExerciseTitleMessage.self,
                                         ]
 
     /// Options for CRC Checking

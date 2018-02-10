@@ -12,207 +12,28 @@ copyright: '© 2017 Kevin A. Hoogheem'
 xcodebuild_arguments: [-scheme,FitDataProtocol-Package]
 
 custom_categories:
-  - name: Base
+  - name: Decoder
     children:
-    - Service
-    - Characteristic
+    - FitFileDecoder
+ 
+  - name: FIT Merge
+    children:
+    - FitFileMerger
 
-  - name: Services - Bluetooth SIG
+  - name: FIT Messages
     children:
-    - ServiceGenericAccess
-    - ServiceGenericAttribute
-    - ServiceImmediateAlert
-    - ServiceLinkLoss
-    - ServiceTxPower
-    - ServiceCurrentTime
-    - ServiceReferenceTimeUpdate
-    - ServiceNextDSTChange
-    - ServiceGlucose
-    - ServiceHealthThermometer
-    - ServiceDeviceInformation
-    - ServiceHeartRate
-    - ServicePhoneAlertStatus
-    - ServiceBattery
-    - ServiceBloodPressure
-    - ServiceAlertNotification
-    - ServiceHumanInterfaceDevice
-    - ServiceScanParameters
-    - ServiceRunningSpeedAndCadence
-    - ServiceAutomationInputOutput
-    - ServiceCyclingSpeedAndCadence
-    - ServiceCyclingPower
-    - ServiceLocationAndNavigation
-    - ServiceEnvironmentalSensing
-    - ServiceBodyComposition
-    - ServiceUserData
-    - ServiceWeightScale
-    - ServiceBondManagement
-    - ServiceContinuousGlucoseMonitoring
-    - ServiceInternetProtocolSupport
-    - ServiceIndoorPositioning
-    - ServicePulseOximeter
-    - ServiceHttpProxy
-    - ServiceTransportDiscovery
-    - ServiceObjectTransfer
-    - ServiceFitnessMachine
-    - ServiceMeshProvisioning
-    - ServiceMeshProxy
-   
-  - name: Services - Custom
-    children:
-    - ServiceAppleMidi
-    - ServiceCycleOps
-    - ServiceEliteTrainer
-    - ServiceGoogleGlass
-    - ServiceMyoClassifierEvent
-    - ServiceMyoControl
-    - ServiceMyoImu
-    - ServiceMyoRawEMGData
-    - ServiceNordicLegacyDeviceFirmwareUpdate
-    - ServiceNordicSecureDeviceFirmwareUpdate
-    - ServiceNorthPoleAweDiagnostics
-    - ServiceNorthPoleAweHeartRate
-    - ServiceTexasInstrumentsFirmwareUpdate
-    - ServiceTexasInstrumentsSensorTagAccelerometer
-    - ServiceTexasInstrumentsSensorTagBarometer
-    - ServiceTexasInstrumentsSensorTagControl
-    - ServiceTexasInstrumentsSensorTagGyroscope
-    - ServiceTexasInstrumentsSensorTagHumidity
-    - ServiceTexasInstrumentsSensorTagMagnetometer
-    - ServiceTexasInstrumentsSensorTagTemperature
-    - ServiceWahooFitnessEquipment
-    - ServiceWahooFitnessGEMModuleFirmwareUpdate
-
-  - name: Characteristics - Bluetooth SIG
-    children:
-    - CharacteristicAerobicHeartRateLowerLimit
-    - CharacteristicAerobicHeartRateUpperLimit
-    - CharacteristicAerobicThreshold
-    - CharacteristicAge
-    - CharacteristicAlertCategoryID
-    - CharacteristicAlertLevel
-    - CharacteristicAlertStatus
-    - CharacteristicAltitude
-    - CharacteristicAnaerobicHeartRateLowerLimit
-    - CharacteristicAnaerobicHeartRateUpperLimit
-    - CharacteristicAnaerobicThreshold
-    - CharacteristicAnalog
-    - CharacteristicAnalogOutput
-    - CharacteristicApparentWindDirection
-    - CharacteristicApparentWindSpeed
-    - CharacteristicAppearance
-    - CharacteristicBarometricPressureTrend
-    - CharacteristicBatteryLevel
-    - CharacteristicBatteryLevelState
-    - CharacteristicBatteryPowerState
-    - CharacteristicBloodPressureFeature
-    - CharacteristicBloodPressureMeasurement
-    - CharacteristicBodyCompositionMeasurement
-    - CharacteristicBodySensorLocation
-    - CharacteristicBondManagementFeatures
-    - CharacteristicContinuousGlucoseMonitoringFeature
-    - CharacteristicCrossTrainerData
-    - CharacteristicCurrentTime
-    - CharacteristicDatabaseChangeIncrement
-    - CharacteristicDateOfBirth
-    - CharacteristicDayDateTime
-    - CharacteristicDayOfWeek
-    - CharacteristicDeviceName
-    - CharacteristicDewPoint
-    - CharacteristicDSTOffset
-    - CharacteristicElevation
-    - CharacteristicEmailAddress
-    - CharacteristicFatBurnHeartRateLowerLimit
-    - CharacteristicFatBurnHeartRateUpperLimit
-    - CharacteristicFirmwareRevisionString
-    - CharacteristicFirstName
-    - CharacteristicFiveZoneHeartRateLimits
-    - CharacteristicFloorNumber
-    - CharacteristicGender
-    - CharacteristicHardwareRevisionString
-    - CharacteristicHeartRateControlPoint
-    - CharacteristicHeartRateMax
-    - CharacteristicHeartRateMeasurement
-    - CharacteristicHeatIndex
-    - CharacteristicHeight
-    - CharacteristicHipCircumference
-    - CharacteristicHumidity
-    - CharacteristicIndoorBikeData
-    - CharacteristicLanguage
-    - CharacteristicLastName
-    - CharacteristicLatitude
-    - CharacteristicLocalEastCoordinate
-    - CharacteristicLocalNorthCoordinate
-    - CharacteristicLocalTimeInformation
-    - CharacteristicLocationName
-    - CharacteristicLongitude
-    - CharacteristicMagneticDeclination
-    - CharacteristicManufacturerNameString
-    - CharacteristicMaximumRecommendedHeartRate
-    - CharacteristicMeasurementInterval
-    - CharacteristicModelNumberString
-    - CharacteristicNetworkAvailability
-    - CharacteristicNewAlert
-    - CharacteristicObjectName
-    - CharacteristicObjectSize
-    - CharacteristicPnPID
-    - CharacteristicPollenConcentration
-    - CharacteristicPosition2D
-    - CharacteristicPosition3D
-    - CharacteristicPressure
-    - CharacteristicRainfall
-    - CharacteristicRestingHeartRate
-    - CharacteristicRingerSetting
-    - CharacteristicRowerData
-    - CharacteristicSensorLocation
-    - CharacteristicSerialNumberString
-    - CharacteristicSoftwareRevisionString
-    - CharacteristicSportTypeForAerobicAndAnaerobicThresholds
-    - CharacteristicStairClimberData
-    - CharacteristicStepClimberData
-    - CharacteristicString
-    - CharacteristicSupportedHeartRateRange
-    - CharacteristicSupportedInclinationRange
-    - CharacteristicSupportedPowerRange
-    - CharacteristicSupportedResistanceLevel
-    - CharacteristicSupportedSpeedRange
-    - CharacteristicTemperature
-    - CharacteristicTemperatureCelsius
-    - CharacteristicTemperatureFahrenheit
-    - CharacteristicTemperatureMeasurement
-    - CharacteristicTemperatureType
-    - CharacteristicThreeZoneHeartRateLimits
-    - CharacteristicTimeSource
-    - CharacteristicTimeUpdateControlPoint
-    - CharacteristicTimeUpdateState
-    - CharacteristicTimeZone
-    - CharacteristicTrainingStatus
-    - CharacteristicTreadmillData
-    - CharacteristicTrueWindDirection
-    - CharacteristicTrueWindSpeed
-    - CharacteristicTwoZoneHeartRateLimit
-    - CharacteristicTxPowerLevel
-    - CharacteristicUniformResourceIdentifier
-    - CharacteristicUnreadAlertStatus
-    - CharacteristicUserIndex
-    - CharacteristicUVIndex
-    - CharacteristicV02Max
-    - CharacteristicWaistCircumference
-    - CharacteristicWeight
-    - CharacteristicWeightMeasurement
-    - CharacteristicWeightScaleFeature
-    - CharacteristicWindChill
-
-  - name: Characteristic - Custom
-    children:
-    - CharacteristicNorthPoleAweDiagnostics
-    - CharacteristicNorthPoleAweHeartRateMeasurement
-    - CharacteristicNorthPoleAweWorkoutInformation
-
-  - name: Manufacturer Data
-    children:
-    - CompanyIdentifier
-    - ManufacturerData
-    - ManufacturerDataAltBeacon
-    - ManufacturerDataAppleiBeacon
-    - ManufacturerDataPolarHeartRate
+    - FitMessage
+    - ActivityMessage
+    - DeveloperDataIdMessage
+    - DeviceInfoMessage
+    - EventMessage
+    - ExerciseTitleMessage
+    - FileCreatorMessage
+    - FileIdMessage
+    - HeartRateZoneMessage
+    - HrvMessage
+    - RecordMessage
+    - SportMessage
+    - UserProfileMessage
+    - WorkoutMessage
+    - WorkoutStepMessage
