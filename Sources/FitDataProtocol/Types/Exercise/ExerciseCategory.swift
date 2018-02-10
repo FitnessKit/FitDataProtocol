@@ -99,3 +99,34 @@ public enum ExerciseCategory: UInt16 {
     /// Invalid
     case invalid            = 65535
 }
+
+internal extension ExerciseCategory {
+
+    internal var validExerciseNameType: ExerciseName.Type? {
+        switch self {
+        case .benchPress:
+            return BenchPressExerciseName.self
+
+        default:
+            return nil
+        }
+    }
+}
+
+internal extension ExerciseCategory {
+
+    internal func exerciseName(from: UInt16?) -> ExerciseName? {
+
+        if let from = from {
+            switch self {
+            case .benchPress:
+                return BenchPressExerciseName.create(from: from)
+
+            default:
+                return nil
+            }
+        }
+
+        return nil
+    }
+}

@@ -45,11 +45,11 @@ open class ExerciseTitleMessage: FitMessage {
     private(set) public var category: ExerciseCategory?
 
     /// Exercise Name
-    private(set) public var exerciseName: UInt16?
+    private(set) public var exerciseName: ExerciseName?
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, stepName: String?, category: ExerciseCategory?, exerciseName: UInt16?) {
+    public init(messageIndex: MessageIndex?, stepName: String?, category: ExerciseCategory?, exerciseName: ExerciseName?) {
         self.messageIndex = messageIndex
         self.stepName = stepName
         self.category = category
@@ -62,8 +62,9 @@ open class ExerciseTitleMessage: FitMessage {
 
         var stepName: String?
         var category: ExerciseCategory?
-        var exerciseName: UInt16?
+        var exerciseName: ExerciseName?
 
+        var exerciseNumber: UInt16?
 
         let arch = definition.architecture
 
@@ -99,15 +100,7 @@ open class ExerciseTitleMessage: FitMessage {
                 case .exerciseName:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        exerciseName = value
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            exerciseName = UInt16(definition.baseType.invalid)
-                        }
+                        exerciseNumber = value
                     }
 
                 case .stepName:
@@ -126,6 +119,8 @@ open class ExerciseTitleMessage: FitMessage {
                 }
             }
         }
+
+        exerciseName = category?.exerciseName(from: exerciseNumber)
 
         return ExerciseTitleMessage(messageIndex: messageIndex,
                                     stepName: stepName,
