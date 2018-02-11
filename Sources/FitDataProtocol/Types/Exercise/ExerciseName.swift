@@ -24,19 +24,20 @@
 
 import Foundation
 
+typealias ExerciseName = ExerciseNameType & ExerciseNameSupportable
+
 /// Exercise Name Protocol
-public protocol ExerciseName {
+public protocol ExerciseNameType {
 
     var name: String { get }
     var number: UInt16 { get }
 
-    static func create(from: UInt16) -> Self?
+    static func create(rawValue: UInt16) -> Self?
 }
 
-extension ExerciseName  {
-    static func ==(lhs: ExerciseName, rhs: ExerciseName) -> Bool {
-        return lhs.name == rhs.name &&
-            lhs.number == rhs.number
-    }
+public protocol ExerciseNameSupportable: Hashable {
+    associatedtype ExerciseNameType
+
+    static var supportedExerciseNames: [ExerciseNameType] { get }
 }
 

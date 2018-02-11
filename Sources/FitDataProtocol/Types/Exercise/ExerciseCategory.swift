@@ -102,10 +102,12 @@ public enum ExerciseCategory: UInt16 {
 
 internal extension ExerciseCategory {
 
-    internal var validExerciseNameType: ExerciseName.Type? {
+    internal var validExerciseNameType: ExerciseNameType.Type? {
         switch self {
         case .benchPress:
             return BenchPressExerciseName.self
+        case .calfRaise:
+            return CalfRaiseExerciseName.self
 
         default:
             return nil
@@ -115,18 +117,7 @@ internal extension ExerciseCategory {
 
 internal extension ExerciseCategory {
 
-    internal func exerciseName(from: UInt16?) -> ExerciseName? {
-
-        if let from = from {
-            switch self {
-            case .benchPress:
-                return BenchPressExerciseName.create(from: from)
-
-            default:
-                return nil
-            }
-        }
-
-        return nil
+    internal func exerciseName(from: UInt16) -> ExerciseNameType? {
+        return validExerciseNameType?.create(rawValue: from)
     }
 }

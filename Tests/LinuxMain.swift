@@ -3,5 +3,5 @@ import XCTest
 
 XCTMain([
     testCase(FitDataProtocolTests.allTests),
-    testCase(CompanyIdentifierTests.allTests),
+    testCase(ExerciseNameTests.allTests),
 ])

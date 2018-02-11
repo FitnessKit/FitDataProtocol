@@ -45,11 +45,11 @@ open class ExerciseTitleMessage: FitMessage {
     private(set) public var category: ExerciseCategory?
 
     /// Exercise Name
-    private(set) public var exerciseName: ExerciseName?
+    private(set) public var exerciseName: ExerciseNameType?
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, stepName: String?, category: ExerciseCategory?, exerciseName: ExerciseName?) {
+    public init(messageIndex: MessageIndex?, stepName: String?, category: ExerciseCategory?, exerciseName: ExerciseNameType?) {
         self.messageIndex = messageIndex
         self.stepName = stepName
         self.category = category
@@ -62,7 +62,7 @@ open class ExerciseTitleMessage: FitMessage {
 
         var stepName: String?
         var category: ExerciseCategory?
-        var exerciseName: ExerciseName?
+        var exerciseName: ExerciseNameType?
 
         var exerciseNumber: UInt16?
 
@@ -120,7 +120,9 @@ open class ExerciseTitleMessage: FitMessage {
             }
         }
 
-        exerciseName = category?.exerciseName(from: exerciseNumber)
+        if let exerciseNumber = exerciseNumber {
+            exerciseName = category?.exerciseName(from: exerciseNumber)
+        }
 
         return ExerciseTitleMessage(messageIndex: messageIndex,
                                     stepName: stepName,
