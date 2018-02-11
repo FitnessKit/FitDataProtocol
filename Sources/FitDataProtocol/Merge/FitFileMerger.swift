@@ -89,7 +89,7 @@ public extension FitFileMerger {
         // Step 1.  Get all Files and Check for CRC if requested
         for fitfile in files {
             let header = try FileHeader.decode(data: fitfile, validateCrc: shouldValidate)
-            print(header)
+            //print(header)
 
             var decoder = DataDecoder(fitfile)
 

@@ -47,28 +47,22 @@ internal extension RecordHeader {
         var messageType: UInt8 = 0
 
         if (header & 0x80 == 0x80) {
-            print("Timestamp")
 
             messageType = header & 0x60 >> 5
-            //let timeoffset = header & 0x1F
 
         } else {
-            print("Normal header")
 
             if (header & 0x40 == 0x40) {
-                print("Definition Message")
 
                 if header & 0x20 == 0x20 {
                     developerData = true
                 }
 
             } else {
-                print("Data Message")
                 isDataMessage = true
             }
 
             messageType = header & 0x1F
-
         }
 
         return RecordHeader(localMessageType: messageType,

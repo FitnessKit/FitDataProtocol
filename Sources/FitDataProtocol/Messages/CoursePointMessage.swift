@@ -98,7 +98,7 @@ open class CoursePointMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(length: Int(definition.size))
-                print("Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                print("CoursePointMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {

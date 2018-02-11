@@ -84,7 +84,7 @@ open class EventMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(length: Int(definition.size))
-                print("Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                print("EventMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
@@ -162,27 +162,22 @@ open class EventMessage: FitMessage {
                 case .score:
                     // We still need to pull this data off the stack
                     let _ = localDecoder.decodeData(length: Int(definition.size))
-                    print("score")
 
                 case .opponentScore:
                     // We still need to pull this data off the stack
                     let _ = localDecoder.decodeData(length: Int(definition.size))
-                    print("opponentScore")
 
                 case .frontGearNumber:
                     // We still need to pull this data off the stack
                     let _ = localDecoder.decodeData(length: Int(definition.size))
-                    print("frontGearNumber")
 
                 case .frontGear:
                     // We still need to pull this data off the stack
                     let _ = localDecoder.decodeData(length: Int(definition.size))
-                    print("frontGear")
 
                 case .rearGearNumber:
                     // We still need to pull this data off the stack
                     let _ = localDecoder.decodeData(length: Int(definition.size))
-                    print("rearGearNumber")
 
                 case .rearGear:
                     // We still need to pull this data off the stack

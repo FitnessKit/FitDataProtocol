@@ -110,6 +110,7 @@ public struct FitFileDecoder {
                 let lastDefinition = try DefinitionMessage.decode(decoder: &decoder, header: header)
                 definitionDict[header.localMessageType] = lastDefinition
 
+                print("---Definition---")
                 print(definitionDict[header.localMessageType] as Any)
 
             } else {
@@ -150,7 +151,6 @@ public struct FitFileDecoder {
                     
                 } else {
                     print("NO Decoder for type")
-
                 }
 
             }
