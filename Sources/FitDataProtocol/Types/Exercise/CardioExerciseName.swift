@@ -210,4 +210,3 @@ public extension CardioExerciseName {
         return CardioExerciseName(name: "Weighted Triple Under", number: 21)
     }
 }
-

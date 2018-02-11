@@ -118,13 +118,48 @@ class ExerciseNameTests: XCTestCase {
 
     }
 
+    func testCarryDups() {
+
+        let x = CarryExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: CarryExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("CarryExerciseName Count: \(CarryExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testCarryCreate() {
+
+        if CarryExerciseName.create(rawValue: 2) != CarryExerciseName.farmersWalkOnToes {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CarryExerciseName.create(rawValue: 4) != CarryExerciseName.overheadCarry {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CarryExerciseName.create(rawValue: 5) != nil {
+            XCTFail("Past Current Max")
+        }
+
+    }
+
+
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
         ("testBenchPressCreate", testCalfRaiseDups),
         ("testCalfRaiseDups", testCalfRaiseDups),
         ("testCalfRaiseCreate", testCalfRaiseCreate),
         ("testCardioDups", testCardioDups),
-        ("testCardioCreate", testCardioCreate)
+        ("testCardioCreate", testCardioCreate),
+        ("testCarryDups", testCarryDups),
+        ("testCarryCreate", testCarryCreate),
         ]
 
 }

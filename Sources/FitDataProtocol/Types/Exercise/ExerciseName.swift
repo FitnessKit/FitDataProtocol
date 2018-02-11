@@ -32,6 +32,10 @@ public protocol ExerciseNameType {
     var name: String { get }
     var number: UInt16 { get }
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     static func create(rawValue: UInt16) -> Self?
 }
 
@@ -41,6 +45,7 @@ public protocol ExerciseNameType {
 public protocol ExerciseNameSupportable: Hashable {
     associatedtype ExerciseNameType
 
+    /// List of Supported ExerciseNames
     static var supportedExerciseNames: [ExerciseNameType] { get }
 }
 
