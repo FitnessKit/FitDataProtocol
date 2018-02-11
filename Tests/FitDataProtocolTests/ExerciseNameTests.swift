@@ -86,11 +86,45 @@ class ExerciseNameTests: XCTestCase {
     }
 
 
+    func testCardioDups() {
+
+        let x = CardioExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: CardioExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("CardioExerciseName Count: \(CardioExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testCardioCreate() {
+
+        if CardioExerciseName.create(rawValue: 2) != CardioExerciseName.cardioCoreCrawl {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CardioExerciseName.create(rawValue: 21) != CardioExerciseName.weightedTripleUnder {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CardioExerciseName.create(rawValue: 22) != nil {
+            XCTFail("Past Current Max")
+        }
+
+    }
+
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
         ("testBenchPressCreate", testCalfRaiseDups),
         ("testCalfRaiseDups", testCalfRaiseDups),
         ("testCalfRaiseCreate", testCalfRaiseCreate),
+        ("testCardioDups", testCardioDups),
+        ("testCardioCreate", testCardioCreate)
         ]
 
 }

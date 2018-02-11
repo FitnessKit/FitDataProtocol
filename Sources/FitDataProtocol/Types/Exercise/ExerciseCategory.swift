@@ -108,6 +108,8 @@ internal extension ExerciseCategory {
             return BenchPressExerciseName.self
         case .calfRaise:
             return CalfRaiseExerciseName.self
+        case .cardio:
+            return CardioExerciseName.self
 
         default:
             return nil

@@ -35,6 +35,9 @@ public protocol ExerciseNameType {
     static func create(rawValue: UInt16) -> Self?
 }
 
+/// Exercise Name Supportable
+///
+/// Provides Helper functions such as supported exercises
 public protocol ExerciseNameSupportable: Hashable {
     associatedtype ExerciseNameType
 
