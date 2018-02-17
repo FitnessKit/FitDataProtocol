@@ -246,6 +246,40 @@ class ExerciseNameTests: XCTestCase {
 
     }
 
+    func testCurlDups() {
+
+        let x = CurlExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: CurlExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("CurlExerciseName Count: \(CurlExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testCurlCreate() {
+
+        if CurlExerciseName.create(rawValue: 2) != CurlExerciseName.alternatingInclineDumbbellBicepsCurl {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CurlExerciseName.create(rawValue: 4) != CurlExerciseName.barbellReverseWristCurl {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CurlExerciseName.create(rawValue: 44) != nil {
+            XCTFail("Past Current Max")
+        }
+
+    }
+
+
+
 
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
@@ -262,6 +296,8 @@ class ExerciseNameTests: XCTestCase {
         ("testCoreCreate", testCoreCreate),
         ("testCrunchDups", testCrunchDups),
         ("testCrunchCreate", testCrunchCreate),
+        ("testCurlDups", testCurlDups),
+        ("testCurlCreate", testCurlCreate),
         ]
 
 }

@@ -118,6 +118,8 @@ internal extension ExerciseCategory {
             return CoreExerciseName.self
         case .crunch:
             return CrunchExerciseName.self
+        case .curl:
+            return CurlExerciseName.self
 
         default:
             return nil
