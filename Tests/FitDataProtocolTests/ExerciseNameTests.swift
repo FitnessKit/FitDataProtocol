@@ -182,6 +182,38 @@ class ExerciseNameTests: XCTestCase {
 
     }
 
+    func testCoreDups() {
+
+        let x = CoreExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: CoreExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("CoreExerciseName Count: \(CoreExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testCoreCreate() {
+
+        if CoreExerciseName.create(rawValue: 2) != CoreExerciseName.alternatingPlateReach {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CoreExerciseName.create(rawValue: 4) != CoreExerciseName.weightedBarbellRollout {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CoreExerciseName.create(rawValue: 46) != nil {
+            XCTFail("Past Current Max")
+        }
+
+    }
+
 
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
@@ -194,6 +226,8 @@ class ExerciseNameTests: XCTestCase {
         ("testCarryCreate", testCarryCreate),
         ("testChopDups", testChopDups),
         ("testChopCreate", testChopCreate),
+        ("testCoreDups", testCoreDups),
+        ("testCoreCreate", testCoreCreate),
         ]
 
 }
