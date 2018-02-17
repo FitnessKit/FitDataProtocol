@@ -120,6 +120,8 @@ internal extension ExerciseCategory {
             return CrunchExerciseName.self
         case .curl:
             return CurlExerciseName.self
+        case .deadlift:
+            return DeadliftExerciseName.self
 
         default:
             return nil

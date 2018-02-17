@@ -25,7 +25,7 @@
 import Foundation
 
 
-/// Cardio Exercise Name
+/// Carry Exercise Name
 public struct CarryExerciseName: ExerciseName {
     public typealias ExerciseNameType = CarryExerciseName
 

@@ -278,7 +278,37 @@ class ExerciseNameTests: XCTestCase {
 
     }
 
+    func testDeadliftDups() {
 
+        let x = DeadliftExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: DeadliftExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("DeadliftExerciseName Count: \(DeadliftExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testDeadlifCreate() {
+
+        if DeadliftExerciseName.create(rawValue: 2) != DeadliftExerciseName.dumbbellDeadlift {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if DeadliftExerciseName.create(rawValue: 4) != DeadliftExerciseName.dumbbellStraightLegDeadlift {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if DeadliftExerciseName.create(rawValue: 19) != nil {
+            XCTFail("Past Current Max")
+        }
+
+    }
 
 
     static var allTests = [
@@ -298,6 +328,8 @@ class ExerciseNameTests: XCTestCase {
         ("testCrunchCreate", testCrunchCreate),
         ("testCurlDups", testCurlDups),
         ("testCurlCreate", testCurlCreate),
+        ("testDeadliftDups", testDeadliftDups),
+        ("testDeadlifCreate", testDeadlifCreate),
         ]
 
 }
