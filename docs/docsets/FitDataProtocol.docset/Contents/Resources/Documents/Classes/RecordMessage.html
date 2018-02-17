@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RecordMessage Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/RecordMessage" class="dashAnchor"></a>
+    <a title="RecordMessage Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">FitDataProtocol Docs</a> (76% documented)</p>
+        <p class="header-right"><a href="https://github.com/FitnessKit/FitDataProtocol"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">FitDataProtocol Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        RecordMessage Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Decoder.html">Decoder</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileDecoder.html">FitFileDecoder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileDecoder/CrcCheckingStrategy.html">– CrcCheckingStrategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">– DataDecodingStrategy</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../FIT Merge.html">FIT Merge</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileMerger.html">FitFileMerger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileMerger/CrcCheckingStrategy.html">– CrcCheckingStrategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileMerger/DataMergingStrategy.html">– DataMergingStrategy</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../FIT Messages.html">FIT Messages</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/FitMessage.html">FitMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ActivityMessage.html">ActivityMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ActivityMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CourseMessage.html">CourseMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CourseMessage/Capabilities.html">– Capabilities</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CourseMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CoursePointMessage.html">CoursePointMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CoursePointMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeveloperDataIdMessage.html">DeveloperDataIdMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeveloperDataIdMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeviceInfoMessage.html">DeviceInfoMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeviceInfoMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/EventMessage.html">EventMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/EventMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ExerciseTitleMessage.html">ExerciseTitleMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ExerciseTitleMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FileCreatorMessage.html">FileCreatorMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FileCreatorMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FileIdMessage.html">FileIdMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FileIdMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HeartRateZoneMessage.html">HeartRateZoneMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HeartRateZoneMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HrvMessage.html">HrvMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HrvMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RecordMessage.html">RecordMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RecordMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SportMessage.html">SportMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SportMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/UserProfileMessage.html">UserProfileMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/UserProfileMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/WorkoutMessage.html">WorkoutMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/WorkoutMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/WorkoutStepMessage.html">WorkoutStepMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/WorkoutStepMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../ExerciseName.html">ExerciseName</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ExerciseNameType.html">ExerciseNameType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ExerciseNameSupportable.html">ExerciseNameSupportable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BenchPressExerciseName.html">BenchPressExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CalfRaiseExerciseName.html">CalfRaiseExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CardioExerciseName.html">CardioExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CarryExerciseName.html">CarryExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChopExerciseName.html">ChopExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CoreExerciseName.html">CoreExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CrunchExerciseName.html">CrunchExerciseName</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Classes.html">Other Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CRC16.html">CRC16</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Global Variables.html">Other Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMajors5UInt8Vv">kProtocolVersionMajor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMinors5UInt8Vv">kProtocolVersionMinor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Enums.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/Activity.html">Activity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ActivityLevel.html">ActivityLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ActivitySubType.html">ActivitySubType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ActivityType.html">ActivityType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BodyLocation.html">BodyLocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CoursePoint.html">CoursePoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ErrorReasons.html">ErrorReasons</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/EventType.html">EventType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ExerciseCategory.html">ExerciseCategory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/HeartRateDisplayType.html">HeartRateDisplayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Intensity.html">Intensity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Language.html">Language</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MeasurementDisplayType.html">MeasurementDisplayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PositionDisplayType.html">PositionDisplayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PowerDisplayType.html">PowerDisplayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SourceType.html">SourceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WeatherReport.html">WeatherReport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WeatherStatus.html">WeatherStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WorkoutEquipment.html">WorkoutEquipment</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WorkoutStepDurationType.html">WorkoutStepDurationType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WorkoutStepTargetType.html">WorkoutStepTargetType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Protocols.html#/s:15FitDataProtocol0A11MessageKeysP">FitMessageKeys</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Structs.html">Other Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/DeviceIndex.html">DeviceIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FileType.html">FileType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitError.html">FitError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Structs.html#/s:15FitDataProtocol0A4TimeV">FitTime</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/MessageIndex.html">MessageIndex</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>RecordMessage</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="n">open</span> <span class="kd">class</span> <span class="kt">RecordMessage</span><span class="p">:</span> <span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>FIT Record Message</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC06globalE6Numbers6UInt16VyFZ"></a>
+                    <a name="//apple_ref/swift/Method/globalMessageNumber()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC06globalE6Numbers6UInt16VyFZ">globalMessageNumber()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">globalMessageNumber</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UInt16</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC9timeStampAA0A4TimeVSgv"></a>
+                    <a name="//apple_ref/swift/Property/timeStamp" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC9timeStampAA0A4TimeVSgv">timeStamp</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Timestamp</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Other Structs.html#/s:15FitDataProtocol0A4TimeV">FitTime</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC8distance10Foundation11MeasurementVySo10UnitLengthCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/distance" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC8distance10Foundation11MeasurementVySo10UnitLengthCGSgv">distance</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Distance</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">distance</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC14timeFromCourse10Foundation11MeasurementVySo12UnitDurationCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/timeFromCourse" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC14timeFromCourse10Foundation11MeasurementVySo12UnitDurationCGSgv">timeFromCourse</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Time From Course</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">timeFromCourse</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC11totalCycless6UInt32VSgv"></a>
+                    <a name="//apple_ref/swift/Property/totalCycles" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC11totalCycless6UInt32VSgv">totalCycles</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Total Cycles</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">totalCycles</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC16accumulatedPower10Foundation11MeasurementVySo04UnitG0CGSgv"></a>
+                    <a name="//apple_ref/swift/Property/accumulatedPower" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC16accumulatedPower10Foundation11MeasurementVySo04UnitG0CGSgv">accumulatedPower</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Accumulated Power</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">accumulatedPower</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPower</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC13enhancedSpeed10Foundation11MeasurementVySo04UnitG0CGSgv"></a>
+                    <a name="//apple_ref/swift/Property/enhancedSpeed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC13enhancedSpeed10Foundation11MeasurementVySo04UnitG0CGSgv">enhancedSpeed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enhanced Speed</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">enhancedSpeed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC16enhancedAltitude10Foundation11MeasurementVySo10UnitLengthCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/enhancedAltitude" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC16enhancedAltitude10Foundation11MeasurementVySo10UnitLengthCGSgv">enhancedAltitude</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enhanced Altitude</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">enhancedAltitude</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC8altitude10Foundation11MeasurementVySo10UnitLengthCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/altitude" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC8altitude10Foundation11MeasurementVySo10UnitLengthCGSgv">altitude</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Altitude</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">altitude</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC5speed10Foundation11MeasurementVySo9UnitSpeedCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/speed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC5speed10Foundation11MeasurementVySo9UnitSpeedCGSgv">speed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Speed</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC5power10Foundation11MeasurementVySo9UnitPowerCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/power" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC5power10Foundation11MeasurementVySo9UnitPowerCGSgv">power</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Power</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">power</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPower</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC13verticalSpeed10Foundation11MeasurementVySo04UnitG0CGSgv"></a>
+                    <a name="//apple_ref/swift/Property/verticalSpeed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC13verticalSpeed10Foundation11MeasurementVySo04UnitG0CGSgv">verticalSpeed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Vertical Speed</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">verticalSpeed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC8calories10Foundation11MeasurementVySo10UnitEnergyCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/calories" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC8calories10Foundation11MeasurementVySo10UnitEnergyCGSgv">calories</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Calories</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">calories</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitEnergy</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC9heartRate10Foundation11MeasurementVy12FitnessUnits11UnitCadenceCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/heartRate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC9heartRate10Foundation11MeasurementVy12FitnessUnits11UnitCadenceCGSgv">heartRate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Heart Rate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">heartRate</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitCadence</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC7cadence10Foundation11MeasurementVy12FitnessUnits11UnitCadenceCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/cadence" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC7cadence10Foundation11MeasurementVy12FitnessUnits11UnitCadenceCGSgv">cadence</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Cadence</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">cadence</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitCadence</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC10resistances5UInt8VSgv"></a>
+                    <a name="//apple_ref/swift/Property/resistance" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC10resistances5UInt8VSgv">resistance</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Resistance</p>
+
+<p>Relative. 0 is none  254 is Max</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">resistance</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC11temperature10Foundation11MeasurementVySo15UnitTemperatureCGSgv"></a>
+                    <a name="//apple_ref/swift/Property/temperature" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC11temperature10Foundation11MeasurementVySo15UnitTemperatureCGSgv">temperature</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Temperature</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">temperature</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitTemperature</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC8activityAA12ActivityTypeOSgv"></a>
+                    <a name="//apple_ref/swift/Property/activity" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC8activityAA12ActivityTypeOSgv">activity</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>FIT Activity Type</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">activity</span><span class="p">:</span> <span class="kt"><a href="../Enums/ActivityType.html">ActivityType</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC4zones5UInt8VSgv"></a>
+                    <a name="//apple_ref/swift/Property/zone" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC4zones5UInt8VSgv">zone</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Zone</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">zone</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC11deviceIndexAA06DeviceG0VSgv"></a>
+                    <a name="//apple_ref/swift/Property/deviceIndex" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC11deviceIndexAA06DeviceG0VSgv">deviceIndex</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Device Index</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">deviceIndex</span><span class="p">:</span> <span class="kt"><a href="../Structs/DeviceIndex.html">DeviceIndex</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageCACycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageCACycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageCAcA0A4TimeVSg9timeStamp_10Foundation11MeasurementVySo10UnitLengthCGSg8distanceAJySo0K8DurationCGSg0G10FromCourses6UInt32VSg11totalCyclesAJySo0K5PowerCGSg011accumulatedT0AJySo0K5SpeedCGSg08enhancedV0AN0W8AltitudeAN8altitudeA5_5speedA0_5powerA5_08verticalV0AJySo0K6EnergyCGSg8caloriess5UInt8VSg9heartRateA19_7cadenceA19_10resistanceAJySo0K11TemperatureCGSg11temperatureAA12ActivityTypeOSg8activityA19_4zoneAA11DeviceIndexVSg11deviceIndextcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(timeStamp:distance:timeFromCourse:totalCycles:accumulatedPower:enhancedSpeed:enhancedAltitude:altitude:speed:power:verticalSpeed:calories:heartRate:cadence:resistance:temperature:activity:zone:deviceIndex:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageCAcA0A4TimeVSg9timeStamp_10Foundation11MeasurementVySo10UnitLengthCGSg8distanceAJySo0K8DurationCGSg0G10FromCourses6UInt32VSg11totalCyclesAJySo0K5PowerCGSg011accumulatedT0AJySo0K5SpeedCGSg08enhancedV0AN0W8AltitudeAN8altitudeA5_5speedA0_5powerA5_08verticalV0AJySo0K6EnergyCGSg8caloriess5UInt8VSg9heartRateA19_7cadenceA19_10resistanceAJySo0K11TemperatureCGSg11temperatureAA12ActivityTypeOSg8activityA19_4zoneAA11DeviceIndexVSg11deviceIndextcfc">init(timeStamp:distance:timeFromCourse:totalCycles:accumulatedPower:enhancedSpeed:enhancedAltitude:altitude:speed:power:verticalSpeed:calories:heartRate:cadence:resistance:temperature:activity:zone:deviceIndex:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Other Structs.html#/s:15FitDataProtocol0A4TimeV">FitTime</a></span><span class="p">?,</span> <span class="nv">distance</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">timeFromCourse</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">totalCycles</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">?,</span> <span class="nv">accumulatedPower</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPower</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">enhancedSpeed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">enhancedAltitude</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">altitude</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">power</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPower</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">verticalSpeed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">calories</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitEnergy</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">heartRate</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?,</span> <span class="nv">cadence</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?,</span> <span class="nv">resistance</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?,</span> <span class="nv">temperature</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitTemperature</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">activity</span><span class="p">:</span> <span class="kt"><a href="../Enums/ActivityType.html">ActivityType</a></span><span class="p">?,</span> <span class="nv">zone</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?,</span> <span class="nv">deviceIndex</span><span class="p">:</span> <span class="kt"><a href="../Structs/DeviceIndex.html">DeviceIndex</a></span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol13RecordMessageC0E4KeysO"></a>
+                    <a name="//apple_ref/swift/Enum/MessageKeys" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol13RecordMessageC0E4KeysO">MessageKeys</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="../Classes/RecordMessage/MessageKeys.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MessageKeys</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CodingKey</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>© 2017 Kevin A. Hoogheem</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

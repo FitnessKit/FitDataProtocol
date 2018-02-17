@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Language Enumeration Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Enum/Language" class="dashAnchor"></a>
+    <a title="Language Enumeration Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">FitDataProtocol Docs</a> (76% documented)</p>
+        <p class="header-right"><a href="https://github.com/FitnessKit/FitDataProtocol"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">FitDataProtocol Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Language Enumeration Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Decoder.html">Decoder</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileDecoder.html">FitFileDecoder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileDecoder/CrcCheckingStrategy.html">– CrcCheckingStrategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">– DataDecodingStrategy</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../FIT Merge.html">FIT Merge</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileMerger.html">FitFileMerger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileMerger/CrcCheckingStrategy.html">– CrcCheckingStrategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitFileMerger/DataMergingStrategy.html">– DataMergingStrategy</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../FIT Messages.html">FIT Messages</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/FitMessage.html">FitMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ActivityMessage.html">ActivityMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ActivityMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CourseMessage.html">CourseMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CourseMessage/Capabilities.html">– Capabilities</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CourseMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CoursePointMessage.html">CoursePointMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CoursePointMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeveloperDataIdMessage.html">DeveloperDataIdMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeveloperDataIdMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeviceInfoMessage.html">DeviceInfoMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeviceInfoMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/EventMessage.html">EventMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/EventMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ExerciseTitleMessage.html">ExerciseTitleMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ExerciseTitleMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FileCreatorMessage.html">FileCreatorMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FileCreatorMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FileIdMessage.html">FileIdMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FileIdMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HeartRateZoneMessage.html">HeartRateZoneMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HeartRateZoneMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HrvMessage.html">HrvMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HrvMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RecordMessage.html">RecordMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RecordMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SportMessage.html">SportMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SportMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/UserProfileMessage.html">UserProfileMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/UserProfileMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/WorkoutMessage.html">WorkoutMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/WorkoutMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/WorkoutStepMessage.html">WorkoutStepMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/WorkoutStepMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../ExerciseName.html">ExerciseName</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ExerciseNameType.html">ExerciseNameType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ExerciseNameSupportable.html">ExerciseNameSupportable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BenchPressExerciseName.html">BenchPressExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CalfRaiseExerciseName.html">CalfRaiseExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CardioExerciseName.html">CardioExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CarryExerciseName.html">CarryExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChopExerciseName.html">ChopExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CoreExerciseName.html">CoreExerciseName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CrunchExerciseName.html">CrunchExerciseName</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Classes.html">Other Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CRC16.html">CRC16</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Global Variables.html">Other Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMajors5UInt8Vv">kProtocolVersionMajor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMinors5UInt8Vv">kProtocolVersionMinor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Enums.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/Activity.html">Activity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ActivityLevel.html">ActivityLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ActivitySubType.html">ActivitySubType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ActivityType.html">ActivityType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BodyLocation.html">BodyLocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CoursePoint.html">CoursePoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ErrorReasons.html">ErrorReasons</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/EventType.html">EventType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ExerciseCategory.html">ExerciseCategory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/HeartRateDisplayType.html">HeartRateDisplayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Intensity.html">Intensity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Language.html">Language</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MeasurementDisplayType.html">MeasurementDisplayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PositionDisplayType.html">PositionDisplayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PowerDisplayType.html">PowerDisplayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SourceType.html">SourceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WeatherReport.html">WeatherReport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WeatherStatus.html">WeatherStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WorkoutEquipment.html">WorkoutEquipment</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WorkoutStepDurationType.html">WorkoutStepDurationType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/WorkoutStepTargetType.html">WorkoutStepTargetType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Protocols.html#/s:15FitDataProtocol0A11MessageKeysP">FitMessageKeys</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Structs.html">Other Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/DeviceIndex.html">DeviceIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FileType.html">FileType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FitError.html">FitError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Structs.html#/s:15FitDataProtocol0A4TimeV">FitTime</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/MessageIndex.html">MessageIndex</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Language</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Language</span><span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
+                </div>
+              </div>
+            <p>Language Type</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7englishA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/english" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7englishA2CmF">english</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>English</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">english</span>                <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO6frenchA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/french" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO6frenchA2CmF">french</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>French</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">french</span>                 <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7italianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/italian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7italianA2CmF">italian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Italian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">italian</span>                <span class="o">=</span> <span class="mi">2</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO6germanA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/german" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO6germanA2CmF">german</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>German</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">german</span>                 <span class="o">=</span> <span class="mi">3</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7spanishA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/spanish" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7spanishA2CmF">spanish</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Spanish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">spanish</span>                <span class="o">=</span> <span class="mi">4</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO8croatianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/croatian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO8croatianA2CmF">croatian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Croatian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">croatian</span>               <span class="o">=</span> <span class="mi">5</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO5czechA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/czech" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO5czechA2CmF">czech</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Czech</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">czech</span>                  <span class="o">=</span> <span class="mi">6</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO6danishA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/danish" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO6danishA2CmF">danish</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Danish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">danish</span>                 <span class="o">=</span> <span class="mi">7</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO5dutchA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/dutch" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO5dutchA2CmF">dutch</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Dutch</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">dutch</span>                  <span class="o">=</span> <span class="mi">8</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7finnishA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/finnish" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7finnishA2CmF">finnish</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Finnish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">finnish</span>                <span class="o">=</span> <span class="mi">9</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO5greekA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/greek" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO5greekA2CmF">greek</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Greek</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">greek</span>                  <span class="o">=</span> <span class="mi">10</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9hungarianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/hungarian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9hungarianA2CmF">hungarian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hungarian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">hungarian</span>              <span class="o">=</span> <span class="mi">11</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9norwegianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/norwegian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9norwegianA2CmF">norwegian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Norwegian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">norwegian</span>              <span class="o">=</span> <span class="mi">12</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO6polishA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/polish" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO6polishA2CmF">polish</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Polish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">polish</span>                 <span class="o">=</span> <span class="mi">13</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO10portugueseA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/portuguese" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO10portugueseA2CmF">portuguese</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Portuguese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">portuguese</span>             <span class="o">=</span> <span class="mi">14</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9slovakianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/slovakian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9slovakianA2CmF">slovakian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Slovakian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">slovakian</span>              <span class="o">=</span> <span class="mi">15</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9slovenianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/slovenian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9slovenianA2CmF">slovenian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Slovenian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">slovenian</span>              <span class="o">=</span> <span class="mi">16</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7swedishA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/swedish" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7swedishA2CmF">swedish</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Swedish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">swedish</span>                <span class="o">=</span> <span class="mi">17</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7russianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/russian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7russianA2CmF">russian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Russian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">russian</span>                <span class="o">=</span> <span class="mi">18</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7turkishA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/turkish" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7turkishA2CmF">turkish</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Turkish</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">turkish</span>                <span class="o">=</span> <span class="mi">19</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7latvianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/latvian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7latvianA2CmF">latvian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Latvian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">latvian</span>                <span class="o">=</span> <span class="mi">20</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9ukrainianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/ukrainian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9ukrainianA2CmF">ukrainian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Ukrainian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">ukrainian</span>              <span class="o">=</span> <span class="mi">21</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO6arabicA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/arabic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO6arabicA2CmF">arabic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Arabic</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">arabic</span>                 <span class="o">=</span> <span class="mi">22</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO5farsiA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/farsi" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO5farsiA2CmF">farsi</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Farsi</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">farsi</span>                  <span class="o">=</span> <span class="mi">23</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9bulgarianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/bulgarian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9bulgarianA2CmF">bulgarian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Bulgarian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">bulgarian</span>              <span class="o">=</span> <span class="mi">24</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO8romanianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/romanian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO8romanianA2CmF">romanian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Romanian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">romanian</span>               <span class="o">=</span> <span class="mi">25</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7chineseA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/chinese" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7chineseA2CmF">chinese</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Chinese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">chinese</span>                <span class="o">=</span> <span class="mi">26</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO8japaneseA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/japanese" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO8japaneseA2CmF">japanese</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Japanese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">japanese</span>               <span class="o">=</span> <span class="mi">27</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO6koreanA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/korean" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO6koreanA2CmF">korean</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Korean</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">korean</span>                 <span class="o">=</span> <span class="mi">28</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9taiwaneseA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/taiwanese" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9taiwaneseA2CmF">taiwanese</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Taiwanese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">taiwanese</span>              <span class="o">=</span> <span class="mi">29</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO4thaiA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/thai" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO4thaiA2CmF">thai</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Thai</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">thai</span>                   <span class="o">=</span> <span class="mi">30</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO6hebrewA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/hebrew" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO6hebrewA2CmF">hebrew</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hebrew</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">hebrew</span>                 <span class="o">=</span> <span class="mi">31</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO19brazilianPortugueseA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/brazilianPortuguese" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO19brazilianPortugueseA2CmF">brazilianPortuguese</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Brazilian Portuguese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">brazilianPortuguese</span>    <span class="o">=</span> <span class="mi">32</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO10indonesianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/indonesian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO10indonesianA2CmF">indonesian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indonesian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indonesian</span>             <span class="o">=</span> <span class="mi">33</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9malaysianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/malaysian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9malaysianA2CmF">malaysian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Malaysian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">malaysian</span>              <span class="o">=</span> <span class="mi">34</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO10vietnameseA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/vietnamese" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO10vietnameseA2CmF">vietnamese</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Vietnamese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">vietnamese</span>             <span class="o">=</span> <span class="mi">35</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7burmeseA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/burmese" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7burmeseA2CmF">burmese</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Burmese</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">burmese</span>                <span class="o">=</span> <span class="mi">36</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO9mongolianA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/mongolian" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO9mongolianA2CmF">mongolian</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Mongolian</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">mongolian</span>              <span class="o">=</span> <span class="mi">37</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO6customA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/custom" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO6customA2CmF">custom</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Custom</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">custom</span>                 <span class="o">=</span> <span class="mi">254</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol8LanguageO7invalidA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalid" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol8LanguageO7invalidA2CmF">invalid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Invalid</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">invalid</span>                <span class="o">=</span> <span class="mi">255</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>© 2017 Kevin A. Hoogheem</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

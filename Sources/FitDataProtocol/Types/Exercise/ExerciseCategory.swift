@@ -112,6 +112,12 @@ internal extension ExerciseCategory {
             return CardioExerciseName.self
         case .carry:
             return CarryExerciseName.self
+        case .chop:
+            return ChopExerciseName.self
+        case .core:
+            return CoreExerciseName.self
+        case .crunch:
+            return CrunchExerciseName.self
 
         default:
             return nil

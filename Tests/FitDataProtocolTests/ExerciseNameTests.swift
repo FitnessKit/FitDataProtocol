@@ -214,6 +214,38 @@ class ExerciseNameTests: XCTestCase {
 
     }
 
+    func testCrunchDups() {
+
+        let x = CrunchExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: CrunchExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("CrunchExerciseName Count: \(CrunchExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testCrunchCreate() {
+
+        if CrunchExerciseName.create(rawValue: 2) != CrunchExerciseName.circularArmCrunch {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CrunchExerciseName.create(rawValue: 4) != CrunchExerciseName.weightedCrossedArmsCrunch {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if CrunchExerciseName.create(rawValue: 84) != nil {
+            XCTFail("Past Current Max")
+        }
+
+    }
+
 
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
@@ -228,6 +260,8 @@ class ExerciseNameTests: XCTestCase {
         ("testChopCreate", testChopCreate),
         ("testCoreDups", testCoreDups),
         ("testCoreCreate", testCoreCreate),
+        ("testCrunchDups", testCrunchDups),
+        ("testCrunchCreate", testCrunchCreate),
         ]
 
 }
