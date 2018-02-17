@@ -122,6 +122,8 @@ internal extension ExerciseCategory {
             return CurlExerciseName.self
         case .deadlift:
             return DeadliftExerciseName.self
+        case .flye:
+            return FlyeExerciseName.self
 
         default:
             return nil

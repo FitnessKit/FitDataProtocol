@@ -49,7 +49,6 @@ class ExerciseNameTests: XCTestCase {
         if BenchPressExerciseName.create(rawValue: 27) != nil {
             XCTFail("Past Current Max")
         }
-
     }
 
 
@@ -82,7 +81,6 @@ class ExerciseNameTests: XCTestCase {
         if CalfRaiseExerciseName.create(rawValue: 21) != nil {
             XCTFail("Past Current Max")
         }
-
     }
 
 
@@ -115,7 +113,6 @@ class ExerciseNameTests: XCTestCase {
         if CardioExerciseName.create(rawValue: 22) != nil {
             XCTFail("Past Current Max")
         }
-
     }
 
     func testCarryDups() {
@@ -147,7 +144,6 @@ class ExerciseNameTests: XCTestCase {
         if CarryExerciseName.create(rawValue: 5) != nil {
             XCTFail("Past Current Max")
         }
-
     }
 
     func testChopDups() {
@@ -179,7 +175,6 @@ class ExerciseNameTests: XCTestCase {
         if ChopExerciseName.create(rawValue: 23) != nil {
             XCTFail("Past Current Max")
         }
-
     }
 
     func testCoreDups() {
@@ -211,7 +206,6 @@ class ExerciseNameTests: XCTestCase {
         if CoreExerciseName.create(rawValue: 46) != nil {
             XCTFail("Past Current Max")
         }
-
     }
 
     func testCrunchDups() {
@@ -243,7 +237,6 @@ class ExerciseNameTests: XCTestCase {
         if CrunchExerciseName.create(rawValue: 84) != nil {
             XCTFail("Past Current Max")
         }
-
     }
 
     func testCurlDups() {
@@ -275,7 +268,6 @@ class ExerciseNameTests: XCTestCase {
         if CurlExerciseName.create(rawValue: 44) != nil {
             XCTFail("Past Current Max")
         }
-
     }
 
     func testDeadliftDups() {
@@ -294,7 +286,7 @@ class ExerciseNameTests: XCTestCase {
         print("DeadliftExerciseName Count: \(DeadliftExerciseName.supportedExerciseNames.count)")
     }
 
-    func testDeadlifCreate() {
+    func testDeadliftCreate() {
 
         if DeadliftExerciseName.create(rawValue: 2) != DeadliftExerciseName.dumbbellDeadlift {
             XCTFail("Wrong Exercise Name")
@@ -307,7 +299,37 @@ class ExerciseNameTests: XCTestCase {
         if DeadliftExerciseName.create(rawValue: 19) != nil {
             XCTFail("Past Current Max")
         }
+    }
 
+    func testFlyeDups() {
+
+        let x = FlyeExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: FlyeExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("FlyeExerciseName Count: \(FlyeExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testFlyeCreate() {
+
+        if FlyeExerciseName.create(rawValue: 2) != FlyeExerciseName.dumbbellFlye {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if FlyeExerciseName.create(rawValue: 4) != FlyeExerciseName.kettlebellFlye {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if FlyeExerciseName.create(rawValue: 8) != nil {
+            XCTFail("Past Current Max")
+        }
     }
 
 
@@ -329,7 +351,9 @@ class ExerciseNameTests: XCTestCase {
         ("testCurlDups", testCurlDups),
         ("testCurlCreate", testCurlCreate),
         ("testDeadliftDups", testDeadliftDups),
-        ("testDeadlifCreate", testDeadlifCreate),
+        ("testDeadliftCreate", testDeadliftCreate),
+        ("testFlyeDups", testFlyeDups),
+        ("testFlyeCreate", testFlyeCreate),
         ]
 
 }
