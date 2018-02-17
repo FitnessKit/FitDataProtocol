@@ -150,6 +150,38 @@ class ExerciseNameTests: XCTestCase {
 
     }
 
+    func testChopDups() {
+
+        let x = ChopExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: ChopExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("ChopExerciseName Count: \(ChopExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testChopCreate() {
+
+        if ChopExerciseName.create(rawValue: 2) != ChopExerciseName.cableWoodchop {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if ChopExerciseName.create(rawValue: 4) != ChopExerciseName.weightedCrossChopToKnee {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if ChopExerciseName.create(rawValue: 23) != nil {
+            XCTFail("Past Current Max")
+        }
+
+    }
+
 
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
@@ -160,6 +192,8 @@ class ExerciseNameTests: XCTestCase {
         ("testCardioCreate", testCardioCreate),
         ("testCarryDups", testCarryDups),
         ("testCarryCreate", testCarryCreate),
+        ("testChopDups", testChopDups),
+        ("testChopCreate", testChopCreate),
         ]
 
 }

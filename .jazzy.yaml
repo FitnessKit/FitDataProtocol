@@ -39,3 +39,13 @@ custom_categories:
     - UserProfileMessage
     - WorkoutMessage
     - WorkoutStepMessage
+
+  - name: ExerciseName
+    children:
+    - ExerciseNameType
+    - ExerciseNameSupportable
+    - BenchPressExerciseName
+    - CalfRaiseExerciseName
+    - CardioExerciseName
+    - CarryExerciseName
+    - ChopExerciseName

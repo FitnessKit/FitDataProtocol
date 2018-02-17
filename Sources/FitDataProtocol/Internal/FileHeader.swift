@@ -26,7 +26,7 @@ import Foundation
 import DataDecoder
 
 public let kProtocolVersionMajor: UInt8 = 20
-public let kProtocolVersionMinor: UInt8 = 54
+public let kProtocolVersionMinor: UInt8 = 56
 
 internal func ProtocolVersionMajor(_ value: UInt8) -> UInt8 {
     return (value >> 4)
@@ -57,7 +57,7 @@ internal struct FileHeader {
     internal init(dataSize: UInt32) {
         self.headerSize = 14
         self.protocolVersion = protocolVersion20
-        self.profileVersion = 2054
+        self.profileVersion = 2056
         self.dataSize = dataSize
         self.crc = 0
     }
