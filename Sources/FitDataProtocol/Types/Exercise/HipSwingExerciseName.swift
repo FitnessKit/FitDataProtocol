@@ -95,5 +95,4 @@ public extension HipSwingExerciseName {
     public static var stepOutSwing: HipSwingExerciseName {
         return HipSwingExerciseName(name: "Step Out Swing", number: 2)
     }
-
 }

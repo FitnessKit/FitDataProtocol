@@ -425,33 +425,80 @@ class ExerciseNameTests: XCTestCase {
         }
     }
 
+
+    func testHyperextensionDups() {
+
+        let x = HyperextensionExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: HyperextensionExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("HyperextensionExerciseName Count: \(HyperextensionExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testHyperextensionCreate() {
+
+        if HyperextensionExerciseName.create(rawValue: 2) != HyperextensionExerciseName.baseRotations {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if HyperextensionExerciseName.create(rawValue: 4) != HyperextensionExerciseName.bentKneeReverseHyperextension {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if HyperextensionExerciseName.create(rawValue: 37) != nil {
+            XCTFail("Past Current Max")
+        }
+    }
+
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
         ("testBenchPressCreate", testCalfRaiseDups),
+
         ("testCalfRaiseDups", testCalfRaiseDups),
         ("testCalfRaiseCreate", testCalfRaiseCreate),
+
         ("testCardioDups", testCardioDups),
         ("testCardioCreate", testCardioCreate),
+
         ("testCarryDups", testCarryDups),
         ("testCarryCreate", testCarryCreate),
+
         ("testChopDups", testChopDups),
         ("testChopCreate", testChopCreate),
+
         ("testCoreDups", testCoreDups),
         ("testCoreCreate", testCoreCreate),
+
         ("testCrunchDups", testCrunchDups),
         ("testCrunchCreate", testCrunchCreate),
+
         ("testCurlDups", testCurlDups),
         ("testCurlCreate", testCurlCreate),
+
         ("testDeadliftDups", testDeadliftDups),
         ("testDeadliftCreate", testDeadliftCreate),
+
         ("testFlyeDups", testFlyeDups),
         ("testFlyeCreate", testFlyeCreate),
+
         ("testHipRaiseDups", testHipRaiseDups),
         ("testHipRaiseCreate", testHipRaiseCreate),
+
         ("testHipStabilityDups", testHipStabilityDups),
         ("testHipStabilityCreate", testHipStabilityCreate),
+
         ("testHipSwingDups", testHipSwingDups),
         ("testHipSwingCreate", testHipSwingCreate),
+
+        ("testHyperextensionDups", testHyperextensionDups),
+        ("testHyperextensionCreate", testHyperextensionCreate),
         ]
 
 }

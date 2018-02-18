@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>PositionDisplayType Enumeration Reference</title>
+    <title>HyperextensionExerciseName Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/PositionDisplayType" class="dashAnchor"></a>
-    <a title="PositionDisplayType Enumeration Reference"></a>
+    <a name="//apple_ref/swift/Struct/HyperextensionExerciseName" class="dashAnchor"></a>
+    <a title="HyperextensionExerciseName Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">FitDataProtocol Docs</a> (80% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">FitDataProtocol Reference</a>
         <img id="carat" src="../img/carat.png" />
-        PositionDisplayType Enumeration Reference
+        HyperextensionExerciseName Structure Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -339,14 +339,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>PositionDisplayType</h1>
+            <h1>HyperextensionExerciseName</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">PositionDisplayType</span><span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">HyperextensionExerciseName</span><span class="p">:</span> <span class="kt">ExerciseName</span></code></pre>
 
                 </div>
               </div>
-            <p>Display Type for Position</p>
+            <p>Hyperextension Exercise Name</p>
 
           </section>
           <section class="section task-group-section">
@@ -355,9 +355,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO6degreeA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/degree" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO6degreeA2CmF">degree</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV4nameSSv"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV4nameSSv">name</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -365,14 +365,41 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Degree (dd.dddddd)</p>
+                        <p>Exercise Name</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">degree</span>                         <span class="o">=</span> <span class="mi">0</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV6numbers6UInt16Vv"></a>
+                    <a name="//apple_ref/swift/Property/number" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV6numbers6UInt16Vv">number</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Exercise Name Number</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">number</span><span class="p">:</span> <span class="kt">UInt16</span></code></pre>
 
                         </div>
                       </div>
@@ -386,9 +413,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO12degreeMinuteA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/degreeMinute" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO12degreeMinuteA2CmF">degreeMinute</a>
+                    <a name="/s:s8HashableP9hashValueSiv"></a>
+                    <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s8HashableP9hashValueSiv">hashValue</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -396,14 +423,39 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Degree Minute (dddmm.mmm)</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">degreeMinute</span>                   <span class="o">=</span> <span class="mi">1</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s9EquatableP2eeoiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s9EquatableP2eeoiSbx_xtFZ">==(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span><span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -417,9 +469,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO18degreeMinuteSecondA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/degreeMinuteSecond" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO18degreeMinuteSecondA2CmF">degreeMinuteSecond</a>
+                    <a name="/s:15FitDataProtocol23ExerciseNameSupportableP09supportedD5NamesSay0dE4TypeQzGvZ"></a>
+                    <a name="//apple_ref/swift/Variable/supportedExerciseNames" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol23ExerciseNameSupportableP09supportedD5NamesSay0dE4TypeQzGvZ">supportedExerciseNames</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -427,14 +479,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Degree Minute Second (dddmmss)</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">degreeMinuteSecond</span>             <span class="o">=</span> <span class="mi">2</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">supportedExerciseNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">HyperextensionExerciseName</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -448,9 +499,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO12austrianGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/austrianGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO12austrianGridA2CmF">austrianGrid</a>
+                    <a name="/s:15FitDataProtocol16ExerciseNameTypeP6createxSgs6UInt16V8rawValue_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/create(rawValue:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol16ExerciseNameTypeP6createxSgs6UInt16V8rawValue_tFZ">create(rawValue:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -458,14 +509,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Austrian Grid (BMN)</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">austrianGrid</span>                   <span class="o">=</span> <span class="mi">3</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">HyperextensionExerciseName</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -479,9 +529,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO19britishNationalGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/britishNationalGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO19britishNationalGridA2CmF">britishNationalGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV39backExtensionWithOppositeArmAndLegReachACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/backExtensionWithOppositeArmAndLegReach" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV39backExtensionWithOppositeArmAndLegReachACvZ">backExtensionWithOppositeArmAndLegReach</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -489,30 +539,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>British National Grid</p>
+                        <p>Back Extension with Opposite Arm and Leg Reach</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">britishNationalGrid</span>            <span class="o">=</span> <span class="mi">4</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">backExtensionWithOppositeArmAndLegReach</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO15dutchGridSystemA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/dutchGridSystem" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO15dutchGridSystemA2CmF">dutchGridSystem</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV47weightedBackExtensionWithOppositeArmAndLegReachACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedBackExtensionWithOppositeArmAndLegReach" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV47weightedBackExtensionWithOppositeArmAndLegReachACvZ">weightedBackExtensionWithOppositeArmAndLegReach</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -520,30 +566,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Dutch grid system</p>
+                        <p>Weighted Back Extension with Opposite Arm and Leg Reach</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">dutchGridSystem</span>                <span class="o">=</span> <span class="mi">5</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedBackExtensionWithOppositeArmAndLegReach</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO19hungarianGridSystemA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/hungarianGridSystem" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO19hungarianGridSystemA2CmF">hungarianGridSystem</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV13baseRotationsACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/baseRotations" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV13baseRotationsACvZ">baseRotations</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -551,30 +593,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Hungarian grid system</p>
+                        <p>Base Rotations</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">hungarianGridSystem</span>            <span class="o">=</span> <span class="mi">6</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">baseRotations</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO17finnishGridSystemA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/finnishGridSystem" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO17finnishGridSystemA2CmF">finnishGridSystem</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV21weightedBaseRotationsACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedBaseRotations" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV21weightedBaseRotationsACvZ">weightedBaseRotations</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -582,30 +620,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Finnish grid system Zone3 KKJ27</p>
+                        <p>Weighted Base Rotations</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">finnishGridSystem</span>              <span class="o">=</span> <span class="mi">7</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedBaseRotations</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO10germanGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/germanGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO10germanGridA2CmF">germanGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV015bentKneeReverseD0ACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/bentKneeReverseHyperextension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV015bentKneeReverseD0ACvZ">bentKneeReverseHyperextension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -613,30 +647,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Gausss Krueger (German)</p>
+                        <p>Bent Knee Reverse Hyperextension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">germanGrid</span>                     <span class="o">=</span> <span class="mi">8</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">bentKneeReverseHyperextension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO13icelandicGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/icelandicGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO13icelandicGridA2CmF">icelandicGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV023weightedBentKneeReverseD0ACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedBentKneeReverseHyperextension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV023weightedBentKneeReverseD0ACvZ">weightedBentKneeReverseHyperextension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -644,30 +674,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Icelandic Grid</p>
+                        <p>Weighted Bent Knee Reverse Hyperextension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">icelandicGrid</span>                  <span class="o">=</span> <span class="mi">9</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedBentKneeReverseHyperextension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO20indonesianEquatorialA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indonesianEquatorial" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO20indonesianEquatorialA2CmF">indonesianEquatorial</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV17hollowHoldAndRollACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/hollowHoldAndRoll" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV17hollowHoldAndRollACvZ">hollowHoldAndRoll</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -675,30 +701,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Indonesian Equatorial LCO</p>
+                        <p>Hollow Hold and Roll</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indonesianEquatorial</span>           <span class="o">=</span> <span class="mi">10</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">hollowHoldAndRoll</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO15indonesianIrianA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indonesianIrian" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO15indonesianIrianA2CmF">indonesianIrian</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV25weightedHollowHoldAndRollACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedHollowHoldAndRoll" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV25weightedHollowHoldAndRollACvZ">weightedHollowHoldAndRoll</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -706,30 +728,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Indonesian Irian LCO</p>
+                        <p>Weighted Hollow Hold and Roll</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indonesianIrian</span>                <span class="o">=</span> <span class="mi">11</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedHollowHoldAndRoll</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO18indonesianSouthernA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indonesianSouthern" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO18indonesianSouthernA2CmF">indonesianSouthern</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV5kicksACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/kicks" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV5kicksACvZ">kicks</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -737,30 +755,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Indonesian Southern LCO</p>
+                        <p>Kicks</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indonesianSouthern</span>             <span class="o">=</span> <span class="mi">12</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">kicks</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO10indiaZone0A2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZone0" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO10indiaZone0A2CmF">indiaZone0</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV13weightedKicksACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedKicks" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV13weightedKicksACvZ">weightedKicks</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -768,30 +782,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone 0</p>
+                        <p>Weighted Kicks</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZone0</span>                     <span class="o">=</span> <span class="mi">13</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedKicks</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO11indiaZoneIAA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZoneIA" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO11indiaZoneIAA2CmF">indiaZoneIA</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV10kneeRaisesACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/kneeRaises" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV10kneeRaisesACvZ">kneeRaises</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -799,30 +809,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone IA</p>
+                        <p>Knee Raises</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZoneIA</span>                    <span class="o">=</span> <span class="mi">14</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">kneeRaises</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO11indiaZoneIBA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZoneIB" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO11indiaZoneIBA2CmF">indiaZoneIB</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV18weightedKneeRaisesACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedKneeRaises" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV18weightedKneeRaisesACvZ">weightedKneeRaises</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -830,30 +836,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone IB</p>
+                        <p>Weighted Knee Raises</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZoneIB</span>                    <span class="o">=</span> <span class="mi">15</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedKneeRaises</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO12indiaZoneIIAA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZoneIIA" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO12indiaZoneIIAA2CmF">indiaZoneIIA</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV16kneelingSupermanACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/kneelingSuperman" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV16kneelingSupermanACvZ">kneelingSuperman</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -861,30 +863,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone IIA</p>
+                        <p>Kneeling Superman</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZoneIIA</span>                   <span class="o">=</span> <span class="mi">16</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">kneelingSuperman</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO12indiaZoneIIBA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZoneIIB" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO12indiaZoneIIBA2CmF">indiaZoneIIB</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV24weightedKneelingSupermanACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedKneelingSuperman" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV24weightedKneelingSupermanACvZ">weightedKneelingSuperman</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -892,30 +890,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone IIB</p>
+                        <p>Weighted Kneeling Superman</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZoneIIB</span>                   <span class="o">=</span> <span class="mi">17</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedKneelingSuperman</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO13indiaZoneIIIAA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZoneIIIA" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO13indiaZoneIIIAA2CmF">indiaZoneIIIA</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV18latPullDownWithRowACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/latPullDownWithRow" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV18latPullDownWithRowACvZ">latPullDownWithRow</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -923,30 +917,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone IIIA</p>
+                        <p>Lat Pull Down with Row</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZoneIIIA</span>                  <span class="o">=</span> <span class="mi">18</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">latPullDownWithRow</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO13indiaZoneIIIBA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZoneIIIB" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO13indiaZoneIIIBA2CmF">indiaZoneIIIB</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV27medicineBallDeadliftToReachACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/medicineBallDeadliftToReach" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV27medicineBallDeadliftToReachACvZ">medicineBallDeadliftToReach</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -954,30 +944,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone IIIB</p>
+                        <p>Medicine Ball Deadlift to Reach</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZoneIIIB</span>                  <span class="o">=</span> <span class="mi">19</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">medicineBallDeadliftToReach</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO12indiaZoneIVAA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZoneIVA" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO12indiaZoneIVAA2CmF">indiaZoneIVA</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV15oneArmOneLegRowACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/oneArmOneLegRow" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV15oneArmOneLegRowACvZ">oneArmOneLegRow</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -985,30 +971,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone IVA</p>
+                        <p>One Arm One Leg Row</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZoneIVA</span>                   <span class="o">=</span> <span class="mi">20</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">oneArmOneLegRow</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO12indiaZoneIVBA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/indiaZoneIVB" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO12indiaZoneIVBA2CmF">indiaZoneIVB</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV23oneArmOneLegRowWithBandACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/oneArmOneLegRowWithBand" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV23oneArmOneLegRowWithBandACvZ">oneArmOneLegRowWithBand</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1016,30 +998,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>India zone IVB</p>
+                        <p>One Arm One Leg Row with Band</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">indiaZoneIVB</span>                   <span class="o">=</span> <span class="mi">21</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">oneArmOneLegRowWithBand</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO23irishTransverseMercatorA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/irishTransverseMercator" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO23irishTransverseMercatorA2CmF">irishTransverseMercator</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV29overheadLungeWithMedicineBallACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/overheadLungeWithMedicineBall" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV29overheadLungeWithMedicineBallACvZ">overheadLungeWithMedicineBall</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1047,30 +1025,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Irish Transverse Mercator</p>
+                        <p>Overhead Lunge with Medicine Ball</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">irishTransverseMercator</span>        <span class="o">=</span> <span class="mi">22</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">overheadLungeWithMedicineBall</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO9irishGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/irishGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO9irishGridA2CmF">irishGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV14plankKneeTucksACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/plankKneeTucks" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV14plankKneeTucksACvZ">plankKneeTucks</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1078,30 +1052,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Irish Grid</p>
+                        <p>Plank Knee Tucks</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">irishGrid</span>                      <span class="o">=</span> <span class="mi">23</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">plankKneeTucks</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO7loranTDA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/loranTD" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO7loranTDA2CmF">loranTD</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV22weightedPlankKneeTucksACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedPlankKneeTucks" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV22weightedPlankKneeTucksACvZ">weightedPlankKneeTucks</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1109,30 +1079,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Loran TD</p>
+                        <p>Weighted Plank Knee Tucks</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">loranTD</span>                        <span class="o">=</span> <span class="mi">24</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedPlankKneeTucks</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO20maidenheadGridSystemA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/maidenheadGridSystem" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO20maidenheadGridSystemA2CmF">maidenheadGridSystem</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV8sideStepACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/sideStep" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV8sideStepACvZ">sideStep</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1140,30 +1106,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Maidenhead grid system</p>
+                        <p>Side Step</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">maidenheadGridSystem</span>           <span class="o">=</span> <span class="mi">25</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">sideStep</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO14mgrsGridSystemA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/mgrsGridSystem" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO14mgrsGridSystemA2CmF">mgrsGridSystem</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV16weightedSideStepACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedSideStep" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV16weightedSideStepACvZ">weightedSideStep</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1171,30 +1133,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>MGRS grid system</p>
+                        <p>Weighted Side Step</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">mgrsGridSystem</span>                 <span class="o">=</span> <span class="mi">26</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSideStep</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO20newZealandGridSystemA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/newZealandGridSystem" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO20newZealandGridSystemA2CmF">newZealandGridSystem</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV22singleLegBackExtensionACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/singleLegBackExtension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV22singleLegBackExtensionACvZ">singleLegBackExtension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1202,30 +1160,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>New Zealand grid system</p>
+                        <p>Single Leg Back Extension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">newZealandGridSystem</span>           <span class="o">=</span> <span class="mi">27</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">singleLegBackExtension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO28newZealandTransverseMercatorA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/newZealandTransverseMercator" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO28newZealandTransverseMercatorA2CmF">newZealandTransverseMercator</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV30weightedSingleLegBackExtensionACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedSingleLegBackExtension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV30weightedSingleLegBackExtensionACvZ">weightedSingleLegBackExtension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1233,30 +1187,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>New Zealand Transverse Mercator</p>
+                        <p>Weighted Single Leg Back Extension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">newZealandTransverseMercator</span>   <span class="o">=</span> <span class="mi">28</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSingleLegBackExtension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO17qatarNationalGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/qatarNationalGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO17qatarNationalGridA2CmF">qatarNationalGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV14spineExtensionACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/spineExtension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV14spineExtensionACvZ">spineExtension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1264,30 +1214,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Qatar National Grid</p>
+                        <p>Spine Extension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">qatarNationalGrid</span>              <span class="o">=</span> <span class="mi">29</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">spineExtension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO19modifiedSwedishGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/modifiedSwedishGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO19modifiedSwedishGridA2CmF">modifiedSwedishGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV22weightedSpineExtensionACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedSpineExtension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV22weightedSpineExtensionACvZ">weightedSpineExtension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1295,30 +1241,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Modified RT-90 (Sweden)</p>
+                        <p>Weighted Spine Extension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">modifiedSwedishGrid</span>            <span class="o">=</span> <span class="mi">30</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSpineExtension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO11swedishGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/swedishGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO11swedishGridA2CmF">swedishGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV19staticBackExtensionACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/staticBackExtension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV19staticBackExtensionACvZ">staticBackExtension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1326,30 +1268,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>RT-90 (Sweden)</p>
+                        <p>Static Back Extension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">swedishGrid</span>                    <span class="o">=</span> <span class="mi">31</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">staticBackExtension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO16southAfricanGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/southAfricanGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO16southAfricanGridA2CmF">southAfricanGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV27weightedStaticBackExtensionACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedStaticBackExtension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV27weightedStaticBackExtensionACvZ">weightedStaticBackExtension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1357,30 +1295,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>South African Grid</p>
+                        <p>Weighted Static Back Extension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">southAfricanGrid</span>               <span class="o">=</span> <span class="mi">32</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedStaticBackExtension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO9swissGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/swissGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO9swissGridA2CmF">swissGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV17supermanFromFloorACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/supermanFromFloor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV17supermanFromFloorACvZ">supermanFromFloor</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1388,30 +1322,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Swiss CH-1903 grid</p>
+                        <p>Superman from Floor</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">swissGrid</span>                      <span class="o">=</span> <span class="mi">33</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">supermanFromFloor</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO10taiwanGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/taiwanGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO10taiwanGridA2CmF">taiwanGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV25weightedSupermanFromFloorACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedSupermanFromFloor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV25weightedSupermanFromFloorACvZ">weightedSupermanFromFloor</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1419,30 +1349,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Taiwan Grid</p>
+                        <p>Weighted Superman from Floor</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">taiwanGrid</span>                     <span class="o">=</span> <span class="mi">34</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSupermanFromFloor</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO24unitedStatesNationalGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/unitedStatesNationalGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO24unitedStatesNationalGridA2CmF">unitedStatesNationalGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV22swissBallBackExtensionACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/swissBallBackExtension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV22swissBallBackExtensionACvZ">swissBallBackExtension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1450,30 +1376,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>United States National Grid</p>
+                        <p>Swiss Ball Back Extension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">unitedStatesNationalGrid</span>       <span class="o">=</span> <span class="mi">35</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">swissBallBackExtension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO10utmUpsGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/utmUpsGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO10utmUpsGridA2CmF">utmUpsGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV30weightedSwissBallBackExtensionACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedSwissBallBackExtension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV30weightedSwissBallBackExtensionACvZ">weightedSwissBallBackExtension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1481,30 +1403,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>UTM/UPS grid system</p>
+                        <p>Weighted Swiss Ball Back Extension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">utmUpsGrid</span>                     <span class="o">=</span> <span class="mi">36</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSwissBallBackExtension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO11westMalayanA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/westMalayan" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO11westMalayanA2CmF">westMalayan</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV09swissBallD0ACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/swissBallHyperextension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV09swissBallD0ACvZ">swissBallHyperextension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1512,30 +1430,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>West Malayan RSO</p>
+                        <p>Swiss Ball Hyperextension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">westMalayan</span>                    <span class="o">=</span> <span class="mi">37</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">swissBallHyperextension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO6borneoA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/borneo" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO6borneoA2CmF">borneo</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV017weightedSwissBallD0ACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedSwissBallHyperextension" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV017weightedSwissBallD0ACvZ">weightedSwissBallHyperextension</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1543,30 +1457,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Borneo RSO</p>
+                        <p>Weighted Swiss Ball Hyperextension</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">borneo</span>                         <span class="o">=</span> <span class="mi">38</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSwissBallHyperextension</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO12estonianGridA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/estonianGrid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO12estonianGridA2CmF">estonianGrid</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV30swissBallOppositeArmAndLegLiftACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/swissBallOppositeArmAndLegLift" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV30swissBallOppositeArmAndLegLiftACvZ">swissBallOppositeArmAndLegLift</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1574,30 +1484,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Estonian grid system</p>
+                        <p>Swiss Ball Opposite Arm and Leg Lift</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">estonianGrid</span>                   <span class="o">=</span> <span class="mi">39</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">swissBallOppositeArmAndLegLift</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO25latvianTransverseMercatorA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/latvianTransverseMercator" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO25latvianTransverseMercatorA2CmF">latvianTransverseMercator</a>
+                    <a name="/s:15FitDataProtocol26HyperextensionExerciseNameV38weightedSwissBallOppositeArmAndLegLiftACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/weightedSwissBallOppositeArmAndLegLift" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol26HyperextensionExerciseNameV38weightedSwissBallOppositeArmAndLegLiftACvZ">weightedSwissBallOppositeArmAndLegLift</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1605,76 +1511,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Latvian Transverse Mercator</p>
+                        <p>Weighted Swiss Ball Opposite Arm and Leg Lift</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">latvianTransverseMercator</span>      <span class="o">=</span> <span class="mi">40</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO22swedishReferenceGrid99A2CmF"></a>
-                    <a name="//apple_ref/swift/Element/swedishReferenceGrid99" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO22swedishReferenceGrid99A2CmF">swedishReferenceGrid99</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Reference Grid 99 TM (Swedish)</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">swedishReferenceGrid99</span>         <span class="o">=</span> <span class="mi">41</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol19PositionDisplayTypeO7invalidA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/invalid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol19PositionDisplayTypeO7invalidA2CmF">invalid</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Invalid</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">invalid</span>                        <span class="o">=</span> <span class="mi">255</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSwissBallOppositeArmAndLegLift</span><span class="p">:</span> <span class="kt">HyperextensionExerciseName</span></code></pre>
 
                         </div>
                       </div>
