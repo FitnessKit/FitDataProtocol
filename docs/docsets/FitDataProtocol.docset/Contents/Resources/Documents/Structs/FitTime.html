@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>FitFileDecoder Structure Reference</title>
+    <title>FitTime Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/FitFileDecoder" class="dashAnchor"></a>
-    <a title="FitFileDecoder Structure Reference"></a>
+    <a name="//apple_ref/swift/Struct/FitTime" class="dashAnchor"></a>
+    <a title="FitTime Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">FitDataProtocol Docs</a> (80% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">FitDataProtocol Reference</a>
         <img id="carat" src="../img/carat.png" />
-        FitFileDecoder Structure Reference
+        FitTime Structure Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -336,14 +336,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>FitFileDecoder</h1>
+            <h1>FitTime</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FitFileDecoder</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FitTime</span></code></pre>
 
                 </div>
               </div>
-            <p>FIT File Decoder</p>
+            <p>FIT Time</p>
 
           </section>
           <section class="section task-group-section">
@@ -352,9 +352,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol0A11FileDecoderV15defaultMessagesSayAA0A7MessageCmGvZ"></a>
-                    <a name="//apple_ref/swift/Variable/defaultMessages" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol0A11FileDecoderV15defaultMessagesSayAA0A7MessageCmGvZ">defaultMessages</a>
+                    <a name="/s:15FitDataProtocol0A4TimeV10recordDate10Foundation0F0VSgv"></a>
+                    <a name="//apple_ref/swift/Property/recordDate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol0A4TimeV10recordDate10Foundation0F0VSgv">recordDate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -362,14 +362,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Default FIT Messages for Decoding</p>
+                        <p>Timestamp in UTC</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">defaultMessages</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Classes/FileIdMessage.html">FileIdMessage</a></span><span class="o">.</span><span class="k">self</span><span class="p">,</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">recordDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -379,9 +379,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol0A11FileDecoderV19CrcCheckingStrategyO"></a>
-                    <a name="//apple_ref/swift/Enum/CrcCheckingStrategy" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol0A11FileDecoderV19CrcCheckingStrategyO">CrcCheckingStrategy</a>
+                    <a name="/s:15FitDataProtocol0A4TimeV18secondSincePowerUpSdSgv"></a>
+                    <a name="//apple_ref/swift/Property/secondSincePowerUp" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15FitDataProtocol0A4TimeV18secondSincePowerUpSdSgv">secondSincePowerUp</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -389,151 +389,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Options for CRC Checking</p>
-
-                        <a href="../Structs/FitFileDecoder/CrcCheckingStrategy.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">CrcCheckingStrategy</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol0A11FileDecoderV19crcCheckingStrategyAC03CrcgH0Ov"></a>
-                    <a name="//apple_ref/swift/Property/crcCheckingStrategy" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol0A11FileDecoderV19crcCheckingStrategyAC03CrcgH0Ov">crcCheckingStrategy</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The strategy to use for CRC Checking. Defaults to <code>.throws</code>.</p>
+                        <p>Time since device power up</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">crcCheckingStrategy</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitFileDecoder/CrcCheckingStrategy.html">CrcCheckingStrategy</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol0A11FileDecoderV0B16DecodingStrategyO"></a>
-                    <a name="//apple_ref/swift/Enum/DataDecodingStrategy" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol0A11FileDecoderV0B16DecodingStrategyO">DataDecodingStrategy</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Options for Data Decoding</p>
-
-                        <a href="../Structs/FitFileDecoder/DataDecodingStrategy.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">DataDecodingStrategy</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol0A11FileDecoderV20dataDecodingStrategyAC0bgH0Ov"></a>
-                    <a name="//apple_ref/swift/Property/dataDecodingStrategy" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol0A11FileDecoderV20dataDecodingStrategyAC0bgH0Ov">dataDecodingStrategy</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The strategy to use for Data Decoding. Defaults to <code>.nil</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">dataDecodingStrategy</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">DataDecodingStrategy</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol0A11FileDecoderVA2C19CrcCheckingStrategyO03crcgH0_AC0b8DecodingH0O04datajH0tcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(crcCheckingStrategy:dataDecodingStrategy:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol0A11FileDecoderVA2C19CrcCheckingStrategyO03crcgH0_AC0b8DecodingH0O04datajH0tcfc">init(crcCheckingStrategy:dataDecodingStrategy:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">crcCheckingStrategy</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitFileDecoder/CrcCheckingStrategy.html">CrcCheckingStrategy</a></span> <span class="o">=</span> <span class="o">.</span><span class="k">throws</span><span class="p">,</span> <span class="nv">dataDecodingStrategy</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">DataDecodingStrategy</a></span> <span class="o">=</span> <span class="o">.</span><span class="kc">nil</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol0A11FileDecoderV6decodey10Foundation0B0V4data_SayAA0A7MessageCmG8messagesyAJcSg7decodedtKF"></a>
-                    <a name="//apple_ref/swift/Method/decode(data:messages:decoded:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol0A11FileDecoderV6decodey10Foundation0B0V4data_SayAA0A7MessageCmG8messagesyAJcSg7decodedtKF">decode(data:messages:decoded:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">decode</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">messages</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span><span class="o">.</span><span class="k">Type</span><span class="p">],</span> <span class="nv">decoded</span><span class="p">:</span> <span class="p">((</span><span class="nv">_</span><span class="p">:</span> <span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">secondSincePowerUp</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>

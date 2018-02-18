@@ -281,6 +281,4 @@ public extension HipStabilityExerciseName {
     public static var weightedSupineHipInternalRotation: HipStabilityExerciseName {
         return HipStabilityExerciseName(name: "Weighted Supine Hip Internal Rotation", number: 33)
     }
-
 }
-
