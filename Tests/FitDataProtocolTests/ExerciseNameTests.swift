@@ -494,6 +494,42 @@ class ExerciseNameTests: XCTestCase {
         }
     }
 
+    func testLegCurlDups() {
+
+        let x = LegCurlExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: LegCurlExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("LegCurlExerciseName Count: \(LegCurlExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testLegCurlCreate() {
+
+        if let nametype = ExerciseCategory.legCurl.exerciseName(from: 0) {
+            if nametype is LegCurlExerciseName == false {
+                XCTFail("Wrong Type, Make sure it is added to the Exercise Category")
+            }
+        }
+
+        if LegCurlExerciseName.create(rawValue: 2) != LegCurlExerciseName.goodMorning {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if LegCurlExerciseName.create(rawValue: 4) != LegCurlExerciseName.singleLegBarbellGoodMorning {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if LegCurlExerciseName.create(rawValue: 12) != nil {
+            XCTFail("Past Current Max")
+        }
+    }
 
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
@@ -540,6 +576,9 @@ class ExerciseNameTests: XCTestCase {
 
         ("testLateralRaiseDups", testLateralRaiseDups),
         ("testLateralRaiseCreate", testLateralRaiseCreate),
+
+        ("testLegCurlDups", testLegCurlDups),
+        ("testLegCurlCreate", testLegCurlCreate),
 
         ]
 

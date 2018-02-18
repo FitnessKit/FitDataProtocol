@@ -134,7 +134,9 @@ internal extension ExerciseCategory {
             return HyperextensionExerciseName.self
         case .lateralRaise:
             return LateralRaiseExerciseName.self
-
+        case .legCurl:
+            return LegCurlExerciseName.self
+            
         default:
             return nil
         }

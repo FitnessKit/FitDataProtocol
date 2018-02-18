@@ -25,7 +25,7 @@
 import Foundation
 
 
-/// Hip Swing Exercise Name
+/// Lateral Raise Exercise Name
 public struct LateralRaiseExerciseName: ExerciseName {
     public typealias ExerciseNameType = LateralRaiseExerciseName
 
@@ -139,7 +139,6 @@ public extension LateralRaiseExerciseName {
     public static var cableFrontRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Cable Front Raise", number: 5)
     }
-
 
     /// Calorie Row
     public static var calorieRow: LateralRaiseExerciseName {
