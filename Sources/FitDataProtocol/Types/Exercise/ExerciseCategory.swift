@@ -132,6 +132,8 @@ internal extension ExerciseCategory {
             return HipSwingExerciseName.self
         case .hyperExtension:
             return HyperextensionExerciseName.self
+        case .lateralRaise:
+            return LateralRaiseExerciseName.self
 
         default:
             return nil

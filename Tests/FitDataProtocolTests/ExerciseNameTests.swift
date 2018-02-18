@@ -457,6 +457,44 @@ class ExerciseNameTests: XCTestCase {
         }
     }
 
+    func testLateralRaiseDups() {
+
+        let x = LateralRaiseExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: LateralRaiseExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("LateralRaiseExerciseName Count: \(LateralRaiseExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testLateralRaiseCreate() {
+
+        if let nametype = ExerciseCategory.lateralRaise.exerciseName(from: 0) {
+            if nametype is LateralRaiseExerciseName == false {
+                XCTFail("Wrong Type, Make sure it is added to the Exercise Category")
+            }
+        }
+
+        if LateralRaiseExerciseName.create(rawValue: 2) != LateralRaiseExerciseName.barMuscleUp {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if LateralRaiseExerciseName.create(rawValue: 4) != LateralRaiseExerciseName.cableDiagonalRaise {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if LateralRaiseExerciseName.create(rawValue: 32) != nil {
+            XCTFail("Past Current Max")
+        }
+    }
+
+
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
         ("testBenchPressCreate", testCalfRaiseDups),
@@ -499,6 +537,10 @@ class ExerciseNameTests: XCTestCase {
 
         ("testHyperextensionDups", testHyperextensionDups),
         ("testHyperextensionCreate", testHyperextensionCreate),
+
+        ("testLateralRaiseDups", testLateralRaiseDups),
+        ("testLateralRaiseCreate", testLateralRaiseCreate),
+
         ]
 
 }
