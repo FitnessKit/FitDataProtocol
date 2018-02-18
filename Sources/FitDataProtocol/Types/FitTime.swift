@@ -29,10 +29,10 @@ import Foundation
 public struct FitTime {
 
     /// Timestamp in UTC
-    private(set) var recordDate: Date?
+    private(set) public var recordDate: Date?
 
     /// Time since device power up
-    private(set) var secondSincePowerUp: TimeInterval?
+    private(set) public var secondSincePowerUp: TimeInterval?
 
     internal init(time: UInt32, isLocal: Bool = false) {
         // if date_time is < 0x10000000 then it is system time (seconds from device power on)

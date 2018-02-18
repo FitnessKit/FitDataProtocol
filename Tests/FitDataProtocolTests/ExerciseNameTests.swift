@@ -363,6 +363,38 @@ class ExerciseNameTests: XCTestCase {
         }
     }
 
+    func testHipStabilityDups() {
+
+        let x = HipStabilityExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: HipStabilityExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("HipStabilityExerciseName Count: \(HipStabilityExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testHipStabilityCreate() {
+
+        if HipStabilityExerciseName.create(rawValue: 2) != HipStabilityExerciseName.weightedDeadBug {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if HipStabilityExerciseName.create(rawValue: 4) != HipStabilityExerciseName.weightedExternalHipRaise {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if HipStabilityExerciseName.create(rawValue: 34) != nil {
+            XCTFail("Past Current Max")
+        }
+    }
+
+
     static var allTests = [
         ("testBenchPressDups", testBenchPressDups),
         ("testBenchPressCreate", testCalfRaiseDups),
@@ -385,7 +417,9 @@ class ExerciseNameTests: XCTestCase {
         ("testFlyeDups", testFlyeDups),
         ("testFlyeCreate", testFlyeCreate),
         ("testHipRaiseDups", testHipRaiseDups),
-        ("testFlyeCreate", testFlyeCreate),
+        ("testHipRaiseCreate", testHipRaiseCreate),
+        ("testHipStabilityDups", testHipStabilityDups),
+        ("testHipStabilityCreate", testHipStabilityCreate),
         ]
 
 }
