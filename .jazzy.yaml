@@ -36,6 +36,7 @@ custom_categories:
     - HeartrateProfileMessage
     - HeartRateZoneMessage
     - HrvMessage
+    - PowerZoneMessage
     - RecordMessage
     - SpeedZoneMessage
     - SportMessage

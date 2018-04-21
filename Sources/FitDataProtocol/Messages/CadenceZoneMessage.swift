@@ -61,10 +61,8 @@ open class CadenceZoneMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> CadenceZoneMessage  {
 
         var messageIndex: MessageIndex?
-
         var name: String?
         var highLevel: UInt8?
-
 
         let arch = definition.architecture
 

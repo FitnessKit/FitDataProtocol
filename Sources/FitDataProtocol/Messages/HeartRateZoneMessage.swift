@@ -61,11 +61,9 @@ open class HeartRateZoneMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> HeartRateZoneMessage  {
 
         var messageIndex: MessageIndex?
-
         var name: String?
         var heartRate: UInt8?
 
-        
         let arch = definition.architecture
 
         var localDecoder = DataDecoder(fieldData.fieldData)
