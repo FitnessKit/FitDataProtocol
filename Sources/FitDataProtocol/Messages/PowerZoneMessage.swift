@@ -32,7 +32,7 @@ import FitnessUnits
 open class PowerZoneMessage: FitMessage {
 
     public override class func globalMessageNumber() -> UInt16 {
-        return 131
+        return 9
     }
 
     /// Message Index
