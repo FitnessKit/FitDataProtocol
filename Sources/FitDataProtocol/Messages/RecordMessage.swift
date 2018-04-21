@@ -65,6 +65,9 @@ open class RecordMessage: FitMessage {
     /// Power
     private(set) public var power: Measurement<UnitPower>?
 
+    /// GPS Accuracy
+    private(set) public var gpsAccuracy: Measurement<UnitLength>?
+
     /// Vertical Speed
     private(set) public var verticalSpeed: Measurement<UnitSpeed>?
 
@@ -97,13 +100,12 @@ open class RecordMessage: FitMessage {
     /// Ball Speed
     private(set) public var ballSpeed: Measurement<UnitSpeed>?
 
-
     /// Device Index
     private(set) public var deviceIndex: DeviceIndex?
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, distance: Measurement<UnitLength>?, timeFromCourse: Measurement<UnitDuration>?, totalCycles: UInt32?, accumulatedPower: Measurement<UnitPower>?, enhancedSpeed: Measurement<UnitSpeed>?, enhancedAltitude: Measurement<UnitLength>?, altitude: Measurement<UnitLength>?, speed: Measurement<UnitSpeed>?, power: Measurement<UnitPower>?, verticalSpeed: Measurement<UnitSpeed>?, calories: Measurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: UInt8?, temperature: Measurement<UnitTemperature>?, activity: ActivityType?, stroke: Stroke?, zone: UInt8?, ballSpeed: Measurement<UnitSpeed>?, deviceIndex: DeviceIndex?) {
+    public init(timeStamp: FitTime?, distance: Measurement<UnitLength>?, timeFromCourse: Measurement<UnitDuration>?, totalCycles: UInt32?, accumulatedPower: Measurement<UnitPower>?, enhancedSpeed: Measurement<UnitSpeed>?, enhancedAltitude: Measurement<UnitLength>?, altitude: Measurement<UnitLength>?, speed: Measurement<UnitSpeed>?, power: Measurement<UnitPower>?, gpsAccuracy: Measurement<UnitLength>?, verticalSpeed: Measurement<UnitSpeed>?, calories: Measurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: UInt8?, temperature: Measurement<UnitTemperature>?, activity: ActivityType?, stroke: Stroke?, zone: UInt8?, ballSpeed: Measurement<UnitSpeed>?, deviceIndex: DeviceIndex?) {
 
         self.timeStamp = timeStamp
         self.distance = distance
@@ -115,6 +117,7 @@ open class RecordMessage: FitMessage {
         self.altitude = altitude
         self.speed = speed
         self.power = power
+        self.gpsAccuracy = gpsAccuracy
         self.verticalSpeed = verticalSpeed
         self.calories = calories
 
@@ -145,12 +148,16 @@ open class RecordMessage: FitMessage {
         var distance: Measurement<UnitLength>?
         var timeFromCourse: Measurement<UnitDuration>?
         var totalCycles: UInt32?
-        var accumulatedPower: Measurement<UnitPower>?
+        var compressedAccumulatedPower: Measurement<UnitPower>?
+        var compressedAccumulatedPowerValue: Double?
+        var longAccumulatedPower: Measurement<UnitPower>?
+        var longAccumulatedPowerValue: Double?
         var enhancedSpeed: Measurement<UnitSpeed>?
         var enhancedAltitude: Measurement<UnitLength>?
         var altitude: Measurement<UnitLength>?
         var speed: Measurement<UnitSpeed>?
         var power: Measurement<UnitPower>?
+        var gpsAccuracy: Measurement<UnitLength>?
         var verticalSpeed: Measurement<UnitSpeed>?
         var calories: Measurement<UnitEnergy>?
         var heartRate: UInt8?
@@ -363,22 +370,34 @@ open class RecordMessage: FitMessage {
                     let _ = localDecoder.decodeData(length: Int(definition.size))
 
                 case .compressedAccumulatedPower:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
-
-                case .accumulatedPower:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
                         let value = Double(value)
-                        accumulatedPower = Measurement(value: value, unit: UnitPower.watts)
+                        compressedAccumulatedPower = Measurement(value: value, unit: UnitPower.watts)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            accumulatedPower = Measurement(value: Double(definition.baseType.invalid), unit: UnitPower.watts)
+                            compressedAccumulatedPowerValue = Double(value)
+                        }
+                    }
+
+                case .accumulatedPower:
+                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        //  1 * watts + 0
+                        let value = Double(value)
+                        longAccumulatedPower = Measurement(value: value, unit: UnitPower.watts)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            longAccumulatedPowerValue = Double(value)
                         }
                     }
 
@@ -387,8 +406,19 @@ open class RecordMessage: FitMessage {
                     let _ = localDecoder.decodeData(length: Int(definition.size))
 
                 case .gpsAccuracy:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let value = localDecoder.decodeInt8()
+                    if UInt64(value) != definition.baseType.invalid {
+                        // 1 * m + 0
+                        gpsAccuracy = Measurement(value: Double(value), unit: UnitLength.meters)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            gpsAccuracy = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
+                        }
+                    }
 
                 case .verticalSpeed:
                     let value = arch == .little ? localDecoder.decodeInt16().littleEndian : localDecoder.decodeInt16().bigEndian
@@ -603,6 +633,33 @@ open class RecordMessage: FitMessage {
             }
         }
 
+        /// Determine which Accumulated Power to use
+        var accumulatedPower: Measurement<UnitPower>?
+
+        /// Try to use the Compressed Firt
+        if let compressed = compressedAccumulatedPower {
+            accumulatedPower = compressed
+        } else {
+            /// If the compressed value is there and strategy in use invalid
+            if let value = compressedAccumulatedPowerValue {
+                if dataStrategy == .useInvalid {
+                    accumulatedPower = Measurement(value: value, unit: UnitPower.watts)
+                }
+            }
+        }
+
+        /// Prefer the Long Values
+        if let power = longAccumulatedPower {
+            accumulatedPower = power
+        } else {
+            /// If the long value is there and strategy in use invalid
+            if let value = longAccumulatedPowerValue {
+                if dataStrategy == .useInvalid {
+                    accumulatedPower = Measurement(value: value, unit: UnitPower.watts)
+                }
+            }
+        }
+
         return RecordMessage(timeStamp: timestamp,
                              distance: distance,
                              timeFromCourse: timeFromCourse,
@@ -613,6 +670,7 @@ open class RecordMessage: FitMessage {
                              altitude: altitude,
                              speed: speed,
                              power: power,
+                             gpsAccuracy: gpsAccuracy,
                              verticalSpeed: verticalSpeed,
                              calories: calories,
                              heartRate: heartRate,
