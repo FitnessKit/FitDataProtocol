@@ -2,14 +2,14 @@
   "warnings": [
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 78,
+      "line": 79,
       "symbol": "FitFileDecoder.init(crcCheckingStrategy:dataDecodingStrategy:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 85,
+      "line": 86,
       "symbol": "FitFileDecoder.decode(data:messages:decoded:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -885,7 +885,7 @@
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/HeartrateProfileMessage.swift",
       "line": 155,
-      "symbol": "HeartrateProfileMessage.MessageKeys.hrmAntId",
+      "symbol": "HeartrateProfileMessage.MessageKeys.antID",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
@@ -1362,6 +1362,90 @@
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/SportMessage.swift",
       "line": 135,
       "symbol": "SportMessage.MessageKeys.timestamp",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 34,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.globalMessageNumber()",
+      "symbol_kind": "source.lang.swift.decl.function.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 64,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 66,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.init(messageIndex:enabled:antID:calibrationFactor:odometer:speedSourceFootpod:transmissionType:odometerRolloverCounter:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 210,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 211,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys.enabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 212,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys.antID",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 213,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys.calibrationFactor",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 214,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys.odometer",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 215,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys.speedSource",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 216,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys.transType",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 217,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys.odometerRollover",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/StrideSpeedDistanceMonitorProfileMessage.swift",
+      "line": 219,
+      "symbol": "StrideSpeedDistanceMonitorProfileMessage.MessageKeys.messageIndex",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },

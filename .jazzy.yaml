@@ -37,6 +37,7 @@ custom_categories:
     - HrvMessage
     - RecordMessage
     - SportMessage
+    - StrideSpeedDistanceMonitorProfileMessage
     - UserProfileMessage
     - WorkoutMessage
     - WorkoutStepMessage

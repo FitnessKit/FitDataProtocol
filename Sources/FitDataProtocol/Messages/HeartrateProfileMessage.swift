@@ -41,7 +41,7 @@ open class HeartrateProfileMessage: FitMessage {
     private(set) public var enabled: Bool?
 
     /// ANT ID
-    private(set) public var antID: UInt8?
+    private(set) public var antID: UInt16?
 
     /// Log HRV
     private(set) public var logHrv: Bool?
@@ -51,7 +51,7 @@ open class HeartrateProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: UInt8?, logHrv: Bool?, transmissionType: UInt8?) {
+    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: UInt16?, logHrv: Bool?, transmissionType: UInt8?) {
         self.messageIndex = messageIndex
         self.enabled = enabled
         self.antID = antID
@@ -63,7 +63,7 @@ open class HeartrateProfileMessage: FitMessage {
 
         var messageIndex: MessageIndex?
         var enabled: Bool?
-        var antID: UInt8?
+        var antID: UInt16?
         var logHrv: Bool?
         var transmissionType: UInt8?
 
@@ -90,8 +90,8 @@ open class HeartrateProfileMessage: FitMessage {
                     }
 
                     
-                case .hrmAntId:
-                    let value = localDecoder.decodeUInt8()
+                case .antID:
+                    let value = localDecoder.decodeUInt16()
                     if UInt64(value) != definition.baseType.invalid {
                         antID = value
                     } else {
@@ -100,7 +100,7 @@ open class HeartrateProfileMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            antID = UInt8(definition.baseType.invalid)
+                            antID = UInt16(definition.baseType.invalid)
                         }
                     }
 
@@ -152,7 +152,7 @@ extension HeartrateProfileMessage: FitMessageKeys {
 
     public enum MessageKeys: Int, CodingKey {
         case enabled                = 0
-        case hrmAntId               = 1
+        case antID                  = 1
         case logHrv                 = 2
         case transType              = 3
 

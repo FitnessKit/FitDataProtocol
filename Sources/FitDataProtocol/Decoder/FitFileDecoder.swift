@@ -36,6 +36,7 @@ public struct FitFileDecoder {
     public static let defaultMessages = [FileIdMessage.self,
                                          UserProfileMessage.self,
                                          HeartrateProfileMessage.self,
+                                         StrideSpeedDistanceMonitorProfileMessage.self,
                                          HeartRateZoneMessage.self,
                                          SportMessage.self,
                                          RecordMessage.self,
