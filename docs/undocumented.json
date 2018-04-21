@@ -2,14 +2,14 @@
   "warnings": [
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 80,
+      "line": 81,
       "symbol": "FitFileDecoder.init(crcCheckingStrategy:dataDecodingStrategy:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 87,
+      "line": 88,
       "symbol": "FitFileDecoder.decode(data:messages:decoded:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -123,6 +123,55 @@
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ActivityMessage.swift",
       "line": 222,
       "symbol": "ActivityMessage.MessageKeys.timestamp",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/CadenceZoneMessage.swift",
+      "line": 34,
+      "symbol": "CadenceZoneMessage.globalMessageNumber()",
+      "symbol_kind": "source.lang.swift.decl.function.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/CadenceZoneMessage.swift",
+      "line": 47,
+      "symbol": "CadenceZoneMessage.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/CadenceZoneMessage.swift",
+      "line": 49,
+      "symbol": "CadenceZoneMessage.init(messageIndex:name:highLevel:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/CadenceZoneMessage.swift",
+      "line": 128,
+      "symbol": "CadenceZoneMessage.MessageKeys",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/CadenceZoneMessage.swift",
+      "line": 129,
+      "symbol": "CadenceZoneMessage.MessageKeys.highValue",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/CadenceZoneMessage.swift",
+      "line": 130,
+      "symbol": "CadenceZoneMessage.MessageKeys.name",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/CadenceZoneMessage.swift",
+      "line": 132,
+      "symbol": "CadenceZoneMessage.MessageKeys.messageIndex",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },

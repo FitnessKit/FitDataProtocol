@@ -24,6 +24,7 @@ custom_categories:
     children:
     - FitMessage
     - ActivityMessage
+    - CadenceZoneMessage
     - CourseMessage
     - CoursePointMessage
     - DeveloperDataIdMessage
