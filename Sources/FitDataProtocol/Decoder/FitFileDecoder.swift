@@ -48,6 +48,7 @@ public struct FitFileDecoder {
                                          CoursePointMessage.self,
                                          ActivityMessage.self,
                                          FileCreatorMessage.self,
+                                         SpeedZoneMessage.self,
                                          HrvMessage.self,
                                          DeveloperDataIdMessage.self,
                                          ExerciseTitleMessage.self,
