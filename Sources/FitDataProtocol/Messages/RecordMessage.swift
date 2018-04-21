@@ -88,15 +88,22 @@ open class RecordMessage: FitMessage {
     /// FIT Activity Type
     private(set) public var activity: ActivityType?
 
+    /// Stroke Type
+    private(set) public var stroke: Stroke?
+
     /// Zone
     private(set) public var zone: UInt8?
+
+    /// Ball Speed
+    private(set) public var ballSpeed: Measurement<UnitSpeed>?
+
 
     /// Device Index
     private(set) public var deviceIndex: DeviceIndex?
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, distance: Measurement<UnitLength>?, timeFromCourse: Measurement<UnitDuration>?, totalCycles: UInt32?, accumulatedPower: Measurement<UnitPower>?, enhancedSpeed: Measurement<UnitSpeed>?, enhancedAltitude: Measurement<UnitLength>?, altitude: Measurement<UnitLength>?, speed: Measurement<UnitSpeed>?, power: Measurement<UnitPower>?, verticalSpeed: Measurement<UnitSpeed>?, calories: Measurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: UInt8?, temperature: Measurement<UnitTemperature>?, activity: ActivityType?, zone: UInt8?, deviceIndex: DeviceIndex?) {
+    public init(timeStamp: FitTime?, distance: Measurement<UnitLength>?, timeFromCourse: Measurement<UnitDuration>?, totalCycles: UInt32?, accumulatedPower: Measurement<UnitPower>?, enhancedSpeed: Measurement<UnitSpeed>?, enhancedAltitude: Measurement<UnitLength>?, altitude: Measurement<UnitLength>?, speed: Measurement<UnitSpeed>?, power: Measurement<UnitPower>?, verticalSpeed: Measurement<UnitSpeed>?, calories: Measurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: UInt8?, temperature: Measurement<UnitTemperature>?, activity: ActivityType?, stroke: Stroke?, zone: UInt8?, ballSpeed: Measurement<UnitSpeed>?, deviceIndex: DeviceIndex?) {
 
         self.timeStamp = timeStamp
         self.distance = distance
@@ -126,7 +133,9 @@ open class RecordMessage: FitMessage {
         self.resistance = resistance
         self.temperature = temperature
         self.activity = activity
+        self.stroke = stroke
         self.zone = zone
+        self.ballSpeed = ballSpeed
         self.deviceIndex = deviceIndex
     }
 
@@ -149,7 +158,10 @@ open class RecordMessage: FitMessage {
         var resistance: UInt8?
         var temperature: Measurement<UnitTemperature>?
         var activity: ActivityType?
+        var stroke: Stroke?
         var zone: UInt8?
+        var ballSpeed: Measurement<UnitSpeed>?
+
         var deviceIndex: DeviceIndex?
 
         let arch = definition.architecture
@@ -405,7 +417,7 @@ open class RecordMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            verticalSpeed = Measurement(value: Double(definition.baseType.invalid), unit: UnitSpeed.metersPerSecond)
+                            calories = Measurement(value: Double(definition.baseType.invalid), unit: UnitEnergy.kilocalories)
                         }
                     }
 
@@ -460,8 +472,18 @@ open class RecordMessage: FitMessage {
                     let _ = localDecoder.decodeData(length: Int(definition.size))
 
                 case .strokeType:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8()
+                    if UInt64(value) != definition.baseType.invalid {
+                        stroke = Stroke(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            stroke = Stroke.invalid
+                        }
+                    }
 
                 case .zone:
                     let value = localDecoder.decodeUInt8()
@@ -478,8 +500,20 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .ballSpeed:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let value = arch == .little ? localDecoder.decodeInt16().littleEndian : localDecoder.decodeInt16().bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        //  100 * m/s + 0,
+                        let value = Double(value) / 100
+                        ballSpeed = Measurement(value: value, unit: UnitSpeed.metersPerSecond)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            ballSpeed = Measurement(value: Double(definition.baseType.invalid), unit: UnitSpeed.metersPerSecond)
+                        }
+                    }
 
                 case .cadence256:
                     // We still need to pull this data off the stack
@@ -586,7 +620,9 @@ open class RecordMessage: FitMessage {
                              resistance: resistance,
                              temperature: temperature,
                              activity: activity,
+                             stroke: stroke,
                              zone: zone,
+                             ballSpeed: ballSpeed,
                              deviceIndex: deviceIndex)
     }
 }
