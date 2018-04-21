@@ -119,6 +119,8 @@ open class PowerZoneMessage: FitMessage {
 extension PowerZoneMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case highValue      = 1
         case name           = 2

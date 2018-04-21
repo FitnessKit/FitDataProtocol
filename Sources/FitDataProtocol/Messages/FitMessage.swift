@@ -25,6 +25,7 @@
 import Foundation
 import DataDecoder
 
+/// Protocol for FIT Message Keys
 public protocol FitMessageKeys {
     associatedtype FitCodingKeys: CodingKey
 }

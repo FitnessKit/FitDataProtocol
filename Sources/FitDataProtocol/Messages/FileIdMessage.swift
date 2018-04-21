@@ -181,6 +181,8 @@ open class FileIdMessage: FitMessage {
 extension FileIdMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case fileType           = 0
         case manufacturer       = 1

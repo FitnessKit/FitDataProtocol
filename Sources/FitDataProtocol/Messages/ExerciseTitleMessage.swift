@@ -136,6 +136,8 @@ open class ExerciseTitleMessage: FitMessage {
 extension ExerciseTitleMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case category       = 0
         case exerciseName   = 1

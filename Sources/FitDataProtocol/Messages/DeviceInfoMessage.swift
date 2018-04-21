@@ -392,6 +392,8 @@ open class DeviceInfoMessage: FitMessage {
 extension DeviceInfoMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case deviceIndex        = 0
         case deviceType         = 1

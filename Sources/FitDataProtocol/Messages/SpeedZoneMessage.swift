@@ -119,6 +119,8 @@ open class SpeedZoneMessage: FitMessage {
 extension SpeedZoneMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case highValue      = 0
         case name           = 1

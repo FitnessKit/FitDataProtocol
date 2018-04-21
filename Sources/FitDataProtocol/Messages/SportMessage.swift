@@ -127,6 +127,8 @@ open class SportMessage: FitMessage {
 extension SportMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case sport      = 0
         case subSport   = 1

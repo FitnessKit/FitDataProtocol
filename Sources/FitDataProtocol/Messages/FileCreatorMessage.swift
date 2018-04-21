@@ -112,6 +112,8 @@ open class FileCreatorMessage: FitMessage {
 extension FileCreatorMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case softwareVersion    = 0
         case hardwareVersion    = 1

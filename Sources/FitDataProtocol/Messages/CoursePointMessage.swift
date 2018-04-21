@@ -193,6 +193,8 @@ open class CoursePointMessage: FitMessage {
 extension CoursePointMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case timestamp      = 1
         case latitude       = 2

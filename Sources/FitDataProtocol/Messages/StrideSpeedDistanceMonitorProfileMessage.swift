@@ -207,6 +207,8 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 extension StrideSpeedDistanceMonitorProfileMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case enabled                = 0
         case antID                  = 1

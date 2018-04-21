@@ -123,6 +123,8 @@ open class HeartRateZoneMessage: FitMessage {
 extension HeartRateZoneMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case highBpm        = 1
         case name           = 2

@@ -99,6 +99,8 @@ open class HrvMessage: FitMessage {
 extension HrvMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case time       = 0
     }

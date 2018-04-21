@@ -166,6 +166,8 @@ open class CourseMessage: FitMessage {
 extension CourseMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case sport          = 4
         case name           = 5

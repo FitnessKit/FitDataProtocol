@@ -418,6 +418,8 @@ open class UserProfileMessage: FitMessage {
 extension UserProfileMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case friendlyName                   = 0
         case gender                         = 1

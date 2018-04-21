@@ -596,6 +596,8 @@ open class RecordMessage: FitMessage {
 extension RecordMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case positionLatitude                   = 0
         case positionLongitude                  = 1

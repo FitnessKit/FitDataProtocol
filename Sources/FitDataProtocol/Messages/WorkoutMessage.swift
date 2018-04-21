@@ -216,6 +216,8 @@ open class WorkoutMessage: FitMessage {
 extension WorkoutMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case sport                  = 4
         case capabilities           = 5

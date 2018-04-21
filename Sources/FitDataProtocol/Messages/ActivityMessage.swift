@@ -210,6 +210,8 @@ open class ActivityMessage: FitMessage {
 extension ActivityMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case totalTimerTime     = 0
         case numberOfSessions   = 1

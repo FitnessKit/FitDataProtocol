@@ -289,6 +289,8 @@ open class WorkoutStepMessage: FitMessage {
 extension WorkoutStepMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case stepName               = 0
         case durationType           = 1

@@ -207,6 +207,8 @@ open class EventMessage: FitMessage {
 extension EventMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case event              = 0
         case eventType          = 1

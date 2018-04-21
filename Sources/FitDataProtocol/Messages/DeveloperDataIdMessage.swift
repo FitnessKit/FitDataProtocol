@@ -148,6 +148,8 @@ open class DeveloperDataIdMessage: FitMessage {
 extension DeveloperDataIdMessage: FitMessageKeys {
     public typealias FitCodingKeys = MessageKeys
 
+    /// FIT Message Keys
+    ///
     public enum MessageKeys: Int, CodingKey {
         case developerId        = 0
         case applicationId      = 1
