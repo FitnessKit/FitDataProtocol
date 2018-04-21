@@ -32,6 +32,7 @@ custom_categories:
     - ExerciseTitleMessage
     - FileCreatorMessage
     - FileIdMessage
+    - HeartrateProfileMessage
     - HeartRateZoneMessage
     - HrvMessage
     - RecordMessage

@@ -34,8 +34,8 @@ public struct FitFileDecoder {
 
     /// Default FIT Messages for Decoding
     public static let defaultMessages = [FileIdMessage.self,
-                                         FileCreatorMessage.self,
                                          UserProfileMessage.self,
+                                         HeartrateProfileMessage.self,
                                          HeartRateZoneMessage.self,
                                          SportMessage.self,
                                          RecordMessage.self,
@@ -46,6 +46,7 @@ public struct FitFileDecoder {
                                          CourseMessage.self,
                                          CoursePointMessage.self,
                                          ActivityMessage.self,
+                                         FileCreatorMessage.self,
                                          HrvMessage.self,
                                          DeveloperDataIdMessage.self,
                                          ExerciseTitleMessage.self,
