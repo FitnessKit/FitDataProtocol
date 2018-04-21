@@ -110,19 +110,16 @@ public struct FitFileDecoder {
 
         repeat {
             let header = try RecordHeader.decode(decoder: &decoder)
-            print(header)
+            //print(header)
 
             if header.isDataMessage == false {
                 let lastDefinition = try DefinitionMessage.decode(decoder: &decoder, header: header)
                 definitionDict[header.localMessageType] = lastDefinition
 
-                print("---Definition---")
-                print(definitionDict[header.localMessageType] as Any)
+                //print(definitionDict[header.localMessageType] as Any)
 
             } else {
                 // We have a Data Message
-                print("Data Message")
-
                 var hasMessageDecoder = false
                 var messageType: FitMessage!
 
@@ -156,7 +153,7 @@ public struct FitFileDecoder {
                     decoded?(message)
                     
                 } else {
-                    print("NO Decoder for type")
+                    //print("NO Decoder for type")
                 }
 
             }
@@ -180,7 +177,7 @@ private extension FitFileDecoder {
     private mutating func readFitFile(data: Data, validateCrc: Bool) throws {
 
         let header = try FileHeader.decode(data: data, validateCrc: validateCrc)
-        print(header)
+        //print(header)
 
         var decoder = DataDecoder(data)
 

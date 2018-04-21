@@ -149,7 +149,7 @@ open class DeviceInfoMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(length: Int(definition.size))
-                print("DeviceInfoMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                //print("DeviceInfoMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {

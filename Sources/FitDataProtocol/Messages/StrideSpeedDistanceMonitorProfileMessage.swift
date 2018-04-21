@@ -97,7 +97,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(length: Int(definition.size))
-                print("HrvMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                //print("StrideSpeedDistanceMonitorProfileMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {

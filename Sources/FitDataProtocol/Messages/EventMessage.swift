@@ -84,7 +84,7 @@ open class EventMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(length: Int(definition.size))
-                print("EventMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                //print("EventMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
