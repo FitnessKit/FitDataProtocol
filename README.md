@@ -34,58 +34,32 @@ if let fileData = fileData {
 
     do {
 
-    try decoder.decode(data: fileData,
-                        messages: FitFileDecoder.defaultMessages,
-        decoded: { (message: FitMessage) in
+        try decoder.decode(data: fileData,
+                       messages: FitFileDecoder.defaultMessages,
+            decoded: { (message: FitMessage) in
 
-            print("Got Message: \(message)")
+                print("Got Message: \(message)")
 
-            if message is FileIdMessage {
-                let message = message as! FileIdMessage
-                print("mssage", message.deviceSerialNumber)
-            }
+                if message is FileIdMessage {
+                    let message = message as! FileIdMessage
+                    print("mssage", message.deviceSerialNumber)
+                }
 
-            if message is HeartrateProfileMessage {
-                let message = message as! HeartrateProfileMessage
-                print("mssage", message)
-            }
+                if message is RecordMessage {
+                    let message = message as! RecordMessage
+                    records.append(message)
+                }
 
-            if message is HrvMessage {
-                let message = message as! HrvMessage
-                print("mssage", message.hrv)
-            }
+                if message is SportMessage {
+                    let message = message as! SportMessage
+                    sports.append(message)
+                }
 
-            if message is GoalMessage {
-                let message = message as! GoalMessage
-                print("mssage", message)
-            }
-
-            if message is RecordMessage {
-                let message = message as! RecordMessage
-                records.append(message)
-            }
-
-            if message is SportMessage {
-                let message = message as! SportMessage
-                sports.append(message)
-            }
-
-            if message is ActivityMessage {
-                let message = message as! ActivityMessage
-                activity.append(message)
-            }
-
-            if message is WeightScaleMessage {
-                let message = message as! WeightScaleMessage
-                print("mssage", message)
-            }
-
-            if message is UserProfileMessage {
-                let message = message as! UserProfileMessage
-                print("mssage", message)
-            }
-
-    })
+                if message is ActivityMessage {
+                    let message = message as! ActivityMessage
+                    activity.append(message)
+                }
+        })
 
     } catch {
         print(error)
