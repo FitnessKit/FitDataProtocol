@@ -26,7 +26,7 @@ import Foundation
 import DataDecoder
 import FitnessUnits
 
-/// FIT File Creator Message
+/// FIT Blood Pressure Message
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class BloodPressureMessage: FitMessage {
@@ -137,7 +137,7 @@ open class BloodPressureMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            systolicPressure = Measurement(value: Double(value), unit: UnitPressure.millimetersOfMercury)
+                            systolicPressure = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -153,7 +153,7 @@ open class BloodPressureMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            diastolicPressure = Measurement(value: Double(value), unit: UnitPressure.millimetersOfMercury)
+                            diastolicPressure = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -169,7 +169,7 @@ open class BloodPressureMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            meanArterialPressure = Measurement(value: Double(value), unit: UnitPressure.millimetersOfMercury)
+                            meanArterialPressure = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -185,7 +185,7 @@ open class BloodPressureMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            mapSampleMean = Measurement(value: Double(value), unit: UnitPressure.millimetersOfMercury)
+                            mapSampleMean = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -201,7 +201,7 @@ open class BloodPressureMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            mapMorningValues = Measurement(value: Double(value), unit: UnitPressure.millimetersOfMercury)
+                            mapMorningValues = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -217,7 +217,7 @@ open class BloodPressureMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            mapEveningValues = Measurement(value: Double(value), unit: UnitPressure.millimetersOfMercury)
+                            mapEveningValues = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -269,7 +269,6 @@ open class BloodPressureMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         userProfileIndex = MessageIndex(value: value)
                     }
-
                     
                 case .timestamp:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian

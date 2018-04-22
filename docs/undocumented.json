@@ -2,14 +2,14 @@
   "warnings": [
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 85,
+      "line": 86,
       "symbol": "FitFileDecoder.init(crcCheckingStrategy:dataDecodingStrategy:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 92,
+      "line": 93,
       "symbol": "FitFileDecoder.decode(data:messages:decoded:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -142,77 +142,77 @@
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 306,
+      "line": 305,
       "symbol": "BloodPressureMessage.MessageKeys.systolicPressure",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 307,
+      "line": 306,
       "symbol": "BloodPressureMessage.MessageKeys.diastolicPressure",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 308,
+      "line": 307,
       "symbol": "BloodPressureMessage.MessageKeys.meanArterialPressure",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 309,
+      "line": 308,
       "symbol": "BloodPressureMessage.MessageKeys.mapSampleMean",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 310,
+      "line": 309,
       "symbol": "BloodPressureMessage.MessageKeys.mapMorningValues",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 311,
+      "line": 310,
       "symbol": "BloodPressureMessage.MessageKeys.mapEveningValues",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 312,
+      "line": 311,
       "symbol": "BloodPressureMessage.MessageKeys.heartRate",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 313,
+      "line": 312,
       "symbol": "BloodPressureMessage.MessageKeys.heartRateType",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 314,
+      "line": 313,
       "symbol": "BloodPressureMessage.MessageKeys.status",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 315,
+      "line": 314,
       "symbol": "BloodPressureMessage.MessageKeys.userProfileIndex",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
-      "line": 317,
+      "line": 316,
       "symbol": "BloodPressureMessage.MessageKeys.timestamp",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
@@ -1919,6 +1919,118 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 34,
+      "symbol": "WeightScaleMessage.globalMessageNumber()",
+      "symbol_kind": "source.lang.swift.decl.function.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 84,
+      "symbol": "WeightScaleMessage.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 86,
+      "symbol": "WeightScaleMessage.init(timeStamp:weight:percentFat:percentHydration:visceralFatMass:boneMass:muscleMass:basalMet:physiqueRating:activeMet:metabolicAge:visceralFatRating:userProfileIndex:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 351,
+      "symbol": "WeightScaleMessage.MessageKeys.weight",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 352,
+      "symbol": "WeightScaleMessage.MessageKeys.percentFat",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 353,
+      "symbol": "WeightScaleMessage.MessageKeys.percentHydration",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 354,
+      "symbol": "WeightScaleMessage.MessageKeys.visceralFatMass",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 355,
+      "symbol": "WeightScaleMessage.MessageKeys.boneMass",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 356,
+      "symbol": "WeightScaleMessage.MessageKeys.muscleMass",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 357,
+      "symbol": "WeightScaleMessage.MessageKeys.basalMet",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 358,
+      "symbol": "WeightScaleMessage.MessageKeys.physiqueRating",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 359,
+      "symbol": "WeightScaleMessage.MessageKeys.activeMet",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 360,
+      "symbol": "WeightScaleMessage.MessageKeys.metabolicAge",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 361,
+      "symbol": "WeightScaleMessage.MessageKeys.visceralFatRating",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 362,
+      "symbol": "WeightScaleMessage.MessageKeys.userProfileIndex",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WeightScaleMessage.swift",
+      "line": 364,
+      "symbol": "WeightScaleMessage.MessageKeys.timestamp",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
       "line": 34,
       "symbol": "WorkoutMessage.globalMessageNumber()",
@@ -2357,6 +2469,13 @@
       "line": 47,
       "symbol": "SourceType.stringValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Types/Weight.swift",
+      "line": 51,
+      "symbol": "Weight.init(weight:calculating:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {

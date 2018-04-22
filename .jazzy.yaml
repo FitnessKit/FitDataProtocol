@@ -45,6 +45,7 @@ custom_categories:
     - SportMessage
     - StrideSpeedDistanceMonitorProfileMessage
     - UserProfileMessage
+    - WeightScaleMessage
     - WorkoutMessage
     - WorkoutStepMessage
 
