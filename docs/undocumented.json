@@ -2,14 +2,14 @@
   "warnings": [
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 84,
+      "line": 85,
       "symbol": "FitFileDecoder.init(crcCheckingStrategy:dataDecodingStrategy:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 91,
+      "line": 92,
       "symbol": "FitFileDecoder.decode(data:messages:decoded:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -116,6 +116,104 @@
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ActivityMessage.swift",
       "line": 224,
       "symbol": "ActivityMessage.MessageKeys.timestamp",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 34,
+      "symbol": "BloodPressureMessage.globalMessageNumber()",
+      "symbol_kind": "source.lang.swift.decl.function.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 74,
+      "symbol": "BloodPressureMessage.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 76,
+      "symbol": "BloodPressureMessage.init(timeStamp:systolicPressure:diastolicPressure:meanArterialPressure:mapSampleMean:mapMorningValues:mapEveningValues:heartRate:heartRateType:status:userProfileIndex:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 306,
+      "symbol": "BloodPressureMessage.MessageKeys.systolicPressure",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 307,
+      "symbol": "BloodPressureMessage.MessageKeys.diastolicPressure",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 308,
+      "symbol": "BloodPressureMessage.MessageKeys.meanArterialPressure",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 309,
+      "symbol": "BloodPressureMessage.MessageKeys.mapSampleMean",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 310,
+      "symbol": "BloodPressureMessage.MessageKeys.mapMorningValues",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 311,
+      "symbol": "BloodPressureMessage.MessageKeys.mapEveningValues",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 312,
+      "symbol": "BloodPressureMessage.MessageKeys.heartRate",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 313,
+      "symbol": "BloodPressureMessage.MessageKeys.heartRateType",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 314,
+      "symbol": "BloodPressureMessage.MessageKeys.status",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 315,
+      "symbol": "BloodPressureMessage.MessageKeys.userProfileIndex",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/BloodPressureMessage.swift",
+      "line": 317,
+      "symbol": "BloodPressureMessage.MessageKeys.timestamp",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
