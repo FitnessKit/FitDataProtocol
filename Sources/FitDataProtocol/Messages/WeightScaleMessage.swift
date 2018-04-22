@@ -42,24 +42,24 @@ open class WeightScaleMessage: FitMessage {
     private(set) public var weight: Weight?
 
     /// Percent Fat
-    private(set) public var percentFat: Measurement<UnitPercent>?
+    private(set) public var percentFat: ValidatedMeasurement<UnitPercent>?
 
     /// Percent Hydration
-    private(set) public var percentHydration: Measurement<UnitPercent>?
+    private(set) public var percentHydration: ValidatedMeasurement<UnitPercent>?
 
     /// Visceral Fat Mass
-    private(set) public var visceralFatMass: Measurement<UnitMass>?
+    private(set) public var visceralFatMass: ValidatedMeasurement<UnitMass>?
 
     /// Bone Mass
-    private(set) public var boneMass: Measurement<UnitMass>?
+    private(set) public var boneMass: ValidatedMeasurement<UnitMass>?
 
     /// Muscle Mass
-    private(set) public var muscleMass: Measurement<UnitMass>?
+    private(set) public var muscleMass: ValidatedMeasurement<UnitMass>?
 
     /// Basal MET
     ///
     /// Units are per day
-    private(set) public var basalMet: Measurement<UnitEnergy>?
+    private(set) public var basalMet: ValidatedMeasurement<UnitEnergy>?
 
     /// Physique Rating
     private(set) public var physiqueRating: ValidatedMeasurement<RatingUnit>?
@@ -67,7 +67,7 @@ open class WeightScaleMessage: FitMessage {
     /// Active MET
     ///
     /// Units are per day
-    private(set) public var activeMet: Measurement<UnitEnergy>?
+    private(set) public var activeMet: ValidatedMeasurement<UnitEnergy>?
 
     /// Metabolic Age
     private(set) public var metabolicAge: ValidatedMeasurement<UnitDuration>?
@@ -83,7 +83,7 @@ open class WeightScaleMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, weight: Weight?, percentFat: Measurement<UnitPercent>?, percentHydration: Measurement<UnitPercent>?, visceralFatMass: Measurement<UnitMass>?, boneMass: Measurement<UnitMass>?, muscleMass: Measurement<UnitMass>?, basalMet: Measurement<UnitEnergy>?, physiqueRating: ValidatedMeasurement<RatingUnit>?, activeMet: Measurement<UnitEnergy>?, metabolicAge: ValidatedMeasurement<UnitDuration>?, visceralFatRating: ValidatedMeasurement<RatingUnit>?, userProfileIndex: MessageIndex? ) {
+    public init(timeStamp: FitTime?, weight: Weight?, percentFat: ValidatedMeasurement<UnitPercent>?, percentHydration: ValidatedMeasurement<UnitPercent>?, visceralFatMass: ValidatedMeasurement<UnitMass>?, boneMass: ValidatedMeasurement<UnitMass>?, muscleMass: ValidatedMeasurement<UnitMass>?, basalMet: ValidatedMeasurement<UnitEnergy>?, physiqueRating: ValidatedMeasurement<RatingUnit>?, activeMet: ValidatedMeasurement<UnitEnergy>?, metabolicAge: ValidatedMeasurement<UnitDuration>?, visceralFatRating: ValidatedMeasurement<RatingUnit>?, userProfileIndex: MessageIndex? ) {
 
         self.timeStamp = timeStamp
         self.weight = weight
@@ -104,14 +104,14 @@ open class WeightScaleMessage: FitMessage {
 
         var timeStamp: FitTime?
         var weight: Weight?
-        var percentFat: Measurement<UnitPercent>?
-        var percentHydration: Measurement<UnitPercent>?
-        var visceralFatMass: Measurement<UnitMass>?
-        var boneMass: Measurement<UnitMass>?
-        var muscleMass: Measurement<UnitMass>?
-        var basalMet: Measurement<UnitEnergy>?
+        var percentFat: ValidatedMeasurement<UnitPercent>?
+        var percentHydration: ValidatedMeasurement<UnitPercent>?
+        var visceralFatMass: ValidatedMeasurement<UnitMass>?
+        var boneMass: ValidatedMeasurement<UnitMass>?
+        var muscleMass: ValidatedMeasurement<UnitMass>?
+        var basalMet: ValidatedMeasurement<UnitEnergy>?
         var physiqueRating: ValidatedMeasurement<RatingUnit>?
-        var activeMet: Measurement<UnitEnergy>?
+        var activeMet: ValidatedMeasurement<UnitEnergy>?
         var metabolicAge: ValidatedMeasurement<UnitDuration>?
         var visceralFatRating: ValidatedMeasurement<RatingUnit>?
         var userProfileIndex: MessageIndex?
@@ -145,7 +145,7 @@ open class WeightScaleMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            weight = Weight(rawValue: UInt16(definition.baseType.invalid), scale: 100.0)
+                            weight = Weight(rawValue: UInt16(definition.baseType.invalid), scale: 100.0, valid: false)
                         }
                     }
 
@@ -154,14 +154,14 @@ open class WeightScaleMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * % + 0
                         let value = Double(value) / 100.0
-                        percentFat = Measurement(value: value, unit: UnitPercent.percent)
+                        percentFat = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            percentFat = Measurement(value: Double(definition.baseType.invalid), unit: UnitPercent.percent)
+                            percentFat = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
                         }
                     }
 
@@ -170,14 +170,14 @@ open class WeightScaleMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * % + 0
                         let value = Double(value) / 100.0
-                        percentHydration = Measurement(value: value, unit: UnitPercent.percent)
+                        percentHydration = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            percentHydration = Measurement(value: Double(definition.baseType.invalid), unit: UnitPercent.percent)
+                            percentHydration = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
                         }
                     }
 
@@ -186,14 +186,14 @@ open class WeightScaleMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
                         let value = Double(value) / 100.0
-                        visceralFatMass = Measurement(value: value, unit: UnitMass.kilograms)
+                        visceralFatMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            visceralFatMass = Measurement(value: Double(definition.baseType.invalid), unit: UnitMass.kilograms)
+                            visceralFatMass = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitMass.kilograms)
                         }
                     }
 
@@ -202,14 +202,14 @@ open class WeightScaleMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
                         let value = Double(value) / 100.0
-                        boneMass = Measurement(value: value, unit: UnitMass.kilograms)
+                        boneMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            boneMass = Measurement(value: Double(definition.baseType.invalid), unit: UnitMass.kilograms)
+                            boneMass = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitMass.kilograms)
                         }
                     }
 
@@ -218,14 +218,14 @@ open class WeightScaleMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
                         let value = Double(value) / 100.0
-                        muscleMass = Measurement(value: value, unit: UnitMass.kilograms)
+                        muscleMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            muscleMass = Measurement(value: Double(definition.baseType.invalid), unit: UnitMass.kilograms)
+                            muscleMass = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitMass.kilograms)
                         }
                     }
 
@@ -234,14 +234,14 @@ open class WeightScaleMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 4 * kcal/day + 0
                         let value = Double(value) / 4.0
-                        basalMet = Measurement(value: value, unit: UnitEnergy.kilocalories)
+                        basalMet = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            basalMet = Measurement(value: Double(definition.baseType.invalid), unit: UnitEnergy.kilocalories)
+                            basalMet = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitEnergy.kilocalories)
                         }
                     }
 
@@ -265,14 +265,14 @@ open class WeightScaleMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 4 * kcal/day + 0
                         let value = Double(value) / 4.0
-                        activeMet = Measurement(value: value, unit: UnitEnergy.kilocalories)
+                        activeMet = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            activeMet = Measurement(value: Double(definition.baseType.invalid), unit: UnitEnergy.kilocalories)
+                            activeMet = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitEnergy.kilocalories)
                         }
                     }
 

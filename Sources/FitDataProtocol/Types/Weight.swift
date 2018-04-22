@@ -34,9 +34,9 @@ public struct Weight {
     private(set) public var calculating: Bool
 
     /// Weight
-    private(set) public var weight: Measurement<UnitMass>?
+    private(set) public var weight: ValidatedMeasurement<UnitMass>?
 
-    internal init(rawValue: UInt16, scale: Double) {
+    internal init(rawValue: UInt16, scale: Double, valid: Bool = true) {
         self.calculating = false
 
         if rawValue == 0xFFFE {
@@ -44,11 +44,11 @@ public struct Weight {
         } else {
             //  scale * kg + 0
             let value = Double(rawValue) / scale
-            weight = Measurement(value: value, unit: UnitMass.kilograms)
+            weight = ValidatedMeasurement(value: value, valid: valid, unit: UnitMass.kilograms)
         }
     }
 
-    public init(weight: Measurement<UnitMass>?, calculating: Bool) {
+    public init(weight: ValidatedMeasurement<UnitMass>?, calculating: Bool) {
 
         self.calculating = calculating
 

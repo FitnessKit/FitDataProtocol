@@ -39,22 +39,22 @@ open class BloodPressureMessage: FitMessage {
     private(set) public var timeStamp: FitTime?
 
     /// Systolic Pressure
-    private(set) public var systolicPressure: Measurement<UnitPressure>?
+    private(set) public var systolicPressure: ValidatedMeasurement<UnitPressure>?
 
     /// Diastolic Pressure
-    private(set) public var diastolicPressure: Measurement<UnitPressure>?
+    private(set) public var diastolicPressure: ValidatedMeasurement<UnitPressure>?
 
     /// Mean Arterial Pressure
-    private(set) public var meanArterialPressure: Measurement<UnitPressure>?
+    private(set) public var meanArterialPressure: ValidatedMeasurement<UnitPressure>?
 
     /// MAP 3 Sample Mean
-    private(set) public var mapSampleMean: Measurement<UnitPressure>?
+    private(set) public var mapSampleMean: ValidatedMeasurement<UnitPressure>?
 
     /// MAP Morning Values
-    private(set) public var mapMorningValues: Measurement<UnitPressure>?
+    private(set) public var mapMorningValues: ValidatedMeasurement<UnitPressure>?
 
     /// MAP Evening Values
-    private(set) public var mapEveningValues: Measurement<UnitPressure>?
+    private(set) public var mapEveningValues: ValidatedMeasurement<UnitPressure>?
 
     /// Heart Rate
     private(set) public var heartRate: Measurement<UnitCadence>?
@@ -73,7 +73,7 @@ open class BloodPressureMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, systolicPressure: Measurement<UnitPressure>?, diastolicPressure: Measurement<UnitPressure>?, meanArterialPressure: Measurement<UnitPressure>?, mapSampleMean: Measurement<UnitPressure>?, mapMorningValues: Measurement<UnitPressure>?, mapEveningValues: Measurement<UnitPressure>?, heartRate: UInt8?, heartRateType: HeartRateType?, status: BloodPressureStatus?, userProfileIndex: MessageIndex? ) {
+    public init(timeStamp: FitTime?, systolicPressure: ValidatedMeasurement<UnitPressure>?, diastolicPressure: ValidatedMeasurement<UnitPressure>?, meanArterialPressure: ValidatedMeasurement<UnitPressure>?, mapSampleMean: ValidatedMeasurement<UnitPressure>?, mapMorningValues: ValidatedMeasurement<UnitPressure>?, mapEveningValues: ValidatedMeasurement<UnitPressure>?, heartRate: UInt8?, heartRateType: HeartRateType?, status: BloodPressureStatus?, userProfileIndex: MessageIndex? ) {
 
         self.timeStamp = timeStamp
         self.systolicPressure = systolicPressure
@@ -97,12 +97,12 @@ open class BloodPressureMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> BloodPressureMessage  {
 
         var timeStamp: FitTime?
-        var systolicPressure: Measurement<UnitPressure>?
-        var diastolicPressure: Measurement<UnitPressure>?
-        var meanArterialPressure: Measurement<UnitPressure>?
-        var mapSampleMean: Measurement<UnitPressure>?
-        var mapMorningValues: Measurement<UnitPressure>?
-        var mapEveningValues: Measurement<UnitPressure>?
+        var systolicPressure: ValidatedMeasurement<UnitPressure>?
+        var diastolicPressure: ValidatedMeasurement<UnitPressure>?
+        var meanArterialPressure: ValidatedMeasurement<UnitPressure>?
+        var mapSampleMean: ValidatedMeasurement<UnitPressure>?
+        var mapMorningValues: ValidatedMeasurement<UnitPressure>?
+        var mapEveningValues: ValidatedMeasurement<UnitPressure>?
         var heartRate: UInt8?
         var heartRateType: HeartRateType?
         var status: BloodPressureStatus?
@@ -130,14 +130,14 @@ open class BloodPressureMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = Double(value)
-                        systolicPressure = Measurement(value: value, unit: UnitPressure.millimetersOfMercury)
+                        systolicPressure = ValidatedMeasurement(value: value, valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            systolicPressure = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
+                            systolicPressure = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -146,14 +146,14 @@ open class BloodPressureMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = Double(value)
-                        diastolicPressure = Measurement(value: value, unit: UnitPressure.millimetersOfMercury)
+                        diastolicPressure = ValidatedMeasurement(value: value, valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            diastolicPressure = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
+                            diastolicPressure = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -162,14 +162,14 @@ open class BloodPressureMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = Double(value)
-                        meanArterialPressure = Measurement(value: value, unit: UnitPressure.millimetersOfMercury)
+                        meanArterialPressure = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            meanArterialPressure = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
+                            meanArterialPressure = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -178,14 +178,14 @@ open class BloodPressureMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = Double(value)
-                        mapSampleMean = Measurement(value: value, unit: UnitPressure.millimetersOfMercury)
+                        mapSampleMean = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            mapSampleMean = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
+                            mapSampleMean = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -194,14 +194,14 @@ open class BloodPressureMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = Double(value)
-                        mapMorningValues = Measurement(value: value, unit: UnitPressure.millimetersOfMercury)
+                        mapMorningValues = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            mapMorningValues = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
+                            mapMorningValues = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 
@@ -210,14 +210,14 @@ open class BloodPressureMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = Double(value)
-                        mapEveningValues = Measurement(value: value, unit: UnitPressure.millimetersOfMercury)
+                        mapEveningValues = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            mapEveningValues = Measurement(value: Double(definition.baseType.invalid), unit: UnitPressure.millimetersOfMercury)
+                            mapEveningValues = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
                         }
                     }
 

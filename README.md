@@ -12,7 +12,7 @@ Supports Revision 2.3
 Swift Package Manager:
 ```swift
     dependencies: [
-        .Package(url: "https://github.com/FitnessKit/FitDataProtocol", from: 0.1.0)
+        .Package(url: "https://github.com/FitnessKit/FitDataProtocol", from: 0.9.12)
     ]
 ```
 ## How to Use
