@@ -25,6 +25,7 @@
 import Foundation
 import DataDecoder
 import FitnessUnits
+import AntMessageProtocol
 
 /// FIT Stride Based Speed and Distance Monitor (SDM) Profile Message
 @available(swift 4.0)
@@ -54,7 +55,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     private(set) public var speedSourceFootpod: Bool?
 
     /// Transmission Type
-    private(set) public var transmissionType: UInt8?
+    private(set) public var transmissionType: TransmissionType?
 
     /// Odometer Rollover Counter
     ///
@@ -63,7 +64,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: UInt8?, calibrationFactor: Measurement<UnitPercent>?, odometer: Measurement<UnitLength>?, speedSourceFootpod: Bool?, transmissionType: UInt8?, odometerRolloverCounter: UInt8?) {
+    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: UInt8?, calibrationFactor: Measurement<UnitPercent>?, odometer: Measurement<UnitLength>?, speedSourceFootpod: Bool?, transmissionType: TransmissionType?, odometerRolloverCounter: UInt8?) {
         self.messageIndex = messageIndex
         self.enabled = enabled
         self.antID = antID
@@ -82,7 +83,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
         var calibrationFactor: Measurement<UnitPercent>?
         var odometer: Measurement<UnitLength>?
         var speedSourceFootpod: Bool?
-        var transmissionType: UInt8?
+        var transmissionType: TransmissionType?
         var odometerRolloverCounter: UInt8?
 
         let arch = definition.architecture
@@ -164,15 +165,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                 case .transType:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        transmissionType = value
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            transmissionType = UInt8(definition.baseType.invalid)
-                        }
+                        transmissionType = TransmissionType(value)
                     }
 
                 case .odometerRollover:

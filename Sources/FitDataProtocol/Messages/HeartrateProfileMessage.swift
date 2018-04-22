@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import AntMessageProtocol
 
 /// FIT HRM Profile Message
 @available(swift 4.0)
@@ -47,11 +48,11 @@ open class HeartrateProfileMessage: FitMessage {
     private(set) public var logHrv: Bool?
 
     /// Transmission Type
-    private(set) public var transmissionType: UInt8?
+    private(set) public var transmissionType: TransmissionType?
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: UInt16?, logHrv: Bool?, transmissionType: UInt8?) {
+    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: UInt16?, logHrv: Bool?, transmissionType: TransmissionType?) {
         self.messageIndex = messageIndex
         self.enabled = enabled
         self.antID = antID
@@ -65,7 +66,7 @@ open class HeartrateProfileMessage: FitMessage {
         var enabled: Bool?
         var antID: UInt16?
         var logHrv: Bool?
-        var transmissionType: UInt8?
+        var transmissionType: TransmissionType?
 
         let arch = definition.architecture
 
@@ -115,17 +116,8 @@ open class HeartrateProfileMessage: FitMessage {
                 case .transType:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        transmissionType = value
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            transmissionType = UInt8(definition.baseType.invalid)
-                        }
+                        transmissionType = TransmissionType(value)
                     }
-
 
                 case .messageIndex:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian

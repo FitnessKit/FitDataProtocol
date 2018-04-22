@@ -305,7 +305,7 @@ open class DeviceInfoMessage: FitMessage {
                 case .transmissionType:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        transmissionType = TransmissionType(rawValue: value)
+                        transmissionType = TransmissionType(value)
                     }
 
                 case .deviceNumber:

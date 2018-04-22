@@ -83,7 +83,6 @@ open class FileCreatorMessage: FitMessage {
                         }
                     }
 
-
                 case .hardwareVersion:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {

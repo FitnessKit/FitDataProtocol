@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/FitnessKit/AntMessageProtocol",
         "state": {
           "branch": null,
-          "revision": "013bd3978c9d3190702a69479385b65002cb9b26",
-          "version": "0.1.2"
+          "revision": "afc14379bde79757ee97b3a6e611665e1196265d",
+          "version": "0.2.0"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/FitnessKit/FitnessUnits",
         "state": {
           "branch": null,
-          "revision": "0dbefbd3c0af902caff7b351e7ca4aab7aba2923",
-          "version": "1.2.0"
+          "revision": "4d682dd0fd7241435166a11131fdbcb2d5548f9c",
+          "version": "1.5.0"
         }
       }
     ]
