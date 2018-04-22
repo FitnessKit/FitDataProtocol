@@ -37,6 +37,6 @@ Swift version of the Garmin Flexible and Interoperable Data Transfer Protocol.
 #Dependancy
   s.dependency 'DataDecoder', '~> 4.0.3'
   s.dependency 'FitnessUnits', '~> 1.6.1'
-  s.dependency 'AntMessageProtocol', '~> 0.2.0'
+  s.dependency 'AntMessageProtocol', '~> 0.2.1'
 
 end
