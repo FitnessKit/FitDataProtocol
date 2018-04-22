@@ -39,6 +39,7 @@ custom_categories:
     - HrvMessage
     - PowerZoneMessage
     - RecordMessage
+    - SoftwareMessage
     - SpeedZoneMessage
     - SportMessage
     - StrideSpeedDistanceMonitorProfileMessage
