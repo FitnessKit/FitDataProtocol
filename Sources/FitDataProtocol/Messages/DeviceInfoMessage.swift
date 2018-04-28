@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 import AntMessageProtocol
 
 /// FIT Device Information Message
@@ -39,12 +40,12 @@ open class DeviceInfoMessage: FitMessage {
     private(set) public var timeStamp: FitTime?
 
     /// Serial Number
-    private(set) public var serialNumber: UInt32?
+    private(set) public var serialNumber: ValidatedBinaryInteger<UInt32>?
 
     /// Cumulative Operating Time
     ///
     /// Reset by new battery or charge
-    private(set) public var cumulativeOpTime: Measurement<UnitDuration>?
+    private(set) public var cumulativeOpTime: ValidatedMeasurement<UnitDuration>?
 
     /// Product Name
     private(set) public var productName: String?
@@ -53,22 +54,22 @@ open class DeviceInfoMessage: FitMessage {
     private(set) public var manufacturer: Manufacturer?
 
     /// Product
-    private(set) public var product: UInt16?
+    private(set) public var product: ValidatedBinaryInteger<UInt16>?
 
     /// Software Version
-    private(set) public var softwareVersion: UInt16?
+    private(set) public var softwareVersion: ValidatedBinaryInteger<UInt16>?
 
     /// Hardware Version
-    private(set) public var hardwareVersion: UInt8?
+    private(set) public var hardwareVersion: ValidatedBinaryInteger<UInt8>?
 
     /// Battery Voltage
-    private(set) public var batteryVoltage: Measurement<UnitElectricPotentialDifference>?
+    private(set) public var batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>?
 
     /// Battery Status
     private(set) public var batteryStatus: BatteryStatus?
 
     /// Device Number
-    private(set) public var deviceNumber: UInt16?
+    private(set) public var deviceNumber: ValidatedBinaryInteger<UInt16>?
 
     /// Device Type
     private(set) public var deviceType: DeviceType?
@@ -94,7 +95,7 @@ open class DeviceInfoMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, serialNumber: UInt32?, cumulativeOpTime: Measurement<UnitDuration>?, productName: String?, manufacturer: Manufacturer?, product: UInt16?, softwareVersion: UInt16?, hardwareVersion: UInt8?, batteryVoltage: Measurement<UnitElectricPotentialDifference>?, batteryStatus: BatteryStatus?, deviceNumber: UInt16?, deviceType: DeviceType?, deviceIndex: DeviceIndex?, sensorDescription: String?, bodylocation: BodyLocation?, transmissionType: TransmissionType?, antNetwork: NetworkType?, source: SourceType?) {
+    public init(timeStamp: FitTime?, serialNumber: ValidatedBinaryInteger<UInt32>?, cumulativeOpTime: ValidatedMeasurement<UnitDuration>?, productName: String?, manufacturer: Manufacturer?, product: ValidatedBinaryInteger<UInt16>?, softwareVersion: ValidatedBinaryInteger<UInt16>?, hardwareVersion: ValidatedBinaryInteger<UInt8>?, batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>?, batteryStatus: BatteryStatus?, deviceNumber: ValidatedBinaryInteger<UInt16>?, deviceType: DeviceType?, deviceIndex: DeviceIndex?, sensorDescription: String?, bodylocation: BodyLocation?, transmissionType: TransmissionType?, antNetwork: NetworkType?, source: SourceType?) {
 
         self.timeStamp = timeStamp
         self.serialNumber = serialNumber
@@ -119,16 +120,16 @@ open class DeviceInfoMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> DeviceInfoMessage  {
 
         var timestamp: FitTime?
-        var serialNumber: UInt32?
-        var cumulativeOpTime: Measurement<UnitDuration>?
+        var serialNumber: ValidatedBinaryInteger<UInt32>?
+        var cumulativeOpTime: ValidatedMeasurement<UnitDuration>?
         var productname: String?
         var manufacturer: Manufacturer?
-        var product: UInt16?
-        var softwareVersion: UInt16?
-        var hardwareVersion: UInt8?
-        var batteryVoltage: Measurement<UnitElectricPotentialDifference>?
+        var product: ValidatedBinaryInteger<UInt16>?
+        var softwareVersion: ValidatedBinaryInteger<UInt16>?
+        var hardwareVersion: ValidatedBinaryInteger<UInt8>?
+        var batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>?
         var batteryStatus: BatteryStatus?
-        var deviceNumber: UInt16?
+        var deviceNumber: ValidatedBinaryInteger<UInt16>?
         var deviceType: DeviceType?
         var deviceIndex: DeviceIndex?
         var sensorDescription: String?
@@ -191,56 +192,56 @@ open class DeviceInfoMessage: FitMessage {
                 case .serialNumber:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        serialNumber = value
+                        serialNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            serialNumber = UInt32(definition.baseType.invalid)
+                            serialNumber = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .product:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        product = value
+                        product = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            product = UInt16(definition.baseType.invalid)
+                            product = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .softwareVersion:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        softwareVersion = value
+                        softwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            softwareVersion = UInt16(definition.baseType.invalid)
+                            softwareVersion = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .hardwareVersion:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        hardwareVersion = value
+                        hardwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            hardwareVersion = UInt8(definition.baseType.invalid)
+                            hardwareVersion = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
                         }
                     }
 
@@ -249,7 +250,7 @@ open class DeviceInfoMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * s + 0
                         let value = Double(value)
-                        cumulativeOpTime = Measurement(value: value, unit: UnitDuration.seconds)
+                        cumulativeOpTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.seconds)
                     }
 
                 case .batteryVoltage:
@@ -257,14 +258,14 @@ open class DeviceInfoMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 256 * V + 0
                         let value = Double(value) / 256
-                        batteryVoltage = Measurement(value: value, unit: UnitElectricPotentialDifference.volts)
+                        batteryVoltage = ValidatedMeasurement(value: value, valid: true, unit: UnitElectricPotentialDifference.volts)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            batteryVoltage = Measurement(value: Double(value), unit: UnitElectricPotentialDifference.volts)
+                            batteryVoltage = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitElectricPotentialDifference.volts)
                         }
                     }
 
@@ -311,14 +312,14 @@ open class DeviceInfoMessage: FitMessage {
                 case .deviceNumber:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        deviceNumber = value
+                        deviceNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            deviceNumber = UInt16(definition.baseType.invalid)
+                            deviceNumber = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 

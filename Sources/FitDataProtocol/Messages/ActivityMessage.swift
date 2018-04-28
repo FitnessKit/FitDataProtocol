@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 
 /// FIT Activity Message
 @available(swift 4.0)
@@ -47,7 +48,7 @@ open class ActivityMessage: FitMessage {
     private(set) public var localTimeStamp: FitTime?
 
     /// Number of Sessions
-    private(set) public var numberOfSessions: UInt16?
+    private(set) public var numberOfSessions: ValidatedBinaryInteger<UInt16>?
 
     /// Activity
     private(set) public var activity: Activity?
@@ -59,12 +60,12 @@ open class ActivityMessage: FitMessage {
     private(set) public var eventType: EventType?
 
     /// Event Group
-    private(set) public var eventGroup: UInt8?
+    private(set) public var eventGroup: ValidatedBinaryInteger<UInt8>?
 
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, totalTimerTime: Measurement<UnitDuration>?, localTimeStamp: FitTime?, numberOfSessions: UInt16?, activity: Activity?, event: Event?, eventType: EventType?, eventGroup: UInt8?) {
+    public init(timeStamp: FitTime?, totalTimerTime: Measurement<UnitDuration>?, localTimeStamp: FitTime?, numberOfSessions: ValidatedBinaryInteger<UInt16>?, activity: Activity?, event: Event?, eventType: EventType?, eventGroup: ValidatedBinaryInteger<UInt8>?) {
         self.timeStamp = timeStamp
         self.totalTimerTime = totalTimerTime
         self.localTimeStamp = localTimeStamp
@@ -79,11 +80,11 @@ open class ActivityMessage: FitMessage {
         var timeStamp: FitTime?
         var totalTimerTime: Measurement<UnitDuration>?
         var localTimeStamp: FitTime?
-        var numberOfSessions: UInt16?
+        var numberOfSessions: ValidatedBinaryInteger<UInt16>?
         var activity: Activity?
         var event: Event?
         var eventType: EventType?
-        var eventGroup: UInt8?
+        var eventGroup: ValidatedBinaryInteger<UInt8>?
 
         let arch = definition.architecture
 
@@ -112,14 +113,14 @@ open class ActivityMessage: FitMessage {
                 case .numberOfSessions:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        numberOfSessions = value
+                        numberOfSessions = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            numberOfSessions = UInt16(definition.baseType.invalid)
+                            numberOfSessions = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 
@@ -174,14 +175,14 @@ open class ActivityMessage: FitMessage {
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        eventGroup = value
+                        eventGroup = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            eventGroup = UInt8(definition.baseType.invalid)
+                            eventGroup = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
                         }
                     }
 

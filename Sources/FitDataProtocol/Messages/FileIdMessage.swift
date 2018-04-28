@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 import AntMessageProtocol
 
 /// FIT Field ID Message
@@ -36,7 +37,7 @@ open class FileIdMessage: FitMessage {
     }
 
     /// Device Serial Number
-    private(set) public var deviceSerialNumber: UInt32?
+    private(set) public var deviceSerialNumber: ValidatedBinaryInteger<UInt32>?
 
     /// Date of File Creation
     private(set) public var fileCreationDate: FitTime?
@@ -45,17 +46,17 @@ open class FileIdMessage: FitMessage {
     private(set) public var manufacturer: Manufacturer?
 
     /// Product
-    private(set) public var product: UInt16?
+    private(set) public var product: ValidatedBinaryInteger<UInt16>?
 
     /// File Number
-    private(set) public var fileNumber: UInt16?
+    private(set) public var fileNumber: ValidatedBinaryInteger<UInt16>?
 
     /// File Type
     private(set) public var fileType: FileType?
 
     public required init() {}
 
-    public init(deviceSerialNumber: UInt32?, fileCreationDate: FitTime?, manufacturer: Manufacturer?, product: UInt16?, fileNumber: UInt16?, fileType: FileType?) {
+    public init(deviceSerialNumber: ValidatedBinaryInteger<UInt32>?, fileCreationDate: FitTime?, manufacturer: Manufacturer?, product: ValidatedBinaryInteger<UInt16>?, fileNumber: ValidatedBinaryInteger<UInt16>?, fileType: FileType?) {
         self.deviceSerialNumber = deviceSerialNumber
         self.fileCreationDate = fileCreationDate
         self.manufacturer = manufacturer
@@ -66,11 +67,11 @@ open class FileIdMessage: FitMessage {
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileIdMessage  {
 
-        var deviceSerialNumber: UInt32?
+        var deviceSerialNumber: ValidatedBinaryInteger<UInt32>?
         var fileCreationDate: FitTime?
         var manufacturer: Manufacturer?
-        var product: UInt16?
-        var fileNumber: UInt16?
+        var product: ValidatedBinaryInteger<UInt16>?
+        var fileNumber: ValidatedBinaryInteger<UInt16>?
         var fileType: FileType?
 
         let arch = definition.architecture
@@ -113,28 +114,28 @@ open class FileIdMessage: FitMessage {
                 case .product:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        product = value
+                        product = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            product = UInt16(definition.baseType.invalid)
+                            product = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .serialNumber:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        deviceSerialNumber = value
+                        deviceSerialNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            deviceSerialNumber = UInt32(definition.baseType.invalid)
+                            deviceSerialNumber = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 
@@ -147,14 +148,14 @@ open class FileIdMessage: FitMessage {
                 case .fileNumber:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        fileNumber = value
+                        fileNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            fileNumber = UInt16(definition.baseType.invalid)
+                            fileNumber = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 

@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 import AntMessageProtocol
 
 /// FIT Developer Data ID Message
@@ -42,17 +43,17 @@ open class DeveloperDataIdMessage: FitMessage {
     private(set) public var applicationId: Data?
 
     /// Application Version
-    private(set) public var applicationVersion: UInt32?
+    private(set) public var applicationVersion: ValidatedBinaryInteger<UInt32>?
 
     /// Manufacturer
     private(set) public var manufacturer: Manufacturer?
 
     /// Data Index
-    private(set) public var dataIndex: UInt8?
+    private(set) public var dataIndex: ValidatedBinaryInteger<UInt8>?
 
     public required init() {}
 
-    public init(developerId: Data?, applicationId: Data?, applicationVersion: UInt32?, manufacturer: Manufacturer?, dataIndex: UInt8?) {
+    public init(developerId: Data?, applicationId: Data?, applicationVersion: ValidatedBinaryInteger<UInt32>?, manufacturer: Manufacturer?, dataIndex: ValidatedBinaryInteger<UInt8>?) {
         self.developerId = developerId
         self.applicationId = applicationId
         self.applicationVersion = applicationVersion
@@ -64,9 +65,9 @@ open class DeveloperDataIdMessage: FitMessage {
 
         var developerId: Data?
         var applicationId: Data?
-        var applicationVersion: UInt32?
+        var applicationVersion: ValidatedBinaryInteger<UInt32>?
         var manufacturer: Manufacturer?
-        var dataIndex: UInt8?
+        var dataIndex: ValidatedBinaryInteger<UInt8>?
 
         let arch = definition.architecture
 
@@ -106,28 +107,28 @@ open class DeveloperDataIdMessage: FitMessage {
                 case .dataIndex:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        dataIndex = value
+                        dataIndex = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            dataIndex = UInt8(definition.baseType.invalid)
+                            dataIndex = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .applicationVersion:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        applicationVersion = value
+                        applicationVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            applicationVersion = UInt32(definition.baseType.invalid)
+                            applicationVersion = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 

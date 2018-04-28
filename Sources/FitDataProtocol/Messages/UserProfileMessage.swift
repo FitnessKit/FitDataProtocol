@@ -49,7 +49,7 @@ open class UserProfileMessage: FitMessage {
     private(set) public var weight: Measurement<UnitMass>?
 
     /// Local ID
-    private(set) public var localID: UInt16?
+    private(set) public var localID: ValidatedBinaryInteger<UInt16>?
 
     /// Running Step Length
     private(set) public var runningStepLength: Measurement<UnitLength>?
@@ -61,7 +61,7 @@ open class UserProfileMessage: FitMessage {
     private(set) public var gender: Gender?
 
     /// Age in Years
-    private(set) public var age: UInt8?
+    private(set) public var age: ValidatedMeasurement<UnitDuration>?
 
     /// Height
     private(set) public var height: Measurement<UnitLength>?
@@ -83,7 +83,7 @@ open class UserProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, friendlyName: String?, weight: Measurement<UnitMass>?, localID: UInt16?, runningStepLength: Measurement<UnitLength>?, walkingStepLength: Measurement<UnitLength>?, gender: Gender?, age: UInt8?, height: Measurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
+    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, friendlyName: String?, weight: Measurement<UnitMass>?, localID: ValidatedBinaryInteger<UInt16>?, runningStepLength: Measurement<UnitLength>?, walkingStepLength: Measurement<UnitLength>?, gender: Gender?, age: ValidatedMeasurement<UnitDuration>?, height: Measurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -130,11 +130,11 @@ open class UserProfileMessage: FitMessage {
         var messageIndex: MessageIndex?
         var friendlyName: String?
         var weight: Measurement<UnitMass>?
-        var localID: UInt16?
+        var localID: ValidatedBinaryInteger<UInt16>?
         var runningStepLength: Measurement<UnitLength>?
         var walkingStepLength: Measurement<UnitLength>?
         var gender: Gender?
-        var age: UInt8?
+        var age: ValidatedMeasurement<UnitDuration>?
         var height: Measurement<UnitLength>?
         var language: Language?
         var restingHeartRate: UInt8?
@@ -183,14 +183,14 @@ open class UserProfileMessage: FitMessage {
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         /// 1 * years + 0
-                        age = value
+                        age = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitDuration.year)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            age = UInt8(definition.baseType.invalid)
+                            age = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitDuration.year)
                         }
                     }
 
@@ -330,14 +330,14 @@ open class UserProfileMessage: FitMessage {
                 case .localID:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        localID = value
+                        localID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            localID = UInt16(definition.baseType.invalid)
+                            localID = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 

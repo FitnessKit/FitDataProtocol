@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 import AntMessageProtocol
 
 /// FIT HRM Profile Message
@@ -42,7 +43,7 @@ open class HeartrateProfileMessage: FitMessage {
     private(set) public var enabled: Bool?
 
     /// ANT ID
-    private(set) public var antID: UInt16?
+    private(set) public var antID: ValidatedBinaryInteger<UInt16>?
 
     /// Log HRV
     private(set) public var logHrv: Bool?
@@ -52,7 +53,7 @@ open class HeartrateProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: UInt16?, logHrv: Bool?, transmissionType: TransmissionType?) {
+    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: ValidatedBinaryInteger<UInt16>?, logHrv: Bool?, transmissionType: TransmissionType?) {
         self.messageIndex = messageIndex
         self.enabled = enabled
         self.antID = antID
@@ -64,7 +65,7 @@ open class HeartrateProfileMessage: FitMessage {
 
         var messageIndex: MessageIndex?
         var enabled: Bool?
-        var antID: UInt16?
+        var antID: ValidatedBinaryInteger<UInt16>?
         var logHrv: Bool?
         var transmissionType: TransmissionType?
 
@@ -90,28 +91,25 @@ open class HeartrateProfileMessage: FitMessage {
                         enabled = value.boolValue
                     }
 
-                    
                 case .antID:
                     let value = localDecoder.decodeUInt16()
                     if UInt64(value) != definition.baseType.invalid {
-                        antID = value
+                        antID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            antID = UInt16(definition.baseType.invalid)
+                            antID = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
-
 
                 case .logHrv:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         logHrv = value.boolValue
                     }
-
 
                 case .transType:
                     let value = localDecoder.decodeUInt8()

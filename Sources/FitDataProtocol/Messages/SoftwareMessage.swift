@@ -39,14 +39,14 @@ open class SoftwareMessage: FitMessage {
     private(set) public var messageIndex: MessageIndex?
 
     /// Version
-    private(set) public var version: UInt16?
+    private(set) public var version: ValidatedBinaryInteger<UInt16>?
 
     /// Prt Number
     private(set) public var partNumber: String?
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, version: UInt16?, partNumber: String?) {
+    public init(messageIndex: MessageIndex?, version: ValidatedBinaryInteger<UInt16>?, partNumber: String?) {
         self.messageIndex = messageIndex
         self.version = version
         self.partNumber = partNumber
@@ -56,7 +56,7 @@ open class SoftwareMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SoftwareMessage  {
 
         var messageIndex: MessageIndex?
-        var version: UInt16?
+        var version: ValidatedBinaryInteger<UInt16>?
         var partNumber: String?
 
         let arch = definition.architecture
@@ -79,14 +79,14 @@ open class SoftwareMessage: FitMessage {
                 case .version:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        version = value
+                        version = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            version = UInt16(definition.baseType.invalid)
+                            version = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 

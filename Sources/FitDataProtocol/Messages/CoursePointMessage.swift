@@ -46,13 +46,13 @@ open class CoursePointMessage: FitMessage {
     private(set) public var name: String?
 
     /// Latitude
-    private(set) public var latitude: Measurement<UnitAngle>?
+    private(set) public var latitude: ValidatedMeasurement<UnitAngle>?
 
     /// Longitude
-    private(set) public var longitude: Measurement<UnitAngle>?
+    private(set) public var longitude: ValidatedMeasurement<UnitAngle>?
 
     /// Distance
-    private(set) public var distance: Measurement<UnitLength>?
+    private(set) public var distance: ValidatedMeasurement<UnitLength>?
 
     /// Course Point Type
     private(set) public var pointType: CoursePoint?
@@ -62,7 +62,7 @@ open class CoursePointMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, name: String?, latitude: Measurement<UnitAngle>?, longitude: Measurement<UnitAngle>?, distance: Measurement<UnitLength>?, pointType: CoursePoint?,  isFavorite: Bool?) {
+    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, name: String?, latitude: ValidatedMeasurement<UnitAngle>?, longitude: ValidatedMeasurement<UnitAngle>?, distance: ValidatedMeasurement<UnitLength>?, pointType: CoursePoint?,  isFavorite: Bool?) {
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
 
@@ -80,9 +80,9 @@ open class CoursePointMessage: FitMessage {
         var messageIndex: MessageIndex?
 
         var name: String?
-        var latitude: Measurement<UnitAngle>?
-        var longitude: Measurement<UnitAngle>?
-        var distance: Measurement<UnitLength>?
+        var latitude: ValidatedMeasurement<UnitAngle>?
+        var longitude: ValidatedMeasurement<UnitAngle>?
+        var distance: ValidatedMeasurement<UnitLength>?
         var pointType: CoursePoint?
         var isFavorite: Bool?
 
@@ -108,7 +108,15 @@ open class CoursePointMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
                         let value = Conversion.degressFromSemiCircles(Double(value))
-                        latitude = Measurement(value: value, unit: UnitAngle.degrees)
+                        latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.degrees)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            latitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.degrees)
+                        }
                     }
 
                 case .longitude:
@@ -116,7 +124,15 @@ open class CoursePointMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
                         let value = Conversion.degressFromSemiCircles(Double(value))
-                        longitude = Measurement(value: value, unit: UnitAngle.degrees)
+                        longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.degrees)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            longitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.degrees)
+                        }
                     }
 
                 case .distance:
@@ -124,14 +140,14 @@ open class CoursePointMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
                         let value = Double(value) / 100
-                        distance = Measurement(value: value, unit: UnitLength.meters)
+                        distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            distance = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
+                            distance = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
                         }
                     }
 

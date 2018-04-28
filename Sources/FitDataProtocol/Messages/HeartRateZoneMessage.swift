@@ -42,7 +42,7 @@ open class HeartRateZoneMessage: FitMessage {
     private(set) public var name: String?
 
     /// Heart Rate High Level
-    private(set) public var heartRate: Measurement<UnitCadence>?
+    private(set) public var heartRate: ValidatedMeasurement<UnitCadence>?
 
     public required init() {}
 
@@ -51,7 +51,13 @@ open class HeartRateZoneMessage: FitMessage {
         self.name = name
 
         if let hr = heartRate {
-            self.heartRate = Measurement(value: Double(hr), unit: UnitCadence.beatsPerMinute)
+
+            if Int64(hr) == BaseType.uint8.invalid {
+                self.heartRate = ValidatedMeasurement(value: Double(hr), valid: false, unit: UnitCadence.beatsPerMinute)
+            } else {
+                self.heartRate = ValidatedMeasurement(value: Double(hr), valid: true, unit: UnitCadence.beatsPerMinute)
+            }
+
         } else {
             self.heartRate = nil
         }

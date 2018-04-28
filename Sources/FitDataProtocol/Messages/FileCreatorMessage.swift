@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 
 /// FIT File Creator Message
 @available(swift 4.0)
@@ -35,22 +36,22 @@ open class FileCreatorMessage: FitMessage {
     }
 
     /// Software Version
-    private(set) public var softwareVersion: UInt16?
+    private(set) public var softwareVersion: ValidatedBinaryInteger<UInt16>?
 
     /// Hardware Version
-    private(set) public var hardwareVersion: UInt8?
+    private(set) public var hardwareVersion: ValidatedBinaryInteger<UInt8>?
 
     public required init() {}
 
-    public init(softwareVersion: UInt16?, hardwareVersion: UInt8?) {
+    public init(softwareVersion: ValidatedBinaryInteger<UInt16>?, hardwareVersion: ValidatedBinaryInteger<UInt8>?) {
         self.softwareVersion = softwareVersion
         self.hardwareVersion = hardwareVersion
     }
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileCreatorMessage  {
 
-        var softwareVersion: UInt16?
-        var hardwareVersion: UInt8?
+        var softwareVersion: ValidatedBinaryInteger<UInt16>?
+        var hardwareVersion: ValidatedBinaryInteger<UInt8>?
 
         let arch = definition.architecture
 
@@ -72,28 +73,28 @@ open class FileCreatorMessage: FitMessage {
                 case .softwareVersion:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        softwareVersion = value
+                        softwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            softwareVersion = UInt16(definition.baseType.invalid)
+                            softwareVersion = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .hardwareVersion:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        hardwareVersion = value
+                        hardwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            hardwareVersion = UInt8(definition.baseType.invalid)
+                            hardwareVersion = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
                         }
                     }
 

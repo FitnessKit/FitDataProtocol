@@ -25,6 +25,7 @@
 import Foundation
 import DataDecoder
 import FitnessUnits
+import FitnessUnits
 
 /// FIT Record Message
 @available(swift 4.0)
@@ -39,54 +40,54 @@ open class RecordMessage: FitMessage {
     private(set) public var timeStamp: FitTime?
 
     /// Distance
-    private(set) public var distance: Measurement<UnitLength>?
+    private(set) public var distance: ValidatedMeasurement<UnitLength>?
 
     /// Time From Course
-    private(set) public var timeFromCourse: Measurement<UnitDuration>?
+    private(set) public var timeFromCourse: ValidatedMeasurement<UnitDuration>?
 
     /// Total Cycles
-    private(set) public var totalCycles: UInt32?
+    private(set) public var totalCycles: ValidatedBinaryInteger<UInt32>?
 
     /// Accumulated Power
-    private(set) public var accumulatedPower: Measurement<UnitPower>?
+    private(set) public var accumulatedPower: ValidatedMeasurement<UnitPower>?
 
     /// Enhanced Speed
-    private(set) public var enhancedSpeed: Measurement<UnitSpeed>?
+    private(set) public var enhancedSpeed: ValidatedMeasurement<UnitSpeed>?
 
     /// Enhanced Altitude
-    private(set) public var enhancedAltitude: Measurement<UnitLength>?
+    private(set) public var enhancedAltitude: ValidatedMeasurement<UnitLength>?
 
     /// Altitude
-    private(set) public var altitude: Measurement<UnitLength>?
+    private(set) public var altitude: ValidatedMeasurement<UnitLength>?
 
     /// Speed
-    private(set) public var speed: Measurement<UnitSpeed>?
+    private(set) public var speed: ValidatedMeasurement<UnitSpeed>?
 
     /// Power
-    private(set) public var power: Measurement<UnitPower>?
+    private(set) public var power: ValidatedMeasurement<UnitPower>?
 
     /// GPS Accuracy
-    private(set) public var gpsAccuracy: Measurement<UnitLength>?
+    private(set) public var gpsAccuracy: ValidatedMeasurement<UnitLength>?
 
     /// Vertical Speed
-    private(set) public var verticalSpeed: Measurement<UnitSpeed>?
+    private(set) public var verticalSpeed: ValidatedMeasurement<UnitSpeed>?
 
     /// Calories
-    private(set) public var calories: Measurement<UnitEnergy>?
+    private(set) public var calories: ValidatedMeasurement<UnitEnergy>?
 
     /// Heart Rate
-    private(set) public var heartRate: Measurement<UnitCadence>?
+    private(set) public var heartRate: ValidatedMeasurement<UnitCadence>?
 
     /// Cadence
-    private(set) public var cadence: Measurement<UnitCadence>?
+    private(set) public var cadence: ValidatedMeasurement<UnitCadence>?
 
     /// Resistance
     ///
     /// Relative. 0 is none  254 is Max
-    private(set) public var resistance: UInt8?
+    private(set) public var resistance: ValidatedBinaryInteger<UInt8>?
 
     /// Temperature
-    private(set) public var temperature: Measurement<UnitTemperature>?
+    private(set) public var temperature: ValidatedMeasurement<UnitTemperature>?
 
     /// FIT Activity Type
     private(set) public var activity: ActivityType?
@@ -95,17 +96,17 @@ open class RecordMessage: FitMessage {
     private(set) public var stroke: Stroke?
 
     /// Zone
-    private(set) public var zone: UInt8?
+    private(set) public var zone: ValidatedBinaryInteger<UInt8>?
 
     /// Ball Speed
-    private(set) public var ballSpeed: Measurement<UnitSpeed>?
+    private(set) public var ballSpeed: ValidatedMeasurement<UnitSpeed>?
 
     /// Device Index
     private(set) public var deviceIndex: DeviceIndex?
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, distance: Measurement<UnitLength>?, timeFromCourse: Measurement<UnitDuration>?, totalCycles: UInt32?, accumulatedPower: Measurement<UnitPower>?, enhancedSpeed: Measurement<UnitSpeed>?, enhancedAltitude: Measurement<UnitLength>?, altitude: Measurement<UnitLength>?, speed: Measurement<UnitSpeed>?, power: Measurement<UnitPower>?, gpsAccuracy: Measurement<UnitLength>?, verticalSpeed: Measurement<UnitSpeed>?, calories: Measurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: UInt8?, temperature: Measurement<UnitTemperature>?, activity: ActivityType?, stroke: Stroke?, zone: UInt8?, ballSpeed: Measurement<UnitSpeed>?, deviceIndex: DeviceIndex?) {
+    public init(timeStamp: FitTime?, distance: ValidatedMeasurement<UnitLength>?, timeFromCourse: ValidatedMeasurement<UnitDuration>?, totalCycles: ValidatedBinaryInteger<UInt32>?, accumulatedPower: ValidatedMeasurement<UnitPower>?, enhancedSpeed: ValidatedMeasurement<UnitSpeed>?, enhancedAltitude: ValidatedMeasurement<UnitLength>?, altitude: ValidatedMeasurement<UnitLength>?, speed: ValidatedMeasurement<UnitSpeed>?, power: ValidatedMeasurement<UnitPower>?, gpsAccuracy: ValidatedMeasurement<UnitLength>?, verticalSpeed: ValidatedMeasurement<UnitSpeed>?, calories: ValidatedMeasurement<UnitEnergy>?, heartRate: UInt8?, cadence: UInt8?, resistance: ValidatedBinaryInteger<UInt8>?, temperature: ValidatedMeasurement<UnitTemperature>?, activity: ActivityType?, stroke: Stroke?, zone: ValidatedBinaryInteger<UInt8>?, ballSpeed: ValidatedMeasurement<UnitSpeed>?, deviceIndex: DeviceIndex?) {
 
         self.timeStamp = timeStamp
         self.distance = distance
@@ -122,13 +123,25 @@ open class RecordMessage: FitMessage {
         self.calories = calories
 
         if let hr = heartRate {
-            self.heartRate = Measurement(value: Double(hr), unit: UnitCadence.beatsPerMinute)
+
+            if Int64(hr) == BaseType.uint8.invalid {
+                self.heartRate = ValidatedMeasurement(value: Double(hr), valid: false, unit: UnitCadence.beatsPerMinute)
+            } else {
+                self.heartRate = ValidatedMeasurement(value: Double(hr), valid: true, unit: UnitCadence.beatsPerMinute)
+            }
+
         } else {
             self.heartRate = nil
         }
 
         if let cadence = cadence {
-            self.cadence = Measurement(value: Double(cadence), unit: UnitCadence.revolutionsPerMinute)
+
+            if Int64(cadence) == BaseType.uint8.invalid {
+                self.cadence = ValidatedMeasurement(value: Double(cadence), valid: false, unit: UnitCadence.revolutionsPerMinute)
+            } else {
+                self.cadence = ValidatedMeasurement(value: Double(cadence), valid: true, unit: UnitCadence.revolutionsPerMinute)
+            }
+
         } else {
             self.cadence = nil
         }
@@ -145,29 +158,29 @@ open class RecordMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> RecordMessage  {
 
         var timestamp: FitTime?
-        var distance: Measurement<UnitLength>?
-        var timeFromCourse: Measurement<UnitDuration>?
-        var totalCycles: UInt32?
-        var compressedAccumulatedPower: Measurement<UnitPower>?
+        var distance: ValidatedMeasurement<UnitLength>?
+        var timeFromCourse: ValidatedMeasurement<UnitDuration>?
+        var totalCycles: ValidatedBinaryInteger<UInt32>?
+        var compressedAccumulatedPower: ValidatedMeasurement<UnitPower>?
         var compressedAccumulatedPowerValue: Double?
-        var longAccumulatedPower: Measurement<UnitPower>?
+        var longAccumulatedPower: ValidatedMeasurement<UnitPower>?
         var longAccumulatedPowerValue: Double?
-        var enhancedSpeed: Measurement<UnitSpeed>?
-        var enhancedAltitude: Measurement<UnitLength>?
-        var altitude: Measurement<UnitLength>?
-        var speed: Measurement<UnitSpeed>?
-        var power: Measurement<UnitPower>?
-        var gpsAccuracy: Measurement<UnitLength>?
-        var verticalSpeed: Measurement<UnitSpeed>?
-        var calories: Measurement<UnitEnergy>?
+        var enhancedSpeed: ValidatedMeasurement<UnitSpeed>?
+        var enhancedAltitude: ValidatedMeasurement<UnitLength>?
+        var altitude: ValidatedMeasurement<UnitLength>?
+        var speed: ValidatedMeasurement<UnitSpeed>?
+        var power: ValidatedMeasurement<UnitPower>?
+        var gpsAccuracy: ValidatedMeasurement<UnitLength>?
+        var verticalSpeed: ValidatedMeasurement<UnitSpeed>?
+        var calories: ValidatedMeasurement<UnitEnergy>?
         var heartRate: UInt8?
         var cadence: UInt8?
-        var resistance: UInt8?
-        var temperature: Measurement<UnitTemperature>?
+        var resistance: ValidatedBinaryInteger<UInt8>?
+        var temperature: ValidatedMeasurement<UnitTemperature>?
         var activity: ActivityType?
         var stroke: Stroke?
-        var zone: UInt8?
-        var ballSpeed: Measurement<UnitSpeed>?
+        var zone: ValidatedBinaryInteger<UInt8>?
+        var ballSpeed: ValidatedMeasurement<UnitSpeed>?
 
         var deviceIndex: DeviceIndex?
 
@@ -200,14 +213,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
-                        altitude = Measurement(value: value, unit: UnitLength.meters)
+                        altitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            altitude = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
+                            altitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
                         }
                     }
 
@@ -246,14 +259,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
                         let value = Double(value) / 100
-                        distance = Measurement(value: value, unit: UnitLength.meters)
+                        distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            distance = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
+                            distance = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
                         }
                     }
 
@@ -262,14 +275,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0
                         let value = Double(value) / 1000
-                        speed = Measurement(value: value, unit: UnitSpeed.metersPerSecond)
+                        speed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            speed = Measurement(value: Double(definition.baseType.invalid), unit: UnitSpeed.metersPerSecond)
+                            speed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
                         }
                     }
 
@@ -278,14 +291,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
                         let value = Double(value)
-                        power = Measurement(value: value, unit: UnitPower.watts)
+                        power = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            power = Measurement(value: Double(definition.baseType.invalid), unit: UnitPower.watts)
+                            power = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPower.watts)
                         }
                     }
 
@@ -300,14 +313,14 @@ open class RecordMessage: FitMessage {
                 case .resistance:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        resistance = value
+                        resistance = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            resistance = UInt8(definition.baseType.invalid)
+                            resistance = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
                         }
                     }
 
@@ -316,14 +329,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * s + 0
                         let value = Double(value) / 1000
-                        timeFromCourse = Measurement(value: value, unit: UnitDuration.seconds)
+                        timeFromCourse = ValidatedMeasurement(value: value, valid: false, unit: UnitDuration.seconds)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            timeFromCourse = Measurement(value: Double(definition.baseType.invalid), unit: UnitDuration.seconds)
+                            timeFromCourse = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitDuration.seconds)
                         }
                     }
 
@@ -335,14 +348,14 @@ open class RecordMessage: FitMessage {
                     let value = localDecoder.decodeInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * C + 0
-                        temperature = Measurement(value: Double(value), unit: UnitTemperature.celsius)
+                        temperature = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitTemperature.celsius)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            temperature = Measurement(value: Double(definition.baseType.invalid), unit: UnitTemperature.celsius)
+                            temperature = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitTemperature.celsius)
                         }
                     }
 
@@ -354,14 +367,14 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * cycles + 0
-                        totalCycles = value
+                        totalCycles = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            totalCycles = UInt32(definition.baseType.invalid)
+                            totalCycles = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 
@@ -374,7 +387,7 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
                         let value = Double(value)
-                        compressedAccumulatedPower = Measurement(value: value, unit: UnitPower.watts)
+                        compressedAccumulatedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
 
                         switch dataStrategy {
@@ -390,7 +403,7 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
                         let value = Double(value)
-                        longAccumulatedPower = Measurement(value: value, unit: UnitPower.watts)
+                        longAccumulatedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
 
                         switch dataStrategy {
@@ -409,14 +422,14 @@ open class RecordMessage: FitMessage {
                     let value = localDecoder.decodeInt8()
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * m + 0
-                        gpsAccuracy = Measurement(value: Double(value), unit: UnitLength.meters)
+                        gpsAccuracy = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitLength.meters)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            gpsAccuracy = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
+                            gpsAccuracy = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
                         }
                     }
 
@@ -425,14 +438,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0,
                         let value = Double(value) / 1000
-                        verticalSpeed = Measurement(value: value, unit: UnitSpeed.metersPerSecond)
+                        verticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            verticalSpeed = Measurement(value: Double(definition.baseType.invalid), unit: UnitSpeed.metersPerSecond)
+                            verticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
                         }
                     }
 
@@ -440,14 +453,14 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * kcal + 0
-                        calories = Measurement(value: Double(value), unit: UnitEnergy.kilocalories)
+                        calories = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.kilocalories)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            calories = Measurement(value: Double(definition.baseType.invalid), unit: UnitEnergy.kilocalories)
+                            calories = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitEnergy.kilocalories)
                         }
                     }
 
@@ -518,14 +531,14 @@ open class RecordMessage: FitMessage {
                 case .zone:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        zone = value
+                        zone = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            zone = UInt8(definition.baseType.invalid)
+                            zone = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
                         }
                     }
 
@@ -534,14 +547,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  100 * m/s + 0,
                         let value = Double(value) / 100
-                        ballSpeed = Measurement(value: value, unit: UnitSpeed.metersPerSecond)
+                        ballSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            ballSpeed = Measurement(value: Double(definition.baseType.invalid), unit: UnitSpeed.metersPerSecond)
+                            ballSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
                         }
                     }
 
@@ -596,14 +609,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0
                         let value = Double(value) / 1000
-                        enhancedSpeed = Measurement(value: value, unit: UnitSpeed.metersPerSecond)
+                        enhancedSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            enhancedSpeed = Measurement(value: Double(definition.baseType.invalid), unit: UnitSpeed.metersPerSecond)
+                            enhancedSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
                         }
                     }
 
@@ -612,14 +625,14 @@ open class RecordMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
-                        enhancedAltitude = Measurement(value: value, unit: UnitLength.meters)
+                        enhancedAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            enhancedAltitude = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
+                            enhancedAltitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
                         }
                     }
 
@@ -634,7 +647,7 @@ open class RecordMessage: FitMessage {
         }
 
         /// Determine which Accumulated Power to use
-        var accumulatedPower: Measurement<UnitPower>?
+        var accumulatedPower: ValidatedMeasurement<UnitPower>?
 
         /// Try to use the Compressed Firt
         if let compressed = compressedAccumulatedPower {
@@ -643,7 +656,7 @@ open class RecordMessage: FitMessage {
             /// If the compressed value is there and strategy in use invalid
             if let value = compressedAccumulatedPowerValue {
                 if dataStrategy == .useInvalid {
-                    accumulatedPower = Measurement(value: value, unit: UnitPower.watts)
+                    accumulatedPower = ValidatedMeasurement(value: value, valid: false, unit: UnitPower.watts)
                 }
             }
         }
@@ -655,7 +668,7 @@ open class RecordMessage: FitMessage {
             /// If the long value is there and strategy in use invalid
             if let value = longAccumulatedPowerValue {
                 if dataStrategy == .useInvalid {
-                    accumulatedPower = Measurement(value: value, unit: UnitPower.watts)
+                    accumulatedPower = ValidatedMeasurement(value: value, valid: false, unit: UnitPower.watts)
                 }
             }
         }

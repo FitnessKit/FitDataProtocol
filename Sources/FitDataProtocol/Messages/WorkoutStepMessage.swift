@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 
 /// FIT Workout Step Message
 @available(swift 4.0)
@@ -41,19 +42,19 @@ open class WorkoutStepMessage: FitMessage {
     private(set) public var name: String?
 
     /// Duration
-    private(set) public var duration: UInt32?
+    private(set) public var duration: ValidatedBinaryInteger<UInt32>?
 
     /// Durationm Type
     private(set) public var durationType: WorkoutStepDurationType?
 
     /// Target
-    private(set) public var target: UInt32?
+    private(set) public var target: ValidatedBinaryInteger<UInt32>?
 
     /// Target Value Low
-    private(set) public var targetLow: UInt32?
+    private(set) public var targetLow: ValidatedBinaryInteger<UInt32>?
 
     /// Target Value High
-    private(set) public var targetHigh: UInt32?
+    private(set) public var targetHigh: ValidatedBinaryInteger<UInt32>?
 
     /// Target Type
     private(set) public var targetType: WorkoutStepTargetType?
@@ -73,7 +74,7 @@ open class WorkoutStepMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, name: String?, duration: UInt32?, durationType: WorkoutStepDurationType?, target: UInt32?, targetLow: UInt32?, targetHigh: UInt32?, targetType: WorkoutStepTargetType?, category: ExerciseCategory?, intensity: Intensity?, notes: String?, equipment: WorkoutEquipment?) {
+    public init(messageIndex: MessageIndex?, name: String?, duration: ValidatedBinaryInteger<UInt32>?, durationType: WorkoutStepDurationType?, target: ValidatedBinaryInteger<UInt32>?, targetLow: ValidatedBinaryInteger<UInt32>?, targetHigh: ValidatedBinaryInteger<UInt32>?, targetType: WorkoutStepTargetType?, category: ExerciseCategory?, intensity: Intensity?, notes: String?, equipment: WorkoutEquipment?) {
 
         self.messageIndex = messageIndex
         self.name = name
@@ -93,11 +94,11 @@ open class WorkoutStepMessage: FitMessage {
 
         var messageIndex: MessageIndex?
         var name: String?
-        var duration: UInt32?
+        var duration: ValidatedBinaryInteger<UInt32>?
         var durationType: WorkoutStepDurationType?
-        var target: UInt32?
-        var targetLow: UInt32?
-        var targetHigh: UInt32?
+        var target: ValidatedBinaryInteger<UInt32>?
+        var targetLow: ValidatedBinaryInteger<UInt32>?
+        var targetHigh: ValidatedBinaryInteger<UInt32>?
         var targetType: WorkoutStepTargetType?
         var category: ExerciseCategory?
         var intensity: Intensity?
@@ -144,14 +145,14 @@ open class WorkoutStepMessage: FitMessage {
                 case .durationValue:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        duration = value
+                        duration = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            duration = UInt32(definition.baseType.invalid)
+                            duration = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 
@@ -172,42 +173,42 @@ open class WorkoutStepMessage: FitMessage {
                 case .targetValue:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        target = value
+                        target = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            target = UInt32(definition.baseType.invalid)
+                            target = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .customTargetValueLow:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        targetLow = value
+                        targetLow = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            targetLow = UInt32(definition.baseType.invalid)
+                            targetLow = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .customTargetValueHigh:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        targetHigh = value
+                        targetHigh = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            targetHigh = UInt32(definition.baseType.invalid)
+                            targetHigh = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 

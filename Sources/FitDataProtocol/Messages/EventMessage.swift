@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 
 /// FIT Event Message
 @available(swift 4.0)
@@ -38,10 +39,10 @@ open class EventMessage: FitMessage {
     private(set) public var timeStamp: FitTime?
 
     /// Event Data
-    private(set) public var eventData: UInt16?
+    private(set) public var eventData: ValidatedBinaryInteger<UInt16>?
 
     /// More Event Data
-    private(set) public var eventMoreData: UInt32?
+    private(set) public var eventMoreData: ValidatedBinaryInteger<UInt32>?
 
     /// Event
     private(set) public var event: Event?
@@ -50,11 +51,11 @@ open class EventMessage: FitMessage {
     private(set) public var eventType: EventType?
 
     /// Event Group
-    private(set) public var eventGroup: UInt8?
+    private(set) public var eventGroup: ValidatedBinaryInteger<UInt8>?
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, eventData: UInt16?, eventMoreData: UInt32?, event: Event?, eventType: EventType?, eventGroup: UInt8?) {
+    public init(timeStamp: FitTime?, eventData: ValidatedBinaryInteger<UInt16>?, eventMoreData: ValidatedBinaryInteger<UInt32>?, event: Event?, eventType: EventType?, eventGroup: ValidatedBinaryInteger<UInt8>?) {
         self.timeStamp = timeStamp
         self.eventData = eventData
         self.eventMoreData = eventMoreData
@@ -66,11 +67,11 @@ open class EventMessage: FitMessage {
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> EventMessage  {
 
         var timeStamp: FitTime?
-        var eventData: UInt16?
-        var eventMoreData: UInt32?
+        var eventData: ValidatedBinaryInteger<UInt16>?
+        var eventMoreData: ValidatedBinaryInteger<UInt32>?
         var event: Event?
         var eventType: EventType?
-        var eventGroup: UInt8?
+        var eventGroup: ValidatedBinaryInteger<UInt8>?
 
         let arch = definition.architecture
 
@@ -120,42 +121,42 @@ open class EventMessage: FitMessage {
                 case .data16:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        eventData = value
+                        eventData = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            eventData = UInt16(definition.baseType.invalid)
+                            eventData = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .data32:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        eventMoreData = value
+                        eventMoreData = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            eventMoreData = UInt32(definition.baseType.invalid)
+                            eventMoreData = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8()
                     if UInt64(value) != definition.baseType.invalid {
-                        eventGroup = value
+                        eventGroup = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            eventGroup = UInt8(definition.baseType.invalid)
+                            eventGroup = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
                         }
                     }
 

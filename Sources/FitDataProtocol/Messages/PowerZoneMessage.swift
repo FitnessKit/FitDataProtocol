@@ -42,11 +42,11 @@ open class PowerZoneMessage: FitMessage {
     private(set) public var name: String?
 
     /// Power Zone High Level
-    private(set) public var highLevel: Measurement<UnitPower>?
+    private(set) public var highLevel: ValidatedMeasurement<UnitPower>?
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, name: String?, highLevel: Measurement<UnitPower>?) {
+    public init(messageIndex: MessageIndex?, name: String?, highLevel: ValidatedMeasurement<UnitPower>?) {
         self.messageIndex = messageIndex
         self.name = name
         self.highLevel = highLevel
@@ -57,7 +57,7 @@ open class PowerZoneMessage: FitMessage {
 
         var messageIndex: MessageIndex?
         var name: String?
-        var highLevel: Measurement<UnitPower>?
+        var highLevel: ValidatedMeasurement<UnitPower>?
 
         let arch = definition.architecture
 
@@ -81,14 +81,14 @@ open class PowerZoneMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * watts + 0
                         let value = Double(value)
-                        highLevel = Measurement(value: value, unit: UnitPower.watts)
+                        highLevel = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            highLevel = Measurement(value: Double(definition.baseType.invalid), unit: UnitPower.watts)
+                            highLevel = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPower.watts)
                         }
                     }
 

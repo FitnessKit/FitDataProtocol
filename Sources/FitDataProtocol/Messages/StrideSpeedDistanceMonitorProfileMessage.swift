@@ -43,7 +43,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     private(set) public var enabled: Bool?
 
     /// ANT ID
-    private(set) public var antID: UInt8?
+    private(set) public var antID: ValidatedBinaryInteger<UInt16>?
 
     /// Calibration Factor
     private(set) public var calibrationFactor: Measurement<UnitPercent>?
@@ -64,7 +64,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: UInt8?, calibrationFactor: Measurement<UnitPercent>?, odometer: Measurement<UnitLength>?, speedSourceFootpod: Bool?, transmissionType: TransmissionType?, odometerRolloverCounter: UInt8?) {
+    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: ValidatedBinaryInteger<UInt16>?, calibrationFactor: Measurement<UnitPercent>?, odometer: Measurement<UnitLength>?, speedSourceFootpod: Bool?, transmissionType: TransmissionType?, odometerRolloverCounter: UInt8?) {
         self.messageIndex = messageIndex
         self.enabled = enabled
         self.antID = antID
@@ -79,7 +79,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
         var messageIndex: MessageIndex?
         var enabled: Bool?
-        var antID: UInt8?
+        var antID: ValidatedBinaryInteger<UInt16>?
         var calibrationFactor: Measurement<UnitPercent>?
         var odometer: Measurement<UnitLength>?
         var speedSourceFootpod: Bool?
@@ -110,16 +110,16 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
 
                 case .antID:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt16()
                     if UInt64(value) != definition.baseType.invalid {
-                        antID = value
+                        antID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            antID = UInt8(definition.baseType.invalid)
+                            antID = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 

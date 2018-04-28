@@ -42,7 +42,7 @@ open class CadenceZoneMessage: FitMessage {
     private(set) public var name: String?
 
     /// Cadence Zone High Level
-    private(set) public var highLevel: Measurement<UnitCadence>?
+    private(set) public var highLevel: ValidatedMeasurement<UnitCadence>?
 
     public required init() {}
 
@@ -51,7 +51,13 @@ open class CadenceZoneMessage: FitMessage {
         self.name = name
 
         if let value = highLevel {
-            self.highLevel = Measurement(value: Double(value), unit: UnitCadence.revolutionsPerMinute)
+
+            if Int64(value) == BaseType.uint8.invalid {
+                self.highLevel = ValidatedMeasurement(value: Double(value), valid: false, unit: UnitCadence.revolutionsPerMinute)
+            } else {
+                self.highLevel = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitCadence.revolutionsPerMinute)
+            }
+
         } else {
             self.highLevel = nil
         }

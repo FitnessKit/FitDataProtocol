@@ -61,13 +61,13 @@ open class GoalMessage: FitMessage {
     private(set) public var repeatGoal: Bool?
 
     /// Goal Target Value
-    private(set) public var targetValue: UInt32?
+    private(set) public var targetValue: ValidatedBinaryInteger<UInt32>?
 
     /// Goals Recurrence
     private(set) public var recurrence: GoalRecurrence?
 
     /// Goal Recurrence Value
-    private(set) public var recurrenceValue: UInt16?
+    private(set) public var recurrenceValue: ValidatedBinaryInteger<UInt16>?
 
     /// Goal Enabled
     private(set) public var enabled: Bool?
@@ -78,7 +78,7 @@ open class GoalMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, startDate: FitTime?, endDate: FitTime?, sport: Sport?, subSport: SubSport?, goalType: Goal?, goalValue: UInt32?, repeatGoal: Bool?, targetValue: UInt32?, recurrence: GoalRecurrence?, recurrenceValue: UInt16?, enabled: Bool?, source: GoalSource?) {
+    public init(messageIndex: MessageIndex?, startDate: FitTime?, endDate: FitTime?, sport: Sport?, subSport: SubSport?, goalType: Goal?, goalValue: UInt32?, repeatGoal: Bool?, targetValue: ValidatedBinaryInteger<UInt32>?, recurrence: GoalRecurrence?, recurrenceValue: ValidatedBinaryInteger<UInt16>?, enabled: Bool?, source: GoalSource?) {
         self.messageIndex = messageIndex
         self.startDate = startDate
         self.endDate = endDate
@@ -104,9 +104,9 @@ open class GoalMessage: FitMessage {
         var goalType: Goal?
         var goalValue: UInt32?
         var repeatGoal: Bool?
-        var targetValue: UInt32?
+        var targetValue: ValidatedBinaryInteger<UInt32>?
         var recurrence: GoalRecurrence?
-        var recurrenceValue: UInt16?
+        var recurrenceValue: ValidatedBinaryInteger<UInt16>?
         var enabled: Bool?
         var source: GoalSource?
 
@@ -204,14 +204,14 @@ open class GoalMessage: FitMessage {
                 case .targetValue:
                     let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        targetValue = value
+                        targetValue = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            targetValue = UInt32(definition.baseType.invalid)
+                            targetValue = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
 
@@ -232,14 +232,14 @@ open class GoalMessage: FitMessage {
                 case .recurrenceValue:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        recurrenceValue = value
+                        recurrenceValue = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            recurrenceValue = UInt16(definition.baseType.invalid)
+                            recurrenceValue = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 
