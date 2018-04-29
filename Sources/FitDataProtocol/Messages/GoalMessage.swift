@@ -55,7 +55,7 @@ open class GoalMessage: FitMessage {
     private(set) public var goalType: Goal?
 
     /// Goal Value
-    private(set) public var goalValue: UInt32?
+    private(set) public var goalValue: ValidatedBinaryInteger<UInt32>?
 
     /// Repeat Goal
     private(set) public var repeatGoal: Bool?
@@ -85,7 +85,17 @@ open class GoalMessage: FitMessage {
         self.sport = sport
         self.subSport = subSport
         self.goalType = goalType
-        self.goalValue = goalValue
+
+        if let goalValue = goalValue {
+
+            let valid = !(Int64(goalValue) == BaseType.uint32.invalid)
+            self.goalValue = ValidatedBinaryInteger(value: goalValue, valid: valid)
+
+        } else {
+            self.goalValue = nil
+        }
+
+
         self.repeatGoal = repeatGoal
         self.targetValue = targetValue
         self.recurrence = recurrence

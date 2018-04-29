@@ -87,7 +87,18 @@ open class SlaveDeviceMessage: FitMessage {
                     }
 
                 case .product:
-                    product = localDecoder.decodeUInt16()
+                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        product = value
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            product = UInt16(definition.baseType.invalid)
+                        }
+                    }
 
                 }
             }

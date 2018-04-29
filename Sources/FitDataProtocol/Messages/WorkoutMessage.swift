@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 import AntMessageProtocol
 
 /// FIT Workout Message
@@ -45,7 +46,7 @@ open class WorkoutMessage: FitMessage {
     private(set) public var workoutName: String?
 
     /// Number of Valid Steps
-    private(set) public var numberOfValidSteps: UInt16?
+    private(set) public var numberOfValidSteps: ValidatedBinaryInteger<UInt16>?
 
     /// Pool Length
     private(set) public var poolLength: Measurement<UnitLength>?
@@ -61,7 +62,7 @@ open class WorkoutMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, workoutName: String?, numberOfValidSteps: UInt16?, poolLength: Measurement<UnitLength>?, poolLenghtUnit: MeasurementDisplayType?, sport: Sport?, subSport: SubSport?) {
+    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, workoutName: String?, numberOfValidSteps: ValidatedBinaryInteger<UInt16>?, poolLength: Measurement<UnitLength>?, poolLenghtUnit: MeasurementDisplayType?, sport: Sport?, subSport: SubSport?) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -78,7 +79,7 @@ open class WorkoutMessage: FitMessage {
         var timestamp: FitTime?
         var messageIndex: MessageIndex?
         var workoutName: String?
-        var numberOfValidSteps: UInt16?
+        var numberOfValidSteps: ValidatedBinaryInteger<UInt16>?
         var poolLength: Measurement<UnitLength>?
         var poolLenghtUnit: MeasurementDisplayType?
         var sport: Sport?
@@ -122,14 +123,14 @@ open class WorkoutMessage: FitMessage {
                 case .numberOfValidSteps:
                     let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
                     if UInt64(value) != definition.baseType.invalid {
-                        numberOfValidSteps = value
+                        numberOfValidSteps = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            numberOfValidSteps = UInt16(definition.baseType.invalid)
+                            numberOfValidSteps = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
                         }
                     }
 

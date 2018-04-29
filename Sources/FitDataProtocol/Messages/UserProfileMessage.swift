@@ -46,16 +46,16 @@ open class UserProfileMessage: FitMessage {
     private(set) public var friendlyName: String?
 
     /// Weight
-    private(set) public var weight: Measurement<UnitMass>?
+    private(set) public var weight: ValidatedMeasurement<UnitMass>?
 
     /// Local ID
     private(set) public var localID: ValidatedBinaryInteger<UInt16>?
 
     /// Running Step Length
-    private(set) public var runningStepLength: Measurement<UnitLength>?
+    private(set) public var runningStepLength: ValidatedMeasurement<UnitLength>?
 
     /// Walking Step Length
-    private(set) public var walkingStepLength: Measurement<UnitLength>?
+    private(set) public var walkingStepLength: ValidatedMeasurement<UnitLength>?
 
     /// Gender
     private(set) public var gender: Gender?
@@ -64,26 +64,26 @@ open class UserProfileMessage: FitMessage {
     private(set) public var age: ValidatedMeasurement<UnitDuration>?
 
     /// Height
-    private(set) public var height: Measurement<UnitLength>?
+    private(set) public var height: ValidatedMeasurement<UnitLength>?
 
     /// Language
     private(set) public var language: Language?
 
     /// Resting Heart Rate
-    private(set) public var restingHeartRate: Measurement<UnitCadence>?
+    private(set) public var restingHeartRate: ValidatedMeasurement<UnitCadence>?
 
     /// Max Running Heart Rate
-    private(set) public var maxRunningHeartRate: Measurement<UnitCadence>?
+    private(set) public var maxRunningHeartRate: ValidatedMeasurement<UnitCadence>?
 
     /// Max Biking Heart Rate
-    private(set) public var maxBikingHeartRate: Measurement<UnitCadence>?
+    private(set) public var maxBikingHeartRate: ValidatedMeasurement<UnitCadence>?
 
     /// Max Heart Rate
-    private(set) public var maxHeartRate: Measurement<UnitCadence>?
+    private(set) public var maxHeartRate: ValidatedMeasurement<UnitCadence>?
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, friendlyName: String?, weight: Measurement<UnitMass>?, localID: ValidatedBinaryInteger<UInt16>?, runningStepLength: Measurement<UnitLength>?, walkingStepLength: Measurement<UnitLength>?, gender: Gender?, age: ValidatedMeasurement<UnitDuration>?, height: Measurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
+    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, friendlyName: String?, weight: ValidatedMeasurement<UnitMass>?, localID: ValidatedBinaryInteger<UInt16>?, runningStepLength: ValidatedMeasurement<UnitLength>?, walkingStepLength: ValidatedMeasurement<UnitLength>?, gender: Gender?, age: ValidatedMeasurement<UnitDuration>?, height: ValidatedMeasurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -99,25 +99,37 @@ open class UserProfileMessage: FitMessage {
         self.language = language
 
         if let hr = restingHeartRate {
-            self.restingHeartRate = Measurement(value: Double(hr), unit: UnitCadence.beatsPerMinute)
+
+            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            self.restingHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
+
         } else {
             self.restingHeartRate = nil
         }
 
         if let hr = maxRunningHeartRate {
-            self.maxRunningHeartRate = Measurement(value: Double(hr), unit: UnitCadence.beatsPerMinute)
+
+            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            self.maxRunningHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
+
         } else {
             self.maxRunningHeartRate = nil
         }
 
         if let hr = maxBikingHeartRate {
-            self.maxBikingHeartRate = Measurement(value: Double(hr), unit: UnitCadence.beatsPerMinute)
+
+            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            self.maxBikingHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
+
         } else {
             self.maxBikingHeartRate = nil
         }
 
         if let hr = maxHeartRate {
-            self.maxHeartRate = Measurement(value: Double(hr), unit: UnitCadence.beatsPerMinute)
+
+            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            self.maxHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
+
         } else {
             self.maxHeartRate = nil
         }
@@ -129,13 +141,13 @@ open class UserProfileMessage: FitMessage {
         var timestamp: FitTime?
         var messageIndex: MessageIndex?
         var friendlyName: String?
-        var weight: Measurement<UnitMass>?
+        var weight: ValidatedMeasurement<UnitMass>?
         var localID: ValidatedBinaryInteger<UInt16>?
-        var runningStepLength: Measurement<UnitLength>?
-        var walkingStepLength: Measurement<UnitLength>?
+        var runningStepLength: ValidatedMeasurement<UnitLength>?
+        var walkingStepLength: ValidatedMeasurement<UnitLength>?
         var gender: Gender?
         var age: ValidatedMeasurement<UnitDuration>?
-        var height: Measurement<UnitLength>?
+        var height: ValidatedMeasurement<UnitLength>?
         var language: Language?
         var restingHeartRate: UInt8?
         var maxRunningHeartRate: UInt8?
@@ -199,14 +211,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  100 * m + 0
                         let value = Double(value) / 100
-                        height = Measurement(value: value, unit: UnitLength.meters)
+                        height = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            height = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
+                            height = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
                         }
                     }
 
@@ -215,14 +227,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         //  10 * kg + 0
                         let value = Double(value) / 10
-                        weight = Measurement(value: value, unit: UnitMass.kilograms)
+                        weight = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            weight = Measurement(value: Double(definition.baseType.invalid), unit: UnitMass.kilograms)
+                            weight = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitMass.kilograms)
                         }
                     }
 
@@ -352,14 +364,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * m + 0, User defined running step length set to 0 for auto length
                         let value = Double(value) / 1000
-                        runningStepLength = Measurement(value: value, unit: UnitLength.meters)
+                        runningStepLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            runningStepLength = Measurement(value: Double(UInt16(definition.baseType.invalid)), unit: UnitLength.meters)
+                            runningStepLength = ValidatedMeasurement(value: Double(UInt16(definition.baseType.invalid)), valid: false, unit: UnitLength.meters)
                         }
                     }
 
@@ -368,14 +380,14 @@ open class UserProfileMessage: FitMessage {
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * m + 0, User defined running step length set to 0 for auto length
                         let value = Double(value) / 1000
-                        walkingStepLength = Measurement(value: value, unit: UnitLength.meters)
+                        walkingStepLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            walkingStepLength = Measurement(value: Double(UInt16(definition.baseType.invalid)), unit: UnitLength.meters)
+                            walkingStepLength = ValidatedMeasurement(value: Double(UInt16(definition.baseType.invalid)), valid: false, unit: UnitLength.meters)
                         }
                     }
 
