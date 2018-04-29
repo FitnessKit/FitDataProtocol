@@ -42,11 +42,24 @@ public struct CalfRaiseExerciseName: ExerciseName {
 }
 
 extension CalfRaiseExerciseName: Hashable {
+
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
     public var hashValue: Int {
         return name.hashValue ^ number.hashValue
     }
 
-    public static func ==(lhs: CalfRaiseExerciseName, rhs: CalfRaiseExerciseName) -> Bool {
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func == (lhs: CalfRaiseExerciseName, rhs: CalfRaiseExerciseName) -> Bool {
         return lhs.name == rhs.name &&
             lhs.number == rhs.number
     }

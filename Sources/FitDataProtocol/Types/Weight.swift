@@ -68,7 +68,7 @@ extension Weight: Equatable {
     /// - Parameters:
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
-    public static func ==(lhs: Weight, rhs: Weight) -> Bool {
+    public static func == (lhs: Weight, rhs: Weight) -> Bool {
         return lhs.calculating == rhs.calculating && lhs.weight == rhs.weight
     }
 }

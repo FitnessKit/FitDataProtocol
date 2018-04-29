@@ -35,6 +35,8 @@ private let crc_table: [UInt16] = [
 
 /// FIT 16bit CRC
 final public class CRC16 {
+
+    /// CRC value
     private(set) var crc: UInt16 = 0
 
     public init() {}
@@ -71,12 +73,26 @@ private extension CRC16 {
 }
 
 extension CRC16: Equatable {
-    public static func ==(lhs: CRC16, rhs: CRC16) -> Bool {
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func == (lhs: CRC16, rhs: CRC16) -> Bool {
         return lhs.crc == rhs.crc
     }
 }
 
 extension CRC16: Hashable {
+
+
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
     public var hashValue: Int {
         return crc.hashValue
     }

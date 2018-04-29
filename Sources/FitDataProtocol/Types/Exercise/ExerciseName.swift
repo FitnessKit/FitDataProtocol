@@ -29,7 +29,10 @@ typealias ExerciseName = ExerciseNameType & ExerciseNameSupportable
 /// Exercise Name Protocol
 public protocol ExerciseNameType {
 
+    /// Name of Exercise
     var name: String { get }
+
+    /// Number for the Exercise from FIT
     var number: UInt16 { get }
 
     /// Creates a ExerciseName Object

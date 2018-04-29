@@ -48,13 +48,26 @@ public struct FileType {
 
 extension FileType: Equatable {
 
-    public static func ==(lhs: FileType, rhs: FileType) -> Bool {
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func == (lhs: FileType, rhs: FileType) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }
 
 extension FileType: Hashable {
 
+
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
     public var hashValue: Int {
         return rawValue.hashValue
     }

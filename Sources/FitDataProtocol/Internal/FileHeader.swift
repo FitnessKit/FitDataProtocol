@@ -73,6 +73,14 @@ internal struct FileHeader {
 
 extension FileHeader: Equatable {
 
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
     internal static func == (lhs: FileHeader, rhs: FileHeader) -> Bool {
         return (lhs.headerSize == rhs.headerSize) &&
             (lhs.protocolVersion == rhs.protocolVersion) &&
@@ -91,10 +99,12 @@ internal extension FileHeader {
         encode.append(protocolVersion)
         encode.append(Data(from: profileVersion.littleEndian))
         encode.append(Data(from: dataSize.littleEndian))
-        encode.append(46)
-        encode.append(70)
-        encode.append(73)
-        encode.append(84)
+//        encode.append(46)
+//        encode.append(70)
+//        encode.append(73)
+//        encode.append(84)
+        _ = String([ ".", "F", "I", "T"]).utf8.map{ encode.append(UInt8($0)) }
+
 
         if headerSize == 14 {
             let crcCheck = CRC16(data: encode).crc
