@@ -32,6 +32,7 @@ public struct FitFileMerger {
 
     private struct MergeFile {
 
+        /// File Header
         let header: FileHeader
 
         let messageData: Data

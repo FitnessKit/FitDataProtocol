@@ -48,6 +48,7 @@ public enum ErrorReasons {
 /// FitDataProtocol Error
 public struct FitError: Error {
 
+    /// Type of Error
     public let type: ErrorReasons
 
     public init(_ type: ErrorReasons) {

@@ -57,6 +57,7 @@ internal extension Date {
         return Calendar(identifier: .gregorian).date(from: comps)!
     }
 
+    /// Localized ANT+ EPOCH
     internal static var localAntEPOCH: Date {
         var comps = DateComponents(year: 1989,
                                    month: 12,

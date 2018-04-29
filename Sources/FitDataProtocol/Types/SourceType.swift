@@ -44,6 +44,7 @@ public enum SourceType: UInt8 {
 
 public extension SourceType {
 
+    /// String Value
     public var stringValue: String {
         switch self {
         case .ant:

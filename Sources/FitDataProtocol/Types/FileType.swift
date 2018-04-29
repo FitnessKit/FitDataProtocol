@@ -27,6 +27,7 @@ import Foundation
 /// FIT File Type
 public struct FileType {
 
+    /// Raw Value for File Type
     public let rawValue: UInt8
 
     /// Manufacturing Speciic Range Check

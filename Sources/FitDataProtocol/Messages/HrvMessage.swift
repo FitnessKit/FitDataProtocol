@@ -30,6 +30,7 @@ import DataDecoder
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class HrvMessage: FitMessage {
 
+    /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 {
         return 78
     }

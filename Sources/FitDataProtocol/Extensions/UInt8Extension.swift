@@ -25,6 +25,8 @@
 import Foundation
 
 internal extension UInt8 {
+    
+    /// Bool Value for a UInt8
     var boolValue: Bool {
         switch self {
         case 0x01:

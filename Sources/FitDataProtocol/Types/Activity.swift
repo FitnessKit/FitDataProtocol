@@ -60,6 +60,7 @@ public enum ActivityType: UInt8 {
 
 extension ActivityType {
 
+    /// String Value
     var stringValue: String {
         switch self {
         case .generic:
@@ -88,32 +89,54 @@ extension ActivityType {
 
 /// FIT Activity Sub Type
 public enum ActivitySubType: UInt8 {
+    /// Generic
     case generic        = 0
+    /// Treadmill
     case treadmill      = 1     //Run
+    /// Street (Run)
     case street         = 2     //Run
+    /// Trail (Run)
     case trail          = 3     //Run
+    /// Track (Run)
     case track          = 4     //Run
+    /// Spin (Cycling)
     case spin           = 5     //Cycling
+    /// Indoor Cycling (Cycling)
     case indoorCycling  = 6     //Cycling
+    /// Road (Cycling)
     case road           = 7     //Cycling
+    /// Mountain (Cycling)
     case mountain       = 8     //Cycling
+    /// Downhill (Cycling)
     case downhill       = 9     //Cycling
+    /// Recumbent (Cycling)
     case recumbent      = 10    //Cycling
+    /// Cyclocross (Cycling)
     case cycloCross     = 11    //Cycling
+    /// Hand Cycling (Cycling)
     case handCycling    = 12    //Cycling
+    /// Track Cycling (Cycling)
     case trackCycling   = 13    //Cycling
+    /// Indoor Rowing (Fitness Equipment)
     case indoorRowing   = 14    //Fitness Equipment
+    /// Elliptical (Fitness Equipment)
     case elliptical     = 15    //Fitness Equipment
+    /// Stair Climbing (Fitness Equipment)
     case stairClimbing  = 16    //Fitness Equipment
+    /// Lap Swimming (Swimming)
     case lapSwimming    = 17    //Swimming
+    /// Open Water (SWimming)
     case openWater      = 18    //Swimming
 
+    /// All
     case all            = 254
+    /// Invalid
     case Invalid        = 255
 }
 
 extension ActivitySubType {
 
+    /// String Value
     var stringValue: String {
         switch self {
         case .generic:
@@ -166,15 +189,20 @@ extension ActivitySubType {
 
 /// FIT Activity Level
 public enum ActivityLevel: UInt8 {
+    /// Low Activity Level
     case low        = 0
+    /// Medium Activity Level
     case medium     = 1
+    /// High Activity Level
     case high       = 2
 
+    /// Invalid
     case invalid    = 255
 }
 
 extension ActivityLevel {
 
+    /// String Value
     var stringValue: String {
         switch self {
         case .low:
