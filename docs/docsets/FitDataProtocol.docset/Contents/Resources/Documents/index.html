@@ -13,7 +13,7 @@
     <a title="FitDataProtocol  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">FitDataProtocol Docs</a> (79% documented)</p>
+        <p><a href="index.html">FitDataProtocol Docs</a> (77% documented)</p>
         <p class="header-right"><a href="https://github.com/FitnessKit/FitDataProtocol"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -284,16 +284,22 @@
               <li class="nav-group-task">
                 <a href="Classes/RatingUnit.html">RatingUnit</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Classes/SlaveDeviceMessage.html">SlaveDeviceMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/SlaveDeviceMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="Other Global Variables.html">Other Global Variables</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMajors5UInt8Vv">kProtocolVersionMajor</a>
+                <a href="Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMajors5UInt8Vvp">kProtocolVersionMajor</a>
               </li>
               <li class="nav-group-task">
-                <a href="Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMinors5UInt8Vv">kProtocolVersionMinor</a>
+                <a href="Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMinors5UInt8Vvp">kProtocolVersionMinor</a>
               </li>
             </ul>
           </li>
@@ -390,7 +396,7 @@
             <a href="Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Other Protocols.html#/s:15FitDataProtocol0A11MessageKeysP">FitMessageKeys</a>
+                <a href="Protocols/FitMessageKeys.html">FitMessageKeys</a>
               </li>
             </ul>
           </li>
@@ -425,19 +431,66 @@
             
             <h1 id='fitdataprotocol' class='heading'>FitDataProtocol</h1>
 
-<p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift4-compatible-4BC51D.svg?style=flat" alt="Swift4"></a></p>
+<p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift4-compatible-4BC51D.svg?style=flat" alt="Swift4"></a>
+<a href="http://cocoapods.org/pods/FitDataProtocol"><img src="https://img.shields.io/cocoapods/v/FitDataProtocol.svg?style=flat" alt="Version"></a>
+<a href="http://cocoapods.org/pods/FitDataProtocol"><img src="https://img.shields.io/cocoapods/l/FitDataProtocol.svg?style=flat" alt="License"></a>
+<a href="http://cocoapods.org/pods/FitDataProtocol"><img src="https://img.shields.io/cocoapods/p/FitDataProtocol.svg?style=flat" alt="Platform"></a></p>
 
 <p>Swift Version of the Garmin Flexible and Interoperable Data Transfer Protocol.</p>
 
 <p>Supports Revision 2.3</p>
 <h2 id='installation' class='heading'>Installation</h2>
 
+<p>FitDataProtocol is available through <a href="http://cocoapods.org">CocoaPods</a>. To install it, simply add the following line to your Podfile:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'FitDataProtocol'</span>
+</code></pre>
+
 <p>Swift Package Manager:</p>
 <pre class="highlight swift"><code>    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-        <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/FitnessKit/FitDataProtocol"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="mf">0.9</span><span class="o">.</span><span class="mi">12</span><span class="p">)</span>
+        <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/FitnessKit/FitDataProtocol"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="mf">0.10</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
     <span class="p">]</span>
 </code></pre>
 <h2 id='how-to-use' class='heading'>How to Use</h2>
+<pre class="highlight plaintext"><code>let fileUrl = URL(fileURLWithPath: "WeightScaleMultiUser" + ".fit")
+let fileData = try? Data(contentsOf: fileUrl)
+
+if let fileData = fileData {
+    var decoder = FitFileDecoder(crcCheckingStrategy: .throws)
+
+    do {
+
+        try decoder.decode(data: fileData,
+                       messages: FitFileDecoder.defaultMessages,
+            decoded: { (message: FitMessage) in
+
+                print("Got Message: \(message)")
+
+                if message is FileIdMessage {
+                    let message = message as! FileIdMessage
+                    print("mssage", message.deviceSerialNumber)
+                }
+
+                if message is RecordMessage {
+                    let message = message as! RecordMessage
+                    records.append(message)
+                }
+
+                if message is SportMessage {
+                    let message = message as! SportMessage
+                    sports.append(message)
+                }
+
+                if message is ActivityMessage {
+                    let message = message as! ActivityMessage
+                    activity.append(message)
+                }
+        })
+
+    } catch {
+        print(error)
+    }
+}
+</code></pre>
 <h2 id='author' class='heading'>Author</h2>
 
 <p>Kevin A. Hoogheem</p>

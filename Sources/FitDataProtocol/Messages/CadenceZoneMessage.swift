@@ -52,11 +52,8 @@ open class CadenceZoneMessage: FitMessage {
 
         if let value = highLevel {
 
-            if Int64(value) == BaseType.uint8.invalid {
-                self.highLevel = ValidatedMeasurement(value: Double(value), valid: false, unit: UnitCadence.revolutionsPerMinute)
-            } else {
-                self.highLevel = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitCadence.revolutionsPerMinute)
-            }
+            let valid = !(Int64(value) == BaseType.uint8.invalid)
+            self.highLevel = ValidatedMeasurement(value: Double(value), valid: valid, unit: UnitCadence.revolutionsPerMinute)
 
         } else {
             self.highLevel = nil

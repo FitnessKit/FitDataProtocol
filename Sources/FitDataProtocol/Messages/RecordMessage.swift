@@ -124,11 +124,8 @@ open class RecordMessage: FitMessage {
 
         if let hr = heartRate {
 
-            if Int64(hr) == BaseType.uint8.invalid {
-                self.heartRate = ValidatedMeasurement(value: Double(hr), valid: false, unit: UnitCadence.beatsPerMinute)
-            } else {
-                self.heartRate = ValidatedMeasurement(value: Double(hr), valid: true, unit: UnitCadence.beatsPerMinute)
-            }
+            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
 
         } else {
             self.heartRate = nil
@@ -136,11 +133,8 @@ open class RecordMessage: FitMessage {
 
         if let cadence = cadence {
 
-            if Int64(cadence) == BaseType.uint8.invalid {
-                self.cadence = ValidatedMeasurement(value: Double(cadence), valid: false, unit: UnitCadence.revolutionsPerMinute)
-            } else {
-                self.cadence = ValidatedMeasurement(value: Double(cadence), valid: true, unit: UnitCadence.revolutionsPerMinute)
-            }
+            let valid = !(Int64(cadence) == BaseType.uint8.invalid)
+            self.cadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
 
         } else {
             self.cadence = nil

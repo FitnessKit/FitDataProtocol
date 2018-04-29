@@ -52,11 +52,8 @@ open class HeartRateZoneMessage: FitMessage {
 
         if let hr = heartRate {
 
-            if Int64(hr) == BaseType.uint8.invalid {
-                self.heartRate = ValidatedMeasurement(value: Double(hr), valid: false, unit: UnitCadence.beatsPerMinute)
-            } else {
-                self.heartRate = ValidatedMeasurement(value: Double(hr), valid: true, unit: UnitCadence.beatsPerMinute)
-            }
+            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
 
         } else {
             self.heartRate = nil

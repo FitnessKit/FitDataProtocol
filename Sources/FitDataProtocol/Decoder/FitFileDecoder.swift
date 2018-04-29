@@ -55,6 +55,7 @@ public struct FitFileDecoder {
                                          BloodPressureMessage.self,
                                          SpeedZoneMessage.self,
                                          HrvMessage.self,
+                                         SlaveDeviceMessage.self,
                                          CadenceZoneMessage.self,
                                          DeveloperDataIdMessage.self,
                                          ExerciseTitleMessage.self,

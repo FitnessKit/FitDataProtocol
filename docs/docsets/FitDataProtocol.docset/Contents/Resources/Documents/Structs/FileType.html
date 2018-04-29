@@ -14,7 +14,7 @@
     <a title="FileType Structure Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">FitDataProtocol Docs</a> (79% documented)</p>
+        <p><a href="../index.html">FitDataProtocol Docs</a> (77% documented)</p>
         <p class="header-right"><a href="https://github.com/FitnessKit/FitDataProtocol"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -285,16 +285,22 @@
               <li class="nav-group-task">
                 <a href="../Classes/RatingUnit.html">RatingUnit</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SlaveDeviceMessage.html">SlaveDeviceMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SlaveDeviceMessage/MessageKeys.html">– MessageKeys</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="../Other Global Variables.html">Other Global Variables</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMajors5UInt8Vv">kProtocolVersionMajor</a>
+                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMajors5UInt8Vvp">kProtocolVersionMajor</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMinors5UInt8Vv">kProtocolVersionMinor</a>
+                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMinors5UInt8Vvp">kProtocolVersionMinor</a>
               </li>
             </ul>
           </li>
@@ -391,7 +397,7 @@
             <a href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Protocols.html#/s:15FitDataProtocol0A11MessageKeysP">FitMessageKeys</a>
+                <a href="../Protocols/FitMessageKeys.html">FitMessageKeys</a>
               </li>
             </ul>
           </li>
@@ -439,9 +445,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV8rawValues5UInt8Vv"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV8rawValues5UInt8Vvp"></a>
                     <a name="//apple_ref/swift/Property/rawValue" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV8rawValues5UInt8Vv">rawValue</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV8rawValues5UInt8Vvp">rawValue</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -466,9 +472,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV015isManufacturingE0Sbv"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV015isManufacturingE0Sbvp"></a>
                     <a name="//apple_ref/swift/Property/isManufacturingType" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV015isManufacturingE0Sbv">isManufacturingType</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV015isManufacturingE0Sbvp">isManufacturingType</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -524,9 +530,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:s9EquatableP2eeoiSbx_xtFZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV2eeoiSbAC_ACtFZ"></a>
                     <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:s9EquatableP2eeoiSbx_xtFZ">==(_:_:)</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV2eeoiSbAC_ACtFZ">==(_:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -534,15 +540,50 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Returns a Boolean value indicating whether two values are equal.</p>
+
+<p>Equality is the inverse of inequality. For any values <code>a</code> and <code>b</code>,
+<code>a == b</code> implies that <code>a != b</code> is <code>false</code>.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span><span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">FileType</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">FileType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">FileType</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">FileType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>lhs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A value to compare.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>rhs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Another value to compare.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -554,9 +595,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:s8HashableP9hashValueSiv"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV9hashValueSivp"></a>
                     <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
-                    <a class="token" href="#/s:s8HashableP9hashValueSiv">hashValue</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV9hashValueSivp">hashValue</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -564,7 +605,11 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>The hash value.</p>
+
+<p>Hash values are not guaranteed to be equal across different executions of
+your program. Do not save hash values to use during a future execution.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -584,9 +629,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV03nonaD0ACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV03nonaD0ACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/nonFitFile" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV03nonaD0ACvZ">nonFitFile</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV03nonaD0ACvpZ">nonFitFile</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -611,9 +656,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV6deviceACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV6deviceACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/device" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV6deviceACvZ">device</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV6deviceACvpZ">device</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -638,9 +683,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV8settingsACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV8settingsACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/settings" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV8settingsACvZ">settings</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV8settingsACvpZ">settings</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -665,9 +710,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV5sportACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV5sportACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/sport" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV5sportACvZ">sport</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV5sportACvpZ">sport</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -692,9 +737,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV8activityACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV8activityACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/activity" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV8activityACvZ">activity</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV8activityACvpZ">activity</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -719,9 +764,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV7workoutACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV7workoutACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/workout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV7workoutACvZ">workout</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV7workoutACvpZ">workout</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -746,9 +791,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV6courseACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV6courseACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/course" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV6courseACvZ">course</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV6courseACvpZ">course</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -773,9 +818,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV9schedulesACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV9schedulesACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/schedules" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV9schedulesACvZ">schedules</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV9schedulesACvpZ">schedules</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -800,9 +845,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV6weightACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV6weightACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/weight" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV6weightACvZ">weight</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV6weightACvpZ">weight</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -827,9 +872,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV6totalsACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV6totalsACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/totals" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV6totalsACvZ">totals</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV6totalsACvpZ">totals</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -854,9 +899,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV5goalsACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV5goalsACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/goals" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV5goalsACvZ">goals</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV5goalsACvpZ">goals</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -881,9 +926,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV13bloodPressureACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV13bloodPressureACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/bloodPressure" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV13bloodPressureACvZ">bloodPressure</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV13bloodPressureACvpZ">bloodPressure</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -908,9 +953,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV11monitoringAACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV11monitoringAACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/monitoringA" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV11monitoringAACvZ">monitoringA</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV11monitoringAACvpZ">monitoringA</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -935,9 +980,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV15activitySummaryACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV15activitySummaryACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/activitySummary" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV15activitySummaryACvZ">activitySummary</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV15activitySummaryACvpZ">activitySummary</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -962,9 +1007,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV15monitoringDailyACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV15monitoringDailyACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/monitoringDaily" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV15monitoringDailyACvZ">monitoringDaily</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV15monitoringDailyACvpZ">monitoringDaily</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -989,9 +1034,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV11monitoringBACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV11monitoringBACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/monitoringB" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV11monitoringBACvZ">monitoringB</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV11monitoringBACvpZ">monitoringB</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1016,9 +1061,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV7segmentACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV7segmentACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/segment" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV7segmentACvZ">segment</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV7segmentACvpZ">segment</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1043,9 +1088,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV11segmentListACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV11segmentListACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/segmentList" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV11segmentListACvZ">segmentList</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV11segmentListACvpZ">segmentList</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1070,9 +1115,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV17extdConfigurationACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV17extdConfigurationACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/extdConfiguration" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV17extdConfigurationACvZ">extdConfiguration</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV17extdConfigurationACvpZ">extdConfiguration</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1097,9 +1142,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15FitDataProtocol8FileTypeV7invalidACvZ"></a>
+                    <a name="/s:15FitDataProtocol8FileTypeV7invalidACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/invalid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV7invalidACvZ">invalid</a>
+                    <a class="token" href="#/s:15FitDataProtocol8FileTypeV7invalidACvpZ">invalid</a>
                     </code>
                   </div>
                   <div class="height-container">
