@@ -58,6 +58,7 @@ public struct FitFileDecoder {
                                          HrvMessage.self,
                                          SlaveDeviceMessage.self,
                                          ConnectivityMessage.self,
+                                         WeatherAlertMessage.self,
                                          CadenceZoneMessage.self,
                                          DeveloperDataIdMessage.self,
                                          ExerciseTitleMessage.self,
