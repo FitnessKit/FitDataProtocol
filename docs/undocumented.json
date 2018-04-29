@@ -2,14 +2,14 @@
   "warnings": [
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 87,
+      "line": 88,
       "symbol": "FitFileDecoder.init(crcCheckingStrategy:dataDecodingStrategy:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Decoder/FitFileDecoder.swift",
-      "line": 94,
+      "line": 95,
       "symbol": "FitFileDecoder.decode(data:messages:decoded:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -284,6 +284,125 @@
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/CadenceZoneMessage.swift",
       "line": 135,
       "symbol": "CadenceZoneMessage.MessageKeys.messageIndex",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 35,
+      "symbol": "ConnectivityMessage.globalMessageNumber()",
+      "symbol_kind": "source.lang.swift.decl.function.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 78,
+      "symbol": "ConnectivityMessage.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 80,
+      "symbol": "ConnectivityMessage.init(bluetoothEnabled:bluetoothLowEnergyEnable:antEnabled:name:liveTrackingEnabled:weatherConditionsEnabled:weatherAlertsEnabled:autoActivityUploadEnabled:courseDownloadEnabled:workoutDownloadEnabled:gpsEphemerisDownloadEnabled:incidentDetectionEnabled:groupTrackEnabled:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 229,
+      "symbol": "ConnectivityMessage.FitCodingKeys",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 234,
+      "symbol": "ConnectivityMessage.MessageKeys.bluetoothEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 235,
+      "symbol": "ConnectivityMessage.MessageKeys.bluetoothLowEnergyEnable",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 236,
+      "symbol": "ConnectivityMessage.MessageKeys.antEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 237,
+      "symbol": "ConnectivityMessage.MessageKeys.connectivityName",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 238,
+      "symbol": "ConnectivityMessage.MessageKeys.liveTrackingEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 239,
+      "symbol": "ConnectivityMessage.MessageKeys.weatherConditionsEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 240,
+      "symbol": "ConnectivityMessage.MessageKeys.weatherAlertsEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 241,
+      "symbol": "ConnectivityMessage.MessageKeys.autoActivityUploadEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 242,
+      "symbol": "ConnectivityMessage.MessageKeys.courseDownloadEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 243,
+      "symbol": "ConnectivityMessage.MessageKeys.workoutDownloadEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 244,
+      "symbol": "ConnectivityMessage.MessageKeys.gpsEphemerisDownloadEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 245,
+      "symbol": "ConnectivityMessage.MessageKeys.incidentDetectionEnabled",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/ConnectivityMessage.swift",
+      "line": 246,
+      "symbol": "ConnectivityMessage.MessageKeys.groupTrackEnabled",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
@@ -982,98 +1101,98 @@
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 297,
+      "line": 307,
       "symbol": "GoalMessage.FitCodingKeys",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 302,
+      "line": 312,
       "symbol": "GoalMessage.MessageKeys.sport",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 303,
+      "line": 313,
       "symbol": "GoalMessage.MessageKeys.subSport",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 304,
+      "line": 314,
       "symbol": "GoalMessage.MessageKeys.startDate",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 305,
+      "line": 315,
       "symbol": "GoalMessage.MessageKeys.endDate",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 306,
+      "line": 316,
       "symbol": "GoalMessage.MessageKeys.goalType",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 307,
+      "line": 317,
       "symbol": "GoalMessage.MessageKeys.goalValue",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 308,
+      "line": 318,
       "symbol": "GoalMessage.MessageKeys.repeatGoal",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 309,
+      "line": 319,
       "symbol": "GoalMessage.MessageKeys.targetValue",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 310,
+      "line": 320,
       "symbol": "GoalMessage.MessageKeys.recurrence",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 311,
+      "line": 321,
       "symbol": "GoalMessage.MessageKeys.recurrenceValue",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 312,
+      "line": 322,
       "symbol": "GoalMessage.MessageKeys.enabled",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 313,
+      "line": 323,
       "symbol": "GoalMessage.MessageKeys.goalSource",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/GoalMessage.swift",
-      "line": 315,
+      "line": 325,
       "symbol": "GoalMessage.MessageKeys.messageIndex",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
@@ -1661,21 +1780,21 @@
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/SlaveDeviceMessage.swift",
-      "line": 104,
+      "line": 115,
       "symbol": "SlaveDeviceMessage.FitCodingKeys",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/SlaveDeviceMessage.swift",
-      "line": 109,
+      "line": 120,
       "symbol": "SlaveDeviceMessage.MessageKeys.manufacturer",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/SlaveDeviceMessage.swift",
-      "line": 110,
+      "line": 121,
       "symbol": "SlaveDeviceMessage.MessageKeys.product",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
@@ -1941,189 +2060,189 @@
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 419,
+      "line": 431,
       "symbol": "UserProfileMessage.FitCodingKeys",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 424,
+      "line": 436,
       "symbol": "UserProfileMessage.MessageKeys.friendlyName",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 425,
+      "line": 437,
       "symbol": "UserProfileMessage.MessageKeys.gender",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 426,
+      "line": 438,
       "symbol": "UserProfileMessage.MessageKeys.age",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 427,
+      "line": 439,
       "symbol": "UserProfileMessage.MessageKeys.height",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 428,
+      "line": 440,
       "symbol": "UserProfileMessage.MessageKeys.weight",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 429,
+      "line": 441,
       "symbol": "UserProfileMessage.MessageKeys.language",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 430,
+      "line": 442,
       "symbol": "UserProfileMessage.MessageKeys.elevationSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 431,
+      "line": 443,
       "symbol": "UserProfileMessage.MessageKeys.weightSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 432,
+      "line": 444,
       "symbol": "UserProfileMessage.MessageKeys.restingHeartRate",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 433,
+      "line": 445,
       "symbol": "UserProfileMessage.MessageKeys.defaultMaxRunningHeartRate",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 434,
+      "line": 446,
       "symbol": "UserProfileMessage.MessageKeys.defaultMaxBikingHeartRate",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 435,
+      "line": 447,
       "symbol": "UserProfileMessage.MessageKeys.defaultMaxHeartRate",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 436,
+      "line": 448,
       "symbol": "UserProfileMessage.MessageKeys.heartRateSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 437,
+      "line": 449,
       "symbol": "UserProfileMessage.MessageKeys.speedSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 438,
+      "line": 450,
       "symbol": "UserProfileMessage.MessageKeys.distanceSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 439,
+      "line": 451,
       "symbol": "UserProfileMessage.MessageKeys.powerSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 440,
+      "line": 452,
       "symbol": "UserProfileMessage.MessageKeys.activityClass",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 441,
+      "line": 453,
       "symbol": "UserProfileMessage.MessageKeys.positionSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 442,
+      "line": 454,
       "symbol": "UserProfileMessage.MessageKeys.temperatureSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 443,
+      "line": 455,
       "symbol": "UserProfileMessage.MessageKeys.localID",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 444,
+      "line": 456,
       "symbol": "UserProfileMessage.MessageKeys.globalID",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 445,
+      "line": 457,
       "symbol": "UserProfileMessage.MessageKeys.heightSetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 446,
+      "line": 458,
       "symbol": "UserProfileMessage.MessageKeys.runningStepLength",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 447,
+      "line": 459,
       "symbol": "UserProfileMessage.MessageKeys.walkingStepLength",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 449,
+      "line": 461,
       "symbol": "UserProfileMessage.MessageKeys.timestamp",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/UserProfileMessage.swift",
-      "line": 450,
+      "line": 462,
       "symbol": "UserProfileMessage.MessageKeys.messageIndex",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
@@ -2249,91 +2368,91 @@
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 34,
+      "line": 35,
       "symbol": "WorkoutMessage.globalMessageNumber()",
       "symbol_kind": "source.lang.swift.decl.function.method.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 62,
+      "line": 63,
       "symbol": "WorkoutMessage.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 64,
+      "line": 65,
       "symbol": "WorkoutMessage.init(timeStamp:messageIndex:workoutName:numberOfValidSteps:poolLength:poolLenghtUnit:sport:subSport:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 217,
+      "line": 218,
       "symbol": "WorkoutMessage.FitCodingKeys",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 222,
+      "line": 223,
       "symbol": "WorkoutMessage.MessageKeys.sport",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 223,
+      "line": 224,
       "symbol": "WorkoutMessage.MessageKeys.capabilities",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 224,
+      "line": 225,
       "symbol": "WorkoutMessage.MessageKeys.numberOfValidSteps",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 225,
+      "line": 226,
       "symbol": "WorkoutMessage.MessageKeys.workoutName",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 226,
+      "line": 227,
       "symbol": "WorkoutMessage.MessageKeys.subSport",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 227,
+      "line": 228,
       "symbol": "WorkoutMessage.MessageKeys.poolLength",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 228,
+      "line": 229,
       "symbol": "WorkoutMessage.MessageKeys.poolLenghtUnit",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 230,
+      "line": 231,
       "symbol": "WorkoutMessage.MessageKeys.timestamp",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/kevinh/Developer/GitHub/FitnessKit/FitDataProtocol/Sources/FitDataProtocol/Messages/WorkoutMessage.swift",
-      "line": 231,
+      "line": 232,
       "symbol": "WorkoutMessage.MessageKeys.messageIndex",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"

@@ -26,6 +26,7 @@ custom_categories:
     - ActivityMessage
     - BloodPressureMessage
     - CadenceZoneMessage
+    - ConnectivityMessage
     - CourseMessage
     - CoursePointMessage
     - DeveloperDataIdMessage
@@ -40,6 +41,7 @@ custom_categories:
     - HrvMessage
     - PowerZoneMessage
     - RecordMessage
+    - SlaveDeviceMessage
     - SoftwareMessage
     - SpeedZoneMessage
     - SportMessage
