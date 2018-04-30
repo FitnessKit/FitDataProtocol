@@ -6,6 +6,7 @@ readme: README.md
 
 output: docs
 clean: true
+theme: /Library/Ruby/Gems/2.3.0/gems/jazzy-0.9.2/lib/jazzy/themes/jony
 
 copyright: '© 2017 Kevin A. Hoogheem'
 

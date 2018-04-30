@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0" />
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
@@ -14,687 +15,707 @@
     <a title="SourceType Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">FitDataProtocol Docs</a> (80% documented)</p>
-        <p class="header-right"><a href="https://github.com/FitnessKit/FitDataProtocol"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p>
+          <a href="../index.html">FitDataProtocol Docs</a>
+          <span class="no-mobile"> (80% documented)</span>
+        </p>
+    
+        <p class="header-right">
+          <a href="https://github.com/FitnessKit/FitDataProtocol">
+            <img src="../img/gh.png"/>
+            <span class="no-mobile">View on GitHub</span>
+          </a>
+        </p>
+    
       </div>
     </header>
-    <div class="content-wrapper">
-      <p id="breadcrumbs">
-        <a href="../index.html">FitDataProtocol Reference</a>
-        <img id="carat" src="../img/carat.png" />
-        SourceType Enumeration Reference
-      </p>
+    <div id="breadcrumbs-container">
+      <div class="content-wrapper">
+        <p id="breadcrumbs">
+          <span class="no-mobile">
+            <a href="../index.html">FitDataProtocol Reference</a>
+            <img id="carat" src="../img/carat.png" />
+          </span>
+          SourceType Enumeration Reference
+        </p>
+      </div>
     </div>
-    <div class="content-wrapper">
-      <nav class="sidebar">
-        <ul class="nav-groups">
-          <li class="nav-group-name">
-            <a href="../Decoder.html">Decoder</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/FitFileDecoder.html">FitFileDecoder</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/FitFileDecoder/CrcCheckingStrategy.html">– CrcCheckingStrategy</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">– DataDecodingStrategy</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../FIT Merge.html">FIT Merge</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/FitFileMerger.html">FitFileMerger</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/FitFileMerger/CrcCheckingStrategy.html">– CrcCheckingStrategy</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/FitFileMerger/DataMergingStrategy.html">– DataMergingStrategy</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../FIT Messages.html">FIT Messages</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Classes/FitMessage.html">FitMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/ActivityMessage.html">ActivityMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/ActivityMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/BloodPressureMessage.html">BloodPressureMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/BloodPressureMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/CadenceZoneMessage.html">CadenceZoneMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/CadenceZoneMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/ConnectivityMessage.html">ConnectivityMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/ConnectivityMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/CourseMessage.html">CourseMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/CourseMessage/Capabilities.html">– Capabilities</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/CourseMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/CoursePointMessage.html">CoursePointMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/CoursePointMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/DeveloperDataIdMessage.html">DeveloperDataIdMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/DeveloperDataIdMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/DeviceInfoMessage.html">DeviceInfoMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/DeviceInfoMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/EventMessage.html">EventMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/EventMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/ExerciseTitleMessage.html">ExerciseTitleMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/ExerciseTitleMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/FileCreatorMessage.html">FileCreatorMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/FileCreatorMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/FileIdMessage.html">FileIdMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/FileIdMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GoalMessage.html">GoalMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GoalMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/HeartrateProfileMessage.html">HeartrateProfileMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/HeartrateProfileMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/HeartRateZoneMessage.html">HeartRateZoneMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/HeartRateZoneMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/HrvMessage.html">HrvMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/HrvMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/PowerZoneMessage.html">PowerZoneMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/PowerZoneMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/RecordMessage.html">RecordMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/RecordMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/SlaveDeviceMessage.html">SlaveDeviceMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/SlaveDeviceMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/SoftwareMessage.html">SoftwareMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/SoftwareMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/SpeedZoneMessage.html">SpeedZoneMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/SpeedZoneMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/SportMessage.html">SportMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/SportMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/StrideSpeedDistanceMonitorProfileMessage.html">StrideSpeedDistanceMonitorProfileMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/StrideSpeedDistanceMonitorProfileMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/TotalsMessage.html">TotalsMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/TotalsMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/UserProfileMessage.html">UserProfileMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/UserProfileMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/WeatherAlertMessage.html">WeatherAlertMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/WeatherAlertMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/WeightScaleMessage.html">WeightScaleMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/WeightScaleMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/WorkoutMessage.html">WorkoutMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/WorkoutMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/WorkoutStepMessage.html">WorkoutStepMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/WorkoutStepMessage/MessageKeys.html">– MessageKeys</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../ExerciseName.html">ExerciseName</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Protocols/ExerciseNameType.html">ExerciseNameType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/ExerciseNameSupportable.html">ExerciseNameSupportable</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/BenchPressExerciseName.html">BenchPressExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/CalfRaiseExerciseName.html">CalfRaiseExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/CardioExerciseName.html">CardioExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/CarryExerciseName.html">CarryExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/ChopExerciseName.html">ChopExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/CoreExerciseName.html">CoreExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/CrunchExerciseName.html">CrunchExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/CurlExerciseName.html">CurlExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/DeadliftExerciseName.html">DeadliftExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/FlyeExerciseName.html">FlyeExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/HipRaiseExerciseName.html">HipRaiseExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/HipStabilityExerciseName.html">HipStabilityExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/HipSwingExerciseName.html">HipSwingExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/HyperextensionExerciseName.html">HyperextensionExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/LateralRaiseExerciseName.html">LateralRaiseExerciseName</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/LegCurlExerciseName.html">LegCurlExerciseName</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Other Classes.html">Other Classes</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Classes/CRC16.html">CRC16</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/RatingUnit.html">RatingUnit</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Other Global Variables.html">Other Global Variables</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMajors5UInt8Vvp">kProtocolVersionMajor</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMinors5UInt8Vvp">kProtocolVersionMinor</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Other Enums.html">Other Enumerations</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Enums/Activity.html">Activity</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/ActivityLevel.html">ActivityLevel</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/ActivitySubType.html">ActivitySubType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/ActivityType.html">ActivityType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/BloodPressureStatus.html">BloodPressureStatus</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/BodyLocation.html">BodyLocation</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/CoursePoint.html">CoursePoint</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/ErrorReasons.html">ErrorReasons</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/Event.html">Event</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/EventType.html">EventType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/ExerciseCategory.html">ExerciseCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/Goal.html">Goal</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/GoalRecurrence.html">GoalRecurrence</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/GoalSource.html">GoalSource</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/HeartRateDisplayType.html">HeartRateDisplayType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/HeartRateType.html">HeartRateType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/Intensity.html">Intensity</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/Language.html">Language</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/MeasurementDisplayType.html">MeasurementDisplayType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/PositionDisplayType.html">PositionDisplayType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/PowerDisplayType.html">PowerDisplayType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/SourceType.html">SourceType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/Stroke.html">Stroke</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/WeatherReport.html">WeatherReport</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/WeatherSeverity.html">WeatherSeverity</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/WeatherSeverityType.html">WeatherSeverityType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/WeatherStatus.html">WeatherStatus</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/WorkoutEquipment.html">WorkoutEquipment</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/WorkoutStepDurationType.html">WorkoutStepDurationType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/WorkoutStepTargetType.html">WorkoutStepTargetType</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Other Protocols.html">Other Protocols</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Protocols/FitMessageKeys.html">FitMessageKeys</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Other Structs.html">Other Structures</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/DeviceIndex.html">DeviceIndex</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/FileType.html">FileType</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/FitError.html">FitError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/FitTime.html">FitTime</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/MessageIndex.html">MessageIndex</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/Weight.html">Weight</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-      <article class="main-content">
-        <section>
-          <section class="section">
-            <h1>SourceType</h1>
-              <div class="declaration">
-                <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SourceType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+    <div class="wrapper">
+      <div class="article-wrapper">
+        <article class="main-content">
+          <section>
+            <section class="section">
+              <h1>SourceType</h1>
+                <div class="declaration">
+                  <div class="language">
+                    <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SourceType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
 
+                  </div>
                 </div>
+              <p>FIT Source Type</p>
+
+            </section>
+            <section class="section task-group-section">
+              <div class="task-group">
+                <ul>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10SourceTypeO3antA2CmF"></a>
+                      <a name="//apple_ref/swift/Element/ant" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10SourceTypeO3antA2CmF">ant</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>ANT Public</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">ant</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10SourceTypeO7antPlusA2CmF"></a>
+                      <a name="//apple_ref/swift/Element/antPlus" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10SourceTypeO7antPlusA2CmF">antPlus</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>ANT+</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">antPlus</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10SourceTypeO9bluetoothA2CmF"></a>
+                      <a name="//apple_ref/swift/Element/bluetooth" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10SourceTypeO9bluetoothA2CmF">bluetooth</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Bluetooth</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">bluetooth</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10SourceTypeO3bleA2CmF"></a>
+                      <a name="//apple_ref/swift/Element/ble" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10SourceTypeO3bleA2CmF">ble</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>BLE</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">ble</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10SourceTypeO4wifiA2CmF"></a>
+                      <a name="//apple_ref/swift/Element/wifi" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10SourceTypeO4wifiA2CmF">wifi</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>WIFI</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">wifi</span> <span class="o">=</span> <span class="mi">4</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10SourceTypeO5localA2CmF"></a>
+                      <a name="//apple_ref/swift/Element/local" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10SourceTypeO5localA2CmF">local</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Local</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">local</span> <span class="o">=</span> <span class="mi">5</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10SourceTypeO7invalidA2CmF"></a>
+                      <a name="//apple_ref/swift/Element/invalid" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10SourceTypeO7invalidA2CmF">invalid</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Invalid</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalid</span> <span class="o">=</span> <span class="mi">255</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                </ul>
               </div>
-            <p>FIT Source Type</p>
+              <div class="task-group">
+                <ul>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10SourceTypeO11stringValueSSvp"></a>
+                      <a name="//apple_ref/swift/Property/stringValue" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10SourceTypeO11stringValueSSvp">stringValue</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>String Value</p>
 
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">stringValue</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
           </section>
-          <section class="section task-group-section">
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol10SourceTypeO3antA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/ant" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol10SourceTypeO3antA2CmF">ant</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>ANT Public</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">ant</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
+        </article>
+      </div>
+      <div class="nav-wrapper">
+        <nav class="nav-bottom">
+          <ul class="nav-groups">
+            <li class="nav-group-name">
+              <a href="../Decoder.html">Decoder</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileDecoder.html">FitFileDecoder</a>
                 </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol10SourceTypeO7antPlusA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/antPlus" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol10SourceTypeO7antPlusA2CmF">antPlus</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>ANT+</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">antPlus</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileDecoder/CrcCheckingStrategy.html">– CrcCheckingStrategy</a>
                 </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol10SourceTypeO9bluetoothA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/bluetooth" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol10SourceTypeO9bluetoothA2CmF">bluetooth</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Bluetooth</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">bluetooth</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol10SourceTypeO3bleA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/ble" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol10SourceTypeO3bleA2CmF">ble</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>BLE</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">ble</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol10SourceTypeO4wifiA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/wifi" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol10SourceTypeO4wifiA2CmF">wifi</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>WIFI</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">wifi</span> <span class="o">=</span> <span class="mi">4</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol10SourceTypeO5localA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/local" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol10SourceTypeO5localA2CmF">local</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Local</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">local</span> <span class="o">=</span> <span class="mi">5</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol10SourceTypeO7invalidA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/invalid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol10SourceTypeO7invalidA2CmF">invalid</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Invalid</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalid</span> <span class="o">=</span> <span class="mi">255</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">– DataDecodingStrategy</a>
                 </li>
               </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15FitDataProtocol10SourceTypeO11stringValueSSvp"></a>
-                    <a name="//apple_ref/swift/Property/stringValue" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15FitDataProtocol10SourceTypeO11stringValueSSvp">stringValue</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>String Value</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">stringValue</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
+            </li>
+            <li class="nav-group-name">
+              <a href="../FIT Merge.html">FIT Merge</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileMerger.html">FitFileMerger</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileMerger/CrcCheckingStrategy.html">– CrcCheckingStrategy</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileMerger/DataMergingStrategy.html">– DataMergingStrategy</a>
                 </li>
               </ul>
-            </div>
-          </section>
-        </section>
+            </li>
+            <li class="nav-group-name">
+              <a href="../FIT Messages.html">FIT Messages</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Classes/FitMessage.html">FitMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/ActivityMessage.html">ActivityMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/ActivityMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/BloodPressureMessage.html">BloodPressureMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/BloodPressureMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/CadenceZoneMessage.html">CadenceZoneMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/CadenceZoneMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/ConnectivityMessage.html">ConnectivityMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/ConnectivityMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/CourseMessage.html">CourseMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/CourseMessage/Capabilities.html">– Capabilities</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/CourseMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/CoursePointMessage.html">CoursePointMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/CoursePointMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/DeveloperDataIdMessage.html">DeveloperDataIdMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/DeveloperDataIdMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/DeviceInfoMessage.html">DeviceInfoMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/DeviceInfoMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/EventMessage.html">EventMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/EventMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/ExerciseTitleMessage.html">ExerciseTitleMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/ExerciseTitleMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/FileCreatorMessage.html">FileCreatorMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/FileCreatorMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/FileIdMessage.html">FileIdMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/FileIdMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/GoalMessage.html">GoalMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/GoalMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/HeartrateProfileMessage.html">HeartrateProfileMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/HeartrateProfileMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/HeartRateZoneMessage.html">HeartRateZoneMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/HeartRateZoneMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/HrvMessage.html">HrvMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/HrvMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/PowerZoneMessage.html">PowerZoneMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/PowerZoneMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/RecordMessage.html">RecordMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/RecordMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/SlaveDeviceMessage.html">SlaveDeviceMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/SlaveDeviceMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/SoftwareMessage.html">SoftwareMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/SoftwareMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/SpeedZoneMessage.html">SpeedZoneMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/SpeedZoneMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/SportMessage.html">SportMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/SportMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/StrideSpeedDistanceMonitorProfileMessage.html">StrideSpeedDistanceMonitorProfileMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/StrideSpeedDistanceMonitorProfileMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/TotalsMessage.html">TotalsMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/TotalsMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/UserProfileMessage.html">UserProfileMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/UserProfileMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/WeatherAlertMessage.html">WeatherAlertMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/WeatherAlertMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/WeightScaleMessage.html">WeightScaleMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/WeightScaleMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/WorkoutMessage.html">WorkoutMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/WorkoutMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/WorkoutStepMessage.html">WorkoutStepMessage</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/WorkoutStepMessage/MessageKeys.html">– MessageKeys</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="../ExerciseName.html">ExerciseName</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Protocols/ExerciseNameType.html">ExerciseNameType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Protocols/ExerciseNameSupportable.html">ExerciseNameSupportable</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/BenchPressExerciseName.html">BenchPressExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/CalfRaiseExerciseName.html">CalfRaiseExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/CardioExerciseName.html">CardioExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/CarryExerciseName.html">CarryExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/ChopExerciseName.html">ChopExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/CoreExerciseName.html">CoreExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/CrunchExerciseName.html">CrunchExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/CurlExerciseName.html">CurlExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/DeadliftExerciseName.html">DeadliftExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/FlyeExerciseName.html">FlyeExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/HipRaiseExerciseName.html">HipRaiseExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/HipStabilityExerciseName.html">HipStabilityExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/HipSwingExerciseName.html">HipSwingExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/HyperextensionExerciseName.html">HyperextensionExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/LateralRaiseExerciseName.html">LateralRaiseExerciseName</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/LegCurlExerciseName.html">LegCurlExerciseName</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="../Other Classes.html">Other Classes</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Classes/CRC16.html">CRC16</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Classes/RatingUnit.html">RatingUnit</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="../Other Global Variables.html">Other Global Variables</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMajors5UInt8Vvp">kProtocolVersionMajor</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Other Global Variables.html#/s:15FitDataProtocol01kC12VersionMinors5UInt8Vvp">kProtocolVersionMinor</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="../Other Enums.html">Other Enumerations</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Enums/Activity.html">Activity</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/ActivityLevel.html">ActivityLevel</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/ActivitySubType.html">ActivitySubType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/ActivityType.html">ActivityType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/BloodPressureStatus.html">BloodPressureStatus</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/BodyLocation.html">BodyLocation</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/CoursePoint.html">CoursePoint</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/ErrorReasons.html">ErrorReasons</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/Event.html">Event</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/EventType.html">EventType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/ExerciseCategory.html">ExerciseCategory</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/Goal.html">Goal</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/GoalRecurrence.html">GoalRecurrence</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/GoalSource.html">GoalSource</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/HeartRateDisplayType.html">HeartRateDisplayType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/HeartRateType.html">HeartRateType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/Intensity.html">Intensity</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/Language.html">Language</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/MeasurementDisplayType.html">MeasurementDisplayType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/PositionDisplayType.html">PositionDisplayType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/PowerDisplayType.html">PowerDisplayType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/SourceType.html">SourceType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/Stroke.html">Stroke</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/WeatherReport.html">WeatherReport</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/WeatherSeverity.html">WeatherSeverity</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/WeatherSeverityType.html">WeatherSeverityType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/WeatherStatus.html">WeatherStatus</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/WorkoutEquipment.html">WorkoutEquipment</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/WorkoutStepDurationType.html">WorkoutStepDurationType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Enums/WorkoutStepTargetType.html">WorkoutStepTargetType</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="../Other Protocols.html">Other Protocols</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Protocols/FitMessageKeys.html">FitMessageKeys</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="../Other Structs.html">Other Structures</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Structs/DeviceIndex.html">DeviceIndex</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/FileType.html">FileType</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/FitError.html">FitError</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/FitTime.html">FitTime</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/MessageIndex.html">MessageIndex</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/Weight.html">Weight</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-wrapper">
         <section id="footer">
           <p>© 2017 Kevin A. Hoogheem</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
-      </article>
+      </div>
     </div>
   </body>
 </div>
