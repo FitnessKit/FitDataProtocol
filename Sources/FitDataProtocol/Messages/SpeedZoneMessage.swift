@@ -81,7 +81,7 @@ open class SpeedZoneMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * m/s + 0
-                        let value = Double(value) / 10
+                        let value = value.resolution(1 / 1000)
                         highLevel = Measurement(value: value, unit: UnitSpeed.metersPerSecond)
                     } else {
 

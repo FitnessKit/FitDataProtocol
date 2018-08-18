@@ -225,7 +225,7 @@ open class UserProfileMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  100 * m + 0
-                        let value = Double(value) / 100
+                        let value = value.resolution(1 / 100)
                         height = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
@@ -241,7 +241,7 @@ open class UserProfileMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  10 * kg + 0
-                        let value = Double(value) / 10
+                        let value = value.resolution(1 / 10)
                         weight = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
 
@@ -378,7 +378,7 @@ open class UserProfileMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * m + 0, User defined running step length set to 0 for auto length
-                        let value = Double(value) / 1000
+                        let value = value.resolution(1 / 1000)
                         runningStepLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
@@ -394,7 +394,7 @@ open class UserProfileMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * m + 0, User defined running step length set to 0 for auto length
-                        let value = Double(value) / 1000
+                        let value = value.resolution(1 / 1000)
                         walkingStepLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 

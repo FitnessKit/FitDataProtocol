@@ -107,7 +107,7 @@ open class ActivityMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * s + 0
-                        let value = Double(value) / 1000
+                        let value = value.resolution(1 / 1000)
                         totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 

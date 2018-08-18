@@ -86,3 +86,14 @@ extension UInt32: Resolutionable {
         return Double(self) * res
     }
 }
+
+extension Int32: Resolutionable {
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter res: Resolution
+    /// - Returns: Number with Resolution applied
+    func resolution(_ res: Double) -> Double {
+        return Double(self) * res
+    }
+}

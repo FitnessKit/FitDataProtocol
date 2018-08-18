@@ -154,7 +154,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * % + 0
-                        let value = Double(value) / 100.0
+                        let value = value.resolution(1 / 100)
                         percentFat = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
 
@@ -170,7 +170,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * % + 0
-                        let value = Double(value) / 100.0
+                        let value = value.resolution(1 / 100)
                         percentHydration = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
 
@@ -186,7 +186,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
-                        let value = Double(value) / 100.0
+                        let value = value.resolution(1 / 100)
                         visceralFatMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
 
@@ -202,7 +202,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
-                        let value = Double(value) / 100.0
+                        let value = value.resolution(1 / 100)
                         boneMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
 
@@ -218,7 +218,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
-                        let value = Double(value) / 100.0
+                        let value = value.resolution(1 / 100)
                         muscleMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
 
@@ -234,7 +234,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 4 * kcal/day + 0
-                        let value = Double(value) / 4.0
+                        let value = value.resolution(1 / 4)
                         basalMet = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
 
@@ -265,7 +265,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 4 * kcal/day + 0
-                        let value = Double(value) / 4.0
+                        let value = value.resolution(1 / 4)
                         activeMet = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
 

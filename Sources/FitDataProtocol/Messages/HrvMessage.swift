@@ -76,7 +76,7 @@ open class HrvMessage: FitMessage {
 
                     while seconds != 0 {
                         /// 1000 * s + 0, Time between beats
-                        let value = Double(seconds) / 1000
+                        let value = seconds.resolution(1 / 1000)
                         let interval = Measurement(value: value, unit: UnitDuration.seconds)
 
                         if hrv == nil {

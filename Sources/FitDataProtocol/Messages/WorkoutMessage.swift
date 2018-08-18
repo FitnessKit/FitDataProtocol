@@ -159,7 +159,7 @@ open class WorkoutMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  100 * m + 0
-                        let value = Double(value) / 100
+                        let value = value.resolution(1 / 100)
                         poolLength = Measurement(value: value, unit: UnitLength.meters)
                     } else {
 

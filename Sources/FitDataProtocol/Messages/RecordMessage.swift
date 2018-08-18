@@ -236,7 +236,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
                     if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
 
@@ -252,7 +252,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
                     if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
 
@@ -314,7 +314,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
-                        let value = Double(value) / 100
+                        let value = value.resolution(1 / 100)
                         distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
@@ -330,7 +330,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0
-                        let value = Double(value) / 1000
+                        let value = value.resolution(1 / 1000)
                         speed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
@@ -346,7 +346,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         power = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
 
@@ -396,7 +396,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
                     if Int64(value) != definition.baseType.invalid {
                         // 1000 * s + 0
-                        let value = Double(value) / 1000
+                        let value = value.resolution(1 / 1000)
                         timeFromCourse = ValidatedMeasurement(value: value, valid: false, unit: UnitDuration.seconds)
                     } else {
 
@@ -454,7 +454,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         compressedAccumulatedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
 
@@ -470,7 +470,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         longAccumulatedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
 
@@ -505,7 +505,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeInt16(fieldData.fieldData).littleEndian : localDecoder.decodeInt16(fieldData.fieldData).bigEndian
                     if Int64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0,
-                        let value = Double(value) / 1000
+                        let value = value.resolution(1 / 1000)
                         verticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
@@ -614,7 +614,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeInt16(fieldData.fieldData).littleEndian : localDecoder.decodeInt16(fieldData.fieldData).bigEndian
                     if Int64(value) != definition.baseType.invalid {
                         //  100 * m/s + 0,
-                        let value = Double(value) / 100
+                        let value = value.resolution(1 / 100)
                         ballSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
@@ -676,7 +676,7 @@ open class RecordMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0
-                        let value = Double(value) / 1000
+                        let value = value.resolution(1 / 1000)
                         enhancedSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 

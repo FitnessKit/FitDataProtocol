@@ -80,7 +80,7 @@ open class PowerZoneMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * watts + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         highLevel = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
 

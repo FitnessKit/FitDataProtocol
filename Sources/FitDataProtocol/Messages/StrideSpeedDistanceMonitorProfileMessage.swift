@@ -129,7 +129,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 10 * % + 0
-                        let value = Double(value) / 10
+                        let value = value.resolution(1 / 10)
                         calibrationFactor = Measurement(value: value, unit: UnitPercent.percent)
                     } else {
 
@@ -145,7 +145,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
-                        let value = Double(value) / 100
+                        let value = value.resolution(1 / 100)
                         odometer = Measurement(value: value, unit: UnitLength.meters)
                     } else {
 

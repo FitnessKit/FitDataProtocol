@@ -106,7 +106,7 @@ open class CoursePointMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
                     if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
 
@@ -122,7 +122,7 @@ open class CoursePointMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
                     if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
 
@@ -138,7 +138,7 @@ open class CoursePointMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
-                        let value = Double(value) / 100
+                        let value = value.resolution(1 / 100)
                         distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 

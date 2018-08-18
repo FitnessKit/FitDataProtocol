@@ -275,7 +275,7 @@ open class DeviceInfoMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 256 * V + 0
-                        let value = Double(value) / 256
+                        let value = value.resolution(1 / 256)
                         batteryVoltage = ValidatedMeasurement(value: value, valid: true, unit: UnitElectricPotentialDifference.volts)
                     } else {
 

@@ -126,7 +126,7 @@ open class TotalsMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * s + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         timerTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
@@ -134,7 +134,7 @@ open class TotalsMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * m + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
@@ -179,7 +179,7 @@ open class TotalsMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * s + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         elapsedTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
@@ -201,7 +201,7 @@ open class TotalsMessage: FitMessage {
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * s + 0
-                        let value = Double(value)
+                        let value = value.resolution(1)
                         activeTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
