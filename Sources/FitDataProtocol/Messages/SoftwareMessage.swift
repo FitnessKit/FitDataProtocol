@@ -62,7 +62,7 @@ open class SoftwareMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -71,14 +71,14 @@ open class SoftwareMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("SoftwareMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .version:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         version = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -92,13 +92,13 @@ open class SoftwareMessage: FitMessage {
                     }
 
                 case .partNumber:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         partNumber = stringData.smartString
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

@@ -72,7 +72,7 @@ open class HeartrateProfileMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -81,19 +81,19 @@ open class HeartrateProfileMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("HeartrateProfileMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
                 case .enabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         enabled = value.boolValue
                     }
 
                 case .antID:
-                    let value = localDecoder.decodeUInt16()
+                    let value = localDecoder.decodeUInt16(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         antID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -107,19 +107,19 @@ open class HeartrateProfileMessage: FitMessage {
                     }
 
                 case .logHrv:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         logHrv = value.boolValue
                     }
 
                 case .transType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         transmissionType = TransmissionType(value)
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

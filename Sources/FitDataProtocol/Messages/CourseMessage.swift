@@ -96,7 +96,7 @@ open class CourseMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -105,14 +105,14 @@ open class CourseMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("CourseMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .sport:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         sport = Sport(rawValue: value)
                     } else {
@@ -126,19 +126,19 @@ open class CourseMessage: FitMessage {
                     }
 
                 case .name:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         name = stringData.smartString
                     }
 
                 case .capabilities:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         capabilities = Capabilities(rawValue: value)
                     }
 
                 case .subSport:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         subSport = SubSport(rawValue: value)
                     } else {

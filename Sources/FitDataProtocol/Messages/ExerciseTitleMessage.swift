@@ -69,7 +69,7 @@ open class ExerciseTitleMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -78,14 +78,14 @@ open class ExerciseTitleMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("ExerciseTitleMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .category:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         category = ExerciseCategory(rawValue: value)
                     } else {
@@ -99,20 +99,20 @@ open class ExerciseTitleMessage: FitMessage {
                     }
 
                 case .exerciseName:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         exerciseNumber = value
                     }
 
                 case .stepName:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         stepName = stringData.smartString
                     }
 
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

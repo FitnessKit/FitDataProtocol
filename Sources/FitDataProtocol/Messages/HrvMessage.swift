@@ -52,7 +52,7 @@ open class HrvMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -61,18 +61,18 @@ open class HrvMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("HrvMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .time:
-                    let timeData = localDecoder.decodeData(length: Int(definition.size))
+                    let timeData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
-                    var localDecoder = DataDecoder(timeData)
+                    var localDecoder = DecodeData()
 
-                    var seconds = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    var seconds = arch == .little ? localDecoder.decodeUInt16(timeData).littleEndian : localDecoder.decodeUInt16(timeData).bigEndian
 
                     while seconds != 0 {
                         /// 1000 * s + 0, Time between beats
@@ -84,7 +84,7 @@ open class HrvMessage: FitMessage {
                         }
                         hrv?.append(interval)
 
-                        seconds = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                        seconds = arch == .little ? localDecoder.decodeUInt16(timeData).littleEndian : localDecoder.decodeUInt16(timeData).bigEndian
                     }
 
                 }

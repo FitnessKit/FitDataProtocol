@@ -89,7 +89,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -98,20 +98,20 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("StrideSpeedDistanceMonitorProfileMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
                 case .enabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         enabled = value.boolValue
                     }
 
 
                 case .antID:
-                    let value = localDecoder.decodeUInt16()
+                    let value = localDecoder.decodeUInt16(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         antID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -126,7 +126,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
 
                 case .calibrationFactor:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 10 * % + 0
                         let value = Double(value) / 10
@@ -142,7 +142,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     }
 
                 case .odometer:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
                         let value = Double(value) / 100
@@ -158,25 +158,25 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     }
 
                 case .speedSource:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         speedSourceFootpod = value.boolValue
                     }
 
                 case .transType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         transmissionType = TransmissionType(value)
                     }
 
                 case .odometerRollover:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         odometerRolloverCounter = value
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

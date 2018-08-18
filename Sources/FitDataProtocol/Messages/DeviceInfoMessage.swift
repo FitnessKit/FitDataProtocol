@@ -96,7 +96,24 @@ open class DeviceInfoMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, serialNumber: ValidatedBinaryInteger<UInt32>?, cumulativeOpTime: ValidatedMeasurement<UnitDuration>?, productName: String?, manufacturer: Manufacturer?, product: ValidatedBinaryInteger<UInt16>?, softwareVersion: ValidatedBinaryInteger<UInt16>?, hardwareVersion: ValidatedBinaryInteger<UInt8>?, batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>?, batteryStatus: BatteryStatus?, deviceNumber: ValidatedBinaryInteger<UInt16>?, deviceType: DeviceType?, deviceIndex: DeviceIndex?, sensorDescription: String?, bodylocation: BodyLocation?, transmissionType: TransmissionType?, antNetwork: NetworkType?, source: SourceType?) {
+    public init(timeStamp: FitTime?,
+                serialNumber: ValidatedBinaryInteger<UInt32>?,
+                cumulativeOpTime: ValidatedMeasurement<UnitDuration>?,
+                productName: String?,
+                manufacturer: Manufacturer?,
+                product: ValidatedBinaryInteger<UInt16>?,
+                softwareVersion: ValidatedBinaryInteger<UInt16>?,
+                hardwareVersion: ValidatedBinaryInteger<UInt8>?,
+                batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>?,
+                batteryStatus: BatteryStatus?,
+                deviceNumber: ValidatedBinaryInteger<UInt16>?,
+                deviceType: DeviceType?,
+                deviceIndex: DeviceIndex?,
+                sensorDescription: String?,
+                bodylocation: BodyLocation?,
+                transmissionType: TransmissionType?,
+                antNetwork: NetworkType?,
+                source: SourceType?) {
 
         self.timeStamp = timeStamp
         self.serialNumber = serialNumber
@@ -141,7 +158,7 @@ open class DeviceInfoMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -150,14 +167,14 @@ open class DeviceInfoMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("DeviceInfoMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .deviceIndex:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         deviceIndex = DeviceIndex(index: value)
                     } else {
@@ -171,7 +188,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .deviceType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         deviceType = DeviceType(rawValue: value)
                     } else {
@@ -185,13 +202,13 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .manufacturer:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         manufacturer = Manufacturer.company(id: value)
                     }
 
                 case .serialNumber:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         serialNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -205,7 +222,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .product:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         product = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -219,7 +236,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .softwareVersion:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         softwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -233,7 +250,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .hardwareVersion:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         hardwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -247,7 +264,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .cumulativeOpTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * s + 0
                         let value = Double(value)
@@ -255,7 +272,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .batteryVoltage:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 256 * V + 0
                         let value = Double(value) / 256
@@ -271,7 +288,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .batteryStatus:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         batteryStatus = BatteryStatus(rawValue: value)
                     } else {
@@ -285,7 +302,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .sensorPosition:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         bodylocation = BodyLocation(rawValue: value)
                     } else {
@@ -299,19 +316,19 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .description:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         sensorDescription = stringData.smartString
                     }
 
                 case .transmissionType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         transmissionType = TransmissionType(value)
                     }
 
                 case .deviceNumber:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         deviceNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -325,7 +342,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .antNetwork:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         antNetwork = NetworkType(rawValue: value)
                     } else {
@@ -339,7 +356,7 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .sourcetype:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         source = SourceType(rawValue: value)
                     } else {
@@ -353,13 +370,13 @@ open class DeviceInfoMessage: FitMessage {
                     }
 
                 case .productName:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         productname = stringData.smartString
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         timestamp = FitTime(time: value)
                     }

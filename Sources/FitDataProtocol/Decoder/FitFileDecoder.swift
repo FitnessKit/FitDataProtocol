@@ -130,13 +130,11 @@ public struct FitFileDecoder {
                 var hasMessageDecoder = false
                 var messageType: FitMessage!
 
-                for message in messages {
-
-                    if message.globalMessageNumber() == definitionDict[header.localMessageType]!.globalMessageNumber {
-                        hasMessageDecoder = true
-                        messageType = message.init()
-                        break;
-                    }
+                if let message = messages.filter({
+                    $0.globalMessageNumber() == definitionDict[header.localMessageType]!.globalMessageNumber
+                }).first {
+                    hasMessageDecoder = true
+                    messageType = message.init()
                 }
 
                 var fieldSize: Int = 0

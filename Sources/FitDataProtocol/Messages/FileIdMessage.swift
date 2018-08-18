@@ -77,7 +77,7 @@ open class FileIdMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -86,13 +86,13 @@ open class FileIdMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("FileIdMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
                 case .fileType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) == definition.baseType.invalid {
 
                         switch dataStrategy {
@@ -107,13 +107,13 @@ open class FileIdMessage: FitMessage {
                     }
 
                 case .manufacturer:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         manufacturer = Manufacturer.company(id: value)
                     }
                     
                 case .product:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         product = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -127,7 +127,7 @@ open class FileIdMessage: FitMessage {
                     }
 
                 case .serialNumber:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         deviceSerialNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -141,13 +141,13 @@ open class FileIdMessage: FitMessage {
                     }
 
                 case .fileCreationDate:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         fileCreationDate = FitTime(time: value)
                     }
 
                 case .fileNumber:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         fileNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -163,7 +163,7 @@ open class FileIdMessage: FitMessage {
                     
                 case .productName:
                     // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 }
             }
         }

@@ -89,7 +89,7 @@ open class ActivityMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -98,13 +98,13 @@ open class ActivityMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("ActivityMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
                 case .totalTimerTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * s + 0
                         let value = Double(value) / 1000
@@ -112,7 +112,7 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .numberOfSessions:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         numberOfSessions = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -126,7 +126,7 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .activityType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         activity = Activity(rawValue: value)
                     } else {
@@ -140,7 +140,7 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .event:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         event = Event(rawValue: value)
                     } else {
@@ -154,7 +154,7 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .eventType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         eventType = EventType(rawValue: value)
                     } else {
@@ -168,13 +168,13 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .localTimestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         localTimeStamp = FitTime(time: value, isLocal: true)
                     }
 
                 case .eventGroup:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         eventGroup = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -188,7 +188,7 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         timeStamp = FitTime(time: value)
                     }

@@ -72,7 +72,7 @@ open class DeveloperDataIdMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -81,32 +81,32 @@ open class DeveloperDataIdMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("DeveloperDataIdMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .developerId:
-                    let value = localDecoder.decodeData(length: Int(definition.size))
+                    let value = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(value.count) != definition.baseType.invalid {
                         developerId = value
                     }
 
                 case .applicationId:
-                    let value = localDecoder.decodeData(length: Int(definition.size))
+                    let value = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(value.count) != definition.baseType.invalid {
                         applicationId = value
                     }
 
                 case .manufacturerId:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         manufacturer = Manufacturer.company(id: value)
                     }
                     
                 case .dataIndex:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         dataIndex = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -120,7 +120,7 @@ open class DeveloperDataIdMessage: FitMessage {
                     }
 
                 case .applicationVersion:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         applicationVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {

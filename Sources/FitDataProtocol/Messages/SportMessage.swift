@@ -61,7 +61,7 @@ open class SportMessage: FitMessage {
 
         ///let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -70,14 +70,14 @@ open class SportMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("SportMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .sport:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         sport = Sport(rawValue: value)
                     } else {
@@ -91,7 +91,7 @@ open class SportMessage: FitMessage {
                     }
 
                 case .subSport:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         subSport = SubSport(rawValue: value)
                     } else {
@@ -105,13 +105,13 @@ open class SportMessage: FitMessage {
                     }
 
                 case .name:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         name = stringData.smartString
                     }
 
                 case .timestamp:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 }
             }

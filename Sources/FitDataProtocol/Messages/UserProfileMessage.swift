@@ -84,7 +84,21 @@ open class UserProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, friendlyName: String?, weight: ValidatedMeasurement<UnitMass>?, localID: ValidatedBinaryInteger<UInt16>?, runningStepLength: ValidatedMeasurement<UnitLength>?, walkingStepLength: ValidatedMeasurement<UnitLength>?, gender: Gender?, age: ValidatedMeasurement<UnitDuration>?, height: ValidatedMeasurement<UnitLength>?, language: Language?, restingHeartRate: UInt8?, maxRunningHeartRate: UInt8?, maxBikingHeartRate: UInt8?, maxHeartRate: UInt8? ) {
+    public init(timeStamp: FitTime?,
+                messageIndex: MessageIndex?,
+                friendlyName: String?,
+                weight: ValidatedMeasurement<UnitMass>?,
+                localID: ValidatedBinaryInteger<UInt16>?,
+                runningStepLength: ValidatedMeasurement<UnitLength>?,
+                walkingStepLength: ValidatedMeasurement<UnitLength>?,
+                gender: Gender?,
+                age: ValidatedMeasurement<UnitDuration>?,
+                height: ValidatedMeasurement<UnitLength>?,
+                language: Language?,
+                restingHeartRate: UInt8?,
+                maxRunningHeartRate: UInt8?,
+                maxBikingHeartRate: UInt8?,
+                maxHeartRate: UInt8? ) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -157,7 +171,7 @@ open class UserProfileMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -166,20 +180,20 @@ open class UserProfileMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("UserProfileMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .friendlyName:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         friendlyName = stringData.smartString
                     }
 
                 case .gender:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         gender = Gender(rawValue: value)
                     } else {
@@ -193,7 +207,7 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .age:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         /// 1 * years + 0
                         age = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitDuration.year)
@@ -208,7 +222,7 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .height:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  100 * m + 0
                         let value = Double(value) / 100
@@ -224,7 +238,7 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .weight:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         //  10 * kg + 0
                         let value = Double(value) / 10
@@ -240,7 +254,7 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .language:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         language = Language(rawValue: value)
                     } else {
@@ -254,13 +268,13 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .elevationSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .weightSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .restingHeartRate:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * bpm + 0
                         restingHeartRate = value
@@ -275,7 +289,7 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .defaultMaxRunningHeartRate:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * bpm + 0
                         maxRunningHeartRate = value
@@ -290,7 +304,7 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .defaultMaxBikingHeartRate:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * bpm + 0
                         maxBikingHeartRate = value
@@ -305,7 +319,7 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .defaultMaxHeartRate:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * bpm + 0
                         maxHeartRate = value
@@ -320,28 +334,28 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .heartRateSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .speedSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .distanceSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .powerSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .activityClass:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .positionSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .temperatureSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .localID:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         localID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -355,13 +369,13 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .globalID:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .heightSetting:
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .runningStepLength:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * m + 0, User defined running step length set to 0 for auto length
                         let value = Double(value) / 1000
@@ -377,7 +391,7 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .walkingStepLength:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * m + 0, User defined running step length set to 0 for auto length
                         let value = Double(value) / 1000
@@ -393,13 +407,13 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         timestamp = FitTime(time: value)
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

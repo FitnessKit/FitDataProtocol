@@ -119,7 +119,7 @@ open class WeightScaleMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -128,7 +128,7 @@ open class WeightScaleMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("WeightScaleMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
@@ -136,7 +136,7 @@ open class WeightScaleMessage: FitMessage {
 
 
                 case .weight:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         /// 100 * kg + 0
                         weight = Weight(rawValue: value, scale: 100.0)
@@ -151,7 +151,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .percentFat:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * % + 0
                         let value = Double(value) / 100.0
@@ -167,7 +167,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .percentHydration:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * % + 0
                         let value = Double(value) / 100.0
@@ -183,7 +183,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .visceralFatMass:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
                         let value = Double(value) / 100.0
@@ -199,7 +199,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .boneMass:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
                         let value = Double(value) / 100.0
@@ -215,7 +215,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .muscleMass:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * kg + 0
                         let value = Double(value) / 100.0
@@ -231,7 +231,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .basalMet:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 4 * kcal/day + 0
                         let value = Double(value) / 4.0
@@ -247,7 +247,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .physiqueRating:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         let value = Double(value)
                         physiqueRating = ValidatedMeasurement(value: value, valid: true, unit: RatingUnit.physique)
@@ -262,7 +262,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .activeMet:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 4 * kcal/day + 0
                         let value = Double(value) / 4.0
@@ -278,7 +278,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .metabolicAge:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         /// 1 * years
                         let value = Double(value)
@@ -294,7 +294,7 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .visceralFatRating:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         let value = Double(value)
                         visceralFatRating = ValidatedMeasurement(value: value, valid: true, unit: RatingUnit.visceralFat)
@@ -310,13 +310,13 @@ open class WeightScaleMessage: FitMessage {
 
 
                 case .userProfileIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         userProfileIndex = MessageIndex(value: value)
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         timeStamp = FitTime(time: value)
                     }

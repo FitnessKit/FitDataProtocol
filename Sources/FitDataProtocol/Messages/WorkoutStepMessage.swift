@@ -75,7 +75,18 @@ open class WorkoutStepMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, name: String?, duration: ValidatedBinaryInteger<UInt32>?, durationType: WorkoutStepDurationType?, target: ValidatedBinaryInteger<UInt32>?, targetLow: ValidatedBinaryInteger<UInt32>?, targetHigh: ValidatedBinaryInteger<UInt32>?, targetType: WorkoutStepTargetType?, category: ExerciseCategory?, intensity: Intensity?, notes: String?, equipment: WorkoutEquipment?) {
+    public init(messageIndex: MessageIndex?,
+                name: String?,
+                duration: ValidatedBinaryInteger<UInt32>?,
+                durationType: WorkoutStepDurationType?,
+                target: ValidatedBinaryInteger<UInt32>?,
+                targetLow: ValidatedBinaryInteger<UInt32>?,
+                targetHigh: ValidatedBinaryInteger<UInt32>?,
+                targetType: WorkoutStepTargetType?,
+                category: ExerciseCategory?,
+                intensity: Intensity?,
+                notes: String?,
+                equipment: WorkoutEquipment?) {
 
         self.messageIndex = messageIndex
         self.name = name
@@ -108,7 +119,7 @@ open class WorkoutStepMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -117,20 +128,20 @@ open class WorkoutStepMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("WorkoutStepMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .stepName:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         name = stringData.smartString
                     }
 
                 case .durationType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         durationType = WorkoutStepDurationType(rawValue: value)
                     } else {
@@ -144,7 +155,7 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .durationValue:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         duration = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -158,7 +169,7 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .targetType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         targetType = WorkoutStepTargetType(rawValue: value)
                     } else {
@@ -172,7 +183,7 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .targetValue:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         target = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -186,7 +197,7 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .customTargetValueLow:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         targetLow = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -200,7 +211,7 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .customTargetValueHigh:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         targetHigh = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -214,7 +225,7 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .intensity:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         intensity = Intensity(rawValue: value)
                     } else {
@@ -228,13 +239,13 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .notes:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         notes = stringData.smartString
                     }
 
                 case .equipment:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         equipment = WorkoutEquipment(rawValue: value)
                     } else {
@@ -248,7 +259,7 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .category:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         category = ExerciseCategory(rawValue: value)
                     } else {
@@ -262,7 +273,7 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

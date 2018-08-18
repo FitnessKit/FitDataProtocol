@@ -20,7 +20,7 @@ pod 'FitDataProtocol'
 Swift Package Manager:
 ```swift
     dependencies: [
-        .Package(url: "https://github.com/FitnessKit/FitDataProtocol", from: 0.10.0)
+        .Package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "0.11.0")
     ]
 ```
 ## How to Use
@@ -69,8 +69,8 @@ if let fileData = fileData {
 
 ## Author
 
-Kevin A. Hoogheem
+This package is developed and maintained by Kevin A. Hoogheem
 
 ## License
 
-FitDataProtocol is available under the MIT license. See the LICENSE file for more info.
+FitDataProtocol is available under the [MIT license](http://opensource.org/licenses/MIT)

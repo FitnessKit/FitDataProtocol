@@ -76,7 +76,7 @@ open class EventMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -85,14 +85,14 @@ open class EventMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("EventMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .event:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         event = Event(rawValue: value)
                     } else {
@@ -106,7 +106,7 @@ open class EventMessage: FitMessage {
                     }
 
                 case .eventType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         eventType = EventType(rawValue: value)
                     } else {
@@ -120,7 +120,7 @@ open class EventMessage: FitMessage {
                     }
 
                 case .data16:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         eventData = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -134,7 +134,7 @@ open class EventMessage: FitMessage {
                     }
 
                 case .data32:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         eventMoreData = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -148,7 +148,7 @@ open class EventMessage: FitMessage {
                     }
 
                 case .eventGroup:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         eventGroup = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -163,30 +163,30 @@ open class EventMessage: FitMessage {
 
                 case .score:
                     // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .opponentScore:
                     // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .frontGearNumber:
                     // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .frontGear:
                     // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .rearGearNumber:
                     // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .rearGear:
                     // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(length: Int(definition.size))
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         timeStamp = FitTime(time: value)
                     }

@@ -64,7 +64,13 @@ open class WeatherAlertMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, reportID: String?, issueTime: FitTime?, expireTime: FitTime?, severity: WeatherSeverity?, alertType: WeatherSeverityType?) {
+    public init(timeStamp: FitTime?,
+                reportID: String?,
+                issueTime: FitTime?,
+                expireTime: FitTime?,
+                severity: WeatherSeverity?,
+                alertType: WeatherSeverityType?) {
+        
         self.timeStamp = timeStamp
         self.reportID = reportID
         self.issueTime = issueTime
@@ -85,7 +91,7 @@ open class WeatherAlertMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -94,32 +100,32 @@ open class WeatherAlertMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("TotalsMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .reportId:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         reportID = stringData.smartString
                     }
 
                 case .issueTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         issueTime = FitTime(time: value)
                     }
 
                 case .expireTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         expireTime = FitTime(time: value)
                     }
 
                 case .severity:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         severity = WeatherSeverity(rawValue: value)
                     } else {
@@ -133,7 +139,7 @@ open class WeatherAlertMessage: FitMessage {
                     }
 
                 case .alertType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         alertType = WeatherSeverityType(rawValue: value)
                     } else {
@@ -147,7 +153,7 @@ open class WeatherAlertMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         timeStamp = FitTime(time: value)
                     }

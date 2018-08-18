@@ -111,7 +111,7 @@ open class ConnectivityMessage: FitMessage {
 
         //let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -120,86 +120,86 @@ open class ConnectivityMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("SlaveDeviceMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .bluetoothEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         bluetoothEnabled = value.boolValue
                     }
 
                 case .bluetoothLowEnergyEnable:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         bluetoothLowEnergyEnable = value.boolValue
                     }
 
                 case .antEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         antEnabled = value.boolValue
                     }
 
                 case .connectivityName:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         name = stringData.smartString
                     }
 
                 case .liveTrackingEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         liveTrackingEnabled = value.boolValue
                     }
 
                 case .weatherConditionsEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         weatherConditionsEnabled = value.boolValue
                     }
 
                 case .weatherAlertsEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         weatherAlertsEnabled = value.boolValue
                     }
 
                 case .autoActivityUploadEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         autoActivityUploadEnabled = value.boolValue
                     }
 
                 case .courseDownloadEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         courseDownloadEnabled = value.boolValue
                     }
 
                 case .workoutDownloadEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         workoutDownloadEnabled = value.boolValue
                     }
 
                 case .gpsEphemerisDownloadEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         gpsEphemerisDownloadEnabled = value.boolValue
                     }
 
                 case .incidentDetectionEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         incidentDetectionEnabled = value.boolValue
                     }
 
                 case .groupTrackEnabled:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         groupTrackEnabled = value.boolValue
                     }

@@ -46,11 +46,8 @@ open class CoursePointMessage: FitMessage {
     /// Course Point Name
     private(set) public var name: String?
 
-    /// Latitude
-    private(set) public var latitude: ValidatedMeasurement<UnitAngle>?
-
-    /// Longitude
-    private(set) public var longitude: ValidatedMeasurement<UnitAngle>?
+    /// Position
+    private(set) public var position: Position
 
     /// Distance
     private(set) public var distance: ValidatedMeasurement<UnitLength>?
@@ -61,15 +58,16 @@ open class CoursePointMessage: FitMessage {
     // Is Favorite Point
     private(set) public var isFavorite: Bool?
 
-    public required init() {}
+    public required init() {
+        self.position = Position(latitude: nil, longitude: nil)
+    }
 
-    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, name: String?, latitude: ValidatedMeasurement<UnitAngle>?, longitude: ValidatedMeasurement<UnitAngle>?, distance: ValidatedMeasurement<UnitLength>?, pointType: CoursePoint?,  isFavorite: Bool?) {
+    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, name: String?, position: Position, distance: ValidatedMeasurement<UnitLength>?, pointType: CoursePoint?,  isFavorite: Bool?) {
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
 
         self.name = name
-        self.latitude = latitude
-        self.longitude = longitude
+        self.position = position
         self.distance = distance
         self.pointType = pointType
         self.isFavorite = isFavorite
@@ -89,7 +87,7 @@ open class CoursePointMessage: FitMessage {
 
         let arch = definition.architecture
 
-        var localDecoder = DataDecoder(fieldData.fieldData)
+        var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
 
@@ -98,18 +96,18 @@ open class CoursePointMessage: FitMessage {
             switch key {
             case .none:
                 // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(length: Int(definition.size))
+                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("CoursePointMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
 
                 case .latitude:
-                    let value = arch == .little ? localDecoder.decodeInt32().littleEndian : localDecoder.decodeInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
-                        let value = Conversion.degressFromSemiCircles(Double(value))
-                        latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.degrees)
+                        let value = Double(value)
+                        latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
 
                         switch dataStrategy {
@@ -121,11 +119,11 @@ open class CoursePointMessage: FitMessage {
                     }
 
                 case .longitude:
-                    let value = arch == .little ? localDecoder.decodeInt32().littleEndian : localDecoder.decodeInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
-                        let value = Conversion.degressFromSemiCircles(Double(value))
-                        longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.degrees)
+                        let value = Double(value)
+                        longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
 
                         switch dataStrategy {
@@ -137,7 +135,7 @@ open class CoursePointMessage: FitMessage {
                     }
 
                 case .distance:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
                         let value = Double(value) / 100
@@ -153,7 +151,7 @@ open class CoursePointMessage: FitMessage {
                     }
 
                 case .pointType:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         pointType = CoursePoint(rawValue: value)
                     } else {
@@ -167,25 +165,25 @@ open class CoursePointMessage: FitMessage {
                     }
 
                 case .name:
-                    let stringData = localDecoder.decodeData(length: Int(definition.size))
+                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if UInt64(stringData.count) != definition.baseType.invalid {
                         name = stringData.smartString
                     }
 
                 case .favorite:
-                    let value = localDecoder.decodeUInt8()
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         isFavorite = value.boolValue
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32().littleEndian : localDecoder.decodeUInt32().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         timestamp = FitTime(time: value)
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16().littleEndian : localDecoder.decodeUInt16().bigEndian
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }
@@ -194,11 +192,13 @@ open class CoursePointMessage: FitMessage {
             }
         }
 
+        /// setup Position
+        let position = Position(latitude: latitude, longitude: longitude)
+
         return CoursePointMessage(timeStamp: timestamp,
                                   messageIndex: messageIndex,
                                   name: name,
-                                  latitude: latitude,
-                                  longitude: longitude,
+                                  position: position,
                                   distance: distance,
                                   pointType: pointType,
                                   isFavorite: isFavorite)
