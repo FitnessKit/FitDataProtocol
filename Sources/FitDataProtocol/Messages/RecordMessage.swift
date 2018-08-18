@@ -102,6 +102,9 @@ open class RecordMessage: FitMessage {
     /// Torque Effectiveness
     private(set) public var torqueEffectiveness: TorqueEffectiveness
 
+    /// Pedal Smoothness
+    private(set) public var pedalSmoothness: PedalSmoothness
+
     /// Stroke Type
     private(set) public var stroke: Stroke?
 
@@ -117,6 +120,7 @@ open class RecordMessage: FitMessage {
     public required init() {
         self.position = Position(latitude: nil, longitude: nil)
         self.torqueEffectiveness = TorqueEffectiveness(left: nil, right: nil)
+        self.pedalSmoothness = PedalSmoothness(right: nil, left: nil, combined: nil)
     }
 
     public init(timeStamp: FitTime?,
@@ -140,6 +144,7 @@ open class RecordMessage: FitMessage {
                 temperature: ValidatedMeasurement<UnitTemperature>?,
                 activity: ActivityType?,
                 torqueEffectiveness: TorqueEffectiveness,
+                pedalSmoothness: PedalSmoothness,
                 stroke: Stroke?,
                 zone: ValidatedBinaryInteger<UInt8>?,
                 ballSpeed: ValidatedMeasurement<UnitSpeed>?,
@@ -183,6 +188,7 @@ open class RecordMessage: FitMessage {
         self.temperature = temperature
         self.activity = activity
         self.torqueEffectiveness = torqueEffectiveness
+        self.pedalSmoothness = pedalSmoothness
         self.stroke = stroke
         self.zone = zone
         self.ballSpeed = ballSpeed
@@ -217,7 +223,9 @@ open class RecordMessage: FitMessage {
         var activity: ActivityType?
         var rightTorqueEff: ValidatedMeasurement<UnitPercent>?
         var leftTorqueEff: ValidatedMeasurement<UnitPercent>?
-
+        var leftPedal: ValidatedMeasurement<UnitPercent>?
+        var rightPedal: ValidatedMeasurement<UnitPercent>?
+        var combinedPedal: ValidatedMeasurement<UnitPercent>?
         var stroke: Stroke?
         var zone: ValidatedBinaryInteger<UInt8>?
         var ballSpeed: ValidatedMeasurement<UnitSpeed>?
@@ -599,16 +607,52 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .leftPedalSmoothness:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if Int64(value) != definition.baseType.invalid {
+                        // 2 * percent + 0
+                        let value = value.resolution(1 / 2)
+                        leftPedal = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            leftPedal = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
+                        }
+                    }
 
                 case .rightPedalSmoothness:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if Int64(value) != definition.baseType.invalid {
+                        // 2 * percent + 0
+                        let value = value.resolution(1 / 2)
+                        rightPedal = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            rightPedal = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
+                        }
+                    }
 
                 case .combinedPedalSmoothness:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if Int64(value) != definition.baseType.invalid {
+                        // 2 * percent + 0
+                        let value = value.resolution(1 / 2)
+                        combinedPedal = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            combinedPedal = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
+                        }
+                    }
 
                 case .time128Second:
                     // We still need to pull this data off the stack
@@ -779,6 +823,9 @@ open class RecordMessage: FitMessage {
         /// TorqueEffectiveness
         let torqueEff = TorqueEffectiveness(left: leftTorqueEff, right: rightTorqueEff)
 
+        /// PedalSmoothness
+        let pedal = PedalSmoothness(right: rightPedal, left: leftPedal, combined: combinedPedal)
+
         return RecordMessage(timeStamp: timestamp,
                              position: position,
                              distance: distance,
@@ -800,6 +847,7 @@ open class RecordMessage: FitMessage {
                              temperature: temperature,
                              activity: activity,
                              torqueEffectiveness: torqueEff,
+                             pedalSmoothness: pedal,
                              stroke: stroke,
                              zone: zone,
                              ballSpeed: ballSpeed,
