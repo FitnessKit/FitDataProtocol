@@ -195,23 +195,3 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                                                         odometerRolloverCounter: odometerRolloverCounter)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension StrideSpeedDistanceMonitorProfileMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case enabled                = 0
-        case antID                  = 1
-        case calibrationFactor      = 2
-        case odometer               = 3
-        case speedSource            = 4
-        case transType              = 5
-        case odometerRollover       = 7
-
-        case messageIndex           = 254
-    }
-}

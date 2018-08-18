@@ -109,17 +109,3 @@ open class SlaveDeviceMessage: FitMessage {
                                   product: product)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension SlaveDeviceMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case manufacturer   = 0
-        case product        = 1
-
-    }
-}

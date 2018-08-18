@@ -405,33 +405,3 @@ open class DeviceInfoMessage: FitMessage {
                                  source: source)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension DeviceInfoMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case deviceIndex        = 0
-        case deviceType         = 1
-        case manufacturer       = 2
-        case serialNumber       = 3
-        case product            = 4
-        case softwareVersion    = 5
-        case hardwareVersion    = 6
-        case cumulativeOpTime   = 7
-        case batteryVoltage     = 10
-        case batteryStatus      = 11
-        case sensorPosition     = 18
-        case description        = 19
-        case transmissionType   = 20
-        case deviceNumber       = 21
-        case antNetwork         = 22
-        case sourcetype         = 25
-        case productName        = 27
-
-        case timestamp          = 253
-    }
-}

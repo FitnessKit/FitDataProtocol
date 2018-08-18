@@ -122,19 +122,3 @@ open class SportMessage: FitMessage {
                             subSport: subSport)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension SportMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case sport      = 0
-        case subSport   = 1
-        case name       = 3
-
-        case timestamp  = 253
-    }
-}

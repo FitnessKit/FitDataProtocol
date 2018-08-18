@@ -296,27 +296,3 @@ open class WorkoutStepMessage: FitMessage {
                                   equipment: equipment)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension WorkoutStepMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case stepName               = 0
-        case durationType           = 1
-        case durationValue          = 2
-        case targetType             = 3
-        case targetValue            = 4
-        case customTargetValueLow   = 5
-        case customTargetValueHigh  = 6
-        case intensity              = 7
-        case notes                  = 8
-        case equipment              = 9
-        case category               = 10
-
-        case messageIndex           = 254
-    }
-}

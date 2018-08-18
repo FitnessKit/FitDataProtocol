@@ -113,18 +113,3 @@ open class PowerZoneMessage: FitMessage {
                                   highLevel: highLevel)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension PowerZoneMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case highValue      = 1
-        case name           = 2
-
-        case messageIndex   = 254
-    }
-}

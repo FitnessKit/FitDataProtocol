@@ -307,27 +307,3 @@ open class BloodPressureMessage: FitMessage {
                                     userProfileIndex: userProfileIndex)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension BloodPressureMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case systolicPressure       = 0
-        case diastolicPressure      = 1
-        case meanArterialPressure   = 2
-        case mapSampleMean          = 3
-        case mapMorningValues       = 4
-        case mapEveningValues       = 5
-        case heartRate              = 6
-        case heartRateType          = 7
-        case status                 = 8
-        case userProfileIndex       = 9
-
-        case timestamp              = 253
-
-    }
-}

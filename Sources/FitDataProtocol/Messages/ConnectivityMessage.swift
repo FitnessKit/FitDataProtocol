@@ -223,28 +223,3 @@ open class ConnectivityMessage: FitMessage {
                                    groupTrackEnabled: groupTrackEnabled)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension ConnectivityMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case bluetoothEnabled               = 0
-        case bluetoothLowEnergyEnable       = 1
-        case antEnabled                     = 2
-        case connectivityName               = 3
-        case liveTrackingEnabled            = 4
-        case weatherConditionsEnabled       = 5
-        case weatherAlertsEnabled           = 6
-        case autoActivityUploadEnabled      = 7
-        case courseDownloadEnabled          = 8
-        case workoutDownloadEnabled         = 9
-        case gpsEphemerisDownloadEnabled    = 10
-        case incidentDetectionEnabled       = 11
-        case groupTrackEnabled              = 12
-
-    }
-}

@@ -340,29 +340,3 @@ open class WeightScaleMessage: FitMessage {
                                   userProfileIndex: userProfileIndex)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension WeightScaleMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case weight                 = 0
-        case percentFat             = 1
-        case percentHydration       = 2
-        case visceralFatMass        = 3
-        case boneMass               = 4
-        case muscleMass             = 5
-        case basalMet               = 7
-        case physiqueRating         = 8
-        case activeMet              = 9
-        case metabolicAge           = 10
-        case visceralFatRating      = 11
-        case userProfileIndex       = 12
-
-        case timestamp              = 253
-
-    }
-}

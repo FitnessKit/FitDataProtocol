@@ -206,23 +206,3 @@ open class ActivityMessage: FitMessage {
                                eventGroup: eventGroup)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension ActivityMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case totalTimerTime     = 0
-        case numberOfSessions   = 1
-        case activityType       = 2
-        case event              = 3
-        case eventType          = 4
-        case localTimestamp     = 5
-        case eventGroup         = 6
-
-        case timestamp          = 253
-    }
-}

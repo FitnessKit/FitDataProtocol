@@ -235,24 +235,3 @@ open class TotalsMessage: FitMessage {
                              activeTime: activeTime)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension TotalsMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case timerTime          = 0
-        case distance           = 1
-        case calories           = 2
-        case sport              = 3
-        case elapsedTime        = 4
-        case sessions           = 5
-        case activeTime         = 6
-
-        case timestamp          = 253
-        case messageIndex       = 254
-    }
-}

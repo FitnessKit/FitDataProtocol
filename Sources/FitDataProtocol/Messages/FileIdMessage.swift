@@ -177,21 +177,3 @@ open class FileIdMessage: FitMessage {
     }
 
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension FileIdMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case fileType           = 0
-        case manufacturer       = 1
-        case product            = 2
-        case serialNumber       = 3
-        case fileCreationDate   = 4
-        case fileNumber         = 5
-        case productName        = 8
-    }
-}

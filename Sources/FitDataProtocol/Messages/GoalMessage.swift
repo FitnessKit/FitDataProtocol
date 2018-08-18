@@ -301,28 +301,3 @@ open class GoalMessage: FitMessage {
                            source: source)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension GoalMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case sport                  = 0
-        case subSport               = 1
-        case startDate              = 2
-        case endDate                = 3
-        case goalType               = 4
-        case goalValue              = 5
-        case repeatGoal             = 6
-        case targetValue            = 7
-        case recurrence             = 8
-        case recurrenceValue        = 9
-        case enabled                = 10
-        case goalSource             = 11
-
-        case messageIndex           = 254
-    }
-}

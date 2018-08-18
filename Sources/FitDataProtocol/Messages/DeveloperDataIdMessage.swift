@@ -144,19 +144,3 @@ open class DeveloperDataIdMessage: FitMessage {
                                       dataIndex: dataIndex)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension DeveloperDataIdMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case developerId        = 0
-        case applicationId      = 1
-        case manufacturerId     = 2
-        case dataIndex          = 3
-        case applicationVersion = 4
-    }
-}

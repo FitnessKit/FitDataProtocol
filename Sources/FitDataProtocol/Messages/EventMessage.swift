@@ -203,26 +203,3 @@ open class EventMessage: FitMessage {
                             eventGroup: eventGroup)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension EventMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case event              = 0
-        case eventType          = 1
-        case data16             = 2
-        case data32             = 3
-        case eventGroup         = 4
-        case score              = 7
-        case opponentScore      = 8
-        case frontGearNumber    = 9
-        case frontGear          = 10
-        case rearGearNumber     = 11
-        case rearGear           = 12
-        case timestamp          = 253
-    }
-}

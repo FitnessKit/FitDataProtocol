@@ -135,20 +135,3 @@ open class HeartrateProfileMessage: FitMessage {
                                        transmissionType: transmissionType)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension HeartrateProfileMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case enabled                = 0
-        case antID                  = 1
-        case logHrv                 = 2
-        case transType              = 3
-
-        case messageIndex           = 254
-    }
-}

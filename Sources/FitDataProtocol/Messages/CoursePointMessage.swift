@@ -204,23 +204,3 @@ open class CoursePointMessage: FitMessage {
                                   isFavorite: isFavorite)
     }
 }
-
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension CoursePointMessage: FitMessageKeys {
-    public typealias FitCodingKeys = MessageKeys
-
-    /// FIT Message Keys
-    ///
-    public enum MessageKeys: Int, CodingKey {
-        case timestamp      = 1
-        case latitude       = 2
-        case longitude      = 3
-        case distance       = 4
-        case pointType      = 5
-        case name           = 6
-        case favorite       = 7
-
-        case messageIndex   = 254
-    }
-}
