@@ -25,7 +25,6 @@
 import Foundation
 import DataDecoder
 
-
 internal struct RecordHeader {
 
     private(set) var localMessageType: UInt8
@@ -34,7 +33,6 @@ internal struct RecordHeader {
 
     private(set) var developerData: Bool
 }
-
 
 internal extension RecordHeader {
 
@@ -69,36 +67,4 @@ internal extension RecordHeader {
                             isDataMessage: isDataMessage,
                             developerData: developerData)
     }
-
-//    internal static func decode(decoder: inout DataDecoder) throws -> RecordHeader {
-//
-//        let header = decoder.decodeUInt8()
-//
-//        var isDataMessage = false
-//        var developerData = false
-//        var messageType: UInt8 = 0
-//
-//        if (header & 0x80 == 0x80) {
-//
-//            messageType = header & 0x60 >> 5
-//
-//        } else {
-//
-//            if (header & 0x40 == 0x40) {
-//
-//                if header & 0x20 == 0x20 {
-//                    developerData = true
-//                }
-//
-//            } else {
-//                isDataMessage = true
-//            }
-//
-//            messageType = header & 0x1F
-//        }
-//
-//        return RecordHeader(localMessageType: messageType,
-//                            isDataMessage: isDataMessage,
-//                            developerData: developerData)
-//    }
 }

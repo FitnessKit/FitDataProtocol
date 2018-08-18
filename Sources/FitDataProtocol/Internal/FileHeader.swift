@@ -36,7 +36,6 @@ internal var protocolVersion20: UInt8 {
     return (2 << 4) | 0
 }
 
-
 internal struct FileHeader {
 
     /// Size of Header
@@ -117,20 +116,20 @@ internal extension FileHeader {
 internal extension FileHeader {
 
     internal static func decode(data: Data, validateCrc: Bool = true) throws -> FileHeader {
-        var decoder = DataDecoder(data)
+        var decoder = DecodeData()
 
-        let headerSize = decoder.decodeUInt8()
+        let headerSize = decoder.decodeUInt8(data)
 
         guard headerSize <= data.count else { throw FitError(message: "Header Size mismatch") }
 
-        let protocolVersion = decoder.decodeUInt8()
+        let protocolVersion = decoder.decodeUInt8(data)
 
         guard ProtocolVersionMajor(protocolVersion) <= ProtocolVersionMajor(protocolVersion20) else { throw FitError(.protocolVersionNotSupported) }
 
-        let profileVersion = decoder.decodeUInt16()
-        let dataSize = decoder.decodeUInt32()
+        let profileVersion = decoder.decodeUInt16(data)
+        let dataSize = decoder.decodeUInt32(data)
 
-        let fitCheckData = decoder.decodeData(length: 4)
+        let fitCheckData = decoder.decodeData(data, length: 4)
         let fitString = String(bytes: fitCheckData, encoding: .ascii)
 
         guard fitString == ".FIT" else { throw FitError(.nonFitFile) }
@@ -138,7 +137,7 @@ internal extension FileHeader {
         // If we have a size of 14 in Header check CRC
         var crc: UInt16?
         if headerSize == 14 {
-            let crcValue = decoder.decodeUInt16()
+            let crcValue = decoder.decodeUInt16(data)
 
             if crcValue != 0 {
                 crc = crcValue

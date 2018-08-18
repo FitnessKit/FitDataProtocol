@@ -100,13 +100,13 @@ public extension FitFileMerger {
             let header = try FileHeader.decode(data: fitfile, validateCrc: shouldValidate)
             //print(header)
 
-            var decoder = DataDecoder(fitfile)
+            var decoder = DecodeData()
 
-            let _ = decoder.decodeData(length: Int(header.headerSize))
+            let _ = decoder.decodeData(fitfile, length: Int(header.headerSize))
 
-            let msgData = decoder.decodeData(length: Int(header.dataSize))
+            let msgData = decoder.decodeData(fitfile, length: Int(header.dataSize))
 
-            let fileCrc = decoder.decodeUInt16()
+            let fileCrc = decoder.decodeUInt16(fitfile)
 
             if shouldValidate == true && header.protocolVersion >= 20 {
                 let crcCheck = CRC16(data: msgData).crc

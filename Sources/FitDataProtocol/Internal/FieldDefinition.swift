@@ -52,20 +52,4 @@ internal extension FieldDefinition {
                                endianAbility: endian,
                                baseType: baseNumber)
     }
-
-//    internal static func decode(decoder: inout DataDecoder) throws -> FieldDefinition {
-//
-//        let messageNumber = decoder.decodeUInt8()
-//        let size = decoder.decodeUInt8()
-//        let baseType = decoder.decodeUInt8()
-//
-//        let endian = (baseType & 0x80 == 0x80)
-//        let baseNumber = BaseType(rawValue: (baseType & 0x1F)) ?? .unknown
-//
-//        return FieldDefinition(fieldDefinitionNumber: messageNumber,
-//                               size: size,
-//                               endianAbility: endian,
-//                               baseType: baseNumber)
-//    }
-
 }

@@ -47,15 +47,4 @@ internal extension DeveloperFieldDefinition {
                                         dataIndex: dataIndex)
     }
 
-//    internal static func decode(decoder: inout DataDecoder) throws -> DeveloperFieldDefinition {
-//
-//        let fieldNumber = decoder.decodeUInt8()
-//        let size = decoder.decodeUInt8()
-//        let dataIndex = decoder.decodeUInt8()
-//
-//        return DeveloperFieldDefinition(fieldNumber: fieldNumber,
-//                                        size: size,
-//                                        dataIndex: dataIndex)
-//    }
-
 }

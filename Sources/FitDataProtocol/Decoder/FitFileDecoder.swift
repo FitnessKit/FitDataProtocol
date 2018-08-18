@@ -113,11 +113,9 @@ public struct FitFileDecoder {
 
         try readFitFile(data: data, validateCrc: shouldValidate)
 
-//        var decoder = DataDecoder(messageData)
         var decoder = DecodeData()
 
         repeat {
-//            let header = try RecordHeader.decode(decoder: &decoder)
             let header = try RecordHeader.decode(decoder: &decoder, data: messageData)
             //print(header)
 
