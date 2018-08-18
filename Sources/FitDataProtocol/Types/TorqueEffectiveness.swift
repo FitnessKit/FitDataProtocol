@@ -1,5 +1,5 @@
 //
-//  Position.swift
+//  TorqueEffectiveness.swift
 //  FitDataProtocol
 //
 //  Created by Kevin Hoogheem on 8/18/18.
@@ -25,19 +25,20 @@
 import Foundation
 import FitnessUnits
 
-/// FIT Position Data
-public struct Position {
+/// FIT Torque Effectiveness
+public struct TorqueEffectiveness {
 
-    /// Position in Latitude
-    private(set) public var latitude: ValidatedMeasurement<UnitAngle>?
+    /// Left Torque Effectiveness
+    private(set) public var left: ValidatedMeasurement<UnitPercent>?
 
-    /// Position in Longitude
-    private(set) public var longitude: ValidatedMeasurement<UnitAngle>?
+    /// Right Torque Effectiveness
+    private(set) public var right: ValidatedMeasurement<UnitPercent>?
 
-    internal init(latitude: ValidatedMeasurement<UnitAngle>?,
-                  longitude: ValidatedMeasurement<UnitAngle>?) {
+    internal init(left: ValidatedMeasurement<UnitPercent>?,
+                  right: ValidatedMeasurement<UnitPercent>?) {
         
-        self.latitude = latitude
-        self.longitude = longitude
+        self.left = left
+        self.right = right
     }
+
 }

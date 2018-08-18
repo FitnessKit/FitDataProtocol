@@ -99,6 +99,9 @@ open class RecordMessage: FitMessage {
     /// FIT Activity Type
     private(set) public var activity: ActivityType?
 
+    /// Torque Effectiveness
+    private(set) public var torqueEffectiveness: TorqueEffectiveness
+
     /// Stroke Type
     private(set) public var stroke: Stroke?
 
@@ -113,6 +116,7 @@ open class RecordMessage: FitMessage {
 
     public required init() {
         self.position = Position(latitude: nil, longitude: nil)
+        self.torqueEffectiveness = TorqueEffectiveness(left: nil, right: nil)
     }
 
     public init(timeStamp: FitTime?,
@@ -135,6 +139,7 @@ open class RecordMessage: FitMessage {
                 resistance: ValidatedBinaryInteger<UInt8>?,
                 temperature: ValidatedMeasurement<UnitTemperature>?,
                 activity: ActivityType?,
+                torqueEffectiveness: TorqueEffectiveness,
                 stroke: Stroke?,
                 zone: ValidatedBinaryInteger<UInt8>?,
                 ballSpeed: ValidatedMeasurement<UnitSpeed>?,
@@ -177,6 +182,7 @@ open class RecordMessage: FitMessage {
         self.resistance = resistance
         self.temperature = temperature
         self.activity = activity
+        self.torqueEffectiveness = torqueEffectiveness
         self.stroke = stroke
         self.zone = zone
         self.ballSpeed = ballSpeed
@@ -188,7 +194,6 @@ open class RecordMessage: FitMessage {
         var timestamp: FitTime?
         var latitude: ValidatedMeasurement<UnitAngle>?
         var longitude: ValidatedMeasurement<UnitAngle>?
-
         var distance: ValidatedMeasurement<UnitLength>?
         var timeFromCourse: ValidatedMeasurement<UnitDuration>?
         var totalCycles: ValidatedBinaryInteger<UInt32>?
@@ -210,6 +215,9 @@ open class RecordMessage: FitMessage {
         var resistance: ValidatedBinaryInteger<UInt8>?
         var temperature: ValidatedMeasurement<UnitTemperature>?
         var activity: ActivityType?
+        var rightTorqueEff: ValidatedMeasurement<UnitPercent>?
+        var leftTorqueEff: ValidatedMeasurement<UnitPercent>?
+
         var stroke: Stroke?
         var zone: ValidatedBinaryInteger<UInt8>?
         var ballSpeed: ValidatedMeasurement<UnitSpeed>?
@@ -559,12 +567,36 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .leftTorqueEffectiveness:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if Int64(value) != definition.baseType.invalid {
+                        // 2 * percent + 0
+                        let value = value.resolution(1 / 2)
+                        leftTorqueEff = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            leftTorqueEff = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
+                        }
+                    }
 
                 case .rightTorqueEffectiveness:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if Int64(value) != definition.baseType.invalid {
+                        // 2 * percent + 0
+                        let value = value.resolution(1 / 2)
+                        rightTorqueEff = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            rightTorqueEff = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
+                        }
+                    }
 
                 case .leftPedalSmoothness:
                     // We still need to pull this data off the stack
@@ -744,6 +776,9 @@ open class RecordMessage: FitMessage {
         /// setup Position
         let position = Position(latitude: latitude, longitude: longitude)
 
+        /// TorqueEffectiveness
+        let torqueEff = TorqueEffectiveness(left: leftTorqueEff, right: rightTorqueEff)
+
         return RecordMessage(timeStamp: timestamp,
                              position: position,
                              distance: distance,
@@ -764,6 +799,7 @@ open class RecordMessage: FitMessage {
                              resistance: resistance,
                              temperature: temperature,
                              activity: activity,
+                             torqueEffectiveness: torqueEff,
                              stroke: stroke,
                              zone: zone,
                              ballSpeed: ballSpeed,
