@@ -38,9 +38,9 @@ internal struct RecordHeader {
 
 internal extension RecordHeader {
 
-    internal static func decode(decoder: inout DataDecoder) throws -> RecordHeader {
+    internal static func decode(decoder: inout DecodeData, data: Data) throws -> RecordHeader {
 
-        let header = decoder.decodeUInt8()
+        let header = decoder.decodeUInt8(data)
 
         var isDataMessage = false
         var developerData = false
@@ -69,4 +69,36 @@ internal extension RecordHeader {
                             isDataMessage: isDataMessage,
                             developerData: developerData)
     }
+
+//    internal static func decode(decoder: inout DataDecoder) throws -> RecordHeader {
+//
+//        let header = decoder.decodeUInt8()
+//
+//        var isDataMessage = false
+//        var developerData = false
+//        var messageType: UInt8 = 0
+//
+//        if (header & 0x80 == 0x80) {
+//
+//            messageType = header & 0x60 >> 5
+//
+//        } else {
+//
+//            if (header & 0x40 == 0x40) {
+//
+//                if header & 0x20 == 0x20 {
+//                    developerData = true
+//                }
+//
+//            } else {
+//                isDataMessage = true
+//            }
+//
+//            messageType = header & 0x1F
+//        }
+//
+//        return RecordHeader(localMessageType: messageType,
+//                            isDataMessage: isDataMessage,
+//                            developerData: developerData)
+//    }
 }

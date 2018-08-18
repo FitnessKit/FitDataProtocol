@@ -113,14 +113,16 @@ public struct FitFileDecoder {
 
         try readFitFile(data: data, validateCrc: shouldValidate)
 
-        var decoder = DataDecoder(messageData)
+//        var decoder = DataDecoder(messageData)
+        var decoder = DecodeData()
 
         repeat {
-            let header = try RecordHeader.decode(decoder: &decoder)
+//            let header = try RecordHeader.decode(decoder: &decoder)
+            let header = try RecordHeader.decode(decoder: &decoder, data: messageData)
             //print(header)
 
             if header.isDataMessage == false {
-                let lastDefinition = try DefinitionMessage.decode(decoder: &decoder, header: header)
+                let lastDefinition = try DefinitionMessage.decode(decoder: &decoder, data: messageData, header: header)
                 definitionDict[header.localMessageType] = lastDefinition
 
                 //print(definitionDict[header.localMessageType] as Any)
@@ -142,14 +144,14 @@ public struct FitFileDecoder {
                     fieldSize = fieldSize + Int(msg.size)
                 }
 
-                let stdData = decoder.decodeData(length: fieldSize)
+                let stdData = decoder.decodeData(messageData, length: fieldSize)
 
                 var devSize: Int = 0
                 for msg in definitionDict[header.localMessageType]!.developerFieldDefinitions {
                     devSize = devSize + Int(msg.size)
                 }
 
-                let devData = decoder.decodeData(length: devSize)
+                let devData = decoder.decodeData(messageData, length: devSize)
 
                 let fieldData = FieldData(fieldData: stdData, developerFieldData: devData)
 
@@ -184,13 +186,13 @@ private extension FitFileDecoder {
         let header = try FileHeader.decode(data: data, validateCrc: validateCrc)
         //print(header)
 
-        var decoder = DataDecoder(data)
+        var decoder = DecodeData()
 
-        let _ = decoder.decodeData(length: Int(header.headerSize))
+        let _ = decoder.decodeData(data, length: Int(header.headerSize))
 
-        let msgData = decoder.decodeData(length: Int(header.dataSize))
+        let msgData = decoder.decodeData(data, length: Int(header.dataSize))
 
-        let fileCrc = decoder.decodeUInt16()
+        let fileCrc = decoder.decodeUInt16(data)
 
         if validateCrc == true && header.protocolVersion >= 20 {
             let crcCheck = CRC16(data: msgData).crc

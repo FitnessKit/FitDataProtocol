@@ -38,11 +38,11 @@ internal struct FieldDefinition {
 
 internal extension FieldDefinition {
 
-    internal static func decode(decoder: inout DataDecoder) throws -> FieldDefinition {
+    internal static func decode(decoder: inout DecodeData, data: Data) throws -> FieldDefinition {
 
-        let messageNumber = decoder.decodeUInt8()
-        let size = decoder.decodeUInt8()
-        let baseType = decoder.decodeUInt8()
+        let messageNumber = decoder.decodeUInt8(data)
+        let size = decoder.decodeUInt8(data)
+        let baseType = decoder.decodeUInt8(data)
 
         let endian = (baseType & 0x80 == 0x80)
         let baseNumber = BaseType(rawValue: (baseType & 0x1F)) ?? .unknown
@@ -52,5 +52,20 @@ internal extension FieldDefinition {
                                endianAbility: endian,
                                baseType: baseNumber)
     }
+
+//    internal static func decode(decoder: inout DataDecoder) throws -> FieldDefinition {
+//
+//        let messageNumber = decoder.decodeUInt8()
+//        let size = decoder.decodeUInt8()
+//        let baseType = decoder.decodeUInt8()
+//
+//        let endian = (baseType & 0x80 == 0x80)
+//        let baseNumber = BaseType(rawValue: (baseType & 0x1F)) ?? .unknown
+//
+//        return FieldDefinition(fieldDefinitionNumber: messageNumber,
+//                               size: size,
+//                               endianAbility: endian,
+//                               baseType: baseNumber)
+//    }
 
 }

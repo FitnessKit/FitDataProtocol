@@ -234,7 +234,7 @@ open class RecordMessage: FitMessage {
                 switch converter {
                 case .positionLatitude:
                     let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
                         let value = Double(value)
                         latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
@@ -250,7 +250,7 @@ open class RecordMessage: FitMessage {
 
                 case .positionLongitude:
                     let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
                         let value = Double(value)
                         longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
@@ -364,7 +364,7 @@ open class RecordMessage: FitMessage {
 
                 case .grade:
                     let value = arch == .little ? localDecoder.decodeInt16(fieldData.fieldData).littleEndian : localDecoder.decodeInt16(fieldData.fieldData).bigEndian
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         //  100 * % + 0
                         let value = value.resolution(1 / 100)
                         grade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
@@ -394,7 +394,7 @@ open class RecordMessage: FitMessage {
 
                 case .timeFromCourse:
                     let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         // 1000 * s + 0
                         let value = Double(value) / 1000
                         timeFromCourse = ValidatedMeasurement(value: value, valid: false, unit: UnitDuration.seconds)
@@ -503,7 +503,7 @@ open class RecordMessage: FitMessage {
 
                 case .verticalSpeed:
                     let value = arch == .little ? localDecoder.decodeInt16(fieldData.fieldData).littleEndian : localDecoder.decodeInt16(fieldData.fieldData).bigEndian
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0,
                         let value = Double(value) / 1000
                         verticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
@@ -612,7 +612,7 @@ open class RecordMessage: FitMessage {
 
                 case .ballSpeed:
                     let value = arch == .little ? localDecoder.decodeInt16(fieldData.fieldData).littleEndian : localDecoder.decodeInt16(fieldData.fieldData).bigEndian
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         //  100 * m/s + 0,
                         let value = Double(value) / 100
                         ballSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)

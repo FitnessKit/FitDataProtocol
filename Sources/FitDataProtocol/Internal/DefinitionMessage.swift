@@ -47,16 +47,17 @@ internal struct DefinitionMessage {
 
 internal extension DefinitionMessage {
 
-    internal static func decode(decoder: inout DataDecoder, header: RecordHeader) throws -> DefinitionMessage {
+//    decoder: inout DecodeData, data: Data
+    internal static func decode(decoder: inout DecodeData, data: Data, header: RecordHeader) throws -> DefinitionMessage {
 
         // Reserved Byte
-        let _ = decoder.decodeUInt8()
+        let _ = decoder.decodeUInt8(data)
 
-        let archvalue = decoder.decodeUInt8();
+        let archvalue = decoder.decodeUInt8(data);
 
         guard let architecture = Endian(rawValue: archvalue) else { throw FitError(message: "Architecture Type is invalid.") }
 
-        var globalMessage = decoder.decodeUInt16()
+        var globalMessage = decoder.decodeUInt16(data)
 
         switch architecture {
         case .little:
@@ -65,23 +66,25 @@ internal extension DefinitionMessage {
             globalMessage = globalMessage.bigEndian
         }
 
-        let fields = decoder.decodeUInt8()
+        let fields = decoder.decodeUInt8(data)
 
         var definitions: [FieldDefinition] = [FieldDefinition]()
 
         for _ in 0..<fields {
-            let fieldDef = try FieldDefinition.decode(decoder: &decoder)
+//            let fieldDef = try FieldDefinition.decode(decoder: &decoder)
+            let fieldDef = try FieldDefinition.decode(decoder: &decoder, data: data)
 
             definitions.append(fieldDef)
         }
 
         var devDefinitions: [DeveloperFieldDefinition] = [DeveloperFieldDefinition]()
         if header.developerData == true {
-            let devFields = decoder.decodeUInt8()
+            let devFields = decoder.decodeUInt8(data)
 
             for _ in 0..<devFields {
 
-                let fieldDef = try DeveloperFieldDefinition.decode(decoder: &decoder)
+//                let fieldDef = try DeveloperFieldDefinition.decode(decoder: &decoder)
+                let fieldDef = try DeveloperFieldDefinition.decode(decoder: &decoder, data: data)
 
                 devDefinitions.append(fieldDef)
             }
@@ -92,5 +95,52 @@ internal extension DefinitionMessage {
                                  fieldDefinitions: definitions,
                                  developerFieldDefinitions: devDefinitions)
     }
+
+
+//    internal static func decode(decoder: inout DataDecoder, header: RecordHeader) throws -> DefinitionMessage {
+//
+//        // Reserved Byte
+//        let _ = decoder.decodeUInt8()
+//
+//        let archvalue = decoder.decodeUInt8();
+//
+//        guard let architecture = Endian(rawValue: archvalue) else { throw FitError(message: "Architecture Type is invalid.") }
+//
+//        var globalMessage = decoder.decodeUInt16()
+//
+//        switch architecture {
+//        case .little:
+//            globalMessage = globalMessage.littleEndian
+//        case .big:
+//            globalMessage = globalMessage.bigEndian
+//        }
+//
+//        let fields = decoder.decodeUInt8()
+//
+//        var definitions: [FieldDefinition] = [FieldDefinition]()
+//
+//        for _ in 0..<fields {
+//            let fieldDef = try FieldDefinition.decode(decoder: &decoder)
+//
+//            definitions.append(fieldDef)
+//        }
+//
+//        var devDefinitions: [DeveloperFieldDefinition] = [DeveloperFieldDefinition]()
+//        if header.developerData == true {
+//            let devFields = decoder.decodeUInt8()
+//
+//            for _ in 0..<devFields {
+//
+//                let fieldDef = try DeveloperFieldDefinition.decode(decoder: &decoder)
+//
+//                devDefinitions.append(fieldDef)
+//            }
+//        }
+//
+//        return DefinitionMessage(architecture: architecture,
+//                                 globalMessageNumber: globalMessage,
+//                                 fieldDefinitions: definitions,
+//                                 developerFieldDefinitions: devDefinitions)
+//    }
 
 }
