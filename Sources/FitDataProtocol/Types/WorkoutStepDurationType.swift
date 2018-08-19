@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Workout Step Duration Type
 public enum WorkoutStepDurationType: UInt8 {
     /// Time

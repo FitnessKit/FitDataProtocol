@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Intensity
 public enum Intensity: UInt8 {
     /// Active

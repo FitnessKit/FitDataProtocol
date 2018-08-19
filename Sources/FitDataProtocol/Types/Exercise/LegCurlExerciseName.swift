@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Leg Curl Exercise Name
 public struct LegCurlExerciseName: ExerciseName {
     public typealias ExerciseNameType = LegCurlExerciseName
@@ -64,7 +63,6 @@ extension LegCurlExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension LegCurlExerciseName {
 

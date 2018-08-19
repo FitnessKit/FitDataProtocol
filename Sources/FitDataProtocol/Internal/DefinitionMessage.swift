@@ -44,7 +44,6 @@ internal struct DefinitionMessage {
 
 }
 
-
 internal extension DefinitionMessage {
 
     internal static func decode(decoder: inout DecodeData, data: Data, header: RecordHeader) throws -> DefinitionMessage {

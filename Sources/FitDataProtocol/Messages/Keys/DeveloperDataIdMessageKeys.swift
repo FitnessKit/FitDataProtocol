@@ -27,15 +27,20 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension DeveloperDataIdMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Developer ID
         case developerId        = 0
+        /// Application ID
         case applicationId      = 1
+        /// Manufacturer ID
         case manufacturerId     = 2
+        /// Data Index
         case dataIndex          = 3
+        /// Application Version
         case applicationVersion = 4
     }
 }

@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Workout Step Target Type
 public enum WorkoutStepTargetType: UInt8 {
     /// Speed

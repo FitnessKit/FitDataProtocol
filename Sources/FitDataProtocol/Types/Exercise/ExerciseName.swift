@@ -51,4 +51,3 @@ public protocol ExerciseNameSupportable: Hashable {
     /// List of Supported ExerciseNames
     static var supportedExerciseNames: [ExerciseNameType] { get }
 }
-

@@ -27,19 +27,27 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension StrideSpeedDistanceMonitorProfileMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Enabled
         case enabled                = 0
+        /// ANT ID
         case antID                  = 1
+        /// Calibration Factor
         case calibrationFactor      = 2
+        /// Odometer
         case odometer               = 3
+        /// Speed Source
         case speedSource            = 4
+        /// ANT Transmission Type
         case transType              = 5
+        /// Odometer Rollover
         case odometerRollover       = 7
 
+        /// Message Index
         case messageIndex           = 254
     }
 }

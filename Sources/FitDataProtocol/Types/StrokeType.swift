@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// FIT Stroke Type
 public enum Stroke: UInt8 {
     /// No Event

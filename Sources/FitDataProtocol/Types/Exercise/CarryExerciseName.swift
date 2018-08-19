@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Carry Exercise Name
 public struct CarryExerciseName: ExerciseName {
     public typealias ExerciseNameType = CarryExerciseName
@@ -64,7 +63,6 @@ extension CarryExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension CarryExerciseName {
 

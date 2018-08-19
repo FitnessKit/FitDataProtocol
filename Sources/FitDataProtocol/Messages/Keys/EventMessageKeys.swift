@@ -27,22 +27,35 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension EventMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Event
         case event              = 0
+        /// Event Type
         case eventType          = 1
+        /// Data 16
         case data16             = 2
+        /// Data 32
         case data32             = 3
+        /// Event Group
         case eventGroup         = 4
+        /// Score
         case score              = 7
+        /// Opponent Score
         case opponentScore      = 8
+        /// Front Gear Number
         case frontGearNumber    = 9
+        /// Front Gear
         case frontGear          = 10
+        /// Rear Gear Number
         case rearGearNumber     = 11
+        /// Rear Gear
         case rearGear           = 12
+
+        /// Timestamp
         case timestamp          = 253
     }
 }

@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Flye Exercise Name
 public struct FlyeExerciseName: ExerciseName {
     public typealias ExerciseNameType = FlyeExerciseName
@@ -64,7 +63,6 @@ extension FlyeExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension FlyeExerciseName {
 

@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Crunch Exercise Name
 public struct CrunchExerciseName: ExerciseName {
     public typealias ExerciseNameType = CrunchExerciseName
@@ -64,7 +63,6 @@ extension CrunchExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension CrunchExerciseName {
 

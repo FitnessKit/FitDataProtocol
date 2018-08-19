@@ -41,7 +41,6 @@ public enum WeatherSeverity: UInt8 {
     case invalid        = 255
 }
 
-
 /// Weather Severity Type
 public enum WeatherSeverityType: UInt8 {
     /// Unspecified

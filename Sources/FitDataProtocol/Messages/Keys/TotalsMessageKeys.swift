@@ -27,20 +27,29 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension TotalsMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Total Timer Time
         case timerTime          = 0
+        /// Total Distance
         case distance           = 1
+        /// Total Calories
         case calories           = 2
+        /// Sport
         case sport              = 3
+        /// Elapsed Time
         case elapsedTime        = 4
+        /// Sessions
         case sessions           = 5
+        /// Active Time
         case activeTime         = 6
 
+        /// Timestamp
         case timestamp          = 253
+        /// Message Index
         case messageIndex       = 254
     }
 }

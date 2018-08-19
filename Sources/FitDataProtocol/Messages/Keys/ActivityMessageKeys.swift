@@ -27,19 +27,27 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension ActivityMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Total Timer Time
         case totalTimerTime     = 0
+        /// Number of Sessions
         case numberOfSessions   = 1
+        /// Activity Type
         case activityType       = 2
+        /// Event
         case event              = 3
+        /// Event Type
         case eventType          = 4
+        /// Local Timestamp
         case localTimestamp     = 5
+        /// Event Group
         case eventGroup         = 6
 
+        /// Timestamp
         case timestamp          = 253
     }
 }

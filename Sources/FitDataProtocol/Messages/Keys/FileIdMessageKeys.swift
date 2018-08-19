@@ -27,17 +27,24 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension FileIdMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// File Type
         case fileType           = 0
+        /// Manufacturer
         case manufacturer       = 1
+        /// Product
         case product            = 2
+        /// Serial Number
         case serialNumber       = 3
+        /// File Creation Date
         case fileCreationDate   = 4
+        /// File Number
         case fileNumber         = 5
+        /// Product Name
         case productName        = 8
     }
 }

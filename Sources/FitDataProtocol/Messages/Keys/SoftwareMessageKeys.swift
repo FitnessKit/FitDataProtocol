@@ -27,14 +27,17 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension SoftwareMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Version
         case version        = 3
+        /// Part Number
         case partNumber     = 5
 
+        /// Message Index
         case messageIndex   = 254
     }
 }

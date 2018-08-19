@@ -27,16 +27,21 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension HeartrateProfileMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Enabled
         case enabled                = 0
+        /// ANT ID
         case antID                  = 1
+        /// Log HRV
         case logHrv                 = 2
+        /// ATN Transmission Type
         case transType              = 3
 
+        /// Message Index
         case messageIndex           = 254
     }
 }

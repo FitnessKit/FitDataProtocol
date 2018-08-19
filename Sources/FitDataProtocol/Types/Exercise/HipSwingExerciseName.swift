@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Hip Swing Exercise Name
 public struct HipSwingExerciseName: ExerciseName {
     public typealias ExerciseNameType = HipSwingExerciseName

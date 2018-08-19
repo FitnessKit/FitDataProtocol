@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Exercise Category
 public enum ExerciseCategory: UInt16 {
     /// Bench Press

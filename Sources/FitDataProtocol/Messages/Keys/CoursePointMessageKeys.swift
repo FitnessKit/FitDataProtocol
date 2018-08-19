@@ -27,19 +27,27 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension CoursePointMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Timestamp
         case timestamp      = 1
+        /// Latitude
         case latitude       = 2
+        /// Longitude
         case longitude      = 3
+        /// Distance
         case distance       = 4
+        /// Point Type
         case pointType      = 5
+        /// Name
         case name           = 6
+        /// Favorite
         case favorite       = 7
 
+        /// Message Index
         case messageIndex   = 254
     }
 }

@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Bench Press Exercise Name
 public struct BenchPressExerciseName: ExerciseName {
     public typealias ExerciseNameType = BenchPressExerciseName
@@ -40,7 +39,6 @@ public struct BenchPressExerciseName: ExerciseName {
         self.number = number
     }
 }
-
 
 extension BenchPressExerciseName: Hashable {
 

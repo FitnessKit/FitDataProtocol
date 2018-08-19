@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>FitMessageKeys Protocol Reference</title>
+    <title>StanceTime Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -11,13 +11,13 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/FitMessageKeys" class="dashAnchor"></a>
-    <a title="FitMessageKeys Protocol Reference"></a>
+    <a name="//apple_ref/swift/Struct/StanceTime" class="dashAnchor"></a>
+    <a title="StanceTime Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p>
           <a href="../index.html">FitDataProtocol Docs</a>
-          <span class="no-mobile"> (80% documented)</span>
+          <span class="no-mobile"> (95% documented)</span>
         </p>
     
         <p class="header-right">
@@ -36,7 +36,7 @@
             <a href="../index.html">FitDataProtocol Reference</a>
             <img id="carat" src="../img/carat.png" />
           </span>
-          FitMessageKeys Protocol Reference
+          StanceTime Structure Reference
         </p>
       </div>
     </div>
@@ -45,14 +45,14 @@
         <article class="main-content">
           <section>
             <section class="section">
-              <h1>FitMessageKeys</h1>
+              <h1>StanceTime</h1>
                 <div class="declaration">
                   <div class="language">
-                    <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">FitMessageKeys</span></code></pre>
+                    <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">StanceTime</span></code></pre>
 
                   </div>
                 </div>
-              <p>Protocol for FIT Message Keys</p>
+              <p>FIT Stance Time</p>
 
             </section>
             <section class="section task-group-section">
@@ -61,9 +61,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol0A11MessageKeysP0a6CodingE0"></a>
-                      <a name="//apple_ref/swift/Alias/FitCodingKeys" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol0A11MessageKeysP0a6CodingE0">FitCodingKeys</a>
+                      <a name="/s:15FitDataProtocol10StanceTimeV7percent12FitnessUnits20ValidatedMeasurementVyAE11UnitPercentCGSgvp"></a>
+                      <a name="//apple_ref/swift/Property/percent" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10StanceTimeV7percent12FitnessUnits20ValidatedMeasurementVyAE11UnitPercentCGSgvp">percent</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -71,14 +71,41 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Undocumented</p>
+                          <p>Percentage</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">FitCodingKeys</span> <span class="p">:</span> <span class="kt">CodingKey</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">percent</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol10StanceTimeV4time12FitnessUnits20ValidatedMeasurementVySo12UnitDurationCGSgvp"></a>
+                      <a name="//apple_ref/swift/Property/time" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol10StanceTimeV4time12FitnessUnits20ValidatedMeasurementVySo12UnitDurationCGSgvp">time</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Time</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">time</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
 
                           </div>
                         </div>
@@ -514,6 +541,9 @@
                 </li>
                 <li class="nav-group-task">
                   <a href="../Structs/Position.html">Position</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/StanceTime.html">StanceTime</a>
                 </li>
                 <li class="nav-group-task">
                   <a href="../Structs/TorqueEffectiveness.html">TorqueEffectiveness</a>

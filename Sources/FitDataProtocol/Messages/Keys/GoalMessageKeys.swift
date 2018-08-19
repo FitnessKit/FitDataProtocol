@@ -27,24 +27,37 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension GoalMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Sport
         case sport                  = 0
+        /// Sub-Sport
         case subSport               = 1
+        /// Start Date
         case startDate              = 2
+        /// End Date
         case endDate                = 3
+        /// Goal Type
         case goalType               = 4
+        /// Goal Value
         case goalValue              = 5
+        /// Repeat Goal
         case repeatGoal             = 6
+        /// Target Value
         case targetValue            = 7
+        /// Recurrence
         case recurrence             = 8
+        /// Recurrence Value
         case recurrenceValue        = 9
+        /// Enabled
         case enabled                = 10
+        /// Goal Source
         case goalSource             = 11
 
+        /// Message Index
         case messageIndex           = 254
     }
 }

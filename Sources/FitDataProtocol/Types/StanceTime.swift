@@ -1,8 +1,8 @@
 //
-//  SportMessageKeys.swift
-//  AntMessageProtocol
+//  StanceTime.swift
+//  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 8/18/18.
+//  Created by Kevin Hoogheem on 8/19/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,23 +23,21 @@
 //  THE SOFTWARE.
 
 import Foundation
+import FitnessUnits
 
-@available(swift 4.0)
-@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
-extension SportMessage: FitMessageKeys {
-    /// CodingKeys for FIT Message Type
-    public typealias FitCodingKeys = MessageKeys
+/// FIT Stance Time
+public struct StanceTime {
 
-    /// FIT Message Keys
-    public enum MessageKeys: Int, CodingKey {
-        /// Sport
-        case sport      = 0
-        /// Sub-Suport
-        case subSport   = 1
-        /// Name
-        case name       = 3
+    /// Percentage
+    private(set) public var percent: ValidatedMeasurement<UnitPercent>?
 
-        /// Timestamp
-        case timestamp  = 253
+    /// Time
+    private(set) public var time: ValidatedMeasurement<UnitDuration>?
+
+    internal init(percent: ValidatedMeasurement<UnitPercent>?,
+                  time: ValidatedMeasurement<UnitDuration>?) {
+
+        self.percent = percent
+        self.time = time
     }
 }

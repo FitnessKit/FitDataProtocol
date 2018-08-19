@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 extension Data {
 
     init<T>(from value: T) {

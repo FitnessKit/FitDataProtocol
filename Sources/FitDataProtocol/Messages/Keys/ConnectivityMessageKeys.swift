@@ -27,23 +27,36 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension ConnectivityMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Bluetooth Enabled
         case bluetoothEnabled               = 0
+        /// Bluetooth Low Energy Enabled
         case bluetoothLowEnergyEnable       = 1
+        /// ANT Enabled
         case antEnabled                     = 2
+        /// Connectivity Name
         case connectivityName               = 3
+        /// Live Tracking Enabled
         case liveTrackingEnabled            = 4
+        /// Weather Conditions Enabled
         case weatherConditionsEnabled       = 5
+        /// Weather Alerts Enabled
         case weatherAlertsEnabled           = 6
+        /// Auti Activity Upload Enabled
         case autoActivityUploadEnabled      = 7
+        /// Course Download Enabled
         case courseDownloadEnabled          = 8
+        /// Workout Download Enabled
         case workoutDownloadEnabled         = 9
+        /// GPS Ephemeris Download Enabled
         case gpsEphemerisDownloadEnabled    = 10
+        /// Incident Detection Enabled
         case incidentDetectionEnabled       = 11
+        /// Group Track Enabled
         case groupTrackEnabled              = 12
 
     }

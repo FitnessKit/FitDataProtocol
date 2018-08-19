@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Cardio Exercise Name
 public struct CardioExerciseName: ExerciseName {
     public typealias ExerciseNameType = CardioExerciseName
@@ -64,7 +63,6 @@ extension CardioExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension CardioExerciseName {
 

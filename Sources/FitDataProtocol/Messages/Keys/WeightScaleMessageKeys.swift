@@ -27,24 +27,37 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension WeightScaleMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Weight
         case weight                 = 0
+        /// Percent Fat
         case percentFat             = 1
+        /// Percent Hyration
         case percentHydration       = 2
+        /// Visceral Fat Mass
         case visceralFatMass        = 3
+        /// Bone Mass
         case boneMass               = 4
+        /// Muscle Mass
         case muscleMass             = 5
+        /// Basal METs
         case basalMet               = 7
+        /// Physique Rating
         case physiqueRating         = 8
+        /// Active METs
         case activeMet              = 9
+        /// Metabolic Age
         case metabolicAge           = 10
+        /// Visceral Fat Rating
         case visceralFatRating      = 11
+        /// User Profile Index
         case userProfileIndex       = 12
 
+        /// Timestamp
         case timestamp              = 253
 
     }

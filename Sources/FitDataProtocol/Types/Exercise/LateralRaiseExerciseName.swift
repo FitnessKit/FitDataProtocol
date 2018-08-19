@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Lateral Raise Exercise Name
 public struct LateralRaiseExerciseName: ExerciseName {
     public typealias ExerciseNameType = LateralRaiseExerciseName
@@ -64,7 +63,6 @@ extension LateralRaiseExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension LateralRaiseExerciseName {
 

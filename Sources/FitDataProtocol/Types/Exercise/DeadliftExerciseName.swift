@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Deadlift Exercise Name
 public struct DeadliftExerciseName: ExerciseName {
     public typealias ExerciseNameType = DeadliftExerciseName
@@ -64,7 +63,6 @@ extension DeadliftExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension DeadliftExerciseName {
 

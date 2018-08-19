@@ -25,7 +25,6 @@
 import Foundation
 import DataDecoder
 import FitnessUnits
-import FitnessUnits
 
 /// FIT Record Message
 @available(swift 4.0)
@@ -48,6 +47,9 @@ open class RecordMessage: FitMessage {
 
     /// Time From Course
     private(set) public var timeFromCourse: ValidatedMeasurement<UnitDuration>?
+
+    /// Cycles
+    private(set) public var cycles: ValidatedBinaryInteger<UInt8>?
 
     /// Total Cycles
     private(set) public var totalCycles: ValidatedBinaryInteger<UInt32>?
@@ -79,6 +81,12 @@ open class RecordMessage: FitMessage {
     /// Calories
     private(set) public var calories: ValidatedMeasurement<UnitEnergy>?
 
+    /// Vertical Oscillation
+    private(set) public var verticalOscillation: ValidatedMeasurement<UnitLength>?
+
+    /// Stance Time
+    private(set) public var stanceTime: StanceTime
+
     /// Heart Rate
     private(set) public var heartRate: ValidatedMeasurement<UnitCadence>?
 
@@ -92,6 +100,9 @@ open class RecordMessage: FitMessage {
     ///
     /// Relative. 0 is none  254 is Max
     private(set) public var resistance: ValidatedBinaryInteger<UInt8>?
+
+    /// Cycle Length
+    private(set) public var cycleLength: ValidatedMeasurement<UnitLength>?
 
     /// Temperature
     private(set) public var temperature: ValidatedMeasurement<UnitTemperature>?
@@ -121,12 +132,14 @@ open class RecordMessage: FitMessage {
         self.position = Position(latitude: nil, longitude: nil)
         self.torqueEffectiveness = TorqueEffectiveness(left: nil, right: nil)
         self.pedalSmoothness = PedalSmoothness(right: nil, left: nil, combined: nil)
+        self.stanceTime = StanceTime(percent: nil, time: nil)
     }
 
     public init(timeStamp: FitTime?,
                 position: Position,
                 distance: ValidatedMeasurement<UnitLength>?,
                 timeFromCourse: ValidatedMeasurement<UnitDuration>?,
+                cycles: ValidatedBinaryInteger<UInt8>?,
                 totalCycles: ValidatedBinaryInteger<UInt32>?,
                 accumulatedPower: ValidatedMeasurement<UnitPower>?,
                 enhancedSpeed: ValidatedMeasurement<UnitSpeed>?,
@@ -137,10 +150,13 @@ open class RecordMessage: FitMessage {
                 gpsAccuracy: ValidatedMeasurement<UnitLength>?,
                 verticalSpeed: ValidatedMeasurement<UnitSpeed>?,
                 calories: ValidatedMeasurement<UnitEnergy>?,
+                verticalOscillation: ValidatedMeasurement<UnitLength>?,
+                stanceTime: StanceTime,
                 heartRate: UInt8?,
                 cadence: UInt8?,
                 grade: ValidatedMeasurement<UnitPercent>?,
                 resistance: ValidatedBinaryInteger<UInt8>?,
+                cycleLength: ValidatedMeasurement<UnitLength>?,
                 temperature: ValidatedMeasurement<UnitTemperature>?,
                 activity: ActivityType?,
                 torqueEffectiveness: TorqueEffectiveness,
@@ -154,6 +170,7 @@ open class RecordMessage: FitMessage {
         self.position = position
         self.distance = distance
         self.timeFromCourse = timeFromCourse
+        self.cycles = cycles
         self.totalCycles = totalCycles
         self.accumulatedPower = accumulatedPower
         self.enhancedSpeed = enhancedSpeed
@@ -164,6 +181,8 @@ open class RecordMessage: FitMessage {
         self.gpsAccuracy = gpsAccuracy
         self.verticalSpeed = verticalSpeed
         self.calories = calories
+        self.verticalOscillation = verticalOscillation
+        self.stanceTime = stanceTime
 
         if let hr = heartRate {
 
@@ -185,6 +204,7 @@ open class RecordMessage: FitMessage {
 
         self.grade = grade
         self.resistance = resistance
+        self.cycleLength = cycleLength
         self.temperature = temperature
         self.activity = activity
         self.torqueEffectiveness = torqueEffectiveness
@@ -202,6 +222,7 @@ open class RecordMessage: FitMessage {
         var longitude: ValidatedMeasurement<UnitAngle>?
         var distance: ValidatedMeasurement<UnitLength>?
         var timeFromCourse: ValidatedMeasurement<UnitDuration>?
+        var cycles: ValidatedBinaryInteger<UInt8>?
         var totalCycles: ValidatedBinaryInteger<UInt32>?
         var compressedAccumulatedPower: ValidatedMeasurement<UnitPower>?
         var compressedAccumulatedPowerValue: Double?
@@ -215,10 +236,14 @@ open class RecordMessage: FitMessage {
         var gpsAccuracy: ValidatedMeasurement<UnitLength>?
         var verticalSpeed: ValidatedMeasurement<UnitSpeed>?
         var calories: ValidatedMeasurement<UnitEnergy>?
+        var verticalOscillation: ValidatedMeasurement<UnitLength>?
+        var stancePercent: ValidatedMeasurement<UnitPercent>?
+        var stanceTime: ValidatedMeasurement<UnitDuration>?
         var heartRate: UInt8?
         var grade: ValidatedMeasurement<UnitPercent>?
         var cadence: UInt8?
         var resistance: ValidatedBinaryInteger<UInt8>?
+        var cycleLength: ValidatedMeasurement<UnitLength>?
         var temperature: ValidatedMeasurement<UnitTemperature>?
         var activity: ActivityType?
         var rightTorqueEff: ValidatedMeasurement<UnitPercent>?
@@ -425,8 +450,20 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .cycleLength:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if UInt64(value) != definition.baseType.invalid {
+                        // 100 * m + 0
+                        let value = value.resolution(1 / 100)
+                        cycleLength = ValidatedMeasurement(value: value, valid: false, unit: UnitLength.meters)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            cycleLength = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
+                        }
+                    }
 
                 case .temperature:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
@@ -448,6 +485,21 @@ open class RecordMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .cycles:
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if UInt64(value) != definition.baseType.invalid {
+                        // 1 * cycles + 0
+                        cycles = ValidatedBinaryInteger(value: value, valid: true)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            cycles = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
+                        }
+                    }
+
+                case .totalCycles:
                     let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * cycles + 0
@@ -461,10 +513,6 @@ open class RecordMessage: FitMessage {
                             totalCycles = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
                         }
                     }
-
-                case .totalCycles:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .compressedAccumulatedPower:
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
@@ -549,16 +597,52 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .verticalOscillation:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        // 10 * mm + 0
+                        let value = value.resolution(1 / 10)
+                        verticalOscillation = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.millimeters)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            verticalOscillation = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.millimeters)
+                        }
+                    }
 
                 case .stanceTimePercent:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        // 100 * % + 0
+                        let value = value.resolution(1 / 100)
+                        stancePercent = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            stancePercent = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
+                        }
+                    }
 
                 case .stanceTime:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    if UInt64(value) != definition.baseType.invalid {
+                        // 10 * ms + 0
+                        let value = value.resolution(1 / 10)
+                        stanceTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.millisecond)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            stanceTime = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitDuration.millisecond)
+                        }
+                    }
 
                 case .activityType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -826,10 +910,14 @@ open class RecordMessage: FitMessage {
         /// PedalSmoothness
         let pedal = PedalSmoothness(right: rightPedal, left: leftPedal, combined: combinedPedal)
 
+        /// Stance Time
+        let stance = StanceTime(percent: stancePercent, time: stanceTime)
+
         return RecordMessage(timeStamp: timestamp,
                              position: position,
                              distance: distance,
                              timeFromCourse: timeFromCourse,
+                             cycles: cycles,
                              totalCycles: totalCycles,
                              accumulatedPower: accumulatedPower,
                              enhancedSpeed: enhancedSpeed,
@@ -840,10 +928,13 @@ open class RecordMessage: FitMessage {
                              gpsAccuracy: gpsAccuracy,
                              verticalSpeed: verticalSpeed,
                              calories: calories,
+                             verticalOscillation: verticalOscillation,
+                             stanceTime: stance,
                              heartRate: heartRate,
                              cadence: cadence,
                              grade: grade,
                              resistance: resistance,
+                             cycleLength: cycleLength,
                              temperature: temperature,
                              activity: activity,
                              torqueEffectiveness: torqueEff,

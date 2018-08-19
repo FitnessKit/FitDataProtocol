@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Weather Status Type
 public enum WeatherStatus: UInt8 {
     /// Clear

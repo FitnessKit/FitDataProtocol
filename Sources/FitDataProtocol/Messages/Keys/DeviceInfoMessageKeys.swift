@@ -27,29 +27,47 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension DeviceInfoMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Device Index
         case deviceIndex        = 0
+        /// Device Type
         case deviceType         = 1
+        /// Manufacturer
         case manufacturer       = 2
+        /// Serial Number
         case serialNumber       = 3
+        /// Product
         case product            = 4
+        /// Software Version
         case softwareVersion    = 5
+        /// Hardware Version
         case hardwareVersion    = 6
+        /// Cumulative Operating Time
         case cumulativeOpTime   = 7
+        /// Battery Voltage
         case batteryVoltage     = 10
+        /// Battery Status
         case batteryStatus      = 11
+        /// Sensor Position
         case sensorPosition     = 18
+        /// Description
         case description        = 19
+        /// Transmission Type
         case transmissionType   = 20
+        /// Device Number
         case deviceNumber       = 21
+        /// ANT Network
         case antNetwork         = 22
+        /// Source Type
         case sourcetype         = 25
+        /// Product Name
         case productName        = 27
 
+        /// Timestamp
         case timestamp          = 253
     }
 }

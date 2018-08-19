@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Hyperextension Exercise Name
 public struct HyperextensionExerciseName: ExerciseName {
     public typealias ExerciseNameType = HyperextensionExerciseName

@@ -27,20 +27,29 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension WorkoutMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Sport
         case sport                  = 4
+        /// Capabilities
         case capabilities           = 5
+        /// Number of Valid Steps
         case numberOfValidSteps     = 6
+        /// Workout Name
         case workoutName            = 8
+        /// Sub-Sport
         case subSport               = 11
+        /// Pool Length
         case poolLength             = 14
+        /// Pool Lenght Unit
         case poolLenghtUnit         = 15
 
+        /// Timestamp
         case timestamp              = 253
+        /// Message Index
         case messageIndex           = 254
     }
 }

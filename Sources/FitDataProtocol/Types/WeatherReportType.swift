@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Weather Report Type
 public enum WeatherReport: UInt8 {
     /// Current

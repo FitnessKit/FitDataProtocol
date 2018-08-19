@@ -27,37 +27,63 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension UserProfileMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Friendly Name
         case friendlyName                   = 0
+        /// Gender
         case gender                         = 1
+        /// Age
         case age                            = 2
+        /// Height
         case height                         = 3
+        /// Weight
         case weight                         = 4
+        /// Language
         case language                       = 5
+        /// Elevation Setting
         case elevationSetting               = 6
+        /// Weight Setting
         case weightSetting                  = 7
+        /// Resting Heart Rate
         case restingHeartRate               = 8
+        /// Default Max Running Heart Rate
         case defaultMaxRunningHeartRate     = 9
+        /// Default Max Biking Heart Rate
         case defaultMaxBikingHeartRate      = 10
+        /// Default Max Heart Rate
         case defaultMaxHeartRate            = 11
+        /// Heart Rate Setting
         case heartRateSetting               = 12
+        /// Speed Setting
         case speedSetting                   = 13
+        /// Distance Setting
         case distanceSetting                = 14
+        /// Power Setting
         case powerSetting                   = 16
+        /// Activity Class
         case activityClass                  = 17
+        /// Position Setting
         case positionSetting                = 18
+        /// Temperature Setting
         case temperatureSetting             = 21
+        /// Local ID
         case localID                        = 22
+        /// Global ID
         case globalID                       = 23
+        /// Height Setting
         case heightSetting                  = 30
+        /// Running Step Length
         case runningStepLength              = 31
+        /// Walking Step Length
         case walkingStepLength              = 32
 
+        /// Timestamp
         case timestamp                      = 253
+        /// Message Index
         case messageIndex                   = 254
     }
 }

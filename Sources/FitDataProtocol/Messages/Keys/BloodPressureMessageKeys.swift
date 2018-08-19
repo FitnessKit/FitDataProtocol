@@ -27,22 +27,33 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension BloodPressureMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Systolic Pressure
         case systolicPressure       = 0
+        /// Diastolic Pressure
         case diastolicPressure      = 1
+        /// Mean Arterial Pressure
         case meanArterialPressure   = 2
+        /// Map Sample Mean
         case mapSampleMean          = 3
+        /// Map Morning Values
         case mapMorningValues       = 4
+        /// Map Evening Values
         case mapEveningValues       = 5
+        /// Heart Rate
         case heartRate              = 6
+        /// Heart Rate Type
         case heartRateType          = 7
+        /// Status
         case status                 = 8
+        /// User Profile Index
         case userProfileIndex       = 9
 
+        /// Timestamp
         case timestamp              = 253
 
     }

@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Chop Exercise Name
 public struct ChopExerciseName: ExerciseName {
     public typealias ExerciseNameType = ChopExerciseName
@@ -64,7 +63,6 @@ extension ChopExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension ChopExerciseName {
 
@@ -228,6 +226,4 @@ public extension ChopExerciseName {
     public static var standingStabilityReverseChop: ChopExerciseName {
         return ChopExerciseName(name: "Standing Stability Reverse Chop", number: 22)
     }
-
-
 }

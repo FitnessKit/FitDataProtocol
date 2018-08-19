@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Curl Exercise Name
 public struct CurlExerciseName: ExerciseName {
     public typealias ExerciseNameType = CurlExerciseName
@@ -64,7 +63,6 @@ extension CurlExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension CurlExerciseName {
 
@@ -354,4 +352,3 @@ public extension CurlExerciseName {
         return CurlExerciseName(name: "Wide Grip EZ Bar Biceps Curl", number: 43)
     }
 }
-

@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Hip Stability Exercise Name
 public struct HipStabilityExerciseName: ExerciseName {
     public typealias ExerciseNameType = HipStabilityExerciseName
@@ -64,7 +63,6 @@ extension HipStabilityExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension HipStabilityExerciseName {
 

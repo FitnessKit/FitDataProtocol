@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Calf Raise Exercise Name
 public struct CalfRaiseExerciseName: ExerciseName {
     public typealias ExerciseNameType = CalfRaiseExerciseName

@@ -27,15 +27,19 @@ import Foundation
 @available(swift 4.0)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 extension ExerciseTitleMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
     public typealias FitCodingKeys = MessageKeys
 
     /// FIT Message Keys
-    ///
     public enum MessageKeys: Int, CodingKey {
+        /// Category
         case category       = 0
+        /// Exercise Name
         case exerciseName   = 1
+        /// Step Name
         case stepName       = 2
 
+        /// Message Index
         case messageIndex   = 254
     }
 }

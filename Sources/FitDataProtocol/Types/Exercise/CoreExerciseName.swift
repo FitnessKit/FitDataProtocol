@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Core Exercise Name
 public struct CoreExerciseName: ExerciseName {
     public typealias ExerciseNameType = CoreExerciseName
@@ -64,7 +63,6 @@ extension CoreExerciseName: Hashable {
             lhs.number == rhs.number
     }
 }
-
 
 public extension CoreExerciseName {
 

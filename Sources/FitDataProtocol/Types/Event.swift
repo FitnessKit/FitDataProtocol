@@ -47,7 +47,8 @@ public enum Event: UInt8 {
     case coursePoint            = 10
     /// Battery - marker
     case battery                = 11
-    /// Virtual Partner Pace - Group 1. Start at beginning of activity if VP enabled, when VP pace is changed during activity or VP enabled mid activity
+    /// Virtual Partner Pace - Group 1. Start at beginning of activity if VP enabled,
+    /// when VP pace is changed during activity or VP enabled mid activity
     case virtualPatnerPace      = 12
     /// HR Hight Alert - Group 0.  Start / stop when in alert condition.
     case hrHighAlert            = 13
@@ -69,11 +70,14 @@ public enum Event: UInt8 {
     case recoveryHr             = 21
     /// Battery Low
     case batteryLow             = 22
-    /// Time Duration Alert - Group 1.  Start if enabled mid activity (not required at start of activity). Stop when duration is reached.  stop_disable if disabled
+    /// Time Duration Alert - Group 1.  Start if enabled mid activity (not required at
+    /// start of activity). Stop when duration is reached.  stop_disable if disabled
     case timeDurationAlert      = 23
-    ///Distance Duration Alert - Group 1.  Start if enabled mid activity (not required at start of activity). Stop when duration is reached.  stop_disable if disabled
+    ///Distance Duration Alert - Group 1.  Start if enabled mid activity (not required
+    /// at start of activity). Stop when duration is reached.  stop_disable if disabled
     case distanceDurationAlert  = 24
-    /// Calorie Duration Alert - Group 1.  Start if enabled mid activity (not required at start of activity). Stop when duration is reached.  stop_disable if disabled
+    /// Calorie Duration Alert - Group 1.  Start if enabled mid activity (not required
+    /// at start of activity). Stop when duration is reached.  stop_disable if disabled
     case calorieDurationAlert   = 25
     /// Activity - Group 1..  Stop at end of activity
     case activity               = 26
