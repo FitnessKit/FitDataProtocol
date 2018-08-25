@@ -40,6 +40,7 @@ custom_categories:
     - HeartrateProfileMessage
     - HeartRateZoneMessage
     - HrvMessage
+    - MetZoneMessage
     - PowerZoneMessage
     - RecordMessage
     - SlaveDeviceMessage
@@ -53,6 +54,7 @@ custom_categories:
     - WeightScaleMessage
     - WorkoutMessage
     - WorkoutStepMessage
+    - ZonesTargetMessage
 
   - name: ExerciseName
     children:
