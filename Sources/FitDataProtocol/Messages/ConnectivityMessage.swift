@@ -78,7 +78,20 @@ open class ConnectivityMessage: FitMessage {
 
     public required init() {}
 
-    public init(bluetoothEnabled: Bool?, bluetoothLowEnergyEnable: Bool?, antEnabled: Bool?, name: String?, liveTrackingEnabled: Bool?, weatherConditionsEnabled: Bool?, weatherAlertsEnabled: Bool?, autoActivityUploadEnabled: Bool?, courseDownloadEnabled: Bool?, workoutDownloadEnabled: Bool?, gpsEphemerisDownloadEnabled: Bool?, incidentDetectionEnabled: Bool?, groupTrackEnabled: Bool?) {
+    public init(bluetoothEnabled: Bool?,
+                bluetoothLowEnergyEnable: Bool?,
+                antEnabled: Bool?,
+                name: String?,
+                liveTrackingEnabled: Bool?,
+                weatherConditionsEnabled: Bool?,
+                weatherAlertsEnabled: Bool?,
+                autoActivityUploadEnabled: Bool?,
+                courseDownloadEnabled: Bool?,
+                workoutDownloadEnabled: Bool?,
+                gpsEphemerisDownloadEnabled: Bool?,
+                incidentDetectionEnabled: Bool?,
+                groupTrackEnabled: Bool?) {
+
         self.bluetoothEnabled = bluetoothEnabled
         self.bluetoothLowEnergyEnable = bluetoothLowEnergyEnable
         self.antEnabled = antEnabled

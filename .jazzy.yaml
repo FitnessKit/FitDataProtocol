@@ -43,6 +43,7 @@ custom_categories:
     - MetZoneMessage
     - PowerZoneMessage
     - RecordMessage
+    - ScheduleMessage
     - SlaveDeviceMessage
     - SoftwareMessage
     - SpeedZoneMessage
