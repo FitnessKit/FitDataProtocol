@@ -54,7 +54,12 @@ open class DeveloperDataIdMessage: FitMessage {
 
     public required init() {}
 
-    public init(developerId: Data?, applicationId: Data?, applicationVersion: ValidatedBinaryInteger<UInt32>?, manufacturer: Manufacturer?, dataIndex: ValidatedBinaryInteger<UInt8>?) {
+    public init(developerId: Data?,
+                applicationId: Data?,
+                applicationVersion: ValidatedBinaryInteger<UInt32>?,
+                manufacturer: Manufacturer?,
+                dataIndex: ValidatedBinaryInteger<UInt8>?) {
+        
         self.developerId = developerId
         self.applicationId = applicationId
         self.applicationVersion = applicationVersion

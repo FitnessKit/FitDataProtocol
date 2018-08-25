@@ -66,7 +66,15 @@ open class ActivityMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, totalTimerTime: Measurement<UnitDuration>?, localTimeStamp: FitTime?, numberOfSessions: ValidatedBinaryInteger<UInt16>?, activity: Activity?, event: Event?, eventType: EventType?, eventGroup: ValidatedBinaryInteger<UInt8>?) {
+    public init(timeStamp: FitTime?,
+                totalTimerTime: Measurement<UnitDuration>?,
+                localTimeStamp: FitTime?,
+                numberOfSessions: ValidatedBinaryInteger<UInt16>?,
+                activity: Activity?,
+                event: Event?,
+                eventType: EventType?,
+                eventGroup: ValidatedBinaryInteger<UInt8>?) {
+        
         self.timeStamp = timeStamp
         self.totalTimerTime = totalTimerTime
         self.localTimeStamp = localTimeStamp

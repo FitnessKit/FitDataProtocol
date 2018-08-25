@@ -54,7 +54,12 @@ open class HeartrateProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: ValidatedBinaryInteger<UInt16>?, logHrv: Bool?, transmissionType: TransmissionType?) {
+    public init(messageIndex: MessageIndex?,
+                enabled: Bool?,
+                antID: ValidatedBinaryInteger<UInt16>?,
+                logHrv: Bool?,
+                transmissionType: TransmissionType?) {
+        
         self.messageIndex = messageIndex
         self.enabled = enabled
         self.antID = antID

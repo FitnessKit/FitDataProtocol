@@ -62,7 +62,14 @@ open class CoursePointMessage: FitMessage {
         self.position = Position(latitude: nil, longitude: nil)
     }
 
-    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, name: String?, position: Position, distance: ValidatedMeasurement<UnitLength>?, pointType: CoursePoint?,  isFavorite: Bool?) {
+    public init(timeStamp: FitTime?,
+                messageIndex: MessageIndex?,
+                name: String?,
+                position: Position,
+                distance: ValidatedMeasurement<UnitLength>?,
+                pointType: CoursePoint?,
+                isFavorite: Bool?) {
+        
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
 

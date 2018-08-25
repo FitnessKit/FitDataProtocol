@@ -63,7 +63,14 @@ open class WorkoutMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, messageIndex: MessageIndex?, workoutName: String?, numberOfValidSteps: ValidatedBinaryInteger<UInt16>?, poolLength: Measurement<UnitLength>?, poolLenghtUnit: MeasurementDisplayType?, sport: Sport?, subSport: SubSport?) {
+    public init(timeStamp: FitTime?,
+                messageIndex: MessageIndex?,
+                workoutName: String?,
+                numberOfValidSteps: ValidatedBinaryInteger<UInt16>?,
+                poolLength: Measurement<UnitLength>?,
+                poolLenghtUnit: MeasurementDisplayType?,
+                sport: Sport?,
+                subSport: SubSport?) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex

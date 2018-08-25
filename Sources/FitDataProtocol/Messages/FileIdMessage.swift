@@ -57,7 +57,13 @@ open class FileIdMessage: FitMessage {
 
     public required init() {}
 
-    public init(deviceSerialNumber: ValidatedBinaryInteger<UInt32>?, fileCreationDate: FitTime?, manufacturer: Manufacturer?, product: ValidatedBinaryInteger<UInt16>?, fileNumber: ValidatedBinaryInteger<UInt16>?, fileType: FileType?) {
+    public init(deviceSerialNumber: ValidatedBinaryInteger<UInt32>?,
+                fileCreationDate: FitTime?,
+                manufacturer: Manufacturer?,
+                product: ValidatedBinaryInteger<UInt16>?,
+                fileNumber: ValidatedBinaryInteger<UInt16>?,
+                fileType: FileType?) {
+        
         self.deviceSerialNumber = deviceSerialNumber
         self.fileCreationDate = fileCreationDate
         self.manufacturer = manufacturer

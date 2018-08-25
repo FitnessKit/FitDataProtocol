@@ -65,7 +65,15 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, enabled: Bool?, antID: ValidatedBinaryInteger<UInt16>?, calibrationFactor: Measurement<UnitPercent>?, odometer: Measurement<UnitLength>?, speedSourceFootpod: Bool?, transmissionType: TransmissionType?, odometerRolloverCounter: UInt8?) {
+    public init(messageIndex: MessageIndex?,
+                enabled: Bool?,
+                antID: ValidatedBinaryInteger<UInt16>?,
+                calibrationFactor: Measurement<UnitPercent>?,
+                odometer: Measurement<UnitLength>?,
+                speedSourceFootpod: Bool?,
+                transmissionType: TransmissionType?,
+                odometerRolloverCounter: UInt8?) {
+        
         self.messageIndex = messageIndex
         self.enabled = enabled
         self.antID = antID

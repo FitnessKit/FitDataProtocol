@@ -50,7 +50,11 @@ open class ExerciseTitleMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, stepName: String?, category: ExerciseCategory?, exerciseName: ExerciseNameType?) {
+    public init(messageIndex: MessageIndex?,
+                stepName: String?,
+                category: ExerciseCategory?,
+                exerciseName: ExerciseNameType?) {
+        
         self.messageIndex = messageIndex
         self.stepName = stepName
         self.category = category

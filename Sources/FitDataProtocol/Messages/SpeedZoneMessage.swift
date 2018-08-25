@@ -47,7 +47,10 @@ open class SpeedZoneMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, name: String?, highLevel: Measurement<UnitSpeed>?) {
+    public init(messageIndex: MessageIndex?,
+                name: String?,
+                highLevel: Measurement<UnitSpeed>?) {
+        
         self.messageIndex = messageIndex
         self.name = name
         self.highLevel = highLevel

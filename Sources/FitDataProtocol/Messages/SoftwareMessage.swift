@@ -47,7 +47,10 @@ open class SoftwareMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, version: ValidatedBinaryInteger<UInt16>?, partNumber: String?) {
+    public init(messageIndex: MessageIndex?,
+                version: ValidatedBinaryInteger<UInt16>?,
+                partNumber: String?) {
+        
         self.messageIndex = messageIndex
         self.version = version
         self.partNumber = partNumber

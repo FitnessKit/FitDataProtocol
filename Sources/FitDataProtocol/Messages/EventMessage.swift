@@ -56,7 +56,13 @@ open class EventMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, eventData: ValidatedBinaryInteger<UInt16>?, eventMoreData: ValidatedBinaryInteger<UInt32>?, event: Event?, eventType: EventType?, eventGroup: ValidatedBinaryInteger<UInt8>?) {
+    public init(timeStamp: FitTime?,
+                eventData: ValidatedBinaryInteger<UInt16>?,
+                eventMoreData: ValidatedBinaryInteger<UInt32>?,
+                event: Event?,
+                eventType: EventType?,
+                eventGroup: ValidatedBinaryInteger<UInt8>?) {
+        
         self.timeStamp = timeStamp
         self.eventData = eventData
         self.eventMoreData = eventMoreData

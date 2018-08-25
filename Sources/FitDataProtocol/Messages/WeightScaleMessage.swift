@@ -84,7 +84,19 @@ open class WeightScaleMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?, weight: Weight?, percentFat: ValidatedMeasurement<UnitPercent>?, percentHydration: ValidatedMeasurement<UnitPercent>?, visceralFatMass: ValidatedMeasurement<UnitMass>?, boneMass: ValidatedMeasurement<UnitMass>?, muscleMass: ValidatedMeasurement<UnitMass>?, basalMet: ValidatedMeasurement<UnitEnergy>?, physiqueRating: ValidatedMeasurement<RatingUnit>?, activeMet: ValidatedMeasurement<UnitEnergy>?, metabolicAge: ValidatedMeasurement<UnitDuration>?, visceralFatRating: ValidatedMeasurement<RatingUnit>?, userProfileIndex: MessageIndex? ) {
+    public init(timeStamp: FitTime?,
+                weight: Weight?,
+                percentFat: ValidatedMeasurement<UnitPercent>?,
+                percentHydration: ValidatedMeasurement<UnitPercent>?,
+                visceralFatMass: ValidatedMeasurement<UnitMass>?,
+                boneMass: ValidatedMeasurement<UnitMass>?,
+                muscleMass: ValidatedMeasurement<UnitMass>?,
+                basalMet: ValidatedMeasurement<UnitEnergy>?,
+                physiqueRating: ValidatedMeasurement<RatingUnit>?,
+                activeMet: ValidatedMeasurement<UnitEnergy>?,
+                metabolicAge: ValidatedMeasurement<UnitDuration>?,
+                visceralFatRating: ValidatedMeasurement<RatingUnit>?,
+                userProfileIndex: MessageIndex? ) {
 
         self.timeStamp = timeStamp
         self.weight = weight

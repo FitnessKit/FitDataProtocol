@@ -79,7 +79,20 @@ open class GoalMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, startDate: FitTime?, endDate: FitTime?, sport: Sport?, subSport: SubSport?, goalType: Goal?, goalValue: UInt32?, repeatGoal: Bool?, targetValue: ValidatedBinaryInteger<UInt32>?, recurrence: GoalRecurrence?, recurrenceValue: ValidatedBinaryInteger<UInt16>?, enabled: Bool?, source: GoalSource?) {
+    public init(messageIndex: MessageIndex?,
+                startDate: FitTime?,
+                endDate: FitTime?,
+                sport: Sport?,
+                subSport: SubSport?,
+                goalType: Goal?,
+                goalValue: UInt32?,
+                repeatGoal: Bool?,
+                targetValue: ValidatedBinaryInteger<UInt32>?,
+                recurrence: GoalRecurrence?,
+                recurrenceValue: ValidatedBinaryInteger<UInt16>?,
+                enabled: Bool?,
+                source: GoalSource?) {
+        
         self.messageIndex = messageIndex
         self.startDate = startDate
         self.endDate = endDate
