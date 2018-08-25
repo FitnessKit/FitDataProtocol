@@ -1,8 +1,8 @@
 //
-//  HeartrateType.swift
+//  ZonesTargetMessageKeys.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 4/21/18.
+//  Created by Kevin Hoogheem on 8/25/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,26 +24,23 @@
 
 import Foundation
 
-/// FIT Heart Rate Type
-public enum HeartRateType: UInt8 {
-    /// Normal
-    case normal         = 0
-    /// Irregular
-    case irregular      = 1
+@available(swift 4.0)
+@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
+extension ZonesTargetMessage: FitMessageKeys {
+    /// CodingKeys for FIT Message Type
+    public typealias FitCodingKeys = MessageKeys
 
-    /// Invalid
-    case invalid        = 255
-}
-
-/// FIT Heart Rate Zone Calculation
-public enum HeartRateZoneCalculation: UInt8 {
-    /// Custom
-    case custom         = 0
-    /// Percent Max HR
-    case percentMax     = 1
-    /// Percent HRR
-    case percentHrr     = 2
-
-    /// Invalid
-    case invalid        = 255
+    /// FIT Message Keys
+    public enum MessageKeys: Int, CodingKey {
+        /// Max Heart Rate
+        case maxHeartRate               = 1
+        /// Threshold Heart Rate
+        case thresholdHeartRate         = 2
+        /// Functional Threshold Power (FTP)
+        case functionalThresholdPower   = 3
+        /// HR Calculation Type
+        case heartRateCalculation       = 5
+        /// Power Calculation Type
+        case powerCalculation           = 7
+    }
 }

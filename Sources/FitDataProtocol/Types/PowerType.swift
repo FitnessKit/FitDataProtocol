@@ -1,8 +1,8 @@
 //
-//  HeartrateType.swift
+//  PowerType.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 4/21/18.
+//  Created by Kevin Hoogheem on 8/25/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,25 +24,12 @@
 
 import Foundation
 
-/// FIT Heart Rate Type
-public enum HeartRateType: UInt8 {
-    /// Normal
-    case normal         = 0
-    /// Irregular
-    case irregular      = 1
-
-    /// Invalid
-    case invalid        = 255
-}
-
-/// FIT Heart Rate Zone Calculation
-public enum HeartRateZoneCalculation: UInt8 {
+/// FIT Power Zone Calculation
+public enum PowerZoneCalculation: UInt8 {
     /// Custom
     case custom         = 0
-    /// Percent Max HR
-    case percentMax     = 1
-    /// Percent HRR
-    case percentHrr     = 2
+    /// Percent Functional Threshold Power (FTP)
+    case percentFtp     = 1
 
     /// Invalid
     case invalid        = 255
