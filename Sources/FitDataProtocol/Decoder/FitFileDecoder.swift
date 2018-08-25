@@ -55,6 +55,7 @@ public struct FitFileDecoder {
                                          TotalsMessage.self,
                                          ActivityMessage.self,
                                          SoftwareMessage.self,
+                                         FileCapabilitiesMessage.self,
                                          FileCreatorMessage.self,
                                          BloodPressureMessage.self,
                                          SpeedZoneMessage.self,
