@@ -45,7 +45,6 @@ open class ActivityMessage: FitMessage {
     private(set) public var totalTimerTime: Measurement<UnitDuration>?
 
     /// Local Timestamp
-    /// Timestamp
     private(set) public var localTimeStamp: FitTime?
 
     /// Number of Sessions

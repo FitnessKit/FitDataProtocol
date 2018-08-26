@@ -49,8 +49,26 @@ open class UserProfileMessage: FitMessage {
     /// Weight
     private(set) public var weight: ValidatedMeasurement<UnitMass>?
 
+    /// Speed Setting
+    private(set) public var speedSetting: PositionDisplayType?
+
+    /// Distance Setting
+    private(set) public var distanceSetting: PositionDisplayType?
+
+    /// Power Setting
+    private(set) public var powerSetting: PowerDisplayType?
+
+    /// Position Setting
+    private(set) public var positionSetting: PositionDisplayType?
+
+    /// Temperature Setting
+    private(set) public var temperatureSetting: MeasurementDisplayType?
+
     /// Local ID
     private(set) public var localID: ValidatedBinaryInteger<UInt16>?
+
+    /// Height Setting
+    private(set) public var heightSetting: MeasurementDisplayType?
 
     /// Running Step Length
     private(set) public var runningStepLength: ValidatedMeasurement<UnitLength>?
@@ -88,7 +106,13 @@ open class UserProfileMessage: FitMessage {
                 messageIndex: MessageIndex?,
                 friendlyName: String?,
                 weight: ValidatedMeasurement<UnitMass>?,
+                speedSetting: PositionDisplayType?,
+                distanceSetting: PositionDisplayType?,
+                powerSetting: PowerDisplayType?,
+                positionSetting: PositionDisplayType?,
+                temperatureSetting: MeasurementDisplayType?,
                 localID: ValidatedBinaryInteger<UInt16>?,
+                heightSetting: MeasurementDisplayType?,
                 runningStepLength: ValidatedMeasurement<UnitLength>?,
                 walkingStepLength: ValidatedMeasurement<UnitLength>?,
                 gender: Gender?,
@@ -105,7 +129,13 @@ open class UserProfileMessage: FitMessage {
 
         self.friendlyName = friendlyName
         self.weight = weight
+        self.speedSetting = speedSetting
+        self.distanceSetting = distanceSetting
+        self.powerSetting = powerSetting
+        self.positionSetting = positionSetting
+        self.temperatureSetting = temperatureSetting
         self.localID = localID
+        self.heightSetting = heightSetting
         self.runningStepLength = runningStepLength
         self.walkingStepLength = walkingStepLength
         self.gender = gender
@@ -157,7 +187,13 @@ open class UserProfileMessage: FitMessage {
         var messageIndex: MessageIndex?
         var friendlyName: String?
         var weight: ValidatedMeasurement<UnitMass>?
+        var speedSetting: PositionDisplayType?
+        var distanceSetting: PositionDisplayType?
+        var powerSetting: PowerDisplayType?
+        var positionSetting: PositionDisplayType?
+        var temperatureSetting: MeasurementDisplayType?
         var localID: ValidatedBinaryInteger<UInt16>?
+        var heightSetting: MeasurementDisplayType?
         var runningStepLength: ValidatedMeasurement<UnitLength>?
         var walkingStepLength: ValidatedMeasurement<UnitLength>?
         var gender: Gender?
@@ -337,22 +373,77 @@ open class UserProfileMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .speedSetting:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if UInt64(value) != definition.baseType.invalid {
+                        speedSetting = PositionDisplayType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            speedSetting = PositionDisplayType.invalid
+                        }
+                    }
 
                 case .distanceSetting:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if UInt64(value) != definition.baseType.invalid {
+                        distanceSetting = PositionDisplayType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            distanceSetting = PositionDisplayType.invalid
+                        }
+                    }
 
                 case .powerSetting:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if UInt64(value) != definition.baseType.invalid {
+                        powerSetting = PowerDisplayType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            powerSetting = PowerDisplayType.invalid
+                        }
+                    }
 
                 case .activityClass:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .positionSetting:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if UInt64(value) != definition.baseType.invalid {
+                        positionSetting = PositionDisplayType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            positionSetting = PositionDisplayType.invalid
+                        }
+                    }
 
                 case .temperatureSetting:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if UInt64(value) != definition.baseType.invalid {
+                        temperatureSetting = MeasurementDisplayType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            temperatureSetting = MeasurementDisplayType.invalid
+                        }
+                    }
 
                 case .localID:
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
@@ -372,7 +463,18 @@ open class UserProfileMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .heightSetting:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if UInt64(value) != definition.baseType.invalid {
+                        heightSetting = MeasurementDisplayType(rawValue: value)
+                    } else {
+
+                        switch dataStrategy {
+                        case .nil:
+                            break
+                        case .useInvalid:
+                            heightSetting = MeasurementDisplayType.invalid
+                        }
+                    }
 
                 case .runningStepLength:
                     let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
@@ -426,7 +528,13 @@ open class UserProfileMessage: FitMessage {
                                   messageIndex: messageIndex,
                                   friendlyName: friendlyName,
                                   weight: weight,
+                                  speedSetting: speedSetting,
+                                  distanceSetting: distanceSetting,
+                                  powerSetting: powerSetting,
+                                  positionSetting: positionSetting,
+                                  temperatureSetting: temperatureSetting,
                                   localID: localID,
+                                  heightSetting: heightSetting,
                                   runningStepLength: runningStepLength,
                                   walkingStepLength: walkingStepLength,
                                   gender: gender,
