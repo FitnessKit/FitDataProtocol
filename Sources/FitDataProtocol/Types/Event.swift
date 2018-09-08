@@ -83,7 +83,7 @@ public enum Event: UInt8 {
     case activity               = 26
     /// Fitness Equipment - marker
     case fitnessEquipment       = 27
-    /// Lenght - Stop at end of each length
+    /// Length - Stop at end of each length
     case length                 = 28
     /// User Marker - marker
     case userMarker             = 32

@@ -30,6 +30,12 @@ protocol Resolutionable {
     /// - Parameter res: Resolution
     /// - Returns: Number with Resolution applied
     func resolution(_ res: Double) -> Double
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter res: Resolution
+    /// - Returns: Number with Resolution applied
+    func resolutionUInt32(_ res: Double) -> UInt32
 }
 
 extension Double: Resolutionable {
@@ -40,6 +46,14 @@ extension Double: Resolutionable {
     /// - Returns: Number with Resolution applied
     func resolution(_ res: Double) -> Double {
         return self * res
+    }
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter res: Resolution
+    /// - Returns: Number with Resolution applied
+    func resolutionUInt32(_ res: Double) -> UInt32 {
+        return UInt32(Double(self) * res)
     }
 }
 
@@ -52,6 +66,15 @@ extension UInt8: Resolutionable {
     func resolution(_ res: Double) -> Double {
         return Double(self) * res
     }
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter res: Resolution
+    /// - Returns: Number with Resolution applied
+    func resolutionUInt32(_ res: Double) -> UInt32 {
+        return UInt32(Double(self) * res)
+    }
+
 }
 
 extension UInt16: Resolutionable {
@@ -62,6 +85,14 @@ extension UInt16: Resolutionable {
     /// - Returns: Number with Resolution applied
     func resolution(_ res: Double) -> Double {
         return Double(self) * res
+    }
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter res: Resolution
+    /// - Returns: Number with Resolution applied
+    func resolutionUInt32(_ res: Double) -> UInt32 {
+        return UInt32(Double(self) * res)
     }
 }
 
@@ -74,6 +105,14 @@ extension Int16: Resolutionable {
     func resolution(_ res: Double) -> Double {
         return Double(self) * res
     }
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter res: Resolution
+    /// - Returns: Number with Resolution applied
+    func resolutionUInt32(_ res: Double) -> UInt32 {
+        return UInt32(Double(self) * res)
+    }
 }
 
 extension UInt32: Resolutionable {
@@ -85,6 +124,14 @@ extension UInt32: Resolutionable {
     func resolution(_ res: Double) -> Double {
         return Double(self) * res
     }
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter res: Resolution
+    /// - Returns: Number with Resolution applied
+    func resolutionUInt32(_ res: Double) -> UInt32 {
+        return UInt32(Double(self) * res)
+    }
 }
 
 extension Int32: Resolutionable {
@@ -95,5 +142,13 @@ extension Int32: Resolutionable {
     /// - Returns: Number with Resolution applied
     func resolution(_ res: Double) -> Double {
         return Double(self) * res
+    }
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter res: Resolution
+    /// - Returns: Number with Resolution applied
+    func resolutionUInt32(_ res: Double) -> UInt32 {
+        return UInt32(Double(self) * res)
     }
 }

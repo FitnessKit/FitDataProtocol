@@ -52,8 +52,8 @@ open class WorkoutMessage: FitMessage {
     /// Pool Length
     private(set) public var poolLength: Measurement<UnitLength>?
 
-    /// Pool Lenght Unit
-    private(set) public var poolLenghtUnit: MeasurementDisplayType?
+    /// Pool Length Unit
+    private(set) public var poolLengthUnit: MeasurementDisplayType?
 
     /// Sport
     private(set) public var sport: Sport?
@@ -68,7 +68,7 @@ open class WorkoutMessage: FitMessage {
                 workoutName: String?,
                 numberOfValidSteps: ValidatedBinaryInteger<UInt16>?,
                 poolLength: Measurement<UnitLength>?,
-                poolLenghtUnit: MeasurementDisplayType?,
+                poolLengthUnit: MeasurementDisplayType?,
                 sport: Sport?,
                 subSport: SubSport?) {
 
@@ -77,7 +77,7 @@ open class WorkoutMessage: FitMessage {
         self.workoutName = workoutName
         self.numberOfValidSteps = numberOfValidSteps
         self.poolLength = poolLength
-        self.poolLenghtUnit = poolLenghtUnit
+        self.poolLengthUnit = poolLengthUnit
         self.sport = sport
         self.subSport = subSport
     }
@@ -89,7 +89,7 @@ open class WorkoutMessage: FitMessage {
         var workoutName: String?
         var numberOfValidSteps: ValidatedBinaryInteger<UInt16>?
         var poolLength: Measurement<UnitLength>?
-        var poolLenghtUnit: MeasurementDisplayType?
+        var poolLengthUnit: MeasurementDisplayType?
         var sport: Sport?
         var subSport: SubSport?
 
@@ -178,17 +178,17 @@ open class WorkoutMessage: FitMessage {
                         }
                     }
 
-                case .poolLenghtUnit:
+                case .poolLengthUnit:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
-                        poolLenghtUnit = MeasurementDisplayType(rawValue: value)
+                        poolLengthUnit = MeasurementDisplayType(rawValue: value)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            poolLenghtUnit = MeasurementDisplayType.invalid
+                            poolLengthUnit = MeasurementDisplayType.invalid
                         }
                     }
 
@@ -213,7 +213,7 @@ open class WorkoutMessage: FitMessage {
                               workoutName: workoutName,
                               numberOfValidSteps: numberOfValidSteps,
                               poolLength: poolLength,
-                              poolLenghtUnit: poolLenghtUnit,
+                              poolLengthUnit: poolLengthUnit,
                               sport: sport,
                               subSport: subSport)
     }

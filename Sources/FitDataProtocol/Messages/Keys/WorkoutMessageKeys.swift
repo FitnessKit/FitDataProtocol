@@ -44,8 +44,8 @@ extension WorkoutMessage: FitMessageKeys {
         case subSport               = 11
         /// Pool Length
         case poolLength             = 14
-        /// Pool Lenght Unit
-        case poolLenghtUnit         = 15
+        /// Pool Length Unit
+        case poolLengthUnit         = 15
 
         /// Timestamp
         case timestamp              = 253
