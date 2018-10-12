@@ -41,12 +41,14 @@ custom_categories:
     - HeartrateProfileMessage
     - HeartRateZoneMessage
     - HrvMessage
+    - LapMessage
     - MetZoneMessage
     - PowerZoneMessage
     - RecordMessage
     - ScheduleMessage
     - SlaveDeviceMessage
     - SoftwareMessage
+    - SegmentLeaderboardEntryMessage
     - SpeedZoneMessage
     - SportMessage
     - StrideSpeedDistanceMonitorProfileMessage
@@ -55,6 +57,7 @@ custom_categories:
     - WeatherAlertMessage
     - WeightScaleMessage
     - WorkoutMessage
+    - WorkoutSessionMessage
     - WorkoutStepMessage
     - ZonesTargetMessage
 

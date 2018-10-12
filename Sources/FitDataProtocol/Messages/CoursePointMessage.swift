@@ -121,7 +121,7 @@ open class CoursePointMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            latitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.degrees)
+                            latitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.garminSemicircle)
                         }
                     }
 
@@ -137,7 +137,7 @@ open class CoursePointMessage: FitMessage {
                         case .nil:
                             break
                         case .useInvalid:
-                            longitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.degrees)
+                            longitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.garminSemicircle)
                         }
                     }
 

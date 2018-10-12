@@ -48,3 +48,63 @@ open class FitMessage {
     }
 
 }
+
+internal extension FitMessage {
+
+    /// Decode Int16
+    ///
+    /// - Parameters:
+    ///   - decoder: Decoder
+    ///   - endian: Endian
+    ///   - data: Field Data
+    /// - Returns: Decoded Int32
+    internal func decodeInt16(decoder: inout DecodeData, endian: Endian, data: FieldData) -> Int16 {
+
+        let value = endian == .little ? decoder.decodeInt16(data.fieldData).littleEndian : decoder.decodeInt16(data.fieldData).bigEndian
+
+        return value
+    }
+
+    /// Decode UInt16
+    ///
+    /// - Parameters:
+    ///   - decoder: Decoder
+    ///   - endian: Endian
+    ///   - data: Field Data
+    /// - Returns: Decoded Int32
+    internal func decodeUInt16(decoder: inout DecodeData, endian: Endian, data: FieldData) -> UInt16 {
+
+        let value = endian == .little ? decoder.decodeUInt16(data.fieldData).littleEndian : decoder.decodeUInt16(data.fieldData).bigEndian
+
+        return value
+    }
+
+    /// Decode Int32
+    ///
+    /// - Parameters:
+    ///   - decoder: Decoder
+    ///   - endian: Endian
+    ///   - data: Field Data
+    /// - Returns: Decoded Int32
+    internal func decodeInt32(decoder: inout DecodeData, endian: Endian, data: FieldData) -> Int32 {
+
+        let value = endian == .little ? decoder.decodeInt32(data.fieldData).littleEndian : decoder.decodeInt32(data.fieldData).bigEndian
+
+        return value
+    }
+
+    /// Decode UInt32
+    ///
+    /// - Parameters:
+    ///   - decoder: Decoder
+    ///   - endian: Endian
+    ///   - data: Field Data
+    /// - Returns: Decoded Int32
+    internal func decodeUInt32(decoder: inout DecodeData, endian: Endian, data: FieldData) -> UInt32 {
+
+        let value = endian == .little ? decoder.decodeUInt32(data.fieldData).littleEndian : decoder.decodeUInt32(data.fieldData).bigEndian
+
+        return value
+    }
+
+}

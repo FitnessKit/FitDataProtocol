@@ -62,7 +62,6 @@ open class ActivityMessage: FitMessage {
     /// Event Group
     private(set) public var eventGroup: ValidatedBinaryInteger<UInt8>?
 
-
     public required init() {}
 
     public init(timeStamp: FitTime?,
