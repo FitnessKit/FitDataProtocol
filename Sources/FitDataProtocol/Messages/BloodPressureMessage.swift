@@ -285,10 +285,10 @@ open class BloodPressureMessage: FitMessage {
                     }
                     
                 case .timestamp:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        timeStamp = FitTime(time: value)
-                    }
+                    timeStamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 }
             }

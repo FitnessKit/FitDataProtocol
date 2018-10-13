@@ -23,7 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
-
+import DataDecoder
 
 /// FIT Time
 public struct FitTime {
@@ -47,4 +47,27 @@ public struct FitTime {
         }
     }
 
+}
+
+internal extension FitTime {
+
+    /// Decodes the FitTime
+    ///
+    /// - Parameters:
+    ///   - decoder: Decoder
+    ///   - endian: Endian
+    ///   - definition: Field Definition Message
+    ///   - data: Field Data Message
+    ///   - isLocal: If Time is Local
+    /// - Returns: Message Index
+    internal static func decode(decoder: inout DecodeData, endian: Endian, definition: FieldDefinition, data: FieldData, isLocal: Bool = false) -> FitTime? {
+
+        let value = endian == .little ? decoder.decodeUInt32(data.fieldData).littleEndian : decoder.decodeUInt32(data.fieldData).bigEndian
+
+        if UInt64(value) != definition.baseType.invalid {
+            return FitTime(time: value, isLocal: isLocal)
+        }
+
+        return nil
+    }
 }

@@ -149,10 +149,10 @@ open class ScheduleMessage: FitMessage {
                     }
 
                 case .timeCreated:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        timeCreated = FitTime(time: value)
-                    }
+                    timeCreated = FitTime.decode(decoder: &localDecoder,
+                                                 endian: arch,
+                                                 definition: definition,
+                                                 data: fieldData)
 
                 case .completed:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -175,10 +175,11 @@ open class ScheduleMessage: FitMessage {
                     }
 
                 case .scheduledTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        scheduledTime = FitTime(time: value, isLocal: true)
-                    }
+                    scheduledTime = FitTime.decode(decoder: &localDecoder,
+                                                   endian: arch,
+                                                   definition: definition,
+                                                   data: fieldData,
+                                                   isLocal: true)
 
                 }
             }

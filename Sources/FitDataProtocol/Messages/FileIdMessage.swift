@@ -147,10 +147,11 @@ open class FileIdMessage: FitMessage {
                     }
 
                 case .fileCreationDate:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        fileCreationDate = FitTime(time: value)
-                    }
+                    fileCreationDate = FitTime.decode(decoder: &localDecoder,
+                                                      endian: arch,
+                                                      definition: definition,
+                                                      data: fieldData)
+
 
                 case .fileNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)

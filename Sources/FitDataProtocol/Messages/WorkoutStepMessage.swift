@@ -273,10 +273,10 @@ open class WorkoutStepMessage: FitMessage {
                     }
 
                 case .messageIndex:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        messageIndex = MessageIndex(value: value)
-                    }
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 }
             }

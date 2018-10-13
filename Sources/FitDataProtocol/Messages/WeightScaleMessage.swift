@@ -115,7 +115,7 @@ open class WeightScaleMessage: FitMessage {
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WeightScaleMessage  {
 
-        var timeStamp: FitTime?
+        var timestamp: FitTime?
         var weight: Weight?
         var percentFat: ValidatedMeasurement<UnitPercent>?
         var percentHydration: ValidatedMeasurement<UnitPercent>?
@@ -328,16 +328,16 @@ open class WeightScaleMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        timeStamp = FitTime(time: value)
-                    }
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 }
             }
         }
 
-        return WeightScaleMessage(timeStamp: timeStamp,
+        return WeightScaleMessage(timeStamp: timestamp,
                                   weight: weight,
                                   percentFat: percentFat,
                                   percentHydration: percentHydration,

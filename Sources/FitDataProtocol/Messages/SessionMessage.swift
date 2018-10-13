@@ -556,10 +556,10 @@ open class SessionMessage: FitMessage {
                     eventType = EventType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
                 case .startTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        startTime = FitTime(time: value)
-                    }
+                    startTime = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 case .startPositionLatitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -1646,10 +1646,10 @@ open class SessionMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .timestamp:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        timestamp = FitTime(time: value)
-                    }
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,

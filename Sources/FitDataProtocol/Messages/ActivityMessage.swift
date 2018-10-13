@@ -146,38 +146,18 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .event:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        event = Event(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            event = Event.invalid
-                        }
-                    }
+                    event = Event.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
                 case .eventType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        eventType = EventType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            eventType = EventType.invalid
-                        }
-                    }
+                    eventType = EventType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
                 case .localTimestamp:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        localTimeStamp = FitTime(time: value, isLocal: true)
-                    }
+                    localTimeStamp = FitTime.decode(decoder: &localDecoder,
+                                                    endian: arch,
+                                                    definition: definition,
+                                                    data: fieldData,
+                                                    isLocal: true)
+
 
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -194,10 +174,11 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        timeStamp = FitTime(time: value)
-                    }
+                    timeStamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
+
                 }
 
             }

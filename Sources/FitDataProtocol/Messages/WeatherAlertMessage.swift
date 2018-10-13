@@ -82,7 +82,7 @@ open class WeatherAlertMessage: FitMessage {
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WeatherAlertMessage  {
 
-        var timeStamp: FitTime?
+        var timestamp: FitTime?
         var reportID: String?
         var issueTime: FitTime?
         var expireTime: FitTime?
@@ -113,16 +113,17 @@ open class WeatherAlertMessage: FitMessage {
                     }
 
                 case .issueTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        issueTime = FitTime(time: value)
-                    }
+                    issueTime = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
+
 
                 case .expireTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        expireTime = FitTime(time: value)
-                    }
+                    expireTime = FitTime.decode(decoder: &localDecoder,
+                                                endian: arch,
+                                                definition: definition,
+                                                data: fieldData)
 
                 case .severity:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -153,17 +154,17 @@ open class WeatherAlertMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        timeStamp = FitTime(time: value)
-                    }
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 }
 
             }
         }
 
-        return WeatherAlertMessage(timeStamp: timeStamp,
+        return WeatherAlertMessage(timeStamp: timestamp,
                                    reportID: reportID,
                                    issueTime: issueTime,
                                    expireTime: expireTime,

@@ -95,7 +95,7 @@ open class TotalsMessage: FitMessage {
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> TotalsMessage  {
 
-        var timeStamp: FitTime?
+        var timestamp: FitTime?
         var messageIndex: MessageIndex?
         var timerTime: Measurement<UnitDuration>?
         var distance: ValidatedMeasurement<UnitLength>?
@@ -206,23 +206,23 @@ open class TotalsMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        timeStamp = FitTime(time: value)
-                    }
-                    
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
+
                 case .messageIndex:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        messageIndex = MessageIndex(value: value)
-                    }
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 }
 
             }
         }
 
-        return TotalsMessage(timeStamp: timeStamp,
+        return TotalsMessage(timeStamp: timestamp,
                              messageIndex: messageIndex,
                              timerTime: timerTime,
                              distance: distance,

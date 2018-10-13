@@ -73,7 +73,7 @@ open class EventMessage: FitMessage {
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> EventMessage  {
 
-        var timeStamp: FitTime?
+        var timestamp: FitTime?
         var eventData: ValidatedBinaryInteger<UInt16>?
         var eventMoreData: ValidatedBinaryInteger<UInt32>?
         var event: Event?
@@ -98,32 +98,10 @@ open class EventMessage: FitMessage {
                 switch converter {
 
                 case .event:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        event = Event(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            event = Event.invalid
-                        }
-                    }
+                    event = Event.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
                 case .eventType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        eventType = EventType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            eventType = EventType.invalid
-                        }
-                    }
+                    eventType = EventType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
                 case .data16:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -192,16 +170,16 @@ open class EventMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .timestamp:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        timeStamp = FitTime(time: value)
-                    }
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 }
             }
         }
 
-        return EventMessage(timeStamp: timeStamp,
+        return EventMessage(timeStamp: timestamp,
                             eventData: eventData,
                             eventMoreData: eventMoreData,
                             event: event,
