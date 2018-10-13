@@ -89,7 +89,7 @@ open class MetZoneMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("HeartRateZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                //print("MetZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {

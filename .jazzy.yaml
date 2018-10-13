@@ -46,6 +46,7 @@ custom_categories:
     - PowerZoneMessage
     - RecordMessage
     - ScheduleMessage
+    - SessionMessage
     - SlaveDeviceMessage
     - SoftwareMessage
     - SegmentLeaderboardEntryMessage

@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Event
 ///
@@ -105,4 +106,24 @@ public enum Event: UInt8 {
     case communicationTimeout   = 47
     /// Invalid
     case invalid                = 255
+}
+
+internal extension Event {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Event? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if UInt64(value) != definition.baseType.invalid {
+            return Event(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return Event.invalid
+            }
+        }
+
+    }
 }

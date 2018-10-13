@@ -188,16 +188,16 @@ open class LapMessage: FitMessage {
     private(set) public var totalMovingTime: Measurement<UnitDuration>?
 
     /// Average Positive Vertical Speed
-    private(set) public var averagePositiveVeriticalSpeed: ValidatedMeasurement<UnitSpeed>?
+    private(set) public var averagePositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
 
     /// Average Negitive Vertical Speed
-    private(set) public var averagegNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
+    private(set) public var averageNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
 
     /// Maximum Positive Vertical Speed
     private(set) public var maximumPositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
 
     /// Maximum Negitive Vertical Speed
-    private(set) public var maximumNegitiveVertialSpeed: ValidatedMeasurement<UnitSpeed>?
+    private(set) public var maximumNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
 
     /// Repetion Number
     private(set) public var repetionNumber: ValidatedBinaryInteger<UInt16>?
@@ -291,10 +291,10 @@ open class LapMessage: FitMessage {
                 averageTemperature: ValidatedMeasurement<UnitTemperature>?,
                 maximumTemperature: ValidatedMeasurement<UnitTemperature>?,
                 totalMovingTime: Measurement<UnitDuration>?,
-                averagePositiveVeriticalSpeed: ValidatedMeasurement<UnitSpeed>?,
-                averagegNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
+                averagePositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
+                averageNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
                 maximumPositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
-                maximumNegitiveVertialSpeed: ValidatedMeasurement<UnitSpeed>?,
+                maximumNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
                 repetionNumber: ValidatedBinaryInteger<UInt16>?,
                 minimumAltitude: ValidatedMeasurement<UnitLength>?,
                 minimumHeartRate: UInt8?,
@@ -387,10 +387,10 @@ open class LapMessage: FitMessage {
         self.averageTemperature = averageTemperature
         self.maximumTemperature = maximumTemperature
         self.totalMovingTime = totalMovingTime
-        self.averagePositiveVeriticalSpeed = averagePositiveVeriticalSpeed
-        self.averagegNegitiveVerticalSpeed = averagegNegitiveVerticalSpeed
+        self.averagePositiveVerticalSpeed = averagePositiveVerticalSpeed
+        self.averageNegitiveVerticalSpeed = averageNegitiveVerticalSpeed
         self.maximumPositiveVerticalSpeed = maximumPositiveVerticalSpeed
-        self.maximumNegitiveVertialSpeed = maximumNegitiveVertialSpeed
+        self.maximumNegitiveVerticalSpeed = maximumNegitiveVerticalSpeed
         self.repetionNumber = repetionNumber
         self.minimumAltitude = minimumAltitude
 
@@ -464,10 +464,10 @@ open class LapMessage: FitMessage {
         var averageTemperature: ValidatedMeasurement<UnitTemperature>?
         var maximumTemperature: ValidatedMeasurement<UnitTemperature>?
         var totalMovingTime: Measurement<UnitDuration>?
-        var averagePositiveVeriticalSpeed: ValidatedMeasurement<UnitSpeed>?
-        var averagegNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
+        var averagePositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
+        var averageNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
         var maximumPositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-        var maximumNegitiveVertialSpeed: ValidatedMeasurement<UnitSpeed>?
+        var maximumNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
         var repetionNumber: ValidatedBinaryInteger<UInt16>?
         var minimumAltitude: ValidatedMeasurement<UnitLength>?
         var minimumHeartRate: UInt8?
@@ -496,7 +496,7 @@ open class LapMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("TotalsMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                //print("LapMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {
@@ -939,8 +939,8 @@ open class LapMessage: FitMessage {
                 case .averageStrokeDistance:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
-                        // 1 * m + 0
-                        let value = value.resolution(1)
+                        // 100 * m + 0
+                        let value = value.resolution(1 / 100)
                         averageStrokeDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
 
@@ -1175,35 +1175,35 @@ open class LapMessage: FitMessage {
                         totalMovingTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
-                case .averagePositiveVeriticalSpeed:
+                case .averagePositiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
-                        averagePositiveVeriticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
+                        averagePositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            averagePositiveVeriticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
+                            averagePositiveVerticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
                         }
                     }
 
-                case .averagegNegitiveVerticalSpeed:
+                case .averageNegitiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
-                        averagegNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
+                        averageNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            averagegNegitiveVerticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
+                            averageNegitiveVerticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
                         }
                     }
 
@@ -1223,19 +1223,19 @@ open class LapMessage: FitMessage {
                         }
                     }
 
-                case .maximumNegitiveVertialSpeed:
+                case .maximumNegitiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
-                        maximumNegitiveVertialSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
+                        maximumNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
 
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
-                            maximumNegitiveVertialSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
+                            maximumNegitiveVerticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
                         }
                     }
 
@@ -1570,10 +1570,10 @@ open class LapMessage: FitMessage {
                           averageTemperature: averageTemperature,
                           maximumTemperature: maximumTemperature,
                           totalMovingTime: totalMovingTime,
-                          averagePositiveVeriticalSpeed: averagePositiveVeriticalSpeed,
-                          averagegNegitiveVerticalSpeed: averagegNegitiveVerticalSpeed,
+                          averagePositiveVerticalSpeed: averagePositiveVerticalSpeed,
+                          averageNegitiveVerticalSpeed: averageNegitiveVerticalSpeed,
                           maximumPositiveVerticalSpeed: maximumPositiveVerticalSpeed,
-                          maximumNegitiveVertialSpeed: maximumNegitiveVertialSpeed,
+                          maximumNegitiveVerticalSpeed: maximumNegitiveVerticalSpeed,
                           repetionNumber: repetionNumber,
                           minimumAltitude: minimumAltitude,
                           minimumHeartRate: minimumHeartRate,

@@ -109,7 +109,7 @@ open class ScheduleMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("SoftwareMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                //print("ScheduleMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {

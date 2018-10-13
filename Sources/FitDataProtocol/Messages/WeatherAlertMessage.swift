@@ -101,7 +101,7 @@ open class WeatherAlertMessage: FitMessage {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("TotalsMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
+                //print("WeatherAlertMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
             case .some(let converter):
                 switch converter {

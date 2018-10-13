@@ -43,6 +43,7 @@ public struct FitFileDecoder {
                                          MetZoneMessage.self,
                                          SportMessage.self,
                                          GoalMessage.self,
+                                         SessionMessage.self,
                                          LapMessage.self,
                                          RecordMessage.self,
                                          EventMessage.self,

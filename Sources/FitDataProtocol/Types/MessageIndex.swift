@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// Message Index
 public struct MessageIndex {
@@ -36,5 +37,27 @@ public struct MessageIndex {
     internal init(value: UInt16) {
         self.isSelected = (value & 0x8000) == 0x8000
         self.index = (value & 0x0FFF)
+    }
+}
+
+internal extension MessageIndex {
+
+    /// Decodes the Message Index
+    ///
+    /// - Parameters:
+    ///   - decoder: Decoder
+    ///   - endian: Endian
+    ///   - definition: Field Definition Message
+    ///   - data: Field Data Message
+    /// - Returns: Message Index
+    internal static func decode(decoder: inout DecodeData, endian: Endian, definition: FieldDefinition, data: FieldData) -> MessageIndex? {
+
+        let value = endian == .little ? decoder.decodeUInt16(data.fieldData).littleEndian : decoder.decodeUInt16(data.fieldData).bigEndian
+        
+        if UInt64(value) != definition.baseType.invalid {
+            return MessageIndex(value: value)
+        }
+
+        return nil
     }
 }

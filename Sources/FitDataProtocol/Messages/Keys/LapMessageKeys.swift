@@ -127,13 +127,13 @@ extension LapMessage: FitMessageKeys {
         /// Total Moving Time
         case totalMovingTime                        = 52
         /// Avg Positive Vertical Speed
-        case averagePositiveVeriticalSpeed          = 53
+        case averagePositiveVerticalSpeed           = 53
         /// Avg Negitive Vertical Speed
-        case averagegNegitiveVerticalSpeed          = 54
+        case averageNegitiveVerticalSpeed           = 54
         /// Max Positive Vertical Speed
         case maximumPositiveVerticalSpeed           = 55
         /// Max Negitive Vertical Speed
-        case maximumNegitiveVertialSpeed            = 56
+        case maximumNegitiveVerticalSpeed           = 56
         /// Time in Hr Zone
         case timeInHrZone                           = 57
         /// Time in Speed Zone
@@ -194,7 +194,6 @@ extension LapMessage: FitMessageKeys {
         case enhancedMaximumAltitude                = 114
         /// Average Vam
         case averageVam                             = 121
-
 
         /// Timestamp
         case timestamp                              = 253

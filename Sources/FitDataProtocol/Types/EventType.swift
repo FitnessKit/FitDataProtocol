@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// Event Types
 ///
@@ -53,4 +54,24 @@ public enum EventType: UInt8 {
     case stopDisableAll = 9
     /// Invalid
     case invalid        = 255
+}
+
+internal extension EventType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> EventType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if UInt64(value) != definition.baseType.invalid {
+            return EventType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return EventType.invalid
+            }
+        }
+
+    }
 }
