@@ -72,7 +72,7 @@ open class FileCreatorMessage: FitMessage {
                 switch converter {
 
                 case .softwareVersion:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         softwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {

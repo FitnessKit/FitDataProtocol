@@ -138,7 +138,7 @@ open class ZonesTargetMessage: FitMessage {
                     }
 
                 case .functionalThresholdPower:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         ftp = ValidatedBinaryInteger(value: value, valid: true)
                     } else {

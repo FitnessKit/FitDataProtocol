@@ -274,7 +274,7 @@ open class RecordMessage: FitMessage {
             case .some(let converter):
                 switch converter {
                 case .positionLatitude:
-                    let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
+                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
@@ -290,7 +290,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .positionLongitude:
-                    let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
+                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
@@ -306,7 +306,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .altitude:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
@@ -352,7 +352,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .distance:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
                         let value = value.resolution(1 / 100)
@@ -368,7 +368,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .speed:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0
                         let value = value.resolution(1 / 1000)
@@ -384,7 +384,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .power:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
                         let value = value.resolution(1)
@@ -404,7 +404,7 @@ open class RecordMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .grade:
-                    let value = arch == .little ? localDecoder.decodeInt16(fieldData.fieldData).littleEndian : localDecoder.decodeInt16(fieldData.fieldData).bigEndian
+                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         //  100 * % + 0
                         let value = value.resolution(1 / 100)
@@ -434,7 +434,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .timeFromCourse:
-                    let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
+                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         // 1000 * s + 0
                         let value = value.resolution(1 / 1000)
@@ -500,7 +500,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .totalCycles:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * cycles + 0
                         totalCycles = ValidatedBinaryInteger(value: value, valid: true)
@@ -515,7 +515,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .compressedAccumulatedPower:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
                         let value = value.resolution(1)
@@ -531,7 +531,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .accumulatedPower:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  1 * watts + 0
                         let value = value.resolution(1)
@@ -566,7 +566,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .verticalSpeed:
-                    let value = arch == .little ? localDecoder.decodeInt16(fieldData.fieldData).littleEndian : localDecoder.decodeInt16(fieldData.fieldData).bigEndian
+                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
@@ -582,7 +582,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .calories:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * kcal + 0
                         calories = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.kilocalories)
@@ -597,7 +597,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .verticalOscillation:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 10 * mm + 0
                         let value = value.resolution(1 / 10)
@@ -613,7 +613,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .stanceTimePercent:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * % + 0
                         let value = value.resolution(1 / 100)
@@ -629,7 +629,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .stanceTime:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 10 * ms + 0
                         let value = value.resolution(1 / 10)
@@ -771,7 +771,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .ballSpeed:
-                    let value = arch == .little ? localDecoder.decodeInt16(fieldData.fieldData).littleEndian : localDecoder.decodeInt16(fieldData.fieldData).bigEndian
+                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         //  100 * m/s + 0,
                         let value = value.resolution(1 / 100)
@@ -833,7 +833,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .enhancedSpeed:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  1000 * m/s + 0
                         let value = value.resolution(1 / 1000)
@@ -849,7 +849,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .enhancedAltitude:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
@@ -865,7 +865,7 @@ open class RecordMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         timestamp = FitTime(time: value)
                     }

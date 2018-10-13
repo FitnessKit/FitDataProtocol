@@ -49,6 +49,7 @@ open class FitMessage {
 
 }
 
+//MARK: - Standrd Decodes
 internal extension FitMessage {
 
     /// Decode Int16

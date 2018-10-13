@@ -123,7 +123,7 @@ open class TotalsMessage: FitMessage {
                 switch converter {
 
                 case .timerTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * s + 0
                         let value = value.resolution(1)
@@ -131,7 +131,7 @@ open class TotalsMessage: FitMessage {
                     }
 
                 case .distance:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * m + 0
                         let value = value.resolution(1)
@@ -147,7 +147,7 @@ open class TotalsMessage: FitMessage {
                     }
 
                 case .calories:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * kcal + 0
                         calories = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.kilocalories)
@@ -176,7 +176,7 @@ open class TotalsMessage: FitMessage {
                     }
 
                 case .elapsedTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * s + 0
                         let value = value.resolution(1)
@@ -184,7 +184,7 @@ open class TotalsMessage: FitMessage {
                     }
 
                 case .sessions:
-                    let value = localDecoder.decodeUInt16(fieldData.fieldData)
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         sessions = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -198,23 +198,21 @@ open class TotalsMessage: FitMessage {
                     }
 
                 case .activeTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * s + 0
                         let value = value.resolution(1)
                         activeTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
-                    
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         timeStamp = FitTime(time: value)
                     }
-
                     
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

@@ -119,7 +119,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
 
                 case .antID:
-                    let value = localDecoder.decodeUInt16(fieldData.fieldData)
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         antID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -134,7 +134,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
 
                 case .calibrationFactor:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 10 * % + 0
                         let value = value.resolution(1 / 10)
@@ -150,7 +150,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     }
 
                 case .odometer:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
                         let value = value.resolution(1 / 100)
@@ -184,7 +184,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

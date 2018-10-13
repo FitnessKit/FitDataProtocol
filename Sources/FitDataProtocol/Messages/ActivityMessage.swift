@@ -110,7 +110,7 @@ open class ActivityMessage: FitMessage {
             case .some(let converter):
                 switch converter {
                 case .totalTimerTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1000 * s + 0
                         let value = value.resolution(1 / 1000)
@@ -118,7 +118,7 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .numberOfSessions:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         numberOfSessions = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -174,7 +174,7 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .localTimestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         localTimeStamp = FitTime(time: value, isLocal: true)
                     }
@@ -194,7 +194,7 @@ open class ActivityMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         timeStamp = FitTime(time: value)
                     }

@@ -105,7 +105,7 @@ open class DeveloperDataIdMessage: FitMessage {
                     }
 
                 case .manufacturerId:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         manufacturer = Manufacturer.company(id: value)
                     }
@@ -125,7 +125,7 @@ open class DeveloperDataIdMessage: FitMessage {
                     }
 
                 case .applicationVersion:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         applicationVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {

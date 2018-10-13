@@ -119,7 +119,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                     }
 
                 case .groupPrimaryKey:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         leaderId = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -133,7 +133,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                     }
 
                 case .activityID:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         activityId = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -147,7 +147,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                     }
 
                 case .segmentTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         /// 1000 * s + 0
                         let value = value.resolutionUInt32(1 / 1000)
@@ -163,7 +163,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

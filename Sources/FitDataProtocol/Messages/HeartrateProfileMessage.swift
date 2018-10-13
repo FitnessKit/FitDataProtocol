@@ -98,7 +98,7 @@ open class HeartrateProfileMessage: FitMessage {
                     }
 
                 case .antID:
-                    let value = localDecoder.decodeUInt16(fieldData.fieldData)
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         antID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -124,7 +124,7 @@ open class HeartrateProfileMessage: FitMessage {
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

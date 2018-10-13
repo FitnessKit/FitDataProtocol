@@ -132,7 +132,7 @@ open class CourseMessage: FitMessage {
                     }
 
                 case .capabilities:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         capabilities = Capabilities(rawValue: value)
                     }

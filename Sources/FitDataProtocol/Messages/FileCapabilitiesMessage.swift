@@ -126,7 +126,7 @@ open class FileCapabilitiesMessage: FitMessage {
                     }
 
                 case .maxCount:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         maxCount = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -140,7 +140,7 @@ open class FileCapabilitiesMessage: FitMessage {
                     }
 
                 case .maxSize:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         maxSize = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -154,7 +154,7 @@ open class FileCapabilitiesMessage: FitMessage {
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

@@ -140,7 +140,7 @@ open class BloodPressureMessage: FitMessage {
                 switch converter {
 
                 case .systolicPressure:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
@@ -156,7 +156,7 @@ open class BloodPressureMessage: FitMessage {
                     }
 
                 case .diastolicPressure:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
@@ -172,7 +172,7 @@ open class BloodPressureMessage: FitMessage {
                     }
 
                 case .meanArterialPressure:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
@@ -188,7 +188,7 @@ open class BloodPressureMessage: FitMessage {
                     }
 
                 case .mapSampleMean:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
@@ -204,7 +204,7 @@ open class BloodPressureMessage: FitMessage {
                     }
 
                 case .mapMorningValues:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
@@ -220,7 +220,7 @@ open class BloodPressureMessage: FitMessage {
                     }
 
                 case .mapEveningValues:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
@@ -279,13 +279,13 @@ open class BloodPressureMessage: FitMessage {
                     }
 
                 case .userProfileIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         userProfileIndex = MessageIndex(value: value)
                     }
                     
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         timeStamp = FitTime(time: value)
                     }

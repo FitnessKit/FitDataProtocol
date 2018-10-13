@@ -133,7 +133,7 @@ open class WorkoutSessionMessage: FitMessage {
                     }
 
                 case .numberOfValidSteps:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         numberOfValidSteps = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -147,7 +147,7 @@ open class WorkoutSessionMessage: FitMessage {
                     }
 
                 case .firstStepIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         firstStepIndex = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -161,7 +161,7 @@ open class WorkoutSessionMessage: FitMessage {
                     }
 
                 case .poolLength:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
                         let value = value.resolution(1 / 100)
@@ -191,7 +191,7 @@ open class WorkoutSessionMessage: FitMessage {
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

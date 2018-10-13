@@ -126,7 +126,7 @@ open class EventMessage: FitMessage {
                     }
 
                 case .data16:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         eventData = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -140,7 +140,7 @@ open class EventMessage: FitMessage {
                     }
 
                 case .data32:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         eventMoreData = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -192,7 +192,7 @@ open class EventMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         timeStamp = FitTime(time: value)
                     }

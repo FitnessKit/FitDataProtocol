@@ -110,7 +110,7 @@ open class CoursePointMessage: FitMessage {
                 switch converter {
 
                 case .latitude:
-                    let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
+                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
@@ -126,7 +126,7 @@ open class CoursePointMessage: FitMessage {
                     }
 
                 case .longitude:
-                    let value = arch == .little ? localDecoder.decodeInt32(fieldData.fieldData).littleEndian : localDecoder.decodeInt32(fieldData.fieldData).bigEndian
+                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
@@ -142,7 +142,7 @@ open class CoursePointMessage: FitMessage {
                     }
 
                 case .distance:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 100 * m + 0
                         let value = value.resolution(1 / 100)
@@ -184,13 +184,13 @@ open class CoursePointMessage: FitMessage {
                     }
 
                 case .timestamp:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         timestamp = FitTime(time: value)
                     }
 
                 case .messageIndex:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         messageIndex = MessageIndex(value: value)
                     }

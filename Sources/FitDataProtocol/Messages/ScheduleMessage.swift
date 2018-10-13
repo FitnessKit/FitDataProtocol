@@ -115,13 +115,13 @@ open class ScheduleMessage: FitMessage {
                 switch converter {
 
                 case .manufacturer:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         manufacturer = Manufacturer.company(id: value)
                     }
 
                 case .product:
-                    let value = arch == .little ? localDecoder.decodeUInt16(fieldData.fieldData).littleEndian : localDecoder.decodeUInt16(fieldData.fieldData).bigEndian
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if Int64(value) != definition.baseType.invalid {
                         product = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -135,7 +135,7 @@ open class ScheduleMessage: FitMessage {
                     }
 
                 case .serialNumber:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         serialNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
@@ -149,7 +149,7 @@ open class ScheduleMessage: FitMessage {
                     }
 
                 case .timeCreated:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         timeCreated = FitTime(time: value)
                     }
@@ -175,7 +175,7 @@ open class ScheduleMessage: FitMessage {
                     }
 
                 case .scheduledTime:
-                    let value = arch == .little ? localDecoder.decodeUInt32(fieldData.fieldData).littleEndian : localDecoder.decodeUInt32(fieldData.fieldData).bigEndian
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         scheduledTime = FitTime(time: value, isLocal: true)
                     }
