@@ -196,7 +196,7 @@ open class RecordMessage: FitMessage {
         if let cadence = cadence {
 
             let valid = !(Int64(cadence) == BaseType.uint8.invalid)
-            self.cadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
+            self.cadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.genericUnitsPerMinute)
 
         } else {
             self.cadence = nil
@@ -551,7 +551,7 @@ open class RecordMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .gpsAccuracy:
-                    let value = localDecoder.decodeInt8(fieldData.fieldData)
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if UInt64(value) != definition.baseType.invalid {
                         // 1 * m + 0
                         gpsAccuracy = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitLength.meters)
