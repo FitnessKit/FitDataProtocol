@@ -87,3 +87,65 @@ extension UserProfileMessage: FitMessageKeys {
         case messageIndex                   = 254
     }
 }
+
+public extension UserProfileMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .friendlyName:
+            return .string //16
+        case .gender:
+            return .enumtype
+        case .age:
+            return .uint8
+        case .height:
+            return .uint8
+        case .weight:
+            return .uint16
+        case .language:
+            return .enumtype
+        case .elevationSetting:
+            return .enumtype
+        case .weightSetting:
+            return .enumtype
+        case .restingHeartRate:
+            return .uint8
+        case .defaultMaxRunningHeartRate:
+            return .uint8
+        case .defaultMaxBikingHeartRate:
+            return .uint8
+        case .defaultMaxHeartRate:
+            return .uint8
+        case .heartRateSetting:
+            return .enumtype
+        case .speedSetting:
+            return .enumtype
+        case .distanceSetting:
+            return .enumtype
+        case .powerSetting:
+            return .enumtype
+        case .activityClass:
+            return .enumtype
+        case .positionSetting:
+            return .enumtype
+        case .temperatureSetting:
+            return .enumtype
+        case .localID:
+            return .uint16
+        case .globalID:
+            return .byte    //6
+        case .heightSetting:
+            return .enumtype
+        case .runningStepLength:
+            return .uint16
+        case .walkingStepLength:
+            return .uint16
+        case .timestamp:
+            return .uint32
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

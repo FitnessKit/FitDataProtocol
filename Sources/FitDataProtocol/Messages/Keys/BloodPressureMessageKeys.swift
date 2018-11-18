@@ -58,3 +58,36 @@ extension BloodPressureMessage: FitMessageKeys {
 
     }
 }
+
+public extension BloodPressureMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+
+        switch self {
+        case .systolicPressure:
+            return .uint16
+        case .diastolicPressure:
+            return .uint16
+        case .meanArterialPressure:
+            return .uint16
+        case .mapSampleMean:
+            return .uint16
+        case .mapMorningValues:
+            return .uint16
+        case .mapEveningValues:
+            return .uint16
+        case .heartRate:
+            return .uint8
+        case .heartRateType:
+            return .enumtype
+        case .status:
+            return .enumtype
+        case .userProfileIndex:
+            return .uint16
+        case .timestamp:
+            return .uint32
+        }
+    }
+
+}

@@ -51,3 +51,29 @@ extension CoursePointMessage: FitMessageKeys {
         case messageIndex   = 254
     }
 }
+
+public extension CoursePointMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .timestamp:
+            return .uint32
+        case .latitude:
+            return .sint32
+        case .longitude:
+            return .sint32
+        case .distance:
+            return .uint32
+        case .pointType:
+            return .enumtype
+        case .name:
+            return .string
+        case .favorite:
+            return .enumtype
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

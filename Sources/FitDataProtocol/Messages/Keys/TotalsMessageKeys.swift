@@ -53,3 +53,31 @@ extension TotalsMessage: FitMessageKeys {
         case messageIndex       = 254
     }
 }
+
+public extension TotalsMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .timerTime:
+            return .uint32
+        case .distance:
+            return .uint32
+        case .calories:
+            return .uint32
+        case .sport:
+            return .enumtype
+        case .elapsedTime:
+            return .uint32
+        case .sessions:
+            return .uint16
+        case .activeTime:
+            return .uint32
+        case .timestamp:
+            return .uint32
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

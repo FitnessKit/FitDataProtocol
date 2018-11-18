@@ -41,3 +41,19 @@ extension SoftwareMessage: FitMessageKeys {
         case messageIndex   = 254
     }
 }
+
+public extension SoftwareMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .version:
+            return .uint16
+        case .partNumber:
+            return .string  //16
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

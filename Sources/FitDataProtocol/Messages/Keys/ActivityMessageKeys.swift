@@ -51,3 +51,30 @@ extension ActivityMessage: FitMessageKeys {
         case timestamp          = 253
     }
 }
+
+public extension ActivityMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+
+        switch self {
+        case .totalTimerTime:
+            return .uint32
+        case .numberOfSessions:
+            return .uint16
+        case .activityType:
+            return .enumtype
+        case .event:
+            return .enumtype
+        case .eventType:
+            return .enumtype
+        case .localTimestamp:
+            return .uint32
+        case .eventGroup:
+            return .uint8
+        case .timestamp:
+            return .uint32
+        }
+    }
+}
+

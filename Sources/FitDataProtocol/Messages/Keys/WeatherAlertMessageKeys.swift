@@ -47,3 +47,25 @@ extension WeatherAlertMessage: FitMessageKeys {
         case timestamp          = 253
     }
 }
+
+public extension WeatherAlertMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .reportId:
+            return .string
+        case .issueTime:
+            return .uint32
+        case .expireTime:
+            return .uint32
+        case .severity:
+            return .enumtype
+        case .alertType:
+            return .enumtype
+        case .timestamp:
+            return .uint32
+        }
+    }
+
+}

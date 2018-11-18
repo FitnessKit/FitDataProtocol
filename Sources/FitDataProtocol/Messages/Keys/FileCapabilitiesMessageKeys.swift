@@ -47,3 +47,25 @@ extension FileCapabilitiesMessage: FitMessageKeys {
         case messageIndex       = 254
     }
 }
+
+public extension FileCapabilitiesMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .fileType:
+            return .enumtype
+        case .fileFlags:
+            return .uint8z
+        case .directory:
+            return .string
+        case .maxCount:
+            return .uint16
+        case .maxSize:
+            return .uint32
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

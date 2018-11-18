@@ -44,3 +44,23 @@ extension ZonesTargetMessage: FitMessageKeys {
         case powerCalculation           = 7
     }
 }
+
+public extension ZonesTargetMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .maxHeartRate:
+            return .uint8
+        case .thresholdHeartRate:
+            return .uint8
+        case .functionalThresholdPower:
+            return .uint16
+        case .heartRateCalculation:
+            return .enumtype
+        case .powerCalculation:
+            return .enumtype
+        }
+    }
+
+}

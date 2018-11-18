@@ -32,6 +32,26 @@ internal struct RecordHeader {
     private(set) var isDataMessage: Bool
 
     private(set) var developerData: Bool
+
+    internal var normalHeader: UInt8 {
+        var value: UInt8 = localMessageType
+
+        let datamsg = isDataMessage == true ? 0 : 1
+        let devmsg = developerData == true ? 1 : 0
+
+        value |= UInt8(datamsg) << 6
+        value |= UInt8(devmsg) << 5
+
+        return UInt8(value)
+    }
+
+    internal init(localMessageType: UInt8, isDataMessage: Bool, developerData: Bool) {
+        self.localMessageType = min(15, localMessageType)
+        self.isDataMessage = isDataMessage
+        self.developerData = developerData
+
+    }
+
 }
 
 internal extension RecordHeader {
@@ -60,7 +80,7 @@ internal extension RecordHeader {
                 isDataMessage = true
             }
 
-            messageType = header & 0x1F
+            messageType = header & 0xF
         }
 
         return RecordHeader(localMessageType: messageType,

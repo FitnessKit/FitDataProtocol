@@ -131,3 +131,109 @@ extension RecordMessage: FitMessageKeys {
         case timestamp                          = 253
     }
 }
+
+public extension RecordMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .positionLatitude:
+            return .sint32
+        case .positionLongitude:
+            return .sint32
+        case .altitude:
+            return .uint16
+        case .heartRate:
+            return .uint8
+        case .cadence:
+            return .uint8
+        case .distance:
+            return .uint32
+        case .speed:
+            return .uint16
+        case .power:
+            return .uint16
+        case .compressedSpeedDistance:
+            return .byte // 3
+        case .grade:
+            return .sint16
+        case .resistance:
+            return .uint8
+        case .timeFromCourse:
+            return .sint32
+        case .cycleLength:
+            return .uint8
+        case .temperature:
+            return .sint8
+        case .speedOneSecondInterval:
+            return .uint8 // 5
+        case .cycles:
+            return .uint8
+        case .totalCycles:
+            return .uint32
+        case .compressedAccumulatedPower:
+            return .uint16
+        case .accumulatedPower:
+            return .uint32
+        case .leftRightBalance:
+            return .uint8
+        case .gpsAccuracy:
+            return .uint8
+        case .verticalSpeed:
+            return .sint16
+        case .calories:
+            return .uint16
+        case .verticalOscillation:
+            return .uint16
+        case .stanceTimePercent:
+            return .uint16
+        case .stanceTime:
+            return .uint16
+        case .activityType:
+            return .enumtype
+        case .leftTorqueEffectiveness:
+            return .uint8
+        case .rightTorqueEffectiveness:
+            return .uint8
+        case .leftPedalSmoothness:
+            return .uint8
+        case .rightPedalSmoothness:
+            return .uint8
+        case .combinedPedalSmoothness:
+            return .uint8
+        case .time128Second:
+            return .uint8
+        case .strokeType:
+            return .enumtype
+        case .zone:
+            return .uint8
+        case .ballSpeed:
+            return .uint16
+        case .cadence256:
+            return .uint16
+        case .fractionalCadence:
+            return .uint8
+        case .totalHemoglobinConcentration:
+            return .uint16
+        case .totalHemoglobinConcentrationMin:
+            return .uint16
+        case .totalHemoglobinConcentrationMax:
+            return .uint16
+        case .saturatedHemoglobinPercent:
+            return .uint16
+        case .saturatedHemoglobinPercentMin:
+            return .uint16
+        case .saturatedHemoglobinPercentMax:
+            return .uint16
+        case .deviceIndex:
+            return .uint8
+        case .enhancedSpeed:
+            return .uint32
+        case .enhancedAltitude:
+            return .uint32
+        case .timestamp:
+            return .uint32
+        }
+    }
+
+}

@@ -61,3 +61,53 @@ extension ConnectivityMessage: FitMessageKeys {
 
     }
 }
+
+public extension ConnectivityMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .bluetoothEnabled:
+            return .enumtype
+        case .bluetoothLowEnergyEnable:
+            return .enumtype
+        case .antEnabled:
+            return .enumtype
+        case .connectivityName:
+            return .string
+        case .liveTrackingEnabled:
+            return .enumtype
+        case .weatherConditionsEnabled:
+            return .enumtype
+        case .weatherAlertsEnabled:
+            return .enumtype
+        case .autoActivityUploadEnabled:
+            return .enumtype
+        case .courseDownloadEnabled:
+            return .enumtype
+        case .workoutDownloadEnabled:
+            return .enumtype
+        case .gpsEphemerisDownloadEnabled:
+            return .enumtype
+        case .incidentDetectionEnabled:
+            return .enumtype
+        case .groupTrackEnabled:
+            return .enumtype
+        }
+    }
+
+}
+
+//FIT_STRING name[FIT_CONNECTIVITY_MESG_NAME_COUNT]; //
+//FIT_BOOL bluetooth_enabled; // Use Bluetooth for connectivity features
+//FIT_BOOL bluetooth_le_enabled; // Use Bluetooth Low Energy for connectivity features
+//FIT_BOOL ant_enabled; // Use ANT for connectivity features
+//FIT_BOOL live_tracking_enabled; //
+//FIT_BOOL weather_conditions_enabled; //
+//FIT_BOOL weather_alerts_enabled; //
+//FIT_BOOL auto_activity_upload_enabled; //
+//FIT_BOOL course_download_enabled; //
+//FIT_BOOL workout_download_enabled; //
+//FIT_BOOL gps_ephemeris_download_enabled; //
+//FIT_BOOL incident_detection_enabled; //
+//FIT_BOOL grouptrack_enabled; //

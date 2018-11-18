@@ -43,3 +43,21 @@ extension SportMessage: FitMessageKeys {
         case timestamp  = 253
     }
 }
+
+public extension SportMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .sport:
+            return .enumtype
+        case .subSport:
+            return .enumtype
+        case .name:
+            return .string  //16
+        case .timestamp:
+            return .uint32
+        }
+    }
+
+}

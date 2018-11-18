@@ -46,7 +46,29 @@ extension ScheduleMessage: FitMessageKeys {
         case scheduleType           = 5
         /// Scheduled Time
         case scheduledTime          = 6
-
-
     }
+}
+
+public extension ScheduleMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .manufacturer:
+            return .uint16
+        case .product:
+            return .uint16
+        case .serialNumber:
+            return .uint32z
+        case .timeCreated:
+            return .uint32
+        case .completed:
+            return .enumtype
+        case .scheduleType:
+            return .enumtype
+        case .scheduledTime:
+            return .uint32
+        }
+    }
+
 }

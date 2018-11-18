@@ -38,3 +38,17 @@ extension FileCreatorMessage: FitMessageKeys {
         case hardwareVersion    = 1
     }
 }
+
+public extension FileCreatorMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .softwareVersion:
+            return .uint16
+        case .hardwareVersion:
+            return .uint8
+        }
+    }
+
+}

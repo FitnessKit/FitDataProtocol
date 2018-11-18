@@ -36,3 +36,15 @@ extension HrvMessage: FitMessageKeys {
         case time       = 0
     }
 }
+
+public extension HrvMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .time:
+            return .uint16
+        }
+    }
+
+}

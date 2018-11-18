@@ -24,26 +24,46 @@
 
 import Foundation
 
-
-internal enum BaseType: UInt8 {
+/// FIT Base Type
+public enum BaseType: UInt8 {
+    /// Enum
     case enumtype       = 0
+    /// sInt8
     case sint8          = 1
+    /// UInt8
     case uint8          = 2
+    /// SInt16
     case sint16         = 3
+    /// UInt16
     case uint16         = 4
+    /// SInt32
     case sint32         = 5
+    /// UInt32
     case uint32         = 6
-    case string         = 7  //Null terminated string UTF-8
+    /// string
+    ///
+    /// Null terminated string UTF-8
+    case string         = 7
+    /// Float32
     case float32        = 8
+    /// Float64
     case float64        = 9
+    /// UInt8 zero
     case uint8z         = 10
+    /// UInt16 zero
     case uint16z        = 11
+    /// UInt32 zero
     case uint32z        = 12
+    /// Byte
     case byte           = 13
+    /// SInt64
     case sint64         = 14
+    /// UInt64
     case uint64         = 15
+    /// UInt64 zero
     case uint64z        = 16
 
+    /// Unknown
     case unknown        = 255
 }
 

@@ -45,3 +45,23 @@ extension HeartrateProfileMessage: FitMessageKeys {
         case messageIndex           = 254
     }
 }
+
+public extension HeartrateProfileMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .enabled:
+            return .enumtype
+        case .antID:
+            return .uint16z
+        case .logHrv:
+            return .enumtype
+        case .transType:
+            return .uint8z
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

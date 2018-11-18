@@ -41,3 +41,20 @@ extension CadenceZoneMessage: FitMessageKeys {
         case messageIndex   = 254
     }
 }
+
+public extension CadenceZoneMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+
+        switch self {
+        case .highValue:
+            return .uint8
+        case .name:
+            return .string
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

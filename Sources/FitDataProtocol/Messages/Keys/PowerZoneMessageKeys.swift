@@ -41,3 +41,19 @@ extension PowerZoneMessage: FitMessageKeys {
         case messageIndex   = 254
     }
 }
+
+public extension PowerZoneMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .highValue:
+            return .uint16
+        case .name:
+            return .string //16
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

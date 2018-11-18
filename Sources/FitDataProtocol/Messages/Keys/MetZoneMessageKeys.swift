@@ -43,3 +43,21 @@ extension MetZoneMessage: FitMessageKeys {
         case messageIndex   = 254
     }
 }
+
+public extension MetZoneMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .highBpm:
+            return .uint8
+        case .calories:
+            return .uint16
+        case .fatCalories:
+            return .uint16
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

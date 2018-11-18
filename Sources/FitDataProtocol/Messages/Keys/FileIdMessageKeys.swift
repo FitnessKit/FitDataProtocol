@@ -48,3 +48,27 @@ extension FileIdMessage: FitMessageKeys {
         case productName        = 8
     }
 }
+
+public extension FileIdMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .fileType:
+            return .enumtype
+        case .manufacturer:
+            return .uint16
+        case .product:
+            return .uint16
+        case .serialNumber:
+            return .uint32z
+        case .fileCreationDate:
+            return .uint32
+        case .fileNumber:
+            return .uint16
+        case .productName:
+            return .string //20
+        }
+    }
+
+}

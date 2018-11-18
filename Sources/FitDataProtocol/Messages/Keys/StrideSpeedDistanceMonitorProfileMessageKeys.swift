@@ -51,3 +51,29 @@ extension StrideSpeedDistanceMonitorProfileMessage: FitMessageKeys {
         case messageIndex           = 254
     }
 }
+
+public extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .enabled:
+            return .enumtype
+        case .antID:
+            return .uint16z
+        case .calibrationFactor:
+            return .uint16
+        case .odometer:
+            return .uint32
+        case .speedSource:
+            return .enumtype
+        case .transType:
+            return .uint8z
+        case .odometerRollover:
+            return .uint8
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

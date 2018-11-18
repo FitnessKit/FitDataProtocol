@@ -59,3 +59,37 @@ extension WorkoutStepMessage: FitMessageKeys {
         case messageIndex           = 254
     }
 }
+
+public extension WorkoutStepMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .stepName:
+            return .string
+        case .durationType:
+            return .enumtype
+        case .durationValue:
+            return .uint32
+        case .targetType:
+            return .enumtype
+        case .targetValue:
+            return .uint32
+        case .customTargetValueLow:
+            return .uint32
+        case .customTargetValueHigh:
+            return .uint32
+        case .intensity:
+            return .enumtype
+        case .notes:
+            return .string  //50
+        case .equipment:
+            return .enumtype
+        case .category:
+            return .uint16
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

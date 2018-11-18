@@ -71,3 +71,49 @@ extension DeviceInfoMessage: FitMessageKeys {
         case timestamp          = 253
     }
 }
+
+public extension DeviceInfoMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .deviceIndex:
+            return .uint8
+        case .deviceType:
+            return .uint8
+        case .manufacturer:
+            return .uint16
+        case .serialNumber:
+            return .uint32z
+        case .product:
+            return .uint16
+        case .softwareVersion:
+            return .uint16
+        case .hardwareVersion:
+            return .uint8
+        case .cumulativeOpTime:
+            return .uint32
+        case .batteryVoltage:
+            return .uint16
+        case .batteryStatus:
+            return .uint8
+        case .sensorPosition:
+            return .enumtype
+        case .description:
+            return .string
+        case .transmissionType:
+            return .uint8z
+        case .deviceNumber:
+            return .uint16z
+        case .antNetwork:
+            return .enumtype
+        case .sourcetype:
+            return .enumtype
+        case .productName:
+            return .string
+        case .timestamp:
+            return .uint32
+        }
+    }
+
+}

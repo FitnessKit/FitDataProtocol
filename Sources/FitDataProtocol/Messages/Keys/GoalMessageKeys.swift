@@ -61,3 +61,39 @@ extension GoalMessage: FitMessageKeys {
         case messageIndex           = 254
     }
 }
+
+public extension GoalMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .sport:
+            return .enumtype
+        case .subSport:
+            return .enumtype
+        case .startDate:
+            return .uint32
+        case .endDate:
+            return .uint32
+        case .goalType:
+            return .enumtype
+        case .goalValue:
+            return .uint32
+        case .repeatGoal:
+            return .enumtype
+        case .targetValue:
+            return .uint32
+        case .recurrence:
+            return .enumtype
+        case .recurrenceValue:
+            return .uint16
+        case .enabled:
+            return .enumtype
+        case .goalSource:
+            return .enumtype
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

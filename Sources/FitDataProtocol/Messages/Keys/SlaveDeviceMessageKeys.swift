@@ -39,3 +39,17 @@ extension SlaveDeviceMessage: FitMessageKeys {
 
     }
 }
+
+public extension SlaveDeviceMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .manufacturer:
+            return .uint16
+        case .product:
+            return .uint16
+        }
+    }
+
+}

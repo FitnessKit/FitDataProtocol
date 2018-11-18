@@ -62,3 +62,39 @@ extension WeightScaleMessage: FitMessageKeys {
 
     }
 }
+
+public extension WeightScaleMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .weight:
+            return .uint16
+        case .percentFat:
+            return .uint16
+        case .percentHydration:
+            return .uint16
+        case .visceralFatMass:
+            return .uint16
+        case .boneMass:
+            return .uint16
+        case .muscleMass:
+            return .uint16
+        case .basalMet:
+            return .uint16
+        case .physiqueRating:
+            return .uint8
+        case .activeMet:
+            return .uint16
+        case .metabolicAge:
+            return .uint8
+        case .visceralFatRating:
+            return .uint8
+        case .userProfileIndex:
+            return .uint16
+        case .timestamp:
+            return .uint32
+        }
+    }
+
+}

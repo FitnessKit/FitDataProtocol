@@ -209,10 +209,199 @@ extension SessionMessage: FitMessageKeys {
         /// Total Anaerobic Training Effect
         case totalAnaerobicTrainingEffect           = 137
 
-
         /// Timestamp
         case timestamp                              = 253
         /// Message Index
         case messageIndex                           = 254
     }
+}
+
+public extension SessionMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .event:
+            return .enumtype
+        case .eventType:
+            return .enumtype
+        case .startTime:
+            return .uint32
+        case .startPositionLatitude:
+            return .sint32
+        case .startPositionLongitude:
+            return .sint32
+        case .sport:
+            return .enumtype
+        case .subSport:
+            return .enumtype
+        case .totalElapsedTime:
+            return .uint32
+        case .totalTimerTime:
+            return .uint32
+        case .totalDistance:
+            return .uint32
+        case .totalCycles:
+            return .uint32
+        case .totalCalories:
+            return .uint16
+        case .totalFatCalories:
+            return .uint16
+        case .averageSpeed:
+            return .uint16
+        case .maximumSpeed:
+            return .uint16
+        case .averageHeartRate:
+            return .uint8
+        case .maximumHeartRate:
+            return .uint8
+        case .averageCadence:
+            return .uint8
+        case .maximumCadence:
+            return .uint8
+        case .averagePower:
+            return .uint16
+        case .maximumPower:
+            return .uint16
+        case .totalAscent:
+            return .uint16
+        case .totalDescent:
+            return .uint16
+        case .totalTrainingEffect:
+            return .uint8
+        case .firstLapIndex:
+            return .uint16
+        case .numberOfLaps:
+            return .uint16
+        case .eventGroup:
+            return .uint8
+        case .trigger:
+            return .enumtype
+        case .necLatitude:
+            return .sint32
+        case .necLongitude:
+            return .sint32
+        case .swcLatitude:
+            return .sint32
+        case .swcLongitude:
+            return .sint32
+        case .normalizedPower:
+            return .uint16
+        case .trainingStressScore:
+            return .uint16
+        case .intensityFactor:
+            return .uint16
+        case .leftRightBalance:
+            return .uint16
+        case .averageStrokeCount:
+            return .uint32
+        case .averageStrokeDistance:
+            return .uint16
+        case .swimStroke:
+            return .enumtype
+        case .poolLength:
+            return .uint16
+        case .thresholdPower:
+            return .uint16
+        case .poolLengthUnit:
+            return .enumtype
+        case .numberActiveLengths:
+            return .uint16
+        case .totalWork:
+            return .uint32
+        case .averageAltitude:
+            return .uint16
+        case .maximumAltitude:
+            return .uint16
+        case .gpsAccuracy:
+            return .uint8
+        case .averageGrade:
+            return .sint16
+        case .averagePositiveGrade:
+            return .sint16
+        case .averageNegitiveGrade:
+            return .sint16
+        case .maximumPositiveGrade:
+            return .sint16
+        case .maximumNegitiveGrade:
+            return .sint16
+        case .averageTemperature:
+            return .sint8
+        case .maximumTemperature:
+            return .sint8
+        case .totalMovingTime:
+            return .uint32
+        case .averagePositiveVerticalSpeed:
+            return .sint16
+        case .averageNegitiveVerticalSpeed:
+            return .sint16
+        case .maximumPositiveVerticalSpeed:
+            return .sint16
+        case .maximumNegitiveVerticalSpeed:
+            return .sint16
+        case .minimumHeartRate:
+            return .uint8
+        case .timeInHeartRateZone:
+            return .uint32
+        case .timeInSpeedZone:
+            return .uint32
+        case .timeInCadenceZone:
+            return .uint32
+        case .timeInPowerZone:
+            return .uint32
+        case .averageLapTime:
+            return .uint32
+        case .bestLapIndex:
+            return .uint16
+        case .minimumAltitude:
+            return .uint16
+        case .playerScore:
+            return .uint16
+        case .opponentScore:
+            return .uint16
+        case .opponentName:
+            return .string  //1
+        case .strokeCount:
+            return .uint16
+        case .zoneCount:
+            return .uint16
+        case .maximumBallSpeed:
+            return .uint16
+        case .averageBallSpeed:
+            return .uint16
+        case .averageVerticalOscillation:
+            return .uint16
+        case .averageStanceTimePercent:
+            return .uint16
+        case .averageStanceTime:
+            return .uint16
+        case .averageFractionalCadence:
+            return .uint8
+        case .maximumFractionalCadence:
+            return .uint8
+        case .totalFractionalCycles:
+            return .uint8
+        case .sportIndex:
+            return .uint8
+        case .enhancedAverageSpeed:
+            return .uint32
+        case .enhancedMaximumSpeed:
+            return .uint32
+        case .enhancedAverageAltitude:
+            return .uint32
+        case .enhancedMinimumAltitude:
+            return .uint32
+        case .enhancedMaximumAltitude:
+            return .uint32
+        case .averageVam:
+            return .uint16
+        case .totalAnaerobicTrainingEffect:
+            return .uint8
+        case .timestamp:
+            return .uint32
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
 }

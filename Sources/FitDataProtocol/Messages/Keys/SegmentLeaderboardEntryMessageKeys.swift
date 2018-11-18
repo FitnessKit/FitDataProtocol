@@ -47,3 +47,25 @@ extension SegmentLeaderboardEntryMessage: FitMessageKeys {
         case messageIndex       = 254
     }
 }
+
+public extension SegmentLeaderboardEntryMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .name:
+            return .string
+        case .boardType:
+            return .enumtype
+        case .groupPrimaryKey:
+            return .uint32
+        case .activityID:
+            return .uint32
+        case .segmentTime:
+            return .uint32
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}

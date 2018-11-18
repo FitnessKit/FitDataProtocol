@@ -59,3 +59,37 @@ extension EventMessage: FitMessageKeys {
         case timestamp          = 253
     }
 }
+
+public extension EventMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .event:
+            return .enumtype
+        case .eventType:
+            return .enumtype
+        case .data16:
+            return .uint16
+        case .data32:
+            return .uint32
+        case .eventGroup:
+            return .uint8
+        case .score:
+            return .uint16
+        case .opponentScore:
+            return .uint16
+        case .frontGearNumber:
+            return .uint8z
+        case .frontGear:
+            return .uint8z
+        case .rearGearNumber:
+            return .uint8z
+        case .rearGear:
+            return .uint8z
+        case .timestamp:
+            return .uint32
+        }
+    }
+
+}

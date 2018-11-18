@@ -41,3 +41,19 @@ extension HeartRateZoneMessage: FitMessageKeys {
         case messageIndex   = 254
     }
 }
+
+public extension HeartRateZoneMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .highBpm:
+            return .uint8
+        case .name:
+            return .string  //16
+        case .messageIndex:
+            return .uint8
+        }
+    }
+
+}

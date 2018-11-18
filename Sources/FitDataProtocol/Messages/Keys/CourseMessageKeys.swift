@@ -43,3 +43,21 @@ extension CourseMessage: FitMessageKeys {
 
     }
 }
+
+public extension CourseMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .sport:
+            return .enumtype
+        case .name:
+            return .string
+        case .capabilities:
+            return .uint32z
+        case .subSport:
+            return .enumtype
+        }
+    }
+
+}

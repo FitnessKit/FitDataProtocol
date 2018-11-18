@@ -44,3 +44,23 @@ extension DeveloperDataIdMessage: FitMessageKeys {
         case applicationVersion = 4
     }
 }
+
+public extension DeveloperDataIdMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .developerId:
+            return .byte
+        case .applicationId:
+            return .byte
+        case .manufacturerId:
+            return .uint16
+        case .dataIndex:
+            return .uint8
+        case .applicationVersion:
+            return .byte
+        }
+    }
+
+}

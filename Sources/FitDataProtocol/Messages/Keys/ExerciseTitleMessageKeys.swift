@@ -43,3 +43,22 @@ extension ExerciseTitleMessage: FitMessageKeys {
         case messageIndex   = 254
     }
 }
+///CaseIterable
+
+public extension ExerciseTitleMessage.FitCodingKeys {
+
+    /// Key Base Type
+    public var baseType: BaseType {
+        switch self {
+        case .category:
+            return .uint16
+        case .exerciseName:
+            return .uint16
+        case .stepName:
+            return .string // 200
+        case .messageIndex:
+            return .uint16
+        }
+    }
+
+}
