@@ -26,7 +26,7 @@ import Foundation
 import DataDecoder
 
 /// FIT File Decoder
-@available(swift 4.0)
+@available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 public struct FitFileDecoder {
     private var messageData: Data
@@ -176,7 +176,7 @@ public struct FitFileDecoder {
     }
 }
 
-@available(swift 4.0)
+@available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 private extension FitFileDecoder {
 

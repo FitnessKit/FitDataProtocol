@@ -61,7 +61,7 @@ extension Data {
 
             let thisChuckSize = length - internalOffset > _size ? _size : length - internalOffset
 
-            let chunk = myData.subdata(in: Range(internalOffset..<(internalOffset + thisChuckSize)))
+            let chunk = myData.subdata(in: (internalOffset..<(internalOffset + thisChuckSize)))
 
             internalOffset = internalOffset + thisChuckSize
 

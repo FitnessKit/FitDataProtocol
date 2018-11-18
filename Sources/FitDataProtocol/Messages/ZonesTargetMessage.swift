@@ -27,7 +27,7 @@ import DataDecoder
 import FitnessUnits
 
 /// FIT Zones Target Message
-@available(swift 4.0)
+@available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class ZonesTargetMessage: FitMessage {
 
