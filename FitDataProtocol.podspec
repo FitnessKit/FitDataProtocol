@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FitDataProtocol'
-  s.version          = '0.16.1'
+  s.version          = '0.16.2'
   s.summary          = 'Garmin Flexible and Interoperable Data Transfer Protocol.'
 
 
@@ -21,6 +21,7 @@ Swift version of the Garmin Flexible and Interoperable Data Transfer Protocol.
   s.license             = { :type => 'MIT', :file => 'LICENSE' }
   s.author              = { 'Kevin A. Hoogheem' => 'kevin@hoogheem.net' }
   s.source              = { :git => 'https://github.com/FitnessKit/FitDataProtocol.git', :tag => s.version.to_s }
+  s.swift_version       = '4.2'
 
 #Targets
   s.ios.deployment_target = '10.0'
