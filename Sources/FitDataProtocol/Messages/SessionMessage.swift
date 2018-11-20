@@ -1156,7 +1156,7 @@ open class SessionMessage: FitMessage {
 
                 case .gpsAccuracy:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         // 1 * m + 0
                         gpsAccuracy = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitLength.meters)
                     } else {
@@ -1251,7 +1251,7 @@ open class SessionMessage: FitMessage {
 
                 case .averageTemperature:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         // 1 * C + 0
                         averageTemperature = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitTemperature.celsius)
                     } else {
@@ -1266,7 +1266,7 @@ open class SessionMessage: FitMessage {
 
                 case .maximumTemperature:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         // 1 * C + 0
                         maximumTemperature = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitTemperature.celsius)
                     } else {

@@ -467,7 +467,7 @@ open class RecordMessage: FitMessage {
 
                 case .temperature:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if Int64(value) != definition.baseType.invalid {
                         // 1 * C + 0
                         temperature = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitTemperature.celsius)
                     } else {
