@@ -32,6 +32,6 @@ let package = Package(
             name: "FitDataProtocolTests",
             dependencies: ["FitDataProtocol"]),
     ],
-    swiftLanguageVersions: [3, 4]
+    //swiftLanguageVersions: [3, 4]
 )
 
