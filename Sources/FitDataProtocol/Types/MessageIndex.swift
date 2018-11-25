@@ -42,6 +42,17 @@ public struct MessageIndex {
 
 internal extension MessageIndex {
 
+    internal func encode() -> Data {
+        var encode = Data()
+
+        let selected: UInt16 = isSelected == true ? 0x8000 : 0
+        let value = index | selected
+
+        encode.append(Data(from: value.littleEndian))
+
+        return encode
+    }
+
     /// Decodes the Message Index
     ///
     /// - Parameters:
@@ -54,7 +65,7 @@ internal extension MessageIndex {
 
         let value = endian == .little ? decoder.decodeUInt16(data.fieldData).littleEndian : decoder.decodeUInt16(data.fieldData).bigEndian
         
-        if UInt64(value) != definition.baseType.invalid {
+        if value.isValidForBaseType(definition.baseType) {
             return MessageIndex(value: value)
         }
 

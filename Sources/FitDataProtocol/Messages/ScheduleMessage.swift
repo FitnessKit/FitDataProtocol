@@ -116,36 +116,24 @@ open class ScheduleMessage: FitMessage {
 
                 case .manufacturer:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         manufacturer = Manufacturer.company(id: value)
                     }
 
                 case .product:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         product = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            product = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        product = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .serialNumber:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         serialNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            serialNumber = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        serialNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .timeCreated:
@@ -156,13 +144,13 @@ open class ScheduleMessage: FitMessage {
 
                 case .completed:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         completed = value.boolValue
                     }
 
                 case .scheduleType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         scheduleType = ScheduleType(rawValue: value)
                     } else {
 
@@ -193,4 +181,93 @@ open class ScheduleMessage: FitMessage {
                                scheduleType: scheduleType,
                                scheduledTime: scheduledTime)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .manufacturer:
+                if let manufacturer = manufacturer {
+                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .product:
+                if let product = product {
+                    msgData.append(Data(from: product.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .serialNumber:
+                if let serialNumber = serialNumber {
+                    msgData.append(Data(from: serialNumber.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .timeCreated:
+                if let timeCreated = timeCreated {
+                    msgData.append(timeCreated.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .completed:
+                if let completed = completed {
+                    msgData.append(completed.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .scheduleType:
+                if let scheduleType = scheduleType {
+                    msgData.append(scheduleType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .scheduledTime:
+                if let scheduledTime = scheduledTime {
+                    msgData.append(scheduledTime.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: ScheduleMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "ScheduleMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

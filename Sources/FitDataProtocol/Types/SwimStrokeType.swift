@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Swim Stroke Type
 public enum SwimStroke: UInt8 {
@@ -48,4 +49,23 @@ public enum SwimStroke: UInt8 {
 
     /// Invalid
     case invalid        = 255
+}
+
+internal extension SwimStroke {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> SwimStroke? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return SwimStroke(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return SwimStroke.invalid
+            }
+        }
+    }
 }

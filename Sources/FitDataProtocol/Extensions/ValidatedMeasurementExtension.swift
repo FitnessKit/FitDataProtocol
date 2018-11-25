@@ -1,8 +1,8 @@
 //
-//  Position.swift
+//  ValidatedMeasurementExtension.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 8/18/18.
+//  Created by Kevin Hoogheem on 11/23/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,50 +25,30 @@
 import Foundation
 import FitnessUnits
 
-/// FIT Position Data
-public struct Position {
 
-    /// Position in Latitude
-    private(set) public var latitude: ValidatedMeasurement<UnitAngle>?
+internal extension ValidatedMeasurement where UnitType: UnitDuration {
 
-    /// Position in Longitude
-    private(set) public var longitude: ValidatedMeasurement<UnitAngle>?
+    var measurementUnit: Measurement<UnitDuration> {
+        let weightMes = Measurement<UnitDuration>(value: self.value, unit: self.unit)
 
-    internal init(latitude: ValidatedMeasurement<UnitAngle>?,
-                  longitude: ValidatedMeasurement<UnitAngle>?) {
-        
-        self.latitude = latitude
-        self.longitude = longitude
+        return weightMes
     }
 }
 
-internal extension Position {
+internal extension ValidatedMeasurement where UnitType: UnitEnergy {
 
-    func encodeLatitude() -> Data? {
+    var measurementUnit: Measurement<UnitEnergy> {
+        let weightMes = Measurement<UnitEnergy>(value: self.value, unit: self.unit)
 
-        if let latitude = latitude {
-            return Data(encodeSemiCircles(latitude))
-        }
-
-        return nil
+        return weightMes
     }
+}
 
-    func encodeLongitude() -> Data? {
+internal extension ValidatedMeasurement where UnitType: UnitMass {
 
-        if let longitude = longitude {
-            return Data(encodeSemiCircles(longitude))
-        }
+    var measurementUnit: Measurement<UnitMass> {
+        let weightMes = Measurement<UnitMass>(value: self.value, unit: self.unit)
 
-        return nil
+        return weightMes
     }
-
-    private func encodeSemiCircles(_ semi: ValidatedMeasurement<UnitAngle>) -> Data {
-        var vSemi = semi
-        //  1 * semicircles + 0
-        vSemi = vSemi.converted(to: UnitAngle.garminSemicircle)
-        let value = vSemi.value.resolutionInt32(1)
-
-        return Data(from: value.littleEndian)
-    }
-
 }

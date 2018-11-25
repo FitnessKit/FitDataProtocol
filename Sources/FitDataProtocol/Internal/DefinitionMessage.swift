@@ -38,6 +38,8 @@ internal struct DefinitionMessage {
 
     private(set) var globalMessageNumber: UInt16
 
+    private(set) var fields: UInt8
+
     private(set) var fieldDefinitions: [FieldDefinition]
 
     private(set) var developerFieldDefinitions: [DeveloperFieldDefinition]
@@ -45,6 +47,24 @@ internal struct DefinitionMessage {
 }
 
 internal extension DefinitionMessage {
+
+    /// Encodes the DefinitionMessage into Data
+    ///
+    /// - Returns: Data representation
+    internal func encode() -> Data {
+        var msgData = Data()
+
+        msgData.append(UInt8(0))
+        msgData.append(architecture.rawValue)
+        msgData.append(Data(from: globalMessageNumber.littleEndian))
+        msgData.append(fields)
+
+        for fieldDef in fieldDefinitions {
+            msgData.append(fieldDef.encode())
+        }
+
+        return msgData
+    }
 
     internal static func decode(decoder: inout DecodeData, data: Data, header: RecordHeader) throws -> DefinitionMessage {
 
@@ -88,6 +108,7 @@ internal extension DefinitionMessage {
 
         return DefinitionMessage(architecture: architecture,
                                  globalMessageNumber: globalMessage,
+                                 fields: fields,
                                  fieldDefinitions: definitions,
                                  developerFieldDefinitions: devDefinitions)
     }

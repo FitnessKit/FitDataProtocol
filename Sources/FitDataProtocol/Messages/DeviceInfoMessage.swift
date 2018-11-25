@@ -174,98 +174,58 @@ open class DeviceInfoMessage: FitMessage {
                 switch converter {
 
                 case .deviceIndex:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        deviceIndex = DeviceIndex(index: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            deviceIndex = DeviceIndex(index: UInt8(definition.baseType.invalid))
-                        }
-                    }
+                    deviceIndex = DeviceIndex.decode(decoder: &localDecoder,
+                                                     definition: definition,
+                                                     data: fieldData,
+                                                     dataStrategy: dataStrategy)
 
                 case .deviceType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        deviceType = DeviceType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            deviceType = DeviceType.unknown
-                        }
-                    }
+                    deviceType = DeviceType.decode(decoder: &localDecoder,
+                                                   definition: definition,
+                                                   data: fieldData,
+                                                   dataStrategy: dataStrategy)
 
                 case .manufacturer:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         manufacturer = Manufacturer.company(id: value)
                     }
 
                 case .serialNumber:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         serialNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            serialNumber = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        serialNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .product:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         product = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            product = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        product = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .softwareVersion:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         softwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            softwareVersion = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        softwareVersion = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .hardwareVersion:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         hardwareVersion = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            hardwareVersion = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
-                        }
+                        hardwareVersion = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .cumulativeOpTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * s + 0
                         let value = Double(value)
                         cumulativeOpTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.seconds)
@@ -273,107 +233,63 @@ open class DeviceInfoMessage: FitMessage {
 
                 case .batteryVoltage:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 256 * V + 0
                         let value = value.resolution(1 / 256)
                         batteryVoltage = ValidatedMeasurement(value: value, valid: true, unit: UnitElectricPotentialDifference.volts)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            batteryVoltage = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitElectricPotentialDifference.volts)
-                        }
+                        batteryVoltage = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitElectricPotentialDifference.volts)
                     }
 
                 case .batteryStatus:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        batteryStatus = BatteryStatus(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            batteryStatus = BatteryStatus.invalid
-                        }
-                    }
+                    batteryStatus = BatteryStatus.decode(decoder: &localDecoder,
+                                                         definition: definition,
+                                                         data: fieldData,
+                                                         dataStrategy: dataStrategy)
 
                 case .sensorPosition:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        bodylocation = BodyLocation(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            bodylocation = BodyLocation.invalid
-                        }
-                    }
+                    bodylocation = BodyLocation.decode(decoder: &localDecoder,
+                                                       definition: definition,
+                                                       data: fieldData,
+                                                       dataStrategy: dataStrategy)
 
                 case .description:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        sensorDescription = stringData.smartString
-                    }
+                    sensorDescription = String.decode(decoder: &localDecoder,
+                                                      definition: definition,
+                                                      data: fieldData,
+                                                      dataStrategy: dataStrategy)
 
                 case .transmissionType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         transmissionType = TransmissionType(value)
                     }
 
                 case .deviceNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         deviceNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            deviceNumber = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        deviceNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .antNetwork:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        antNetwork = NetworkType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            antNetwork = NetworkType.invalid
-                        }
-                    }
+                    antNetwork = NetworkType.decode(decoder: &localDecoder,
+                                                    definition: definition,
+                                                    data: fieldData,
+                                                    dataStrategy: dataStrategy)
 
                 case .sourcetype:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        source = SourceType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            source = SourceType.invalid
-                        }
-                    }
+                    source = SourceType.decode(decoder: &localDecoder,
+                                               definition: definition,
+                                               data: fieldData,
+                                               dataStrategy: dataStrategy)
 
                 case .productName:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        productname = stringData.smartString
-                    }
+                    productname = String.decode(decoder: &localDecoder,
+                                                definition: definition,
+                                                data: fieldData,
+                                                dataStrategy: dataStrategy)
 
                 case .timestamp:
                     timestamp = FitTime.decode(decoder: &localDecoder,
@@ -404,4 +320,184 @@ open class DeviceInfoMessage: FitMessage {
                                  antNetwork: antNetwork,
                                  source: source)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .deviceIndex:
+                if let deviceIndex = deviceIndex {
+                    msgData.append(deviceIndex.index)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .deviceType:
+                if let deviceType = deviceType {
+                    msgData.append(deviceType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .manufacturer:
+                if let manufacturer = manufacturer {
+                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .serialNumber:
+                if let serialNumber = serialNumber {
+                    msgData.append(Data(from: serialNumber.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .product:
+                if let product = product {
+                    msgData.append(Data(from: product.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .softwareVersion:
+                if let softwareVersion = softwareVersion {
+                    msgData.append(Data(from: softwareVersion.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .hardwareVersion:
+                if let hardwareVersion = hardwareVersion {
+                    msgData.append(hardwareVersion.value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .cumulativeOpTime:
+                if var cumulativeOpTime = cumulativeOpTime {
+                    // 1 * s + 0
+                    cumulativeOpTime = cumulativeOpTime.converted(to: UnitDuration.seconds)
+                    let value = cumulativeOpTime.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .batteryVoltage:
+                if var batteryVoltage = batteryVoltage {
+                    // 256 * V + 0
+                    batteryVoltage = batteryVoltage.converted(to: UnitElectricPotentialDifference.volts)
+                    let value = batteryVoltage.value.resolutionUInt16(256)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .batteryStatus:
+                if let batteryStatus = batteryStatus {
+                    msgData.append(batteryStatus.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+            case .sensorPosition:
+                if let sensorPosition = bodylocation {
+                    msgData.append(sensorPosition.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .description:
+                if let description = sensorDescription {
+                    if let stringData = description.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //1 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .transmissionType:
+                if let transmissionType = transmissionType {
+                    msgData.append(transmissionType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .deviceNumber:
+                if let product = deviceNumber {
+                    msgData.append(Data(from: product.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .antNetwork:
+                if let antNetwork = antNetwork {
+                    msgData.append(antNetwork.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .sourcetype:
+                if let sourcetype = source {
+                    msgData.append(sourcetype.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .productName:
+                if let productName = productName {
+                    if let stringData = productName.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //20 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: DeviceInfoMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "DeviceInfoMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

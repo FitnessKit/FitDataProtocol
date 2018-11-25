@@ -77,38 +77,22 @@ open class SportMessage: FitMessage {
                 switch converter {
 
                 case .sport:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        sport = Sport(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            sport = Sport.invalid
-                        }
-                    }
+                    sport = Sport.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .subSport:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        subSport = SubSport(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            subSport = SubSport.invalid
-                        }
-                    }
+                    subSport = SubSport.decode(decoder: &localDecoder,
+                                               definition: definition,
+                                               data: fieldData,
+                                               dataStrategy: dataStrategy)
 
                 case .name:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        name = stringData.smartString
-                    }
+                    name = String.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .timestamp:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
@@ -121,4 +105,71 @@ open class SportMessage: FitMessage {
                             sport: sport,
                             subSport: subSport)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .sport:
+                if let sport = sport {
+                    msgData.append(sport.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .subSport:
+                if let subSport = subSport {
+                    msgData.append(subSport.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .name:
+                if let name = name {
+                    if let stringData = name.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .timestamp:
+                break
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: SportMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "SportMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

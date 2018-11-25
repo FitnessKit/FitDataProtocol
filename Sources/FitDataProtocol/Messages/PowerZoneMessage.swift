@@ -78,25 +78,19 @@ open class PowerZoneMessage: FitMessage {
 
                 case .highValue:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
                         let value = value.resolution(1)
                         highLevel = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            highLevel = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPower.watts)
-                        }
+                        highLevel = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
 
                 case .name:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        name = stringData.smartString
-                    }
+                    name = String.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,
@@ -112,4 +106,72 @@ open class PowerZoneMessage: FitMessage {
                                   name: name,
                                   highLevel: highLevel)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .highValue:
+                if var highLevel = highLevel {
+                    // 1 * watts + 0
+                    highLevel = highLevel.converted(to: UnitPower.watts)
+                    let value = highLevel.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .name:
+                if let name = name {
+                    if let stringData = name.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: PowerZoneMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "PowerZoneMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

@@ -148,7 +148,7 @@ open class SessionMessage: FitMessage {
     private(set) public var swimStroke: SwimStroke?
 
     /// Pool Length
-    private(set) public var poolLength: Measurement<UnitLength>?
+    private(set) public var poolLength: ValidatedMeasurement<UnitLength>?
 
     /// Pool Length Unit
     private(set) public var poolLengthUnit: MeasurementDisplayType?
@@ -302,7 +302,7 @@ open class SessionMessage: FitMessage {
                 normalizedPower: ValidatedMeasurement<UnitPower>?,
                 averageStrokeDistance: ValidatedMeasurement<UnitLength>?,
                 swimStroke: SwimStroke?,
-                poolLength: Measurement<UnitLength>?,
+                poolLength: ValidatedMeasurement<UnitLength>?,
                 poolLengthUnit: MeasurementDisplayType?,
                 thresholdPower: ValidatedMeasurement<UnitPower>?,
                 activeLengths: ValidatedBinaryInteger<UInt16>?,
@@ -357,37 +357,29 @@ open class SessionMessage: FitMessage {
         self.maximumSpeed = maximumSpeed
 
         if let hr = averageHeartRate {
-
-            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            let valid = hr.isValidForBaseType(FitCodingKeys.averageHeartRate.baseType)
             self.averageHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-
         } else {
             self.averageHeartRate = nil
         }
 
         if let hr = maximumHeartRate {
-
-            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            let valid = hr.isValidForBaseType(FitCodingKeys.maximumHeartRate.baseType)
             self.maximumHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-
         } else {
             self.maximumHeartRate = nil
         }
 
         if let cadence = averageCadence {
-
-            let valid = !(Int64(cadence) == BaseType.uint8.invalid)
+            let valid = cadence.isValidForBaseType(FitCodingKeys.averageCadence.baseType)
             self.averageCadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
-
         } else {
             self.averageCadence = nil
         }
 
         if let cadence = maximumCadence {
-
-            let valid = !(Int64(cadence) == BaseType.uint8.invalid)
+            let valid = cadence.isValidForBaseType(FitCodingKeys.maximumCadence.baseType)
             self.maximumCadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
-
         } else {
             self.maximumCadence = nil
         }
@@ -428,10 +420,8 @@ open class SessionMessage: FitMessage {
         self.maximumNegitiveVerticalSpeed = maximumNegitiveVerticalSpeed
 
         if let hr = minimumHeartRate {
-
-            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            let valid = hr.isValidForBaseType(FitCodingKeys.minimumHeartRate.baseType)
             self.minimumHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-
         } else {
             self.minimumHeartRate = nil
         }
@@ -492,7 +482,7 @@ open class SessionMessage: FitMessage {
         var normalizedPower: ValidatedMeasurement<UnitPower>?
         var averageStrokeDistance: ValidatedMeasurement<UnitLength>?
         var swimStroke: SwimStroke?
-        var poolLength: Measurement<UnitLength>?
+        var poolLength: ValidatedMeasurement<UnitLength>?
         var poolLengthUnit: MeasurementDisplayType?
         var thresholdPower: ValidatedMeasurement<UnitPower>?
         var activeLengths: ValidatedBinaryInteger<UInt16>?
@@ -548,7 +538,6 @@ open class SessionMessage: FitMessage {
             case .some(let converter):
                 switch converter {
 
-
                 case .event:
                     event = Event.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
@@ -563,67 +552,39 @@ open class SessionMessage: FitMessage {
 
                 case .startPositionLatitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
                         startPositionlatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            startPositionlatitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.garminSemicircle)
-                        }
+                        startPositionlatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
 
                 case .startPositionLongitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
                         startPositionlongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            startPositionlongitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.garminSemicircle)
-                        }
+                        startPositionlongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
 
                 case .sport:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        sport = Sport(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            sport = Sport.invalid
-                        }
-                    }
+                    sport = Sport.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .subSport:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        subSport = SubSport(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            subSport = SubSport.invalid
-                        }
-                    }
+                    subSport = SubSport.decode(decoder: &localDecoder,
+                                               definition: definition,
+                                               data: fieldData,
+                                               dataStrategy: dataStrategy)
 
                 case .totalElapsedTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0, Time (includes pauses)
                         let value = value.resolution(1 / 1000)
                         totalElapsedTime = Measurement(value: value, unit: UnitDuration.seconds)
@@ -631,7 +592,7 @@ open class SessionMessage: FitMessage {
 
                 case .totalTimerTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0, Time (excludes pauses)
                         let value = value.resolution(1 / 1000)
                         totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
@@ -639,280 +600,188 @@ open class SessionMessage: FitMessage {
 
                 case .totalDistance:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
                         let value = value.resolution(1 / 100)
                         totalDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            totalDistance = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        totalDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .totalCycles:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * cycles + 0
                         totalCycles = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            totalCycles = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        totalCycles = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .totalCalories:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * kcal + 0
                         totalCalories = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.kilocalories)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            totalCalories = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitEnergy.kilocalories)
-                        }
+                        totalCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
                     }
 
                 case .totalFatCalories:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * kcal + 0
                         totalFatCalories = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.kilocalories)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            totalFatCalories = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitEnergy.kilocalories)
-                        }
+                        totalFatCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
                     }
 
                 case .averageSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
                         averageSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        averageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .maximumSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
                         maximumSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        maximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .averageHeartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * bpm + 0
                         averageHeartRate = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageHeartRate = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            averageHeartRate = value.value
+                        } else {
+                            averageHeartRate = nil
                         }
                     }
 
                 case .maximumHeartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * bpm + 0
                         maximumHeartRate = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumHeartRate = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            maximumHeartRate = value.value
+                        } else {
+                            maximumHeartRate = nil
                         }
                     }
 
                 case .averageCadence:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * rpm + 0
                         averageCadence = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageCadence = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            averageCadence = value.value
+                        } else {
+                            averageCadence = nil
                         }
                     }
 
                 case .maximumCadence:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * rpm + 0
                         maximumCadence = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumCadence = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            maximumCadence = value.value
+                        } else {
+                            maximumCadence = nil
                         }
                     }
 
                 case .averagePower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
                         let value = value.resolution(1)
                         averagePower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averagePower = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPower.watts)
-                        }
+                        averagePower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
 
                 case .maximumPower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
                         let value = value.resolution(1)
                         maximumPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumPower = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPower.watts)
-                        }
+                        maximumPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
 
                 case .totalAscent:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
                         let value = value.resolution(1)
                         totalAscent = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            totalAscent = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        totalAscent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .totalDescent:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
                         let value = value.resolution(1)
                         totalDescent = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            totalDescent = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        totalDescent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .totalTrainingEffect:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         totalTrainingEffect = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            totalTrainingEffect = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
-                        }
+                        totalTrainingEffect = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .firstLapIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         firstLapIndex = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            firstLapIndex = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        firstLapIndex = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .numberOfLaps:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         numberOfLaps = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            numberOfLaps = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        numberOfLaps = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         eventGroup = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            eventGroup = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
-                        }
+                        eventGroup = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .trigger:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         trigger = SessionTrigger(rawValue: value)
                     } else {
 
@@ -926,82 +795,52 @@ open class SessionMessage: FitMessage {
 
                 case .necLatitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
                         necLatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            necLatitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.garminSemicircle)
-                        }
+                        necLatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
 
                 case .necLongitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
                         necLongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            necLongitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.garminSemicircle)
-                        }
+                        necLongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
 
                 case .swcLatitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
                         swcLatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            swcLatitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.garminSemicircle)
-                        }
+                        swcLatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
 
                 case .swcLongitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
                         let value = value.resolution(1)
                         swcLongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            swcLongitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitAngle.garminSemicircle)
-                        }
+                        swcLongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
 
                 case .normalizedPower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
                         let value = value.resolution(1)
                         normalizedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            normalizedPower = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPower.watts)
-                        }
+                        normalizedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
 
                 case .trainingStressScore:
@@ -1018,270 +857,163 @@ open class SessionMessage: FitMessage {
 
                 case .averageStrokeDistance:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
                         let value = value.resolution(1 / 100)
                         averageStrokeDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageStrokeDistance = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        averageStrokeDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .swimStroke:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        swimStroke = SwimStroke(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            swimStroke = SwimStroke.invalid
-                        }
-                    }
+                    swimStroke = SwimStroke.decode(decoder: &localDecoder,
+                                                   definition: definition,
+                                                   data: fieldData,
+                                                   dataStrategy: dataStrategy)
 
                 case .poolLength:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * m + 0
                         let value = value.resolution(1 / 100)
-                        poolLength = Measurement(value: value, unit: UnitLength.meters)
+                        poolLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            poolLength = Measurement(value: Double(UInt16(definition.baseType.invalid)), unit: UnitLength.meters)
-                        }
+                        poolLength = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .thresholdPower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
                         let value = value.resolution(1)
                         thresholdPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            thresholdPower = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPower.watts)
-                        }
+                        thresholdPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
 
                 case .poolLengthUnit:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        poolLengthUnit = MeasurementDisplayType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            poolLengthUnit = MeasurementDisplayType.invalid
-                        }
-                    }
+                    poolLengthUnit = MeasurementDisplayType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
                 case .numberActiveLengths:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * lengths + 0
                         activeLengths = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            activeLengths = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        activeLengths = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .totalWork:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * j + 0
                         totalWork = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.joules)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            totalWork = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitEnergy.joules)
-                        }
+                        totalWork = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.joules)
                     }
 
                 case .averageAltitude:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
                         averageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageAltitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        averageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .maximumAltitude:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
                         maximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumAltitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        maximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .gpsAccuracy:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
                         gpsAccuracy = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            gpsAccuracy = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        gpsAccuracy = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .averageGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
                         let value = value.resolution(1 / 100)
                         averageGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageGrade = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
-                        }
+                        averageGrade = ValidatedMeasurement.invalidValue(definition.baseType,
+                                                                         dataStrategy: dataStrategy,
+                                                                         unit: UnitPercent.percent)
                     }
 
                 case .averagePositiveGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
                         let value = value.resolution(1 / 100)
                         averagePositiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averagePositiveGrade = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
-                        }
+                        averagePositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
 
                 case .averageNegitiveGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
                         let value = value.resolution(1 / 100)
                         averageNegitiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageNegitiveGrade = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
-                        }
+                        averageNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
 
                 case .maximumPositiveGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
                         let value = value.resolution(1 / 100)
                         maximumPositiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumPositiveGrade = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
-                        }
+                        maximumPositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
 
                 case .maximumNegitiveGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
                         let value = value.resolution(1 / 100)
                         maximumNegitiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumNegitiveGrade = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
-                        }
+                        maximumNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
 
                 case .averageTemperature:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * C + 0
                         averageTemperature = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitTemperature.celsius)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageTemperature = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitTemperature.celsius)
-                        }
+                        averageTemperature = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitTemperature.celsius)
                     }
 
                 case .maximumTemperature:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * C + 0
                         maximumTemperature = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitTemperature.celsius)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumTemperature = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitTemperature.celsius)
-                        }
+                        maximumTemperature = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitTemperature.celsius)
                     }
 
                 case .totalMovingTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0
                         let value = value.resolution(1 / 1000)
                         totalMovingTime = Measurement(value: value, unit: UnitDuration.seconds)
@@ -1289,80 +1021,54 @@ open class SessionMessage: FitMessage {
                     
                 case .averagePositiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
                         averagePositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averagePositiveVerticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        averagePositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .averageNegitiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
                         averageNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageNegitiveVerticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        averageNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .maximumPositiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
                         maximumPositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumPositiveVerticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        maximumPositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .maximumNegitiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
                         maximumNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumNegitiveVerticalSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        maximumNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .minimumHeartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * bpm + 0
                         minimumHeartRate = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            minimumHeartRate = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            minimumHeartRate = value.value
+                        } else {
+                            minimumHeartRate = nil
                         }
                     }
 
@@ -1380,7 +1086,7 @@ open class SessionMessage: FitMessage {
 
                 case .averageLapTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0
                         let value = value.resolution(1 / 1000)
                         averageLapTime = Measurement(value: value, unit: UnitDuration.seconds)
@@ -1388,67 +1094,43 @@ open class SessionMessage: FitMessage {
 
                 case .bestLapIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         bestLapIndex = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            bestLapIndex = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        bestLapIndex = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .minimumAltitude:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
                         minimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            minimumAltitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        minimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .playerScore:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         playerScore = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            playerScore = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        playerScore = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .opponentScore:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         opponentScore = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            opponentScore = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        opponentScore = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .opponentName:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        opponentName = stringData.smartString
-                    }
+                    opponentName = String.decode(decoder: &localDecoder,
+                                                 definition: definition,
+                                                 data: fieldData,
+                                                 dataStrategy: dataStrategy)
 
                 case .strokeCount:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
@@ -1458,82 +1140,52 @@ open class SessionMessage: FitMessage {
 
                 case .maximumBallSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * m/s + 0,
                         let value = value.resolution(1 / 100)
                         maximumBallSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maximumBallSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        maximumBallSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .averageBallSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * m/s + 0,
                         let value = value.resolution(1 / 100)
                         averageBallSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageBallSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        averageBallSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .averageVerticalOscillation:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 10 * mm + 0
                         let value = value.resolution(1 / 10)
                         averageVerticalOscillation = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.millimeters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageVerticalOscillation = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.millimeters)
-                        }
+                        averageVerticalOscillation = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.millimeters)
                     }
 
                 case .averageStanceTimePercent:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 100 * % + 0
                         let value = value.resolution(1 / 100)
                         averageStancePercent = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageStancePercent = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPercent.percent)
-                        }
+                        averageStancePercent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
 
                 case .averageStanceTime:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 10 * ms + 0
                         let value = value.resolution(1 / 10)
                         averageStanceTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.millisecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            averageStanceTime = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitDuration.millisecond)
-                        }
+                        averageStanceTime = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitDuration.millisecond)
                     }
 
                 case .averageFractionalCadence:
@@ -1547,96 +1199,60 @@ open class SessionMessage: FitMessage {
 
                 case .sportIndex:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         sportIndex = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            sportIndex = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
-                        }
+                        sportIndex = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .enhancedAverageSpeed:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
                         enhancedAverageSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            enhancedAverageSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        enhancedAverageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .enhancedMaximumSpeed:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
                         let value = value.resolution(1 / 1000)
                         enhancedMaximumSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            enhancedMaximumSpeed = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitSpeed.metersPerSecond)
-                        }
+                        enhancedMaximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
 
                 case .enhancedAverageAltitude:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
                         enhancedAverageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            enhancedAverageAltitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        enhancedAverageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .enhancedMinimumAltitude:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
                         enhancedMinimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            enhancedMinimumAltitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        enhancedMinimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .enhancedMaximumAltitude:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
                         let value = Double(value) / 5 - 500
                         enhancedMaximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            enhancedMaximumAltitude = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        enhancedMaximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .averageVam:
@@ -1745,4 +1361,789 @@ open class SessionMessage: FitMessage {
                               enhancedMaximumAltitude: enhancedMaximumAltitude)
 
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .event:
+                if let event = event {
+                    msgData.append(event.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .eventType:
+                if let eventType = eventType {
+                    msgData.append(eventType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .startTime:
+                if let startTime = startTime {
+                    msgData.append(startTime.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .startPositionLatitude:
+                if let value = startPosition.encodeLatitude() {
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .startPositionLongitude:
+                if let value = startPosition.encodeLongitude() {
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .sport:
+                if let sport = sport {
+                    msgData.append(sport.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .subSport:
+                if let subSport = subSport {
+                    msgData.append(subSport.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalElapsedTime:
+                if var totalElapsedTime = totalElapsedTime {
+                    // 1000 * s + 0, Time (includes pauses)
+                    totalElapsedTime = totalElapsedTime.converted(to: UnitDuration.seconds)
+                    let value = totalElapsedTime.value.resolutionUInt32(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalTimerTime:
+                if var totalTimerTime = totalTimerTime {
+                    // 1000 * s + 0, Time (excludes pauses)
+                    totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
+                    let value = totalTimerTime.value.resolutionUInt32(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalDistance:
+                if var totalDistance = totalDistance {
+                    // 100 * m + 0
+                    totalDistance = totalDistance.converted(to: UnitLength.meters)
+                    let value = totalDistance.value.resolutionUInt32(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalCycles:
+                if let totalCycles = totalCycles {
+                    // 1 * cycles + 0
+                    msgData.append(Data(from: totalCycles.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalCalories:
+                if var totalCalories = totalCalories {
+                    // 1 * kcal + 0
+                    totalCalories = totalCalories.converted(to: UnitEnergy.kilocalories)
+                    let value = totalCalories.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalFatCalories:
+                if var totalFatCalories = totalFatCalories {
+                    // 1 * kcal + 0
+                    totalFatCalories = totalFatCalories.converted(to: UnitEnergy.kilocalories)
+                    let value = totalFatCalories.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageSpeed:
+                if var averageSpeed = averageSpeed {
+                    // 1000 * m/s + 0
+                    averageSpeed = averageSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let value = averageSpeed.value.resolutionInt16(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumSpeed:
+                if var maximumSpeed = maximumSpeed {
+                    // 1000 * m/s + 0
+                    maximumSpeed = maximumSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let value = maximumSpeed.value.resolutionInt16(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageHeartRate:
+                if let averageHeartRate = averageHeartRate {
+                    // 1 * bpm + 0
+                    let value = averageHeartRate.value.resolutionUInt8(1)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumHeartRate:
+                if let maximumHeartRate = maximumHeartRate {
+                    // 1 * bpm + 0
+                    let value = maximumHeartRate.value.resolutionUInt8(1)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageCadence:
+                if let averageCadence = averageCadence {
+                    // 1 * rpm + 0
+                    let value = averageCadence.value.resolutionUInt8(1)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumCadence:
+                if let maximumCadence = maximumCadence {
+                    // 1 * rpm + 0
+                    let value = maximumCadence.value.resolutionUInt8(1)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averagePower:
+                if let averagePower = averagePower {
+                    let value = encodePower(averagePower)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumPower:
+                if let maximumPower = maximumPower {
+                    let value = encodePower(maximumPower)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalAscent:
+                if var totalAscent = totalAscent {
+                    // 1 * m + 0
+                    totalAscent = totalAscent.converted(to: UnitLength.meters)
+                    let value = totalAscent.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalDescent:
+                if var totalDescent = totalDescent {
+                    // 1 * m + 0
+                    totalDescent = totalDescent.converted(to: UnitLength.meters)
+                    let value = totalDescent.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalTrainingEffect:
+                if let totalTrainingEffect = totalTrainingEffect {
+                    msgData.append(totalTrainingEffect.value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .firstLapIndex:
+                if let firstLapIndex = firstLapIndex {
+                    msgData.append(Data(from: firstLapIndex.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .numberOfLaps:
+                if let numberOfLaps = numberOfLaps {
+                    msgData.append(Data(from: numberOfLaps.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .eventGroup:
+                if let eventGroup = eventGroup {
+                    msgData.append(eventGroup.value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .trigger:
+                if let trigger = trigger {
+                    msgData.append(trigger.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .necLatitude:
+                if let value = necPosition.encodeLatitude() {
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .necLongitude:
+                if let value = necPosition.encodeLongitude() {
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .swcLatitude:
+                if let value = swcPosition.encodeLatitude() {
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .swcLongitude:
+                if let value = swcPosition.encodeLongitude() {
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .normalizedPower:
+                if let normalizedPower = normalizedPower {
+                    let value = encodePower(normalizedPower)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .trainingStressScore:
+                break
+            case .intensityFactor:
+                break
+            case .leftRightBalance:
+                break
+            case .averageStrokeCount:
+                break
+
+            case .averageStrokeDistance:
+                if var averageStrokeDistance = averageStrokeDistance {
+                    // 100 * m + 0
+                    averageStrokeDistance = averageStrokeDistance.converted(to: UnitLength.meters)
+                    let value = averageStrokeDistance.value.resolutionUInt16(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .swimStroke:
+                if let swimStroke = swimStroke {
+                    msgData.append(swimStroke.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .poolLength:
+                if var poolLength = poolLength {
+                    // 100 * m + 0
+                    poolLength = poolLength.converted(to: UnitLength.meters)
+                    let value = poolLength.value.resolutionUInt16(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .thresholdPower:
+                if let thresholdPower = thresholdPower {
+                    let value = encodePower(thresholdPower)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .poolLengthUnit:
+                if let poolLengthUnit = poolLengthUnit {
+                    msgData.append(poolLengthUnit.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .numberActiveLengths:
+                if let numberActiveLengths = activeLengths {
+                    // 1 * lengths + 0
+                    msgData.append(Data(from: numberActiveLengths.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalWork:
+                if var totalWork = totalWork {
+                    // 1 * j + 0
+                    totalWork = totalWork.converted(to: UnitEnergy.joules)
+                    let value = totalWork.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageAltitude:
+                if var averageAltitude = averageAltitude {
+                    // 5 * m + 500
+                    averageAltitude = averageAltitude.converted(to: UnitLength.meters)
+                    let value = averageAltitude.value.resolutionUInt16(5) + 500
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumAltitude:
+                if var maximumAltitude = maximumAltitude {
+                    // 5 * m + 500
+                    maximumAltitude = maximumAltitude.converted(to: UnitLength.meters)
+                    let value = maximumAltitude.value.resolutionUInt16(5) + 500
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .gpsAccuracy:
+                if var gpsAccuracy = gpsAccuracy {
+                    // 1 * m + 0
+                    gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
+                    let value = gpsAccuracy.value.resolutionInt8(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageGrade:
+                if let averageGrade = averageGrade {
+                    let value = encodeInt16Percent(averageGrade)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averagePositiveGrade:
+                if let averagePositiveGrade = averagePositiveGrade {
+                    let value = encodeInt16Percent(averagePositiveGrade)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageNegitiveGrade:
+                if let averageNegitiveGrade = averageNegitiveGrade {
+                    let value = encodeInt16Percent(averageNegitiveGrade)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumPositiveGrade:
+                if let maximumPositiveGrade = maximumPositiveGrade {
+                    let value = encodeInt16Percent(maximumPositiveGrade)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumNegitiveGrade:
+                if let maximumNegitiveGrade = maximumNegitiveGrade {
+                    let value = encodeInt16Percent(maximumNegitiveGrade)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageTemperature:
+                if var averageTemperature = averageTemperature {
+                    // 1 * C + 0
+                    averageTemperature = averageTemperature.converted(to: UnitTemperature.celsius)
+                    let value = averageTemperature.value.resolutionInt8(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumTemperature:
+                if var maximumTemperature = maximumTemperature {
+                    // 1 * C + 0
+                    maximumTemperature = maximumTemperature.converted(to: UnitTemperature.celsius)
+                    let value = maximumTemperature.value.resolutionInt8(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalMovingTime:
+                if var totalMovingTime = totalMovingTime {
+                    // 1000 * s + 0
+                    totalMovingTime = totalMovingTime.converted(to: UnitDuration.seconds)
+                    let value = totalMovingTime.value.resolutionUInt32(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averagePositiveVerticalSpeed:
+                if let averagePositiveVerticalSpeed = averagePositiveVerticalSpeed {
+                    let value = encodeVerticalSpeed(averagePositiveVerticalSpeed)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageNegitiveVerticalSpeed:
+                if let averageNegitiveVerticalSpeed = averageNegitiveVerticalSpeed {
+                    let value = encodeVerticalSpeed(averageNegitiveVerticalSpeed)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumPositiveVerticalSpeed:
+                if let maximumPositiveVerticalSpeed = maximumPositiveVerticalSpeed {
+                    let value = encodeVerticalSpeed(maximumPositiveVerticalSpeed)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumNegitiveVerticalSpeed:
+                if let maximumNegitiveVerticalSpeed = maximumNegitiveVerticalSpeed {
+                    let value = encodeVerticalSpeed(maximumNegitiveVerticalSpeed)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .minimumHeartRate:
+                if let heartRate = minimumHeartRate {
+                    // 1 * bpm + 0
+                    let value = heartRate.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .timeInHeartRateZone:
+                break
+            case .timeInSpeedZone:
+                break
+            case .timeInCadenceZone:
+                break
+            case .timeInPowerZone:
+                break
+
+            case .averageLapTime:
+                if var averageLapTime = averageLapTime {
+                    // 1000 * s + 0
+                    averageLapTime = averageLapTime.converted(to: UnitDuration.seconds)
+                    let value = averageLapTime.value.resolutionUInt32(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .bestLapIndex:
+                if let bestLapIndex = bestLapIndex {
+                    msgData.append(Data(from: bestLapIndex.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .minimumAltitude:
+                if var minimumAltitude = minimumAltitude {
+                    // 5 * m + 500
+                    minimumAltitude = minimumAltitude.converted(to: UnitLength.meters)
+                    let value = minimumAltitude.value.resolutionUInt16(5) + 500
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .playerScore:
+                if let playerScore = score.playerScore {
+                    msgData.append(Data(from: playerScore.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .opponentScore:
+                if let opponentScore = score.opponentScore {
+                    msgData.append(Data(from: opponentScore.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .opponentName:
+                if let opponentName = opponentName {
+                    if let stringData = opponentName.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+
+            case .strokeCount:
+                break
+            case .zoneCount:
+                break
+
+            case .maximumBallSpeed:
+                if var maximumBallSpeed = maximumBallSpeed {
+                    // 100 * m/s + 0
+                    maximumBallSpeed = maximumBallSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let value = maximumBallSpeed.value.resolutionUInt16(10)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageBallSpeed:
+                if var averageBallSpeed = averageBallSpeed {
+                    // 100 * m/s + 0
+                    averageBallSpeed = averageBallSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let value = averageBallSpeed.value.resolutionUInt16(10)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageVerticalOscillation:
+                if var averageVerticalOscillation = averageVerticalOscillation {
+                    // 10 * mm + 0
+                    averageVerticalOscillation = averageVerticalOscillation.converted(to: UnitLength.millimeters)
+                    let value = averageVerticalOscillation.value.resolutionUInt16(10)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageStanceTimePercent:
+                if let averageStanceTimePercent = averageStanceTime.percent {
+                    let value = encodeUInt16Percent(averageStanceTimePercent)
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageStanceTime:
+                if var averageStanceTime = averageStanceTime.time {
+                    // 10 * ms + 0
+                    averageStanceTime = averageStanceTime.converted(to: UnitDuration.millisecond)
+                    let value = averageStanceTime.value.resolutionUInt16(10)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageFractionalCadence:
+                break
+            case .maximumFractionalCadence:
+                break
+            case .totalFractionalCycles:
+                break
+
+            case .sportIndex:
+                if let sportIndex = sportIndex {
+                    msgData.append(sportIndex.value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedAverageSpeed:
+                if var enhancedAverageSpeed = enhancedAverageSpeed {
+                    // 1000 * m/s + 0
+                    enhancedAverageSpeed = enhancedAverageSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let value = enhancedAverageSpeed.value.resolutionUInt32(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedMaximumSpeed:
+                if var enhancedMaximumSpeed = enhancedMaximumSpeed {
+                    // 1000 * m/s + 0
+                    enhancedMaximumSpeed = enhancedMaximumSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let value = enhancedMaximumSpeed.value.resolutionUInt32(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedAverageAltitude:
+                if let enhancedAverageAltitude = enhancedAverageAltitude {
+                    let valData = encodeEnhancedAltitude(enhancedAverageAltitude)
+                    msgData.append(valData)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedMinimumAltitude:
+                if let enhancedMinimumAltitude = enhancedMinimumAltitude {
+                    let valData = encodeEnhancedAltitude(enhancedMinimumAltitude)
+                    msgData.append(valData)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedMaximumAltitude:
+                if let enhancedMaximumAltitude = enhancedMaximumAltitude {
+                    let valData = encodeEnhancedAltitude(enhancedMaximumAltitude)
+                    msgData.append(valData)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageVam:
+                break
+            case .totalAnaerobicTrainingEffect:
+                break
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: SessionMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "SessionMessage contains no Properties Available to Encode"))
+        }
+    }
+
+}
+
+
+private extension SessionMessage {
+
+    func encodePower(_ power: ValidatedMeasurement<UnitPower>) -> Data {
+        var vpower = power
+        // 1 * watts + 0
+        vpower = vpower.converted(to: UnitPower.watts)
+        let value = vpower.value.resolutionUInt16(1)
+
+        return Data(from: value.littleEndian)
+    }
+
+    func encodeUInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
+        // 100 * % + 0
+        let value = percent.value.resolutionUInt16(100)
+
+        return Data(from: value.littleEndian)
+    }
+
+    func encodeInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
+        // 100 * % + 0
+        let value = percent.value.resolutionInt16(100)
+
+        return Data(from: value.littleEndian)
+    }
+
+    func encodeVerticalSpeed(_ speed: ValidatedMeasurement<UnitSpeed>) -> Data {
+        var vspeed = speed
+        // 1000 * m/s + 0
+        vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
+        let value = vspeed.value.resolutionInt16(1000)
+
+        return Data(from: value.littleEndian)
+    }
+
+    func encodeEnhancedAltitude(_ alt: ValidatedMeasurement<UnitLength>) -> Data {
+        var altitude = alt
+        // 5 * m + 500
+        altitude = altitude.converted(to: UnitLength.meters)
+        let value = altitude.value.resolutionUInt32(5) + 500
+
+        return Data(from: value.littleEndian)
+    }
+
 }

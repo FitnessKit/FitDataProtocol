@@ -26,7 +26,6 @@ import Foundation
 import DataDecoder
 
 /// FIT Event
-///
 public enum Event: UInt8 {
     /// Timer - Group 0.  Start / stop_all
     case timer                  = 0
@@ -113,7 +112,7 @@ internal extension Event {
     internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Event? {
 
         let value = decoder.decodeUInt8(data.fieldData)
-        if UInt64(value) != definition.baseType.invalid {
+        if value.isValidForBaseType(definition.baseType) {
             return Event(rawValue: value)
         } else {
 
@@ -124,6 +123,5 @@ internal extension Event {
                 return Event.invalid
             }
         }
-
     }
 }

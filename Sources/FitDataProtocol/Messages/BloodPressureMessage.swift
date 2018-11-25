@@ -95,10 +95,9 @@ open class BloodPressureMessage: FitMessage {
         self.mapEveningValues = mapEveningValues
 
         if let hr = heartRate {
-
-            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            let valid = hr.isValidForBaseType(FitCodingKeys.heartRate.baseType)
             self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-            
+
         } else {
             self.heartRate = nil
         }
@@ -141,118 +140,80 @@ open class BloodPressureMessage: FitMessage {
 
                 case .systolicPressure:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
                         systolicPressure = ValidatedMeasurement(value: value, valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            systolicPressure = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
-                        }
+                        systolicPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
 
                 case .diastolicPressure:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
                         diastolicPressure = ValidatedMeasurement(value: value, valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            diastolicPressure = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
-                        }
+                        diastolicPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
 
                 case .meanArterialPressure:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
                         meanArterialPressure = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            meanArterialPressure = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
-                        }
+                        meanArterialPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
 
                 case .mapSampleMean:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
                         mapSampleMean = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            mapSampleMean = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
-                        }
+                        mapSampleMean = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
 
                 case .mapMorningValues:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
                         mapMorningValues = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            mapMorningValues = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
-                        }
+                        mapMorningValues = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
 
                 case .mapEveningValues:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
                         let value = value.resolution(1)
                         mapEveningValues = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            mapEveningValues = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitPressure.millimetersOfMercury)
-                        }
+                        mapEveningValues = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
 
                 case .heartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * bpm + 0
                         heartRate = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            heartRate = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            heartRate = value.value
+                        } else {
+                            heartRate = nil
                         }
                     }
 
                 case .heartRateType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         heartRateType = HeartRateType(rawValue: value)
                     } else {
 
@@ -266,7 +227,7 @@ open class BloodPressureMessage: FitMessage {
 
                 case .status:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         status = BloodPressureStatus(rawValue: value)
                     } else {
 
@@ -280,7 +241,7 @@ open class BloodPressureMessage: FitMessage {
 
                 case .userProfileIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         userProfileIndex = MessageIndex(value: value)
                     }
                     
@@ -306,4 +267,148 @@ open class BloodPressureMessage: FitMessage {
                                     status: status,
                                     userProfileIndex: userProfileIndex)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .systolicPressure:
+                if var systolicPressure = systolicPressure {
+                    // 1 * mmHg + 0
+                    systolicPressure = systolicPressure.converted(to: UnitPressure.millimetersOfMercury)
+                    let value = systolicPressure.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .diastolicPressure:
+                if var diastolicPressure = diastolicPressure {
+                    // 1 * mmHg + 0
+                    diastolicPressure = diastolicPressure.converted(to: UnitPressure.millimetersOfMercury)
+                    let value = diastolicPressure.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .meanArterialPressure:
+                if var meanArterialPressure = meanArterialPressure {
+                    // 1 * mmHg + 0
+                    meanArterialPressure = meanArterialPressure.converted(to: UnitPressure.millimetersOfMercury)
+                    let value = meanArterialPressure.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .mapSampleMean:
+                if var mapSampleMean = mapSampleMean {
+                    // 1 * mmHg + 0
+                    mapSampleMean = mapSampleMean.converted(to: UnitPressure.millimetersOfMercury)
+                    let value = mapSampleMean.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .mapMorningValues:
+                if var mapMorningValues = mapMorningValues {
+                    // 1 * mmHg + 0
+                    mapMorningValues = mapMorningValues.converted(to: UnitPressure.millimetersOfMercury)
+                    let value = mapMorningValues.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .mapEveningValues:
+                if var mapEveningValues = mapEveningValues {
+                    // 1 * mmHg + 0
+                    mapEveningValues = mapEveningValues.converted(to: UnitPressure.millimetersOfMercury)
+                    let value = mapEveningValues.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .heartRate:
+                if let heartRate = heartRate {
+                    // 1 * bpm + 0
+                    let value = heartRate.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .heartRateType:
+                if let heartRateType = heartRateType {
+                    msgData.append(heartRateType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .status:
+                if let status = status {
+                    msgData.append(status.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .userProfileIndex:
+                if let userProfileIndex = userProfileIndex {
+                    msgData.append(userProfileIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: BloodPressureMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "BloodPressureMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

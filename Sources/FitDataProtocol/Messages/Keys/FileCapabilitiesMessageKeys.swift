@@ -58,7 +58,7 @@ public extension FileCapabilitiesMessage.FitCodingKeys {
         case .fileFlags:
             return .uint8z
         case .directory:
-            return .string
+            return .string // 16
         case .maxCount:
             return .uint16
         case .maxSize:
@@ -68,4 +68,34 @@ public extension FileCapabilitiesMessage.FitCodingKeys {
         }
     }
 
+}
+
+internal extension FileCapabilitiesMessage.FitCodingKeys {
+
+    /// Create a Field Definition Message From the Key
+    ///
+    /// - Parameter size: Data Size, if nil will use the keys predefined size
+    /// - Returns: FieldDefinition
+    internal func fieldDefinition(size: UInt8) -> FieldDefinition {
+
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.rawValue),
+                                              size: size,
+                                              endianAbility: self.baseType.hasEndian,
+                                              baseType: self.baseType)
+
+        return fieldDefinition
+    }
+
+    /// Create a Field Definition Message From the Key
+    ///
+    /// - Returns: FieldDefinition
+    internal func fieldDefinition() -> FieldDefinition {
+
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.rawValue),
+                                              size: self.baseType.dataSize,
+                                              endianAbility: self.baseType.hasEndian,
+                                              baseType: self.baseType)
+
+        return fieldDefinition
+    }
 }

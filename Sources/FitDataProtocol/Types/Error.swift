@@ -41,6 +41,9 @@ public enum ErrorReasons {
     /// FIT File Conversion Issue
     case fitFileConversion
 
+    /// Encoding error
+    case encodeError(msg: String)
+
     //Generic
     case generic(String)
 }

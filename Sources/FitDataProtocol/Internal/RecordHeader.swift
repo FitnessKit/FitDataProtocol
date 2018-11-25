@@ -37,19 +37,17 @@ internal struct RecordHeader {
         var value: UInt8 = localMessageType
 
         let datamsg = isDataMessage == true ? 0 : 1
-        let devmsg = developerData == true ? 1 : 0
 
         value |= UInt8(datamsg) << 6
-        value |= UInt8(devmsg) << 5
+        value |= developerData.uint8Value << 5
 
         return UInt8(value)
     }
 
-    internal init(localMessageType: UInt8, isDataMessage: Bool, developerData: Bool) {
+    internal init(localMessageType: UInt8, isDataMessage: Bool, developerData: Bool = false) {
         self.localMessageType = min(15, localMessageType)
         self.isDataMessage = isDataMessage
         self.developerData = developerData
-
     }
 
 }

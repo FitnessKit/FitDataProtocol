@@ -34,22 +34,62 @@ public struct FitTime {
     /// Time since device power up
     private(set) public var secondSincePowerUp: TimeInterval?
 
+    /// Is Local Date
+    private(set) public var isLocal: Bool
+
     internal init(time: UInt32, isLocal: Bool = false) {
         // if date_time is < 0x10000000 then it is system time (seconds from device power on)
         if time < 0x10000000 {
             self.secondSincePowerUp = TimeInterval(time)
+            self.isLocal = false
         } else {
             if isLocal {
                 self.recordDate = Date(timeInterval: TimeInterval(time), since: Date.localAntEPOCH)
+                self.isLocal = isLocal
             } else {
                 self.recordDate = Date(timeInterval: TimeInterval(time), since: Date.antEPOCH)
+                self.isLocal = false
             }
         }
+    }
+
+    public init(date: Date, isLocal: Bool = false) {
+        self.recordDate = date
+        self.isLocal = isLocal
+    }
+
+    public init(secondSincePowerUp: TimeInterval) {
+        self.secondSincePowerUp = secondSincePowerUp
+        self.isLocal = false
     }
 
 }
 
 internal extension FitTime {
+
+    /// Encodes the FileIdMessage into Data
+    ///
+    /// - Returns: Data representation
+    internal func encode(isLocal: Bool = false) -> Data {
+        var msgData = Data()
+
+        if let recordDate = recordDate {
+
+            if isLocal {
+                let time = UInt32(recordDate.timeIntervalSince( Date.localAntEPOCH))
+                msgData.append(Data(from: time.littleEndian))
+            } else {
+                let time = UInt32(recordDate.timeIntervalSince( Date.antEPOCH))
+                msgData.append(Data(from: time.littleEndian))
+            }
+            
+        } else if let seconds = secondSincePowerUp {
+            let time = UInt32(seconds)
+            msgData.append(Data(from: time.littleEndian))
+        }
+
+        return msgData
+    }
 
     /// Decodes the FitTime
     ///
@@ -64,7 +104,7 @@ internal extension FitTime {
 
         let value = endian == .little ? decoder.decodeUInt32(data.fieldData).littleEndian : decoder.decodeUInt32(data.fieldData).bigEndian
 
-        if UInt64(value) != definition.baseType.invalid {
+        if value.isValidForBaseType(definition.baseType) {
             return FitTime(time: value, isLocal: isLocal)
         }
 

@@ -47,6 +47,14 @@ open class FitMessage {
         fatalError("*** You must override in your class.")
     }
 
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal func encode() throws -> Data {
+        throw FitError(.encodeError(msg: "Message not currently supported for Encode"))
+        //fatalError("*** You must override in your class.")
+    }
+
 }
 
 //MARK: - Standrd Decodes

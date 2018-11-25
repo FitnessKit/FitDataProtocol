@@ -110,10 +110,40 @@ public extension DeviceInfoMessage.FitCodingKeys {
         case .sourcetype:
             return .enumtype
         case .productName:
-            return .string
+            return .string //20
         case .timestamp:
             return .uint32
         }
     }
 
+}
+
+internal extension DeviceInfoMessage.FitCodingKeys {
+
+    /// Create a Field Definition Message From the Key
+    ///
+    /// - Parameter size: Data Size, if nil will use the keys predefined size
+    /// - Returns: FieldDefinition
+    internal func fieldDefinition(size: UInt8) -> FieldDefinition {
+
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.rawValue),
+                                              size: size,
+                                              endianAbility: self.baseType.hasEndian,
+                                              baseType: self.baseType)
+
+        return fieldDefinition
+    }
+
+    /// Create a Field Definition Message From the Key
+    ///
+    /// - Returns: FieldDefinition
+    internal func fieldDefinition() -> FieldDefinition {
+
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.rawValue),
+                                              size: self.baseType.dataSize,
+                                              endianAbility: self.baseType.hasEndian,
+                                              baseType: self.baseType)
+
+        return fieldDefinition
+    }
 }

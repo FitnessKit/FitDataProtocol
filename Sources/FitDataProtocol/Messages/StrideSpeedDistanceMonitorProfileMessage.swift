@@ -47,10 +47,10 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     private(set) public var antID: ValidatedBinaryInteger<UInt16>?
 
     /// Calibration Factor
-    private(set) public var calibrationFactor: Measurement<UnitPercent>?
+    private(set) public var calibrationFactor: ValidatedMeasurement<UnitPercent>?
 
     /// Odometer
-    private(set) public var odometer: Measurement<UnitLength>?
+    private(set) public var odometer: ValidatedMeasurement<UnitLength>?
 
     /// Footpod should be used as speed source vs GPS
     private(set) public var speedSourceFootpod: Bool?
@@ -68,8 +68,8 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     public init(messageIndex: MessageIndex?,
                 enabled: Bool?,
                 antID: ValidatedBinaryInteger<UInt16>?,
-                calibrationFactor: Measurement<UnitPercent>?,
-                odometer: Measurement<UnitLength>?,
+                calibrationFactor: ValidatedMeasurement<UnitPercent>?,
+                odometer: ValidatedMeasurement<UnitLength>?,
                 speedSourceFootpod: Bool?,
                 transmissionType: TransmissionType?,
                 odometerRolloverCounter: UInt8?) {
@@ -89,8 +89,8 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
         var messageIndex: MessageIndex?
         var enabled: Bool?
         var antID: ValidatedBinaryInteger<UInt16>?
-        var calibrationFactor: Measurement<UnitPercent>?
-        var odometer: Measurement<UnitLength>?
+        var calibrationFactor: ValidatedMeasurement<UnitPercent>?
+        var odometer: ValidatedMeasurement<UnitLength>?
         var speedSourceFootpod: Bool?
         var transmissionType: TransmissionType?
         var odometerRolloverCounter: UInt8?
@@ -113,73 +113,55 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                 switch converter {
                 case .enabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         enabled = value.boolValue
                     }
 
 
                 case .antID:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         antID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            antID = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        antID = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
 
                 case .calibrationFactor:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 10 * % + 0
                         let value = value.resolution(1 / 10)
-                        calibrationFactor = Measurement(value: value, unit: UnitPercent.percent)
+                        calibrationFactor = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            calibrationFactor = Measurement(value: Double(definition.baseType.invalid), unit: UnitPercent.percent)
-                        }
+                        calibrationFactor = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
 
                 case .odometer:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
                         let value = value.resolution(1 / 100)
-                        odometer = Measurement(value: value, unit: UnitLength.meters)
+                        odometer = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            odometer = Measurement(value: Double(definition.baseType.invalid), unit: UnitLength.meters)
-                        }
+                        odometer = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .speedSource:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         speedSourceFootpod = value.boolValue
                     }
 
                 case .transType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         transmissionType = TransmissionType(value)
                     }
 
                 case .odometerRollover:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         odometerRolloverCounter = value
                     }
 
@@ -202,4 +184,109 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                                                         transmissionType: transmissionType,
                                                         odometerRolloverCounter: odometerRolloverCounter)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .enabled:
+                if let enabled = enabled {
+                    msgData.append(enabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .antID:
+                if let antID = antID {
+                    msgData.append(Data(from: antID.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .calibrationFactor:
+                if let calibrationFactor = calibrationFactor {
+                    // 10 * % + 0
+                    let value = calibrationFactor.value.resolutionUInt16(10)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .odometer:
+                if var odometer = odometer {
+                    // 100 * m + 0
+                    odometer = odometer.converted(to: UnitLength.meters)
+                    let value = odometer.value.resolutionUInt32(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .speedSource:
+                if let speedSource = speedSourceFootpod {
+                    msgData.append(speedSource.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .transType:
+                if let transmissionType = transmissionType {
+                    msgData.append(transmissionType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .odometerRollover:
+                if let odometerRolloverCounter = odometerRolloverCounter {
+                    msgData.append(odometerRolloverCounter)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: StrideSpeedDistanceMonitorProfileMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "StrideSpeedDistanceMonitorProfileMessage contains no Properties Available to Encode"))
+        }
+
+    }
+
 }

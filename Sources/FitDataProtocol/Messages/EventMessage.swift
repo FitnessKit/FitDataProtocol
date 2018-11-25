@@ -105,68 +105,56 @@ open class EventMessage: FitMessage {
 
                 case .data16:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         eventData = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            eventData = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        eventData = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .data32:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         eventMoreData = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            eventMoreData = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        eventMoreData = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         eventGroup = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            eventGroup = ValidatedBinaryInteger(value: UInt8(definition.baseType.invalid), valid: false)
-                        }
+                        eventGroup = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .score:
-                    // We still need to pull this data off the stack
+                    // not populated directly
+                    // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .opponentScore:
-                    // We still need to pull this data off the stack
+                    // not populated directly
+                    // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .frontGearNumber:
-                    // We still need to pull this data off the stack
+                    // not populated directly
+                    // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .frontGear:
-                    // We still need to pull this data off the stack
+                    // not populated directly
+                    // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .rearGearNumber:
-                    // We still need to pull this data off the stack
+                    // not populated directly
+                    // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .rearGear:
-                    // We still need to pull this data off the stack
+                    // not populated directly
+                    // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .timestamp:
@@ -186,4 +174,100 @@ open class EventMessage: FitMessage {
                             eventType: eventType,
                             eventGroup: eventGroup)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .event:
+                if let event = event {
+                    msgData.append(event.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .eventType:
+                if let eventType = eventType {
+                    msgData.append(eventType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .data16:
+                if let data16 = eventData {
+                    msgData.append(Data(from: data16.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .data32:
+                if let data32 = eventMoreData {
+                    msgData.append(Data(from: data32.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .eventGroup:
+                if let eventGroup = eventGroup {
+                    msgData.append(eventGroup.value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .score:
+                break // not populated directly
+            case .opponentScore:
+                break // not populated directly
+            case .frontGearNumber:
+                break // not populated directly
+            case .frontGear:
+                break // not populated directly
+            case .rearGearNumber:
+                break // not populated directly
+            case .rearGear:
+                break // not populated directly
+                
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: EventMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "EventMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

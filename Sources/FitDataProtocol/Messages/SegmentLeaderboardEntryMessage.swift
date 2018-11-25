@@ -99,14 +99,14 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                 switch converter {
 
                 case .name:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        name = stringData.smartString
-                    }
+                    name = String.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .boardType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         leaderType = LeaderboardType(rawValue: value)
                     } else {
 
@@ -120,46 +120,28 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
 
                 case .groupPrimaryKey:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         leaderId = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            leaderId = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        leaderId = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .activityID:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         activityId = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            activityId = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        activityId = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .segmentTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         /// 1000 * s + 0
                         let value = value.resolutionUInt32(1 / 1000)
                         segmentTime = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            segmentTime = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        segmentTime = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .messageIndex:
@@ -179,4 +161,96 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                                               activityId: activityId,
                                               segmentTime: segmentTime)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .name:
+                if let name = name {
+                    if let stringData = name.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .boardType:
+                if let boardType = leaderType {
+                    msgData.append(boardType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .groupPrimaryKey:
+                if let leaderId = leaderId {
+                    let value = leaderId.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .activityID:
+                if let activityId = activityId {
+                    let value = activityId.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .segmentTime:
+                if let segmentTime = segmentTime {
+                    /// 1000 * s + 0
+                    let value = segmentTime.value.resolutionUInt32(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: SegmentLeaderboardEntryMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "SegmentLeaderboardEntryMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

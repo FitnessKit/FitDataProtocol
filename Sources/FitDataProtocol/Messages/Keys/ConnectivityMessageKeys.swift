@@ -98,16 +98,32 @@ public extension ConnectivityMessage.FitCodingKeys {
 
 }
 
-//FIT_STRING name[FIT_CONNECTIVITY_MESG_NAME_COUNT]; //
-//FIT_BOOL bluetooth_enabled; // Use Bluetooth for connectivity features
-//FIT_BOOL bluetooth_le_enabled; // Use Bluetooth Low Energy for connectivity features
-//FIT_BOOL ant_enabled; // Use ANT for connectivity features
-//FIT_BOOL live_tracking_enabled; //
-//FIT_BOOL weather_conditions_enabled; //
-//FIT_BOOL weather_alerts_enabled; //
-//FIT_BOOL auto_activity_upload_enabled; //
-//FIT_BOOL course_download_enabled; //
-//FIT_BOOL workout_download_enabled; //
-//FIT_BOOL gps_ephemeris_download_enabled; //
-//FIT_BOOL incident_detection_enabled; //
-//FIT_BOOL grouptrack_enabled; //
+internal extension ConnectivityMessage.FitCodingKeys {
+
+    /// Create a Field Definition Message From the Key
+    ///
+    /// - Parameter size: Data Size, if nil will use the keys predefined size
+    /// - Returns: FieldDefinition
+    internal func fieldDefinition(size: UInt8) -> FieldDefinition {
+
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.rawValue),
+                                              size: size,
+                                              endianAbility: self.baseType.hasEndian,
+                                              baseType: self.baseType)
+
+        return fieldDefinition
+    }
+
+    /// Create a Field Definition Message From the Key
+    ///
+    /// - Returns: FieldDefinition
+    internal func fieldDefinition() -> FieldDefinition {
+
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.rawValue),
+                                              size: self.baseType.dataSize,
+                                              endianAbility: self.baseType.hasEndian,
+                                              baseType: self.baseType)
+
+        return fieldDefinition
+    }
+}

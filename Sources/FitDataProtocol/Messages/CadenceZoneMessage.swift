@@ -52,10 +52,8 @@ open class CadenceZoneMessage: FitMessage {
         self.name = name
 
         if let value = highLevel {
-
-            let valid = !(Int64(value) == BaseType.uint8.invalid)
+            let valid = value.isValidForBaseType(FitCodingKeys.highValue.baseType)
             self.highLevel = ValidatedMeasurement(value: Double(value), valid: valid, unit: UnitCadence.revolutionsPerMinute)
-
         } else {
             self.highLevel = nil
         }
@@ -87,24 +85,22 @@ open class CadenceZoneMessage: FitMessage {
 
                 case .highValue:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * rpm + 0
                         highLevel = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            highLevel = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            highLevel = value.value
+                        } else {
+                            highLevel = nil
                         }
                     }
 
                 case .name:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        name = stringData.smartString
-                    }
+                    name = String.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,
@@ -120,4 +116,72 @@ open class CadenceZoneMessage: FitMessage {
                                   name: name,
                                   highLevel: highLevel)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .highValue:
+                if let heartRate = highLevel {
+                    // 1 * bpm + 0
+                    let value = heartRate.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .name:
+                if let name = name {
+                    if let stringData = name.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: CadenceZoneMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "CadenceZoneMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

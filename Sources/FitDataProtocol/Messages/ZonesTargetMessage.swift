@@ -60,21 +60,13 @@ open class ZonesTargetMessage: FitMessage {
                 powerZoneType: PowerZoneCalculation?) {
 
         if let hr = maxHeartRate {
-
-            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            let valid = hr.isValidForBaseType(FitCodingKeys.maxHeartRate.baseType)
             self.maxHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-
-        } else {
-            self.maxHeartRate = nil
         }
 
         if let hr = thresholdHeartRate {
-
-            let valid = !(Int64(hr) == BaseType.uint8.invalid)
+            let valid = hr.isValidForBaseType(FitCodingKeys.thresholdHeartRate.baseType)
             self.thresholdHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-
-        } else {
-            self.thresholdHeartRate = nil
         }
 
         self.heartRateZoneType = heartRateZoneType
@@ -109,51 +101,41 @@ open class ZonesTargetMessage: FitMessage {
 
                 case .maxHeartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * bpm + 0
                         maxHeartRate = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maxHeartRate = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            maxHeartRate = value.value
+                        } else {
+                            maxHeartRate = nil
                         }
                     }
 
                 case .thresholdHeartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * bpm + 0
                         thresholdHeartRate = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            thresholdHeartRate = UInt8(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            thresholdHeartRate = value.value
+                        } else {
+                            thresholdHeartRate = nil
                         }
                     }
 
                 case .functionalThresholdPower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         ftp = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            ftp = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        ftp = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .heartRateCalculation:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         heartRateZoneType = HeartRateZoneCalculation(rawValue: value)
                     } else {
 
@@ -167,7 +149,7 @@ open class ZonesTargetMessage: FitMessage {
 
                 case .powerCalculation:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         powerZoneType = PowerZoneCalculation(rawValue: value)
                     } else {
 
@@ -189,4 +171,86 @@ open class ZonesTargetMessage: FitMessage {
                                   ftp: ftp,
                                   powerZoneType: powerZoneType)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .maxHeartRate:
+                if let maxHeartRate = maxHeartRate {
+                    // 1 * bpm + 0
+                    let value = maxHeartRate.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .thresholdHeartRate:
+                if let thresholdHeartRate = thresholdHeartRate {
+                    // 1 * bpm + 0
+                    let value = thresholdHeartRate.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .functionalThresholdPower:
+                if let ftp = ftp {
+                    msgData.append(Data(from: ftp.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .heartRateCalculation:
+                if let heartRateZoneType = heartRateZoneType {
+                    msgData.append(heartRateZoneType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .powerCalculation:
+                if let powerZoneType = powerZoneType {
+                    msgData.append(powerZoneType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: ZonesTargetMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "ZonesTargetMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

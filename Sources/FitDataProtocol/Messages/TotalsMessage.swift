@@ -90,7 +90,6 @@ open class TotalsMessage: FitMessage {
         self.elapsedTime = elapsedTime
         self.sessions = sessions
         self.activeTime = activeTime
-
     }
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> TotalsMessage  {
@@ -124,7 +123,7 @@ open class TotalsMessage: FitMessage {
 
                 case .timerTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * s + 0
                         let value = value.resolution(1)
                         timerTime = Measurement(value: value, unit: UnitDuration.seconds)
@@ -132,52 +131,32 @@ open class TotalsMessage: FitMessage {
 
                 case .distance:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
                         let value = value.resolution(1)
                         distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            distance = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitLength.meters)
-                        }
+                        distance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .calories:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * kcal + 0
                         calories = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.kilocalories)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            calories = ValidatedMeasurement(value: Double(definition.baseType.invalid), valid: false, unit: UnitEnergy.kilocalories)
-                        }
+                        calories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
                     }
 
                 case .sport:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        sport = Sport(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            sport = Sport.invalid
-                        }
-                    }
+                    sport = Sport.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .elapsedTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * s + 0
                         let value = value.resolution(1)
                         elapsedTime = Measurement(value: value, unit: UnitDuration.seconds)
@@ -185,21 +164,15 @@ open class TotalsMessage: FitMessage {
 
                 case .sessions:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         sessions = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            sessions = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        sessions = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .activeTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         // 1 * s + 0
                         let value = value.resolution(1)
                         activeTime = Measurement(value: value, unit: UnitDuration.seconds)
@@ -232,4 +205,129 @@ open class TotalsMessage: FitMessage {
                              sessions: sessions,
                              activeTime: activeTime)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .timerTime:
+                if var timerTime = timerTime {
+                    // 1 * s + 0
+                    timerTime = timerTime.converted(to: UnitDuration.seconds)
+                    let value = timerTime.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .distance:
+                if var distance = distance {
+                    // 1 * m + 0
+                    distance = distance.converted(to: UnitLength.meters)
+                    let value = distance.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .calories:
+                if var calories = calories {
+                    // 1 * kcal + 0
+                    calories = calories.converted(to: UnitEnergy.kilocalories)
+                    let value = calories.value.resolutionUInt16(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .sport:
+                if let sport = sport {
+                    msgData.append(sport.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .elapsedTime:
+                if var elapsedTime = elapsedTime {
+                    // 1 * s + 0
+                    elapsedTime = elapsedTime.converted(to: UnitDuration.seconds)
+                    let value = elapsedTime.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .sessions:
+                if let sessions = sessions {
+                    msgData.append(Data(from: sessions.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .activeTime:
+                if var activeTime = activeTime {
+                    // 1 * s + 0
+                    activeTime = activeTime.converted(to: UnitDuration.seconds)
+                    let value = activeTime.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: TotalsMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "TotalsMessage contains no Properties Available to Encode"))
+        }
+
+    }
+
 }

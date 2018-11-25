@@ -72,3 +72,35 @@ extension Weight: Equatable {
         return lhs.calculating == rhs.calculating && lhs.weight == rhs.weight
     }
 }
+
+
+internal extension Weight {
+    /// Encodes the FileIdMessage into Data
+    ///
+    /// - Returns: Data representation
+    internal func encode() -> Data {
+        var msgData = Data()
+
+        if calculating {
+            msgData.append(Data(from: 0xFFFE.littleEndian))
+        } else {
+
+            if let weightV = self.weight {
+
+                /// 100 * kg + 0
+                var weightMes = Measurement<UnitMass>(value: weightV.value, unit: weightV.unit)
+                weightMes = weightMes.converted(to: UnitMass.kilograms)
+
+                let value = weightMes.value.resolutionUInt16(100)
+                msgData.append(Data(from: value.littleEndian))
+                
+            } else {
+                msgData.append(Data(from: 0xFFFF.littleEndian))
+            }
+
+        }
+
+        return msgData
+    }
+
+}

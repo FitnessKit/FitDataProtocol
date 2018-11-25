@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// Display Type for Measurement
 public enum MeasurementDisplayType: UInt8 {
@@ -35,6 +36,26 @@ public enum MeasurementDisplayType: UInt8 {
 
     /// Invalid
     case invalid        = 255
+}
+
+internal extension MeasurementDisplayType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> MeasurementDisplayType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return MeasurementDisplayType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return MeasurementDisplayType.invalid
+            }
+        }
+
+    }
 }
 
 
@@ -151,4 +172,23 @@ public enum PositionDisplayType: UInt8 {
 
     /// Invalid
     case invalid                        = 255
+}
+
+internal extension PositionDisplayType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> PositionDisplayType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return PositionDisplayType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return PositionDisplayType.invalid
+            }
+        }
+    }
 }

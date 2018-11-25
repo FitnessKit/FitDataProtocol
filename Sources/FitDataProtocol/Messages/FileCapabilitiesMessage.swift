@@ -99,7 +99,7 @@ open class FileCapabilitiesMessage: FitMessage {
 
                 case .fileType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) == definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
 
                         switch dataStrategy {
                         case .nil:
@@ -114,43 +114,31 @@ open class FileCapabilitiesMessage: FitMessage {
 
                 case .fileFlags:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         fileFlags = FitFileFlag(rawValue: value)
                     }
 
 
                 case .directory:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        directory = stringData.smartString
-                    }
+                    directory = String.decode(decoder: &localDecoder,
+                                              definition: definition,
+                                              data: fieldData,
+                                              dataStrategy: dataStrategy)
 
                 case .maxCount:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         maxCount = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maxCount = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        maxCount = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .maxSize:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if Int64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         maxSize = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            maxSize = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        maxSize = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .messageIndex:
@@ -170,4 +158,89 @@ open class FileCapabilitiesMessage: FitMessage {
                                        maxCount: maxCount,
                                        maxSize: maxSize)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .fileType:
+                if let fileType = fileType {
+                    msgData.append(fileType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .fileFlags:
+                if let fileFlags = fileFlags {
+                    msgData.append(fileFlags.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .directory:
+                if let directory = directory {
+                    if let stringData = directory.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .maxCount:
+                if let maxCount = maxCount {
+                    msgData.append(Data(from: maxCount.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maxSize:
+                if let maxSize = maxSize {
+                    msgData.append(Data(from: maxSize.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: FileCapabilitiesMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "FileCapabilitiesMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

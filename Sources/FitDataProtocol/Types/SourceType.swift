@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Source Type
 public enum SourceType: UInt8 {
@@ -40,6 +41,25 @@ public enum SourceType: UInt8 {
     case local          = 5
     /// Invalid
     case invalid        = 255
+}
+
+internal extension SourceType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> SourceType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return SourceType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return SourceType.invalid
+            }
+        }
+    }
 }
 
 public extension SourceType {

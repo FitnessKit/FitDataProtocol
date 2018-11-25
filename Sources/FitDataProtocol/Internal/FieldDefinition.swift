@@ -34,6 +34,29 @@ internal struct FieldDefinition {
     private(set) var endianAbility: Bool
 
     private(set) var baseType: BaseType
+
+}
+
+internal extension FieldDefinition {
+
+    /// Encodes the FieldDefinition into Data
+    ///
+    /// - Returns: Data representation
+    internal func encode() -> Data {
+        var msgData = Data()
+
+        msgData.append(fieldDefinitionNumber)
+        msgData.append(size)
+
+        var value: UInt8 = baseType.rawValue
+
+        value |= endianAbility.uint8Value << 7
+
+        msgData.append(value)
+
+        return msgData
+    }
+
 }
 
 internal extension FieldDefinition {

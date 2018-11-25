@@ -141,79 +141,79 @@ open class ConnectivityMessage: FitMessage {
 
                 case .bluetoothEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         bluetoothEnabled = value.boolValue
                     }
 
                 case .bluetoothLowEnergyEnable:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         bluetoothLowEnergyEnable = value.boolValue
                     }
 
                 case .antEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         antEnabled = value.boolValue
                     }
 
                 case .connectivityName:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        name = stringData.smartString
-                    }
+                    name = String.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .liveTrackingEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         liveTrackingEnabled = value.boolValue
                     }
 
                 case .weatherConditionsEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         weatherConditionsEnabled = value.boolValue
                     }
 
                 case .weatherAlertsEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         weatherAlertsEnabled = value.boolValue
                     }
 
                 case .autoActivityUploadEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         autoActivityUploadEnabled = value.boolValue
                     }
 
                 case .courseDownloadEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         courseDownloadEnabled = value.boolValue
                     }
 
                 case .workoutDownloadEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         workoutDownloadEnabled = value.boolValue
                     }
 
                 case .gpsEphemerisDownloadEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         gpsEphemerisDownloadEnabled = value.boolValue
                     }
 
                 case .incidentDetectionEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         incidentDetectionEnabled = value.boolValue
                     }
 
                 case .groupTrackEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         groupTrackEnabled = value.boolValue
                     }
 
@@ -235,4 +235,139 @@ open class ConnectivityMessage: FitMessage {
                                    incidentDetectionEnabled: incidentDetectionEnabled,
                                    groupTrackEnabled: groupTrackEnabled)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .bluetoothEnabled:
+                if let bluetoothEnabled = bluetoothEnabled {
+                    msgData.append(bluetoothEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .bluetoothLowEnergyEnable:
+                if let bluetoothLowEnergyEnable = bluetoothLowEnergyEnable {
+                    msgData.append(bluetoothLowEnergyEnable.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .antEnabled:
+                if let antEnabled = antEnabled {
+                    msgData.append(antEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .connectivityName:
+                if let name = name {
+                    if let stringData = name.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .liveTrackingEnabled:
+                if let liveTrackingEnabled = liveTrackingEnabled {
+                    msgData.append(liveTrackingEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .weatherConditionsEnabled:
+                if let weatherConditionsEnabled = weatherConditionsEnabled {
+                    msgData.append(weatherConditionsEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .weatherAlertsEnabled:
+                if let weatherAlertsEnabled = weatherAlertsEnabled {
+                    msgData.append(weatherAlertsEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .autoActivityUploadEnabled:
+                if let autoActivityUploadEnabled = autoActivityUploadEnabled {
+                    msgData.append(autoActivityUploadEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .courseDownloadEnabled:
+                if let courseDownloadEnabled = courseDownloadEnabled {
+                    msgData.append(courseDownloadEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .workoutDownloadEnabled:
+                if let workoutDownloadEnabled = workoutDownloadEnabled {
+                    msgData.append(workoutDownloadEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .gpsEphemerisDownloadEnabled:
+                if let gpsEphemerisDownloadEnabled = gpsEphemerisDownloadEnabled {
+                    msgData.append(gpsEphemerisDownloadEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .incidentDetectionEnabled:
+                if let incidentDetectionEnabled = incidentDetectionEnabled {
+                    msgData.append(incidentDetectionEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .groupTrackEnabled:
+                if let groupTrackEnabled = groupTrackEnabled {
+                    msgData.append(groupTrackEnabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: ConnectivityMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "ConnectivityMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

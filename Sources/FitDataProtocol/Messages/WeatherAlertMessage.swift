@@ -107,10 +107,10 @@ open class WeatherAlertMessage: FitMessage {
                 switch converter {
 
                 case .reportId:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        reportID = stringData.smartString
-                    }
+                    reportID = String.decode(decoder: &localDecoder,
+                                             definition: definition,
+                                             data: fieldData,
+                                             dataStrategy: dataStrategy)
 
                 case .issueTime:
                     issueTime = FitTime.decode(decoder: &localDecoder,
@@ -127,7 +127,7 @@ open class WeatherAlertMessage: FitMessage {
 
                 case .severity:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         severity = WeatherSeverity(rawValue: value)
                     } else {
 
@@ -141,7 +141,7 @@ open class WeatherAlertMessage: FitMessage {
 
                 case .alertType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         alertType = WeatherSeverityType(rawValue: value)
                     } else {
 
@@ -170,6 +170,91 @@ open class WeatherAlertMessage: FitMessage {
                                    expireTime: expireTime,
                                    severity: severity,
                                    alertType: alertType)
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .reportId:
+                if let reportId = reportID {
+                    if let stringData = reportId.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //12 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .issueTime:
+                if let issueTime = issueTime {
+                    msgData.append(issueTime.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .expireTime:
+                if let expireTime = expireTime {
+                    msgData.append(expireTime.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .severity:
+                if let severity = severity {
+                    msgData.append(severity.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .alertType:
+                if let alertType = alertType {
+                    msgData.append(alertType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: WeatherAlertMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "WeatherAlertMessage contains no Properties Available to Encode"))
+        }
     }
 
 }

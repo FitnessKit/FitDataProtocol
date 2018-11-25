@@ -93,4 +93,63 @@ open class HrvMessage: FitMessage {
 
         return HrvMessage(hrv: hrv)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+
+            case .time:
+                if let hrv = hrv {
+
+                    if hrv.count > 0 {
+                        fileDefs.append(key.fieldDefinition(size: UInt8(hrv.count)))
+
+                        for time in hrv {
+
+                            /// 1000 * s + 0, Time between beats
+                            let hrvTime = time.converted(to: UnitDuration.seconds)
+                            let value = hrvTime.value.resolutionUInt16(100)
+
+                            msgData.append(Data(from: value.littleEndian))
+
+                        }
+                    }
+
+                }
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: HrvMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "HrvMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

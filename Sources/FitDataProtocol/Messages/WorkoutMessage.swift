@@ -50,7 +50,7 @@ open class WorkoutMessage: FitMessage {
     private(set) public var numberOfValidSteps: ValidatedBinaryInteger<UInt16>?
 
     /// Pool Length
-    private(set) public var poolLength: Measurement<UnitLength>?
+    private(set) public var poolLength: ValidatedMeasurement<UnitLength>?
 
     /// Pool Length Unit
     private(set) public var poolLengthUnit: MeasurementDisplayType?
@@ -67,7 +67,7 @@ open class WorkoutMessage: FitMessage {
                 messageIndex: MessageIndex?,
                 workoutName: String?,
                 numberOfValidSteps: ValidatedBinaryInteger<UInt16>?,
-                poolLength: Measurement<UnitLength>?,
+                poolLength: ValidatedMeasurement<UnitLength>?,
                 poolLengthUnit: MeasurementDisplayType?,
                 sport: Sport?,
                 subSport: SubSport?) {
@@ -88,7 +88,7 @@ open class WorkoutMessage: FitMessage {
         var messageIndex: MessageIndex?
         var workoutName: String?
         var numberOfValidSteps: ValidatedBinaryInteger<UInt16>?
-        var poolLength: Measurement<UnitLength>?
+        var poolLength: ValidatedMeasurement<UnitLength>?
         var poolLengthUnit: MeasurementDisplayType?
         var sport: Sport?
         var subSport: SubSport?
@@ -111,18 +111,10 @@ open class WorkoutMessage: FitMessage {
                 switch converter {
 
                 case .sport:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        sport = Sport(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            sport = Sport.invalid
-                        }
-                    }
+                    sport = Sport.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .capabilities:
                     // We still need to pull this data off the stack
@@ -130,67 +122,36 @@ open class WorkoutMessage: FitMessage {
 
                 case .numberOfValidSteps:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         numberOfValidSteps = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            numberOfValidSteps = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        numberOfValidSteps = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .workoutName:
-                    let stringData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if UInt64(stringData.count) != definition.baseType.invalid {
-                        workoutName = stringData.smartString
-                    }
+                    workoutName = String.decode(decoder: &localDecoder,
+                                                definition: definition,
+                                                data: fieldData,
+                                                dataStrategy: dataStrategy)
 
                 case .subSport:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        subSport = SubSport(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            subSport = SubSport.invalid
-                        }
-                    }
+                    subSport = SubSport.decode(decoder: &localDecoder,
+                                               definition: definition,
+                                               data: fieldData,
+                                               dataStrategy: dataStrategy)
 
                 case .poolLength:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         //  100 * m + 0
                         let value = value.resolution(1 / 100)
-                        poolLength = Measurement(value: value, unit: UnitLength.meters)
+                        poolLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            poolLength = Measurement(value: Double(UInt16(definition.baseType.invalid)), unit: UnitLength.meters)
-                        }
+                        poolLength = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .poolLengthUnit:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
-                        poolLengthUnit = MeasurementDisplayType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            poolLengthUnit = MeasurementDisplayType.invalid
-                        }
-                    }
+                    poolLengthUnit = MeasurementDisplayType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
                 case .timestamp:
                     timestamp = FitTime.decode(decoder: &localDecoder,
@@ -216,5 +177,111 @@ open class WorkoutMessage: FitMessage {
                               poolLengthUnit: poolLengthUnit,
                               sport: sport,
                               subSport: subSport)
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .sport:
+                if let sport = sport {
+                    msgData.append(sport.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .capabilities:
+                break
+                
+            case .numberOfValidSteps:
+                if let numberOfValidSteps = numberOfValidSteps {
+                    msgData.append(Data(from: numberOfValidSteps.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .workoutName:
+                if let workoutName = workoutName {
+                    if let stringData = workoutName.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .subSport:
+                if let subSport = subSport {
+                    msgData.append(subSport.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .poolLength:
+                if var poolLength = poolLength {
+                    // 100 * m + 0
+                    poolLength = poolLength.converted(to: UnitLength.meters)
+                    let value = poolLength.value.resolutionUInt16(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .poolLengthUnit:
+                if let poolLengthUnit = poolLengthUnit {
+                    msgData.append(poolLengthUnit.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: WorkoutMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "WorkoutMessage contains no Properties Available to Encode"))
+        }
     }
 }

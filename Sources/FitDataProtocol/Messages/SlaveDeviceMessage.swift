@@ -49,14 +49,11 @@ open class SlaveDeviceMessage: FitMessage {
         self.manufacturer = manufacturer
 
         if let product = product {
-
-            let valid = !(Int64(product) == BaseType.uint16.invalid)
+            let valid = product.isValidForBaseType(FitCodingKeys.product.baseType)
             self.product = ValidatedBinaryInteger(value: product, valid: valid)
-
         } else {
             self.product = nil
         }
-
     }
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SlaveDeviceMessage  {
@@ -83,21 +80,19 @@ open class SlaveDeviceMessage: FitMessage {
 
                 case .manufacturer:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         manufacturer = Manufacturer.company(id: value)
                     }
 
                 case .product:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         product = value
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            product = UInt16(definition.baseType.invalid)
+                        if let value = ValidatedBinaryInteger<UInt16>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                            product = value.value
+                        } else {
+                            product = nil
                         }
                     }
 
@@ -108,4 +103,58 @@ open class SlaveDeviceMessage: FitMessage {
         return SlaveDeviceMessage(manufacturer: manufacturer,
                                   product: product)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .manufacturer:
+                if let manufacturer = manufacturer {
+                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .product:
+                if let product = product {
+                    msgData.append(Data(from: product.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: SlaveDeviceMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "SlaveDeviceMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

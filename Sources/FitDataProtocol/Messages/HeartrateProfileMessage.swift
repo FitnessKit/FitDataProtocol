@@ -93,33 +93,27 @@ open class HeartrateProfileMessage: FitMessage {
                 switch converter {
                 case .enabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         enabled = value.boolValue
                     }
 
                 case .antID:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         antID = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            antID = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        antID = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .logHrv:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         logHrv = value.boolValue
                     }
 
                 case .transType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         transmissionType = TransmissionType(value)
                     }
 
@@ -139,4 +133,79 @@ open class HeartrateProfileMessage: FitMessage {
                                        logHrv: logHrv,
                                        transmissionType: transmissionType)
     }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .enabled:
+                if let enabled = enabled {
+                    msgData.append(enabled.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .antID:
+                if let antID = antID {
+                    msgData.append(Data(from: antID.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .logHrv:
+                if let logHrv = logHrv {
+                    msgData.append(logHrv.uint8Value)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .transType:
+                if let transmissionType = transmissionType {
+                    msgData.append(transmissionType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: HeartrateProfileMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "HeartrateProfileMessage contains no Properties Available to Encode"))
+        }
+    }
+
 }

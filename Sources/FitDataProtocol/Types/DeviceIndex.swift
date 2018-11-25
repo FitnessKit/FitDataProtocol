@@ -23,7 +23,8 @@
 //  THE SOFTWARE.
 
 import Foundation
-
+import DataDecoder
+import FitnessUnits
 
 /// Device Index
 public struct DeviceIndex {
@@ -56,6 +57,24 @@ public struct DeviceIndex {
             self.isInvalid = true
         } else {
             self.isInvalid = false
+        }
+    }
+}
+
+internal extension DeviceIndex {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> DeviceIndex? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return DeviceIndex(index: value)
+        } else {
+
+            if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
+                return DeviceIndex(index: value.value)
+            } else {
+                return nil
+            }
         }
     }
 }

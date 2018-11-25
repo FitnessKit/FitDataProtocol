@@ -55,6 +55,9 @@ open class FileIdMessage: FitMessage {
     /// File Type
     private(set) public var fileType: FileType?
 
+    /// Product Name
+    private(set) public var productName: String?
+
     public required init() {}
 
     public init(deviceSerialNumber: ValidatedBinaryInteger<UInt32>?,
@@ -62,7 +65,8 @@ open class FileIdMessage: FitMessage {
                 manufacturer: Manufacturer?,
                 product: ValidatedBinaryInteger<UInt16>?,
                 fileNumber: ValidatedBinaryInteger<UInt16>?,
-                fileType: FileType?) {
+                fileType: FileType?,
+                productName: String?) {
         
         self.deviceSerialNumber = deviceSerialNumber
         self.fileCreationDate = fileCreationDate
@@ -70,7 +74,9 @@ open class FileIdMessage: FitMessage {
         self.product = product
         self.fileNumber = fileNumber
         self.fileType = fileType
+        self.productName = productName
     }
+
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileIdMessage  {
 
@@ -80,6 +86,7 @@ open class FileIdMessage: FitMessage {
         var product: ValidatedBinaryInteger<UInt16>?
         var fileNumber: ValidatedBinaryInteger<UInt16>?
         var fileType: FileType?
+        var productName: String?
 
         let arch = definition.architecture
 
@@ -99,7 +106,7 @@ open class FileIdMessage: FitMessage {
                 switch converter {
                 case .fileType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if UInt64(value) == definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
 
                         switch dataStrategy {
                         case .nil:
@@ -114,36 +121,24 @@ open class FileIdMessage: FitMessage {
 
                 case .manufacturer:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         manufacturer = Manufacturer.company(id: value)
                     }
                     
                 case .product:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         product = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            product = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        product = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .serialNumber:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         deviceSerialNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            deviceSerialNumber = ValidatedBinaryInteger(value: UInt32(definition.baseType.invalid), valid: false)
-                        }
+                        deviceSerialNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                 case .fileCreationDate:
@@ -155,22 +150,19 @@ open class FileIdMessage: FitMessage {
 
                 case .fileNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if UInt64(value) != definition.baseType.invalid {
+                    if value.isValidForBaseType(definition.baseType) {
                         fileNumber = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            fileNumber = ValidatedBinaryInteger(value: UInt16(definition.baseType.invalid), valid: false)
-                        }
+                        fileNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
                     
                 case .productName:
-                    // We still need to pull this data off the stack
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    productName = String.decode(decoder: &localDecoder,
+                                                definition: definition,
+                                                data: fieldData,
+                                                dataStrategy: dataStrategy)
+
                 }
             }
         }
@@ -180,7 +172,103 @@ open class FileIdMessage: FitMessage {
                              manufacturer: manufacturer,
                              product: product,
                              fileNumber: fileNumber,
-                             fileType: fileType)
+                             fileType: fileType,
+                             productName: productName)
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Returns: Data representation
+    internal override func encode() throws -> Data {
+        var msgData = Data()
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FileIdMessage.FitCodingKeys.allCases {
+
+            switch key {
+            case .fileType:
+                if let fileType = fileType {
+                    msgData.append(fileType.rawValue)
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .manufacturer:
+                if let manufacturer = manufacturer {
+                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .product:
+                if let product = product {
+                    msgData.append(Data(from: product.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .serialNumber:
+                if let deviceSerialNumber = deviceSerialNumber {
+                    msgData.append(Data(from: deviceSerialNumber.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .fileCreationDate:
+                if let fileCreationDate = fileCreationDate {
+                    msgData.append(fileCreationDate.encode())
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .fileNumber:
+                if let fileNumber = fileNumber {
+                    msgData.append(Data(from: fileNumber.value.littleEndian))
+
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .productName:
+                if let productName = productName {
+
+                    if let stringData = productName.data(using: .utf8) {
+                        msgData.append(stringData)
+
+                        //20 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+
+                }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: FileIdMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            var encodedMsg = Data()
+
+            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+            encodedMsg.append(defHeader.normalHeader)
+            encodedMsg.append(defMessage.encode())
+
+            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            encodedMsg.append(recHeader.normalHeader)
+            encodedMsg.append(msgData)
+
+            return encodedMsg
+
+        } else {
+            throw FitError(.encodeError(msg: "FileIdMessage contains no Properties Available to Encode"))
+        }
+
     }
 
 }

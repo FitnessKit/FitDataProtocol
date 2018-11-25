@@ -30,9 +30,9 @@ public struct FitFileFlag: OptionSet {
     public init(rawValue: UInt8) { self.rawValue = rawValue }
 
     /// Read
-    public static let read: FitFileFlag   = FitFileFlag(rawValue: 0x02)
+    public static let read: FitFileFlag     = FitFileFlag(rawValue: 0x02)
     /// Write
-    public static let write: FitFileFlag   = FitFileFlag(rawValue: 0x04)
+    public static let write: FitFileFlag    = FitFileFlag(rawValue: 0x04)
     /// Erase
-    public static let erase: FitFileFlag   = FitFileFlag(rawValue: 0x08)
+    public static let erase: FitFileFlag    = FitFileFlag(rawValue: 0x08)
 }

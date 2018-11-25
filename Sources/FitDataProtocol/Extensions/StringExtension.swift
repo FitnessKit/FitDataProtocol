@@ -1,8 +1,8 @@
 //
-//  StrokeType.swift
+//  StringExtension.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 4/21/18.
+//  Created by Kevin Hoogheem on 11/23/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,42 +25,15 @@
 import Foundation
 import DataDecoder
 
-/// FIT Stroke Type
-public enum Stroke: UInt8 {
-    /// No Event
-    case noEvent        = 0
-    /// Other
-    ///
-    /// stroke was detected but cannot be identified
-    case other          = 1
-    /// Serve
-    case serve          = 2
-    /// Forehand
-    case forehand       = 3
-    /// Backhand
-    case backhand       = 4
-    /// Smash
-    case smash          = 5
+internal extension String {
 
-    /// Invalid
-    case invalid        = 255
-}
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> String? {
 
-internal extension Stroke {
-
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Stroke? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return Stroke(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return Stroke.invalid
-            }
+        let stringData = decoder.decodeData(data.fieldData, length: Int(definition.size))
+        if stringData.count != 0 {
+            return stringData.smartString
         }
+
+        return nil
     }
 }
