@@ -90,6 +90,7 @@ extension Double: BinaryResolutionable {
     func resolutionUInt8(_ res: Double) -> UInt8 {
         let value = Double(self) * res
 
+        guard value >= Double(UInt8.min) else { return UInt8.min }
         guard value <= Double(UInt8.max) else { return UInt8.max }
 
         return UInt8(value)
@@ -102,6 +103,7 @@ extension Double: BinaryResolutionable {
     func resolutionInt8(_ res: Double) -> Int8 {
         let value = Double(self) * res
 
+        guard value >= Double(Int8.min) else { return Int8.min }
         guard value <= Double(Int8.max) else { return Int8.max }
 
         return Int8(value)
@@ -114,6 +116,7 @@ extension Double: BinaryResolutionable {
     func resolutionUInt16(_ res: Double) -> UInt16 {
         let value = Double(self) * res
 
+        guard value >= Double(UInt16.min) else { return UInt16.min }
         guard value <= Double(UInt16.max) else { return UInt16.max }
 
         return UInt16(value)
@@ -126,6 +129,7 @@ extension Double: BinaryResolutionable {
     func resolutionInt16(_ res: Double) -> Int16 {
         let value = Double(self) * res
 
+        guard value >= Double(Int16.min) else { return Int16.min }
         guard value <= Double(Int16.max) else { return Int16.max }
 
         return Int16(value)
@@ -138,6 +142,7 @@ extension Double: BinaryResolutionable {
     func resolutionUInt32(_ res: Double) -> UInt32 {
         let value = Double(self) * res
 
+        guard value >= Double(UInt32.min) else { return UInt32.min }
         guard value <= Double(UInt32.max) else { return UInt32.max }
 
         return UInt32(value)
@@ -150,6 +155,7 @@ extension Double: BinaryResolutionable {
     func resolutionInt32(_ res: Double) -> Int32 {
         let value = Double(self) * res
 
+        guard value >= Double(Int32.min) else { return Int32.min }
         guard value <= Double(UInt32.max) else { return Int32.max }
 
         return Int32(value)
@@ -211,6 +217,7 @@ extension UInt32: BinaryResolutionable {
     func resolutionUInt8(_ res: Double) -> UInt8 {
         let value = Double(self) * res
 
+        guard value >= Double(UInt8.min) else { return UInt8.min }
         guard value <= Double(UInt8.max) else { return UInt8.max }
 
         return UInt8(value)
@@ -223,6 +230,7 @@ extension UInt32: BinaryResolutionable {
     func resolutionInt8(_ res: Double) -> Int8 {
         let value = Double(self) * res
 
+        guard value >= Double(Int8.min) else { return Int8.min }
         guard value <= Double(Int8.max) else { return Int8.max }
 
         return Int8(value)
@@ -235,6 +243,7 @@ extension UInt32: BinaryResolutionable {
     func resolutionUInt16(_ res: Double) -> UInt16 {
         let value = Double(self) * res
 
+        guard value >= Double(UInt16.min) else { return UInt16.min }
         guard value <= Double(UInt16.max) else { return UInt16.max }
 
         return UInt16(value)
@@ -247,6 +256,7 @@ extension UInt32: BinaryResolutionable {
     func resolutionInt16(_ res: Double) -> Int16 {
         let value = Double(self) * res
 
+        guard value >= Double(Int16.min) else { return Int16.min }
         guard value <= Double(Int16.max) else { return Int16.max }
 
         return Int16(value)
@@ -259,6 +269,7 @@ extension UInt32: BinaryResolutionable {
     func resolutionUInt32(_ res: Double) -> UInt32 {
         let value = Double(self) * res
 
+        guard value >= Double(UInt32.min) else { return UInt32.min }
         guard value <= Double(UInt32.max) else { return UInt32.max }
 
         return UInt32(value)
@@ -271,6 +282,7 @@ extension UInt32: BinaryResolutionable {
     func resolutionInt32(_ res: Double) -> Int32 {
         let value = Double(self) * res
 
+        guard value >= Double(UInt32.min) else { return UInt32.min }
         guard value <= Double(UInt32.max) else { return Int32.max }
 
         return Int32(value)
