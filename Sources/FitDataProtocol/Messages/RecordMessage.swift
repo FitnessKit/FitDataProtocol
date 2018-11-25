@@ -890,18 +890,19 @@ open class RecordMessage: FitMessage {
                 }
 
             case .compressedAccumulatedPower:
-                if var accumulatedPower = accumulatedPower {
-                    // 1 * watts + 0
-                    accumulatedPower = accumulatedPower.converted(to: UnitPower.watts)
-                    let value = accumulatedPower.value.resolutionUInt16(1)
-
-                    /// If we can create a compressed Accumulated Power
-                    if value != UInt16.max {
-                        msgData.append(Data(from: value.littleEndian))
-
-                        fileDefs.append(key.fieldDefinition())
-                    }
-                }
+                break // not supported
+//                if var accumulatedPower = accumulatedPower {
+//                    // 1 * watts + 0
+//                    accumulatedPower = accumulatedPower.converted(to: UnitPower.watts)
+//                    let value = accumulatedPower.value.resolutionUInt16(1)
+//
+//                    /// If we can create a compressed Accumulated Power
+//                    if value != UInt16.max {
+//                        msgData.append(Data(from: value.littleEndian))
+//
+//                        fileDefs.append(key.fieldDefinition())
+//                    }
+//                }
 
             case .accumulatedPower:
                 if var accumulatedPower = accumulatedPower {

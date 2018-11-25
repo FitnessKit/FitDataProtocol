@@ -156,7 +156,7 @@ extension Double: BinaryResolutionable {
         let value = Double(self) * res
 
         guard value >= Double(Int32.min) else { return Int32.min }
-        guard value <= Double(UInt32.max) else { return Int32.max }
+        guard value <= Double(Int32.max) else { return Int32.max }
 
         return Int32(value)
     }
@@ -282,8 +282,8 @@ extension UInt32: BinaryResolutionable {
     func resolutionInt32(_ res: Double) -> Int32 {
         let value = Double(self) * res
 
-        guard value >= Double(UInt32.min) else { return UInt32.min }
-        guard value <= Double(UInt32.max) else { return Int32.max }
+        guard value >= Double(Int32.min) else { return Int32.min }
+        guard value <= Double(Int32.max) else { return Int32.max }
 
         return Int32(value)
     }

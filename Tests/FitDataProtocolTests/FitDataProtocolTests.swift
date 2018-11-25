@@ -66,10 +66,6 @@ class FitDataProtocolTests: XCTestCase {
         }
 
 
-        let blah = FitEncodingUnit<ActivityMessage>(messages: [act])
-        print(blah)
-
-
     }
 
 

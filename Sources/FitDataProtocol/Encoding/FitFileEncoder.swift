@@ -56,7 +56,6 @@ public struct FitFileEncoder {
         msgData.append(Data(from:dataCrc.littleEndian))
 
         let header = FileHeader(dataSize: UInt32(msgData.count))
-        print(header.encodedData as NSData)
 
         var fileData = Data()
         fileData.append(header.encodedData)
