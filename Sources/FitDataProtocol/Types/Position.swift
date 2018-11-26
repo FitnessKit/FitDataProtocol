@@ -34,8 +34,8 @@ public struct Position {
     /// Position in Longitude
     private(set) public var longitude: ValidatedMeasurement<UnitAngle>?
 
-    internal init(latitude: ValidatedMeasurement<UnitAngle>?,
-                  longitude: ValidatedMeasurement<UnitAngle>?) {
+    public init(latitude: ValidatedMeasurement<UnitAngle>?,
+                longitude: ValidatedMeasurement<UnitAngle>?) {
         
         self.latitude = latitude
         self.longitude = longitude

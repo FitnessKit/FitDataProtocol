@@ -34,8 +34,8 @@ public struct StanceTime {
     /// Time
     private(set) public var time: ValidatedMeasurement<UnitDuration>?
 
-    internal init(percent: ValidatedMeasurement<UnitPercent>?,
-                  time: ValidatedMeasurement<UnitDuration>?) {
+    public init(percent: ValidatedMeasurement<UnitPercent>?,
+                time: ValidatedMeasurement<UnitDuration>?) {
 
         self.percent = percent
         self.time = time

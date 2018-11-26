@@ -27,16 +27,66 @@ import Foundation
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 public struct FitFileEncoder {
 
+    /// Options for Encoding Strategy
+    public enum EncodingStrategy {
+        /// The default strategy assumes you know what type of Messages should be
+        /// included with each type of file.
+        case none
+        /// File Type Checking
+        ///
+        /// This will check to make sure you have the correct Messages include for
+        /// the file type indicated in the FileIdMessage.
+        case fileType
+        /// Garmin Connect Activity
+        ///
+        /// Garmin Connect reqiures some extra Messages in the Activity file type
+        /// in order for it to be uploaded.
+        case garminConnect
+    }
 
-    public static func encode(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws -> Data {
+    /// The strategy to use for Data Encoding. Defaults to `.none`.
+    public var dataEncodingStrategy: EncodingStrategy
+
+    public init(dataEncodingStrategy: EncodingStrategy = .none) {
+        self.dataEncodingStrategy = dataEncodingStrategy
+    }
+}
+
+public extension FitFileEncoder {
+
+    /// Encode FITFile
+    ///
+    /// - Parameters:
+    ///   - fildIdMessage: FileID Message
+    ///   - messages: Array of other FitMessages
+    /// - Returns: Encoded Data
+    /// - Throws: FitError
+    public func encode(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws -> Data {
 
         guard messages.count > 0 else {
             throw FitError(.encodeError(msg: "No Messages to Encode"))
         }
-        
+
         var msgData = Data()
 
-        msgData.append(try fildIdMessage.encode())
+        switch dataEncodingStrategy {
+        case .none:
+            break // do nothing
+        case .fileType:
+            guard fildIdMessage.fileType != nil else {
+                throw FitError(.encodeError(msg: "File Type should not be nil"))
+            }
+        case .garminConnect:
+            if let filetype = fildIdMessage.fileType {
+                guard filetype == FileType.activity else {
+                    throw FitError(.encodeError(msg: "Garmin Connect requires FileType.activity"))
+                }
+            } else {
+                throw FitError(.encodeError(msg: "File Type should not be nil"))
+            }
+        }
+
+        msgData.append(try fildIdMessage.encode(fileType: fildIdMessage.fileType, dataEncodingStrategy: dataEncodingStrategy))
 
         for message in messages {
 
@@ -44,8 +94,7 @@ public struct FitFileEncoder {
                 throw FitError(.encodeError(msg: "messages can not contain second FileIdMessage"))
             }
 
-            msgData.append(try message.encode())
-
+            msgData.append(try message.encode(fileType: fildIdMessage.fileType, dataEncodingStrategy: dataEncodingStrategy))
         }
 
         if msgData.count > UInt32.max {
@@ -63,4 +112,5 @@ public struct FitFileEncoder {
 
         return fileData
     }
+
 }

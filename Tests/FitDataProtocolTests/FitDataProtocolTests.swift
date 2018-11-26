@@ -29,24 +29,11 @@ class FitDataProtocolTests: XCTestCase {
                                  fileNumber: nil,
                                  fileType: FileType.activity,
                                  productName: nil)
-//        let fiel = FileIdMessage(deviceSerialNumber: nil,
-//                                 fileCreationDate: nil,
-//                                 manufacturer: nil,
-//                                 product: nil,
-//                                 fileNumber: nil,
-//                                 fileType: nil,
-//                                 productName: nil)
 
         do {
-            let filedata = try fiel.encode()
-            print(filedata as NSData)
-        } catch  {
-            print(error)
-        }
+            let encoder = FitFileEncoder(dataEncodingStrategy: .garminConnect)
 
-
-        do {
-            let data = try FitFileEncoder.encode(fildIdMessage: fiel, messages: [act])
+            let data = try encoder.encode(fildIdMessage: fiel, messages: [act])
             print(data as NSData)
 
             do {

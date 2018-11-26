@@ -104,6 +104,11 @@ public struct FitFileDecoder {
 
     public mutating func decode(data: Data, messages: [FitMessage.Type], decoded: ((_: FitMessage) -> Void)? ) throws {
 
+        /// Clear out any old data
+        /// This will help where they use the same Decoder twice for some reason
+        messageData = Data()
+        definitionDict = [UInt8 : DefinitionMessage]()
+
         let globalMsgs = messages.map {$0.globalMessageNumber()}
         let duplicates = Array(Set(globalMsgs.filter({ (i: UInt16) in globalMsgs.filter({ $0 == i }).count > 1})))
 

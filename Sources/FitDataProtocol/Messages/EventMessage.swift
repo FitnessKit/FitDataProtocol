@@ -178,7 +178,7 @@ open class EventMessage: FitMessage {
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
-    internal override func encode() throws -> Data {
+    internal override func encode(fileType: FileType?, dataEncodingStrategy: FitFileEncoder.EncodingStrategy) throws -> Data {
         var msgData = Data()
 
         var fileDefs = [FieldDefinition]()

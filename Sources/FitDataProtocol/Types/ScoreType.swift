@@ -34,8 +34,8 @@ public struct Score {
     /// Opponent Score
     private(set) public var opponentScore: ValidatedBinaryInteger<UInt16>?
 
-    internal init(playerScore: ValidatedBinaryInteger<UInt16>?,
-                  opponentScore: ValidatedBinaryInteger<UInt16>?) {
+    public init(playerScore: ValidatedBinaryInteger<UInt16>?,
+                opponentScore: ValidatedBinaryInteger<UInt16>?) {
 
         self.playerScore = playerScore
         self.opponentScore = opponentScore

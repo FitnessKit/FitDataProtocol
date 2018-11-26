@@ -41,8 +41,8 @@ public struct FileType {
         return false
     }
 
-    public init(rawType: UInt8) {
-        self.rawValue = rawType
+    public init(rawValue: UInt8) {
+        self.rawValue = rawValue
     }
 
 }
@@ -80,62 +80,62 @@ extension FileType: Hashable {
 public extension FileType {
 
     /// Non FIT File
-    public static let nonFitFile = FileType(rawType: 0)
+    public static let nonFitFile = FileType(rawValue: 0)
 
     /// Device - Read only, single File
-    public static let device = FileType(rawType: 1)
+    public static let device = FileType(rawValue: 1)
 
     /// Settings - Read/Write, single File
-    public static let settings = FileType(rawType: 2)
+    public static let settings = FileType(rawValue: 2)
 
     /// Sport - Read/write, multiple files
-    public static let sport = FileType(rawType: 3)
+    public static let sport = FileType(rawValue: 3)
 
     /// Activity - Read/write/erase, multiple files
-    public static let activity = FileType(rawType: 4)
+    public static let activity = FileType(rawValue: 4)
 
     /// Workout - Read/write/erase, multiple files
-    public static let workout = FileType(rawType: 5)
+    public static let workout = FileType(rawValue: 5)
 
     /// Course - Read/write/erase, multiple files
-    public static let course = FileType(rawType: 6)
+    public static let course = FileType(rawValue: 6)
 
     /// Schedules - Read/write, single file
-    public static let schedules = FileType(rawType: 7)
+    public static let schedules = FileType(rawValue: 7)
 
     /// Weight - Read, single file
-    public static let weight = FileType(rawType: 9)
+    public static let weight = FileType(rawValue: 9)
 
     /// Totals - REad, single file
-    public static let totals = FileType(rawType: 10)
+    public static let totals = FileType(rawValue: 10)
 
     /// Goals - Read/write, single file
-    public static let goals = FileType(rawType: 11)
+    public static let goals = FileType(rawValue: 11)
 
     /// Blood Pressure - Read
-    public static let bloodPressure = FileType(rawType: 14)
+    public static let bloodPressure = FileType(rawValue: 14)
 
     /// Monitoring A - Read
-    public static let monitoringA = FileType(rawType: 15)
+    public static let monitoringA = FileType(rawValue: 15)
 
     /// Activity Summary - Read/erase
-    public static let activitySummary = FileType(rawType: 20)
+    public static let activitySummary = FileType(rawValue: 20)
 
     /// Monitoring Daily
-    public static let monitoringDaily = FileType(rawType: 28)
+    public static let monitoringDaily = FileType(rawValue: 28)
 
     /// Monitoring B - Read
-    public static let monitoringB = FileType(rawType: 32)
+    public static let monitoringB = FileType(rawValue: 32)
 
     /// Segment - Read/write/erase
-    public static let segment = FileType(rawType: 34)
+    public static let segment = FileType(rawValue: 34)
 
     /// Segment List - Read/write/erase
-    public static let segmentList = FileType(rawType: 35)
+    public static let segmentList = FileType(rawValue: 35)
 
     /// Extd Configuration - Read/write/erase
-    public static let extdConfiguration = FileType(rawType: 40)
+    public static let extdConfiguration = FileType(rawValue: 40)
 
     /// Invalid
-    public static let invalid = FileType(rawType: 255)
+    public static let invalid = FileType(rawValue: 255)
 } 

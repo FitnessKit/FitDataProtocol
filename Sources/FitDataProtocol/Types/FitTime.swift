@@ -76,10 +76,10 @@ internal extension FitTime {
         if let recordDate = recordDate {
 
             if isLocal {
-                let time = UInt32(recordDate.timeIntervalSince( Date.localAntEPOCH))
+                let time = UInt32(recordDate.timeIntervalSince(Date.localAntEPOCH))
                 msgData.append(Data(from: time.littleEndian))
             } else {
-                let time = UInt32(recordDate.timeIntervalSince( Date.antEPOCH))
+                let time = UInt32(recordDate.timeIntervalSince(Date.antEPOCH))
                 msgData.append(Data(from: time.littleEndian))
             }
             

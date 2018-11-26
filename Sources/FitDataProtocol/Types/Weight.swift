@@ -29,6 +29,7 @@ import FitnessUnits
 @available(swift 3.1)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 public struct Weight {
+    private let kCalculatingValue: UInt16 = 0xFFFE
 
     /// Weight is being Calculated
     private(set) public var calculating: Bool
@@ -39,7 +40,7 @@ public struct Weight {
     internal init(rawValue: UInt16, scale: Double, valid: Bool = true) {
         self.calculating = false
 
-        if rawValue == 0xFFFE {
+        if rawValue == kCalculatingValue {
             self.calculating = true
         } else {
             //  scale * kg + 0
@@ -82,7 +83,7 @@ internal extension Weight {
         var msgData = Data()
 
         if calculating {
-            msgData.append(Data(from: 0xFFFE.littleEndian))
+            msgData.append(Data(from: kCalculatingValue.littleEndian))
         } else {
 
             if let weightV = self.weight {
@@ -95,7 +96,7 @@ internal extension Weight {
                 msgData.append(Data(from: value.littleEndian))
                 
             } else {
-                msgData.append(Data(from: 0xFFFF.littleEndian))
+                msgData.append(Data(from: kCalculatingValue.littleEndian))
             }
 
         }

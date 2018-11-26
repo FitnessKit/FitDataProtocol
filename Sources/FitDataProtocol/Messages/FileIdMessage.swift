@@ -116,7 +116,7 @@ open class FileIdMessage: FitMessage {
                         }
 
                     } else {
-                        fileType = FileType(rawType: value)
+                        fileType = FileType(rawValue: value)
                     }
 
                 case .manufacturer:
@@ -147,7 +147,6 @@ open class FileIdMessage: FitMessage {
                                                       definition: definition,
                                                       data: fieldData)
 
-
                 case .fileNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -156,13 +155,11 @@ open class FileIdMessage: FitMessage {
                         fileNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
-                    
                 case .productName:
                     productName = String.decode(decoder: &localDecoder,
                                                 definition: definition,
                                                 data: fieldData,
                                                 dataStrategy: dataStrategy)
-
                 }
             }
         }
@@ -179,7 +176,7 @@ open class FileIdMessage: FitMessage {
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
-    internal override func encode() throws -> Data {
+    internal override func encode(fileType: FileType?, dataEncodingStrategy: FitFileEncoder.EncodingStrategy) throws -> Data {
         var msgData = Data()
 
         var fileDefs = [FieldDefinition]()

@@ -109,7 +109,7 @@ open class FileCapabilitiesMessage: FitMessage {
                         }
 
                     } else {
-                        fileType = FileType(rawType: value)
+                        fileType = FileType(rawValue: value)
                     }
 
                 case .fileFlags:
@@ -162,7 +162,7 @@ open class FileCapabilitiesMessage: FitMessage {
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
-    internal override func encode() throws -> Data {
+    internal override func encode(fileType: FileType?, dataEncodingStrategy: FitFileEncoder.EncodingStrategy) throws -> Data {
         var msgData = Data()
 
         var fileDefs = [FieldDefinition]()
