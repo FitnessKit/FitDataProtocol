@@ -54,7 +54,6 @@ open class SpeedZoneMessage: FitMessage {
         self.messageIndex = messageIndex
         self.name = name
         self.highLevel = highLevel
-
     }
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SpeedZoneMessage  {

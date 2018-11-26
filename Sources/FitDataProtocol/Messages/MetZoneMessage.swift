@@ -60,10 +60,8 @@ open class MetZoneMessage: FitMessage {
         if let hr = heartRate {
             let valid = hr.isValidForBaseType(FitCodingKeys.highBpm.baseType)
             self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-        } else {
-            self.heartRate = nil
         }
-
+        
         self.calories = calories
         self.fatCalories = fatCalories
     }

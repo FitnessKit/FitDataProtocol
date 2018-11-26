@@ -327,31 +327,23 @@ open class LapMessage: FitMessage {
         if let hr = averageHeartRate {
             let valid = hr.isValidForBaseType(FitCodingKeys.averageHeartRate.baseType)
             self.averageHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-        } else {
-            self.averageHeartRate = nil
         }
 
         if let hr = maximumHeartRate {
             let valid = hr.isValidForBaseType(FitCodingKeys.maximumHeartRate.baseType)
             self.maximumHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-        } else {
-            self.maximumHeartRate = nil
         }
 
         if let cadence = averageCadence {
             let valid = cadence.isValidForBaseType(FitCodingKeys.averageCadence.baseType)
             self.averageCadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
-        } else {
-            self.averageCadence = nil
         }
 
         if let cadence = maximumCadence {
             let valid = cadence.isValidForBaseType(FitCodingKeys.maximumCadence.baseType)
             self.maximumCadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
-        } else {
-            self.maximumCadence = nil
         }
-
+        
         self.averagePower = averagePower
         self.maximumPower = maximumPower
         self.totalAscent = totalAscent
@@ -389,10 +381,8 @@ open class LapMessage: FitMessage {
         if let hr = minimumHeartRate {
             let valid = hr.isValidForBaseType(FitCodingKeys.minimumHeartRate.baseType)
             self.minimumHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-        } else {
-            self.minimumHeartRate = nil
         }
-
+        
         self.workoutStepIndex = workoutStepIndex
         self.score = score
         self.averageVerticalOscillation = averageVerticalOscillation

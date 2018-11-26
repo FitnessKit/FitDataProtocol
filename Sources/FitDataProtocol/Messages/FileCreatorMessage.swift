@@ -44,7 +44,9 @@ open class FileCreatorMessage: FitMessage {
 
     public required init() {}
 
-    public init(softwareVersion: ValidatedBinaryInteger<UInt16>?, hardwareVersion: ValidatedBinaryInteger<UInt8>?) {
+    public init(softwareVersion: ValidatedBinaryInteger<UInt16>?,
+                hardwareVersion: ValidatedBinaryInteger<UInt8>?) {
+        
         self.softwareVersion = softwareVersion
         self.hardwareVersion = hardwareVersion
     }

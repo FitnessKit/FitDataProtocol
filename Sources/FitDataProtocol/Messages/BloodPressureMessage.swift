@@ -97,9 +97,6 @@ open class BloodPressureMessage: FitMessage {
         if let hr = heartRate {
             let valid = hr.isValidForBaseType(FitCodingKeys.heartRate.baseType)
             self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-
-        } else {
-            self.heartRate = nil
         }
 
         self.heartRateType = heartRateType

@@ -103,8 +103,6 @@ open class GoalMessage: FitMessage {
         if let goalValue = goalValue {
             let valid = goalValue.isValidForBaseType(FitCodingKeys.goalValue.baseType)
             self.goalValue = ValidatedBinaryInteger(value: goalValue, valid: valid)
-        } else {
-            self.goalValue = nil
         }
 
         self.repeatGoal = repeatGoal

@@ -144,7 +144,6 @@ open class ActivityMessage: FitMessage {
                                                     data: fieldData,
                                                     isLocal: true)
 
-
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -158,7 +157,6 @@ open class ActivityMessage: FitMessage {
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData)
-
                 }
 
             }
@@ -272,7 +270,6 @@ open class ActivityMessage: FitMessage {
         } else {
             throw FitError(.encodeError(msg: "ActivityMessage contains no Properties Available to Encode"))
         }
-
     }
 
 }

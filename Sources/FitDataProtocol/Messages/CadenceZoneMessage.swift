@@ -54,10 +54,7 @@ open class CadenceZoneMessage: FitMessage {
         if let value = highLevel {
             let valid = value.isValidForBaseType(FitCodingKeys.highValue.baseType)
             self.highLevel = ValidatedMeasurement(value: Double(value), valid: valid, unit: UnitCadence.revolutionsPerMinute)
-        } else {
-            self.highLevel = nil
         }
-
     }
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> CadenceZoneMessage  {

@@ -8,7 +8,6 @@ class FitDataProtocolTests: XCTestCase {
 
     func testExample() {
 
-        //        let date = Date.timeIntervalSince( Date.antEPOCH)
         let fTime = FitTime(date: Date())
 
 
@@ -16,7 +15,7 @@ class FitDataProtocolTests: XCTestCase {
                                   totalTimerTime: nil,
                                   localTimeStamp: nil,
                                   numberOfSessions: nil,
-                                  activity: nil,
+                                  activity: Activity.multisport,
                                   event: nil,
                                   eventType: nil,
                                   eventGroup: nil)
@@ -31,7 +30,7 @@ class FitDataProtocolTests: XCTestCase {
                                  productName: nil)
 
         do {
-            let encoder = FitFileEncoder(dataEncodingStrategy: .garminConnect)
+            let encoder = FitFileEncoder(dataEncodingStrategy: .none)
 
             let data = try encoder.encode(fildIdMessage: fiel, messages: [act])
             print(data as NSData)

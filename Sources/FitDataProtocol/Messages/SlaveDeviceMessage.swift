@@ -51,8 +51,6 @@ open class SlaveDeviceMessage: FitMessage {
         if let product = product {
             let valid = product.isValidForBaseType(FitCodingKeys.product.baseType)
             self.product = ValidatedBinaryInteger(value: product, valid: valid)
-        } else {
-            self.product = nil
         }
     }
 
