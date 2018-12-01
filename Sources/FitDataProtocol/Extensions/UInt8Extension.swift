@@ -43,11 +43,6 @@ internal extension Bool {
 
     /// UInt8 Value for a Bool
     var uint8Value: UInt8 {
-        switch self {
-        case true:
-            return 1
-        case false:
-            return 0
-        }
+        return self == true ? 1 : 0
     }
 }

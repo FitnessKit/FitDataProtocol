@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class SessionMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 18
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 18 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -68,7 +66,7 @@ open class SessionMessage: FitMessage {
 
     /// Total Timer Time
     ///
-    /// Excludeds pauses
+    /// Excludes pauses
     private(set) public var totalTimerTime: Measurement<UnitDuration>?
 
     /// Total Distance
@@ -268,76 +266,76 @@ open class SessionMessage: FitMessage {
         self.averageStanceTime = StanceTime(percent: nil, time: nil)
     }
 
-    public init(timeStamp: FitTime?,
-                messageIndex: MessageIndex?,
-                event: Event?,
-                eventType: EventType?,
-                startTime: FitTime?,
+    public init(timeStamp: FitTime? = nil,
+                messageIndex: MessageIndex? = nil,
+                event: Event? = nil,
+                eventType: EventType? = nil,
+                startTime: FitTime? = nil,
                 startPosition: Position,
-                sport: Sport?,
-                subSport: SubSport?,
-                totalElapsedTime: Measurement<UnitDuration>?,
-                totalTimerTime: Measurement<UnitDuration>?,
-                totalDistance: ValidatedMeasurement<UnitLength>?,
-                totalCycles: ValidatedBinaryInteger<UInt32>?,
-                totalCalories: ValidatedMeasurement<UnitEnergy>?,
-                totalFatCalories: ValidatedMeasurement<UnitEnergy>?,
-                averageSpeed: ValidatedMeasurement<UnitSpeed>?,
-                maximumSpeed: ValidatedMeasurement<UnitSpeed>?,
-                averageHeartRate: UInt8?,
-                maximumHeartRate: UInt8?,
-                averageCadence: UInt8?,
-                maximumCadence: UInt8?,
-                averagePower: ValidatedMeasurement<UnitPower>?,
-                maximumPower: ValidatedMeasurement<UnitPower>?,
-                totalAscent: ValidatedMeasurement<UnitLength>?,
-                totalDescent: ValidatedMeasurement<UnitLength>?,
-                totalTrainingEffect: ValidatedBinaryInteger<UInt8>?,
-                firstLapIndex: ValidatedBinaryInteger<UInt16>?,
-                numberOfLaps: ValidatedBinaryInteger<UInt16>?,
-                eventGroup: ValidatedBinaryInteger<UInt8>?,
-                trigger: SessionTrigger?,
+                sport: Sport? = nil,
+                subSport: SubSport? = nil,
+                totalElapsedTime: Measurement<UnitDuration>? = nil,
+                totalTimerTime: Measurement<UnitDuration>? = nil,
+                totalDistance: ValidatedMeasurement<UnitLength>? = nil,
+                totalCycles: ValidatedBinaryInteger<UInt32>? = nil,
+                totalCalories: ValidatedMeasurement<UnitEnergy>? = nil,
+                totalFatCalories: ValidatedMeasurement<UnitEnergy>? = nil,
+                averageSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                maximumSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                averageHeartRate: UInt8? = nil,
+                maximumHeartRate: UInt8? = nil,
+                averageCadence: UInt8? = nil,
+                maximumCadence: UInt8? = nil,
+                averagePower: ValidatedMeasurement<UnitPower>? = nil,
+                maximumPower: ValidatedMeasurement<UnitPower>? = nil,
+                totalAscent: ValidatedMeasurement<UnitLength>? = nil,
+                totalDescent: ValidatedMeasurement<UnitLength>? = nil,
+                totalTrainingEffect: ValidatedBinaryInteger<UInt8>? = nil,
+                firstLapIndex: ValidatedBinaryInteger<UInt16>? = nil,
+                numberOfLaps: ValidatedBinaryInteger<UInt16>? = nil,
+                eventGroup: ValidatedBinaryInteger<UInt8>? = nil,
+                trigger: SessionTrigger? = nil,
                 necPosition: Position,
                 swcPosition: Position,
-                normalizedPower: ValidatedMeasurement<UnitPower>?,
-                averageStrokeDistance: ValidatedMeasurement<UnitLength>?,
-                swimStroke: SwimStroke?,
-                poolLength: ValidatedMeasurement<UnitLength>?,
-                poolLengthUnit: MeasurementDisplayType?,
-                thresholdPower: ValidatedMeasurement<UnitPower>?,
-                activeLengths: ValidatedBinaryInteger<UInt16>?,
-                totalWork: ValidatedMeasurement<UnitEnergy>?,
-                averageAltitude: ValidatedMeasurement<UnitLength>?,
-                maximumAltitude: ValidatedMeasurement<UnitLength>?,
-                gpsAccuracy: ValidatedMeasurement<UnitLength>?,
-                averageGrade: ValidatedMeasurement<UnitPercent>?,
-                averagePositiveGrade: ValidatedMeasurement<UnitPercent>?,
-                averageNegitiveGrade: ValidatedMeasurement<UnitPercent>?,
-                maximumPositiveGrade: ValidatedMeasurement<UnitPercent>?,
-                maximumNegitiveGrade: ValidatedMeasurement<UnitPercent>?,
-                averageTemperature: ValidatedMeasurement<UnitTemperature>?,
-                maximumTemperature: ValidatedMeasurement<UnitTemperature>?,
-                totalMovingTime: Measurement<UnitDuration>?,
-                averagePositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
-                averageNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
-                maximumPositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
-                maximumNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?,
-                minimumHeartRate: UInt8?,
-                averageLapTime: Measurement<UnitDuration>?,
-                bestLapIndex: ValidatedBinaryInteger<UInt16>?,
-                minimumAltitude: ValidatedMeasurement<UnitLength>?,
+                normalizedPower: ValidatedMeasurement<UnitPower>? = nil,
+                averageStrokeDistance: ValidatedMeasurement<UnitLength>? = nil,
+                swimStroke: SwimStroke? = nil,
+                poolLength: ValidatedMeasurement<UnitLength>? = nil,
+                poolLengthUnit: MeasurementDisplayType? = nil,
+                thresholdPower: ValidatedMeasurement<UnitPower>? = nil,
+                activeLengths: ValidatedBinaryInteger<UInt16>? = nil,
+                totalWork: ValidatedMeasurement<UnitEnergy>? = nil,
+                averageAltitude: ValidatedMeasurement<UnitLength>? = nil,
+                maximumAltitude: ValidatedMeasurement<UnitLength>? = nil,
+                gpsAccuracy: ValidatedMeasurement<UnitLength>? = nil,
+                averageGrade: ValidatedMeasurement<UnitPercent>? = nil,
+                averagePositiveGrade: ValidatedMeasurement<UnitPercent>? = nil,
+                averageNegitiveGrade: ValidatedMeasurement<UnitPercent>? = nil,
+                maximumPositiveGrade: ValidatedMeasurement<UnitPercent>? = nil,
+                maximumNegitiveGrade: ValidatedMeasurement<UnitPercent>? = nil,
+                averageTemperature: ValidatedMeasurement<UnitTemperature>? = nil,
+                maximumTemperature: ValidatedMeasurement<UnitTemperature>? = nil,
+                totalMovingTime: Measurement<UnitDuration>? = nil,
+                averagePositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                averageNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                maximumPositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                maximumNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                minimumHeartRate: UInt8? = nil,
+                averageLapTime: Measurement<UnitDuration>? = nil,
+                bestLapIndex: ValidatedBinaryInteger<UInt16>? = nil,
+                minimumAltitude: ValidatedMeasurement<UnitLength>? = nil,
                 score: Score,
-                opponentName: String?,
-                maximumBallSpeed: ValidatedMeasurement<UnitSpeed>?,
-                averageBallSpeed: ValidatedMeasurement<UnitSpeed>?,
-                averageVerticalOscillation: ValidatedMeasurement<UnitLength>?,
+                opponentName: String? = nil,
+                maximumBallSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                averageBallSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                averageVerticalOscillation: ValidatedMeasurement<UnitLength>? = nil,
                 averageStanceTime: StanceTime,
-                sportIndex: ValidatedBinaryInteger<UInt8>?,
-                enhancedAverageSpeed: ValidatedMeasurement<UnitSpeed>?,
-                enhancedMaximumSpeed: ValidatedMeasurement<UnitSpeed>?,
-                enhancedAverageAltitude: ValidatedMeasurement<UnitLength>?,
-                enhancedMinimumAltitude: ValidatedMeasurement<UnitLength>?,
-                enhancedMaximumAltitude: ValidatedMeasurement<UnitLength>?) {
+                sportIndex: ValidatedBinaryInteger<UInt8>? = nil,
+                enhancedAverageSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                enhancedMaximumSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                enhancedAverageAltitude: ValidatedMeasurement<UnitLength>? = nil,
+                enhancedMinimumAltitude: ValidatedMeasurement<UnitLength>? = nil,
+                enhancedMaximumAltitude: ValidatedMeasurement<UnitLength>? = nil) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -529,10 +527,16 @@ open class SessionMessage: FitMessage {
                 switch converter {
 
                 case .event:
-                    event = Event.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
+                    event = Event.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .eventType:
-                    eventType = EventType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
+                    eventType = EventType.decode(decoder: &localDecoder,
+                                                 definition: definition,
+                                                 data: fieldData,
+                                                 dataStrategy: dataStrategy)
 
                 case .startTime:
                     startTime = FitTime.decode(decoder: &localDecoder,
@@ -600,12 +604,10 @@ open class SessionMessage: FitMessage {
 
                 case .totalCycles:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * cycles + 0
-                        totalCycles = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        totalCycles = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    // 1 * cycles + 0
+                    totalCycles = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                           definition: definition,
+                                                                           dataStrategy: dataStrategy)
 
                 case .totalCalories:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -739,49 +741,33 @@ open class SessionMessage: FitMessage {
 
                 case .totalTrainingEffect:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        totalTrainingEffect = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        totalTrainingEffect = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    totalTrainingEffect = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                                  definition: definition,
+                                                                                  dataStrategy: dataStrategy)
 
                 case .firstLapIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        firstLapIndex = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        firstLapIndex = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    firstLapIndex = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                             definition: definition,
+                                                                             dataStrategy: dataStrategy)
 
                 case .numberOfLaps:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        numberOfLaps = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        numberOfLaps = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    numberOfLaps = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                            definition: definition,
+                                                                            dataStrategy: dataStrategy)
 
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        eventGroup = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        eventGroup = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    eventGroup = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                         definition: definition,
+                                                                         dataStrategy: dataStrategy)
 
                 case .trigger:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        trigger = SessionTrigger(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            trigger = SessionTrigger.invalid
-                        }
-                    }
+                    trigger = SessionTrigger.decode(decoder: &localDecoder,
+                                                    definition: definition,
+                                                    data: fieldData,
+                                                    dataStrategy: dataStrategy)
 
                 case .necLatitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -886,12 +872,10 @@ open class SessionMessage: FitMessage {
 
                 case .numberActiveLengths:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * lengths + 0
-                        activeLengths = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        activeLengths = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    // 1 * lengths + 0
+                    activeLengths = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                             definition: definition,
+                                                                             dataStrategy: dataStrategy)
 
                 case .totalWork:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -1084,11 +1068,9 @@ open class SessionMessage: FitMessage {
 
                 case .bestLapIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        bestLapIndex = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        bestLapIndex = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    bestLapIndex = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                            definition: definition,
+                                                                            dataStrategy: dataStrategy)
 
                 case .minimumAltitude:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -1102,19 +1084,15 @@ open class SessionMessage: FitMessage {
 
                 case .playerScore:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        playerScore = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        playerScore = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    playerScore = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                           definition: definition,
+                                                                           dataStrategy: dataStrategy)
 
                 case .opponentScore:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        opponentScore = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        opponentScore = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    opponentScore = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                             definition: definition,
+                                                                             dataStrategy: dataStrategy)
 
                 case .opponentName:
                     opponentName = String.decode(decoder: &localDecoder,
@@ -1189,11 +1167,9 @@ open class SessionMessage: FitMessage {
 
                 case .sportIndex:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        sportIndex = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        sportIndex = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    sportIndex = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                         definition: definition,
+                                                                         dataStrategy: dataStrategy)
 
                 case .enhancedAverageSpeed:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)

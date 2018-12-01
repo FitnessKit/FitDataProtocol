@@ -20,10 +20,13 @@ pod 'FitDataProtocol'
 Swift Package Manager:
 ```swift
     dependencies: [
-        .Package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "0.16.2")
+        .Package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "0.20.0")
     ]
 ```
 ## How to Use
+
+
+### Decoding FIT Files
 
 ```
 let fileUrl = URL(fileURLWithPath: "WeightScaleMultiUser" + ".fit")
@@ -64,6 +67,43 @@ if let fileData = fileData {
     } catch {
         print(error)
     }
+}
+```
+
+### Encoding FIT Files
+
+Example:
+```
+let time = FitTime(date: Date())
+
+let activity = ActivityMessage(timeStamp: time,
+                               totalTimerTime: nil,
+                               localTimeStamp: nil,
+                               numberOfSessions: nil,
+                               activity: Activity.multisport,
+                               event: nil,
+                               eventType: nil,
+                               eventGroup: nil)
+
+
+let fieldId = FileIdMessage(deviceSerialNumber: nil,
+                            fileCreationDate: time,
+                            manufacturer: Manufacturer.garmin,
+                            product: nil,
+                            fileNumber: nil,
+                            fileType: FileType.activity,
+                            productName: nil)
+
+do {
+    let encoder = FitFileEncoder(dataEncodingStrategy: .none)
+
+    let data = try encoder.encode(fildIdMessage: fieldId, messages: [act])
+    print(data as NSData)
+
+    /// you can save off the file data
+
+} catch  {
+    print(error)
 }
 ```
 

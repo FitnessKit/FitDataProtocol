@@ -32,9 +32,7 @@ import FitnessUnits
 open class PowerZoneMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 9
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 9 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -47,7 +45,10 @@ open class PowerZoneMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, name: String?, highLevel: ValidatedMeasurement<UnitPower>?) {
+    public init(messageIndex: MessageIndex? = nil,
+                name: String? = nil,
+                highLevel: ValidatedMeasurement<UnitPower>? = nil) {
+
         self.messageIndex = messageIndex
         self.name = name
         self.highLevel = highLevel

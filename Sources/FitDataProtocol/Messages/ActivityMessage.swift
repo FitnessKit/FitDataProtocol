@@ -32,9 +32,7 @@ import FitnessUnits
 open class ActivityMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 34
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 34 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -64,14 +62,14 @@ open class ActivityMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                totalTimerTime: Measurement<UnitDuration>?,
-                localTimeStamp: FitTime?,
-                numberOfSessions: ValidatedBinaryInteger<UInt16>?,
-                activity: Activity?,
-                event: Event?,
-                eventType: EventType?,
-                eventGroup: ValidatedBinaryInteger<UInt8>?) {
+    public init(timeStamp: FitTime? = nil,
+                totalTimerTime: Measurement<UnitDuration>? = nil,
+                localTimeStamp: FitTime? = nil,
+                numberOfSessions: ValidatedBinaryInteger<UInt16>? = nil,
+                activity: Activity? = nil,
+                event: Event? = nil,
+                eventType: EventType? = nil,
+                eventGroup: ValidatedBinaryInteger<UInt8>? = nil) {
         
         self.timeStamp = timeStamp
         self.totalTimerTime = totalTimerTime
@@ -119,11 +117,9 @@ open class ActivityMessage: FitMessage {
 
                 case .numberOfSessions:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        numberOfSessions = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        numberOfSessions = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    numberOfSessions = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                                definition: definition,
+                                                                                dataStrategy: dataStrategy)
 
                 case .activityType:
                     activity = Activity.decode(decoder: &localDecoder,
@@ -132,10 +128,16 @@ open class ActivityMessage: FitMessage {
                                                dataStrategy: dataStrategy)
 
                 case .event:
-                    event = Event.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
+                    event = Event.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .eventType:
-                    eventType = EventType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
+                    eventType = EventType.decode(decoder: &localDecoder,
+                                                 definition: definition,
+                                                 data: fieldData,
+                                                 dataStrategy: dataStrategy)
 
                 case .localTimestamp:
                     localTimeStamp = FitTime.decode(decoder: &localDecoder,
@@ -146,11 +148,9 @@ open class ActivityMessage: FitMessage {
 
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        eventGroup = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        eventGroup = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    eventGroup = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                         definition: definition,
+                                                                         dataStrategy: dataStrategy)
 
                 case .timestamp:
                     timeStamp = FitTime.decode(decoder: &localDecoder,

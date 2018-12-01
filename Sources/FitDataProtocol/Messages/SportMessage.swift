@@ -32,9 +32,7 @@ import AntMessageProtocol
 open class SportMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 12
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 12 }
 
     /// Sport Name
     private(set) public var name: String?
@@ -47,7 +45,7 @@ open class SportMessage: FitMessage {
 
     public required init() {}
 
-    public init(name: String?, sport: Sport?, subSport: SubSport?) {
+    public init(name: String? = nil, sport: Sport? = nil, subSport: SubSport? = nil) {
         self.name = name
         self.sport = sport
         self.subSport = subSport

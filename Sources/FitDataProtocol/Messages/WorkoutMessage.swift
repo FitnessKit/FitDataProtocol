@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class WorkoutMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 26
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 26 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -63,14 +61,14 @@ open class WorkoutMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                messageIndex: MessageIndex?,
-                workoutName: String?,
-                numberOfValidSteps: ValidatedBinaryInteger<UInt16>?,
-                poolLength: ValidatedMeasurement<UnitLength>?,
-                poolLengthUnit: MeasurementDisplayType?,
-                sport: Sport?,
-                subSport: SubSport?) {
+    public init(timeStamp: FitTime? = nil,
+                messageIndex: MessageIndex? = nil,
+                workoutName: String? = nil,
+                numberOfValidSteps: ValidatedBinaryInteger<UInt16>? = nil,
+                poolLength: ValidatedMeasurement<UnitLength>? = nil,
+                poolLengthUnit: MeasurementDisplayType? = nil,
+                sport: Sport? = nil,
+                subSport: SubSport? = nil) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -122,11 +120,9 @@ open class WorkoutMessage: FitMessage {
 
                 case .numberOfValidSteps:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        numberOfValidSteps = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        numberOfValidSteps = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    numberOfValidSteps = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                                  definition: definition,
+                                                                                  dataStrategy: dataStrategy)
 
                 case .workoutName:
                     workoutName = String.decode(decoder: &localDecoder,

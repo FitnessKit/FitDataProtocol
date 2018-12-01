@@ -32,9 +32,7 @@ import FitnessUnits
 open class SpeedZoneMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 53
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 53 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -47,9 +45,9 @@ open class SpeedZoneMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                name: String?,
-                highLevel: ValidatedMeasurement<UnitSpeed>?) {
+    public init(messageIndex: MessageIndex? = nil,
+                name: String? = nil,
+                highLevel: ValidatedMeasurement<UnitSpeed>? = nil) {
         
         self.messageIndex = messageIndex
         self.name = name

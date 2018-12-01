@@ -31,9 +31,7 @@ import DataDecoder
 open class HrvMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 78
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 78 }
 
     /// Heart Rate Variability
     ///
@@ -42,7 +40,11 @@ open class HrvMessage: FitMessage {
 
     public required init() {}
 
-    public init(hrv: [Measurement<UnitDuration>]?) {
+    internal init(_ hrv: [Measurement<UnitDuration>]?) {
+        self.hrv = hrv
+    }
+
+    public init(hrv: [Measurement<UnitDuration>]) {
         self.hrv = hrv
     }
 
@@ -91,7 +93,7 @@ open class HrvMessage: FitMessage {
             }
         }
 
-        return HrvMessage(hrv: hrv)
+        return HrvMessage(hrv)
     }
 
     /// Encodes the Message into Data

@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Schedule Type
 public enum ScheduleType: UInt8 {
@@ -33,4 +34,23 @@ public enum ScheduleType: UInt8 {
 
     /// Invalid
     case invalid        = 255
+}
+
+internal extension ScheduleType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ScheduleType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return ScheduleType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return ScheduleType.invalid
+            }
+        }
+    }
 }

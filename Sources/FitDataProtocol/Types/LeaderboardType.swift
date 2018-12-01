@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Leaderboard Type
 public enum LeaderboardType: UInt8 {
@@ -51,4 +52,23 @@ public enum LeaderboardType: UInt8 {
 
     /// Invalid
     case invalid            = 255
+}
+
+internal extension LeaderboardType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> LeaderboardType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return LeaderboardType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return LeaderboardType.invalid
+            }
+        }
+    }
 }

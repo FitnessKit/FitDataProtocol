@@ -32,9 +32,7 @@ import FitnessUnits
 open class BloodPressureMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 51
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 51 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -74,17 +72,17 @@ open class BloodPressureMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                systolicPressure: ValidatedMeasurement<UnitPressure>?,
-                diastolicPressure: ValidatedMeasurement<UnitPressure>?,
-                meanArterialPressure: ValidatedMeasurement<UnitPressure>?,
-                mapSampleMean: ValidatedMeasurement<UnitPressure>?,
-                mapMorningValues: ValidatedMeasurement<UnitPressure>?,
-                mapEveningValues: ValidatedMeasurement<UnitPressure>?,
-                heartRate: UInt8?,
-                heartRateType: HeartRateType?,
-                status: BloodPressureStatus?,
-                userProfileIndex: MessageIndex? ) {
+    public init(timeStamp: FitTime? = nil,
+                systolicPressure: ValidatedMeasurement<UnitPressure>? = nil,
+                diastolicPressure: ValidatedMeasurement<UnitPressure>? = nil,
+                meanArterialPressure: ValidatedMeasurement<UnitPressure>? = nil,
+                mapSampleMean: ValidatedMeasurement<UnitPressure>? = nil,
+                mapMorningValues: ValidatedMeasurement<UnitPressure>? = nil,
+                mapEveningValues: ValidatedMeasurement<UnitPressure>? = nil,
+                heartRate: UInt8? = nil,
+                heartRateType: HeartRateType? = nil,
+                status: BloodPressureStatus? = nil,
+                userProfileIndex: MessageIndex? = nil) {
 
         self.timeStamp = timeStamp
         self.systolicPressure = systolicPressure
@@ -209,32 +207,16 @@ open class BloodPressureMessage: FitMessage {
                     }
 
                 case .heartRateType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        heartRateType = HeartRateType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            heartRateType = HeartRateType.invalid
-                        }
-                    }
+                    heartRateType = HeartRateType.decode(decoder: &localDecoder,
+                                                         definition: definition,
+                                                         data: fieldData,
+                                                         dataStrategy: dataStrategy)
 
                 case .status:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        status = BloodPressureStatus(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            status = BloodPressureStatus.invalid
-                        }
-                    }
+                    status = BloodPressureStatus.decode(decoder: &localDecoder,
+                                                        definition: definition,
+                                                        data: fieldData,
+                                                        dataStrategy: dataStrategy)
 
                 case .userProfileIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)

@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Power Zone Calculation
 public enum PowerZoneCalculation: UInt8 {
@@ -33,4 +34,23 @@ public enum PowerZoneCalculation: UInt8 {
 
     /// Invalid
     case invalid        = 255
+}
+
+internal extension PowerZoneCalculation {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> PowerZoneCalculation? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return PowerZoneCalculation(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return PowerZoneCalculation.invalid
+            }
+        }
+    }
 }

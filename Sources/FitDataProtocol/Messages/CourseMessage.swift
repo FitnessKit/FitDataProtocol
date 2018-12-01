@@ -32,9 +32,7 @@ import AntMessageProtocol
 open class CourseMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 31
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 31 }
 
     /// Course Capabilities Options
     public struct Capabilities: OptionSet {
@@ -65,7 +63,6 @@ open class CourseMessage: FitMessage {
         public static let bikeway: Capabilities     = Capabilities(rawValue: 0x00000400)
     }
 
-
     /// Course Name
     private(set) public var name: String?
 
@@ -80,7 +77,11 @@ open class CourseMessage: FitMessage {
 
     public required init() {}
 
-    public init(name: String?, capabilities: Capabilities?, sport: Sport?, subSport: SubSport?) {
+    public init(name: String? = nil,
+                capabilities: Capabilities? = nil,
+                sport: Sport? = nil,
+                subSport: SubSport? = nil) {
+
         self.name = name
         self.capabilities = capabilities
         self.sport = sport

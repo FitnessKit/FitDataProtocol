@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class UserProfileMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 3
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 3 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -111,30 +109,30 @@ open class UserProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                messageIndex: MessageIndex?,
-                friendlyName: String?,
-                weight: ValidatedMeasurement<UnitMass>?,
-                speedSetting: MeasurementDisplayType?,
-                heartRateSetting: HeartRateDisplayType?,
-                distanceSetting: PositionDisplayType?,
-                powerSetting: PowerDisplayType?,
-                positionSetting: PositionDisplayType?,
-                temperatureSetting: MeasurementDisplayType?,
-                localID: ValidatedBinaryInteger<UInt16>?,
-                heightSetting: MeasurementDisplayType?,
-                runningStepLength: ValidatedMeasurement<UnitLength>?,
-                walkingStepLength: ValidatedMeasurement<UnitLength>?,
-                gender: Gender?,
-                age: UInt8?,
-                height: ValidatedMeasurement<UnitLength>?,
-                language: Language?,
-                elevationSetting: MeasurementDisplayType?,
-                weightSetting: MeasurementDisplayType?,
-                restingHeartRate: UInt8?,
-                maxRunningHeartRate: UInt8?,
-                maxBikingHeartRate: UInt8?,
-                maxHeartRate: UInt8? ) {
+    public init(timeStamp: FitTime? = nil,
+                messageIndex: MessageIndex? = nil,
+                friendlyName: String? = nil,
+                weight: ValidatedMeasurement<UnitMass>? = nil,
+                speedSetting: MeasurementDisplayType? = nil,
+                heartRateSetting: HeartRateDisplayType? = nil,
+                distanceSetting: PositionDisplayType? = nil,
+                powerSetting: PowerDisplayType? = nil,
+                positionSetting: PositionDisplayType? = nil,
+                temperatureSetting: MeasurementDisplayType? = nil,
+                localID: ValidatedBinaryInteger<UInt16>? = nil,
+                heightSetting: MeasurementDisplayType? = nil,
+                runningStepLength: ValidatedMeasurement<UnitLength>? = nil,
+                walkingStepLength: ValidatedMeasurement<UnitLength>? = nil,
+                gender: Gender? = nil,
+                age: UInt8? = nil,
+                height: ValidatedMeasurement<UnitLength>? = nil,
+                language: Language? = nil,
+                elevationSetting: MeasurementDisplayType? = nil,
+                weightSetting: MeasurementDisplayType? = nil,
+                restingHeartRate: UInt8? = nil,
+                maxRunningHeartRate: UInt8? = nil,
+                maxBikingHeartRate: UInt8? = nil,
+                maxHeartRate: UInt8? = nil) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -235,18 +233,10 @@ open class UserProfileMessage: FitMessage {
                                                  dataStrategy: dataStrategy)
 
                 case .gender:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        gender = Gender(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            gender = Gender.invalid
-                        }
-                    }
+                    gender = Gender.decode(decoder: &localDecoder,
+                                           definition: definition,
+                                           data: fieldData,
+                                           dataStrategy: dataStrategy)
 
                 case .age:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -282,18 +272,10 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .language:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        language = Language(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            language = Language.invalid
-                        }
-                    }
+                    language = Language.decode(decoder: &localDecoder,
+                                               definition: definition,
+                                               data: fieldData,
+                                               dataStrategy: dataStrategy)
 
                 case .elevationSetting:
                     elevationSetting = MeasurementDisplayType.decode(decoder: &localDecoder,
@@ -360,19 +342,10 @@ open class UserProfileMessage: FitMessage {
                     }
 
                 case .heartRateSetting:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        heartRateSetting = HeartRateDisplayType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            heartRateSetting = HeartRateDisplayType.invalid
-                        }
-                    }
-
+                    heartRateSetting = HeartRateDisplayType.decode(decoder: &localDecoder,
+                                                                   definition: definition,
+                                                                   data: fieldData,
+                                                                   dataStrategy: dataStrategy)
 
                 case .speedSetting:
                     speedSetting = MeasurementDisplayType.decode(decoder: &localDecoder,
@@ -387,18 +360,10 @@ open class UserProfileMessage: FitMessage {
                                                                  dataStrategy: dataStrategy)
 
                 case .powerSetting:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        powerSetting = PowerDisplayType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            powerSetting = PowerDisplayType.invalid
-                        }
-                    }
+                    powerSetting = PowerDisplayType.decode(decoder: &localDecoder,
+                                                           definition: definition,
+                                                           data: fieldData,
+                                                           dataStrategy: dataStrategy)
 
                 case .activityClass:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
@@ -417,11 +382,9 @@ open class UserProfileMessage: FitMessage {
 
                 case .localID:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        localID = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        localID = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    localID = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                       definition: definition,
+                                                                       dataStrategy: dataStrategy)
 
                 case .globalID:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))

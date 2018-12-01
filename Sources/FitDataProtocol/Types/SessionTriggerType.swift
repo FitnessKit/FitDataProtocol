@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Session Trigger Type
 public enum SessionTrigger: UInt8 {
@@ -44,4 +45,23 @@ public enum SessionTrigger: UInt8 {
 
     /// Invalid
     case invalid            = 255
+}
+
+internal extension SessionTrigger {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> SessionTrigger? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return SessionTrigger(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return SessionTrigger.invalid
+            }
+        }
+    }
 }

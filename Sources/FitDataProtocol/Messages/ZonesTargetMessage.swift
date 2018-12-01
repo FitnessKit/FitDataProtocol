@@ -32,9 +32,7 @@ import FitnessUnits
 open class ZonesTargetMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 7
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 7 }
 
     /// Max Heart Rate
     private(set) public var maxHeartRate: ValidatedMeasurement<UnitCadence>?
@@ -53,11 +51,11 @@ open class ZonesTargetMessage: FitMessage {
 
     public required init() {}
 
-    public init(maxHeartRate: UInt8?,
-                thresholdHeartRate: UInt8?,
-                heartRateZoneType: HeartRateZoneCalculation?,
-                ftp: ValidatedBinaryInteger<UInt16>?,
-                powerZoneType: PowerZoneCalculation?) {
+    public init(maxHeartRate: UInt8? = nil,
+                thresholdHeartRate: UInt8? = nil,
+                heartRateZoneType: HeartRateZoneCalculation? = nil,
+                ftp: ValidatedBinaryInteger<UInt16>? = nil,
+                powerZoneType: PowerZoneCalculation? = nil) {
 
         if let hr = maxHeartRate {
             let valid = hr.isValidForBaseType(FitCodingKeys.maxHeartRate.baseType)
@@ -127,39 +125,21 @@ open class ZonesTargetMessage: FitMessage {
 
                 case .functionalThresholdPower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        ftp = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        ftp = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    ftp = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                   definition: definition,
+                                                                   dataStrategy: dataStrategy)
 
                 case .heartRateCalculation:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        heartRateZoneType = HeartRateZoneCalculation(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            heartRateZoneType = HeartRateZoneCalculation.invalid
-                        }
-                    }
+                    heartRateZoneType = HeartRateZoneCalculation.decode(decoder: &localDecoder,
+                                                                        definition: definition,
+                                                                        data: fieldData,
+                                                                        dataStrategy: dataStrategy)
 
                 case .powerCalculation:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        powerZoneType = PowerZoneCalculation(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            powerZoneType = PowerZoneCalculation.invalid
-                        }
-                    }
+                    powerZoneType = PowerZoneCalculation.decode(decoder: &localDecoder,
+                                                                definition: definition,
+                                                                data: fieldData,
+                                                                dataStrategy: dataStrategy)
 
                 }
             }

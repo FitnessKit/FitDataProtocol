@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class GoalMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 15
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 15 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -79,19 +77,19 @@ open class GoalMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                startDate: FitTime?,
-                endDate: FitTime?,
-                sport: Sport?,
-                subSport: SubSport?,
-                goalType: Goal?,
-                goalValue: UInt32?,
-                repeatGoal: Bool?,
-                targetValue: ValidatedBinaryInteger<UInt32>?,
-                recurrence: GoalRecurrence?,
-                recurrenceValue: ValidatedBinaryInteger<UInt16>?,
-                enabled: Bool?,
-                source: GoalSource?) {
+    public init(messageIndex: MessageIndex? = nil,
+                startDate: FitTime? = nil,
+                endDate: FitTime? = nil,
+                sport: Sport? = nil,
+                subSport: SubSport? = nil,
+                goalType: Goal? = nil,
+                goalValue: UInt32? = nil,
+                repeatGoal: Bool? = nil,
+                targetValue: ValidatedBinaryInteger<UInt32>? = nil,
+                recurrence: GoalRecurrence? = nil,
+                recurrenceValue: ValidatedBinaryInteger<UInt16>? = nil,
+                enabled: Bool? = nil,
+                source: GoalSource? = nil) {
         
         self.messageIndex = messageIndex
         self.startDate = startDate
@@ -174,18 +172,10 @@ open class GoalMessage: FitMessage {
                                              isLocal: true)
 
                 case .goalType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        goalType = Goal(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            goalType = Goal.invalid
-                        }
-                    }
+                    goalType = Goal.decode(decoder: &localDecoder,
+                                           definition: definition,
+                                           data: fieldData,
+                                           dataStrategy: dataStrategy)
 
                 case .goalValue:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -207,34 +197,21 @@ open class GoalMessage: FitMessage {
 
                 case .targetValue:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        targetValue = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        targetValue = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    targetValue = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                           definition: definition,
+                                                                           dataStrategy: dataStrategy)
 
                 case .recurrence:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        recurrence = GoalRecurrence(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            recurrence = GoalRecurrence.invalid
-                        }
-                    }
+                    recurrence = GoalRecurrence.decode(decoder: &localDecoder,
+                                                       definition: definition,
+                                                       data: fieldData,
+                                                       dataStrategy: dataStrategy)
 
                 case .recurrenceValue:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        recurrenceValue = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        recurrenceValue = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
-
+                    recurrenceValue = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                               definition: definition,
+                                                                               dataStrategy: dataStrategy)
 
                 case .enabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -243,19 +220,10 @@ open class GoalMessage: FitMessage {
                     }
 
                 case .goalSource:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        source = GoalSource(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            source = GoalSource.invalid
-                        }
-                    }
-
+                    source = GoalSource.decode(decoder: &localDecoder,
+                                               definition: definition,
+                                               data: fieldData,
+                                               dataStrategy: dataStrategy)
 
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,

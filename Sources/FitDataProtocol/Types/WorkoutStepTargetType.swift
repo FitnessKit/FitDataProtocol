@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// Workout Step Target Type
 public enum WorkoutStepTargetType: UInt8 {
@@ -57,4 +58,23 @@ public enum WorkoutStepTargetType: UInt8 {
 
     /// Invalid
     case invalid            = 255
+}
+
+internal extension WorkoutStepTargetType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> WorkoutStepTargetType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return WorkoutStepTargetType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return WorkoutStepTargetType.invalid
+            }
+        }
+    }
 }

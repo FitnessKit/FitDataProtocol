@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class HeartrateProfileMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 4
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 4 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -54,11 +52,11 @@ open class HeartrateProfileMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                enabled: Bool?,
-                antID: ValidatedBinaryInteger<UInt16>?,
-                logHrv: Bool?,
-                transmissionType: TransmissionType?) {
+    public init(messageIndex: MessageIndex? = nil,
+                enabled: Bool? = nil,
+                antID: ValidatedBinaryInteger<UInt16>? = nil,
+                logHrv: Bool? = nil,
+                transmissionType: TransmissionType? = nil) {
         
         self.messageIndex = messageIndex
         self.enabled = enabled
@@ -99,11 +97,9 @@ open class HeartrateProfileMessage: FitMessage {
 
                 case .antID:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        antID = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        antID = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    antID = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                     definition: definition,
+                                                                     dataStrategy: dataStrategy)
 
                 case .logHrv:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)

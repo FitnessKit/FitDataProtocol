@@ -26,6 +26,24 @@ import Foundation
 import AntMessageProtocol
 import DataDecoder
 
+internal extension Gender {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Gender? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return Gender(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return Gender.invalid
+            }
+        }
+    }
+}
 
 internal extension Sport {
 

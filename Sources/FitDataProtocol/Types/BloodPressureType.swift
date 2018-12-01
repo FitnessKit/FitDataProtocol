@@ -23,7 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
-
+import DataDecoder
 
 /// FIT Blood Pressure Status
 public enum BloodPressureStatus: UInt8 {
@@ -40,4 +40,23 @@ public enum BloodPressureStatus: UInt8 {
 
     /// Invalid
     case invalid            = 255
+}
+
+internal extension BloodPressureStatus {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> BloodPressureStatus? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return BloodPressureStatus(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return BloodPressureStatus.invalid
+            }
+        }
+    }
 }

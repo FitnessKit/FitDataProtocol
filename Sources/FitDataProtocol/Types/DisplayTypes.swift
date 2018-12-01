@@ -58,7 +58,6 @@ internal extension MeasurementDisplayType {
     }
 }
 
-
 /// Display Type for Heeart Rate
 public enum HeartRateDisplayType: UInt8 {
     /// BPM
@@ -72,6 +71,25 @@ public enum HeartRateDisplayType: UInt8 {
     case invalid            = 255
 }
 
+internal extension HeartRateDisplayType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> HeartRateDisplayType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return HeartRateDisplayType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return HeartRateDisplayType.invalid
+            }
+        }
+    }
+}
+
 /// Display Type for Power
 public enum PowerDisplayType: UInt8 {
     /// Watts
@@ -81,6 +99,25 @@ public enum PowerDisplayType: UInt8 {
 
     /// Invalid
     case invalid            = 255
+}
+
+internal extension PowerDisplayType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> PowerDisplayType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return PowerDisplayType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return PowerDisplayType.invalid
+            }
+        }
+    }
 }
 
 /// Display Type for Position

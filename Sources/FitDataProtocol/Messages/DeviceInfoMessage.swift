@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class DeviceInfoMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 23
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 23 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -96,24 +94,24 @@ open class DeviceInfoMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                serialNumber: ValidatedBinaryInteger<UInt32>?,
-                cumulativeOpTime: ValidatedMeasurement<UnitDuration>?,
-                productName: String?,
-                manufacturer: Manufacturer?,
-                product: ValidatedBinaryInteger<UInt16>?,
-                softwareVersion: ValidatedBinaryInteger<UInt16>?,
-                hardwareVersion: ValidatedBinaryInteger<UInt8>?,
-                batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>?,
-                batteryStatus: BatteryStatus?,
-                deviceNumber: ValidatedBinaryInteger<UInt16>?,
-                deviceType: DeviceType?,
-                deviceIndex: DeviceIndex?,
-                sensorDescription: String?,
-                bodylocation: BodyLocation?,
-                transmissionType: TransmissionType?,
-                antNetwork: NetworkType?,
-                source: SourceType?) {
+    public init(timeStamp: FitTime? = nil,
+                serialNumber: ValidatedBinaryInteger<UInt32>? = nil,
+                cumulativeOpTime: ValidatedMeasurement<UnitDuration>? = nil,
+                productName: String? = nil,
+                manufacturer: Manufacturer? = nil,
+                product: ValidatedBinaryInteger<UInt16>? = nil,
+                softwareVersion: ValidatedBinaryInteger<UInt16>? = nil,
+                hardwareVersion: ValidatedBinaryInteger<UInt8>? = nil,
+                batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>? = nil,
+                batteryStatus: BatteryStatus? = nil,
+                deviceNumber: ValidatedBinaryInteger<UInt16>? = nil,
+                deviceType: DeviceType? = nil,
+                deviceIndex: DeviceIndex? = nil,
+                sensorDescription: String? = nil,
+                bodylocation: BodyLocation? = nil,
+                transmissionType: TransmissionType? = nil,
+                antNetwork: NetworkType? = nil,
+                source: SourceType? = nil) {
 
         self.timeStamp = timeStamp
         self.serialNumber = serialNumber
@@ -193,35 +191,27 @@ open class DeviceInfoMessage: FitMessage {
 
                 case .serialNumber:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        serialNumber = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        serialNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    serialNumber = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                            definition: definition,
+                                                                            dataStrategy: dataStrategy)
 
                 case .product:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        product = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        product = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    product = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                       definition: definition,
+                                                                       dataStrategy: dataStrategy)
 
                 case .softwareVersion:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        softwareVersion = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        softwareVersion = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    softwareVersion = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                               definition: definition,
+                                                                               dataStrategy: dataStrategy)
 
                 case .hardwareVersion:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        hardwareVersion = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        hardwareVersion = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    hardwareVersion = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                              definition: definition,
+                                                                              dataStrategy: dataStrategy)
 
                 case .cumulativeOpTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -267,11 +257,9 @@ open class DeviceInfoMessage: FitMessage {
 
                 case .deviceNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        deviceNumber = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        deviceNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    deviceNumber = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                            definition: definition,
+                                                                            dataStrategy: dataStrategy)
 
                 case .antNetwork:
                     antNetwork = NetworkType.decode(decoder: &localDecoder,

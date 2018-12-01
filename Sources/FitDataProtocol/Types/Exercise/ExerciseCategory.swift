@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// Exercise Category
 public enum ExerciseCategory: UInt16 {
@@ -146,5 +147,24 @@ internal extension ExerciseCategory {
 
     internal func exerciseName(from: UInt16) -> ExerciseNameType? {
         return validExerciseNameType?.create(rawValue: from)
+    }
+}
+
+internal extension ExerciseCategory {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ExerciseCategory? {
+
+        let value = decoder.decodeUInt16(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return ExerciseCategory(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return ExerciseCategory.invalid
+            }
+        }
     }
 }

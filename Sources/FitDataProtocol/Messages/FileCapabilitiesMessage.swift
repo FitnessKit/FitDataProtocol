@@ -32,9 +32,7 @@ import FitnessUnits
 open class FileCapabilitiesMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 37
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 37 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -56,12 +54,12 @@ open class FileCapabilitiesMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                fileType: FileType?,
-                fileFlags: FitFileFlag?,
-                directory: String?,
-                maxCount: ValidatedBinaryInteger<UInt16>?,
-                maxSize: ValidatedBinaryInteger<UInt32>?) {
+    public init(messageIndex: MessageIndex? = nil,
+                fileType: FileType? = nil,
+                fileFlags: FitFileFlag? = nil,
+                directory: String? = nil,
+                maxCount: ValidatedBinaryInteger<UInt16>? = nil,
+                maxSize: ValidatedBinaryInteger<UInt32>? = nil) {
 
         self.messageIndex = messageIndex
         self.fileType = fileType
@@ -100,16 +98,14 @@ open class FileCapabilitiesMessage: FitMessage {
                 case .fileType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
-
+                        fileType = FileType(rawValue: value)
+                    } else {
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
                             fileType = FileType.invalid
                         }
-
-                    } else {
-                        fileType = FileType(rawValue: value)
                     }
 
                 case .fileFlags:
@@ -127,19 +123,15 @@ open class FileCapabilitiesMessage: FitMessage {
 
                 case .maxCount:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        maxCount = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        maxCount = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    maxCount = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                        definition: definition,
+                                                                        dataStrategy: dataStrategy)
 
                 case .maxSize:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        maxSize = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        maxSize = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    maxSize = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                       definition: definition,
+                                                                       dataStrategy: dataStrategy)
 
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,

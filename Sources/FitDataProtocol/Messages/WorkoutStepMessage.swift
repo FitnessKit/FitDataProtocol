@@ -32,9 +32,7 @@ import FitnessUnits
 open class WorkoutStepMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 27
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 27 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -75,18 +73,18 @@ open class WorkoutStepMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                name: String?,
-                duration: ValidatedBinaryInteger<UInt32>?,
-                durationType: WorkoutStepDurationType?,
-                target: ValidatedBinaryInteger<UInt32>?,
-                targetLow: ValidatedBinaryInteger<UInt32>?,
-                targetHigh: ValidatedBinaryInteger<UInt32>?,
-                targetType: WorkoutStepTargetType?,
-                category: ExerciseCategory?,
-                intensity: Intensity?,
-                notes: String?,
-                equipment: WorkoutEquipment?) {
+    public init(messageIndex: MessageIndex? = nil,
+                name: String? = nil,
+                duration: ValidatedBinaryInteger<UInt32>? = nil,
+                durationType: WorkoutStepDurationType? = nil,
+                target: ValidatedBinaryInteger<UInt32>? = nil,
+                targetLow: ValidatedBinaryInteger<UInt32>? = nil,
+                targetHigh: ValidatedBinaryInteger<UInt32>? = nil,
+                targetType: WorkoutStepTargetType? = nil,
+                category: ExerciseCategory? = nil,
+                intensity: Intensity? = nil,
+                notes: String? = nil,
+                equipment: WorkoutEquipment? = nil) {
 
         self.messageIndex = messageIndex
         self.name = name
@@ -141,64 +139,40 @@ open class WorkoutStepMessage: FitMessage {
                                          dataStrategy: dataStrategy)
 
                 case .durationType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        durationType = WorkoutStepDurationType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            durationType = WorkoutStepDurationType.invalid
-                        }
-                    }
+                    durationType = WorkoutStepDurationType.decode(decoder: &localDecoder,
+                                                                  definition: definition,
+                                                                  data: fieldData,
+                                                                  dataStrategy: dataStrategy)
 
                 case .durationValue:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        duration = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        duration = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    duration = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                        definition: definition,
+                                                                        dataStrategy: dataStrategy)
 
                 case .targetType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        targetType = WorkoutStepTargetType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            targetType = WorkoutStepTargetType.invalid
-                        }
-                    }
+                    targetType = WorkoutStepTargetType.decode(decoder: &localDecoder,
+                                                              definition: definition,
+                                                              data: fieldData,
+                                                              dataStrategy: dataStrategy)
 
                 case .targetValue:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        target = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        target = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    target = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                      definition: definition,
+                                                                      dataStrategy: dataStrategy)
 
                 case .customTargetValueLow:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        targetLow = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        targetLow = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    targetLow = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                         definition: definition,
+                                                                         dataStrategy: dataStrategy)
 
                 case .customTargetValueHigh:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        targetHigh = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        targetHigh = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    targetHigh = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                          definition: definition,
+                                                                          dataStrategy: dataStrategy)
 
                 case .intensity:
                     intensity = Intensity.decode(decoder: &localDecoder,
@@ -213,32 +187,16 @@ open class WorkoutStepMessage: FitMessage {
                                           dataStrategy: dataStrategy)
 
                 case .equipment:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        equipment = WorkoutEquipment(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            equipment = WorkoutEquipment.invalid
-                        }
-                    }
+                    equipment = WorkoutEquipment.decode(decoder: &localDecoder,
+                                                        definition: definition,
+                                                        data: fieldData,
+                                                        dataStrategy: dataStrategy)
 
                 case .category:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        category = ExerciseCategory(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            category = ExerciseCategory.invalid
-                        }
-                    }
+                    category = ExerciseCategory.decode(decoder: &localDecoder,
+                                                       definition: definition,
+                                                       data: fieldData,
+                                                       dataStrategy: dataStrategy)
 
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,

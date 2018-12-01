@@ -24,6 +24,7 @@
 
 import Foundation
 import FitnessUnits
+import DataDecoder
 
 /// FIT Base Type
 public enum BaseType: UInt8 {
@@ -307,6 +308,17 @@ internal extension ValidatedMeasurement {
 
 // MARK: ValidatedBinaryInteger
 internal extension ValidatedBinaryInteger {
+
+
+    static func validated<T>(value: T, definition: FieldDefinition, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ValidatedBinaryInteger<T>? where T: BinaryInteger {
+
+        if value.isValidForBaseType(definition.baseType) {
+            return ValidatedBinaryInteger<T>(value: value, valid: true)
+        } else {
+            return ValidatedBinaryInteger<T>.invalidValue(definition.baseType, dataStrategy: dataStrategy)
+        }
+
+    }
 
     /// Invalid ValidatedBinaryInteger based off BaseType
     ///

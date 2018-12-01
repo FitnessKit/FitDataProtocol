@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class SlaveDeviceMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 106
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 106 }
 
     /// Manufacturer
     private(set) public var manufacturer: Manufacturer?
@@ -45,7 +43,7 @@ open class SlaveDeviceMessage: FitMessage {
 
     public required init() {}
 
-    public init(manufacturer: Manufacturer?, product: UInt16?) {
+    public init(manufacturer: Manufacturer? = nil, product: UInt16? = nil) {
         self.manufacturer = manufacturer
 
         if let product = product {

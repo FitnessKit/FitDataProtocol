@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class WorkoutSessionMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 158
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 158 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -60,13 +58,13 @@ open class WorkoutSessionMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                sport: Sport?,
-                subSport: SubSport?,
-                numberOfValidSteps: ValidatedBinaryInteger<UInt16>?,
-                firstStepIndex: ValidatedBinaryInteger<UInt16>?,
-                poolLength: ValidatedMeasurement<UnitLength>?,
-                poolLengthUnit: MeasurementDisplayType?) {
+    public init(messageIndex: MessageIndex? = nil,
+                sport: Sport? = nil,
+                subSport: SubSport? = nil,
+                numberOfValidSteps: ValidatedBinaryInteger<UInt16>? = nil,
+                firstStepIndex: ValidatedBinaryInteger<UInt16>? = nil,
+                poolLength: ValidatedMeasurement<UnitLength>? = nil,
+                poolLengthUnit: MeasurementDisplayType? = nil) {
 
         self.messageIndex = messageIndex
         self.sport = sport
@@ -118,19 +116,15 @@ open class WorkoutSessionMessage: FitMessage {
 
                 case .numberOfValidSteps:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        numberOfValidSteps = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        numberOfValidSteps = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    numberOfValidSteps = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                                  definition: definition,
+                                                                                  dataStrategy: dataStrategy)
 
                 case .firstStepIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        firstStepIndex = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        firstStepIndex = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    firstStepIndex = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                              definition: definition,
+                                                                              dataStrategy: dataStrategy)
 
                 case .poolLength:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)

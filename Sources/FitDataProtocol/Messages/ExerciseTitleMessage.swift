@@ -32,9 +32,7 @@ import FitnessUnits
 open class ExerciseTitleMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 264
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 264 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -50,10 +48,10 @@ open class ExerciseTitleMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                stepName: String?,
-                category: ExerciseCategory?,
-                exerciseName: ExerciseNameType?) {
+    public init(messageIndex: MessageIndex? = nil,
+                stepName: String? = nil,
+                category: ExerciseCategory? = nil,
+                exerciseName: ExerciseNameType? = nil) {
         
         self.messageIndex = messageIndex
         self.stepName = stepName
@@ -89,18 +87,10 @@ open class ExerciseTitleMessage: FitMessage {
                 switch converter {
 
                 case .category:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        category = ExerciseCategory(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            category = ExerciseCategory.invalid
-                        }
-                    }
+                    category = ExerciseCategory.decode(decoder: &localDecoder,
+                                                       definition: definition,
+                                                       data: fieldData,
+                                                       dataStrategy: dataStrategy)
 
                 case .exerciseName:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)

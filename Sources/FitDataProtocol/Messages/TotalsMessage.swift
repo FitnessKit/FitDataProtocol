@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class TotalsMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 33
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 33 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -71,15 +69,15 @@ open class TotalsMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                messageIndex: MessageIndex?,
-                timerTime: Measurement<UnitDuration>?,
-                distance: ValidatedMeasurement<UnitLength>?,
-                calories: ValidatedMeasurement<UnitEnergy>?,
-                sport: Sport?,
-                elapsedTime: Measurement<UnitDuration>?,
-                sessions: ValidatedBinaryInteger<UInt16>?,
-                activeTime: Measurement<UnitDuration>?) {
+    public init(timeStamp: FitTime? = nil,
+                messageIndex: MessageIndex? = nil,
+                timerTime: Measurement<UnitDuration>? = nil,
+                distance: ValidatedMeasurement<UnitLength>? = nil,
+                calories: ValidatedMeasurement<UnitEnergy>? = nil,
+                sport: Sport? = nil,
+                elapsedTime: Measurement<UnitDuration>? = nil,
+                sessions: ValidatedBinaryInteger<UInt16>? = nil,
+                activeTime: Measurement<UnitDuration>? = nil) {
         
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -164,11 +162,9 @@ open class TotalsMessage: FitMessage {
 
                 case .sessions:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        sessions = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        sessions = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    sessions = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                        definition: definition,
+                                                                        dataStrategy: dataStrategy)
 
                 case .activeTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)

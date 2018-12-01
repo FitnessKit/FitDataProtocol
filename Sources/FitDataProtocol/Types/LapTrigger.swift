@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Lap Trigger Type
 public enum LapTrigger: UInt8 {
@@ -47,4 +48,23 @@ public enum LapTrigger: UInt8 {
 
     /// Invalid
     case invalid            = 255
+}
+
+internal extension LapTrigger {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> LapTrigger? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return LapTrigger(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return LapTrigger.invalid
+            }
+        }
+    }
 }

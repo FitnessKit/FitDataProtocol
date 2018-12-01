@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// Language Type
 public enum Language: UInt8 {
@@ -107,4 +108,23 @@ public enum Language: UInt8 {
     case custom                 = 254
     /// Invalid
     case invalid                = 255
+}
+
+internal extension Language {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Language? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return Language(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return Language.invalid
+            }
+        }
+    }
 }

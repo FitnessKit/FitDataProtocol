@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Heart Rate Type
 public enum HeartRateType: UInt8 {
@@ -33,6 +34,25 @@ public enum HeartRateType: UInt8 {
 
     /// Invalid
     case invalid        = 255
+}
+
+internal extension HeartRateType {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> HeartRateType? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return HeartRateType(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return HeartRateType.invalid
+            }
+        }
+    }
 }
 
 /// FIT Heart Rate Zone Calculation
@@ -46,4 +66,23 @@ public enum HeartRateZoneCalculation: UInt8 {
 
     /// Invalid
     case invalid        = 255
+}
+
+internal extension HeartRateZoneCalculation {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> HeartRateZoneCalculation? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return HeartRateZoneCalculation(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return HeartRateZoneCalculation.invalid
+            }
+        }
+    }
 }

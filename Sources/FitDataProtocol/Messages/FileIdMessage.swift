@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class FileIdMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 0
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 0 }
 
     /// Device Serial Number
     private(set) public var deviceSerialNumber: ValidatedBinaryInteger<UInt32>?
@@ -60,13 +58,13 @@ open class FileIdMessage: FitMessage {
 
     public required init() {}
 
-    public init(deviceSerialNumber: ValidatedBinaryInteger<UInt32>?,
-                fileCreationDate: FitTime?,
-                manufacturer: Manufacturer?,
-                product: ValidatedBinaryInteger<UInt16>?,
-                fileNumber: ValidatedBinaryInteger<UInt16>?,
-                fileType: FileType?,
-                productName: String?) {
+    public init(deviceSerialNumber: ValidatedBinaryInteger<UInt32>? = nil,
+                fileCreationDate: FitTime? = nil,
+                manufacturer: Manufacturer? = nil,
+                product: ValidatedBinaryInteger<UInt16>? = nil,
+                fileNumber: ValidatedBinaryInteger<UInt16>? = nil,
+                fileType: FileType? = nil,
+                productName: String? = nil) {
         
         self.deviceSerialNumber = deviceSerialNumber
         self.fileCreationDate = fileCreationDate
@@ -107,16 +105,14 @@ open class FileIdMessage: FitMessage {
                 case .fileType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
-
+                        fileType = FileType(rawValue: value)
+                    } else {
                         switch dataStrategy {
                         case .nil:
                             break
                         case .useInvalid:
                             fileType = FileType.invalid
                         }
-
-                    } else {
-                        fileType = FileType(rawValue: value)
                     }
 
                 case .manufacturer:
@@ -127,19 +123,15 @@ open class FileIdMessage: FitMessage {
                     
                 case .product:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        product = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        product = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    product = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                       definition: definition,
+                                                                       dataStrategy: dataStrategy)
 
                 case .serialNumber:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        deviceSerialNumber = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        deviceSerialNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    deviceSerialNumber = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                                  definition: definition,
+                                                                                  dataStrategy: dataStrategy)
 
                 case .fileCreationDate:
                     fileCreationDate = FitTime.decode(decoder: &localDecoder,
@@ -149,11 +141,9 @@ open class FileIdMessage: FitMessage {
 
                 case .fileNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        fileNumber = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        fileNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    fileNumber = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                          definition: definition,
+                                                                          dataStrategy: dataStrategy)
 
                 case .productName:
                     productName = String.decode(decoder: &localDecoder,

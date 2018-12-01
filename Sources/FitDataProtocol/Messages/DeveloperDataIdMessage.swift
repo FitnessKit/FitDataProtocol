@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class DeveloperDataIdMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 207
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 207 }
 
     /// Developer ID
     private(set) public var developerId: Data?
@@ -54,11 +52,11 @@ open class DeveloperDataIdMessage: FitMessage {
 
     public required init() {}
 
-    public init(developerId: Data?,
-                applicationId: Data?,
-                applicationVersion: ValidatedBinaryInteger<UInt32>?,
-                manufacturer: Manufacturer?,
-                dataIndex: ValidatedBinaryInteger<UInt8>?) {
+    public init(developerId: Data? = nil,
+                applicationId: Data? = nil,
+                applicationVersion: ValidatedBinaryInteger<UInt32>? = nil,
+                manufacturer: Manufacturer? = nil,
+                dataIndex: ValidatedBinaryInteger<UInt8>? = nil) {
         
         self.developerId = developerId
         self.applicationId = applicationId
@@ -112,19 +110,15 @@ open class DeveloperDataIdMessage: FitMessage {
                     
                 case .dataIndex:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        dataIndex = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        dataIndex = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    dataIndex = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                        definition: definition,
+                                                                        dataStrategy: dataStrategy)
 
                 case .applicationVersion:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        applicationVersion = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        applicationVersion = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    applicationVersion = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                                  definition: definition,
+                                                                                  dataStrategy: dataStrategy)
 
                 }
             }

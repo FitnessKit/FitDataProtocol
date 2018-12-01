@@ -32,9 +32,7 @@ import FitnessUnits
 open class SegmentLeaderboardEntryMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 149
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 149 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -58,12 +56,12 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                name: String?,
-                leaderType: LeaderboardType?,
-                leaderId: ValidatedBinaryInteger<UInt32>?,
-                activityId: ValidatedBinaryInteger<UInt32>?,
-                segmentTime: ValidatedBinaryInteger<UInt32>?) {
+    public init(messageIndex: MessageIndex? = nil,
+                name: String? = nil,
+                leaderType: LeaderboardType? = nil,
+                leaderId: ValidatedBinaryInteger<UInt32>? = nil,
+                activityId: ValidatedBinaryInteger<UInt32>? = nil,
+                segmentTime: ValidatedBinaryInteger<UInt32>? = nil) {
 
         self.messageIndex = messageIndex
         self.name = name
@@ -105,34 +103,22 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                                          dataStrategy: dataStrategy)
 
                 case .boardType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        leaderType = LeaderboardType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            leaderType = LeaderboardType.invalid
-                        }
-                    }
+                    leaderType = LeaderboardType.decode(decoder: &localDecoder,
+                                                        definition: definition,
+                                                        data: fieldData,
+                                                        dataStrategy: dataStrategy)
 
                 case .groupPrimaryKey:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        leaderId = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        leaderId = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    leaderId = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                        definition: definition,
+                                                                        dataStrategy: dataStrategy)
 
                 case .activityID:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        activityId = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        activityId = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    activityId = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                          definition: definition,
+                                                                          dataStrategy: dataStrategy)
 
                 case .segmentTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)

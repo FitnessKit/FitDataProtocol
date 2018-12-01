@@ -32,9 +32,7 @@ import FitnessUnits
 open class SoftwareMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 35
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 35 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -47,9 +45,9 @@ open class SoftwareMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?,
-                version: ValidatedBinaryInteger<UInt16>?,
-                partNumber: String?) {
+    public init(messageIndex: MessageIndex? = nil,
+                version: ValidatedBinaryInteger<UInt16>? = nil,
+                partNumber: String? = nil) {
         
         self.messageIndex = messageIndex
         self.version = version
@@ -82,11 +80,9 @@ open class SoftwareMessage: FitMessage {
 
                 case .version:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        version = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        version = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    version = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                       definition: definition,
+                                                                       dataStrategy: dataStrategy)
 
                 case .partNumber:
                     partNumber = String.decode(decoder: &localDecoder,

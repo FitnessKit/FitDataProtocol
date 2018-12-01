@@ -32,9 +32,7 @@ import FitnessUnits
 open class FileCreatorMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 49
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 49 }
 
     /// Software Version
     private(set) public var softwareVersion: ValidatedBinaryInteger<UInt16>?
@@ -44,8 +42,8 @@ open class FileCreatorMessage: FitMessage {
 
     public required init() {}
 
-    public init(softwareVersion: ValidatedBinaryInteger<UInt16>?,
-                hardwareVersion: ValidatedBinaryInteger<UInt8>?) {
+    public init(softwareVersion: ValidatedBinaryInteger<UInt16>? = nil,
+                hardwareVersion: ValidatedBinaryInteger<UInt8>? = nil) {
         
         self.softwareVersion = softwareVersion
         self.hardwareVersion = hardwareVersion
@@ -75,19 +73,15 @@ open class FileCreatorMessage: FitMessage {
 
                 case .softwareVersion:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        softwareVersion = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        softwareVersion = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    softwareVersion = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                               definition: definition,
+                                                                               dataStrategy: dataStrategy)
 
                 case .hardwareVersion:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        hardwareVersion = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        hardwareVersion = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    hardwareVersion = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                              definition: definition,
+                                                                              dataStrategy: dataStrategy)
 
                 }
             }

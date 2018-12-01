@@ -32,9 +32,7 @@ import FitnessUnits
 open class WeightScaleMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 30
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 30 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -84,19 +82,19 @@ open class WeightScaleMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                weight: Weight?,
-                percentFat: ValidatedMeasurement<UnitPercent>?,
-                percentHydration: ValidatedMeasurement<UnitPercent>?,
-                visceralFatMass: ValidatedMeasurement<UnitMass>?,
-                boneMass: ValidatedMeasurement<UnitMass>?,
-                muscleMass: ValidatedMeasurement<UnitMass>?,
-                basalMet: ValidatedMeasurement<UnitEnergy>?,
-                physiqueRating: ValidatedMeasurement<RatingUnit>?,
-                activeMet: ValidatedMeasurement<UnitEnergy>?,
-                metabolicAge: ValidatedMeasurement<UnitDuration>?,
-                visceralFatRating: ValidatedMeasurement<RatingUnit>?,
-                userProfileIndex: MessageIndex? ) {
+    public init(timeStamp: FitTime? = nil,
+                weight: Weight? = nil,
+                percentFat: ValidatedMeasurement<UnitPercent>? = nil,
+                percentHydration: ValidatedMeasurement<UnitPercent>? = nil,
+                visceralFatMass: ValidatedMeasurement<UnitMass>? = nil,
+                boneMass: ValidatedMeasurement<UnitMass>? = nil,
+                muscleMass: ValidatedMeasurement<UnitMass>? = nil,
+                basalMet: ValidatedMeasurement<UnitEnergy>? = nil,
+                physiqueRating: ValidatedMeasurement<RatingUnit>? = nil,
+                activeMet: ValidatedMeasurement<UnitEnergy>? = nil,
+                metabolicAge: ValidatedMeasurement<UnitDuration>? = nil,
+                visceralFatRating: ValidatedMeasurement<RatingUnit>? = nil,
+                userProfileIndex: MessageIndex? = nil) {
 
         self.timeStamp = timeStamp
         self.weight = weight

@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import DataDecoder
 
 /// FIT Goal type
 public enum Goal: UInt8 {
@@ -45,6 +46,25 @@ public enum Goal: UInt8 {
     case invalid        = 255
 }
 
+internal extension Goal {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Goal? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return Goal(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return Goal.invalid
+            }
+        }
+    }
+}
+
 /// FIT Goal Recurrence
 public enum GoalRecurrence: UInt8 {
     /// Off
@@ -64,6 +84,25 @@ public enum GoalRecurrence: UInt8 {
     case invalid        = 255
 }
 
+internal extension GoalRecurrence {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> GoalRecurrence? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return GoalRecurrence(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return GoalRecurrence.invalid
+            }
+        }
+    }
+}
+
 /// FIT Goal Source
 public enum GoalSource: UInt8 {
     /// Auto - Device Generated
@@ -75,4 +114,23 @@ public enum GoalSource: UInt8 {
 
     /// Invalid
     case invalid        = 255
+}
+
+internal extension GoalSource {
+
+    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> GoalSource? {
+
+        let value = decoder.decodeUInt8(data.fieldData)
+        if value.isValidForBaseType(definition.baseType) {
+            return GoalSource(rawValue: value)
+        } else {
+
+            switch dataStrategy {
+            case .nil:
+                return nil
+            case .useInvalid:
+                return GoalSource.invalid
+            }
+        }
+    }
 }

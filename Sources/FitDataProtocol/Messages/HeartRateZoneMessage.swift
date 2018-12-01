@@ -32,9 +32,7 @@ import FitnessUnits
 open class HeartRateZoneMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 8
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 8 }
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
@@ -47,7 +45,10 @@ open class HeartRateZoneMessage: FitMessage {
 
     public required init() {}
 
-    public init(messageIndex: MessageIndex?, name: String?, heartRate: UInt8?) {
+    public init(messageIndex: MessageIndex? = nil,
+                name: String? = nil,
+                heartRate: UInt8? = nil) {
+
         self.messageIndex = messageIndex
         self.name = name
 

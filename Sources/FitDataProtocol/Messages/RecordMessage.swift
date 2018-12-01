@@ -32,9 +32,7 @@ import FitnessUnits
 open class RecordMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 20
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 20 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -135,36 +133,36 @@ open class RecordMessage: FitMessage {
         self.stanceTime = StanceTime(percent: nil, time: nil)
     }
 
-    public init(timeStamp: FitTime?,
+    public init(timeStamp: FitTime? = nil,
                 position: Position,
-                distance: ValidatedMeasurement<UnitLength>?,
-                timeFromCourse: ValidatedMeasurement<UnitDuration>?,
-                cycles: ValidatedBinaryInteger<UInt8>?,
-                totalCycles: ValidatedBinaryInteger<UInt32>?,
-                accumulatedPower: ValidatedMeasurement<UnitPower>?,
-                enhancedSpeed: ValidatedMeasurement<UnitSpeed>?,
-                enhancedAltitude: ValidatedMeasurement<UnitLength>?,
-                altitude: ValidatedMeasurement<UnitLength>?,
-                speed: ValidatedMeasurement<UnitSpeed>?,
-                power: ValidatedMeasurement<UnitPower>?,
-                gpsAccuracy: ValidatedMeasurement<UnitLength>?,
-                verticalSpeed: ValidatedMeasurement<UnitSpeed>?,
-                calories: ValidatedMeasurement<UnitEnergy>?,
-                verticalOscillation: ValidatedMeasurement<UnitLength>?,
+                distance: ValidatedMeasurement<UnitLength>? = nil,
+                timeFromCourse: ValidatedMeasurement<UnitDuration>? = nil,
+                cycles: ValidatedBinaryInteger<UInt8>? = nil,
+                totalCycles: ValidatedBinaryInteger<UInt32>? = nil,
+                accumulatedPower: ValidatedMeasurement<UnitPower>? = nil,
+                enhancedSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                enhancedAltitude: ValidatedMeasurement<UnitLength>? = nil,
+                altitude: ValidatedMeasurement<UnitLength>? = nil,
+                speed: ValidatedMeasurement<UnitSpeed>? = nil,
+                power: ValidatedMeasurement<UnitPower>? = nil,
+                gpsAccuracy: ValidatedMeasurement<UnitLength>? = nil,
+                verticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                calories: ValidatedMeasurement<UnitEnergy>? = nil,
+                verticalOscillation: ValidatedMeasurement<UnitLength>? = nil,
                 stanceTime: StanceTime,
-                heartRate: UInt8?,
-                cadence: UInt8?,
-                grade: ValidatedMeasurement<UnitPercent>?,
-                resistance: ValidatedBinaryInteger<UInt8>?,
-                cycleLength: ValidatedMeasurement<UnitLength>?,
-                temperature: ValidatedMeasurement<UnitTemperature>?,
-                activity: ActivityType?,
+                heartRate: UInt8? = nil,
+                cadence: UInt8? = nil,
+                grade: ValidatedMeasurement<UnitPercent>? = nil,
+                resistance: ValidatedBinaryInteger<UInt8>? = nil,
+                cycleLength: ValidatedMeasurement<UnitLength>? = nil,
+                temperature: ValidatedMeasurement<UnitTemperature>? = nil,
+                activity: ActivityType? = nil,
                 torqueEffectiveness: TorqueEffectiveness,
                 pedalSmoothness: PedalSmoothness,
-                stroke: Stroke?,
-                zone: ValidatedBinaryInteger<UInt8>?,
-                ballSpeed: ValidatedMeasurement<UnitSpeed>?,
-                deviceIndex: DeviceIndex?) {
+                stroke: Stroke? = nil,
+                zone: ValidatedBinaryInteger<UInt8>? = nil,
+                ballSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
+                deviceIndex: DeviceIndex? = nil) {
 
         self.timeStamp = timeStamp
         self.position = position
@@ -369,11 +367,9 @@ open class RecordMessage: FitMessage {
 
                 case .resistance:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        resistance = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        resistance = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    resistance = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                         definition: definition,
+                                                                         dataStrategy: dataStrategy)
 
                 case .timeFromCourse:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -410,21 +406,17 @@ open class RecordMessage: FitMessage {
 
                 case .cycles:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * cycles + 0
-                        cycles = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        cycles = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    // 1 * cycles + 0
+                    cycles = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                     definition: definition,
+                                                                     dataStrategy: dataStrategy)
 
                 case .totalCycles:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * cycles + 0
-                        totalCycles = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        totalCycles = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    // 1 * cycles + 0
+                    totalCycles = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                           definition: definition,
+                                                                           dataStrategy: dataStrategy)
 
                 case .compressedAccumulatedPower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -576,11 +568,9 @@ open class RecordMessage: FitMessage {
 
                 case .zone:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        zone = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        zone = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    zone = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                   definition: definition,
+                                                                   dataStrategy: dataStrategy)
 
                 case .ballSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)

@@ -33,9 +33,7 @@ import FitnessUnits
 open class CoursePointMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 32
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 32 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -62,13 +60,13 @@ open class CoursePointMessage: FitMessage {
         self.position = Position(latitude: nil, longitude: nil)
     }
 
-    public init(timeStamp: FitTime?,
-                messageIndex: MessageIndex?,
-                name: String?,
+    public init(timeStamp: FitTime? = nil,
+                messageIndex: MessageIndex? = nil,
+                name: String? = nil,
                 position: Position,
-                distance: ValidatedMeasurement<UnitLength>?,
-                pointType: CoursePoint?,
-                isFavorite: Bool?) {
+                distance: ValidatedMeasurement<UnitLength>? = nil,
+                pointType: CoursePoint? = nil,
+                isFavorite: Bool? = nil) {
         
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex

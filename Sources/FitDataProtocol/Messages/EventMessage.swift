@@ -32,9 +32,7 @@ import FitnessUnits
 open class EventMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 21
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 21 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -56,12 +54,12 @@ open class EventMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                eventData: ValidatedBinaryInteger<UInt16>?,
-                eventMoreData: ValidatedBinaryInteger<UInt32>?,
-                event: Event?,
-                eventType: EventType?,
-                eventGroup: ValidatedBinaryInteger<UInt8>?) {
+    public init(timeStamp: FitTime? = nil,
+                eventData: ValidatedBinaryInteger<UInt16>? = nil,
+                eventMoreData: ValidatedBinaryInteger<UInt32>? = nil,
+                event: Event? = nil,
+                eventType: EventType? = nil,
+                eventGroup: ValidatedBinaryInteger<UInt8>? = nil) {
         
         self.timeStamp = timeStamp
         self.eventData = eventData
@@ -98,34 +96,34 @@ open class EventMessage: FitMessage {
                 switch converter {
 
                 case .event:
-                    event = Event.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
+                    event = Event.decode(decoder: &localDecoder,
+                                         definition: definition,
+                                         data: fieldData,
+                                         dataStrategy: dataStrategy)
 
                 case .eventType:
-                    eventType = EventType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
+                    eventType = EventType.decode(decoder: &localDecoder,
+                                                 definition: definition,
+                                                 data: fieldData,
+                                                 dataStrategy: dataStrategy)
 
                 case .data16:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        eventData = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        eventData = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    eventData = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                         definition: definition,
+                                                                         dataStrategy: dataStrategy)
 
                 case .data32:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        eventMoreData = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        eventMoreData = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    eventMoreData = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                             definition: definition,
+                                                                             dataStrategy: dataStrategy)
 
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        eventGroup = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        eventGroup = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    eventGroup = ValidatedBinaryInteger<UInt8>.validated(value: value,
+                                                                         definition: definition,
+                                                                         dataStrategy: dataStrategy)
 
                 case .score:
                     // not populated directly

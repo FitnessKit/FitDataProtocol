@@ -64,7 +64,6 @@ extension FileType: Equatable {
 
 extension FileType: Hashable {
 
-
     /// The hash value.
     ///
     /// Hash values are not guaranteed to be equal across different executions of

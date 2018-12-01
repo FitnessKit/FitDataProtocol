@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class ConnectivityMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 127
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 127 }
 
     /// Bluetooth Enabled
     private(set) public var bluetoothEnabled: Bool?
@@ -78,19 +76,19 @@ open class ConnectivityMessage: FitMessage {
 
     public required init() {}
 
-    public init(bluetoothEnabled: Bool?,
-                bluetoothLowEnergyEnable: Bool?,
-                antEnabled: Bool?,
-                name: String?,
-                liveTrackingEnabled: Bool?,
-                weatherConditionsEnabled: Bool?,
-                weatherAlertsEnabled: Bool?,
-                autoActivityUploadEnabled: Bool?,
-                courseDownloadEnabled: Bool?,
-                workoutDownloadEnabled: Bool?,
-                gpsEphemerisDownloadEnabled: Bool?,
-                incidentDetectionEnabled: Bool?,
-                groupTrackEnabled: Bool?) {
+    public init(bluetoothEnabled: Bool? = nil,
+                bluetoothLowEnergyEnable: Bool? = nil,
+                antEnabled: Bool? = nil,
+                name: String? = nil,
+                liveTrackingEnabled: Bool? = nil,
+                weatherConditionsEnabled: Bool? = nil,
+                weatherAlertsEnabled: Bool? = nil,
+                autoActivityUploadEnabled: Bool? = nil,
+                courseDownloadEnabled: Bool? = nil,
+                workoutDownloadEnabled: Bool? = nil,
+                gpsEphemerisDownloadEnabled: Bool? = nil,
+                incidentDetectionEnabled: Bool? = nil,
+                groupTrackEnabled: Bool? = nil) {
 
         self.bluetoothEnabled = bluetoothEnabled
         self.bluetoothLowEnergyEnable = bluetoothLowEnergyEnable

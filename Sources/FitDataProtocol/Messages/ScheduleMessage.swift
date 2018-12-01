@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class ScheduleMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 28
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 28 }
 
     /// Manufacturer
     ///
@@ -70,13 +68,13 @@ open class ScheduleMessage: FitMessage {
 
     public required init() {}
 
-    public init(manufacturer: Manufacturer?,
-                product: ValidatedBinaryInteger<UInt16>?,
-                serialNumber: ValidatedBinaryInteger<UInt32>?,
-                timeCreated: FitTime?,
-                completed: Bool?,
-                scheduleType: ScheduleType?,
-                scheduledTime: FitTime?) {
+    public init(manufacturer: Manufacturer? = nil,
+                product: ValidatedBinaryInteger<UInt16>? = nil,
+                serialNumber: ValidatedBinaryInteger<UInt32>? = nil,
+                timeCreated: FitTime? = nil,
+                completed: Bool? = nil,
+                scheduleType: ScheduleType? = nil,
+                scheduledTime: FitTime? = nil) {
 
         self.manufacturer = manufacturer
         self.product = product
@@ -122,19 +120,15 @@ open class ScheduleMessage: FitMessage {
 
                 case .product:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        product = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        product = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    product = ValidatedBinaryInteger<UInt16>.validated(value: value,
+                                                                       definition: definition,
+                                                                       dataStrategy: dataStrategy)
 
                 case .serialNumber:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        serialNumber = ValidatedBinaryInteger(value: value, valid: true)
-                    } else {
-                        serialNumber = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-                    }
+                    serialNumber = ValidatedBinaryInteger<UInt32>.validated(value: value,
+                                                                            definition: definition,
+                                                                            dataStrategy: dataStrategy)
 
                 case .timeCreated:
                     timeCreated = FitTime.decode(decoder: &localDecoder,
@@ -149,18 +143,10 @@ open class ScheduleMessage: FitMessage {
                     }
 
                 case .scheduleType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        scheduleType = ScheduleType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            scheduleType = ScheduleType.invalid
-                        }
-                    }
+                    scheduleType = ScheduleType.decode(decoder: &localDecoder,
+                                                       definition: definition,
+                                                       data: fieldData,
+                                                       dataStrategy: dataStrategy)
 
                 case .scheduledTime:
                     scheduledTime = FitTime.decode(decoder: &localDecoder,

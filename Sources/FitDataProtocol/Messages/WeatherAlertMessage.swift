@@ -33,9 +33,7 @@ import AntMessageProtocol
 open class WeatherAlertMessage: FitMessage {
 
     /// FIT Message Global Number
-    public override class func globalMessageNumber() -> UInt16 {
-        return 129
-    }
+    public override class func globalMessageNumber() -> UInt16 { return 129 }
 
     /// Timestamp
     private(set) public var timeStamp: FitTime?
@@ -61,15 +59,14 @@ open class WeatherAlertMessage: FitMessage {
     /// Alert Type
     private(set) public var alertType: WeatherSeverityType?
 
-
     public required init() {}
 
-    public init(timeStamp: FitTime?,
-                reportID: String?,
-                issueTime: FitTime?,
-                expireTime: FitTime?,
-                severity: WeatherSeverity?,
-                alertType: WeatherSeverityType?) {
+    public init(timeStamp: FitTime? = nil,
+                reportID: String? = nil,
+                issueTime: FitTime? = nil,
+                expireTime: FitTime? = nil,
+                severity: WeatherSeverity? = nil,
+                alertType: WeatherSeverityType? = nil) {
         
         self.timeStamp = timeStamp
         self.reportID = reportID
@@ -126,32 +123,16 @@ open class WeatherAlertMessage: FitMessage {
                                                 data: fieldData)
 
                 case .severity:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        severity = WeatherSeverity(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            severity = WeatherSeverity.invalid
-                        }
-                    }
+                    severity = WeatherSeverity.decode(decoder: &localDecoder,
+                                                      definition: definition,
+                                                      data: fieldData,
+                                                      dataStrategy: dataStrategy)
 
                 case .alertType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        alertType = WeatherSeverityType(rawValue: value)
-                    } else {
-
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            alertType = WeatherSeverityType.invalid
-                        }
-                    }
+                    alertType = WeatherSeverityType.decode(decoder: &localDecoder,
+                                                           definition: definition,
+                                                           data: fieldData,
+                                                           dataStrategy: dataStrategy)
 
                 case .timestamp:
                     timestamp = FitTime.decode(decoder: &localDecoder,
