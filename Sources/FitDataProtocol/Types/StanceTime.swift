@@ -26,13 +26,18 @@ import Foundation
 import FitnessUnits
 
 /// FIT Stance Time
-public struct StanceTime {
+public struct StanceTime: NilInitializer {
 
     /// Percentage
     private(set) public var percent: ValidatedMeasurement<UnitPercent>?
 
     /// Time
     private(set) public var time: ValidatedMeasurement<UnitDuration>?
+
+    /// Create nil Object
+    public static var nilSelf: StanceTime {
+        return StanceTime(percent: nil, time: nil)
+    }
 
     public init(percent: ValidatedMeasurement<UnitPercent>?,
                 time: ValidatedMeasurement<UnitDuration>?) {

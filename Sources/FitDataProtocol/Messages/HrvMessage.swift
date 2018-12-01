@@ -26,6 +26,9 @@ import Foundation
 import DataDecoder
 
 /// FIT HRV Message
+///
+/// Used to record heart rate variability data. The hrv data messages contain an
+/// array of RR intervals and are interleaved with record and event messages in chronological order
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class HrvMessage: FitMessage {
@@ -99,7 +102,7 @@ open class HrvMessage: FitMessage {
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataEncodingStrategy: FitFileEncoder.EncodingStrategy) throws -> Data {
+    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
         var msgData = Data()
 
         var fileDefs = [FieldDefinition]()

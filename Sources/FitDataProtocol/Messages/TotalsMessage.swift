@@ -205,7 +205,7 @@ open class TotalsMessage: FitMessage {
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataEncodingStrategy: FitFileEncoder.EncodingStrategy) throws -> Data {
+    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
         var msgData = Data()
 
         var fileDefs = [FieldDefinition]()

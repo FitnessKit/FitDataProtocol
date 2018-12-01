@@ -1,8 +1,8 @@
 //
-//  ScoreType.swift
+//  NilInitializerProtocol.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 10/12/18.
+//  Created by Kevin Hoogheem on 12/1/18.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,26 +23,9 @@
 //  THE SOFTWARE.
 
 import Foundation
-import FitnessUnits
 
-/// FIT Score Data
-public struct Score: NilInitializer {
+public protocol NilInitializer {
 
-    /// Player Score
-    private(set) public var playerScore: ValidatedBinaryInteger<UInt16>?
-
-    /// Opponent Score
-    private(set) public var opponentScore: ValidatedBinaryInteger<UInt16>?
-
-    /// Create nil Object
-    public static var nilSelf: Score {
-        return Score(playerScore: nil, opponentScore: nil)
-    }
-
-    public init(playerScore: ValidatedBinaryInteger<UInt16>?,
-                opponentScore: ValidatedBinaryInteger<UInt16>?) {
-
-        self.playerScore = playerScore
-        self.opponentScore = opponentScore
-    }
+    /// Create a nil object
+    static var nilSelf: Self { get }
 }

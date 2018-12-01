@@ -27,6 +27,9 @@ import DataDecoder
 import FitnessUnits
 
 /// FIT Activity Message
+///
+/// Provides a high level description of the overall activity file.
+/// This includes overall time, number of sessions and the type of each session
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class ActivityMessage: FitMessage {
@@ -75,6 +78,7 @@ open class ActivityMessage: FitMessage {
         self.totalTimerTime = totalTimerTime
         self.localTimeStamp = localTimeStamp
         self.numberOfSessions = numberOfSessions
+        self.activity = activity
         self.event = event
         self.eventType = eventType
         self.eventGroup = eventGroup
@@ -175,7 +179,10 @@ open class ActivityMessage: FitMessage {
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataEncodingStrategy: FitFileEncoder.EncodingStrategy) throws -> Data {
+    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
+
+        try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+
         var msgData = Data()
 
         var fileDefs = [FieldDefinition]()
@@ -272,4 +279,49 @@ open class ActivityMessage: FitMessage {
         }
     }
 
+}
+
+private extension ActivityMessage {
+
+    private func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
+
+        switch dataValidityStrategy {
+        case .none:
+        break // do nothing
+        case .fileType:
+            if fileType == FileType.activity {
+                try validateActivity(isGarmin: false)
+            }
+        case .garminConnect:
+            if fileType == FileType.activity {
+                try validateActivity(isGarmin: true)
+            }
+        }
+    }
+
+    private func validateActivity(isGarmin: Bool) throws {
+
+        let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
+
+        guard self.timeStamp != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require ActivityMessage to contain timeStamp, can not be nil"))
+        }
+
+        guard self.numberOfSessions != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require ActivityMessage to contain numberOfSessions, can not be nil"))
+        }
+
+        guard self.activity != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require ActivityMessage to contain activity, can not be nil"))
+        }
+
+        guard self.event != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require ActivityMessage to contain event, can not be nil"))
+        }
+
+        guard self.eventType != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require ActivityMessage to contain eventType, can not be nil"))
+        }
+
+    }
 }

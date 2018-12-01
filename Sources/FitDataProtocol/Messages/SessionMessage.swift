@@ -1331,7 +1331,7 @@ open class SessionMessage: FitMessage {
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataEncodingStrategy: FitFileEncoder.EncodingStrategy) throws -> Data {
+    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
         var msgData = Data()
 
         var fileDefs = [FieldDefinition]()
@@ -2068,6 +2068,54 @@ open class SessionMessage: FitMessage {
 
 }
 
+private extension SessionMessage {
+
+    private func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
+
+        switch dataValidityStrategy {
+        case .none:
+        break // do nothing
+        case .fileType:
+            if fileType == FileType.activity {
+                try validateActivity(isGarmin: false)
+            }
+        case .garminConnect:
+            if fileType == FileType.activity {
+                try validateActivity(isGarmin: true)
+            }
+        }
+    }
+
+    private func validateActivity(isGarmin: Bool) throws {
+
+        let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
+
+        guard self.timeStamp != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain timeStamp, can not be nil"))
+        }
+
+        guard self.startTime != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain startTime, can not be nil"))
+        }
+
+        guard self.totalElapsedTime != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain totalElapsedTime, can not be nil"))
+        }
+
+        guard self.sport != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain sport, can not be nil"))
+        }
+
+        guard self.event != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain event, can not be nil"))
+        }
+
+        guard self.eventType != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain eventType, can not be nil"))
+        }
+
+    }
+}
 
 private extension SessionMessage {
 

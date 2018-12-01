@@ -26,13 +26,18 @@ import Foundation
 import FitnessUnits
 
 /// FIT Position Data
-public struct Position {
+public struct Position: NilInitializer {
 
     /// Position in Latitude
     private(set) public var latitude: ValidatedMeasurement<UnitAngle>?
 
     /// Position in Longitude
     private(set) public var longitude: ValidatedMeasurement<UnitAngle>?
+
+    /// Create nil Object
+    public static var nilSelf: Position {
+        return Position(latitude: nil, longitude: nil)
+    }
 
     public init(latitude: ValidatedMeasurement<UnitAngle>?,
                 longitude: ValidatedMeasurement<UnitAngle>?) {

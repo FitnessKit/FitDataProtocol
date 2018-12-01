@@ -14,7 +14,7 @@ class FitDataProtocolTests: XCTestCase {
         let act = ActivityMessage(timeStamp: fTime,
                                   totalTimerTime: nil,
                                   localTimeStamp: nil,
-                                  numberOfSessions: nil,
+                                  numberOfSessions: ValidatedBinaryInteger(value: UInt16(22), valid: true),
                                   activity: Activity.multisport,
                                   event: nil,
                                   eventType: nil,
@@ -23,13 +23,13 @@ class FitDataProtocolTests: XCTestCase {
         let fiel = FileIdMessage(deviceSerialNumber: ValidatedBinaryInteger(value: UInt32(22), valid: true),
                                  fileCreationDate: fTime,
                                  manufacturer: Manufacturer.northPoleEngineering,
-                                 product: nil,
+                                 product: ValidatedBinaryInteger(value: UInt16(22), valid: true),
                                  fileNumber: nil,
                                  fileType: FileType.activity,
                                  productName: nil)
 
         do {
-            let encoder = FitFileEncoder(dataEncodingStrategy: .none)
+            let encoder = FitFileEncoder(dataValidityStrategy: .fileType)
 
             let data = try encoder.encode(fildIdMessage: fiel, messages: [act])
             print(data as NSData)

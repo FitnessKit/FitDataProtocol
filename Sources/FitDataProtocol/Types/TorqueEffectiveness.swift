@@ -26,13 +26,18 @@ import Foundation
 import FitnessUnits
 
 /// FIT Torque Effectiveness
-public struct TorqueEffectiveness {
+public struct TorqueEffectiveness: NilInitializer {
 
     /// Left Torque Effectiveness
     private(set) public var left: ValidatedMeasurement<UnitPercent>?
 
     /// Right Torque Effectiveness
     private(set) public var right: ValidatedMeasurement<UnitPercent>?
+
+    /// Create nil Object
+    public static var nilSelf: TorqueEffectiveness {
+        return TorqueEffectiveness(left: nil, right: nil)
+    }
 
     internal init(left: ValidatedMeasurement<UnitPercent>?,
                   right: ValidatedMeasurement<UnitPercent>?) {
