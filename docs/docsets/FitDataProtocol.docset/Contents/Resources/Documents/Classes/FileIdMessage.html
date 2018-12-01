@@ -48,7 +48,7 @@
               <h1>FileIdMessage</h1>
                 <div class="declaration">
                   <div class="language">
-                    <pre class="highlight swift"><code><span class="kd">@available(* 4.0, iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)</span>
+                    <pre class="highlight swift"><code><span class="kd">@available(* 4.2, iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)</span>
 <span class="kd">open</span> <span class="kd">class</span> <span class="kt">FileIdMessage</span> <span class="p">:</span> <span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span></code></pre>
 
                   </div>
@@ -251,6 +251,33 @@
                   <li class="item">
                     <div>
                       <code>
+                      <a name="/s:15FitDataProtocol13FileIdMessageC11productNameSSSgvp"></a>
+                      <a name="//apple_ref/swift/Property/productName" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol13FileIdMessageC11productNameSSSgvp">productName</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Product Name</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">productName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
                       <a name="/s:15FitDataProtocol13FileIdMessageCACycfc"></a>
                       <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
                       <a class="token" href="#/s:15FitDataProtocol13FileIdMessageCACycfc">init()</a>
@@ -278,9 +305,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol13FileIdMessageC18deviceSerialNumber16fileCreationDate12manufacturer7product0jI00J4TypeAC12FitnessUnits22ValidatedBinaryIntegerVys6UInt32VGSg_AA0A4TimeVSg03AntfC012ManufacturerCSgALys6UInt16VGSgA_AA0dO0VSgtcfc"></a>
-                      <a name="//apple_ref/swift/Method/init(deviceSerialNumber:fileCreationDate:manufacturer:product:fileNumber:fileType:)" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol13FileIdMessageC18deviceSerialNumber16fileCreationDate12manufacturer7product0jI00J4TypeAC12FitnessUnits22ValidatedBinaryIntegerVys6UInt32VGSg_AA0A4TimeVSg03AntfC012ManufacturerCSgALys6UInt16VGSgA_AA0dO0VSgtcfc">init(deviceSerialNumber:fileCreationDate:manufacturer:product:fileNumber:fileType:)</a>
+                      <a name="/s:15FitDataProtocol13FileIdMessageC18deviceSerialNumber16fileCreationDate12manufacturer7product0jI00J4Type0N4NameAC12FitnessUnits22ValidatedBinaryIntegerVys6UInt32VGSg_AA0A4TimeVSg03AntfC012ManufacturerCSgAMys6UInt16VGSgA0_AA0dO0VSgSSSgtcfc"></a>
+                      <a name="//apple_ref/swift/Method/init(deviceSerialNumber:fileCreationDate:manufacturer:product:fileNumber:fileType:productName:)" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol13FileIdMessageC18deviceSerialNumber16fileCreationDate12manufacturer7product0jI00J4Type0N4NameAC12FitnessUnits22ValidatedBinaryIntegerVys6UInt32VGSg_AA0A4TimeVSg03AntfC012ManufacturerCSgAMys6UInt16VGSgA0_AA0dO0VSgSSSgtcfc">init(deviceSerialNumber:fileCreationDate:manufacturer:product:fileNumber:fileType:productName:)</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -295,12 +322,13 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">deviceSerialNumber</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt32</span><span class="o">&gt;</span><span class="p">?,</span>
-            <span class="nv">fileCreationDate</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?,</span>
-            <span class="nv">manufacturer</span><span class="p">:</span> <span class="kt">Manufacturer</span><span class="p">?,</span>
-            <span class="nv">product</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt16</span><span class="o">&gt;</span><span class="p">?,</span>
-            <span class="nv">fileNumber</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt16</span><span class="o">&gt;</span><span class="p">?,</span>
-            <span class="nv">fileType</span><span class="p">:</span> <span class="kt"><a href="../Structs/FileType.html">FileType</a></span><span class="p">?)</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">deviceSerialNumber</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt32</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">fileCreationDate</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">manufacturer</span><span class="p">:</span> <span class="kt">Manufacturer</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">product</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt16</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">fileNumber</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt16</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">fileType</span><span class="p">:</span> <span class="kt"><a href="../Structs/FileType.html">FileType</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">productName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                           </div>
                         </div>
@@ -359,7 +387,7 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MessageKeys</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CodingKey</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MessageKeys</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CodingKey</span><span class="p">,</span> <span class="kt">CaseIterable</span></code></pre>
 
                           </div>
                         </div>
@@ -417,6 +445,17 @@
                 </li>
                 <li class="nav-group-task">
                   <a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">– DataDecodingStrategy</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="../Encoder.html">Encoder</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileEncoder.html">FitFileEncoder</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileEncoder/ValidityStrategy.html">– ValidityStrategy</a>
                 </li>
               </ul>
             </li>
@@ -983,6 +1022,9 @@
               <ul class="nav-group-tasks">
                 <li class="nav-group-task">
                   <a href="../Protocols/FitMessageKeys.html">FitMessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Protocols/NilInitializer.html">NilInitializer</a>
                 </li>
               </ul>
             </li>

@@ -63,10 +63,11 @@
 
 <p>Swift Package Manager:</p>
 <pre class="highlight swift"><code>    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-        <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/FitnessKit/FitDataProtocol"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"0.15.1"</span><span class="p">)</span>
+        <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/FitnessKit/FitDataProtocol"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"0.20.0"</span><span class="p">)</span>
     <span class="p">]</span>
 </code></pre>
 <h2 id='how-to-use' class='heading'>How to Use</h2>
+<h3 id='decoding-fit-files' class='heading'>Decoding FIT Files</h3>
 <pre class="highlight plaintext"><code>let fileUrl = URL(fileURLWithPath: "WeightScaleMultiUser" + ".fit")
 let fileData = try? Data(contentsOf: fileUrl)
 
@@ -107,6 +108,41 @@ if let fileData = fileData {
     }
 }
 </code></pre>
+<h3 id='encoding-fit-files' class='heading'>Encoding FIT Files</h3>
+
+<p>Example:</p>
+<pre class="highlight plaintext"><code>let time = FitTime(date: Date())
+
+let activity = ActivityMessage(timeStamp: time,
+                               totalTimerTime: nil,
+                               localTimeStamp: nil,
+                               numberOfSessions: nil,
+                               activity: Activity.multisport,
+                               event: nil,
+                               eventType: nil,
+                               eventGroup: nil)
+
+
+let fieldId = FileIdMessage(deviceSerialNumber: nil,
+                            fileCreationDate: time,
+                            manufacturer: Manufacturer.garmin,
+                            product: nil,
+                            fileNumber: nil,
+                            fileType: FileType.activity,
+                            productName: nil)
+
+do {
+    let encoder = FitFileEncoder(dataEncodingStrategy: .none)
+
+    let data = try encoder.encode(fildIdMessage: fieldId, messages: [act])
+    print(data as NSData)
+
+    /// you can save off the file data
+
+} catch  {
+    print(error)
+}
+</code></pre>
 <h2 id='author' class='heading'>Author</h2>
 
 <p>This package is developed and maintained by Kevin A. Hoogheem</p>
@@ -132,6 +168,17 @@ if let fileData = fileData {
                 </li>
                 <li class="nav-group-task">
                   <a href="Structs/FitFileDecoder/DataDecodingStrategy.html">– DataDecodingStrategy</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="Encoder.html">Encoder</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="Structs/FitFileEncoder.html">FitFileEncoder</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="Structs/FitFileEncoder/ValidityStrategy.html">– ValidityStrategy</a>
                 </li>
               </ul>
             </li>
@@ -698,6 +745,9 @@ if let fileData = fileData {
               <ul class="nav-group-tasks">
                 <li class="nav-group-task">
                   <a href="Protocols/FitMessageKeys.html">FitMessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="Protocols/NilInitializer.html">NilInitializer</a>
                 </li>
               </ul>
             </li>

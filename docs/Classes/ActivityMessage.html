@@ -48,12 +48,15 @@
               <h1>ActivityMessage</h1>
                 <div class="declaration">
                   <div class="language">
-                    <pre class="highlight swift"><code><span class="kd">@available(* 4.0, iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)</span>
+                    <pre class="highlight swift"><code><span class="kd">@available(* 4.2, iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)</span>
 <span class="kd">open</span> <span class="kd">class</span> <span class="kt">ActivityMessage</span> <span class="p">:</span> <span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span></code></pre>
 
                   </div>
                 </div>
               <p>FIT Activity Message</p>
+
+<p>Provides a high level description of the overall activity file.
+This includes overall time, number of sessions and the type of each session</p>
 
             </section>
             <section class="section task-group-section">
@@ -351,14 +354,14 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?,</span>
-            <span class="nv">totalTimerTime</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?,</span>
-            <span class="nv">localTimeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?,</span>
-            <span class="nv">numberOfSessions</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt16</span><span class="o">&gt;</span><span class="p">?,</span>
-            <span class="nv">activity</span><span class="p">:</span> <span class="kt"><a href="../Enums/Activity.html">Activity</a></span><span class="p">?,</span>
-            <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Enums/Event.html">Event</a></span><span class="p">?,</span>
-            <span class="nv">eventType</span><span class="p">:</span> <span class="kt"><a href="../Enums/EventType.html">EventType</a></span><span class="p">?,</span>
-            <span class="nv">eventGroup</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt8</span><span class="o">&gt;</span><span class="p">?)</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">totalTimerTime</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">localTimeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">numberOfSessions</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt16</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">activity</span><span class="p">:</span> <span class="kt"><a href="../Enums/Activity.html">Activity</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Enums/Event.html">Event</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">eventType</span><span class="p">:</span> <span class="kt"><a href="../Enums/EventType.html">EventType</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">eventGroup</span><span class="p">:</span> <span class="kt">ValidatedBinaryInteger</span><span class="o">&lt;</span><span class="kt">UInt8</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                           </div>
                         </div>
@@ -417,7 +420,7 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MessageKeys</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CodingKey</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MessageKeys</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CodingKey</span><span class="p">,</span> <span class="kt">CaseIterable</span></code></pre>
 
                           </div>
                         </div>
@@ -475,6 +478,17 @@
                 </li>
                 <li class="nav-group-task">
                   <a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">– DataDecodingStrategy</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group-name">
+              <a href="../Encoder.html">Encoder</a>
+              <ul class="nav-group-tasks">
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileEncoder.html">FitFileEncoder</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Structs/FitFileEncoder/ValidityStrategy.html">– ValidityStrategy</a>
                 </li>
               </ul>
             </li>
@@ -1041,6 +1055,9 @@
               <ul class="nav-group-tasks">
                 <li class="nav-group-task">
                   <a href="../Protocols/FitMessageKeys.html">FitMessageKeys</a>
+                </li>
+                <li class="nav-group-task">
+                  <a href="../Protocols/NilInitializer.html">NilInitializer</a>
                 </li>
               </ul>
             </li>

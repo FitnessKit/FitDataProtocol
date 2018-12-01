@@ -16,6 +16,10 @@ custom_categories:
   - name: Decoder
     children:
     - FitFileDecoder
+  
+  - name: Encoder
+    children:
+    - FitFileEncoder
  
   - name: FIT Merge
     children:

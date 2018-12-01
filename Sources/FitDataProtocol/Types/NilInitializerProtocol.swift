@@ -24,6 +24,7 @@
 
 import Foundation
 
+/// Provides a method to Create nil objects
 public protocol NilInitializer {
 
     /// Create a nil object
