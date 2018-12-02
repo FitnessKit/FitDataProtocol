@@ -214,13 +214,13 @@ internal extension BinaryInteger {
         case .uint16:
             return self != 0xFFFF
         case .sint32:
-            return self != 0x7FFFFFFF
+            return self != Int32.max
         case .uint32:
-            return self != 0xFFFFFFFF
+            return self != UInt32.max
         case .string:
             return self != 0x00
         case .float32:
-            return self != 0xFFFFFFFF
+            return self != UInt32.max
         case .float64:
             return self != UInt64.max
         case .uint8z:
@@ -232,7 +232,7 @@ internal extension BinaryInteger {
         case .byte:
             return self != 0xFF
         case .sint64:
-            return self != 0x7FFFFFFFFFFFFFFF
+            return self != Int64.max
         case .uint64:
             return self != UInt64.max
         case .uint64z:
@@ -275,13 +275,13 @@ internal extension ValidatedMeasurement {
             case .uint16:
                 return ValidatedMeasurement<T>(value: Double(0xFFFF), valid: false, unit: unit)
             case .sint32:
-                return ValidatedMeasurement<T>(value: Double(0x7FFFFFFF), valid: false, unit: unit)
+                return ValidatedMeasurement<T>(value: Double(Int32.max), valid: false, unit: unit)
             case .uint32:
-                return ValidatedMeasurement<T>(value: Double(0xFFFFFFFF), valid: false, unit: unit)
+                return ValidatedMeasurement<T>(value: Double(UInt32.max), valid: false, unit: unit)
             case .string:
                 return ValidatedMeasurement<T>(value: Double(0x00), valid: false, unit: unit)
             case .float32:
-                return ValidatedMeasurement<T>(value: Double(0xFFFFFFFF), valid: false, unit: unit)
+                return ValidatedMeasurement<T>(value: Double(UInt32.max), valid: false, unit: unit)
             case .float64:
                 return ValidatedMeasurement<T>(value: Double(UInt64.max), valid: false, unit: unit)
             case .uint8z:
@@ -293,7 +293,7 @@ internal extension ValidatedMeasurement {
             case .byte:
                 return ValidatedMeasurement<T>(value: Double(0xFF), valid: false, unit: unit)
             case .sint64:
-                return ValidatedMeasurement<T>(value: Double(0x7FFFFFFFFFFFFFFF), valid: false, unit: unit)
+                return ValidatedMeasurement<T>(value: Double(Int64.max), valid: false, unit: unit)
             case .uint64:
                 return ValidatedMeasurement<T>(value: Double(UInt64.max), valid: false, unit: unit)
             case .uint64z:
