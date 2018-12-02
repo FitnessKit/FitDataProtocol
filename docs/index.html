@@ -110,6 +110,16 @@ if let fileData = fileData {
 </code></pre>
 <h3 id='encoding-fit-files' class='heading'>Encoding FIT Files</h3>
 
+<p>As part of the Encoding of the FIT Files you can check for Validity of the data you are encoding.</p>
+
+<p>The options are</p>
+
+<ul>
+<li>none - No Validity Checks are done</li>
+<li>fileType - Based on the File Type, checks will be done to insure correct fields are included</li>
+<li>garminConnect - Special Check for creating FIT files for GarminConnect</li>
+</ul>
+
 <p>Example:</p>
 <pre class="highlight plaintext"><code>let time = FitTime(date: Date())
 
@@ -132,9 +142,9 @@ let fieldId = FileIdMessage(deviceSerialNumber: nil,
                             productName: nil)
 
 do {
-    let encoder = FitFileEncoder(dataEncodingStrategy: .none)
+    let encoder = FitFileEncoder(dataValidityStrategy: .none)
 
-    let data = try encoder.encode(fildIdMessage: fieldId, messages: [act])
+    let data = try encoder.encode(fildIdMessage: fieldId, messages: [activity])
     print(data as NSData)
 
     /// you can save off the file data

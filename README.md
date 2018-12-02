@@ -72,6 +72,14 @@ if let fileData = fileData {
 
 ### Encoding FIT Files
 
+As part of the Encoding of the FIT Files you can check for Validity of the data you are encoding.
+
+The options are
+
+* none - No Validity Checks are done
+* fileType - Based on the File Type, checks will be done to insure correct fields are included
+* garminConnect - Special Check for creating FIT files for GarminConnect
+
 Example:
 ```
 let time = FitTime(date: Date())
@@ -95,9 +103,9 @@ let fieldId = FileIdMessage(deviceSerialNumber: nil,
                             productName: nil)
 
 do {
-    let encoder = FitFileEncoder(dataEncodingStrategy: .none)
+    let encoder = FitFileEncoder(dataValidityStrategy: .none)
 
-    let data = try encoder.encode(fildIdMessage: fieldId, messages: [act])
+    let data = try encoder.encode(fildIdMessage: fieldId, messages: [activity])
     print(data as NSData)
 
     /// you can save off the file data
