@@ -168,11 +168,16 @@ open class ScheduleMessage: FitMessage {
                                scheduledTime: scheduledTime)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -180,54 +185,19 @@ open class ScheduleMessage: FitMessage {
 
             switch key {
             case .manufacturer:
-                if let manufacturer = manufacturer {
-                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = manufacturer { fileDefs.append(key.fieldDefinition()) }
             case .product:
-                if let product = product {
-                    msgData.append(Data(from: product.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = product { fileDefs.append(key.fieldDefinition()) }
             case .serialNumber:
-                if let serialNumber = serialNumber {
-                    msgData.append(Data(from: serialNumber.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = serialNumber { fileDefs.append(key.fieldDefinition()) }
             case .timeCreated:
-                if let timeCreated = timeCreated {
-                    msgData.append(timeCreated.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = timeCreated { fileDefs.append(key.fieldDefinition()) }
             case .completed:
-                if let completed = completed {
-                    msgData.append(completed.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = completed { fileDefs.append(key.fieldDefinition()) }
             case .scheduleType:
-                if let scheduleType = scheduleType {
-                    msgData.append(scheduleType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = scheduleType { fileDefs.append(key.fieldDefinition()) }
             case .scheduledTime:
-                if let scheduledTime = scheduledTime {
-                    msgData.append(scheduledTime.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = scheduledTime { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -239,13 +209,71 @@ open class ScheduleMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "ScheduleMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding ScheduleMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .manufacturer:
+                if let manufacturer = manufacturer {
+                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+                }
+
+            case .product:
+                if let product = product {
+                    msgData.append(Data(from: product.value.littleEndian))
+                }
+
+            case .serialNumber:
+                if let serialNumber = serialNumber {
+                    msgData.append(Data(from: serialNumber.value.littleEndian))
+                }
+
+            case .timeCreated:
+                if let timeCreated = timeCreated {
+                    msgData.append(timeCreated.encode())
+                }
+
+            case .completed:
+                if let completed = completed {
+                    msgData.append(completed.uint8Value)
+                }
+
+            case .scheduleType:
+                if let scheduleType = scheduleType {
+                    msgData.append(scheduleType.rawValue)
+                }
+
+            case .scheduledTime:
+                if let scheduledTime = scheduledTime {
+                    msgData.append(scheduledTime.encode())
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

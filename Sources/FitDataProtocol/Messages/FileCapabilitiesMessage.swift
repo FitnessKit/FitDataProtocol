@@ -151,11 +151,16 @@ open class FileCapabilitiesMessage: FitMessage {
                                        maxSize: maxSize)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -163,50 +168,22 @@ open class FileCapabilitiesMessage: FitMessage {
 
             switch key {
             case .fileType:
-                if let fileType = fileType {
-                    msgData.append(fileType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = fileType { fileDefs.append(key.fieldDefinition()) }
             case .fileFlags:
-                if let fileFlags = fileFlags {
-                    msgData.append(fileFlags.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = fileFlags { fileDefs.append(key.fieldDefinition()) }
             case .directory:
-                if let directory = directory {
-                    if let stringData = directory.data(using: .utf8) {
-                        msgData.append(stringData)
-
-                        //16 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = directory?.data(using: .utf8) {
+                    //16 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-
             case .maxCount:
-                if let maxCount = maxCount {
-                    msgData.append(Data(from: maxCount.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maxCount { fileDefs.append(key.fieldDefinition()) }
             case .maxSize:
-                if let maxSize = maxSize {
-                    msgData.append(Data(from: maxSize.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maxSize { fileDefs.append(key.fieldDefinition()) }
             case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-
+                if let _ = messageIndex {
                     fileDefs.append(key.fieldDefinition())
                 }
-
             }
         }
 
@@ -218,13 +195,68 @@ open class FileCapabilitiesMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "FileCapabilitiesMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding FileCapabilitiesMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .fileType:
+                if let fileType = fileType {
+                    msgData.append(fileType.rawValue)
+                }
+
+            case .fileFlags:
+                if let fileFlags = fileFlags {
+                    msgData.append(fileFlags.rawValue)
+                }
+
+            case .directory:
+                if let directory = directory {
+                    if let stringData = directory.data(using: .utf8) {
+                        msgData.append(stringData)
+                    }
+                }
+
+            case .maxCount:
+                if let maxCount = maxCount {
+                    msgData.append(Data(from: maxCount.value.littleEndian))
+                }
+
+            case .maxSize:
+                if let maxSize = maxSize {
+                    msgData.append(Data(from: maxSize.value.littleEndian))
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

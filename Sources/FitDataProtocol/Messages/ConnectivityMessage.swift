@@ -234,11 +234,16 @@ open class ConnectivityMessage: FitMessage {
                                    groupTrackEnabled: groupTrackEnabled)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -246,101 +251,35 @@ open class ConnectivityMessage: FitMessage {
 
             switch key {
             case .bluetoothEnabled:
-                if let bluetoothEnabled = bluetoothEnabled {
-                    msgData.append(bluetoothEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = bluetoothEnabled { fileDefs.append(key.fieldDefinition()) }
             case .bluetoothLowEnergyEnable:
-                if let bluetoothLowEnergyEnable = bluetoothLowEnergyEnable {
-                    msgData.append(bluetoothLowEnergyEnable.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = bluetoothLowEnergyEnable { fileDefs.append(key.fieldDefinition()) }
             case .antEnabled:
-                if let antEnabled = antEnabled {
-                    msgData.append(antEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = antEnabled { fileDefs.append(key.fieldDefinition()) }
             case .connectivityName:
-                if let name = name {
-                    if let stringData = name.data(using: .utf8) {
-                        msgData.append(stringData)
-
-                        //16 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = name?.data(using: .utf8) {
+                    //16 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-
             case .liveTrackingEnabled:
-                if let liveTrackingEnabled = liveTrackingEnabled {
-                    msgData.append(liveTrackingEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = liveTrackingEnabled { fileDefs.append(key.fieldDefinition()) }
             case .weatherConditionsEnabled:
-                if let weatherConditionsEnabled = weatherConditionsEnabled {
-                    msgData.append(weatherConditionsEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = weatherConditionsEnabled { fileDefs.append(key.fieldDefinition()) }
             case .weatherAlertsEnabled:
-                if let weatherAlertsEnabled = weatherAlertsEnabled {
-                    msgData.append(weatherAlertsEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = weatherAlertsEnabled { fileDefs.append(key.fieldDefinition()) }
             case .autoActivityUploadEnabled:
-                if let autoActivityUploadEnabled = autoActivityUploadEnabled {
-                    msgData.append(autoActivityUploadEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = autoActivityUploadEnabled { fileDefs.append(key.fieldDefinition()) }
             case .courseDownloadEnabled:
-                if let courseDownloadEnabled = courseDownloadEnabled {
-                    msgData.append(courseDownloadEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = courseDownloadEnabled { fileDefs.append(key.fieldDefinition()) }
             case .workoutDownloadEnabled:
-                if let workoutDownloadEnabled = workoutDownloadEnabled {
-                    msgData.append(workoutDownloadEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = workoutDownloadEnabled { fileDefs.append(key.fieldDefinition()) }
             case .gpsEphemerisDownloadEnabled:
-                if let gpsEphemerisDownloadEnabled = gpsEphemerisDownloadEnabled {
-                    msgData.append(gpsEphemerisDownloadEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = gpsEphemerisDownloadEnabled { fileDefs.append(key.fieldDefinition()) }
             case .incidentDetectionEnabled:
-                if let incidentDetectionEnabled = incidentDetectionEnabled {
-                    msgData.append(incidentDetectionEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = incidentDetectionEnabled { fileDefs.append(key.fieldDefinition()) }
             case .groupTrackEnabled:
-                if let groupTrackEnabled = groupTrackEnabled {
-                    msgData.append(groupTrackEnabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = groupTrackEnabled { fileDefs.append(key.fieldDefinition())}
             }
-
         }
 
         if fileDefs.count > 0 {
@@ -351,13 +290,103 @@ open class ConnectivityMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "ConnectivityMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding ConnectivityMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .bluetoothEnabled:
+                if let bluetoothEnabled = bluetoothEnabled {
+                    msgData.append(bluetoothEnabled.uint8Value)
+                }
+
+            case .bluetoothLowEnergyEnable:
+                if let bluetoothLowEnergyEnable = bluetoothLowEnergyEnable {
+                    msgData.append(bluetoothLowEnergyEnable.uint8Value)
+                }
+
+            case .antEnabled:
+                if let antEnabled = antEnabled {
+                    msgData.append(antEnabled.uint8Value)
+                }
+
+            case .connectivityName:
+                if let name = name {
+                    if let stringData = name.data(using: .utf8) {
+                        msgData.append(stringData)
+                    }
+                }
+
+            case .liveTrackingEnabled:
+                if let liveTrackingEnabled = liveTrackingEnabled {
+                    msgData.append(liveTrackingEnabled.uint8Value)
+                }
+
+            case .weatherConditionsEnabled:
+                if let weatherConditionsEnabled = weatherConditionsEnabled {
+                    msgData.append(weatherConditionsEnabled.uint8Value)
+                }
+
+            case .weatherAlertsEnabled:
+                if let weatherAlertsEnabled = weatherAlertsEnabled {
+                    msgData.append(weatherAlertsEnabled.uint8Value)
+                }
+
+            case .autoActivityUploadEnabled:
+                if let autoActivityUploadEnabled = autoActivityUploadEnabled {
+                    msgData.append(autoActivityUploadEnabled.uint8Value)
+                }
+
+            case .courseDownloadEnabled:
+                if let courseDownloadEnabled = courseDownloadEnabled {
+                    msgData.append(courseDownloadEnabled.uint8Value)
+                }
+
+            case .workoutDownloadEnabled:
+                if let workoutDownloadEnabled = workoutDownloadEnabled {
+                    msgData.append(workoutDownloadEnabled.uint8Value)
+                }
+
+            case .gpsEphemerisDownloadEnabled:
+                if let gpsEphemerisDownloadEnabled = gpsEphemerisDownloadEnabled {
+                    msgData.append(gpsEphemerisDownloadEnabled.uint8Value)
+                }
+
+            case .incidentDetectionEnabled:
+                if let incidentDetectionEnabled = incidentDetectionEnabled {
+                    msgData.append(incidentDetectionEnabled.uint8Value)
+                }
+
+            case .groupTrackEnabled:
+                if let groupTrackEnabled = groupTrackEnabled {
+                    msgData.append(groupTrackEnabled.uint8Value)
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

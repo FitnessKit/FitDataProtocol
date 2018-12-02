@@ -148,11 +148,16 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                                               segmentTime: segmentTime)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -160,57 +165,20 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
 
             switch key {
             case .name:
-                if let name = name {
-                    if let stringData = name.data(using: .utf8) {
-                        msgData.append(stringData)
-
-                        //16 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = name?.data(using: .utf8) {
+                    //16 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-
             case .boardType:
-                if let boardType = leaderType {
-                    msgData.append(boardType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = leaderType { fileDefs.append(key.fieldDefinition()) }
             case .groupPrimaryKey:
-                if let leaderId = leaderId {
-                    let value = leaderId.value.resolutionUInt32(1)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = leaderId { fileDefs.append(key.fieldDefinition()) }
             case .activityID:
-                if let activityId = activityId {
-                    let value = activityId.value.resolutionUInt32(1)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = activityId { fileDefs.append(key.fieldDefinition()) }
             case .segmentTime:
-                if let segmentTime = segmentTime {
-                    /// 1000 * s + 0
-                    let value = segmentTime.value.resolutionUInt32(1000)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = segmentTime { fileDefs.append(key.fieldDefinition()) }
             case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -222,13 +190,75 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "SegmentLeaderboardEntryMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding SegmentLeaderboardEntryMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .name:
+                if let name = name {
+                    if let stringData = name.data(using: .utf8) {
+                        msgData.append(stringData)
+                    }
+                }
+
+            case .boardType:
+                if let boardType = leaderType {
+                    msgData.append(boardType.rawValue)
+                }
+
+            case .groupPrimaryKey:
+                if let leaderId = leaderId {
+                    let value = leaderId.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .activityID:
+                if let activityId = activityId {
+                    let value = activityId.value.resolutionUInt32(1)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .segmentTime:
+                if let segmentTime = segmentTime {
+                    /// 1000 * s + 0
+                    let value = segmentTime.value.resolutionUInt32(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

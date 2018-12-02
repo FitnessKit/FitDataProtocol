@@ -173,11 +173,16 @@ open class EventMessage: FitMessage {
                             eventGroup: eventGroup)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -185,38 +190,89 @@ open class EventMessage: FitMessage {
 
             switch key {
             case .event:
+                if let _ = event { fileDefs.append(key.fieldDefinition()) }
+            case .eventType:
+                if let _ = eventType { fileDefs.append(key.fieldDefinition()) }
+            case .data16:
+                if let _ = eventData { fileDefs.append(key.fieldDefinition()) }
+            case .data32:
+                if let _ = eventMoreData { fileDefs.append(key.fieldDefinition()) }
+            case .eventGroup:
+                if let _ = eventGroup { fileDefs.append(key.fieldDefinition()) }
+            case .score:
+            break // not populated directly
+            case .opponentScore:
+            break // not populated directly
+            case .frontGearNumber:
+            break // not populated directly
+            case .frontGear:
+            break // not populated directly
+            case .rearGearNumber:
+            break // not populated directly
+            case .rearGear:
+                break // not populated directly
+            case .timestamp:
+                if let _ = timeStamp {
+                    fileDefs.append(key.fieldDefinition())
+                }
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: EventMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "EventMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding EventMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .event:
                 if let event = event {
                     msgData.append(event.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .eventType:
                 if let eventType = eventType {
                     msgData.append(eventType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .data16:
                 if let data16 = eventData {
                     msgData.append(Data(from: data16.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .data32:
                 if let data32 = eventMoreData {
                     msgData.append(Data(from: data32.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
                     msgData.append(eventGroup.value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .score:
@@ -235,29 +291,14 @@ open class EventMessage: FitMessage {
             case .timestamp:
                 if let timestamp = timeStamp {
                     msgData.append(timestamp.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
-
             }
-
         }
 
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: EventMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

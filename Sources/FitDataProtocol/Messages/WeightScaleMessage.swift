@@ -288,11 +288,16 @@ open class WeightScaleMessage: FitMessage {
                                   userProfileIndex: userProfileIndex)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -300,138 +305,32 @@ open class WeightScaleMessage: FitMessage {
 
             switch key {
             case .weight:
-                if let weight = weight {
-                    msgData.append(weight.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = weight { fileDefs.append(key.fieldDefinition()) }
             case .percentFat:
-                if let percentFat = percentFat {
-                    // 100 * % + 0
-                    let value = percentFat.value.resolutionUInt16(100)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = percentFat { fileDefs.append(key.fieldDefinition()) }
             case .percentHydration:
-                if let percentHydration = percentHydration {
-                    // 100 * % + 0
-                    let value = percentHydration.value.resolutionUInt16(100)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = percentHydration { fileDefs.append(key.fieldDefinition()) }
             case .visceralFatMass:
-                if var visceralFatMass = visceralFatMass {
-                    // 100 * kg + 0
-                    visceralFatMass = visceralFatMass.converted(to: UnitMass.kilograms)
-
-                    let value = visceralFatMass.value.resolutionUInt16(100)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = visceralFatMass { fileDefs.append(key.fieldDefinition()) }
             case .boneMass:
-                if var boneMass = boneMass {
-                    // 100 * kg + 0
-                    boneMass = boneMass.converted(to: UnitMass.kilograms)
-
-                    let value = boneMass.value.resolutionUInt16(100)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = boneMass { fileDefs.append(key.fieldDefinition()) }
             case .muscleMass:
-                if var muscleMass = muscleMass {
-                    // 100 * kg + 0
-                    muscleMass = muscleMass.converted(to: UnitMass.kilograms)
-
-                    let value = muscleMass.value.resolutionUInt16(100)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = muscleMass { fileDefs.append(key.fieldDefinition()) }
             case .basalMet:
-                if var basalMet = basalMet {
-                    // 4 * kcal/day + 0
-                    basalMet = basalMet.converted(to: UnitEnergy.kilocalories)
-
-                    let value = basalMet.value.resolutionUInt16(4)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = basalMet { fileDefs.append(key.fieldDefinition()) }
             case .physiqueRating:
-                if let physiqueRating = physiqueRating {
-                    let value = physiqueRating.value.resolutionUInt8(1)
-
-                    msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = physiqueRating { fileDefs.append(key.fieldDefinition()) }
             case .activeMet:
-                if var activeMet = activeMet {
-                    // 4 * kcal/day + 0
-                    activeMet = activeMet.converted(to: UnitEnergy.kilocalories)
-
-                    let value = activeMet.value.resolutionUInt16(4)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = activeMet { fileDefs.append(key.fieldDefinition()) }
             case .metabolicAge:
-                if var metabolicAge = metabolicAge {
-                    /// 1 * years
-                    metabolicAge = metabolicAge.converted(to: UnitDuration.year)
-                    let value = metabolicAge.value.resolutionUInt8(1)
-
-                    msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = metabolicAge { fileDefs.append(key.fieldDefinition()) }
             case .visceralFatRating:
-                if let visceralFatRating = visceralFatRating {
-                    let value = visceralFatRating.value.resolutionUInt8(1)
-
-                    msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
-
+                if let _ = visceralFatRating { fileDefs.append(key.fieldDefinition()) }
             case .userProfileIndex:
-                if let userProfileIndex = userProfileIndex {
-                    msgData.append(userProfileIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = userProfileIndex { fileDefs.append(key.fieldDefinition()) }
             case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
-
         }
 
         if fileDefs.count > 0 {
@@ -442,13 +341,141 @@ open class WeightScaleMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "WeightScaleMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding WeightScaleMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .weight:
+                if let weight = weight {
+                    msgData.append(weight.encode())
+                }
+
+            case .percentFat:
+                if let percentFat = percentFat {
+                    // 100 * % + 0
+                    let value = percentFat.value.resolutionUInt16(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .percentHydration:
+                if let percentHydration = percentHydration {
+                    // 100 * % + 0
+                    let value = percentHydration.value.resolutionUInt16(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .visceralFatMass:
+                if var visceralFatMass = visceralFatMass {
+                    // 100 * kg + 0
+                    visceralFatMass = visceralFatMass.converted(to: UnitMass.kilograms)
+
+                    let value = visceralFatMass.value.resolutionUInt16(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .boneMass:
+                if var boneMass = boneMass {
+                    // 100 * kg + 0
+                    boneMass = boneMass.converted(to: UnitMass.kilograms)
+
+                    let value = boneMass.value.resolutionUInt16(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .muscleMass:
+                if var muscleMass = muscleMass {
+                    // 100 * kg + 0
+                    muscleMass = muscleMass.converted(to: UnitMass.kilograms)
+
+                    let value = muscleMass.value.resolutionUInt16(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .basalMet:
+                if var basalMet = basalMet {
+                    // 4 * kcal/day + 0
+                    basalMet = basalMet.converted(to: UnitEnergy.kilocalories)
+
+                    let value = basalMet.value.resolutionUInt16(4)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .physiqueRating:
+                if let physiqueRating = physiqueRating {
+                    let value = physiqueRating.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+                }
+
+            case .activeMet:
+                if var activeMet = activeMet {
+                    // 4 * kcal/day + 0
+                    activeMet = activeMet.converted(to: UnitEnergy.kilocalories)
+
+                    let value = activeMet.value.resolutionUInt16(4)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .metabolicAge:
+                if var metabolicAge = metabolicAge {
+                    /// 1 * years
+                    metabolicAge = metabolicAge.converted(to: UnitDuration.year)
+                    let value = metabolicAge.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+                }
+
+            case .visceralFatRating:
+                if let visceralFatRating = visceralFatRating {
+                    let value = visceralFatRating.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+                }
+
+
+            case .userProfileIndex:
+                if let userProfileIndex = userProfileIndex {
+                    msgData.append(userProfileIndex.encode())
+                }
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

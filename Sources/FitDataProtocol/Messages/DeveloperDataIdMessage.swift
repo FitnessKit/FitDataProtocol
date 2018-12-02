@@ -131,11 +131,16 @@ open class DeveloperDataIdMessage: FitMessage {
                                       dataIndex: dataIndex)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -143,42 +148,16 @@ open class DeveloperDataIdMessage: FitMessage {
 
             switch key {
             case .developerId:
-                if let developerId = developerId {
-                    msgData.append(developerId)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = developerId { fileDefs.append(key.fieldDefinition()) }
             case .applicationId:
-                if let applicationId = applicationId {
-                    msgData.append(applicationId)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = applicationId { fileDefs.append(key.fieldDefinition()) }
             case .manufacturerId:
-                if let manufacturer = manufacturer {
-                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = manufacturer { fileDefs.append(key.fieldDefinition()) }
             case .dataIndex:
-                if let dataIndex = dataIndex {
-                    msgData.append(dataIndex.value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = dataIndex { fileDefs.append(key.fieldDefinition()) }
             case .applicationVersion:
-                if let applicationVersion = applicationVersion {
-                    msgData.append(Data(from: applicationVersion.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = applicationVersion { fileDefs.append(key.fieldDefinition()) }
             }
-
         }
 
         if fileDefs.count > 0 {
@@ -189,13 +168,61 @@ open class DeveloperDataIdMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "DeveloperDataIdMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding DeveloperDataIdMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .developerId:
+                if let developerId = developerId {
+                    msgData.append(developerId)
+                }
+
+            case .applicationId:
+                if let applicationId = applicationId {
+                    msgData.append(applicationId)
+                }
+
+            case .manufacturerId:
+                if let manufacturer = manufacturer {
+                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+                }
+
+            case .dataIndex:
+                if let dataIndex = dataIndex {
+                    msgData.append(dataIndex.value)
+                }
+
+            case .applicationVersion:
+                if let applicationVersion = applicationVersion {
+                    msgData.append(Data(from: applicationVersion.value.littleEndian))
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

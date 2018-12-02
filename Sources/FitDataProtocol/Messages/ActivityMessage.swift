@@ -185,51 +185,29 @@ open class ActivityMessage: FitMessage {
     /// - Throws: FitError
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
 
+        try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+
         var fileDefs = [FieldDefinition]()
 
         for key in FitCodingKeys.allCases {
 
             switch key {
             case .totalTimerTime:
-                if var _ = totalTimerTime {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if var _ = totalTimerTime { fileDefs.append(key.fieldDefinition()) }
             case .numberOfSessions:
-                if let _ = numberOfSessions {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = numberOfSessions { fileDefs.append(key.fieldDefinition()) }
             case .activityType:
-                if let _ = activity {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = activity { fileDefs.append(key.fieldDefinition()) }
             case .event:
-                if let _ = event {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = event { fileDefs.append(key.fieldDefinition()) }
             case .eventType:
-                if let _ = eventType {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = eventType { fileDefs.append(key.fieldDefinition()) }
             case .localTimestamp:
-                if let _ = localTimeStamp {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = localTimeStamp { fileDefs.append(key.fieldDefinition()) }
             case .eventGroup:
-                if let _ = eventGroup {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = eventGroup { fileDefs.append(key.fieldDefinition()) }
             case .timestamp:
-                if let _ = timeStamp {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -249,14 +227,18 @@ open class ActivityMessage: FitMessage {
 
     /// Encodes the Message into Data
     ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
-        try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding ActivityMessage"))
+        }
 
         var msgData = Data()
-
-        var fileDefs = [FieldDefinition]()
 
         for key in FitCodingKeys.allCases {
 
@@ -268,78 +250,49 @@ open class ActivityMessage: FitMessage {
                     let value = totalTimerTime.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .numberOfSessions:
                 if let numberOfSessions = numberOfSessions {
                     msgData.append(Data(from: numberOfSessions.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .activityType:
                 if let activityType = activity {
                     msgData.append(activityType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .event:
                 if let event = event {
                     msgData.append(event.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .eventType:
                 if let eventType = eventType {
                     msgData.append(eventType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .localTimestamp:
                 if let localTimeStamp = localTimeStamp {
                     msgData.append(localTimeStamp.encode(isLocal: true))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
                     msgData.append(eventGroup.value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .timestamp:
                 if let timestamp = timeStamp {
                     msgData.append(timestamp.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
-
             }
-
         }
 
-        if fileDefs.count > 0 {
-
-//            let defMessage = DefinitionMessage(architecture: .little,
-//                                               globalMessageNumber: ActivityMessage.globalMessageNumber(),
-//                                               fields: UInt8(fileDefs.count),
-//                                               fieldDefinitions: fileDefs,
-//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-//
+        if msgData.count > 0 {
             var encodedMsg = Data()
-//
-//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-//            encodedMsg.append(defHeader.normalHeader)
-//            encodedMsg.append(defMessage.encode())
 
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

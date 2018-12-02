@@ -222,11 +222,16 @@ open class WorkoutStepMessage: FitMessage {
                                   equipment: equipment)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -234,97 +239,36 @@ open class WorkoutStepMessage: FitMessage {
 
             switch key {
             case .stepName:
-                if let stepName = name {
-                    if let stringData = stepName.data(using: .utf8) {
-                        msgData.append(stringData)
-
-                        //16 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = name?.data(using: .utf8) {
+                    //16 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-
             case .durationType:
-                if let durationType = durationType {
-                    msgData.append(durationType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = durationType { fileDefs.append(key.fieldDefinition()) }
             case .durationValue:
-                if let durationValue = duration {
-                    msgData.append(Data(from: durationValue.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = duration { fileDefs.append(key.fieldDefinition()) }
             case .targetType:
-                if let targetType = targetType {
-                    msgData.append(targetType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = targetType { fileDefs.append(key.fieldDefinition()) }
             case .targetValue:
-                if let targetValue = target {
-                    msgData.append(Data(from: targetValue.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = target { fileDefs.append(key.fieldDefinition()) }
             case .customTargetValueLow:
-                if let targetLow = targetLow {
-                    msgData.append(Data(from: targetLow.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = targetLow { fileDefs.append(key.fieldDefinition()) }
             case .customTargetValueHigh:
-                if let targetHigh = targetHigh {
-                    msgData.append(Data(from: targetHigh.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = targetHigh { fileDefs.append(key.fieldDefinition()) }
             case .intensity:
-                if let intensity = intensity {
-                    msgData.append(intensity.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = intensity { fileDefs.append(key.fieldDefinition()) }
             case .notes:
-                if let notes = notes {
-                    if let stringData = notes.data(using: .utf8) {
-                        msgData.append(stringData)
-
-                        //50 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = notes?.data(using: .utf8) {
+                    //50 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-
             case .equipment:
-                if let equipment = equipment {
-                    msgData.append(equipment.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = equipment { fileDefs.append(key.fieldDefinition()) }
             case .category:
-                if let category = category {
-                    msgData.append(Data(from: category.rawValue.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = category { fileDefs.append(key.fieldDefinition()) }
             case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
-
         }
 
         if fileDefs.count > 0 {
@@ -335,13 +279,100 @@ open class WorkoutStepMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "WorkoutStepMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding WorkoutStepMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .stepName:
+                if let stepName = name {
+                    if let stringData = stepName.data(using: .utf8) {
+                        msgData.append(stringData)
+                    }
+                }
+
+            case .durationType:
+                if let durationType = durationType {
+                    msgData.append(durationType.rawValue)
+                }
+
+            case .durationValue:
+                if let durationValue = duration {
+                    msgData.append(Data(from: durationValue.value.littleEndian))
+                }
+
+            case .targetType:
+                if let targetType = targetType {
+                    msgData.append(targetType.rawValue)
+                }
+
+            case .targetValue:
+                if let targetValue = target {
+                    msgData.append(Data(from: targetValue.value.littleEndian))
+                }
+
+            case .customTargetValueLow:
+                if let targetLow = targetLow {
+                    msgData.append(Data(from: targetLow.value.littleEndian))
+                }
+
+            case .customTargetValueHigh:
+                if let targetHigh = targetHigh {
+                    msgData.append(Data(from: targetHigh.value.littleEndian))
+                }
+
+            case .intensity:
+                if let intensity = intensity {
+                    msgData.append(intensity.rawValue)
+                }
+
+            case .notes:
+                if let notes = notes {
+                    if let stringData = notes.data(using: .utf8) {
+                        msgData.append(stringData)
+                    }
+                }
+
+            case .equipment:
+                if let equipment = equipment {
+                    msgData.append(equipment.rawValue)
+                }
+
+            case .category:
+                if let category = category {
+                    msgData.append(Data(from: category.rawValue.littleEndian))
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

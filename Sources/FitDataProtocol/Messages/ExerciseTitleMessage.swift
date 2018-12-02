@@ -124,11 +124,16 @@ open class ExerciseTitleMessage: FitMessage {
                                     exerciseName: exerciseName)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -136,38 +141,17 @@ open class ExerciseTitleMessage: FitMessage {
 
             switch key {
             case .category:
-                if let category = category {
-                    msgData.append(Data(from: category.rawValue.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = category { fileDefs.append(key.fieldDefinition()) }
             case .exerciseName:
-                if let exerciseName = exerciseName {
-                    msgData.append(Data(from: exerciseName.number.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = exerciseName { fileDefs.append(key.fieldDefinition()) }
             case .stepName:
-                if let stepName = stepName {
-                    if let stringData = stepName.data(using: .utf8) {
-                        msgData.append(stringData)
-
-                        //200 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = stepName?.data(using: .utf8) {
+                    //200 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-
             case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
-
         }
 
         if fileDefs.count > 0 {
@@ -178,13 +162,58 @@ open class ExerciseTitleMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "ExerciseTitleMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding ExerciseTitleMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .category:
+                if let category = category {
+                    msgData.append(Data(from: category.rawValue.littleEndian))
+                }
+
+            case .exerciseName:
+                if let exerciseName = exerciseName {
+                    msgData.append(Data(from: exerciseName.number.littleEndian))
+                }
+
+            case .stepName:
+                if let stepName = stepName {
+                    if let stringData = stepName.data(using: .utf8) {
+                        msgData.append(stringData)
+                    }
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

@@ -175,10 +175,73 @@ open class WorkoutMessage: FitMessage {
                               subSport: subSport)
     }
 
+    /// Encodes the Definition Message for FitMessage
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .sport:
+                if let _ = sport { fileDefs.append(key.fieldDefinition()) }
+            case .capabilities:
+                break
+            case .numberOfValidSteps:
+                if let _ = numberOfValidSteps { fileDefs.append(key.fieldDefinition()) }
+            case .workoutName:
+                if let stringData = workoutName?.data(using: .utf8) {
+                    //16 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                }
+            case .subSport:
+                if let _ = subSport { fileDefs.append(key.fieldDefinition()) }
+            case .poolLength:
+                if let _ = poolLength { fileDefs.append(key.fieldDefinition()) }
+            case .poolLengthUnit:
+                if let _ = poolLengthUnit { fileDefs.append(key.fieldDefinition()) }
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: WorkoutMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "WorkoutMessage contains no Properties Available to Encode"))
+        }
+    }
+
     /// Encodes the Message into Data
     ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding WorkoutMessage"))
+        }
+
         var msgData = Data()
 
         var fileDefs = [FieldDefinition]()
@@ -251,26 +314,13 @@ open class WorkoutMessage: FitMessage {
 
                     fileDefs.append(key.fieldDefinition())
                 }
-
             }
-
         }
 
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: WorkoutMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

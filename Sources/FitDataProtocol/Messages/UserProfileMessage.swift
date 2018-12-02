@@ -457,11 +457,16 @@ open class UserProfileMessage: FitMessage {
                                   maxHeartRate: maxHeartRate)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -469,218 +474,61 @@ open class UserProfileMessage: FitMessage {
 
             switch key {
             case .friendlyName:
-                if let friendlyName = friendlyName {
-                    if let stringData = friendlyName.data(using: .utf8) {
-                        msgData.append(stringData)
-
-                        //16 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = friendlyName?.data(using: .utf8) {
+                    //16 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-
             case .gender:
-                if let gender = gender {
-                    msgData.append(gender.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = gender { fileDefs.append(key.fieldDefinition()) }
             case .age:
-                if var age = age {
-                    /// 1 * years
-                    age = age.converted(to: UnitDuration.year)
-                    let value = age.value.resolutionUInt8(1)
-
-                    msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = age { fileDefs.append(key.fieldDefinition()) }
             case .height:
-                if var height = height {
-                    //  100 * m + 0
-                    height = height.converted(to: UnitLength.meters)
-                    let value = height.value.resolutionUInt8(100)
-
-                    msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
-
+                if let _ = height { fileDefs.append(key.fieldDefinition()) }
             case .weight:
-                if var weight = weight {
-                    //  10 * kg + 0
-                    weight = weight.converted(to: UnitMass.kilograms)
-                    let value = weight.value.resolutionUInt16(10)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = weight { fileDefs.append(key.fieldDefinition()) }
             case .language:
-                if let language = language {
-                    msgData.append(language.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = language { fileDefs.append(key.fieldDefinition()) }
             case .elevationSetting:
-                if let elevationSetting = elevationSetting {
-                    msgData.append(elevationSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = elevationSetting { fileDefs.append(key.fieldDefinition()) }
             case .weightSetting:
-                if let weightSetting = weightSetting {
-                    msgData.append(weightSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
-                
+                if let _ = weightSetting { fileDefs.append(key.fieldDefinition()) }
             case .restingHeartRate:
-                if let restingHeartRate = restingHeartRate {
-                    // 1 * bpm + 0
-                    let value = restingHeartRate.value.resolutionUInt8(1)
-
-                    msgData.append(UInt8(value))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = restingHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .defaultMaxRunningHeartRate:
-                if let maxRunningHeartRate = maxRunningHeartRate {
-                    // 1 * bpm + 0
-                    let value = maxRunningHeartRate.value.resolutionUInt8(1)
-
-                    msgData.append(UInt8(value))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maxRunningHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .defaultMaxBikingHeartRate:
-                if let maxBikingHeartRate = maxBikingHeartRate {
-                    // 1 * bpm + 0
-                    let value = maxBikingHeartRate.value.resolutionUInt8(1)
-
-                    msgData.append(UInt8(value))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maxBikingHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .defaultMaxHeartRate:
-                if let maxHeartRate = maxHeartRate {
-                    // 1 * bpm + 0
-                    let value = maxHeartRate.value.resolutionUInt8(1)
-
-                    msgData.append(UInt8(value))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maxHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .heartRateSetting:
-                if let heartRateSetting = heartRateSetting {
-                    msgData.append(heartRateSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = heartRateSetting { fileDefs.append(key.fieldDefinition()) }
             case .speedSetting:
-                if let speedSetting = speedSetting {
-                    msgData.append(speedSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = speedSetting { fileDefs.append(key.fieldDefinition()) }
             case .distanceSetting:
-                if let distanceSetting = distanceSetting {
-                    msgData.append(distanceSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = distanceSetting { fileDefs.append(key.fieldDefinition()) }
             case .powerSetting:
-                if let powerSetting = powerSetting {
-                    msgData.append(powerSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = powerSetting { fileDefs.append(key.fieldDefinition()) }
             case .activityClass:
                 break
-
             case .positionSetting:
-                if let positionSetting = positionSetting {
-                    msgData.append(positionSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = positionSetting { fileDefs.append(key.fieldDefinition()) }
             case .temperatureSetting:
-                if let temperatureSetting = temperatureSetting {
-                    msgData.append(temperatureSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = temperatureSetting { fileDefs.append(key.fieldDefinition()) }
             case .localID:
-                if let localID = localID {
-                    msgData.append(Data(from: localID.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = localID { fileDefs.append(key.fieldDefinition()) }
             case .globalID:
                 break
-
             case .heightSetting:
-                if let heightSetting = heightSetting {
-                    msgData.append(heightSetting.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = heightSetting { fileDefs.append(key.fieldDefinition()) }
             case .runningStepLength:
-                if var runningStepLength = runningStepLength {
-                    // 1000 * m + 0, User defined running step length set to 0 for auto length
-                    runningStepLength = runningStepLength.converted(to: UnitLength.meters)
-                    let value = runningStepLength.value.resolutionUInt16(1000)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = runningStepLength { fileDefs.append(key.fieldDefinition()) }
             case .walkingStepLength:
-                if var walkingStepLength = walkingStepLength {
-                    // 1000 * m + 0, User defined running step length set to 0 for auto length
-                    walkingStepLength = walkingStepLength.converted(to: UnitLength.meters)
-                    let value = walkingStepLength.value.resolutionUInt16(1000)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = walkingStepLength { fileDefs.append(key.fieldDefinition()) }
             case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
-
         }
 
         if fileDefs.count > 0 {
@@ -691,13 +539,196 @@ open class UserProfileMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "UserProfileMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding UserProfileMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .friendlyName:
+                if let friendlyName = friendlyName {
+                    if let stringData = friendlyName.data(using: .utf8) {
+                        msgData.append(stringData)
+                    }
+                }
+
+            case .gender:
+                if let gender = gender {
+                    msgData.append(gender.rawValue)
+                }
+
+            case .age:
+                if var age = age {
+                    /// 1 * years
+                    age = age.converted(to: UnitDuration.year)
+                    let value = age.value.resolutionUInt8(1)
+
+                    msgData.append(value)
+                }
+
+            case .height:
+                if var height = height {
+                    //  100 * m + 0
+                    height = height.converted(to: UnitLength.meters)
+                    let value = height.value.resolutionUInt8(100)
+
+                    msgData.append(value)
+                }
+
+            case .weight:
+                if var weight = weight {
+                    //  10 * kg + 0
+                    weight = weight.converted(to: UnitMass.kilograms)
+                    let value = weight.value.resolutionUInt16(10)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .language:
+                if let language = language {
+                    msgData.append(language.rawValue)
+                }
+
+            case .elevationSetting:
+                if let elevationSetting = elevationSetting {
+                    msgData.append(elevationSetting.rawValue)
+                }
+
+            case .weightSetting:
+                if let weightSetting = weightSetting {
+                    msgData.append(weightSetting.rawValue)
+                }
+
+            case .restingHeartRate:
+                if let restingHeartRate = restingHeartRate {
+                    // 1 * bpm + 0
+                    let value = restingHeartRate.value.resolutionUInt8(1)
+
+                    msgData.append(UInt8(value))
+                }
+
+            case .defaultMaxRunningHeartRate:
+                if let maxRunningHeartRate = maxRunningHeartRate {
+                    // 1 * bpm + 0
+                    let value = maxRunningHeartRate.value.resolutionUInt8(1)
+
+                    msgData.append(UInt8(value))
+                }
+
+            case .defaultMaxBikingHeartRate:
+                if let maxBikingHeartRate = maxBikingHeartRate {
+                    // 1 * bpm + 0
+                    let value = maxBikingHeartRate.value.resolutionUInt8(1)
+
+                    msgData.append(UInt8(value))
+                }
+
+            case .defaultMaxHeartRate:
+                if let maxHeartRate = maxHeartRate {
+                    // 1 * bpm + 0
+                    let value = maxHeartRate.value.resolutionUInt8(1)
+
+                    msgData.append(UInt8(value))
+                }
+
+            case .heartRateSetting:
+                if let heartRateSetting = heartRateSetting {
+                    msgData.append(heartRateSetting.rawValue)
+                }
+
+            case .speedSetting:
+                if let speedSetting = speedSetting {
+                    msgData.append(speedSetting.rawValue)
+                }
+
+            case .distanceSetting:
+                if let distanceSetting = distanceSetting {
+                    msgData.append(distanceSetting.rawValue)
+                }
+
+            case .powerSetting:
+                if let powerSetting = powerSetting {
+                    msgData.append(powerSetting.rawValue)
+                }
+
+            case .activityClass:
+                break
+
+            case .positionSetting:
+                if let positionSetting = positionSetting {
+                    msgData.append(positionSetting.rawValue)
+                }
+
+            case .temperatureSetting:
+                if let temperatureSetting = temperatureSetting {
+                    msgData.append(temperatureSetting.rawValue)
+                }
+
+            case .localID:
+                if let localID = localID {
+                    msgData.append(Data(from: localID.value.littleEndian))
+                }
+
+            case .globalID:
+                break
+
+            case .heightSetting:
+                if let heightSetting = heightSetting {
+                    msgData.append(heightSetting.rawValue)
+                }
+
+            case .runningStepLength:
+                if var runningStepLength = runningStepLength {
+                    // 1000 * m + 0, User defined running step length set to 0 for auto length
+                    runningStepLength = runningStepLength.converted(to: UnitLength.meters)
+                    let value = runningStepLength.value.resolutionUInt16(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .walkingStepLength:
+                if var walkingStepLength = walkingStepLength {
+                    // 1000 * m + 0, User defined running step length set to 0 for auto length
+                    walkingStepLength = walkingStepLength.converted(to: UnitLength.meters)
+                    let value = walkingStepLength.value.resolutionUInt16(1000)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

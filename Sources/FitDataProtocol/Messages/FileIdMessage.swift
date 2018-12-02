@@ -172,47 +172,29 @@ open class FileIdMessage: FitMessage {
     /// - Throws: FitError
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
 
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+
         var fileDefs = [FieldDefinition]()
 
         for key in FitCodingKeys.allCases {
 
             switch key {
             case .fileType:
-                if let _ = fileType {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = fileType { fileDefs.append(key.fieldDefinition()) }
             case .manufacturer:
-                if let _ = manufacturer {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = manufacturer { fileDefs.append(key.fieldDefinition()) }
             case .product:
-                if let _ = product {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = product { fileDefs.append(key.fieldDefinition()) }
             case .serialNumber:
-                if let _ = deviceSerialNumber {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = deviceSerialNumber { fileDefs.append(key.fieldDefinition()) }
             case .fileCreationDate:
-                if let _ = fileCreationDate {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = fileCreationDate { fileDefs.append(key.fieldDefinition()) }
             case .fileNumber:
-                if let _ = fileNumber {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = fileNumber { fileDefs.append(key.fieldDefinition()) }
             case .productName:
-                if let productName = productName {
-                    if let stringData = productName.data(using: .utf8) {
-                        //20 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = productName?.data(using: .utf8) {
+                    //20 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
             }
         }
@@ -233,11 +215,18 @@ open class FileIdMessage: FitMessage {
 
     /// Encodes the Message into Data
     ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
-        var fileDefs = [FieldDefinition]()
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding FileIdMessage"))
+        }
+
+        var msgData = Data()
 
         for key in FileIdMessage.FitCodingKeys.allCases {
 
@@ -245,76 +234,46 @@ open class FileIdMessage: FitMessage {
             case .fileType:
                 if let fileType = fileType {
                     msgData.append(fileType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .manufacturer:
                 if let manufacturer = manufacturer {
                     msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .product:
                 if let product = product {
                     msgData.append(Data(from: product.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .serialNumber:
                 if let deviceSerialNumber = deviceSerialNumber {
                     msgData.append(Data(from: deviceSerialNumber.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .fileCreationDate:
                 if let fileCreationDate = fileCreationDate {
                     msgData.append(fileCreationDate.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .fileNumber:
                 if let fileNumber = fileNumber {
                     msgData.append(Data(from: fileNumber.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .productName:
                 if let productName = productName {
-
                     if let stringData = productName.data(using: .utf8) {
                         msgData.append(stringData)
-
-                        //20 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                     }
-
                 }
-
             }
-
         }
 
-        if fileDefs.count > 0 {
-
-//            let defMessage = DefinitionMessage(architecture: .little,
-//                                               globalMessageNumber: FileIdMessage.globalMessageNumber(),
-//                                               fields: UInt8(fileDefs.count),
-//                                               fieldDefinitions: fileDefs,
-//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-//
+        if msgData.count > 0 {
             var encodedMsg = Data()
-//
-//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-//            encodedMsg.append(defHeader.normalHeader)
-//            encodedMsg.append(defMessage.encode())
 
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

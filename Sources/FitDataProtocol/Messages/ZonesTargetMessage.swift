@@ -161,35 +161,23 @@ open class ZonesTargetMessage: FitMessage {
     /// - Throws: FitError
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
 
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+
         var fileDefs = [FieldDefinition]()
 
         for key in FitCodingKeys.allCases {
 
             switch key {
             case .maxHeartRate:
-                if let _ = maxHeartRate {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maxHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .thresholdHeartRate:
-                if let _ = thresholdHeartRate {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = thresholdHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .functionalThresholdPower:
-                if let _ = ftp {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = ftp { fileDefs.append(key.fieldDefinition()) }
             case .heartRateCalculation:
-                if let _ = heartRateZoneType {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = heartRateZoneType { fileDefs.append(key.fieldDefinition()) }
             case .powerCalculation:
-                if let _ = powerZoneType {
-                    fileDefs.append(key.fieldDefinition())
-                }
+                if let _ = powerZoneType { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -209,11 +197,18 @@ open class ZonesTargetMessage: FitMessage {
 
     /// Encodes the Message into Data
     ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
-        var fileDefs = [FieldDefinition]()
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding ZonesTargetMessage"))
+        }
+
+        var msgData = Data()
 
         for key in FitCodingKeys.allCases {
 
@@ -224,8 +219,6 @@ open class ZonesTargetMessage: FitMessage {
                     let value = maxHeartRate.value.resolutionUInt8(1)
 
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .thresholdHeartRate:
@@ -234,50 +227,29 @@ open class ZonesTargetMessage: FitMessage {
                     let value = thresholdHeartRate.value.resolutionUInt8(1)
 
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .functionalThresholdPower:
                 if let ftp = ftp {
                     msgData.append(Data(from: ftp.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .heartRateCalculation:
                 if let heartRateZoneType = heartRateZoneType {
                     msgData.append(heartRateZoneType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .powerCalculation:
                 if let powerZoneType = powerZoneType {
                     msgData.append(powerZoneType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
-
             }
-
         }
 
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: ZonesTargetMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

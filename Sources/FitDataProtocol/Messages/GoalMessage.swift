@@ -250,11 +250,16 @@ open class GoalMessage: FitMessage {
                            source: source)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -262,96 +267,31 @@ open class GoalMessage: FitMessage {
 
             switch key {
             case .sport:
-                if let sport = sport {
-                    msgData.append(sport.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = sport { fileDefs.append(key.fieldDefinition()) }
             case .subSport:
-                if let subSport = subSport {
-                    msgData.append(subSport.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = subSport { fileDefs.append(key.fieldDefinition()) }
             case .startDate:
-                if let startDate = startDate {
-                    msgData.append(startDate.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = startDate { fileDefs.append(key.fieldDefinition()) }
             case .endDate:
-                if let endDate = endDate {
-                    msgData.append(endDate.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = endDate { fileDefs.append(key.fieldDefinition()) }
             case .goalType:
-                if let goalType = goalType {
-                    msgData.append(goalType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = goalType { fileDefs.append(key.fieldDefinition()) }
             case .goalValue:
-                if let goalValue = goalValue {
-                    msgData.append(Data(from: goalValue.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = goalValue { fileDefs.append(key.fieldDefinition()) }
             case .repeatGoal:
-                if let enabled = enabled {
-                    msgData.append(enabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = enabled { fileDefs.append(key.fieldDefinition()) }
             case .targetValue:
-                if let recurrenceValue = recurrenceValue {
-                    msgData.append(Data(from: recurrenceValue.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = recurrenceValue { fileDefs.append(key.fieldDefinition()) }
             case .recurrence:
-                if let recurrence = recurrence {
-                    msgData.append(recurrence.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = recurrence { fileDefs.append(key.fieldDefinition()) }
             case .recurrenceValue:
-                if let recurrenceValue = recurrenceValue {
-                    msgData.append(Data(from: recurrenceValue.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = recurrenceValue { fileDefs.append(key.fieldDefinition()) }
             case .enabled:
-                if let enabled = enabled {
-                    msgData.append(enabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = enabled { fileDefs.append(key.fieldDefinition()) }
             case .goalSource:
-                if let goalSource = source {
-                    msgData.append(goalSource.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = source { fileDefs.append(key.fieldDefinition()) }
             case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -363,13 +303,101 @@ open class GoalMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "GoalMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding GoalMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .sport:
+                if let sport = sport {
+                    msgData.append(sport.rawValue)
+                }
+
+            case .subSport:
+                if let subSport = subSport {
+                    msgData.append(subSport.rawValue)
+                }
+
+            case .startDate:
+                if let startDate = startDate {
+                    msgData.append(startDate.encode())
+                }
+
+            case .endDate:
+                if let endDate = endDate {
+                    msgData.append(endDate.encode())
+                }
+
+            case .goalType:
+                if let goalType = goalType {
+                    msgData.append(goalType.rawValue)
+                }
+
+            case .goalValue:
+                if let goalValue = goalValue {
+                    msgData.append(Data(from: goalValue.value.littleEndian))
+                }
+
+            case .repeatGoal:
+                if let enabled = enabled {
+                    msgData.append(enabled.uint8Value)
+                }
+
+            case .targetValue:
+                if let recurrenceValue = recurrenceValue {
+                    msgData.append(Data(from: recurrenceValue.value.littleEndian))
+                }
+
+            case .recurrence:
+                if let recurrence = recurrence {
+                    msgData.append(recurrence.rawValue)
+                }
+
+            case .recurrenceValue:
+                if let recurrenceValue = recurrenceValue {
+                    msgData.append(Data(from: recurrenceValue.value.littleEndian))
+                }
+
+            case .enabled:
+                if let enabled = enabled {
+                    msgData.append(enabled.uint8Value)
+                }
+
+            case .goalSource:
+                if let goalSource = source {
+                    msgData.append(goalSource.rawValue)
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+            }
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

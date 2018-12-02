@@ -730,6 +730,8 @@ open class RecordMessage: FitMessage {
     /// - Throws: FitError
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
 
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+
         var fileDefs = [FieldDefinition]()
 
         for key in FitCodingKeys.allCases {
@@ -737,112 +739,76 @@ open class RecordMessage: FitMessage {
             switch key {
             case .positionLatitude:
                 if let _ = position.encodeLatitude() { fileDefs.append(key.fieldDefinition()) }
-
             case .positionLongitude:
                 if let _ = position.encodeLongitude() { fileDefs.append(key.fieldDefinition()) }
-
             case .altitude:
                 if let _ = altitude { fileDefs.append(key.fieldDefinition()) }
-
             case .heartRate:
                 if let _ = heartRate { fileDefs.append(key.fieldDefinition()) }
-
             case .cadence:
                 if let _ = cadence { fileDefs.append(key.fieldDefinition()) }
-
             case .distance:
                 if let _ = distance { fileDefs.append(key.fieldDefinition()) }
-
             case .speed:
                 if let _ = speed { fileDefs.append(key.fieldDefinition()) }
-
             case .power:
                 if let _ = power { fileDefs.append(key.fieldDefinition()) }
-
             case .compressedSpeedDistance:
                 break
-
             case .grade:
                 if let _ = grade { fileDefs.append(key.fieldDefinition()) }
-
             case .resistance:
                 if let _ = resistance { fileDefs.append(key.fieldDefinition()) }
-
             case .timeFromCourse:
                 if let _ = timeFromCourse { fileDefs.append(key.fieldDefinition()) }
-
             case .cycleLength:
                 if let _ = cycleLength { fileDefs.append(key.fieldDefinition()) }
-
             case .temperature:
                 if let _ = temperature { fileDefs.append(key.fieldDefinition()) }
-
             case .speedOneSecondInterval:
                 break
-
             case .cycles:
                 if let _ = cycles { fileDefs.append(key.fieldDefinition()) }
-
             case .totalCycles:
                 if let _ = totalCycles { fileDefs.append(key.fieldDefinition()) }
-
             case .compressedAccumulatedPower:
                 break // not supported
-
             case .accumulatedPower:
                 if let _ = accumulatedPower { fileDefs.append(key.fieldDefinition()) }
-
             case .leftRightBalance:
                 break
-
             case .gpsAccuracy:
                 if let _ = gpsAccuracy { fileDefs.append(key.fieldDefinition()) }
-
             case .verticalSpeed:
                 if let _ = verticalSpeed { fileDefs.append(key.fieldDefinition()) }
-
             case .calories:
                 if let _ = calories { fileDefs.append(key.fieldDefinition()) }
-
             case .verticalOscillation:
                 if let _ = verticalOscillation { fileDefs.append(key.fieldDefinition()) }
-
             case .stanceTimePercent:
                 if let _ = stanceTime.percent { fileDefs.append(key.fieldDefinition()) }
-
             case .stanceTime:
                 if let _ = stanceTime.time { fileDefs.append(key.fieldDefinition()) }
-
             case .activityType:
                 if let _ = activity { fileDefs.append(key.fieldDefinition()) }
-
             case .leftTorqueEffectiveness:
                 if let _ = torqueEffectiveness.left { fileDefs.append(key.fieldDefinition()) }
-
             case .rightTorqueEffectiveness:
                 if let _ = torqueEffectiveness.right { fileDefs.append(key.fieldDefinition()) }
-
             case .leftPedalSmoothness:
                 if let _ = pedalSmoothness.left { fileDefs.append(key.fieldDefinition()) }
-
             case .rightPedalSmoothness:
                 if let _ = pedalSmoothness.right { fileDefs.append(key.fieldDefinition()) }
-
             case .combinedPedalSmoothness:
                 if let _ = pedalSmoothness.combined { fileDefs.append(key.fieldDefinition()) }
-
             case .time128Second:
                 break
-
             case .strokeType:
                 if let _ = stroke { fileDefs.append(key.fieldDefinition()) }
-
             case .zone:
                 if let _ = zone { fileDefs.append(key.fieldDefinition()) }
-
             case .ballSpeed:
                 if let _ = ballSpeed { fileDefs.append(key.fieldDefinition()) }
-
             case .cadence256:
                 break
             case .fractionalCadence:
@@ -859,21 +825,15 @@ open class RecordMessage: FitMessage {
                 break
             case .saturatedHemoglobinPercentMax:
                 break
-
             case .deviceIndex:
                 if let _ = deviceIndex { fileDefs.append(key.fieldDefinition()) }
-
             case .enhancedSpeed:
                 if let _ = enhancedSpeed { fileDefs.append(key.fieldDefinition()) }
-
             case .enhancedAltitude:
                 if let _ = enhancedAltitude { fileDefs.append(key.fieldDefinition()) }
-
             case .timestamp:
                 if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-
             }
-
         }
 
         if fileDefs.count > 0 {
@@ -892,11 +852,18 @@ open class RecordMessage: FitMessage {
 
     /// Encodes the Message into Data
     ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
-        var fileDefs = [FieldDefinition]()
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding RecordMessage"))
+        }
+
+        var msgData = Data()
 
         for key in FitCodingKeys.allCases {
 
@@ -904,15 +871,11 @@ open class RecordMessage: FitMessage {
             case .positionLatitude:
                 if let value = position.encodeLatitude() {
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .positionLongitude:
                 if let value = position.encodeLongitude() {
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .altitude:
@@ -922,8 +885,6 @@ open class RecordMessage: FitMessage {
                     let value = altitude.value.resolutionUInt16(5) + 500
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .heartRate:
@@ -931,8 +892,6 @@ open class RecordMessage: FitMessage {
                     // 1 * bpm + 0
                     let value = heartRate.value.resolutionUInt8(1)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .cadence:
@@ -940,8 +899,6 @@ open class RecordMessage: FitMessage {
                     // 1 * rpm + 0
                     let value = cadence.value.resolutionUInt8(1)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .distance:
@@ -951,8 +908,6 @@ open class RecordMessage: FitMessage {
                     let value = distance.value.resolutionUInt32(100)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .speed:
@@ -962,16 +917,12 @@ open class RecordMessage: FitMessage {
                     let value = speed.value.resolutionUInt16(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .power:
                 if let power = power {
                     let value = encodePowerUInt16(power)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .compressedSpeedDistance:
@@ -981,15 +932,11 @@ open class RecordMessage: FitMessage {
                 if let grade = grade {
                     let value = encodeInt16Percent(grade)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .resistance:
                 if let resistance = resistance {
                     msgData.append(resistance.value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .timeFromCourse:
@@ -999,8 +946,6 @@ open class RecordMessage: FitMessage {
                     let value = timeFromCourse.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .cycleLength:
@@ -1010,8 +955,6 @@ open class RecordMessage: FitMessage {
                     let value = cycleLength.value.resolutionUInt8(100)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .temperature:
@@ -1021,8 +964,6 @@ open class RecordMessage: FitMessage {
                     let value = temperature.value.resolutionInt8(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .speedOneSecondInterval:
@@ -1032,16 +973,12 @@ open class RecordMessage: FitMessage {
                 if let cycles = cycles {
                     // 1 * cycles + 0
                     msgData.append(cycles.value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalCycles:
                 if let totalCycles = totalCycles {
                     // 1 * cycles + 0
                     msgData.append(Data(from: totalCycles.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .compressedAccumulatedPower:
@@ -1066,8 +1003,6 @@ open class RecordMessage: FitMessage {
                     let value = accumulatedPower.value.resolutionUInt32(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .leftRightBalance:
@@ -1080,16 +1015,12 @@ open class RecordMessage: FitMessage {
                     let value = gpsAccuracy.value.resolutionUInt8(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .verticalSpeed:
                 if let verticalSpeed = verticalSpeed {
                     let value = encodeVerticalSpeed(verticalSpeed)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .calories:
@@ -1099,8 +1030,6 @@ open class RecordMessage: FitMessage {
                     let value = calories.value.resolutionUInt16(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .verticalOscillation:
@@ -1110,8 +1039,6 @@ open class RecordMessage: FitMessage {
                     let value = verticalOscillation.value.resolutionUInt16(10)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .stanceTimePercent:
@@ -1119,8 +1046,6 @@ open class RecordMessage: FitMessage {
                     // 100 * % + 0
                     let value = encodeUInt16Percent(stancePercent)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .stanceTime:
@@ -1130,15 +1055,11 @@ open class RecordMessage: FitMessage {
                     let value = stance.value.resolutionUInt16(10)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .activityType:
                 if let activityType = activity {
                     msgData.append(activityType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .leftTorqueEffectiveness:
@@ -1146,8 +1067,6 @@ open class RecordMessage: FitMessage {
                     // 2 * percent + 0
                     let value = left.value.resolutionUInt8(2)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .rightTorqueEffectiveness:
@@ -1155,8 +1074,6 @@ open class RecordMessage: FitMessage {
                     // 2 * percent + 0
                     let value = right.value.resolutionUInt8(2)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .leftPedalSmoothness:
@@ -1164,8 +1081,6 @@ open class RecordMessage: FitMessage {
                     // 2 * percent + 0
                     let value = left.value.resolutionUInt8(2)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .rightPedalSmoothness:
@@ -1173,8 +1088,6 @@ open class RecordMessage: FitMessage {
                     // 2 * percent + 0
                     let value = right.value.resolutionUInt8(2)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .combinedPedalSmoothness:
@@ -1182,8 +1095,6 @@ open class RecordMessage: FitMessage {
                     // 2 * percent + 0
                     let value = combined.value.resolutionUInt8(2)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .time128Second:
@@ -1192,15 +1103,11 @@ open class RecordMessage: FitMessage {
             case .strokeType:
                 if let strokeType = stroke {
                     msgData.append(strokeType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .zone:
                 if let zone = zone {
                     msgData.append(zone.value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .ballSpeed:
@@ -1210,8 +1117,6 @@ open class RecordMessage: FitMessage {
                     let value = ballSpeed.value.resolutionInt16(100)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .cadence256:
@@ -1234,8 +1139,6 @@ open class RecordMessage: FitMessage {
             case .deviceIndex:
                 if let deviceIndex = deviceIndex {
                     msgData.append(deviceIndex.index)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .enhancedSpeed:
@@ -1245,44 +1148,25 @@ open class RecordMessage: FitMessage {
                     let value = enhancedSpeed.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .enhancedAltitude:
                 if let enhancedAltitude = enhancedAltitude {
                     let valData = encodeEnhancedAltitude(enhancedAltitude)
                     msgData.append(valData)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .timestamp:
                 if let timestamp = timeStamp {
                     msgData.append(timestamp.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
-
             }
-
         }
 
-        if fileDefs.count > 0 {
-
-//            let defMessage = DefinitionMessage(architecture: .little,
-//                                               globalMessageNumber: RecordMessage.globalMessageNumber(),
-//                                               fields: UInt8(fileDefs.count),
-//                                               fieldDefinitions: fileDefs,
-//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-//
+        if msgData.count > 0 {
             var encodedMsg = Data()
-//
-//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-//            encodedMsg.append(defHeader.normalHeader)
-//            encodedMsg.append(defMessage.encode())
-//
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

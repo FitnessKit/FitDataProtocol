@@ -1337,6 +1337,8 @@ open class SessionMessage: FitMessage {
     /// - Throws: FitError
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
 
+        try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+
         var fileDefs = [FieldDefinition]()
 
         for key in FitCodingKeys.allCases {
@@ -1344,163 +1346,70 @@ open class SessionMessage: FitMessage {
             switch key {
             case .event:
                 if let _ = event { fileDefs.append(key.fieldDefinition()) }
-
             case .eventType:
                 if let _ = eventType { fileDefs.append(key.fieldDefinition()) }
-
             case .startTime:
                 if let _ = startTime { fileDefs.append(key.fieldDefinition()) }
-
             case .startPositionLatitude:
-                if let _ = startPosition.latitude {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = startPosition.latitude { fileDefs.append(key.fieldDefinition()) }
             case .startPositionLongitude:
-                if let _ = startPosition.longitude {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = startPosition.longitude { fileDefs.append(key.fieldDefinition()) }
             case .sport:
-                if let _ = sport {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = sport { fileDefs.append(key.fieldDefinition()) }
             case .subSport:
-                if let _ = subSport {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = subSport { fileDefs.append(key.fieldDefinition()) }
             case .totalElapsedTime:
-                if let _ = totalElapsedTime {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalElapsedTime { fileDefs.append(key.fieldDefinition()) }
             case .totalTimerTime:
-                if let _ = totalTimerTime {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalTimerTime { fileDefs.append(key.fieldDefinition()) }
             case .totalDistance:
-                if let _ = totalDistance {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalDistance { fileDefs.append(key.fieldDefinition()) }
             case .totalCycles:
-                if let _ = totalCycles {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalCycles { fileDefs.append(key.fieldDefinition()) }
             case .totalCalories:
-                if let _ = totalCalories {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalCalories { fileDefs.append(key.fieldDefinition()) }
             case .totalFatCalories:
-                if let _ = totalFatCalories {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalFatCalories { fileDefs.append(key.fieldDefinition()) }
             case .averageSpeed:
-                if let _ = averageSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageSpeed { fileDefs.append(key.fieldDefinition()) }
             case .maximumSpeed:
-                if let _ = maximumSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumSpeed { fileDefs.append(key.fieldDefinition()) }
             case .averageHeartRate:
-                if let _ = averageHeartRate {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .maximumHeartRate:
-                if let _ = maximumHeartRate {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .averageCadence:
-                if let _ = averageCadence {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageCadence { fileDefs.append(key.fieldDefinition()) }
             case .maximumCadence:
-                if let _ = maximumCadence {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumCadence { fileDefs.append(key.fieldDefinition()) }
             case .averagePower:
-                if let _ = averagePower {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averagePower { fileDefs.append(key.fieldDefinition()) }
             case .maximumPower:
-                if let _ = maximumPower {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumPower { fileDefs.append(key.fieldDefinition()) }
             case .totalAscent:
-                if let _ = totalAscent {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalAscent { fileDefs.append(key.fieldDefinition()) }
             case .totalDescent:
-                if let _ = totalDescent {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalDescent { fileDefs.append(key.fieldDefinition()) }
             case .totalTrainingEffect:
-                if let _ = totalTrainingEffect {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalTrainingEffect { fileDefs.append(key.fieldDefinition()) }
             case .firstLapIndex:
-                if let _ = firstLapIndex {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = firstLapIndex { fileDefs.append(key.fieldDefinition()) }
             case .numberOfLaps:
-                if let _ = numberOfLaps {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = numberOfLaps { fileDefs.append(key.fieldDefinition()) }
             case .eventGroup:
-                if let _ = eventGroup {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = eventGroup { fileDefs.append(key.fieldDefinition()) }
             case .trigger:
-                if let _ = trigger {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = trigger { fileDefs.append(key.fieldDefinition()) }
             case .necLatitude:
-                if let _ = necPosition.encodeLatitude() {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = necPosition.encodeLatitude() { fileDefs.append(key.fieldDefinition()) }
             case .necLongitude:
-                if let _ = necPosition.encodeLongitude() {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = necPosition.longitude { fileDefs.append(key.fieldDefinition()) }
             case .swcLatitude:
-                if let _ = swcPosition.encodeLatitude() {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = swcPosition.latitude { fileDefs.append(key.fieldDefinition()) }
             case .swcLongitude:
-                if let _ = swcPosition.encodeLongitude() {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = swcPosition.longitude { fileDefs.append(key.fieldDefinition()) }
             case .normalizedPower:
-                if let _ = normalizedPower {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = normalizedPower { fileDefs.append(key.fieldDefinition()) }
             case .trainingStressScore:
                 break
             case .intensityFactor:
@@ -1509,122 +1418,52 @@ open class SessionMessage: FitMessage {
                 break
             case .averageStrokeCount:
                 break
-
             case .averageStrokeDistance:
-                if let _ = averageStrokeDistance {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageStrokeDistance { fileDefs.append(key.fieldDefinition()) }
             case .swimStroke:
-                if let _ = swimStroke {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = swimStroke { fileDefs.append(key.fieldDefinition()) }
             case .poolLength:
-                if let _ = poolLength {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = poolLength { fileDefs.append(key.fieldDefinition()) }
             case .thresholdPower:
-                if let _ = thresholdPower {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = thresholdPower { fileDefs.append(key.fieldDefinition()) }
             case .poolLengthUnit:
-                if let _ = poolLengthUnit {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = poolLengthUnit { fileDefs.append(key.fieldDefinition()) }
             case .numberActiveLengths:
-                if let _ = activeLengths {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = activeLengths { fileDefs.append(key.fieldDefinition()) }
             case .totalWork:
-                if let _ = totalWork {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalWork { fileDefs.append(key.fieldDefinition()) }
             case .averageAltitude:
-                if let _ = averageAltitude {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageAltitude { fileDefs.append(key.fieldDefinition()) }
             case .maximumAltitude:
-                if let _ = maximumAltitude {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumAltitude { fileDefs.append(key.fieldDefinition()) }
             case .gpsAccuracy:
-                if let _ = gpsAccuracy {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = gpsAccuracy { fileDefs.append(key.fieldDefinition()) }
             case .averageGrade:
-                if let _ = averageGrade {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageGrade { fileDefs.append(key.fieldDefinition()) }
             case .averagePositiveGrade:
-                if let _ = averagePositiveGrade {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averagePositiveGrade { fileDefs.append(key.fieldDefinition()) }
             case .averageNegitiveGrade:
-                if let _ = averageNegitiveGrade {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageNegitiveGrade { fileDefs.append(key.fieldDefinition()) }
             case .maximumPositiveGrade:
-                if let _ = maximumPositiveGrade {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumPositiveGrade { fileDefs.append(key.fieldDefinition()) }
             case .maximumNegitiveGrade:
-                if let _ = maximumNegitiveGrade {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumNegitiveGrade { fileDefs.append(key.fieldDefinition()) }
             case .averageTemperature:
-                if let _ = averageTemperature {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageTemperature { fileDefs.append(key.fieldDefinition()) }
             case .maximumTemperature:
-                if let _ = maximumTemperature {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumTemperature { fileDefs.append(key.fieldDefinition()) }
             case .totalMovingTime:
-                if let _ = totalMovingTime {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = totalMovingTime { fileDefs.append(key.fieldDefinition()) }
             case .averagePositiveVerticalSpeed:
-                if let _ = averagePositiveVerticalSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averagePositiveVerticalSpeed { fileDefs.append(key.fieldDefinition()) }
             case .averageNegitiveVerticalSpeed:
-                if let _ = averageNegitiveVerticalSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageNegitiveVerticalSpeed { fileDefs.append(key.fieldDefinition()) }
             case .maximumPositiveVerticalSpeed:
-                if let _ = maximumPositiveVerticalSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumPositiveVerticalSpeed { fileDefs.append(key.fieldDefinition()) }
             case .maximumNegitiveVerticalSpeed:
-                if let _ = maximumNegitiveVerticalSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumNegitiveVerticalSpeed { fileDefs.append(key.fieldDefinition()) }
             case .minimumHeartRate:
-                if let _ = minimumHeartRate {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = minimumHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .timeInHeartRateZone:
                 break
             case .timeInSpeedZone:
@@ -1633,122 +1472,61 @@ open class SessionMessage: FitMessage {
                 break
             case .timeInPowerZone:
                 break
-
             case .averageLapTime:
-                if let _ = averageLapTime {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageLapTime { fileDefs.append(key.fieldDefinition()) }
             case .bestLapIndex:
-                if let _ = bestLapIndex {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = bestLapIndex { fileDefs.append(key.fieldDefinition()) }
             case .minimumAltitude:
-                if let _ = minimumAltitude {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = minimumAltitude { fileDefs.append(key.fieldDefinition()) }
             case .playerScore:
-                if let _ = score.playerScore {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = score.playerScore { fileDefs.append(key.fieldDefinition()) }
             case .opponentScore:
-                if let _ = score.opponentScore {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = score.opponentScore { fileDefs.append(key.fieldDefinition()) }
             case .opponentName:
-                if let opponentName = opponentName {
-                    if let stringData = opponentName.data(using: .utf8) {
-                        //16 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                    }
+                if let stringData = opponentName?.data(using: .utf8) {
+                    //16 typical size... but we will count the String
+                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-
             case .strokeCount:
                 break
             case .zoneCount:
                 break
-
             case .maximumBallSpeed:
-                if let _ = maximumBallSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = maximumBallSpeed { fileDefs.append(key.fieldDefinition()) }
             case .averageBallSpeed:
-                if let _ = averageBallSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageBallSpeed { fileDefs.append(key.fieldDefinition()) }
             case .averageVerticalOscillation:
-                if let _ = averageVerticalOscillation {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageVerticalOscillation { fileDefs.append(key.fieldDefinition()) }
             case .averageStanceTimePercent:
-                if let _ = averageStanceTime.percent {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageStanceTime.percent { fileDefs.append(key.fieldDefinition()) }
             case .averageStanceTime:
-                if let _ = averageStanceTime.time {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = averageStanceTime.time { fileDefs.append(key.fieldDefinition()) }
             case .averageFractionalCadence:
                 break
             case .maximumFractionalCadence:
                 break
             case .totalFractionalCycles:
                 break
-
             case .sportIndex:
-                if let _ = sportIndex {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = sportIndex { fileDefs.append(key.fieldDefinition()) }
             case .enhancedAverageSpeed:
-                if let _ = enhancedAverageSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = enhancedAverageSpeed { fileDefs.append(key.fieldDefinition()) }
             case .enhancedMaximumSpeed:
-                if let _ = enhancedMaximumSpeed {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = enhancedMaximumSpeed { fileDefs.append(key.fieldDefinition()) }
             case .enhancedAverageAltitude:
-                if let _ = enhancedAverageAltitude {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = enhancedAverageAltitude { fileDefs.append(key.fieldDefinition()) }
             case .enhancedMinimumAltitude:
-                if let _ = enhancedMinimumAltitude {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = enhancedMinimumAltitude { fileDefs.append(key.fieldDefinition()) }
             case .enhancedMaximumAltitude:
-                if let _ = enhancedMaximumAltitude {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = enhancedMaximumAltitude { fileDefs.append(key.fieldDefinition()) }
             case .averageVam:
                 break
             case .totalAnaerobicTrainingEffect:
                 break
-
             case .timestamp:
-                if let _ = timeStamp {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             case .messageIndex:
-                if let _ = messageIndex {
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -1768,11 +1546,18 @@ open class SessionMessage: FitMessage {
 
     /// Encodes the Message into Data
     ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
     /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
-        var fileDefs = [FieldDefinition]()
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding SessionMessage"))
+        }
+
+        var msgData = Data()
 
         for key in FitCodingKeys.allCases {
 
@@ -1780,50 +1565,36 @@ open class SessionMessage: FitMessage {
             case .event:
                 if let event = event {
                     msgData.append(event.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .eventType:
                 if let eventType = eventType {
                     msgData.append(eventType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .startTime:
                 if let startTime = startTime {
                     msgData.append(startTime.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .startPositionLatitude:
                 if let value = startPosition.encodeLatitude() {
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .startPositionLongitude:
                 if let value = startPosition.encodeLongitude() {
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .sport:
                 if let sport = sport {
                     msgData.append(sport.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .subSport:
                 if let subSport = subSport {
                     msgData.append(subSport.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalElapsedTime:
@@ -1833,8 +1604,6 @@ open class SessionMessage: FitMessage {
                     let value = totalElapsedTime.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalTimerTime:
@@ -1844,8 +1613,6 @@ open class SessionMessage: FitMessage {
                     let value = totalTimerTime.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalDistance:
@@ -1855,16 +1622,12 @@ open class SessionMessage: FitMessage {
                     let value = totalDistance.value.resolutionUInt32(100)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalCycles:
                 if let totalCycles = totalCycles {
                     // 1 * cycles + 0
                     msgData.append(Data(from: totalCycles.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalCalories:
@@ -1874,8 +1637,6 @@ open class SessionMessage: FitMessage {
                     let value = totalCalories.value.resolutionUInt16(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalFatCalories:
@@ -1885,8 +1646,6 @@ open class SessionMessage: FitMessage {
                     let value = totalFatCalories.value.resolutionUInt16(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageSpeed:
@@ -1896,8 +1655,6 @@ open class SessionMessage: FitMessage {
                     let value = averageSpeed.value.resolutionInt16(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumSpeed:
@@ -1907,8 +1664,6 @@ open class SessionMessage: FitMessage {
                     let value = maximumSpeed.value.resolutionInt16(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageHeartRate:
@@ -1916,8 +1671,6 @@ open class SessionMessage: FitMessage {
                     // 1 * bpm + 0
                     let value = averageHeartRate.value.resolutionUInt8(1)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumHeartRate:
@@ -1925,8 +1678,6 @@ open class SessionMessage: FitMessage {
                     // 1 * bpm + 0
                     let value = maximumHeartRate.value.resolutionUInt8(1)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageCadence:
@@ -1934,8 +1685,6 @@ open class SessionMessage: FitMessage {
                     // 1 * rpm + 0
                     let value = averageCadence.value.resolutionUInt8(1)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumCadence:
@@ -1943,24 +1692,18 @@ open class SessionMessage: FitMessage {
                     // 1 * rpm + 0
                     let value = maximumCadence.value.resolutionUInt8(1)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averagePower:
                 if let averagePower = averagePower {
                     let value = encodePower(averagePower)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumPower:
                 if let maximumPower = maximumPower {
                     let value = encodePower(maximumPower)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalAscent:
@@ -1970,8 +1713,6 @@ open class SessionMessage: FitMessage {
                     let value = totalAscent.value.resolutionUInt16(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalDescent:
@@ -1981,79 +1722,57 @@ open class SessionMessage: FitMessage {
                     let value = totalDescent.value.resolutionUInt16(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalTrainingEffect:
                 if let totalTrainingEffect = totalTrainingEffect {
                     msgData.append(totalTrainingEffect.value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .firstLapIndex:
                 if let firstLapIndex = firstLapIndex {
                     msgData.append(Data(from: firstLapIndex.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .numberOfLaps:
                 if let numberOfLaps = numberOfLaps {
                     msgData.append(Data(from: numberOfLaps.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
                     msgData.append(eventGroup.value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .trigger:
                 if let trigger = trigger {
                     msgData.append(trigger.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .necLatitude:
                 if let value = necPosition.encodeLatitude() {
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .necLongitude:
                 if let value = necPosition.encodeLongitude() {
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .swcLatitude:
                 if let value = swcPosition.encodeLatitude() {
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .swcLongitude:
                 if let value = swcPosition.encodeLongitude() {
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .normalizedPower:
                 if let normalizedPower = normalizedPower {
                     let value = encodePower(normalizedPower)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .trainingStressScore:
@@ -2072,15 +1791,11 @@ open class SessionMessage: FitMessage {
                     let value = averageStrokeDistance.value.resolutionUInt16(100)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .swimStroke:
                 if let swimStroke = swimStroke {
                     msgData.append(swimStroke.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .poolLength:
@@ -2090,31 +1805,23 @@ open class SessionMessage: FitMessage {
                     let value = poolLength.value.resolutionUInt16(100)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .thresholdPower:
                 if let thresholdPower = thresholdPower {
                     let value = encodePower(thresholdPower)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .poolLengthUnit:
                 if let poolLengthUnit = poolLengthUnit {
                     msgData.append(poolLengthUnit.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .numberActiveLengths:
                 if let numberActiveLengths = activeLengths {
                     // 1 * lengths + 0
                     msgData.append(Data(from: numberActiveLengths.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalWork:
@@ -2124,8 +1831,6 @@ open class SessionMessage: FitMessage {
                     let value = totalWork.value.resolutionUInt16(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageAltitude:
@@ -2135,8 +1840,6 @@ open class SessionMessage: FitMessage {
                     let value = averageAltitude.value.resolutionUInt16(5) + 500
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumAltitude:
@@ -2146,8 +1849,6 @@ open class SessionMessage: FitMessage {
                     let value = maximumAltitude.value.resolutionUInt16(5) + 500
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .gpsAccuracy:
@@ -2157,48 +1858,36 @@ open class SessionMessage: FitMessage {
                     let value = gpsAccuracy.value.resolutionInt8(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageGrade:
                 if let averageGrade = averageGrade {
                     let value = encodeInt16Percent(averageGrade)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averagePositiveGrade:
                 if let averagePositiveGrade = averagePositiveGrade {
                     let value = encodeInt16Percent(averagePositiveGrade)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageNegitiveGrade:
                 if let averageNegitiveGrade = averageNegitiveGrade {
                     let value = encodeInt16Percent(averageNegitiveGrade)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumPositiveGrade:
                 if let maximumPositiveGrade = maximumPositiveGrade {
                     let value = encodeInt16Percent(maximumPositiveGrade)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumNegitiveGrade:
                 if let maximumNegitiveGrade = maximumNegitiveGrade {
                     let value = encodeInt16Percent(maximumNegitiveGrade)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageTemperature:
@@ -2208,8 +1897,6 @@ open class SessionMessage: FitMessage {
                     let value = averageTemperature.value.resolutionInt8(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumTemperature:
@@ -2219,8 +1906,6 @@ open class SessionMessage: FitMessage {
                     let value = maximumTemperature.value.resolutionInt8(1)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .totalMovingTime:
@@ -2230,40 +1915,30 @@ open class SessionMessage: FitMessage {
                     let value = totalMovingTime.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averagePositiveVerticalSpeed:
                 if let averagePositiveVerticalSpeed = averagePositiveVerticalSpeed {
                     let value = encodeVerticalSpeed(averagePositiveVerticalSpeed)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageNegitiveVerticalSpeed:
                 if let averageNegitiveVerticalSpeed = averageNegitiveVerticalSpeed {
                     let value = encodeVerticalSpeed(averageNegitiveVerticalSpeed)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumPositiveVerticalSpeed:
                 if let maximumPositiveVerticalSpeed = maximumPositiveVerticalSpeed {
                     let value = encodeVerticalSpeed(maximumPositiveVerticalSpeed)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .maximumNegitiveVerticalSpeed:
                 if let maximumNegitiveVerticalSpeed = maximumNegitiveVerticalSpeed {
                     let value = encodeVerticalSpeed(maximumNegitiveVerticalSpeed)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .minimumHeartRate:
@@ -2272,8 +1947,6 @@ open class SessionMessage: FitMessage {
                     let value = heartRate.value.resolutionUInt8(1)
 
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .timeInHeartRateZone:
@@ -2292,15 +1965,11 @@ open class SessionMessage: FitMessage {
                     let value = averageLapTime.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .bestLapIndex:
                 if let bestLapIndex = bestLapIndex {
                     msgData.append(Data(from: bestLapIndex.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .minimumAltitude:
@@ -2310,34 +1979,24 @@ open class SessionMessage: FitMessage {
                     let value = minimumAltitude.value.resolutionUInt16(5) + 500
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .playerScore:
                 if let playerScore = score.playerScore {
                     msgData.append(Data(from: playerScore.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .opponentScore:
                 if let opponentScore = score.opponentScore {
                     msgData.append(Data(from: opponentScore.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .opponentName:
                 if let opponentName = opponentName {
                     if let stringData = opponentName.data(using: .utf8) {
                         msgData.append(stringData)
-
-                        //16 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                     }
                 }
-
 
             case .strokeCount:
                 break
@@ -2351,8 +2010,6 @@ open class SessionMessage: FitMessage {
                     let value = maximumBallSpeed.value.resolutionUInt16(10)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageBallSpeed:
@@ -2362,8 +2019,6 @@ open class SessionMessage: FitMessage {
                     let value = averageBallSpeed.value.resolutionUInt16(10)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageVerticalOscillation:
@@ -2373,16 +2028,12 @@ open class SessionMessage: FitMessage {
                     let value = averageVerticalOscillation.value.resolutionUInt16(10)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageStanceTimePercent:
                 if let averageStanceTimePercent = averageStanceTime.percent {
                     let value = encodeUInt16Percent(averageStanceTimePercent)
                     msgData.append(value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageStanceTime:
@@ -2392,8 +2043,6 @@ open class SessionMessage: FitMessage {
                     let value = averageStanceTime.value.resolutionUInt16(10)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageFractionalCadence:
@@ -2406,8 +2055,6 @@ open class SessionMessage: FitMessage {
             case .sportIndex:
                 if let sportIndex = sportIndex {
                     msgData.append(sportIndex.value)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .enhancedAverageSpeed:
@@ -2417,8 +2064,6 @@ open class SessionMessage: FitMessage {
                     let value = enhancedAverageSpeed.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .enhancedMaximumSpeed:
@@ -2428,32 +2073,24 @@ open class SessionMessage: FitMessage {
                     let value = enhancedMaximumSpeed.value.resolutionUInt32(1000)
 
                     msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .enhancedAverageAltitude:
                 if let enhancedAverageAltitude = enhancedAverageAltitude {
                     let valData = encodeEnhancedAltitude(enhancedAverageAltitude)
                     msgData.append(valData)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .enhancedMinimumAltitude:
                 if let enhancedMinimumAltitude = enhancedMinimumAltitude {
                     let valData = encodeEnhancedAltitude(enhancedMinimumAltitude)
                     msgData.append(valData)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .enhancedMaximumAltitude:
                 if let enhancedMaximumAltitude = enhancedMaximumAltitude {
                     let valData = encodeEnhancedAltitude(enhancedMaximumAltitude)
                     msgData.append(valData)
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .averageVam:
@@ -2464,36 +2101,19 @@ open class SessionMessage: FitMessage {
             case .timestamp:
                 if let timestamp = timeStamp {
                     msgData.append(timestamp.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .messageIndex:
                 if let messageIndex = messageIndex {
                     msgData.append(messageIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
-
             }
-
         }
 
-        if fileDefs.count > 0 {
-
-//            let defMessage = DefinitionMessage(architecture: .little,
-//                                               globalMessageNumber: SessionMessage.globalMessageNumber(),
-//                                               fields: UInt8(fileDefs.count),
-//                                               fieldDefinitions: fileDefs,
-//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-//
+        if msgData.count > 0 {
             var encodedMsg = Data()
-//
-//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-//            encodedMsg.append(defHeader.normalHeader)
-//            encodedMsg.append(defMessage.encode())
 
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 

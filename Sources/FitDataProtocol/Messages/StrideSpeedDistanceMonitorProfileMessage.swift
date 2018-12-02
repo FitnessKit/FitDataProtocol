@@ -179,11 +179,16 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                                                         odometerRolloverCounter: odometerRolloverCounter)
     }
 
-    /// Encodes the Message into Data
+    /// Encodes the Definition Message for FitMessage
     ///
-    /// - Returns: Data representation
-    internal override func encode(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> Data {
-        var msgData = Data()
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -191,70 +196,22 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
             switch key {
             case .enabled:
-                if let enabled = enabled {
-                    msgData.append(enabled.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = enabled { fileDefs.append(key.fieldDefinition()) }
             case .antID:
-                if let antID = antID {
-                    msgData.append(Data(from: antID.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = antID { fileDefs.append(key.fieldDefinition()) }
             case .calibrationFactor:
-                if let calibrationFactor = calibrationFactor {
-                    // 10 * % + 0
-                    let value = calibrationFactor.value.resolutionUInt16(10)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = calibrationFactor { fileDefs.append(key.fieldDefinition()) }
             case .odometer:
-                if var odometer = odometer {
-                    // 100 * m + 0
-                    odometer = odometer.converted(to: UnitLength.meters)
-                    let value = odometer.value.resolutionUInt32(100)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = odometer { fileDefs.append(key.fieldDefinition()) }
             case .speedSource:
-                if let speedSource = speedSourceFootpod {
-                    msgData.append(speedSource.uint8Value)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = speedSourceFootpod { fileDefs.append(key.fieldDefinition()) }
             case .transType:
-                if let transmissionType = transmissionType {
-                    msgData.append(transmissionType.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = transmissionType { fileDefs.append(key.fieldDefinition()) }
             case .odometerRollover:
-                if let odometerRolloverCounter = odometerRolloverCounter {
-                    msgData.append(odometerRolloverCounter)
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = odometerRolloverCounter { fileDefs.append(key.fieldDefinition()) }
             case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
-                }
-
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
-
         }
 
         if fileDefs.count > 0 {
@@ -265,13 +222,85 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "StrideSpeedDistanceMonitorProfileMessage contains no Properties Available to Encode"))
+        }
+    }
+
+    /// Encodes the Message into Data
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Message Number, that matches the defintions header number
+    ///   - definition: DefinitionMessage
+    /// - Returns: Data representation
+    /// - Throws: FitError
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+
+        guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
+            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding StrideSpeedDistanceMonitorProfileMessage"))
+        }
+
+        var msgData = Data()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .enabled:
+                if let enabled = enabled {
+                    msgData.append(enabled.uint8Value)
+                }
+
+            case .antID:
+                if let antID = antID {
+                    msgData.append(Data(from: antID.value.littleEndian))
+                }
+
+            case .calibrationFactor:
+                if let calibrationFactor = calibrationFactor {
+                    // 10 * % + 0
+                    let value = calibrationFactor.value.resolutionUInt16(10)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .odometer:
+                if var odometer = odometer {
+                    // 100 * m + 0
+                    odometer = odometer.converted(to: UnitLength.meters)
+                    let value = odometer.value.resolutionUInt32(100)
+
+                    msgData.append(Data(from: value.littleEndian))
+                }
+
+            case .speedSource:
+                if let speedSource = speedSourceFootpod {
+                    msgData.append(speedSource.uint8Value)
+                }
+
+            case .transType:
+                if let transmissionType = transmissionType {
+                    msgData.append(transmissionType.rawValue)
+                }
+
+            case .odometerRollover:
+                if let odometerRolloverCounter = odometerRolloverCounter {
+                    msgData.append(odometerRolloverCounter)
+                }
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
+            }
+
+        }
+
+        if msgData.count > 0 {
             var encodedMsg = Data()
 
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
-            let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
+            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)
 
