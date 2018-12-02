@@ -56,8 +56,26 @@ internal extension FieldDefinition {
 
         return msgData
     }
-
 }
+
+extension FieldDefinition: Equatable {
+
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    internal static func == (lhs: FieldDefinition, rhs: FieldDefinition) -> Bool {
+        return (lhs.fieldDefinitionNumber == rhs.fieldDefinitionNumber) &&
+            (lhs.size == rhs.size) &&
+            (lhs.endianAbility == rhs.endianAbility) &&
+            (lhs.baseType == rhs.baseType)
+    }
+}
+
 
 internal extension FieldDefinition {
 

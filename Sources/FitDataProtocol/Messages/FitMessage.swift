@@ -47,6 +47,18 @@ open class FitMessage {
         fatalError("*** You must override in your class.")
     }
 
+    /// Encodes the Definition Message for FitMessage
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+        throw FitError(.encodeError(msg: "Message not currently supported for Encode"))
+        //fatalError("*** You must override in your class.")
+    }
+
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation

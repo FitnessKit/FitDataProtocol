@@ -152,6 +152,61 @@ open class ZonesTargetMessage: FitMessage {
                                   powerZoneType: powerZoneType)
     }
 
+    /// Encodes the Definition Message for FitMessage
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .maxHeartRate:
+                if let _ = maxHeartRate {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .thresholdHeartRate:
+                if let _ = thresholdHeartRate {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .functionalThresholdPower:
+                if let _ = ftp {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .heartRateCalculation:
+                if let _ = heartRateZoneType {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .powerCalculation:
+                if let _ = powerZoneType {
+                    fileDefs.append(key.fieldDefinition())
+                }
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: ZonesTargetMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "ZonesTargetMessage contains no Properties Available to Encode"))
+        }
+    }
+
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation

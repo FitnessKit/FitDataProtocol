@@ -309,6 +309,102 @@ open class DeviceInfoMessage: FitMessage {
                                  source: source)
     }
 
+    /// Encodes the Definition Message for FitMessage
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .deviceIndex:
+                if let _ = deviceIndex { fileDefs.append(key.fieldDefinition()) }
+
+            case .deviceType:
+                if let _ = deviceType { fileDefs.append(key.fieldDefinition()) }
+
+            case .manufacturer:
+                if let _ = manufacturer { fileDefs.append(key.fieldDefinition()) }
+
+            case .serialNumber:
+                if let _ = serialNumber { fileDefs.append(key.fieldDefinition()) }
+
+            case .product:
+                if let _ = product { fileDefs.append(key.fieldDefinition()) }
+
+            case .softwareVersion:
+                if let _ = softwareVersion { fileDefs.append(key.fieldDefinition()) }
+
+            case .hardwareVersion:
+                if let _ = hardwareVersion { fileDefs.append(key.fieldDefinition()) }
+
+            case .cumulativeOpTime:
+                if let _ = cumulativeOpTime { fileDefs.append(key.fieldDefinition()) }
+
+            case .batteryVoltage:
+                if var _ = batteryVoltage { fileDefs.append(key.fieldDefinition()) }
+
+            case .batteryStatus:
+                if let _ = batteryStatus { fileDefs.append(key.fieldDefinition()) }
+
+            case .sensorPosition:
+                if let _ = bodylocation { fileDefs.append(key.fieldDefinition()) }
+
+            case .description:
+                if let description = sensorDescription {
+                    if let stringData = description.data(using: .utf8) {
+                        //1 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .transmissionType:
+                if let _ = transmissionType { fileDefs.append(key.fieldDefinition()) }
+
+            case .deviceNumber:
+                if let _ = deviceNumber { fileDefs.append(key.fieldDefinition()) }
+
+            case .antNetwork:
+                if let _ = antNetwork { fileDefs.append(key.fieldDefinition()) }
+
+            case .sourcetype:
+                if let _ = source { fileDefs.append(key.fieldDefinition()) }
+
+            case .productName:
+                if let productName = productName {
+                    if let stringData = productName.data(using: .utf8) {
+                        //20 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: DeviceInfoMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "DeviceInfoMessage contains no Properties Available to Encode"))
+        }
+    }
+
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
@@ -465,17 +561,17 @@ open class DeviceInfoMessage: FitMessage {
 
         if fileDefs.count > 0 {
 
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: DeviceInfoMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+//            let defMessage = DefinitionMessage(architecture: .little,
+//                                               globalMessageNumber: DeviceInfoMessage.globalMessageNumber(),
+//                                               fields: UInt8(fileDefs.count),
+//                                               fieldDefinitions: fileDefs,
+//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+//
             var encodedMsg = Data()
-
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
+//
+//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+//            encodedMsg.append(defHeader.normalHeader)
+//            encodedMsg.append(defMessage.encode())
 
             let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)

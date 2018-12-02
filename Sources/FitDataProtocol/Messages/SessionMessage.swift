@@ -1328,6 +1328,444 @@ open class SessionMessage: FitMessage {
 
     }
 
+    /// Encodes the Definition Message for FitMessage
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .event:
+                if let _ = event { fileDefs.append(key.fieldDefinition()) }
+
+            case .eventType:
+                if let _ = eventType { fileDefs.append(key.fieldDefinition()) }
+
+            case .startTime:
+                if let _ = startTime { fileDefs.append(key.fieldDefinition()) }
+
+            case .startPositionLatitude:
+                if let _ = startPosition.latitude {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .startPositionLongitude:
+                if let _ = startPosition.longitude {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .sport:
+                if let _ = sport {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .subSport:
+                if let _ = subSport {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalElapsedTime:
+                if let _ = totalElapsedTime {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalTimerTime:
+                if let _ = totalTimerTime {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalDistance:
+                if let _ = totalDistance {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalCycles:
+                if let _ = totalCycles {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalCalories:
+                if let _ = totalCalories {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalFatCalories:
+                if let _ = totalFatCalories {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageSpeed:
+                if let _ = averageSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumSpeed:
+                if let _ = maximumSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageHeartRate:
+                if let _ = averageHeartRate {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumHeartRate:
+                if let _ = maximumHeartRate {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageCadence:
+                if let _ = averageCadence {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumCadence:
+                if let _ = maximumCadence {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averagePower:
+                if let _ = averagePower {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumPower:
+                if let _ = maximumPower {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalAscent:
+                if let _ = totalAscent {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalDescent:
+                if let _ = totalDescent {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalTrainingEffect:
+                if let _ = totalTrainingEffect {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .firstLapIndex:
+                if let _ = firstLapIndex {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .numberOfLaps:
+                if let _ = numberOfLaps {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .eventGroup:
+                if let _ = eventGroup {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .trigger:
+                if let _ = trigger {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .necLatitude:
+                if let _ = necPosition.encodeLatitude() {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .necLongitude:
+                if let _ = necPosition.encodeLongitude() {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .swcLatitude:
+                if let _ = swcPosition.encodeLatitude() {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .swcLongitude:
+                if let _ = swcPosition.encodeLongitude() {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .normalizedPower:
+                if let _ = normalizedPower {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .trainingStressScore:
+                break
+            case .intensityFactor:
+                break
+            case .leftRightBalance:
+                break
+            case .averageStrokeCount:
+                break
+
+            case .averageStrokeDistance:
+                if let _ = averageStrokeDistance {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .swimStroke:
+                if let _ = swimStroke {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .poolLength:
+                if let _ = poolLength {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .thresholdPower:
+                if let _ = thresholdPower {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .poolLengthUnit:
+                if let _ = poolLengthUnit {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .numberActiveLengths:
+                if let _ = activeLengths {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalWork:
+                if let _ = totalWork {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageAltitude:
+                if let _ = averageAltitude {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumAltitude:
+                if let _ = maximumAltitude {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .gpsAccuracy:
+                if let _ = gpsAccuracy {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageGrade:
+                if let _ = averageGrade {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averagePositiveGrade:
+                if let _ = averagePositiveGrade {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageNegitiveGrade:
+                if let _ = averageNegitiveGrade {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumPositiveGrade:
+                if let _ = maximumPositiveGrade {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumNegitiveGrade:
+                if let _ = maximumNegitiveGrade {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageTemperature:
+                if let _ = averageTemperature {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumTemperature:
+                if let _ = maximumTemperature {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .totalMovingTime:
+                if let _ = totalMovingTime {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averagePositiveVerticalSpeed:
+                if let _ = averagePositiveVerticalSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageNegitiveVerticalSpeed:
+                if let _ = averageNegitiveVerticalSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumPositiveVerticalSpeed:
+                if let _ = maximumPositiveVerticalSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .maximumNegitiveVerticalSpeed:
+                if let _ = maximumNegitiveVerticalSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .minimumHeartRate:
+                if let _ = minimumHeartRate {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .timeInHeartRateZone:
+                break
+            case .timeInSpeedZone:
+                break
+            case .timeInCadenceZone:
+                break
+            case .timeInPowerZone:
+                break
+
+            case .averageLapTime:
+                if let _ = averageLapTime {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .bestLapIndex:
+                if let _ = bestLapIndex {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .minimumAltitude:
+                if let _ = minimumAltitude {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .playerScore:
+                if let _ = score.playerScore {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .opponentScore:
+                if let _ = score.opponentScore {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .opponentName:
+                if let opponentName = opponentName {
+                    if let stringData = opponentName.data(using: .utf8) {
+                        //16 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+
+            case .strokeCount:
+                break
+            case .zoneCount:
+                break
+
+            case .maximumBallSpeed:
+                if let _ = maximumBallSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageBallSpeed:
+                if let _ = averageBallSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageVerticalOscillation:
+                if let _ = averageVerticalOscillation {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageStanceTimePercent:
+                if let _ = averageStanceTime.percent {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageStanceTime:
+                if let _ = averageStanceTime.time {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageFractionalCadence:
+                break
+            case .maximumFractionalCadence:
+                break
+            case .totalFractionalCycles:
+                break
+
+            case .sportIndex:
+                if let _ = sportIndex {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedAverageSpeed:
+                if let _ = enhancedAverageSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedMaximumSpeed:
+                if let _ = enhancedMaximumSpeed {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedAverageAltitude:
+                if let _ = enhancedAverageAltitude {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedMinimumAltitude:
+                if let _ = enhancedMinimumAltitude {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .enhancedMaximumAltitude:
+                if let _ = enhancedMaximumAltitude {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .averageVam:
+                break
+            case .totalAnaerobicTrainingEffect:
+                break
+
+            case .timestamp:
+                if let _ = timeStamp {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .messageIndex:
+                if let _ = messageIndex {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: SessionMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "SessionMessage contains no Properties Available to Encode"))
+        }
+    }
+
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
@@ -2043,17 +2481,17 @@ open class SessionMessage: FitMessage {
 
         if fileDefs.count > 0 {
 
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: SessionMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+//            let defMessage = DefinitionMessage(architecture: .little,
+//                                               globalMessageNumber: SessionMessage.globalMessageNumber(),
+//                                               fields: UInt8(fileDefs.count),
+//                                               fieldDefinitions: fileDefs,
+//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+//
             var encodedMsg = Data()
-
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
+//
+//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+//            encodedMsg.append(defHeader.normalHeader)
+//            encodedMsg.append(defMessage.encode())
 
             let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)

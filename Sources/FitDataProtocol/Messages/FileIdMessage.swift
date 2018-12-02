@@ -163,6 +163,74 @@ open class FileIdMessage: FitMessage {
                              productName: productName)
     }
 
+    /// Encodes the Definition Message for FitMessage
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .fileType:
+                if let _ = fileType {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .manufacturer:
+                if let _ = manufacturer {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .product:
+                if let _ = product {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .serialNumber:
+                if let _ = deviceSerialNumber {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .fileCreationDate:
+                if let _ = fileCreationDate {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .fileNumber:
+                if let _ = fileNumber {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .productName:
+                if let productName = productName {
+                    if let stringData = productName.data(using: .utf8) {
+                        //20 typical size... but we will count the String
+                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
+                    }
+                }
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: FileIdMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "FileIdMessage contains no Properties Available to Encode"))
+        }
+    }
+
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
@@ -234,17 +302,17 @@ open class FileIdMessage: FitMessage {
 
         if fileDefs.count > 0 {
 
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: FileIdMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+//            let defMessage = DefinitionMessage(architecture: .little,
+//                                               globalMessageNumber: FileIdMessage.globalMessageNumber(),
+//                                               fields: UInt8(fileDefs.count),
+//                                               fieldDefinitions: fileDefs,
+//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+//
             var encodedMsg = Data()
-
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
+//
+//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+//            encodedMsg.append(defHeader.normalHeader)
+//            encodedMsg.append(defMessage.encode())
 
             let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)

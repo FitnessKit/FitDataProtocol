@@ -46,6 +46,26 @@ internal struct DefinitionMessage {
 
 }
 
+extension DefinitionMessage: Equatable {
+
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    internal static func == (lhs: DefinitionMessage, rhs: DefinitionMessage) -> Bool {
+        return (lhs.architecture == rhs.architecture) &&
+            (lhs.globalMessageNumber == rhs.globalMessageNumber) &&
+            (lhs.fields == rhs.fields) &&
+            (lhs.fieldDefinitions == rhs.fieldDefinitions) &&
+            (lhs.developerFieldDefinitions == rhs.developerFieldDefinitions)
+    }
+}
+
+
 internal extension DefinitionMessage {
 
     /// Encodes the DefinitionMessage into Data

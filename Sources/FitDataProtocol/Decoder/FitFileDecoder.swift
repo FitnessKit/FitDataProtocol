@@ -167,7 +167,9 @@ public struct FitFileDecoder {
                 let fieldData = FieldData(fieldData: stdData, developerFieldData: devData)
 
                 if hasMessageDecoder == true {
-                    let message = try messageType.decode(fieldData: fieldData, definition: definitionDict[header.localMessageType]!, dataStrategy: dataDecodingStrategy)
+                    let message = try messageType.decode(fieldData: fieldData,
+                                                         definition: definitionDict[header.localMessageType]!,
+                                                         dataStrategy: dataDecodingStrategy)
                     decoded?(message)
                     
                 } else {

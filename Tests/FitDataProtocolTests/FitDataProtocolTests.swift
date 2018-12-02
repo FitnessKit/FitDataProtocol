@@ -29,9 +29,9 @@ class FitDataProtocolTests: XCTestCase {
                                  productName: nil)
 
         do {
-            let encoder = FitFileEncoder(dataValidityStrategy: .fileType)
+            let encoder = FitFileEncoder(dataValidityStrategy: .none)
 
-            let data = try encoder.encode(fildIdMessage: fiel, messages: [act])
+            let data = try encoder.encode(fildIdMessage: fiel, messages: [act, act])
             print(data as NSData)
 
             do {

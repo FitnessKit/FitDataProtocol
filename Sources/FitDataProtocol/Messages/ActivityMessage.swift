@@ -176,6 +176,77 @@ open class ActivityMessage: FitMessage {
                                eventGroup: eventGroup)
     }
 
+    /// Encodes the Definition Message for FitMessage
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .totalTimerTime:
+                if var _ = totalTimerTime {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .numberOfSessions:
+                if let _ = numberOfSessions {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .activityType:
+                if let _ = activity {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .event:
+                if let _ = event {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .eventType:
+                if let _ = eventType {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .localTimestamp:
+                if let _ = localTimeStamp {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .eventGroup:
+                if let _ = eventGroup {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            case .timestamp:
+                if let _ = timeStamp {
+                    fileDefs.append(key.fieldDefinition())
+                }
+
+            }
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: ActivityMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "ActivityMessage contains no Properties Available to Encode"))
+        }
+    }
+
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
@@ -256,17 +327,17 @@ open class ActivityMessage: FitMessage {
 
         if fileDefs.count > 0 {
 
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: ActivityMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+//            let defMessage = DefinitionMessage(architecture: .little,
+//                                               globalMessageNumber: ActivityMessage.globalMessageNumber(),
+//                                               fields: UInt8(fileDefs.count),
+//                                               fieldDefinitions: fileDefs,
+//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+//
             var encodedMsg = Data()
-
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
+//
+//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+//            encodedMsg.append(defHeader.normalHeader)
+//            encodedMsg.append(defMessage.encode())
 
             let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)

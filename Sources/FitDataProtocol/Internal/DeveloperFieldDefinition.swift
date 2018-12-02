@@ -48,3 +48,20 @@ internal extension DeveloperFieldDefinition {
     }
 
 }
+
+extension DeveloperFieldDefinition: Equatable {
+
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    internal static func == (lhs: DeveloperFieldDefinition, rhs: DeveloperFieldDefinition) -> Bool {
+        return (lhs.fieldNumber == rhs.fieldNumber) &&
+            (lhs.size == rhs.size) &&
+            (lhs.dataIndex == rhs.dataIndex)
+    }
+}

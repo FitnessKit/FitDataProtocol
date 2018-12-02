@@ -721,6 +721,175 @@ open class RecordMessage: FitMessage {
                              deviceIndex: deviceIndex)
     }
 
+    /// Encodes the Definition Message for FitMessage
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType
+    ///   - dataValidityStrategy: Validity Strategy
+    /// - Returns: DefinitionMessage
+    /// - Throws: FitError
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+
+        var fileDefs = [FieldDefinition]()
+
+        for key in FitCodingKeys.allCases {
+
+            switch key {
+            case .positionLatitude:
+                if let _ = position.encodeLatitude() { fileDefs.append(key.fieldDefinition()) }
+
+            case .positionLongitude:
+                if let _ = position.encodeLongitude() { fileDefs.append(key.fieldDefinition()) }
+
+            case .altitude:
+                if let _ = altitude { fileDefs.append(key.fieldDefinition()) }
+
+            case .heartRate:
+                if let _ = heartRate { fileDefs.append(key.fieldDefinition()) }
+
+            case .cadence:
+                if let _ = cadence { fileDefs.append(key.fieldDefinition()) }
+
+            case .distance:
+                if let _ = distance { fileDefs.append(key.fieldDefinition()) }
+
+            case .speed:
+                if let _ = speed { fileDefs.append(key.fieldDefinition()) }
+
+            case .power:
+                if let _ = power { fileDefs.append(key.fieldDefinition()) }
+
+            case .compressedSpeedDistance:
+                break
+
+            case .grade:
+                if let _ = grade { fileDefs.append(key.fieldDefinition()) }
+
+            case .resistance:
+                if let _ = resistance { fileDefs.append(key.fieldDefinition()) }
+
+            case .timeFromCourse:
+                if let _ = timeFromCourse { fileDefs.append(key.fieldDefinition()) }
+
+            case .cycleLength:
+                if let _ = cycleLength { fileDefs.append(key.fieldDefinition()) }
+
+            case .temperature:
+                if let _ = temperature { fileDefs.append(key.fieldDefinition()) }
+
+            case .speedOneSecondInterval:
+                break
+
+            case .cycles:
+                if let _ = cycles { fileDefs.append(key.fieldDefinition()) }
+
+            case .totalCycles:
+                if let _ = totalCycles { fileDefs.append(key.fieldDefinition()) }
+
+            case .compressedAccumulatedPower:
+                break // not supported
+
+            case .accumulatedPower:
+                if let _ = accumulatedPower { fileDefs.append(key.fieldDefinition()) }
+
+            case .leftRightBalance:
+                break
+
+            case .gpsAccuracy:
+                if let _ = gpsAccuracy { fileDefs.append(key.fieldDefinition()) }
+
+            case .verticalSpeed:
+                if let _ = verticalSpeed { fileDefs.append(key.fieldDefinition()) }
+
+            case .calories:
+                if let _ = calories { fileDefs.append(key.fieldDefinition()) }
+
+            case .verticalOscillation:
+                if let _ = verticalOscillation { fileDefs.append(key.fieldDefinition()) }
+
+            case .stanceTimePercent:
+                if let _ = stanceTime.percent { fileDefs.append(key.fieldDefinition()) }
+
+            case .stanceTime:
+                if let _ = stanceTime.time { fileDefs.append(key.fieldDefinition()) }
+
+            case .activityType:
+                if let _ = activity { fileDefs.append(key.fieldDefinition()) }
+
+            case .leftTorqueEffectiveness:
+                if let _ = torqueEffectiveness.left { fileDefs.append(key.fieldDefinition()) }
+
+            case .rightTorqueEffectiveness:
+                if let _ = torqueEffectiveness.right { fileDefs.append(key.fieldDefinition()) }
+
+            case .leftPedalSmoothness:
+                if let _ = pedalSmoothness.left { fileDefs.append(key.fieldDefinition()) }
+
+            case .rightPedalSmoothness:
+                if let _ = pedalSmoothness.right { fileDefs.append(key.fieldDefinition()) }
+
+            case .combinedPedalSmoothness:
+                if let _ = pedalSmoothness.combined { fileDefs.append(key.fieldDefinition()) }
+
+            case .time128Second:
+                break
+
+            case .strokeType:
+                if let _ = stroke { fileDefs.append(key.fieldDefinition()) }
+
+            case .zone:
+                if let _ = zone { fileDefs.append(key.fieldDefinition()) }
+
+            case .ballSpeed:
+                if let _ = ballSpeed { fileDefs.append(key.fieldDefinition()) }
+
+            case .cadence256:
+                break
+            case .fractionalCadence:
+                break
+            case .totalHemoglobinConcentration:
+                break
+            case .totalHemoglobinConcentrationMin:
+                break
+            case .totalHemoglobinConcentrationMax:
+                break
+            case .saturatedHemoglobinPercent:
+                break
+            case .saturatedHemoglobinPercentMin:
+                break
+            case .saturatedHemoglobinPercentMax:
+                break
+
+            case .deviceIndex:
+                if let _ = deviceIndex { fileDefs.append(key.fieldDefinition()) }
+
+            case .enhancedSpeed:
+                if let _ = enhancedSpeed { fileDefs.append(key.fieldDefinition()) }
+
+            case .enhancedAltitude:
+                if let _ = enhancedAltitude { fileDefs.append(key.fieldDefinition()) }
+
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
+            }
+
+        }
+
+        if fileDefs.count > 0 {
+
+            let defMessage = DefinitionMessage(architecture: .little,
+                                               globalMessageNumber: RecordMessage.globalMessageNumber(),
+                                               fields: UInt8(fileDefs.count),
+                                               fieldDefinitions: fileDefs,
+                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+            return defMessage
+        } else {
+            throw FitError(.encodeError(msg: "RecordMessage contains no Properties Available to Encode"))
+        }
+    }
+
     /// Encodes the Message into Data
     ///
     /// - Returns: Data representation
@@ -1101,18 +1270,18 @@ open class RecordMessage: FitMessage {
 
         if fileDefs.count > 0 {
 
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: RecordMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+//            let defMessage = DefinitionMessage(architecture: .little,
+//                                               globalMessageNumber: RecordMessage.globalMessageNumber(),
+//                                               fields: UInt8(fileDefs.count),
+//                                               fieldDefinitions: fileDefs,
+//                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
+//
             var encodedMsg = Data()
-
-            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
-            encodedMsg.append(defHeader.normalHeader)
-            encodedMsg.append(defMessage.encode())
-
+//
+//            let defHeader = RecordHeader(localMessageType: 0, isDataMessage: false)
+//            encodedMsg.append(defHeader.normalHeader)
+//            encodedMsg.append(defMessage.encode())
+//
             let recHeader = RecordHeader(localMessageType: 0, isDataMessage: true)
             encodedMsg.append(recHeader.normalHeader)
             encodedMsg.append(msgData)

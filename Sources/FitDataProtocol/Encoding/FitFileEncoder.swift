@@ -63,6 +63,16 @@ public extension FitFileEncoder {
     /// - Throws: FitError
     public func encode(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws -> Data {
 
+        func encodeDefHeader(index: UInt8, definition: DefinitionMessage) -> Data {
+            var msgData = Data()
+
+            let defHeader = RecordHeader(localMessageType: index, isDataMessage: false)
+            msgData.append(defHeader.normalHeader)
+            msgData.append(definition.encode())
+
+            return msgData
+        }
+
         guard messages.count > 0 else {
             throw FitError(.encodeError(msg: "No Messages to Encode"))
         }
@@ -70,6 +80,9 @@ public extension FitFileEncoder {
         var msgData = Data()
 
         try validate(fildIdMessage: fildIdMessage, messages: messages)
+
+        var lastDefiniton = try fildIdMessage.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy)
+        msgData.append(encodeDefHeader(index: 0, definition: lastDefiniton))
 
         msgData.append(try fildIdMessage.encode(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy))
 
@@ -79,6 +92,14 @@ public extension FitFileEncoder {
                 throw FitError(.encodeError(msg: "messages can not contain second FileIdMessage"))
             }
 
+            let def = try message.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy)
+
+            if lastDefiniton != def {
+                lastDefiniton = def
+                msgData.append(encodeDefHeader(index: 0, definition: lastDefiniton))
+            }
+
+
             msgData.append(try message.encode(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy))
         }
 
@@ -86,10 +107,10 @@ public extension FitFileEncoder {
             throw FitError(.encodeError(msg: "Fit File has to many Messages. Can only encode \(UInt32.max) bytes"))
         }
 
+        let header = FileHeader(dataSize: UInt32(msgData.count))
+
         let dataCrc = CRC16(data: msgData).crc
         msgData.append(Data(from:dataCrc.littleEndian))
-
-        let header = FileHeader(dataSize: UInt32(msgData.count))
 
         var fileData = Data()
         fileData.append(header.encodedData)
@@ -233,24 +254,3 @@ extension FitFileEncoder {
         return false
     }
 }
-
-//1.    file_id – This message must be first. It must contain serial_number, time_created, manufacturer and type fields.
-//Type must equal 4 (ACTIVITY). The manufacturer field should be populated with the correct partner identifier
-//from the FIT SDK.
-//2.    device_info – The file must contain at least one of these, with information about the device/application that
-//created the FIT file. Possible fields to provide include serial_number, manufacturer and software_version.
-//3.    record – These represent instantaneous data measurements. The file should contain one per second, if possible.
-//4.    lap – These represent laps or intervals within the activity. The activity must contain at least one (which would
-//represent the entire activity) but will likely contain many representing various time or distance splits, or sections
-//within the workout such as work or rest intervals. These will be interspersed throughout the file at the END of
-//the lap or interval. They contain summary measurements (average speed, lap distance, etc) for their respective
-//    portions of the activity.
-//5.    session – This message will appear in the file exactly once, at the end of the workout. It represents the entire
-//workout. It is very much like a lap message. Multisport activities (triathlon, duathlon, etc) can contain multiple
-//sessions within a single FIT activity file. The session message should be populated with the appropriate Sport
-//and Subsport values to identify the type of activity represented in the data (cycling, running, swimming, etc). If
-//the partner application simulates GPS data and records it to the FIT file, the Subsport value must be set to
-//“virtual activity”. For applications that do not record simulated GPS data, “treadmill running”, “indoor cycling”,
-//“indoor rowing” or other Subsport options may be more appropriate. Partner applications should pick the most
-//specific possible Sport/Subsport pair available.
-//6.    activity – This message will appear at the end of the file.
