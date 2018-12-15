@@ -195,6 +195,11 @@ open class FileIdMessage: FitMessage {
             case .productName:
                 if let stringData = productName?.data(using: .utf8) {
                     //20 typical size... but we will count the String
+
+                    guard stringData.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "productName size can not exceed 255"))
+                    }
+
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
             }

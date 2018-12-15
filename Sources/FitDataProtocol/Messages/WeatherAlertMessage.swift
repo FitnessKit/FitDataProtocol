@@ -172,6 +172,11 @@ open class WeatherAlertMessage: FitMessage {
             case .reportId:
                 if let stringData = reportID?.data(using: .utf8) {
                     //12 typical size... but we will count the String
+
+                    guard stringData.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "reportID size can not exceed 255"))
+                    }
+
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
             case .issueTime:

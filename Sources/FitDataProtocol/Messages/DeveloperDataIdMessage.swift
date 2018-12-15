@@ -148,9 +148,25 @@ open class DeveloperDataIdMessage: FitMessage {
 
             switch key {
             case .developerId:
-                if let _ = developerId { fileDefs.append(key.fieldDefinition()) }
+                if let developerId = developerId {
+                    //16 typical size..
+
+                    guard developerId.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "developerId size can not exceed 255"))
+                    }
+
+                    fileDefs.append(key.fieldDefinition(size: UInt8(developerId.count)))
+                }
             case .applicationId:
-                if let _ = applicationId { fileDefs.append(key.fieldDefinition()) }
+                if let applicationId = applicationId {
+                    //16 typical size..
+
+                    guard applicationId.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "applicationId size can not exceed 255"))
+                    }
+
+                    fileDefs.append(key.fieldDefinition(size: UInt8(applicationId.count)))
+                }
             case .manufacturerId:
                 if let _ = manufacturer { fileDefs.append(key.fieldDefinition()) }
             case .dataIndex:

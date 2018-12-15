@@ -147,6 +147,11 @@ open class ExerciseTitleMessage: FitMessage {
             case .stepName:
                 if let stringData = stepName?.data(using: .utf8) {
                     //200 typical size... but we will count the String
+
+                    guard stringData.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "stepName size can not exceed 255"))
+                    }
+
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
             case .messageIndex:

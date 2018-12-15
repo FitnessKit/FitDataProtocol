@@ -40,7 +40,7 @@ open class SoftwareMessage: FitMessage {
     /// Version
     private(set) public var version: ValidatedBinaryInteger<UInt16>?
 
-    /// Prt Number
+    /// Part Number
     private(set) public var partNumber: String?
 
     public required init() {}
@@ -126,6 +126,11 @@ open class SoftwareMessage: FitMessage {
             case .partNumber:
                 if let stringData = partNumber?.data(using: .utf8) {
                     //16 typical size... but we will count the String
+
+                    guard stringData.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "partNumber size can not exceed 255"))
+                    }
+
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
             case .messageIndex:

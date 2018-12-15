@@ -476,6 +476,11 @@ open class UserProfileMessage: FitMessage {
             case .friendlyName:
                 if let stringData = friendlyName?.data(using: .utf8) {
                     //16 typical size... but we will count the String
+
+                    guard stringData.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "friendlyName size can not exceed 255"))
+                    }
+
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
             case .gender:

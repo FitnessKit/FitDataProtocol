@@ -1485,6 +1485,11 @@ open class SessionMessage: FitMessage {
             case .opponentName:
                 if let stringData = opponentName?.data(using: .utf8) {
                     //16 typical size... but we will count the String
+
+                    guard stringData.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "opponentName size can not exceed 255"))
+                    }
+
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
             case .strokeCount:

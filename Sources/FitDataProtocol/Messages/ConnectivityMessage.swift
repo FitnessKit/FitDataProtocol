@@ -259,6 +259,11 @@ open class ConnectivityMessage: FitMessage {
             case .connectivityName:
                 if let stringData = name?.data(using: .utf8) {
                     //16 typical size... but we will count the String
+
+                    guard stringData.count <= UInt8.max else {
+                        throw FitError(.encodeError(msg: "name size can not exceed 255"))
+                    }
+
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
             case .liveTrackingEnabled:
