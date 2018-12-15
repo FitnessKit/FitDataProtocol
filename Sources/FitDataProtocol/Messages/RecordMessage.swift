@@ -671,8 +671,10 @@ open class RecordMessage: FitMessage {
         } else {
             /// If the long value is there and strategy in use invalid
             if let value = longAccumulatedPowerValue {
-                if dataStrategy == .useInvalid {
-                    accumulatedPower = value
+                if accumulatedPower?.valid == false {
+                    if dataStrategy == .useInvalid {
+                        accumulatedPower = value
+                    }
                 }
             }
         }
@@ -983,18 +985,6 @@ open class RecordMessage: FitMessage {
 
             case .compressedAccumulatedPower:
                 break // not supported
-//                if var accumulatedPower = accumulatedPower {
-//                    // 1 * watts + 0
-//                    accumulatedPower = accumulatedPower.converted(to: UnitPower.watts)
-//                    let value = accumulatedPower.value.resolutionUInt16(1)
-//
-//                    /// If we can create a compressed Accumulated Power
-//                    if value != UInt16.max {
-//                        msgData.append(Data(from: value.littleEndian))
-//
-//                        fileDefs.append(key.fieldDefinition())
-//                    }
-//                }
 
             case .accumulatedPower:
                 if var accumulatedPower = accumulatedPower {
@@ -1222,4 +1212,33 @@ private extension RecordMessage {
         return Data(from: value.littleEndian)
     }
 
+}
+
+private extension RecordMessage {
+
+    private func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
+
+        switch dataValidityStrategy {
+        case .none:
+        break // do nothing
+        case .fileType:
+            if fileType == FileType.activity {
+                try validateActivity(isGarmin: false)
+            }
+        case .garminConnect:
+            if fileType == FileType.activity {
+                try validateActivity(isGarmin: true)
+            }
+        }
+    }
+
+    private func validateActivity(isGarmin: Bool) throws {
+
+        let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
+
+        guard self.timeStamp != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require RecordMessage to contain timeStamp, can not be nil"))
+        }
+
+    }
 }

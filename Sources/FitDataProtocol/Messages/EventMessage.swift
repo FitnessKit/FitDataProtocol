@@ -310,3 +310,40 @@ open class EventMessage: FitMessage {
     }
 
 }
+
+private extension EventMessage {
+
+    private func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
+
+        switch dataValidityStrategy {
+        case .none:
+        break // do nothing
+        case .fileType:
+            if fileType == FileType.activity {
+                try validateActivity(isGarmin: false)
+            }
+        case .garminConnect:
+            if fileType == FileType.activity {
+                try validateActivity(isGarmin: true)
+            }
+        }
+    }
+
+    private func validateActivity(isGarmin: Bool) throws {
+
+        let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
+
+        guard self.timeStamp != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require EventMessage to contain timeStamp, can not be nil"))
+        }
+
+        guard self.event != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require EventMessage to contain event, can not be nil"))
+        }
+
+        guard self.eventType != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require EventMessage to contain eventType, can not be nil"))
+        }
+
+    }
+}
