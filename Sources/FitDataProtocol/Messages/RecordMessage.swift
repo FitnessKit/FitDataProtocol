@@ -55,9 +55,6 @@ open class RecordMessage: FitMessage {
     /// Accumulated Power
     private(set) public var accumulatedPower: ValidatedMeasurement<UnitPower>?
 
-    /// Enhanced Altitude
-    private(set) public var enhancedAltitude: ValidatedMeasurement<UnitLength>?
-
     /// Altitude
     private(set) public var altitude: ValidatedMeasurement<UnitLength>?
 
@@ -137,7 +134,6 @@ open class RecordMessage: FitMessage {
                 cycles: ValidatedBinaryInteger<UInt8>? = nil,
                 totalCycles: ValidatedBinaryInteger<UInt32>? = nil,
                 accumulatedPower: ValidatedMeasurement<UnitPower>? = nil,
-                enhancedAltitude: ValidatedMeasurement<UnitLength>? = nil,
                 altitude: ValidatedMeasurement<UnitLength>? = nil,
                 speed: ValidatedMeasurement<UnitSpeed>? = nil,
                 power: ValidatedMeasurement<UnitPower>? = nil,
@@ -167,7 +163,6 @@ open class RecordMessage: FitMessage {
         self.cycles = cycles
         self.totalCycles = totalCycles
         self.accumulatedPower = accumulatedPower
-        self.enhancedAltitude = enhancedAltitude
         self.altitude = altitude
         self.speed = speed
         self.power = power
@@ -649,6 +644,9 @@ open class RecordMessage: FitMessage {
         /// Determine which Speed to use
         let recordSpeed = preferredSpeed(valueOne: speed, valueTwo: enhancedSpeed)
 
+        /// Determine which Altitude to use
+        let recordAltitude = preferredLength(valueOne: altitude, valueTwo: enhancedAltitude)
+
         /// setup Position
         let position = Position(latitude: latitude, longitude: longitude)
 
@@ -668,8 +666,7 @@ open class RecordMessage: FitMessage {
                              cycles: cycles,
                              totalCycles: totalCycles,
                              accumulatedPower: accumulatedPower,
-                             enhancedAltitude: enhancedAltitude,
-                             altitude: altitude,
+                             altitude: recordAltitude,
                              speed: recordSpeed,
                              power: power,
                              gpsAccuracy: gpsAccuracy,
@@ -713,7 +710,8 @@ open class RecordMessage: FitMessage {
             case .positionLongitude:
                 if let _ = position.encodeLongitude() { fileDefs.append(key.fieldDefinition()) }
             case .altitude:
-                if let _ = altitude { fileDefs.append(key.fieldDefinition()) }
+                /// use enhancedAltitude
+                break
             case .heartRate:
                 if let _ = heartRate { fileDefs.append(key.fieldDefinition()) }
             case .cadence:
@@ -721,8 +719,8 @@ open class RecordMessage: FitMessage {
             case .distance:
                 if let _ = distance { fileDefs.append(key.fieldDefinition()) }
             case .speed:
-                break /// use enhanced Speed
-                //if let _ = speed { fileDefs.append(key.fieldDefinition()) }
+                /// use enhanced Speed
+                break
             case .power:
                 if let _ = power { fileDefs.append(key.fieldDefinition()) }
             case .compressedSpeedDistance:
@@ -744,7 +742,8 @@ open class RecordMessage: FitMessage {
             case .totalCycles:
                 if let _ = totalCycles { fileDefs.append(key.fieldDefinition()) }
             case .compressedAccumulatedPower:
-                break // not supported
+                /// use accumulatedPower
+                break
             case .accumulatedPower:
                 if let _ = accumulatedPower { fileDefs.append(key.fieldDefinition()) }
             case .leftRightBalance:
@@ -802,7 +801,7 @@ open class RecordMessage: FitMessage {
             case .enhancedSpeed:
                 if let _ = speed { fileDefs.append(key.fieldDefinition()) }
             case .enhancedAltitude:
-                if let _ = enhancedAltitude { fileDefs.append(key.fieldDefinition()) }
+                if let _ = altitude { fileDefs.append(key.fieldDefinition()) }
             case .timestamp:
                 if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
@@ -851,13 +850,8 @@ open class RecordMessage: FitMessage {
                 }
 
             case .altitude:
-                if var altitude = altitude {
-                    // 5 * m + 500
-                    altitude = altitude.converted(to: UnitLength.meters)
-                    let value = altitude.value.resolutionUInt16(5) + 500
-
-                    msgData.append(Data(from: value.littleEndian))
-                }
+                /// use enhanced altitude
+                break
 
             case .heartRate:
                 if let heartRate = heartRate {
@@ -883,14 +877,8 @@ open class RecordMessage: FitMessage {
                 }
 
             case .speed:
-                break //use enhanced speed
-//                if var speed = speed {
-//                    // 1000 * m/s + 0
-//                    speed = speed.converted(to: UnitSpeed.metersPerSecond)
-//                    let value = speed.value.resolutionUInt16(1000)
-//
-//                    msgData.append(Data(from: value.littleEndian))
-//                }
+                //use enhanced speed
+                break
 
             case .power:
                 if let power = power {
@@ -1112,7 +1100,7 @@ open class RecordMessage: FitMessage {
                 }
 
             case .enhancedAltitude:
-                if let enhancedAltitude = enhancedAltitude {
+                if let enhancedAltitude = altitude {
                     let valData = encodeEnhancedAltitude(enhancedAltitude)
                     msgData.append(valData)
                 }
@@ -1210,94 +1198,6 @@ private extension RecordMessage {
         guard self.timeStamp != nil else {
             throw FitError(.encodeError(msg: "\(msg) require RecordMessage to contain timeStamp, can not be nil"))
         }
-
-    }
-}
-
-private extension RecordMessage {
-
-    /// Pick a Preferred Value for Power
-    ///
-    /// - Parameters:
-    ///   - valueOne: Power Unit
-    ///   - valueTwo: Power Unit
-    /// - Returns: Preferred Power Unit
-    private func preferredPower(valueOne: ValidatedMeasurement<UnitPower>?, valueTwo: ValidatedMeasurement<UnitPower>?) -> ValidatedMeasurement<UnitPower>? {
-
-        var power: ValidatedMeasurement<UnitPower>?
-
-        /// Pick the First one
-        /// it will be:
-        /// - nil
-        /// - contain a value
-        power = valueOne
-
-        if let value = valueTwo {
-
-            // if the first value is not valid, but present
-            // replace it no matter what
-            if let v1 = valueOne {
-
-                if v1.valid == false {
-                    power = value
-                } else {
-
-                    // if v1 is valid and v2 is also valid
-                    // replace it with v2
-                    if value.valid {
-                        power = value
-                    }
-                }
-
-            } else {
-                // if v1 is nil, just replace it with v2
-                power = value
-            }
-        }
-
-        return power
-    }
-
-    /// Pick a Preferred Value for Speed
-    ///
-    /// - Parameters:
-    ///   - valueOne: Speed Unit
-    ///   - valueTwo: Speed Unit
-    /// - Returns: Preferred Speed Unit
-    private func preferredSpeed(valueOne: ValidatedMeasurement<UnitSpeed>?, valueTwo: ValidatedMeasurement<UnitSpeed>?) -> ValidatedMeasurement<UnitSpeed>? {
-
-        var speed: ValidatedMeasurement<UnitSpeed>?
-
-        /// Pick the First one
-        /// it will be:
-        /// - nil
-        /// - contain a value
-        speed = valueOne
-
-        if let value = valueTwo {
-
-            // if the first value is not valid, but present
-            // replace it no matter what
-            if let v1 = valueOne {
-
-                if v1.valid == false {
-                    speed = value
-                } else {
-
-                    // if v1 is valid and v2 is also valid
-                    // replace it with v2
-                    if value.valid {
-                        speed = value
-                    }
-                }
-
-            } else {
-                // if v1 is nil, just replace it with v2
-                speed = value
-            }
-        }
-
-        return speed
 
     }
 }

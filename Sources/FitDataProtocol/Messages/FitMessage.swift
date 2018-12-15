@@ -24,6 +24,7 @@
 
 import Foundation
 import DataDecoder
+import FitnessUnits
 
 /// Protocol for FIT Message Keys
 public protocol FitMessageKeys {
@@ -132,4 +133,134 @@ internal extension FitMessage {
         return value
     }
 
+}
+
+//MARK: - Preferred Values
+internal extension FitMessage {
+
+    /// Pick a Preferred Value for Power
+    ///
+    /// - Parameters:
+    ///   - valueOne: Power Unit
+    ///   - valueTwo: Power Unit
+    /// - Returns: Preferred Power Unit
+    internal func preferredPower(valueOne: ValidatedMeasurement<UnitPower>?, valueTwo: ValidatedMeasurement<UnitPower>?) -> ValidatedMeasurement<UnitPower>? {
+
+        var power: ValidatedMeasurement<UnitPower>?
+
+        /// Pick the First one
+        /// it will be:
+        /// - nil
+        /// - contain a value
+        power = valueOne
+
+        if let value = valueTwo {
+
+            // if the first value is not valid, but present
+            // replace it no matter what
+            if let v1 = valueOne {
+
+                if v1.valid == false {
+                    power = value
+                } else {
+
+                    // if v1 is valid and v2 is also valid
+                    // replace it with v2
+                    if value.valid {
+                        power = value
+                    }
+                }
+
+            } else {
+                // if v1 is nil, just replace it with v2
+                power = value
+            }
+        }
+
+        return power
+    }
+
+    /// Pick a Preferred Value for Speed
+    ///
+    /// - Parameters:
+    ///   - valueOne: Speed Unit
+    ///   - valueTwo: Speed Unit
+    /// - Returns: Preferred Speed Unit
+    internal func preferredSpeed(valueOne: ValidatedMeasurement<UnitSpeed>?, valueTwo: ValidatedMeasurement<UnitSpeed>?) -> ValidatedMeasurement<UnitSpeed>? {
+
+        var speed: ValidatedMeasurement<UnitSpeed>?
+
+        /// Pick the First one
+        /// it will be:
+        /// - nil
+        /// - contain a value
+        speed = valueOne
+
+        if let value = valueTwo {
+
+            // if the first value is not valid, but present
+            // replace it no matter what
+            if let v1 = valueOne {
+
+                if v1.valid == false {
+                    speed = value
+                } else {
+
+                    // if v1 is valid and v2 is also valid
+                    // replace it with v2
+                    if value.valid {
+                        speed = value
+                    }
+                }
+
+            } else {
+                // if v1 is nil, just replace it with v2
+                speed = value
+            }
+        }
+
+        return speed
+    }
+
+    /// Pick a Preferred Value for Length
+    ///
+    /// - Parameters:
+    ///   - valueOne: Length Unit
+    ///   - valueTwo: Length Unit
+    /// - Returns: Preferred Length Unit
+    internal func preferredLength(valueOne: ValidatedMeasurement<UnitLength>?, valueTwo: ValidatedMeasurement<UnitLength>?) -> ValidatedMeasurement<UnitLength>? {
+
+        var length: ValidatedMeasurement<UnitLength>?
+
+        /// Pick the First one
+        /// it will be:
+        /// - nil
+        /// - contain a value
+        length = valueOne
+
+        if let value = valueTwo {
+
+            // if the first value is not valid, but present
+            // replace it no matter what
+            if let v1 = valueOne {
+
+                if v1.valid == false {
+                    length = value
+                } else {
+
+                    // if v1 is valid and v2 is also valid
+                    // replace it with v2
+                    if value.valid {
+                        length = value
+                    }
+                }
+
+            } else {
+                // if v1 is nil, just replace it with v2
+                length = value
+            }
+        }
+
+        return length
+    }
 }
