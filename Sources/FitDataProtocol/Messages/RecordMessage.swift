@@ -55,9 +55,6 @@ open class RecordMessage: FitMessage {
     /// Accumulated Power
     private(set) public var accumulatedPower: ValidatedMeasurement<UnitPower>?
 
-    /// Enhanced Speed
-    private(set) public var enhancedSpeed: ValidatedMeasurement<UnitSpeed>?
-
     /// Enhanced Altitude
     private(set) public var enhancedAltitude: ValidatedMeasurement<UnitLength>?
 
@@ -140,7 +137,6 @@ open class RecordMessage: FitMessage {
                 cycles: ValidatedBinaryInteger<UInt8>? = nil,
                 totalCycles: ValidatedBinaryInteger<UInt32>? = nil,
                 accumulatedPower: ValidatedMeasurement<UnitPower>? = nil,
-                enhancedSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
                 enhancedAltitude: ValidatedMeasurement<UnitLength>? = nil,
                 altitude: ValidatedMeasurement<UnitLength>? = nil,
                 speed: ValidatedMeasurement<UnitSpeed>? = nil,
@@ -171,7 +167,6 @@ open class RecordMessage: FitMessage {
         self.cycles = cycles
         self.totalCycles = totalCycles
         self.accumulatedPower = accumulatedPower
-        self.enhancedSpeed = enhancedSpeed
         self.enhancedAltitude = enhancedAltitude
         self.altitude = altitude
         self.speed = speed
@@ -215,9 +210,7 @@ open class RecordMessage: FitMessage {
         var cycles: ValidatedBinaryInteger<UInt8>?
         var totalCycles: ValidatedBinaryInteger<UInt32>?
         var compressedAccumulatedPower: ValidatedMeasurement<UnitPower>?
-        var compressedAccumulatedPowerValue: ValidatedMeasurement<UnitPower>?
         var longAccumulatedPower: ValidatedMeasurement<UnitPower>?
-        var longAccumulatedPowerValue: ValidatedMeasurement<UnitPower>?
         var enhancedSpeed: ValidatedMeasurement<UnitSpeed>?
         var enhancedAltitude: ValidatedMeasurement<UnitLength>?
         var altitude: ValidatedMeasurement<UnitLength>?
@@ -425,7 +418,7 @@ open class RecordMessage: FitMessage {
                         let value = value.resolution(1)
                         compressedAccumulatedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
-                        compressedAccumulatedPowerValue = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
+                        compressedAccumulatedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
 
                 case .accumulatedPower:
@@ -435,7 +428,7 @@ open class RecordMessage: FitMessage {
                         let value = value.resolution(1)
                         longAccumulatedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
-                        longAccumulatedPowerValue = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
+                        longAccumulatedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
 
                 case .leftRightBalance:
@@ -651,33 +644,10 @@ open class RecordMessage: FitMessage {
         }
 
         /// Determine which Accumulated Power to use
-        var accumulatedPower: ValidatedMeasurement<UnitPower>?
+        let accumulatedPower = preferredPower(valueOne: compressedAccumulatedPower, valueTwo: longAccumulatedPower)
 
-        /// Try to use the Compressed Firt
-        if let compressed = compressedAccumulatedPower {
-            accumulatedPower = compressed
-        } else {
-            /// If the compressed value is there and strategy in use invalid
-            if let value = compressedAccumulatedPowerValue {
-                if dataStrategy == .useInvalid {
-                    accumulatedPower = value
-                }
-            }
-        }
-
-        /// Prefer the Long Values
-        if let power = longAccumulatedPower {
-            accumulatedPower = power
-        } else {
-            /// If the long value is there and strategy in use invalid
-            if let value = longAccumulatedPowerValue {
-                if accumulatedPower?.valid == false {
-                    if dataStrategy == .useInvalid {
-                        accumulatedPower = value
-                    }
-                }
-            }
-        }
+        /// Determine which Speed to use
+        let recordSpeed = preferredSpeed(valueOne: speed, valueTwo: enhancedSpeed)
 
         /// setup Position
         let position = Position(latitude: latitude, longitude: longitude)
@@ -698,10 +668,9 @@ open class RecordMessage: FitMessage {
                              cycles: cycles,
                              totalCycles: totalCycles,
                              accumulatedPower: accumulatedPower,
-                             enhancedSpeed: enhancedSpeed,
                              enhancedAltitude: enhancedAltitude,
                              altitude: altitude,
-                             speed: speed,
+                             speed: recordSpeed,
                              power: power,
                              gpsAccuracy: gpsAccuracy,
                              verticalSpeed: verticalSpeed,
@@ -752,7 +721,8 @@ open class RecordMessage: FitMessage {
             case .distance:
                 if let _ = distance { fileDefs.append(key.fieldDefinition()) }
             case .speed:
-                if let _ = speed { fileDefs.append(key.fieldDefinition()) }
+                break /// use enhanced Speed
+                //if let _ = speed { fileDefs.append(key.fieldDefinition()) }
             case .power:
                 if let _ = power { fileDefs.append(key.fieldDefinition()) }
             case .compressedSpeedDistance:
@@ -830,7 +800,7 @@ open class RecordMessage: FitMessage {
             case .deviceIndex:
                 if let _ = deviceIndex { fileDefs.append(key.fieldDefinition()) }
             case .enhancedSpeed:
-                if let _ = enhancedSpeed { fileDefs.append(key.fieldDefinition()) }
+                if let _ = speed { fileDefs.append(key.fieldDefinition()) }
             case .enhancedAltitude:
                 if let _ = enhancedAltitude { fileDefs.append(key.fieldDefinition()) }
             case .timestamp:
@@ -913,13 +883,14 @@ open class RecordMessage: FitMessage {
                 }
 
             case .speed:
-                if var speed = speed {
-                    // 1000 * m/s + 0
-                    speed = speed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = speed.value.resolutionUInt16(1000)
-
-                    msgData.append(Data(from: value.littleEndian))
-                }
+                break //use enhanced speed
+//                if var speed = speed {
+//                    // 1000 * m/s + 0
+//                    speed = speed.converted(to: UnitSpeed.metersPerSecond)
+//                    let value = speed.value.resolutionUInt16(1000)
+//
+//                    msgData.append(Data(from: value.littleEndian))
+//                }
 
             case .power:
                 if let power = power {
@@ -984,7 +955,7 @@ open class RecordMessage: FitMessage {
                 }
 
             case .compressedAccumulatedPower:
-                break // not supported
+                break // use long Accumulated Power
 
             case .accumulatedPower:
                 if var accumulatedPower = accumulatedPower {
@@ -1132,7 +1103,7 @@ open class RecordMessage: FitMessage {
                 }
 
             case .enhancedSpeed:
-                if var enhancedSpeed = enhancedSpeed {
+                if var enhancedSpeed = speed {
                     // 1000 * m/s + 0
                     enhancedSpeed = enhancedSpeed.converted(to: UnitSpeed.metersPerSecond)
                     let value = enhancedSpeed.value.resolutionUInt32(1000)
@@ -1239,6 +1210,94 @@ private extension RecordMessage {
         guard self.timeStamp != nil else {
             throw FitError(.encodeError(msg: "\(msg) require RecordMessage to contain timeStamp, can not be nil"))
         }
+
+    }
+}
+
+private extension RecordMessage {
+
+    /// Pick a Preferred Value for Power
+    ///
+    /// - Parameters:
+    ///   - valueOne: Power Unit
+    ///   - valueTwo: Power Unit
+    /// - Returns: Preferred Power Unit
+    private func preferredPower(valueOne: ValidatedMeasurement<UnitPower>?, valueTwo: ValidatedMeasurement<UnitPower>?) -> ValidatedMeasurement<UnitPower>? {
+
+        var power: ValidatedMeasurement<UnitPower>?
+
+        /// Pick the First one
+        /// it will be:
+        /// - nil
+        /// - contain a value
+        power = valueOne
+
+        if let value = valueTwo {
+
+            // if the first value is not valid, but present
+            // replace it no matter what
+            if let v1 = valueOne {
+
+                if v1.valid == false {
+                    power = value
+                } else {
+
+                    // if v1 is valid and v2 is also valid
+                    // replace it with v2
+                    if value.valid {
+                        power = value
+                    }
+                }
+
+            } else {
+                // if v1 is nil, just replace it with v2
+                power = value
+            }
+        }
+
+        return power
+    }
+
+    /// Pick a Preferred Value for Speed
+    ///
+    /// - Parameters:
+    ///   - valueOne: Speed Unit
+    ///   - valueTwo: Speed Unit
+    /// - Returns: Preferred Speed Unit
+    private func preferredSpeed(valueOne: ValidatedMeasurement<UnitSpeed>?, valueTwo: ValidatedMeasurement<UnitSpeed>?) -> ValidatedMeasurement<UnitSpeed>? {
+
+        var speed: ValidatedMeasurement<UnitSpeed>?
+
+        /// Pick the First one
+        /// it will be:
+        /// - nil
+        /// - contain a value
+        speed = valueOne
+
+        if let value = valueTwo {
+
+            // if the first value is not valid, but present
+            // replace it no matter what
+            if let v1 = valueOne {
+
+                if v1.valid == false {
+                    speed = value
+                } else {
+
+                    // if v1 is valid and v2 is also valid
+                    // replace it with v2
+                    if value.valid {
+                        speed = value
+                    }
+                }
+
+            } else {
+                // if v1 is nil, just replace it with v2
+                speed = value
+            }
+        }
+
+        return speed
 
     }
 }
