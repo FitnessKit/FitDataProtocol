@@ -72,6 +72,14 @@ open class ZonesTargetMessage: FitMessage {
         self.powerZoneType = powerZoneType
     }
 
+    /// Decode Message Data into FitMessage
+    ///
+    /// - Parameters:
+    ///   - fieldData: FileData
+    ///   - definition: Definition Message
+    ///   - dataStrategy: Decoding Strategy
+    /// - Returns: FitMessage
+    /// - Throws: FitError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> ZonesTargetMessage  {
 
         var maxHeartRate: UInt8?

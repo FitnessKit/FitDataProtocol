@@ -26,6 +26,7 @@ import Foundation
 
 /// Hyperextension Exercise Name
 public struct HyperextensionExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = HyperextensionExerciseName
 
     /// Exercise Name
@@ -67,6 +68,7 @@ extension HyperextensionExerciseName: Hashable {
 
 public extension HyperextensionExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [HyperextensionExerciseName] {
 
         return [.backExtensionWithOppositeArmAndLegReach,
@@ -112,6 +114,10 @@ public extension HyperextensionExerciseName {
 
 public extension HyperextensionExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> HyperextensionExerciseName? {
 
         for name in HyperextensionExerciseName.supportedExerciseNames {

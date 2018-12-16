@@ -26,6 +26,7 @@ import Foundation
 
 /// Core Exercise Name
 public struct CoreExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = CoreExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension CoreExerciseName: Hashable {
 
 public extension CoreExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [CoreExerciseName] {
 
         return [.absJabs,
@@ -120,6 +122,10 @@ public extension CoreExerciseName {
 
 public extension CoreExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> CoreExerciseName? {
 
         for name in CoreExerciseName.supportedExerciseNames {

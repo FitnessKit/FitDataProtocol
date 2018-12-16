@@ -70,6 +70,14 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
         self.activityId = activityId
     }
 
+    /// Decode Message Data into FitMessage
+    ///
+    /// - Parameters:
+    ///   - fieldData: FileData
+    ///   - definition: Definition Message
+    ///   - dataStrategy: Decoding Strategy
+    /// - Returns: FitMessage
+    /// - Throws: FitError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SegmentLeaderboardEntryMessage  {
 
         var messageIndex: MessageIndex?

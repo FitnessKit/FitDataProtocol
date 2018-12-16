@@ -26,6 +26,7 @@ import Foundation
 
 /// Chop Exercise Name
 public struct ChopExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = ChopExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension ChopExerciseName: Hashable {
 
 public extension ChopExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [ChopExerciseName] {
 
         return [.cablePullThrough,
@@ -97,6 +99,10 @@ public extension ChopExerciseName {
 
 public extension ChopExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> ChopExerciseName? {
 
         for name in ChopExerciseName.supportedExerciseNames {

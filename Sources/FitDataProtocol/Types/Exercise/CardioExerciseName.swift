@@ -26,6 +26,7 @@ import Foundation
 
 /// Cardio Exercise Name
 public struct CardioExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = CardioExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension CardioExerciseName: Hashable {
 
 public extension CardioExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [CardioExerciseName] {
 
         return [.bobAndWeaveCircle,
@@ -96,6 +98,10 @@ public extension CardioExerciseName {
 
 public extension CardioExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> CardioExerciseName? {
 
         for name in CardioExerciseName.supportedExerciseNames {

@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Field Data
 internal struct FieldData {
 

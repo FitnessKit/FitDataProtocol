@@ -82,6 +82,14 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
         self.odometerRolloverCounter = odometerRolloverCounter
     }
 
+    /// Decode Message Data into FitMessage
+    ///
+    /// - Parameters:
+    ///   - fieldData: FileData
+    ///   - definition: Definition Message
+    ///   - dataStrategy: Decoding Strategy
+    /// - Returns: FitMessage
+    /// - Throws: FitError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> StrideSpeedDistanceMonitorProfileMessage  {
 
         var messageIndex: MessageIndex?

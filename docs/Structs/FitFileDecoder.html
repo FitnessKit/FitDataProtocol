@@ -17,7 +17,7 @@
       <div class="content-wrapper">
         <p>
           <a href="../index.html">FitDataProtocol Docs</a>
-          <span class="no-mobile"> (95% documented)</span>
+          <span class="no-mobile"> (96% documented)</span>
         </p>
     
         <p class="header-right">
@@ -209,7 +209,7 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Undocumented</p>
+                          <p>Init Fit File Decoder</p>
 
                         </div>
                         <div class="declaration">
@@ -219,6 +219,37 @@
                             <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">crcCheckingStrategy</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitFileDecoder/CrcCheckingStrategy.html">CrcCheckingStrategy</a></span> <span class="o">=</span> <span class="o">.</span><span class="k">throws</span><span class="p">,</span> <span class="nv">dataDecodingStrategy</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitFileDecoder/DataDecodingStrategy.html">DataDecodingStrategy</a></span> <span class="o">=</span> <span class="o">.</span><span class="kc">nil</span><span class="p">)</span></code></pre>
 
                           </div>
+                        </div>
+                        <div>
+                          <h4>Parameters</h4>
+                          <table class="graybox">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>crcCheckingStrategy</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>CRC Checking Strategy</p>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>dataDecodingStrategy</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>Data Decoding Strategy</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </section>
                     </div>
@@ -236,7 +267,12 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Undocumented</p>
+                          <p>Decodes the FIT File Data into FitMessage Objects</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    FitError
+
+</div>
 
                         </div>
                         <div class="declaration">
@@ -246,6 +282,49 @@
                             <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">decode</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">messages</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span><span class="o">.</span><span class="k">Type</span><span class="p">],</span> <span class="nv">decoded</span><span class="p">:</span> <span class="p">((</span><span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span> <span class="k">throws</span></code></pre>
 
                           </div>
+                        </div>
+                        <div>
+                          <h4>Parameters</h4>
+                          <table class="graybox">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>data</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>FIT File data</p>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>messages</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>FitMessage Types to Decode</p>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>decoded</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>Decoded FitMessages</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </section>
                     </div>

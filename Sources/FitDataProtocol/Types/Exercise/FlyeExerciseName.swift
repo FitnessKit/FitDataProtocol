@@ -26,6 +26,7 @@ import Foundation
 
 /// Flye Exercise Name
 public struct FlyeExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = FlyeExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension FlyeExerciseName: Hashable {
 
 public extension FlyeExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [FlyeExerciseName] {
 
         return [.cableCrossover,
@@ -82,6 +84,10 @@ public extension FlyeExerciseName {
 
 public extension FlyeExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> FlyeExerciseName? {
 
         for name in FlyeExerciseName.supportedExerciseNames {

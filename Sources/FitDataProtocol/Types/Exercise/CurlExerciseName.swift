@@ -26,6 +26,7 @@ import Foundation
 
 /// Curl Exercise Name
 public struct CurlExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = CurlExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension CurlExerciseName: Hashable {
 
 public extension CurlExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [CurlExerciseName] {
 
         return [.alternatingDumbbellBicepsCurl,
@@ -117,6 +119,10 @@ public extension CurlExerciseName {
 
 public extension CurlExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> CurlExerciseName? {
 
         for name in CurlExerciseName.supportedExerciseNames {

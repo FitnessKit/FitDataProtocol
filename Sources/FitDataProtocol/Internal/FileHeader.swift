@@ -25,7 +25,10 @@
 import Foundation
 import DataDecoder
 
+/// Protocol Major Version
 public let kProtocolVersionMajor: UInt8 = 20
+
+/// Protocol Minor Version
 public let kProtocolVersionMinor: UInt8 = 72
 
 internal func ProtocolVersionMajor(_ value: UInt8) -> UInt8 {
@@ -36,6 +39,7 @@ internal var protocolVersion20: UInt8 {
     return (2 << 4) | 0
 }
 
+/// FIT File Header
 internal struct FileHeader {
 
     /// Size of Header

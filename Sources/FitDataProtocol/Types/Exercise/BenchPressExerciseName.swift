@@ -26,6 +26,7 @@ import Foundation
 
 /// Bench Press Exercise Name
 public struct BenchPressExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = BenchPressExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension BenchPressExerciseName: Hashable {
 
 public extension BenchPressExerciseName {
     
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [BenchPressExerciseName] {
         return [
             .alternatingDumbbellChestPressOnSwissBall,
@@ -101,6 +103,10 @@ public extension BenchPressExerciseName {
 
 public extension BenchPressExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> BenchPressExerciseName? {
 
         for name in BenchPressExerciseName.supportedExerciseNames {

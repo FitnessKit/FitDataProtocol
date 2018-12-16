@@ -26,6 +26,7 @@ import Foundation
 
 /// Leg Curl Exercise Name
 public struct LegCurlExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = LegCurlExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension LegCurlExerciseName: Hashable {
 
 public extension LegCurlExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [LegCurlExerciseName] {
 
         return [.legCurl,
@@ -86,6 +88,10 @@ public extension LegCurlExerciseName {
 
 public extension LegCurlExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> LegCurlExerciseName? {
 
         for name in LegCurlExerciseName.supportedExerciseNames {

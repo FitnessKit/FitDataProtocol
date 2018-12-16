@@ -53,7 +53,7 @@ open class CoursePointMessage: FitMessage {
     /// Course Point Type
     private(set) public var pointType: CoursePoint?
 
-    // Is Favorite Point
+    /// Is Favorite Point
     private(set) public var isFavorite: Bool?
 
     public required init() {
@@ -78,6 +78,14 @@ open class CoursePointMessage: FitMessage {
         self.isFavorite = isFavorite
     }
 
+    /// Decode Message Data into FitMessage
+    ///
+    /// - Parameters:
+    ///   - fieldData: FileData
+    ///   - definition: Definition Message
+    ///   - dataStrategy: Decoding Strategy
+    /// - Returns: FitMessage
+    /// - Throws: FitError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> CoursePointMessage  {
 
         var timestamp: FitTime?

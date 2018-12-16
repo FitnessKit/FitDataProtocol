@@ -26,6 +26,7 @@ import Foundation
 
 /// Lateral Raise Exercise Name
 public struct LateralRaiseExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = LateralRaiseExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension LateralRaiseExerciseName: Hashable {
 
 public extension LateralRaiseExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [LateralRaiseExerciseName] {
 
         return [.fortyFiveDegreeCableExternalRotation,
@@ -106,6 +108,10 @@ public extension LateralRaiseExerciseName {
 
 public extension LateralRaiseExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> LateralRaiseExerciseName? {
 
         for name in LateralRaiseExerciseName.supportedExerciseNames {

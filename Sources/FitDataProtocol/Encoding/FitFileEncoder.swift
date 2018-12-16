@@ -47,6 +47,9 @@ public struct FitFileEncoder {
     /// The strategy to use for Data Validity Strategy. Defaults to `.none`.
     public var dataValidityStrategy: ValidityStrategy
 
+    /// Init FitFileEncoder
+    ///
+    /// - Parameter dataValidityStrategy: Validity Strategy
     public init(dataValidityStrategy: ValidityStrategy = .none) {
         self.dataValidityStrategy = dataValidityStrategy
     }

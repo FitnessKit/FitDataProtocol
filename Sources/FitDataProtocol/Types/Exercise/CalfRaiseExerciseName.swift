@@ -26,6 +26,7 @@ import Foundation
 
 /// Calf Raise Exercise Name
 public struct CalfRaiseExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = CalfRaiseExerciseName
 
     /// Exercise Name
@@ -67,6 +68,7 @@ extension CalfRaiseExerciseName: Hashable {
 
 public extension CalfRaiseExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [CalfRaiseExerciseName] {
 
         return [.threewayCalfRaise,
@@ -96,6 +98,10 @@ public extension CalfRaiseExerciseName {
 
 public extension CalfRaiseExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> CalfRaiseExerciseName? {
 
         for name in CalfRaiseExerciseName.supportedExerciseNames {

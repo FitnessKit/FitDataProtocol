@@ -54,6 +54,14 @@ open class PowerZoneMessage: FitMessage {
         self.highLevel = highLevel
     }
 
+    /// Decode Message Data into FitMessage
+    ///
+    /// - Parameters:
+    ///   - fieldData: FileData
+    ///   - definition: Definition Message
+    ///   - dataStrategy: Decoding Strategy
+    /// - Returns: FitMessage
+    /// - Throws: FitError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> PowerZoneMessage  {
 
         var messageIndex: MessageIndex?

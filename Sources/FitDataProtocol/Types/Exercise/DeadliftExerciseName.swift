@@ -26,6 +26,7 @@ import Foundation
 
 /// Deadlift Exercise Name
 public struct DeadliftExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = DeadliftExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension DeadliftExerciseName: Hashable {
 
 public extension DeadliftExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [DeadliftExerciseName] {
 
         return [.barbellDeadlift,
@@ -93,6 +95,10 @@ public extension DeadliftExerciseName {
 
 public extension DeadliftExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> DeadliftExerciseName? {
 
         for name in DeadliftExerciseName.supportedExerciseNames {

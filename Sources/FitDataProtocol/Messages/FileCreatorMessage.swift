@@ -49,6 +49,14 @@ open class FileCreatorMessage: FitMessage {
         self.hardwareVersion = hardwareVersion
     }
 
+    /// Decode Message Data into FitMessage
+    ///
+    /// - Parameters:
+    ///   - fieldData: FileData
+    ///   - definition: Definition Message
+    ///   - dataStrategy: Decoding Strategy
+    /// - Returns: FitMessage
+    /// - Throws: FitError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileCreatorMessage  {
 
         var softwareVersion: ValidatedBinaryInteger<UInt16>?

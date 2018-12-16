@@ -26,6 +26,7 @@ import Foundation
 
 /// Carry Exercise Name
 public struct CarryExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = CarryExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension CarryExerciseName: Hashable {
 
 public extension CarryExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [CarryExerciseName] {
 
         return [.barHolds,
@@ -79,6 +81,10 @@ public extension CarryExerciseName {
 
 public extension CarryExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> CarryExerciseName? {
 
         for name in CarryExerciseName.supportedExerciseNames {

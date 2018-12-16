@@ -26,6 +26,7 @@ import Foundation
 
 /// Hip Swing Exercise Name
 public struct HipSwingExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = HipSwingExerciseName
 
     /// Exercise Name
@@ -67,6 +68,7 @@ extension HipSwingExerciseName: Hashable {
 
 public extension HipSwingExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [HipSwingExerciseName] {
 
         return [.armKettlebellSwing,
@@ -78,6 +80,10 @@ public extension HipSwingExerciseName {
 
 public extension HipSwingExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> HipSwingExerciseName? {
 
         for name in HipSwingExerciseName.supportedExerciseNames {

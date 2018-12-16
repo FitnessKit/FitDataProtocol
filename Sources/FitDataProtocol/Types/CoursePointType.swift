@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Course Point Type
 public enum CoursePoint: UInt8 {
     /// Generic

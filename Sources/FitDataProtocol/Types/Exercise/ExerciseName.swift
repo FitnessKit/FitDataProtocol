@@ -46,6 +46,7 @@ public protocol ExerciseNameType {
 ///
 /// Provides Helper functions such as supported exercises
 public protocol ExerciseNameSupportable: Hashable {
+    /// Exercise Name Type
     associatedtype ExerciseNameType
 
     /// List of Supported ExerciseNames

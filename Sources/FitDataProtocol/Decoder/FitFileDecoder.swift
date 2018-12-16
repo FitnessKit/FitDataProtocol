@@ -94,7 +94,11 @@ public struct FitFileDecoder {
     /// The strategy to use for Data Decoding. Defaults to `.nil`.
     public var dataDecodingStrategy: DataDecodingStrategy
 
-
+    /// Init Fit File Decoder
+    ///
+    /// - Parameters:
+    ///   - crcCheckingStrategy: CRC Checking Strategy
+    ///   - dataDecodingStrategy: Data Decoding Strategy
     public init(crcCheckingStrategy: CrcCheckingStrategy = .throws, dataDecodingStrategy: DataDecodingStrategy = .nil) {
         self.crcCheckingStrategy = crcCheckingStrategy
         self.dataDecodingStrategy = dataDecodingStrategy
@@ -102,6 +106,13 @@ public struct FitFileDecoder {
         self.definitionDict = [UInt8 : DefinitionMessage]()
     }
 
+    /// Decodes the FIT File Data into FitMessage Objects
+    ///
+    /// - Parameters:
+    ///   - data: FIT File data
+    ///   - messages: FitMessage Types to Decode
+    ///   - decoded: Decoded FitMessages
+    /// - Throws: FitError
     public mutating func decode(data: Data, messages: [FitMessage.Type], decoded: ((_: FitMessage) -> Void)? ) throws {
 
         /// Clear out any old data

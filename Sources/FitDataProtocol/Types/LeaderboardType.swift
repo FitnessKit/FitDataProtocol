@@ -31,7 +31,7 @@ public enum LeaderboardType: UInt8 {
     case overall            = 0
     /// Personal Best
     case personalBest       = 1
-    // Connections
+    /// Connections
     case connections        = 2
     /// Group
     case group              = 3

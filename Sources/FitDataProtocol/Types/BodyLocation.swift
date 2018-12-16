@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// Body Location
 public enum BodyLocation: UInt8 {
     /// Left Leg

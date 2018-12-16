@@ -26,6 +26,7 @@ import Foundation
 
 /// Crunch Exercise Name
 public struct CrunchExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = CrunchExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension CrunchExerciseName: Hashable {
 
 public extension CrunchExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [CrunchExerciseName] {
 
         return [.bicycleCrunch,
@@ -158,6 +160,10 @@ public extension CrunchExerciseName {
 
 public extension CrunchExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> CrunchExerciseName? {
 
         for name in CrunchExerciseName.supportedExerciseNames {

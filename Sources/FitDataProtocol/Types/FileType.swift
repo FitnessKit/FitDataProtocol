@@ -41,10 +41,12 @@ public struct FileType {
         return false
     }
 
+    /// Init FileType
+    ///
+    /// - Parameter rawValue: Raw File Type Number (ex: 4 == Activity)
     public init(rawValue: UInt8) {
         self.rawValue = rawValue
     }
-
 }
 
 extension FileType: Equatable {
@@ -71,7 +73,6 @@ extension FileType: Hashable {
     public var hashValue: Int {
         return rawValue.hashValue
     }
-
 }
 
 

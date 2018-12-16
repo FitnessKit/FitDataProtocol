@@ -26,6 +26,7 @@ import Foundation
 
 /// Hip Stability Exercise Name
 public struct HipStabilityExerciseName: ExerciseName {
+    /// Exercise Name Type
     public typealias ExerciseNameType = HipStabilityExerciseName
 
     /// Exercise Name
@@ -66,6 +67,7 @@ extension HipStabilityExerciseName: Hashable {
 
 public extension HipStabilityExerciseName {
 
+    /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [HipStabilityExerciseName] {
 
         return [.bandSideLyingLegRaise,
@@ -108,6 +110,10 @@ public extension HipStabilityExerciseName {
 
 public extension HipStabilityExerciseName {
 
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
     public static func create(rawValue: UInt16) -> HipStabilityExerciseName? {
 
         for name in HipStabilityExerciseName.supportedExerciseNames {

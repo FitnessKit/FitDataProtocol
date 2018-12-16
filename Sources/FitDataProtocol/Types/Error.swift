@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /// FitDataProtocol Error Reasons
 public enum ErrorReasons {
 
@@ -44,7 +43,7 @@ public enum ErrorReasons {
     /// Encoding error
     case encodeError(msg: String)
 
-    //Generic
+    /// Generic
     case generic(String)
 }
 
@@ -54,10 +53,16 @@ public struct FitError: Error {
     /// Type of Error
     public let type: ErrorReasons
 
+    /// Create FitError With Error Reason
+    ///
+    /// - Parameter type: Error Reason
     public init(_ type: ErrorReasons) {
         self.type = type
     }
 
+    /// Create FitError
+    ///
+    /// - Parameter message: Generic Message Type with Message
     public init(message: String) {
         self.type = .generic(message)
     }

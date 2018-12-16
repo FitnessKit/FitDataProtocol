@@ -30,8 +30,8 @@ import DataDecoder
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 public struct FitFileMerger {
 
+    /// Merge File structure
     private struct MergeFile {
-
         /// File Header
         let header: FileHeader
 
@@ -49,7 +49,6 @@ public struct FitFileMerger {
             return (lhs.header == rhs.header) &&
                 (lhs.messageData == rhs.messageData)
         }
-
     }
 
     /// Options for CRC Checking
@@ -72,7 +71,6 @@ public struct FitFileMerger {
     /// The strategy to use for Data Merging. Defaults to `.default`.
     public var dataMergingStrategy: DataMergingStrategy
 
-
     public init(crcCheckingStrategy: CrcCheckingStrategy = .throws, dataMergingStrategy: DataMergingStrategy = .default) {
         self.crcCheckingStrategy = crcCheckingStrategy
         self.dataMergingStrategy = dataMergingStrategy
@@ -83,6 +81,11 @@ public struct FitFileMerger {
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 public extension FitFileMerger {
 
+    /// Merge FIT Files
+    ///
+    /// - Parameter files: Array of FIT files as Data
+    /// - Returns: FIT File Data
+    /// - Throws: FitError
     public func merge(files: [Data]) throws -> Data {
 
         var fitFiles: [MergeFile] = [MergeFile]()
