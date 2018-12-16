@@ -220,22 +220,6 @@ open class LapMessage: FitMessage {
     /// Average Stance Time
     private(set) public var averageStanceTime: StanceTime
 
-    /// Enhanced Average Speed
-    private(set) public var enhancedAverageSpeed: ValidatedMeasurement<UnitSpeed>?
-
-    /// Enhanced Maximum Speed
-    private(set) public var enhancedMaximumSpeed: ValidatedMeasurement<UnitSpeed>?
-
-    /// Enhanced Average Altitude
-    private(set) public var enhancedAverageAltitude: ValidatedMeasurement<UnitLength>?
-
-    /// Enhanced Minimum Altitude
-    private(set) public var enhancedMinimumAltitude: ValidatedMeasurement<UnitLength>?
-
-    /// Enhanced Maximum Altitude
-    private(set) public var enhancedMaximumAltitude: ValidatedMeasurement<UnitLength>?
-
-    //
     public required init() {
         self.startPosition = Position(latitude: nil, longitude: nil)
         self.endPosition = Position(latitude: nil, longitude: nil)
@@ -299,12 +283,7 @@ open class LapMessage: FitMessage {
                 workoutStepIndex: MessageIndex? = nil,
                 score: Score,
                 averageVerticalOscillation: ValidatedMeasurement<UnitLength>? = nil,
-                averageStanceTime: StanceTime,
-                enhancedAverageSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                enhancedMaximumSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                enhancedAverageAltitude: ValidatedMeasurement<UnitLength>? = nil,
-                enhancedMinimumAltitude: ValidatedMeasurement<UnitLength>? = nil,
-                enhancedMaximumAltitude: ValidatedMeasurement<UnitLength>? = nil){
+                averageStanceTime: StanceTime){
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -385,11 +364,6 @@ open class LapMessage: FitMessage {
         self.score = score
         self.averageVerticalOscillation = averageVerticalOscillation
         self.averageStanceTime = averageStanceTime
-        self.enhancedAverageSpeed = enhancedAverageSpeed
-        self.enhancedMaximumSpeed = enhancedMaximumSpeed
-        self.enhancedAverageAltitude = enhancedAverageAltitude
-        self.enhancedMinimumAltitude = enhancedMinimumAltitude
-        self.enhancedMaximumAltitude = enhancedMaximumAltitude
     }
 
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> LapMessage  {
@@ -1125,6 +1099,20 @@ open class LapMessage: FitMessage {
             }
         }
 
+        /// Determine which Avg Speed to use
+        let recordAvgSpeed = preferredValue(valueOne: averageSpeed, valueTwo: enhancedAverageSpeed)
+
+        /// Determine which Avg Speed to use
+        let recordMaxSpeed = preferredValue(valueOne: maximumSpeed, valueTwo: enhancedMaximumSpeed)
+
+        /// Determine which Avg Altitude to use
+        let recordAvgAltitude = preferredValue(valueOne: averageAltitude, valueTwo: enhancedAverageAltitude)
+
+        /// Determine which Min Altitude to use
+        let recordMinAltitude = preferredValue(valueOne: minimumAltitude, valueTwo: enhancedMinimumAltitude)
+
+        /// Determine which Max Altitude to use
+        let recordMaxAltitude = preferredValue(valueOne: maximumAltitude, valueTwo: enhancedMaximumAltitude)
 
         /// Start Position
         let startPosition = Position(latitude: startPositionlatitude, longitude: startPositionlongitude)
@@ -1151,8 +1139,8 @@ open class LapMessage: FitMessage {
                           totalCycles: totalCycles,
                           totalCalories: totalCalories,
                           totalFatCalories: totalFatCalories,
-                          averageSpeed: averageSpeed,
-                          maximumSpeed: maximumSpeed,
+                          averageSpeed: recordAvgSpeed,
+                          maximumSpeed: recordMaxSpeed,
                           averageHeartRate: averageHeartRate,
                           maximumHeartRate: maximumHeartRate,
                           averageCadence: averageCadence,
@@ -1173,8 +1161,8 @@ open class LapMessage: FitMessage {
                           swimStroke: swimStroke,
                           activeLengths: activeLengths,
                           totalWork: totalWork,
-                          averageAltitude: averageAltitude,
-                          maximumAltitude: maximumAltitude,
+                          averageAltitude: recordAvgAltitude,
+                          maximumAltitude: recordMaxAltitude,
                           gpsAccuracy: gpsAccuracy,
                           averageGrade: averageGrade,
                           averagePositiveGrade: averagePositiveGrade,
@@ -1189,17 +1177,12 @@ open class LapMessage: FitMessage {
                           maximumPositiveVerticalSpeed: maximumPositiveVerticalSpeed,
                           maximumNegitiveVerticalSpeed: maximumNegitiveVerticalSpeed,
                           repetionNumber: repetionNumber,
-                          minimumAltitude: minimumAltitude,
+                          minimumAltitude: recordMinAltitude,
                           minimumHeartRate: minimumHeartRate,
                           workoutStepIndex: workoutStepIndex,
                           score: score,
                           averageVerticalOscillation: averageVerticalOscillation,
-                          averageStanceTime: averageStance,
-                          enhancedAverageSpeed: enhancedAverageSpeed,
-                          enhancedMaximumSpeed: enhancedMaximumSpeed,
-                          enhancedAverageAltitude: enhancedAverageAltitude,
-                          enhancedMinimumAltitude: enhancedMinimumAltitude,
-                          enhancedMaximumAltitude: enhancedMaximumAltitude)
+                          averageStanceTime: averageStance)
     }
 
     /// Encodes the Definition Message for FitMessage
@@ -1245,9 +1228,11 @@ open class LapMessage: FitMessage {
             case .totalFatCalories:
                 if let _ = totalFatCalories { fileDefs.append(key.fieldDefinition()) }
             case .averageSpeed:
-                if let _ = averageSpeed { fileDefs.append(key.fieldDefinition()) }
+                /// use enhancedAverageSpeed
+                break
             case .maximumSpeed:
-                if let _ = maximumSpeed { fileDefs.append(key.fieldDefinition()) }
+                /// use enhancedMaximumSpeed
+                break
             case .averageHeartRate:
                 if let _ = averageHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .maximumHeartRate:
@@ -1291,9 +1276,11 @@ open class LapMessage: FitMessage {
             case .totalWork:
                 if let _ = totalWork { fileDefs.append(key.fieldDefinition()) }
             case .averageAltitude:
-                if let _ = averageAltitude { fileDefs.append(key.fieldDefinition()) }
+                /// use enhancedAverageAltitude
+                break
             case .maximumAltitude:
-                if let _ = maximumAltitude { fileDefs.append(key.fieldDefinition()) }
+                /// use enhancedMaximumAltitude
+                break
             case .gpsAccuracy:
                 if let _ = gpsAccuracy { fileDefs.append(key.fieldDefinition()) }
             case .averageGrade:
@@ -1331,7 +1318,8 @@ open class LapMessage: FitMessage {
             case .repetionNumber:
                 if let _ = repetionNumber { fileDefs.append(key.fieldDefinition()) }
             case .minimumAltitude:
-                if let _ = minimumAltitude { fileDefs.append(key.fieldDefinition()) }
+                /// use enhancedMinimumAltitude
+                break
             case .minimumHeartRate:
                 if let _ = minimumHeartRate { fileDefs.append(key.fieldDefinition()) }
             case .workoutStepIndex:
@@ -1369,15 +1357,15 @@ open class LapMessage: FitMessage {
             case .maximumSaturatedHemoglobinPercent:
                 break
             case .enhancedAverageSpeed:
-                if let _ = enhancedAverageSpeed { fileDefs.append(key.fieldDefinition()) }
+                if let _ = averageSpeed { fileDefs.append(key.fieldDefinition()) }
             case .enhancedMaximumSpeed:
-                if let _ = enhancedMaximumSpeed { fileDefs.append(key.fieldDefinition()) }
+                if let _ = maximumSpeed { fileDefs.append(key.fieldDefinition()) }
             case .enhancedAverageAltitude:
-                if let _ = enhancedAverageAltitude { fileDefs.append(key.fieldDefinition()) }
+                if let _ = averageAltitude { fileDefs.append(key.fieldDefinition()) }
             case .enhancedMinimumAltitude:
-                if let _ = enhancedMinimumAltitude { fileDefs.append(key.fieldDefinition()) }
+                if let _ = minimumAltitude { fileDefs.append(key.fieldDefinition()) }
             case .enhancedMaximumAltitude:
-                if let _ = enhancedMaximumAltitude { fileDefs.append(key.fieldDefinition()) }
+                if let _ = maximumAltitude { fileDefs.append(key.fieldDefinition()) }
             case .averageVam:
                 break
             case .timestamp:
@@ -1506,22 +1494,11 @@ open class LapMessage: FitMessage {
                 }
 
             case .averageSpeed:
-                if var averageSpeed = averageSpeed {
-                    // 1000 * m/s + 0
-                    averageSpeed = averageSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = averageSpeed.value.resolutionInt16(1000)
-
-                    msgData.append(Data(from: value.littleEndian))
-                }
-
+                /// use enhancedAverageSpeed
+                break
             case .maximumSpeed:
-                if var maximumSpeed = maximumSpeed {
-                    // 1000 * m/s + 0
-                    maximumSpeed = maximumSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = maximumSpeed.value.resolutionInt16(1000)
-
-                    msgData.append(Data(from: value.littleEndian))
-                }
+                /// use ehancedMaximumSpeed
+                break
 
             case .averageHeartRate:
                 if let averageHeartRate = averageHeartRate {
@@ -1656,23 +1633,11 @@ open class LapMessage: FitMessage {
                 }
 
             case .averageAltitude:
-                if var averageAltitude = averageAltitude {
-                    // 5 * m + 500
-                    averageAltitude = averageAltitude.converted(to: UnitLength.meters)
-                    let value = averageAltitude.value.resolutionUInt16(5) + 500
-
-                    msgData.append(Data(from: value.littleEndian))
-                }
-
+                /// use enhancedAverageAltitude
+                break
             case .maximumAltitude:
-                if var maximumAltitude = maximumAltitude {
-                    // 5 * m + 500
-                    maximumAltitude = maximumAltitude.converted(to: UnitLength.meters)
-                    let value = maximumAltitude.value.resolutionUInt16(5) + 500
-
-                    msgData.append(Data(from: value.littleEndian))
-                }
-
+                /// use enhancedMaximumAltitude
+                break
             case .gpsAccuracy:
                 if var gpsAccuracy = gpsAccuracy {
                     // 1 * m + 0
@@ -1778,13 +1743,8 @@ open class LapMessage: FitMessage {
                 }
 
             case .minimumAltitude:
-                if var minimumAltitude = minimumAltitude {
-                    // 5 * m + 500
-                    minimumAltitude = minimumAltitude.converted(to: UnitLength.meters)
-                    let value = minimumAltitude.value.resolutionUInt16(5) + 500
-
-                    msgData.append(Data(from: value.littleEndian))
-                }
+                /// use enhancedMinimumAltitude
+                break
 
             case .minimumHeartRate:
                 if let heartRate = minimumHeartRate {
@@ -1859,7 +1819,7 @@ open class LapMessage: FitMessage {
                 break
 
             case .enhancedAverageSpeed:
-                if var enhancedAverageSpeed = enhancedAverageSpeed {
+                if var enhancedAverageSpeed = averageSpeed {
                     // 1000 * m/s + 0
                     enhancedAverageSpeed = enhancedAverageSpeed.converted(to: UnitSpeed.metersPerSecond)
                     let value = enhancedAverageSpeed.value.resolutionUInt32(1000)
@@ -1868,7 +1828,7 @@ open class LapMessage: FitMessage {
                 }
 
             case .enhancedMaximumSpeed:
-                if var enhancedMaximumSpeed = enhancedMaximumSpeed {
+                if var enhancedMaximumSpeed = maximumSpeed {
                     // 1000 * m/s + 0
                     enhancedMaximumSpeed = enhancedMaximumSpeed.converted(to: UnitSpeed.metersPerSecond)
                     let value = enhancedMaximumSpeed.value.resolutionUInt32(1000)
@@ -1877,19 +1837,19 @@ open class LapMessage: FitMessage {
                 }
 
             case .enhancedAverageAltitude:
-                if let enhancedAverageAltitude = enhancedAverageAltitude {
+                if let enhancedAverageAltitude = averageAltitude {
                     let valData = encodeEnhancedAltitude(enhancedAverageAltitude)
                     msgData.append(valData)
                 }
 
             case .enhancedMinimumAltitude:
-                if let enhancedMinimumAltitude = enhancedMinimumAltitude {
+                if let enhancedMinimumAltitude = minimumAltitude {
                     let valData = encodeEnhancedAltitude(enhancedMinimumAltitude)
                     msgData.append(valData)
                 }
 
             case .enhancedMaximumAltitude:
-                if let enhancedMaximumAltitude = enhancedMaximumAltitude {
+                if let enhancedMaximumAltitude = maximumAltitude {
                     let valData = encodeEnhancedAltitude(enhancedMaximumAltitude)
                     msgData.append(valData)
                 }
