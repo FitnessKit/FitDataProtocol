@@ -639,13 +639,13 @@ open class RecordMessage: FitMessage {
         }
 
         /// Determine which Accumulated Power to use
-        let accumulatedPower = preferredPower(valueOne: compressedAccumulatedPower, valueTwo: longAccumulatedPower)
+        let accumulatedPower = preferredValue(valueOne: compressedAccumulatedPower, valueTwo: longAccumulatedPower)
 
         /// Determine which Speed to use
-        let recordSpeed = preferredSpeed(valueOne: speed, valueTwo: enhancedSpeed)
+        let recordSpeed = preferredValue(valueOne: speed, valueTwo: enhancedSpeed)
 
         /// Determine which Altitude to use
-        let recordAltitude = preferredLength(valueOne: altitude, valueTwo: enhancedAltitude)
+        let recordAltitude = preferredValue(valueOne: altitude, valueTwo: enhancedAltitude)
 
         /// setup Position
         let position = Position(latitude: latitude, longitude: longitude)

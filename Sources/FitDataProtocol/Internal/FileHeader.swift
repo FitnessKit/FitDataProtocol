@@ -98,12 +98,7 @@ internal extension FileHeader {
         encode.append(protocolVersion)
         encode.append(Data(from: profileVersion.littleEndian))
         encode.append(Data(from: dataSize.littleEndian))
-//        encode.append(46)
-//        encode.append(70)
-//        encode.append(73)
-//        encode.append(84)
         _ = String([ ".", "F", "I", "T"]).utf8.map{ encode.append(UInt8($0)) }
-
 
         if headerSize == 14 {
             let crcCheck = CRC16(data: encode).crc
