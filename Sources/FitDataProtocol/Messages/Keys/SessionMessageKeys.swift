@@ -222,6 +222,11 @@ public extension SessionMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+        case .timestamp:
+            return .uint32
+
         case .event:
             return .enumtype
         case .eventType:
@@ -394,13 +399,9 @@ public extension SessionMessage.FitCodingKeys {
             return .uint32
         case .enhancedMaximumAltitude:
             return .uint32
-        case .averageVam:
-            return .uint16
         case .totalAnaerobicTrainingEffect:
             return .uint8
-        case .timestamp:
-            return .uint32
-        case .messageIndex:
+        case .averageVam:
             return .uint16
         }
     }

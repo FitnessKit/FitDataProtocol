@@ -32,6 +32,11 @@ extension LapMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex                           = 254
+        /// Timestamp
+        case timestamp                              = 253
+
         /// Event
         case event                                  = 0
         /// Event Type
@@ -195,10 +200,6 @@ extension LapMessage: FitMessageKeys {
         /// Average Vam
         case averageVam                             = 121
 
-        /// Timestamp
-        case timestamp                              = 253
-        /// Message Index
-        case messageIndex                           = 254
     }
 }
 
@@ -207,6 +208,11 @@ public extension LapMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+        case .timestamp:
+            return .uint32
+
         case .event:
             return .enumtype
         case .eventType:
@@ -368,10 +374,6 @@ public extension LapMessage.FitCodingKeys {
         case .enhancedMaximumAltitude:
             return .uint32
         case .averageVam:
-            return .uint16
-        case .timestamp:
-            return .uint32
-        case .messageIndex:
             return .uint16
         }
     }

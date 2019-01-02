@@ -32,6 +32,9 @@ extension RecordMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Timestamp
+        case timestamp                          = 253
+
         /// Position Latitude
         case positionLatitude                   = 0
         /// Position Longitude
@@ -126,9 +129,6 @@ extension RecordMessage: FitMessageKeys {
         case enhancedSpeed                      = 73
         /// Enhanced Altitude
         case enhancedAltitude                   = 78
-
-        /// Timestamp
-        case timestamp                          = 253
     }
 }
 
@@ -137,6 +137,9 @@ public extension RecordMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .timestamp:
+            return .uint32
+
         case .positionLatitude:
             return .sint32
         case .positionLongitude:
@@ -230,8 +233,6 @@ public extension RecordMessage.FitCodingKeys {
         case .enhancedSpeed:
             return .uint32
         case .enhancedAltitude:
-            return .uint32
-        case .timestamp:
             return .uint32
         }
     }

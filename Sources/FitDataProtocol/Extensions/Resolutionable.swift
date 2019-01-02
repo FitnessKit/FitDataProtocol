@@ -27,9 +27,11 @@ import Foundation
 protocol Resolutionable {
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - add: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double) -> Double
+    func resolution(_ res: Double, _ add: Double) -> Double
 }
 
 protocol BinaryResolutionable {
@@ -75,11 +77,14 @@ extension Double: Resolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - add: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double) -> Double {
-        return self * res
+    func resolution(_ res: Double, _ add: Double = 0) -> Double {
+        return (Double(self) * res) + add
     }
+
 }
 
 extension Double: BinaryResolutionable {
@@ -166,21 +171,26 @@ extension UInt8: Resolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - add: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double) -> Double {
-        return Double(self) * res
+    func resolution(_ res: Double, _ add: Double = 0) -> Double {
+        return (Double(self) * res) + add
     }
+
 }
 
 extension UInt16: Resolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - add: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double) -> Double {
-        return Double(self) * res
+    func resolution(_ res: Double, _ add: Double = 0) -> Double {
+        return (Double(self) * res) + add
     }
 
 }
@@ -189,10 +199,12 @@ extension Int16: Resolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - add: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double) -> Double {
-        return Double(self) * res
+    func resolution(_ res: Double, _ add: Double = 0) -> Double {
+        return (Double(self) * res) + add
     }
 
 }
@@ -201,11 +213,14 @@ extension UInt32: Resolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - add: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double) -> Double {
-        return Double(self) * res
+    func resolution(_ res: Double, _ add: Double = 0) -> Double {
+        return (Double(self) * res) + add
     }
+
 }
 
 extension UInt32: BinaryResolutionable {
@@ -294,9 +309,11 @@ extension Int32: Resolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - add: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double) -> Double {
-        return Double(self) * res
+    func resolution(_ res: Double, _ add: Double = 0) -> Double {
+        return (Double(self) * res) + add
     }
 }

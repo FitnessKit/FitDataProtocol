@@ -259,6 +259,12 @@ open class RecordMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
+
                 case .positionLatitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -283,7 +289,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = Double(value) / 5 - 500
+                        let value = value.resolution(1 / 5, -500)
                         altitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         altitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -630,17 +636,11 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = Double(value) / 5 - 500
+                        let value = value.resolution(1 / 5, -500)
                         enhancedAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
 
                 }
             }
@@ -713,6 +713,9 @@ open class RecordMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .positionLatitude:
                 if let _ = position.encodeLatitude() { fileDefs.append(key.fieldDefinition()) }
             case .positionLongitude:
@@ -810,8 +813,6 @@ open class RecordMessage: FitMessage {
                 if let _ = speed { fileDefs.append(key.fieldDefinition()) }
             case .enhancedAltitude:
                 if let _ = altitude { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -847,6 +848,11 @@ open class RecordMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
             case .positionLatitude:
                 if let value = position.encodeLatitude() {
                     msgData.append(value)
@@ -1113,10 +1119,6 @@ open class RecordMessage: FitMessage {
                     msgData.append(valData)
                 }
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
             }
         }
 
