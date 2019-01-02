@@ -32,6 +32,12 @@ extension SessionMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+
+        /// Message Index
+        case messageIndex                           = 254
+        /// Timestamp
+        case timestamp                              = 253
+
         /// Event
         case event                                  = 0
         /// Event Type
@@ -204,15 +210,10 @@ extension SessionMessage: FitMessageKeys {
         case enhancedMinimumAltitude                = 127
         /// Enhanced Maximum Altitude
         case enhancedMaximumAltitude                = 128
-        /// Average VAM
-        case averageVam                             = 130
         /// Total Anaerobic Training Effect
         case totalAnaerobicTrainingEffect           = 137
-
-        /// Timestamp
-        case timestamp                              = 253
-        /// Message Index
-        case messageIndex                           = 254
+        /// Average VAM
+        case averageVam                             = 139
     }
 }
 

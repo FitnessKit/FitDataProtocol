@@ -29,7 +29,7 @@ import DataDecoder
 public let kProtocolVersionMajor: UInt8 = 20
 
 /// Protocol Minor Version
-public let kProtocolVersionMinor: UInt8 = 72
+public let kProtocolVersionMinor: UInt8 = 80
 
 internal func ProtocolVersionMajor(_ value: UInt8) -> UInt8 {
     return (value >> 4)

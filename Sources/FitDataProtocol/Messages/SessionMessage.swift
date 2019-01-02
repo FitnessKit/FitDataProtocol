@@ -509,6 +509,17 @@ open class SessionMessage: FitMessage {
             case .some(let converter):
                 switch converter {
 
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
+
                 case .event:
                     event = Event.decode(decoder: &localDecoder,
                                          definition: definition,
@@ -861,7 +872,7 @@ open class SessionMessage: FitMessage {
                                                                              dataStrategy: dataStrategy)
 
                 case .totalWork:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
+                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * j + 0
                         totalWork = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.joules)
@@ -890,7 +901,7 @@ open class SessionMessage: FitMessage {
                     }
 
                 case .gpsAccuracy:
-                    let value = localDecoder.decodeInt8(fieldData.fieldData)
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
                         gpsAccuracy = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitLength.meters)
@@ -1090,7 +1101,7 @@ open class SessionMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .maximumBallSpeed:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * m/s + 0,
                         let value = value.resolution(1 / 100)
@@ -1100,7 +1111,7 @@ open class SessionMessage: FitMessage {
                     }
 
                 case .averageBallSpeed:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * m/s + 0,
                         let value = value.resolution(1 / 100)
@@ -1204,23 +1215,11 @@ open class SessionMessage: FitMessage {
                         enhancedMaximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
-                case .averageVam:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
                 case .totalAnaerobicTrainingEffect:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
+                case .averageVam:
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 }
             }
@@ -1337,6 +1336,11 @@ open class SessionMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .event:
                 if let _ = event { fileDefs.append(key.fieldDefinition()) }
             case .eventType:
@@ -1522,14 +1526,10 @@ open class SessionMessage: FitMessage {
                 if let _ = minimumAltitude { fileDefs.append(key.fieldDefinition()) }
             case .enhancedMaximumAltitude:
                 if let _ = maximumAltitude { fileDefs.append(key.fieldDefinition()) }
-            case .averageVam:
-                break
             case .totalAnaerobicTrainingEffect:
                 break
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+            case .averageVam:
+                break
             }
         }
 
@@ -1565,6 +1565,17 @@ open class SessionMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
             case .event:
                 if let event = event {
                     msgData.append(event.rawValue)
@@ -1819,7 +1830,7 @@ open class SessionMessage: FitMessage {
                 if var totalWork = totalWork {
                     // 1 * j + 0
                     totalWork = totalWork.converted(to: UnitEnergy.joules)
-                    let value = totalWork.value.resolutionUInt16(1)
+                    let value = totalWork.value.resolutionUInt32(1)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1834,7 +1845,7 @@ open class SessionMessage: FitMessage {
                 if var gpsAccuracy = gpsAccuracy {
                     // 1 * m + 0
                     gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
-                    let value = gpsAccuracy.value.resolutionInt8(1)
+                    let value = gpsAccuracy.value.resolutionUInt8(1)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -2066,20 +2077,11 @@ open class SessionMessage: FitMessage {
                     msgData.append(valData)
                 }
 
-            case .averageVam:
-                break
             case .totalAnaerobicTrainingEffect:
                 break
+            case .averageVam:
+                break
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 
