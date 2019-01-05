@@ -300,7 +300,7 @@ open class WorkoutMessage: FitMessage {
                 if var poolLength = poolLength {
                     // 100 * m + 0
                     poolLength = poolLength.converted(to: UnitLength.meters)
-                    let value = poolLength.value.resolutionUInt16(100)
+                    let value = poolLength.value.resolutionUInt16(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
 

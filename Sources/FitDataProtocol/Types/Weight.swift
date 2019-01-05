@@ -92,7 +92,7 @@ internal extension Weight {
                 var weightMes = Measurement<UnitMass>(value: weightV.value, unit: weightV.unit)
                 weightMes = weightMes.converted(to: UnitMass.kilograms)
 
-                let value = weightMes.value.resolutionUInt16(100)
+                let value = weightMes.value.resolutionUInt16(100, offset: 0.0)
                 msgData.append(Data(from: value.littleEndian))
                 
             } else {

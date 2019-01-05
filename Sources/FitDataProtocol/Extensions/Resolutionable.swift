@@ -29,48 +29,60 @@ protocol Resolutionable {
     ///
     /// - Parameters:
     ///   - res: Resolution
-    ///   - add: Value to Add
+    ///   - offset: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double, _ add: Double) -> Double
+    func resolution(_ res: Double, offset: Double) -> Double
 }
 
 protocol BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt8(_ res: Double) -> UInt8
+    func resolutionUInt8(_ res: Double, offset: Double) -> UInt8
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt8(_ res: Double) -> Int8
+    func resolutionInt8(_ res: Double, offset: Double) -> Int8
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt16(_ res: Double) -> UInt16
+    func resolutionUInt16(_ res: Double, offset: Double) -> UInt16
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt16(_ res: Double) -> Int16
+    func resolutionInt16(_ res: Double, offset: Double) -> Int16
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt32(_ res: Double) -> UInt32
+    func resolutionUInt32(_ res: Double, offset: Double) -> UInt32
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt32(_ res: Double) -> Int32
+    func resolutionInt32(_ res: Double, offset: Double) -> Int32
 }
 
 extension Double: Resolutionable {
@@ -79,21 +91,24 @@ extension Double: Resolutionable {
     ///
     /// - Parameters:
     ///   - res: Resolution
-    ///   - add: Value to Add
+    ///   - offset: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double, _ add: Double = 0) -> Double {
-        return (Double(self) * res) + add
+    func resolution(_ res: Double, offset: Double = 0) -> Double {
+        return (Double(self) * res) + offset
     }
 
 }
 
 extension Double: BinaryResolutionable {
+
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt8(_ res: Double) -> UInt8 {
-        let value = Double(self) * res
+    func resolutionUInt8(_ res: Double, offset: Double) -> UInt8 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(UInt8.min) else { return UInt8.min }
         guard value <= Double(UInt8.max) else { return UInt8.max }
@@ -103,10 +118,12 @@ extension Double: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt8(_ res: Double) -> Int8 {
-        let value = Double(self) * res
+    func resolutionInt8(_ res: Double, offset: Double) -> Int8 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(Int8.min) else { return Int8.min }
         guard value <= Double(Int8.max) else { return Int8.max }
@@ -116,10 +133,12 @@ extension Double: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt16(_ res: Double) -> UInt16 {
-        let value = Double(self) * res
+    func resolutionUInt16(_ res: Double, offset: Double) -> UInt16 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(UInt16.min) else { return UInt16.min }
         guard value <= Double(UInt16.max) else { return UInt16.max }
@@ -129,10 +148,12 @@ extension Double: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt16(_ res: Double) -> Int16 {
-        let value = Double(self) * res
+    func resolutionInt16(_ res: Double, offset: Double) -> Int16 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(Int16.min) else { return Int16.min }
         guard value <= Double(Int16.max) else { return Int16.max }
@@ -142,10 +163,12 @@ extension Double: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt32(_ res: Double) -> UInt32 {
-        let value = Double(self) * res
+    func resolutionUInt32(_ res: Double, offset: Double) -> UInt32 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(UInt32.min) else { return UInt32.min }
         guard value <= Double(UInt32.max) else { return UInt32.max }
@@ -155,10 +178,12 @@ extension Double: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt32(_ res: Double) -> Int32 {
-        let value = Double(self) * res
+    func resolutionInt32(_ res: Double, offset: Double) -> Int32 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(Int32.min) else { return Int32.min }
         guard value <= Double(Int32.max) else { return Int32.max }
@@ -173,10 +198,10 @@ extension UInt8: Resolutionable {
     ///
     /// - Parameters:
     ///   - res: Resolution
-    ///   - add: Value to Add
+    ///   - offset: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double, _ add: Double = 0) -> Double {
-        return (Double(self) * res) + add
+    func resolution(_ res: Double, offset: Double = 0) -> Double {
+        return (Double(self) * res) + offset
     }
 
 }
@@ -187,10 +212,10 @@ extension UInt16: Resolutionable {
     ///
     /// - Parameters:
     ///   - res: Resolution
-    ///   - add: Value to Add
+    ///   - offset: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double, _ add: Double = 0) -> Double {
-        return (Double(self) * res) + add
+    func resolution(_ res: Double, offset: Double = 0) -> Double {
+        return (Double(self) * res) + offset
     }
 
 }
@@ -201,10 +226,10 @@ extension Int16: Resolutionable {
     ///
     /// - Parameters:
     ///   - res: Resolution
-    ///   - add: Value to Add
+    ///   - offset: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double, _ add: Double = 0) -> Double {
-        return (Double(self) * res) + add
+    func resolution(_ res: Double, offset: Double = 0) -> Double {
+        return (Double(self) * res) + offset
     }
 
 }
@@ -215,10 +240,10 @@ extension UInt32: Resolutionable {
     ///
     /// - Parameters:
     ///   - res: Resolution
-    ///   - add: Value to Add
+    ///   - offset: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double, _ add: Double = 0) -> Double {
-        return (Double(self) * res) + add
+    func resolution(_ res: Double, offset: Double = 0) -> Double {
+        return (Double(self) * res) + offset
     }
 
 }
@@ -227,10 +252,12 @@ extension UInt32: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt8(_ res: Double) -> UInt8 {
-        let value = Double(self) * res
+    func resolutionUInt8(_ res: Double, offset: Double) -> UInt8 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(UInt8.min) else { return UInt8.min }
         guard value <= Double(UInt8.max) else { return UInt8.max }
@@ -240,10 +267,12 @@ extension UInt32: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt8(_ res: Double) -> Int8 {
-        let value = Double(self) * res
+    func resolutionInt8(_ res: Double, offset: Double) -> Int8 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(Int8.min) else { return Int8.min }
         guard value <= Double(Int8.max) else { return Int8.max }
@@ -253,10 +282,12 @@ extension UInt32: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt16(_ res: Double) -> UInt16 {
-        let value = Double(self) * res
+    func resolutionUInt16(_ res: Double, offset: Double) -> UInt16 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(UInt16.min) else { return UInt16.min }
         guard value <= Double(UInt16.max) else { return UInt16.max }
@@ -266,10 +297,12 @@ extension UInt32: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt16(_ res: Double) -> Int16 {
-        let value = Double(self) * res
+    func resolutionInt16(_ res: Double, offset: Double) -> Int16 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(Int16.min) else { return Int16.min }
         guard value <= Double(Int16.max) else { return Int16.max }
@@ -279,10 +312,12 @@ extension UInt32: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionUInt32(_ res: Double) -> UInt32 {
-        let value = Double(self) * res
+    func resolutionUInt32(_ res: Double, offset: Double) -> UInt32 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(UInt32.min) else { return UInt32.min }
         guard value <= Double(UInt32.max) else { return UInt32.max }
@@ -292,10 +327,12 @@ extension UInt32: BinaryResolutionable {
 
     /// Apply a Resolution to a number
     ///
-    /// - Parameter res: Resolution
+    /// - Parameters:
+    ///   - res: Resolution
+    ///   - offset: Value to Add after Scale Applied
     /// - Returns: Number with Resolution applied
-    func resolutionInt32(_ res: Double) -> Int32 {
-        let value = Double(self) * res
+    func resolutionInt32(_ res: Double, offset: Double) -> Int32 {
+        let value = (Double(self) * res) + offset
 
         guard value >= Double(Int32.min) else { return Int32.min }
         guard value <= Double(Int32.max) else { return Int32.max }
@@ -311,9 +348,9 @@ extension Int32: Resolutionable {
     ///
     /// - Parameters:
     ///   - res: Resolution
-    ///   - add: Value to Add
+    ///   - offset: Value to Add
     /// - Returns: Number with Resolution applied
-    func resolution(_ res: Double, _ add: Double = 0) -> Double {
-        return (Double(self) * res) + add
+    func resolution(_ res: Double, offset: Double = 0) -> Double {
+        return (Double(self) * res) + offset
     }
 }

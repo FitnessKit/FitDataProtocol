@@ -381,7 +381,7 @@ open class WeightScaleMessage: FitMessage {
             case .percentFat:
                 if let percentFat = percentFat {
                     // 100 * % + 0
-                    let value = percentFat.value.resolutionUInt16(100)
+                    let value = percentFat.value.resolutionUInt16(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -389,7 +389,7 @@ open class WeightScaleMessage: FitMessage {
             case .percentHydration:
                 if let percentHydration = percentHydration {
                     // 100 * % + 0
-                    let value = percentHydration.value.resolutionUInt16(100)
+                    let value = percentHydration.value.resolutionUInt16(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -399,7 +399,7 @@ open class WeightScaleMessage: FitMessage {
                     // 100 * kg + 0
                     visceralFatMass = visceralFatMass.converted(to: UnitMass.kilograms)
 
-                    let value = visceralFatMass.value.resolutionUInt16(100)
+                    let value = visceralFatMass.value.resolutionUInt16(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -409,7 +409,7 @@ open class WeightScaleMessage: FitMessage {
                     // 100 * kg + 0
                     boneMass = boneMass.converted(to: UnitMass.kilograms)
 
-                    let value = boneMass.value.resolutionUInt16(100)
+                    let value = boneMass.value.resolutionUInt16(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -419,7 +419,7 @@ open class WeightScaleMessage: FitMessage {
                     // 100 * kg + 0
                     muscleMass = muscleMass.converted(to: UnitMass.kilograms)
 
-                    let value = muscleMass.value.resolutionUInt16(100)
+                    let value = muscleMass.value.resolutionUInt16(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -429,14 +429,14 @@ open class WeightScaleMessage: FitMessage {
                     // 4 * kcal/day + 0
                     basalMet = basalMet.converted(to: UnitEnergy.kilocalories)
 
-                    let value = basalMet.value.resolutionUInt16(4)
+                    let value = basalMet.value.resolutionUInt16(4, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
 
             case .physiqueRating:
                 if let physiqueRating = physiqueRating {
-                    let value = physiqueRating.value.resolutionUInt8(1)
+                    let value = physiqueRating.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }
@@ -446,7 +446,7 @@ open class WeightScaleMessage: FitMessage {
                     // 4 * kcal/day + 0
                     activeMet = activeMet.converted(to: UnitEnergy.kilocalories)
 
-                    let value = activeMet.value.resolutionUInt16(4)
+                    let value = activeMet.value.resolutionUInt16(4, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -455,14 +455,14 @@ open class WeightScaleMessage: FitMessage {
                 if var metabolicAge = metabolicAge {
                     /// 1 * years
                     metabolicAge = metabolicAge.converted(to: UnitDuration.year)
-                    let value = metabolicAge.value.resolutionUInt8(1)
+                    let value = metabolicAge.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }
 
             case .visceralFatRating:
                 if let visceralFatRating = visceralFatRating {
-                    let value = visceralFatRating.value.resolutionUInt8(1)
+                    let value = visceralFatRating.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }

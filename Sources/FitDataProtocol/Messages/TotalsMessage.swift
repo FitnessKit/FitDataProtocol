@@ -283,7 +283,7 @@ open class TotalsMessage: FitMessage {
                 if var timerTime = timerTime {
                     // 1 * s + 0
                     timerTime = timerTime.converted(to: UnitDuration.seconds)
-                    let value = timerTime.value.resolutionUInt32(1)
+                    let value = timerTime.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -292,7 +292,7 @@ open class TotalsMessage: FitMessage {
                 if var distance = distance {
                     // 1 * m + 0
                     distance = distance.converted(to: UnitLength.meters)
-                    let value = distance.value.resolutionUInt32(1)
+                    let value = distance.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -301,7 +301,7 @@ open class TotalsMessage: FitMessage {
                 if var calories = calories {
                     // 1 * kcal + 0
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let value = calories.value.resolutionUInt16(1)
+                    let value = calories.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -315,7 +315,7 @@ open class TotalsMessage: FitMessage {
                 if var elapsedTime = elapsedTime {
                     // 1 * s + 0
                     elapsedTime = elapsedTime.converted(to: UnitDuration.seconds)
-                    let value = elapsedTime.value.resolutionUInt32(1)
+                    let value = elapsedTime.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -329,7 +329,7 @@ open class TotalsMessage: FitMessage {
                 if var activeTime = activeTime {
                     // 1 * s + 0
                     activeTime = activeTime.converted(to: UnitDuration.seconds)
-                    let value = activeTime.value.resolutionUInt32(1)
+                    let value = activeTime.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

@@ -332,7 +332,7 @@ open class BloodPressureMessage: FitMessage {
                 if var systolicPressure = systolicPressure {
                     // 1 * mmHg + 0
                     systolicPressure = systolicPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = systolicPressure.value.resolutionUInt16(1)
+                    let value = systolicPressure.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -341,7 +341,7 @@ open class BloodPressureMessage: FitMessage {
                 if var diastolicPressure = diastolicPressure {
                     // 1 * mmHg + 0
                     diastolicPressure = diastolicPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = diastolicPressure.value.resolutionUInt16(1)
+                    let value = diastolicPressure.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -350,7 +350,7 @@ open class BloodPressureMessage: FitMessage {
                 if var meanArterialPressure = meanArterialPressure {
                     // 1 * mmHg + 0
                     meanArterialPressure = meanArterialPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = meanArterialPressure.value.resolutionUInt16(1)
+                    let value = meanArterialPressure.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -359,7 +359,7 @@ open class BloodPressureMessage: FitMessage {
                 if var mapSampleMean = mapSampleMean {
                     // 1 * mmHg + 0
                     mapSampleMean = mapSampleMean.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = mapSampleMean.value.resolutionUInt16(1)
+                    let value = mapSampleMean.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -368,7 +368,7 @@ open class BloodPressureMessage: FitMessage {
                 if var mapMorningValues = mapMorningValues {
                     // 1 * mmHg + 0
                     mapMorningValues = mapMorningValues.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = mapMorningValues.value.resolutionUInt16(1)
+                    let value = mapMorningValues.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -377,7 +377,7 @@ open class BloodPressureMessage: FitMessage {
                 if var mapEveningValues = mapEveningValues {
                     // 1 * mmHg + 0
                     mapEveningValues = mapEveningValues.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = mapEveningValues.value.resolutionUInt16(1)
+                    let value = mapEveningValues.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -385,7 +385,7 @@ open class BloodPressureMessage: FitMessage {
             case .heartRate:
                 if let heartRate = heartRate {
                     // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1)
+                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }

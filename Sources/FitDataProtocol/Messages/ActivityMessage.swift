@@ -255,7 +255,7 @@ open class ActivityMessage: FitMessage {
                 if var totalTimerTime = totalTimerTime {
                     // 1000 * s + 0
                     totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    let value = totalTimerTime.value.resolutionUInt32(1000)
+                    let value = totalTimerTime.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

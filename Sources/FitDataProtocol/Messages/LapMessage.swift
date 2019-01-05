@@ -786,7 +786,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, -500)
+                        let value = value.resolution(1 / 5, offset: -500)
                         averageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         averageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -796,7 +796,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, -500)
+                        let value = value.resolution(1 / 5, offset: -500)
                         maximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         maximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -949,7 +949,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, -500)
+                        let value = value.resolution(1 / 5, offset: -500)
                         minimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         minimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1073,7 +1073,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, -500)
+                        let value = value.resolution(1 / 5, offset: -500)
                         enhancedAverageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedAverageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1083,7 +1083,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, -500)
+                        let value = value.resolution(1 / 5, offset: -500)
                         enhancedMinimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedMinimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1093,7 +1093,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, -500)
+                        let value = value.resolution(1 / 5, offset: -500)
                         enhancedMaximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedMaximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1465,7 +1465,7 @@ open class LapMessage: FitMessage {
                 if var totalElapsedTime = totalElapsedTime {
                     // 1000 * s + 0, Time (includes pauses)
                     totalElapsedTime = totalElapsedTime.converted(to: UnitDuration.seconds)
-                    let value = totalElapsedTime.value.resolutionUInt32(1000)
+                    let value = totalElapsedTime.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1474,7 +1474,7 @@ open class LapMessage: FitMessage {
                 if var totalTimerTime = totalTimerTime {
                     // 1000 * s + 0, Time (excludes pauses)
                     totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    let value = totalTimerTime.value.resolutionUInt32(1000)
+                    let value = totalTimerTime.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1483,7 +1483,7 @@ open class LapMessage: FitMessage {
                 if var totalDistance = totalDistance {
                     // 100 * m + 0
                     totalDistance = totalDistance.converted(to: UnitLength.meters)
-                    let value = totalDistance.value.resolutionUInt32(100)
+                    let value = totalDistance.value.resolutionUInt32(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1498,7 +1498,7 @@ open class LapMessage: FitMessage {
                 if var totalCalories = totalCalories {
                     // 1 * kcal + 0
                     totalCalories = totalCalories.converted(to: UnitEnergy.kilocalories)
-                    let value = totalCalories.value.resolutionUInt16(1)
+                    let value = totalCalories.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1507,7 +1507,7 @@ open class LapMessage: FitMessage {
                 if var totalFatCalories = totalFatCalories {
                     // 1 * kcal + 0
                     totalFatCalories = totalFatCalories.converted(to: UnitEnergy.kilocalories)
-                    let value = totalFatCalories.value.resolutionUInt16(1)
+                    let value = totalFatCalories.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1522,28 +1522,28 @@ open class LapMessage: FitMessage {
             case .averageHeartRate:
                 if let averageHeartRate = averageHeartRate {
                     // 1 * bpm + 0
-                    let value = averageHeartRate.value.resolutionUInt8(1)
+                    let value = averageHeartRate.value.resolutionUInt8(1, offset: 0.0)
                     msgData.append(value)
                 }
 
             case .maximumHeartRate:
                 if let maximumHeartRate = maximumHeartRate {
                     // 1 * bpm + 0
-                    let value = maximumHeartRate.value.resolutionUInt8(1)
+                    let value = maximumHeartRate.value.resolutionUInt8(1, offset: 0.0)
                     msgData.append(value)
                 }
 
             case .averageCadence:
                 if let averageCadence = averageCadence {
                     // 1 * rpm + 0
-                    let value = averageCadence.value.resolutionUInt8(1)
+                    let value = averageCadence.value.resolutionUInt8(1, offset: 0.0)
                     msgData.append(value)
                 }
 
             case .maximumCadence:
                 if let maximumCadence = maximumCadence {
                     // 1 * rpm + 0
-                    let value = maximumCadence.value.resolutionUInt8(1)
+                    let value = maximumCadence.value.resolutionUInt8(1, offset: 0.0)
                     msgData.append(value)
                 }
 
@@ -1563,7 +1563,7 @@ open class LapMessage: FitMessage {
                 if var totalAscent = totalAscent {
                     // 1 * m + 0
                     totalAscent = totalAscent.converted(to: UnitLength.meters)
-                    let value = totalAscent.value.resolutionUInt16(1)
+                    let value = totalAscent.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1572,7 +1572,7 @@ open class LapMessage: FitMessage {
                 if var totalDescent = totalDescent {
                     // 1 * m + 0
                     totalDescent = totalDescent.converted(to: UnitLength.meters)
-                    let value = totalDescent.value.resolutionUInt16(1)
+                    let value = totalDescent.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1621,7 +1621,7 @@ open class LapMessage: FitMessage {
                 if var averageStrokeDistance = averageStrokeDistance {
                     // 100 * m + 0
                     averageStrokeDistance = averageStrokeDistance.converted(to: UnitLength.meters)
-                    let value = averageStrokeDistance.value.resolutionUInt16(100)
+                    let value = averageStrokeDistance.value.resolutionUInt16(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1646,7 +1646,7 @@ open class LapMessage: FitMessage {
                 if var totalWork = totalWork {
                     // 1 * j + 0
                     totalWork = totalWork.converted(to: UnitEnergy.joules)
-                    let value = totalWork.value.resolutionUInt32(1)
+                    let value = totalWork.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1661,7 +1661,7 @@ open class LapMessage: FitMessage {
                 if var gpsAccuracy = gpsAccuracy {
                     // 1 * m + 0
                     gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
-                    let value = gpsAccuracy.value.resolutionUInt8(1)
+                    let value = gpsAccuracy.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1700,7 +1700,7 @@ open class LapMessage: FitMessage {
                 if var averageTemperature = averageTemperature {
                     // 1 * C + 0
                     averageTemperature = averageTemperature.converted(to: UnitTemperature.celsius)
-                    let value = averageTemperature.value.resolutionInt8(1)
+                    let value = averageTemperature.value.resolutionInt8(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1709,7 +1709,7 @@ open class LapMessage: FitMessage {
                 if var maximumTemperature = maximumTemperature {
                     // 1 * C + 0
                     maximumTemperature = maximumTemperature.converted(to: UnitTemperature.celsius)
-                    let value = maximumTemperature.value.resolutionInt8(1)
+                    let value = maximumTemperature.value.resolutionInt8(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1718,7 +1718,7 @@ open class LapMessage: FitMessage {
                 if var totalMovingTime = totalMovingTime {
                     // 1000 * s + 0
                     totalMovingTime = totalMovingTime.converted(to: UnitDuration.seconds)
-                    let value = totalMovingTime.value.resolutionUInt32(1000)
+                    let value = totalMovingTime.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1768,7 +1768,7 @@ open class LapMessage: FitMessage {
             case .minimumHeartRate:
                 if let heartRate = minimumHeartRate {
                     // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1)
+                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }
@@ -1792,7 +1792,7 @@ open class LapMessage: FitMessage {
                 if var averageVerticalOscillation = averageVerticalOscillation {
                     // 10 * mm + 0
                     averageVerticalOscillation = averageVerticalOscillation.converted(to: UnitLength.millimeters)
-                    let value = averageVerticalOscillation.value.resolutionUInt16(10)
+                    let value = averageVerticalOscillation.value.resolutionUInt16(10, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1807,7 +1807,7 @@ open class LapMessage: FitMessage {
                 if var averageStanceTime = averageStanceTime.time {
                     // 10 * ms + 0
                     averageStanceTime = averageStanceTime.converted(to: UnitDuration.millisecond)
-                    let value = averageStanceTime.value.resolutionUInt16(10)
+                    let value = averageStanceTime.value.resolutionUInt16(10, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1841,7 +1841,7 @@ open class LapMessage: FitMessage {
                 if var enhancedAverageSpeed = averageSpeed {
                     // 1000 * m/s + 0
                     enhancedAverageSpeed = enhancedAverageSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = enhancedAverageSpeed.value.resolutionUInt32(1000)
+                    let value = enhancedAverageSpeed.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1850,7 +1850,7 @@ open class LapMessage: FitMessage {
                 if var enhancedMaximumSpeed = maximumSpeed {
                     // 1000 * m/s + 0
                     enhancedMaximumSpeed = enhancedMaximumSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = enhancedMaximumSpeed.value.resolutionUInt32(1000)
+                    let value = enhancedMaximumSpeed.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1938,21 +1938,21 @@ private extension LapMessage {
         var vpower = power
         // 1 * watts + 0
         vpower = vpower.converted(to: UnitPower.watts)
-        let value = vpower.value.resolutionUInt16(1)
+        let value = vpower.value.resolutionUInt16(1, offset: 0.0)
 
         return Data(from: value.littleEndian)
     }
 
     func encodeUInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
         // 100 * % + 0
-        let value = percent.value.resolutionUInt16(100)
+        let value = percent.value.resolutionUInt16(100, offset: 0.0)
 
         return Data(from: value.littleEndian)
     }
 
     func encodeInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
         // 100 * % + 0
-        let value = percent.value.resolutionInt16(100)
+        let value = percent.value.resolutionInt16(100, offset: 0.0)
 
         return Data(from: value.littleEndian)
     }
@@ -1961,7 +1961,7 @@ private extension LapMessage {
         var vspeed = speed
         // 1000 * m/s + 0
         vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
-        let value = vspeed.value.resolutionInt16(1000)
+        let value = vspeed.value.resolutionInt16(1000, offset: 0.0)
 
         return Data(from: value.littleEndian)
     }
@@ -1970,7 +1970,7 @@ private extension LapMessage {
         var altitude = alt
         // 5 * m + 500
         altitude = altitude.converted(to: UnitLength.meters)
-        let value = altitude.value.resolutionUInt32(5) + 500
+        let value = altitude.value.resolutionUInt32(5, offset: 500)
 
         return Data(from: value.littleEndian)
     }

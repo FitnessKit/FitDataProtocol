@@ -267,7 +267,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
             case .calibrationFactor:
                 if let calibrationFactor = calibrationFactor {
                     // 10 * % + 0
-                    let value = calibrationFactor.value.resolutionUInt16(10)
+                    let value = calibrationFactor.value.resolutionUInt16(10, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -276,7 +276,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                 if var odometer = odometer {
                     // 100 * m + 0
                     odometer = odometer.converted(to: UnitLength.meters)
-                    let value = odometer.value.resolutionUInt32(100)
+                    let value = odometer.value.resolutionUInt32(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

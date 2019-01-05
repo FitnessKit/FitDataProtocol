@@ -170,7 +170,7 @@ open class HrvMessage: FitMessage {
                         for time in hrv {
                             /// 1000 * s + 0, Time between beats
                             let hrvTime = time.converted(to: UnitDuration.seconds)
-                            let value = hrvTime.value.resolutionUInt16(1000)
+                            let value = hrvTime.value.resolutionUInt16(1000, offset: 0.0)
 
                             msgData.append(Data(from: value.littleEndian))
 

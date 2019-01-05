@@ -185,7 +185,7 @@ open class SpeedZoneMessage: FitMessage {
                 if var highLevel = highLevel {
                     // 1000 * m/s + 0
                     highLevel = highLevel.converted(to: UnitSpeed.metersPerSecond)
-                    let value = highLevel.value.resolutionUInt16(1000)
+                    let value = highLevel.value.resolutionUInt16(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

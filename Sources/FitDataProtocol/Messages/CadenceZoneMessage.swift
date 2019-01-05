@@ -192,7 +192,7 @@ open class CadenceZoneMessage: FitMessage {
             case .highValue:
                 if let heartRate = highLevel {
                     // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1)
+                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }

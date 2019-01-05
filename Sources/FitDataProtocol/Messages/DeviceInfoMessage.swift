@@ -459,7 +459,7 @@ open class DeviceInfoMessage: FitMessage {
                 if var cumulativeOpTime = cumulativeOpTime {
                     // 1 * s + 0
                     cumulativeOpTime = cumulativeOpTime.converted(to: UnitDuration.seconds)
-                    let value = cumulativeOpTime.value.resolutionUInt32(1)
+                    let value = cumulativeOpTime.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -468,7 +468,7 @@ open class DeviceInfoMessage: FitMessage {
                 if var batteryVoltage = batteryVoltage {
                     // 256 * V + 0
                     batteryVoltage = batteryVoltage.converted(to: UnitElectricPotentialDifference.volts)
-                    let value = batteryVoltage.value.resolutionUInt16(256)
+                    let value = batteryVoltage.value.resolutionUInt16(256, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

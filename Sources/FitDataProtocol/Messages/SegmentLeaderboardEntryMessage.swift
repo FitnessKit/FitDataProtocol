@@ -132,7 +132,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         /// 1000 * s + 0
-                        let value = value.resolutionUInt32(1 / 1000)
+                        let value = value.resolutionUInt32(1 / 1000, offset: 0.0)
                         segmentTime = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
                         segmentTime = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
@@ -241,14 +241,14 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
 
             case .groupPrimaryKey:
                 if let leaderId = leaderId {
-                    let value = leaderId.value.resolutionUInt32(1)
+                    let value = leaderId.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
 
             case .activityID:
                 if let activityId = activityId {
-                    let value = activityId.value.resolutionUInt32(1)
+                    let value = activityId.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -256,7 +256,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
             case .segmentTime:
                 if let segmentTime = segmentTime {
                     /// 1000 * s + 0
-                    let value = segmentTime.value.resolutionUInt32(1000)
+                    let value = segmentTime.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

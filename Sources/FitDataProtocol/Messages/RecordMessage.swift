@@ -289,7 +289,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, -500)
+                        let value = value.resolution(1 / 5, offset: -500)
                         altitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         altitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -636,7 +636,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, -500)
+                        let value = value.resolution(1 / 5, offset: -500)
                         enhancedAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -870,14 +870,14 @@ open class RecordMessage: FitMessage {
             case .heartRate:
                 if let heartRate = heartRate {
                     // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1)
+                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
                     msgData.append(value)
                 }
 
             case .cadence:
                 if let cadence = cadence {
                     // 1 * rpm + 0
-                    let value = cadence.value.resolutionUInt8(1)
+                    let value = cadence.value.resolutionUInt8(1, offset: 0.0)
                     msgData.append(value)
                 }
 
@@ -885,7 +885,7 @@ open class RecordMessage: FitMessage {
                 if var distance = distance {
                     // 100 * m + 0
                     distance = distance.converted(to: UnitLength.meters)
-                    let value = distance.value.resolutionUInt32(100)
+                    let value = distance.value.resolutionUInt32(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -918,7 +918,7 @@ open class RecordMessage: FitMessage {
                 if var timeFromCourse = timeFromCourse {
                     // 1000 * s + 0
                     timeFromCourse = timeFromCourse.converted(to: UnitDuration.seconds)
-                    let value = timeFromCourse.value.resolutionUInt32(1000)
+                    let value = timeFromCourse.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -927,7 +927,7 @@ open class RecordMessage: FitMessage {
                 if var cycleLength = cycleLength {
                     // 100 * m + 0
                     cycleLength = cycleLength.converted(to: UnitLength.meters)
-                    let value = cycleLength.value.resolutionUInt8(100)
+                    let value = cycleLength.value.resolutionUInt8(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -936,7 +936,7 @@ open class RecordMessage: FitMessage {
                 if var temperature = temperature {
                     // 1 * C + 0
                     temperature = temperature.converted(to: UnitTemperature.celsius)
-                    let value = temperature.value.resolutionInt8(1)
+                    let value = temperature.value.resolutionInt8(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -963,7 +963,7 @@ open class RecordMessage: FitMessage {
                 if var accumulatedPower = accumulatedPower {
                     // 1 * watts + 0
                     accumulatedPower = accumulatedPower.converted(to: UnitPower.watts)
-                    let value = accumulatedPower.value.resolutionUInt32(1)
+                    let value = accumulatedPower.value.resolutionUInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -975,7 +975,7 @@ open class RecordMessage: FitMessage {
                 if var gpsAccuracy = gpsAccuracy {
                     // 1 * m + 0
                     gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
-                    let value = gpsAccuracy.value.resolutionUInt8(1)
+                    let value = gpsAccuracy.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -990,7 +990,7 @@ open class RecordMessage: FitMessage {
                 if var calories = calories {
                     // 1 * kcal + 0
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let value = calories.value.resolutionUInt16(1)
+                    let value = calories.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -999,7 +999,7 @@ open class RecordMessage: FitMessage {
                 if var verticalOscillation = verticalOscillation {
                     // 10 * mm + 0
                     verticalOscillation = verticalOscillation.converted(to: UnitLength.millimeters)
-                    let value = verticalOscillation.value.resolutionUInt16(10)
+                    let value = verticalOscillation.value.resolutionUInt16(10, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1015,7 +1015,7 @@ open class RecordMessage: FitMessage {
                 if var stance = stanceTime.time {
                     // 10 * ms + 0
                     stance = stance.converted(to: UnitDuration.millisecond)
-                    let value = stance.value.resolutionUInt16(10)
+                    let value = stance.value.resolutionUInt16(10, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1028,35 +1028,35 @@ open class RecordMessage: FitMessage {
             case .leftTorqueEffectiveness:
                 if let left = torqueEffectiveness.left {
                     // 2 * percent + 0
-                    let value = left.value.resolutionUInt8(2)
+                    let value = left.value.resolutionUInt8(2, offset: 0.0)
                     msgData.append(value)
                 }
 
             case .rightTorqueEffectiveness:
                 if let right = torqueEffectiveness.right {
                     // 2 * percent + 0
-                    let value = right.value.resolutionUInt8(2)
+                    let value = right.value.resolutionUInt8(2, offset: 0.0)
                     msgData.append(value)
                 }
 
             case .leftPedalSmoothness:
                 if let left = pedalSmoothness.left {
                     // 2 * percent + 0
-                    let value = left.value.resolutionUInt8(2)
+                    let value = left.value.resolutionUInt8(2, offset: 0.0)
                     msgData.append(value)
                 }
 
             case .rightPedalSmoothness:
                 if let right = pedalSmoothness.right {
                     // 2 * percent + 0
-                    let value = right.value.resolutionUInt8(2)
+                    let value = right.value.resolutionUInt8(2, offset: 0.0)
                     msgData.append(value)
                 }
 
             case .combinedPedalSmoothness:
                 if let combined = pedalSmoothness.combined {
                     // 2 * percent + 0
-                    let value = combined.value.resolutionUInt8(2)
+                    let value = combined.value.resolutionUInt8(2, offset: 0.0)
                     msgData.append(value)
                 }
 
@@ -1077,7 +1077,7 @@ open class RecordMessage: FitMessage {
                 if var ballSpeed = ballSpeed {
                     // 100 * m/s + 0
                     ballSpeed = ballSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = ballSpeed.value.resolutionInt16(100)
+                    let value = ballSpeed.value.resolutionInt16(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1108,7 +1108,7 @@ open class RecordMessage: FitMessage {
                 if var enhancedSpeed = speed {
                     // 1000 * m/s + 0
                     enhancedSpeed = enhancedSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = enhancedSpeed.value.resolutionUInt32(1000)
+                    let value = enhancedSpeed.value.resolutionUInt32(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -1144,21 +1144,21 @@ private extension RecordMessage {
         var vpower = power
         // 1 * watts + 0
         vpower = vpower.converted(to: UnitPower.watts)
-        let value = vpower.value.resolutionUInt16(1)
+        let value = vpower.value.resolutionUInt16(1, offset: 0.0)
 
         return Data(from: value.littleEndian)
     }
 
     func encodeUInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
         // 100 * % + 0
-        let value = percent.value.resolutionUInt16(100)
+        let value = percent.value.resolutionUInt16(100, offset: 0.0)
 
         return Data(from: value.littleEndian)
     }
 
     func encodeInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
         // 100 * % + 0
-        let value = percent.value.resolutionInt16(100)
+        let value = percent.value.resolutionInt16(100, offset: 0.0)
 
         return Data(from: value.littleEndian)
     }
@@ -1167,7 +1167,7 @@ private extension RecordMessage {
         var vspeed = speed
         // 1000 * m/s + 0
         vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
-        let value = vspeed.value.resolutionInt16(1000)
+        let value = vspeed.value.resolutionInt16(1000, offset: 0.0)
 
         return Data(from: value.littleEndian)
     }
@@ -1176,7 +1176,7 @@ private extension RecordMessage {
         var altitude = alt
         // 5 * m + 500
         altitude = altitude.converted(to: UnitLength.meters)
-        let value = altitude.value.resolutionUInt32(5) + 500
+        let value = altitude.value.resolutionUInt32(5, offset: 500)
 
         return Data(from: value.littleEndian)
     }

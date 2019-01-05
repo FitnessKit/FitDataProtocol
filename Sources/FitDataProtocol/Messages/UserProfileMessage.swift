@@ -592,7 +592,7 @@ open class UserProfileMessage: FitMessage {
                 if var age = age {
                     /// 1 * years
                     age = age.converted(to: UnitDuration.year)
-                    let value = age.value.resolutionUInt8(1)
+                    let value = age.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }
@@ -601,7 +601,7 @@ open class UserProfileMessage: FitMessage {
                 if var height = height {
                     //  100 * m + 0
                     height = height.converted(to: UnitLength.meters)
-                    let value = height.value.resolutionUInt8(100)
+                    let value = height.value.resolutionUInt8(100, offset: 0.0)
 
                     msgData.append(value)
                 }
@@ -610,7 +610,7 @@ open class UserProfileMessage: FitMessage {
                 if var weight = weight {
                     //  10 * kg + 0
                     weight = weight.converted(to: UnitMass.kilograms)
-                    let value = weight.value.resolutionUInt16(10)
+                    let value = weight.value.resolutionUInt16(10, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -633,7 +633,7 @@ open class UserProfileMessage: FitMessage {
             case .restingHeartRate:
                 if let restingHeartRate = restingHeartRate {
                     // 1 * bpm + 0
-                    let value = restingHeartRate.value.resolutionUInt8(1)
+                    let value = restingHeartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(UInt8(value))
                 }
@@ -641,7 +641,7 @@ open class UserProfileMessage: FitMessage {
             case .defaultMaxRunningHeartRate:
                 if let maxRunningHeartRate = maxRunningHeartRate {
                     // 1 * bpm + 0
-                    let value = maxRunningHeartRate.value.resolutionUInt8(1)
+                    let value = maxRunningHeartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(UInt8(value))
                 }
@@ -649,7 +649,7 @@ open class UserProfileMessage: FitMessage {
             case .defaultMaxBikingHeartRate:
                 if let maxBikingHeartRate = maxBikingHeartRate {
                     // 1 * bpm + 0
-                    let value = maxBikingHeartRate.value.resolutionUInt8(1)
+                    let value = maxBikingHeartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(UInt8(value))
                 }
@@ -657,7 +657,7 @@ open class UserProfileMessage: FitMessage {
             case .defaultMaxHeartRate:
                 if let maxHeartRate = maxHeartRate {
                     // 1 * bpm + 0
-                    let value = maxHeartRate.value.resolutionUInt8(1)
+                    let value = maxHeartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(UInt8(value))
                 }
@@ -712,7 +712,7 @@ open class UserProfileMessage: FitMessage {
                 if var runningStepLength = runningStepLength {
                     // 1000 * m + 0, User defined running step length set to 0 for auto length
                     runningStepLength = runningStepLength.converted(to: UnitLength.meters)
-                    let value = runningStepLength.value.resolutionUInt16(1000)
+                    let value = runningStepLength.value.resolutionUInt16(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -721,7 +721,7 @@ open class UserProfileMessage: FitMessage {
                 if var walkingStepLength = walkingStepLength {
                     // 1000 * m + 0, User defined running step length set to 0 for auto length
                     walkingStepLength = walkingStepLength.converted(to: UnitLength.meters)
-                    let value = walkingStepLength.value.resolutionUInt16(1000)
+                    let value = walkingStepLength.value.resolutionUInt16(1000, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

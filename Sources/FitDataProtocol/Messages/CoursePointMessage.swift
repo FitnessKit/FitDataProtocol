@@ -284,7 +284,7 @@ open class CoursePointMessage: FitMessage {
                 if var latitude = position.latitude {
                     //  1 * semicircles + 0
                     latitude = latitude.converted(to: UnitAngle.garminSemicircle)
-                    let value = latitude.value.resolutionInt32(1)
+                    let value = latitude.value.resolutionInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -293,7 +293,7 @@ open class CoursePointMessage: FitMessage {
                 if var longitude = position.longitude {
                     //  1 * semicircles + 0
                     longitude = longitude.converted(to: UnitAngle.garminSemicircle)
-                    let value = longitude.value.resolutionInt32(1)
+                    let value = longitude.value.resolutionInt32(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }
@@ -302,7 +302,7 @@ open class CoursePointMessage: FitMessage {
                 if var distance = distance {
                     //  100 * m + 0
                     distance = distance.converted(to: UnitLength.meters)
-                    let value = distance.value.resolutionUInt32(100)
+                    let value = distance.value.resolutionUInt32(100, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

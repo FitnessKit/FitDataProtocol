@@ -185,7 +185,7 @@ open class PowerZoneMessage: FitMessage {
                 if var highLevel = highLevel {
                     // 1 * watts + 0
                     highLevel = highLevel.converted(to: UnitPower.watts)
-                    let value = highLevel.value.resolutionUInt16(1)
+                    let value = highLevel.value.resolutionUInt16(1, offset: 0.0)
 
                     msgData.append(Data(from: value.littleEndian))
                 }

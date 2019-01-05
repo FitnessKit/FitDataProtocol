@@ -224,7 +224,7 @@ open class ZonesTargetMessage: FitMessage {
             case .maxHeartRate:
                 if let maxHeartRate = maxHeartRate {
                     // 1 * bpm + 0
-                    let value = maxHeartRate.value.resolutionUInt8(1)
+                    let value = maxHeartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }
@@ -232,7 +232,7 @@ open class ZonesTargetMessage: FitMessage {
             case .thresholdHeartRate:
                 if let thresholdHeartRate = thresholdHeartRate {
                     // 1 * bpm + 0
-                    let value = thresholdHeartRate.value.resolutionUInt8(1)
+                    let value = thresholdHeartRate.value.resolutionUInt8(1, offset: 0.0)
 
                     msgData.append(value)
                 }
