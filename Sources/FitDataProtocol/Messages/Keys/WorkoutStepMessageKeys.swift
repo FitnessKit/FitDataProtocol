@@ -32,6 +32,9 @@ extension WorkoutStepMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex           = 254
+
         /// Step Name
         case stepName               = 0
         /// Duration Type
@@ -54,9 +57,6 @@ extension WorkoutStepMessage: FitMessageKeys {
         case equipment              = 9
         /// Categroy
         case category               = 10
-
-        /// Message Index
-        case messageIndex           = 254
     }
 }
 
@@ -65,6 +65,9 @@ public extension WorkoutStepMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .stepName:
             return .string //16
         case .durationType:
@@ -86,8 +89,6 @@ public extension WorkoutStepMessage.FitCodingKeys {
         case .equipment:
             return .enumtype
         case .category:
-            return .uint16
-        case .messageIndex:
             return .uint16
         }
     }

@@ -32,6 +32,9 @@ extension GoalMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex           = 254
+
         /// Sport
         case sport                  = 0
         /// Sub-Sport
@@ -56,9 +59,6 @@ extension GoalMessage: FitMessageKeys {
         case enabled                = 10
         /// Goal Source
         case goalSource             = 11
-
-        /// Message Index
-        case messageIndex           = 254
     }
 }
 
@@ -67,6 +67,9 @@ public extension GoalMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .sport:
             return .enumtype
         case .subSport:
@@ -91,8 +94,6 @@ public extension GoalMessage.FitCodingKeys {
             return .enumtype
         case .goalSource:
             return .enumtype
-        case .messageIndex:
-            return .uint16
         }
     }
 

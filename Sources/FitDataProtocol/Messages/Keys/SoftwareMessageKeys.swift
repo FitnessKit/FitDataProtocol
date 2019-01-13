@@ -32,13 +32,13 @@ extension SoftwareMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex   = 254
+
         /// Version
         case version        = 3
         /// Part Number
         case partNumber     = 5
-
-        /// Message Index
-        case messageIndex   = 254
     }
 }
 
@@ -47,12 +47,13 @@ public extension SoftwareMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .version:
             return .uint16
         case .partNumber:
             return .string  //16
-        case .messageIndex:
-            return .uint16
         }
     }
 

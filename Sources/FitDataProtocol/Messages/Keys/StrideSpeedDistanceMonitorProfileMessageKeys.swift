@@ -32,6 +32,9 @@ extension StrideSpeedDistanceMonitorProfileMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex           = 254
+
         /// Enabled
         case enabled                = 0
         /// ANT ID
@@ -46,9 +49,6 @@ extension StrideSpeedDistanceMonitorProfileMessage: FitMessageKeys {
         case transType              = 5
         /// Odometer Rollover
         case odometerRollover       = 7
-
-        /// Message Index
-        case messageIndex           = 254
     }
 }
 
@@ -57,6 +57,9 @@ public extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .enabled:
             return .enumtype
         case .antID:
@@ -71,8 +74,6 @@ public extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
             return .uint8z
         case .odometerRollover:
             return .uint8
-        case .messageIndex:
-            return .uint16
         }
     }
 

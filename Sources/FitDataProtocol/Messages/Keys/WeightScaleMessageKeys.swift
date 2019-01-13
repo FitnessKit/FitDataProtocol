@@ -32,6 +32,9 @@ extension WeightScaleMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Timestamp
+        case timestamp              = 253
+
         /// Weight
         case weight                 = 0
         /// Percent Fat
@@ -56,10 +59,6 @@ extension WeightScaleMessage: FitMessageKeys {
         case visceralFatRating      = 11
         /// User Profile Index
         case userProfileIndex       = 12
-
-        /// Timestamp
-        case timestamp              = 253
-
     }
 }
 
@@ -68,6 +67,9 @@ public extension WeightScaleMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .timestamp:
+            return .uint32
+
         case .weight:
             return .uint16
         case .percentFat:
@@ -92,8 +94,6 @@ public extension WeightScaleMessage.FitCodingKeys {
             return .uint8
         case .userProfileIndex:
             return .uint16
-        case .timestamp:
-            return .uint32
         }
     }
 

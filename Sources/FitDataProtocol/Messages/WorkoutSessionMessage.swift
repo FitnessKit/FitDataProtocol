@@ -109,6 +109,11 @@ open class WorkoutSessionMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .sport:
                     sport = Sport.decode(decoder: &localDecoder,
@@ -147,12 +152,6 @@ open class WorkoutSessionMessage: FitMessage {
                 case .poolLengthUnit:
                     poolLengthUnit = MeasurementDisplayType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
 
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -182,6 +181,9 @@ open class WorkoutSessionMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .sport:
                 if let _ = sport { fileDefs.append(key.fieldDefinition()) }
             case .subSport:
@@ -194,8 +196,6 @@ open class WorkoutSessionMessage: FitMessage {
                 if let _ = poolLength { fileDefs.append(key.fieldDefinition()) }
             case .poolLengthUnit:
                 if let _ = poolLengthUnit { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -231,6 +231,11 @@ open class WorkoutSessionMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .sport:
                 if let sport = sport {
                     msgData.append(sport.rawValue)
@@ -265,10 +270,6 @@ open class WorkoutSessionMessage: FitMessage {
                     msgData.append(poolLengthUnit.rawValue)
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

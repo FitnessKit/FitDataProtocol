@@ -32,6 +32,11 @@ extension UserProfileMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex                   = 254
+        /// Timestamp
+        case timestamp                      = 253
+
         /// Friendly Name
         case friendlyName                   = 0
         /// Gender
@@ -80,11 +85,6 @@ extension UserProfileMessage: FitMessageKeys {
         case runningStepLength              = 31
         /// Walking Step Length
         case walkingStepLength              = 32
-
-        /// Timestamp
-        case timestamp                      = 253
-        /// Message Index
-        case messageIndex                   = 254
     }
 }
 
@@ -93,6 +93,11 @@ public extension UserProfileMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+        case .timestamp:
+            return .uint32
+
         case .friendlyName:
             return .string //16
         case .gender:
@@ -140,10 +145,6 @@ public extension UserProfileMessage.FitCodingKeys {
         case .runningStepLength:
             return .uint16
         case .walkingStepLength:
-            return .uint16
-        case .timestamp:
-            return .uint32
-        case .messageIndex:
             return .uint16
         }
     }

@@ -233,6 +233,17 @@ open class UserProfileMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
+
 
                 case .friendlyName:
                     friendlyName = String.decode(decoder: &localDecoder,
@@ -423,18 +434,6 @@ open class UserProfileMessage: FitMessage {
                         walkingStepLength = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -481,6 +480,11 @@ open class UserProfileMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .friendlyName:
                 if let stringData = friendlyName?.data(using: .utf8) {
                     //16 typical size... but we will count the String
@@ -537,10 +541,6 @@ open class UserProfileMessage: FitMessage {
                 if let _ = runningStepLength { fileDefs.append(key.fieldDefinition()) }
             case .walkingStepLength:
                 if let _ = walkingStepLength { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -576,6 +576,16 @@ open class UserProfileMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
+
             case .friendlyName:
                 if let friendlyName = friendlyName {
                     if let stringData = friendlyName.data(using: .utf8) {
@@ -726,15 +736,6 @@ open class UserProfileMessage: FitMessage {
                     msgData.append(Data(from: value.littleEndian))
                 }
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

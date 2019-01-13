@@ -32,13 +32,13 @@ extension PowerZoneMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex   = 254
+
         /// High Value
         case highValue      = 1
         /// Name
         case name           = 2
-
-        /// Message Index
-        case messageIndex   = 254
     }
 }
 
@@ -47,12 +47,13 @@ public extension PowerZoneMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .highValue:
             return .uint16
         case .name:
             return .string //16
-        case .messageIndex:
-            return .uint16
         }
     }
 

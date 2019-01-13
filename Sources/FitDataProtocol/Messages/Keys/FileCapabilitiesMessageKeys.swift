@@ -32,6 +32,9 @@ extension FileCapabilitiesMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex       = 254
+
         /// File Type
         case fileType           = 0
         /// File Flags
@@ -42,9 +45,6 @@ extension FileCapabilitiesMessage: FitMessageKeys {
         case maxCount           = 3
         /// Max Size
         case maxSize            = 4
-
-        /// Message Index
-        case messageIndex       = 254
     }
 }
 
@@ -53,6 +53,9 @@ public extension FileCapabilitiesMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .fileType:
             return .enumtype
         case .fileFlags:
@@ -63,8 +66,6 @@ public extension FileCapabilitiesMessage.FitCodingKeys {
             return .uint16
         case .maxSize:
             return .uint32
-        case .messageIndex:
-            return .uint16
         }
     }
 

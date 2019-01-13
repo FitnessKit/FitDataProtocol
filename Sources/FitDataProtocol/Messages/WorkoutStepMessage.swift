@@ -139,6 +139,11 @@ open class WorkoutStepMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .stepName:
                     name = String.decode(decoder: &localDecoder,
@@ -206,12 +211,6 @@ open class WorkoutStepMessage: FitMessage {
                                                        data: fieldData,
                                                        dataStrategy: dataStrategy)
 
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -246,6 +245,9 @@ open class WorkoutStepMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .stepName:
                 if let stringData = name?.data(using: .utf8) {
                     //16 typical size... but we will count the String
@@ -284,8 +286,6 @@ open class WorkoutStepMessage: FitMessage {
                 if let _ = equipment { fileDefs.append(key.fieldDefinition()) }
             case .category:
                 if let _ = category { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -321,6 +321,11 @@ open class WorkoutStepMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .stepName:
                 if let stepName = name {
                     if let stringData = stepName.data(using: .utf8) {
@@ -380,10 +385,6 @@ open class WorkoutStepMessage: FitMessage {
                     msgData.append(Data(from: category.rawValue.littleEndian))
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

@@ -97,6 +97,12 @@ open class HeartrateProfileMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
+
                 case .enabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -120,12 +126,6 @@ open class HeartrateProfileMessage: FitMessage {
                     if value.isValidForBaseType(definition.baseType) {
                         transmissionType = TransmissionType(value)
                     }
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
 
                 }
             }
@@ -154,6 +154,9 @@ open class HeartrateProfileMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .enabled:
                 if let _ = enabled {fileDefs.append(key.fieldDefinition()) }
             case .antID:
@@ -162,8 +165,6 @@ open class HeartrateProfileMessage: FitMessage {
                 if let _ = logHrv { fileDefs.append(key.fieldDefinition()) }
             case .transType:
                 if let _ = transmissionType { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -199,6 +200,11 @@ open class HeartrateProfileMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .enabled:
                 if let enabled = enabled {
                     msgData.append(enabled.uint8Value)
@@ -219,10 +225,6 @@ open class HeartrateProfileMessage: FitMessage {
                     msgData.append(transmissionType.rawValue)
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

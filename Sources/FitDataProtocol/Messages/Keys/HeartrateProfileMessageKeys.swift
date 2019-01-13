@@ -32,6 +32,9 @@ extension HeartrateProfileMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex           = 254
+
         /// Enabled
         case enabled                = 0
         /// ANT ID
@@ -40,9 +43,6 @@ extension HeartrateProfileMessage: FitMessageKeys {
         case logHrv                 = 2
         /// ATN Transmission Type
         case transType              = 3
-
-        /// Message Index
-        case messageIndex           = 254
     }
 }
 
@@ -51,6 +51,9 @@ public extension HeartrateProfileMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .enabled:
             return .enumtype
         case .antID:
@@ -59,8 +62,6 @@ public extension HeartrateProfileMessage.FitCodingKeys {
             return .enumtype
         case .transType:
             return .uint8z
-        case .messageIndex:
-            return .uint16
         }
     }
 

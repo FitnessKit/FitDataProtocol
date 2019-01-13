@@ -32,6 +32,9 @@ extension WeatherAlertMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Timestamp
+        case timestamp          = 253
+
         /// Report ID
         case reportId           = 0
         /// Time Issued
@@ -42,9 +45,6 @@ extension WeatherAlertMessage: FitMessageKeys {
         case severity           = 3
         /// Alert Type
         case alertType          = 4
-
-        /// Timestamp
-        case timestamp          = 253
     }
 }
 
@@ -53,6 +53,9 @@ public extension WeatherAlertMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .timestamp:
+            return .uint32
+
         case .reportId:
             return .string //12
         case .issueTime:
@@ -63,8 +66,6 @@ public extension WeatherAlertMessage.FitCodingKeys {
             return .enumtype
         case .alertType:
             return .enumtype
-        case .timestamp:
-            return .uint32
         }
     }
 

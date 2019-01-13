@@ -126,6 +126,17 @@ open class TotalsMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
+
 
                 case .timerTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -182,18 +193,6 @@ open class TotalsMessage: FitMessage {
                         activeTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
 
             }
@@ -226,6 +225,11 @@ open class TotalsMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .timerTime:
                 if let _ = timerTime { fileDefs.append(key.fieldDefinition()) }
             case .distance:
@@ -240,10 +244,6 @@ open class TotalsMessage: FitMessage {
                 if let _ = sessions { fileDefs.append(key.fieldDefinition()) }
             case .activeTime:
                 if let _ = activeTime { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -279,6 +279,16 @@ open class TotalsMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
+
             case .timerTime:
                 if var timerTime = timerTime {
                     // 1 * s + 0
@@ -334,15 +344,6 @@ open class TotalsMessage: FitMessage {
                     msgData.append(Data(from: value.littleEndian))
                 }
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

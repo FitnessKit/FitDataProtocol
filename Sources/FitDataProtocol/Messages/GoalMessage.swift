@@ -151,6 +151,11 @@ open class GoalMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .sport:
                     sport = Sport.decode(decoder: &localDecoder,
@@ -233,12 +238,6 @@ open class GoalMessage: FitMessage {
                                                data: fieldData,
                                                dataStrategy: dataStrategy)
 
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -274,6 +273,9 @@ open class GoalMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .sport:
                 if let _ = sport { fileDefs.append(key.fieldDefinition()) }
             case .subSport:
@@ -298,8 +300,6 @@ open class GoalMessage: FitMessage {
                 if let _ = enabled { fileDefs.append(key.fieldDefinition()) }
             case .goalSource:
                 if let _ = source { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -335,6 +335,11 @@ open class GoalMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .sport:
                 if let sport = sport {
                     msgData.append(sport.rawValue)
@@ -395,10 +400,6 @@ open class GoalMessage: FitMessage {
                     msgData.append(goalSource.rawValue)
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

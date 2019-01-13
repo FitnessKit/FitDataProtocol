@@ -110,6 +110,11 @@ open class WeatherAlertMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 case .reportId:
                     reportID = String.decode(decoder: &localDecoder,
@@ -142,12 +147,6 @@ open class WeatherAlertMessage: FitMessage {
                                                            data: fieldData,
                                                            dataStrategy: dataStrategy)
 
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
                 }
 
             }
@@ -177,6 +176,9 @@ open class WeatherAlertMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .reportId:
                 if let stringData = reportID?.data(using: .utf8) {
                     //12 typical size... but we will count the String
@@ -195,8 +197,6 @@ open class WeatherAlertMessage: FitMessage {
                 if let _ = severity { fileDefs.append(key.fieldDefinition()) }
             case .alertType:
                 if let _ = alertType { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -232,6 +232,11 @@ open class WeatherAlertMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
             case .reportId:
                 if let reportId = reportID {
                     if let stringData = reportId.data(using: .utf8) {
@@ -259,10 +264,6 @@ open class WeatherAlertMessage: FitMessage {
                     msgData.append(alertType.rawValue)
                 }
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
             }
         }
 

@@ -93,6 +93,11 @@ open class ExerciseTitleMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .category:
                     category = ExerciseCategory.decode(decoder: &localDecoder,
@@ -111,12 +116,6 @@ open class ExerciseTitleMessage: FitMessage {
                                              definition: definition,
                                              data: fieldData,
                                              dataStrategy: dataStrategy)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
 
                 }
             }
@@ -148,6 +147,9 @@ open class ExerciseTitleMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .category:
                 if let _ = category { fileDefs.append(key.fieldDefinition()) }
             case .exerciseName:
@@ -162,8 +164,6 @@ open class ExerciseTitleMessage: FitMessage {
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -199,6 +199,11 @@ open class ExerciseTitleMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .category:
                 if let category = category {
                     msgData.append(Data(from: category.rawValue.littleEndian))
@@ -216,10 +221,6 @@ open class ExerciseTitleMessage: FitMessage {
                     }
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

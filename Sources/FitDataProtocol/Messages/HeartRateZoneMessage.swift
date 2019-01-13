@@ -88,6 +88,11 @@ open class HeartRateZoneMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .highBpm:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -107,12 +112,6 @@ open class HeartRateZoneMessage: FitMessage {
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
 
                 }
             }
@@ -139,6 +138,9 @@ open class HeartRateZoneMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .highBpm:
                 if let _ = heartRate { fileDefs.append(key.fieldDefinition()) }
             case .name:
@@ -151,8 +153,6 @@ open class HeartRateZoneMessage: FitMessage {
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -188,6 +188,11 @@ open class HeartRateZoneMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .highBpm:
                 if let heartRate = heartRate {
                     // 1 * bpm + 0
@@ -203,10 +208,6 @@ open class HeartRateZoneMessage: FitMessage {
                     }
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

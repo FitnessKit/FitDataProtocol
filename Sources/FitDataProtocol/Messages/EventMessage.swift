@@ -102,6 +102,11 @@ open class EventMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 case .event:
                     event = Event.decode(decoder: &localDecoder,
@@ -163,12 +168,6 @@ open class EventMessage: FitMessage {
                     // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
                 }
             }
         }
@@ -197,6 +196,9 @@ open class EventMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .event:
                 if let _ = event { fileDefs.append(key.fieldDefinition()) }
             case .eventType:
@@ -219,10 +221,6 @@ open class EventMessage: FitMessage {
             break // not populated directly
             case .rearGear:
                 break // not populated directly
-            case .timestamp:
-                if let _ = timeStamp {
-                    fileDefs.append(key.fieldDefinition())
-                }
             }
         }
 
@@ -258,6 +256,11 @@ open class EventMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
             case .event:
                 if let event = event {
                     msgData.append(event.rawValue)
@@ -296,10 +299,6 @@ open class EventMessage: FitMessage {
             case .rearGear:
                 break // not populated directly
                 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
             }
         }
 

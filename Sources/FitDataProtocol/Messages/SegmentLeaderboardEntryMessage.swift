@@ -103,6 +103,11 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .name:
                     name = String.decode(decoder: &localDecoder,
@@ -138,12 +143,6 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                         segmentTime = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)
                     }
 
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -172,6 +171,9 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .name:
                 if let stringData = name?.data(using: .utf8) {
                     //16 typical size... but we will count the String
@@ -190,8 +192,6 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                 if let _ = activityId { fileDefs.append(key.fieldDefinition()) }
             case .segmentTime:
                 if let _ = segmentTime { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -227,6 +227,11 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .name:
                 if let name = name {
                     if let stringData = name.data(using: .utf8) {
@@ -261,10 +266,6 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                     msgData.append(Data(from: value.littleEndian))
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

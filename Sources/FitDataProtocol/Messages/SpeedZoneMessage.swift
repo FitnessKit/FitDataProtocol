@@ -84,6 +84,11 @@ open class SpeedZoneMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .highValue:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -100,12 +105,6 @@ open class SpeedZoneMessage: FitMessage {
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
 
                 }
             }
@@ -132,6 +131,9 @@ open class SpeedZoneMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .highValue:
                 if var _ = highLevel { fileDefs.append(key.fieldDefinition()) }
             case .name:
@@ -144,8 +146,6 @@ open class SpeedZoneMessage: FitMessage {
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -181,6 +181,11 @@ open class SpeedZoneMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .highValue:
                 if var highLevel = highLevel {
                     // 1000 * m/s + 0
@@ -197,10 +202,6 @@ open class SpeedZoneMessage: FitMessage {
                     }
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

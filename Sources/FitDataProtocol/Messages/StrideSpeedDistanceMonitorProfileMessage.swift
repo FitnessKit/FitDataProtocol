@@ -117,6 +117,12 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
+
                 case .enabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -167,12 +173,6 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                         odometerRolloverCounter = value
                     }
 
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -203,6 +203,9 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .enabled:
                 if let _ = enabled { fileDefs.append(key.fieldDefinition()) }
             case .antID:
@@ -217,8 +220,6 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                 if let _ = transmissionType { fileDefs.append(key.fieldDefinition()) }
             case .odometerRollover:
                 if let _ = odometerRolloverCounter { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -254,6 +255,11 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .enabled:
                 if let enabled = enabled {
                     msgData.append(enabled.uint8Value)
@@ -296,13 +302,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     msgData.append(odometerRolloverCounter)
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
             }
-
         }
 
         if msgData.count > 0 {

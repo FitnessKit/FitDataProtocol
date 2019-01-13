@@ -81,6 +81,8 @@ open class SportMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .timestamp:
+                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .sport:
                     sport = Sport.decode(decoder: &localDecoder,
@@ -99,9 +101,6 @@ open class SportMessage: FitMessage {
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
-                case .timestamp:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 }
             }
@@ -128,6 +127,9 @@ open class SportMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                break
+
             case .sport:
                 if let _ = sport { fileDefs.append(key.fieldDefinition()) }
             case .subSport:
@@ -142,8 +144,6 @@ open class SportMessage: FitMessage {
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-            case .timestamp:
-                break
             }
         }
 
@@ -179,6 +179,9 @@ open class SportMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                break
+
             case .sport:
                 if let sport = sport {
                     msgData.append(sport.rawValue)
@@ -196,8 +199,6 @@ open class SportMessage: FitMessage {
                     }
                 }
 
-            case .timestamp:
-                break
             }
         }
 

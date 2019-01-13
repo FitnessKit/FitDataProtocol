@@ -32,6 +32,9 @@ extension SegmentLeaderboardEntryMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex       = 254
+
         /// Borad Name
         case name               = 0
         /// Leaderboard Type
@@ -42,9 +45,6 @@ extension SegmentLeaderboardEntryMessage: FitMessageKeys {
         case activityID         = 3
         /// Segment Time
         case segmentTime        = 4
-
-        /// Message Index
-        case messageIndex       = 254
     }
 }
 
@@ -53,6 +53,9 @@ public extension SegmentLeaderboardEntryMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .name:
             return .string
         case .boardType:
@@ -63,8 +66,6 @@ public extension SegmentLeaderboardEntryMessage.FitCodingKeys {
             return .uint32
         case .segmentTime:
             return .uint32
-        case .messageIndex:
-            return .uint16
         }
     }
 

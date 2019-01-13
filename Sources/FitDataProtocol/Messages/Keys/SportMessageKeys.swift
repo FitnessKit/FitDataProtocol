@@ -32,15 +32,15 @@ extension SportMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Timestamp
+        case timestamp  = 253
+
         /// Sport
         case sport      = 0
         /// Sub-Suport
         case subSport   = 1
         /// Name
         case name       = 3
-
-        /// Timestamp
-        case timestamp  = 253
     }
 }
 
@@ -49,14 +49,15 @@ public extension SportMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .timestamp:
+            return .uint32
+
         case .sport:
             return .enumtype
         case .subSport:
             return .enumtype
         case .name:
             return .string  //16
-        case .timestamp:
-            return .uint32
         }
     }
 

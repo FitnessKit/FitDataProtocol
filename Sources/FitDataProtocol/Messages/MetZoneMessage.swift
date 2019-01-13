@@ -95,6 +95,11 @@ open class MetZoneMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .highBpm:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -129,12 +134,6 @@ open class MetZoneMessage: FitMessage {
                         fatCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
                     }
 
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -161,14 +160,15 @@ open class MetZoneMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .highBpm:
                 if let _ = heartRate { fileDefs.append(key.fieldDefinition()) }
             case .calories:
                 if let _ = calories { fileDefs.append(key.fieldDefinition()) }
             case .fatCalories:
                 if let _ = fatCalories { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -204,6 +204,11 @@ open class MetZoneMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .highBpm:
                 if let heartRate = heartRate {
                     // 1 * bpm + 0
@@ -230,10 +235,6 @@ open class MetZoneMessage: FitMessage {
                     msgData.append(Data(from: value.littleEndian))
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

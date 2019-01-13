@@ -151,7 +151,11 @@ open class WeightScaleMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
-
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 case .weight:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -271,12 +275,6 @@ open class WeightScaleMessage: FitMessage {
                         userProfileIndex = MessageIndex(value: value)
                     }
 
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
                 }
             }
         }
@@ -312,6 +310,9 @@ open class WeightScaleMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .weight:
                 if let _ = weight { fileDefs.append(key.fieldDefinition()) }
             case .percentFat:
@@ -336,8 +337,6 @@ open class WeightScaleMessage: FitMessage {
                 if let _ = visceralFatRating { fileDefs.append(key.fieldDefinition()) }
             case .userProfileIndex:
                 if let _ = userProfileIndex { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -373,6 +372,11 @@ open class WeightScaleMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
             case .weight:
                 if let weight = weight {
                     msgData.append(weight.encode())
@@ -473,10 +477,6 @@ open class WeightScaleMessage: FitMessage {
                     msgData.append(userProfileIndex.encode())
                 }
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
             }
         }
 

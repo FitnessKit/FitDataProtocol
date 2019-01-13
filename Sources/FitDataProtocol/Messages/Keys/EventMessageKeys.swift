@@ -32,6 +32,9 @@ extension EventMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Timestamp
+        case timestamp          = 253
+
         /// Event
         case event              = 0
         /// Event Type
@@ -54,9 +57,6 @@ extension EventMessage: FitMessageKeys {
         case rearGearNumber     = 11
         /// Rear Gear
         case rearGear           = 12
-
-        /// Timestamp
-        case timestamp          = 253
     }
 }
 
@@ -65,6 +65,9 @@ public extension EventMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .timestamp:
+            return .uint32
+
         case .event:
             return .enumtype
         case .eventType:
@@ -87,8 +90,6 @@ public extension EventMessage.FitCodingKeys {
             return .uint8z
         case .rearGear:
             return .uint8z
-        case .timestamp:
-            return .uint32
         }
     }
 

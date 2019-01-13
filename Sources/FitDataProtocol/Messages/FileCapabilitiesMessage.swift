@@ -102,6 +102,11 @@ open class FileCapabilitiesMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .fileType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -141,12 +146,6 @@ open class FileCapabilitiesMessage: FitMessage {
                                                                        definition: definition,
                                                                        dataStrategy: dataStrategy)
 
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -175,6 +174,9 @@ open class FileCapabilitiesMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .fileType:
                 if let _ = fileType { fileDefs.append(key.fieldDefinition()) }
             case .fileFlags:
@@ -193,10 +195,6 @@ open class FileCapabilitiesMessage: FitMessage {
                 if let _ = maxCount { fileDefs.append(key.fieldDefinition()) }
             case .maxSize:
                 if let _ = maxSize { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex {
-                    fileDefs.append(key.fieldDefinition())
-                }
             }
         }
 
@@ -232,6 +230,11 @@ open class FileCapabilitiesMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .fileType:
                 if let fileType = fileType {
                     msgData.append(fileType.rawValue)
@@ -259,10 +262,6 @@ open class FileCapabilitiesMessage: FitMessage {
                     msgData.append(Data(from: maxSize.value.littleEndian))
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 

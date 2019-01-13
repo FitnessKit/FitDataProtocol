@@ -32,6 +32,11 @@ extension TotalsMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex       = 254
+        /// Timestamp
+        case timestamp          = 253
+
         /// Total Timer Time
         case timerTime          = 0
         /// Total Distance
@@ -46,11 +51,6 @@ extension TotalsMessage: FitMessageKeys {
         case sessions           = 5
         /// Active Time
         case activeTime         = 6
-
-        /// Timestamp
-        case timestamp          = 253
-        /// Message Index
-        case messageIndex       = 254
     }
 }
 
@@ -59,6 +59,11 @@ public extension TotalsMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+        case .timestamp:
+            return .uint32
+
         case .timerTime:
             return .uint32
         case .distance:
@@ -73,10 +78,6 @@ public extension TotalsMessage.FitCodingKeys {
             return .uint16
         case .activeTime:
             return .uint32
-        case .timestamp:
-            return .uint32
-        case .messageIndex:
-            return .uint16
         }
     }
 

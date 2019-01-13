@@ -32,15 +32,15 @@ extension ExerciseTitleMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex   = 254
+
         /// Category
         case category       = 0
         /// Exercise Name
         case exerciseName   = 1
         /// Step Name
         case stepName       = 2
-
-        /// Message Index
-        case messageIndex   = 254
     }
 }
 
@@ -49,14 +49,15 @@ public extension ExerciseTitleMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .category:
             return .uint16
         case .exerciseName:
             return .uint16
         case .stepName:
             return .string // 200
-        case .messageIndex:
-            return .uint16
         }
     }
 

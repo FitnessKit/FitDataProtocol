@@ -32,6 +32,11 @@ extension WorkoutMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex           = 254
+        /// Timestamp
+        case timestamp              = 253
+
         /// Sport
         case sport                  = 4
         /// Capabilities
@@ -46,11 +51,6 @@ extension WorkoutMessage: FitMessageKeys {
         case poolLength             = 14
         /// Pool Length Unit
         case poolLengthUnit         = 15
-
-        /// Timestamp
-        case timestamp              = 253
-        /// Message Index
-        case messageIndex           = 254
     }
 }
 
@@ -59,6 +59,11 @@ public extension WorkoutMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+        case .timestamp:
+            return .uint32
+
         case .sport:
             return .enumtype
         case .capabilities:
@@ -73,10 +78,6 @@ public extension WorkoutMessage.FitCodingKeys {
             return .uint16
         case .poolLengthUnit:
             return .enumtype
-        case .timestamp:
-            return .uint32
-        case .messageIndex:
-            return .uint16
         }
     }
 

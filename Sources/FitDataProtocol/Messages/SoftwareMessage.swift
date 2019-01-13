@@ -85,6 +85,11 @@ open class SoftwareMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .version:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -97,12 +102,6 @@ open class SoftwareMessage: FitMessage {
                                                definition: definition,
                                                data: fieldData,
                                                dataStrategy: dataStrategy)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
 
                 }
             }
@@ -129,6 +128,9 @@ open class SoftwareMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .version:
                 if let _ = version { fileDefs.append(key.fieldDefinition()) }
             case .partNumber:
@@ -141,8 +143,6 @@ open class SoftwareMessage: FitMessage {
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -178,6 +178,11 @@ open class SoftwareMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .version:
                 if let version = version {
                     msgData.append(Data(from: version.value.littleEndian))
@@ -188,11 +193,6 @@ open class SoftwareMessage: FitMessage {
                     if let stringData = partNumber.data(using: .utf8) {
                         msgData.append(stringData)
                     }
-                }
-
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
                 }
             }
         }

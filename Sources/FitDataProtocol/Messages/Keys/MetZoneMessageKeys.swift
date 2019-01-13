@@ -32,15 +32,15 @@ extension MetZoneMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex   = 254
+
         /// High Beats Per Minute
         case highBpm        = 1
         /// Calories
         case calories       = 2
         /// Fat Calories
         case fatCalories    = 3
-
-        /// Message Index
-        case messageIndex   = 254
     }
 }
 
@@ -49,13 +49,14 @@ public extension MetZoneMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .highBpm:
             return .uint8
         case .calories:
             return .uint16
         case .fatCalories:
-            return .uint16
-        case .messageIndex:
             return .uint16
         }
     }
