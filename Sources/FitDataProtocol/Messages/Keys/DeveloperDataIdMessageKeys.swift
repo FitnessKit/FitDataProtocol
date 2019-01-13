@@ -68,7 +68,6 @@ internal extension DeveloperDataIdMessage.FitCodingKeys {
 
     /// Key Base Type Resolution
     var resolution: Resolution {
-
         switch self {
         case .developerId:
             return Resolution(scale: 1.0, offset: 0.0)

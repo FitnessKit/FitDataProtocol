@@ -233,7 +233,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
             return defMessage
         } else {
-            throw FitError(.encodeError(msg: "StrideSpeedDistanceMonitorProfileMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
     }
 
@@ -247,7 +247,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding StrideSpeedDistanceMonitorProfileMessage"))
+            throw self.encodeWrongDefinitionMessage()
         }
 
         var msgData = Data()
@@ -308,9 +308,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
         if msgData.count > 0 {
             return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
-            throw FitError(.encodeError(msg: "StrideSpeedDistanceMonitorProfileMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
-
     }
-
 }

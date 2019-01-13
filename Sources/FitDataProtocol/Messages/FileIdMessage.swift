@@ -222,7 +222,7 @@ open class FileIdMessage: FitMessage {
 
             return defMessage
         } else {
-            throw FitError(.encodeError(msg: "FileIdMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
     }
 
@@ -236,7 +236,7 @@ open class FileIdMessage: FitMessage {
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding FileIdMessage"))
+            throw self.encodeWrongDefinitionMessage()
         }
 
         var msgData = Data()
@@ -286,9 +286,7 @@ open class FileIdMessage: FitMessage {
         if msgData.count > 0 {
             return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
-            throw FitError(.encodeError(msg: "FileIdMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
-
     }
-
 }

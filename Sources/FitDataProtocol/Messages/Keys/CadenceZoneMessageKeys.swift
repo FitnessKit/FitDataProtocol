@@ -63,7 +63,6 @@ internal extension CadenceZoneMessage.FitCodingKeys {
 
     /// Key Base Type Resolution
     var resolution: Resolution {
-
         switch self {
         case .messageIndex:
             return Resolution(scale: 1.0, offset: 0.0)

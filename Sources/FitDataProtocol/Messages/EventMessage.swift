@@ -234,7 +234,7 @@ open class EventMessage: FitMessage {
 
             return defMessage
         } else {
-            throw FitError(.encodeError(msg: "EventMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
     }
 
@@ -248,7 +248,7 @@ open class EventMessage: FitMessage {
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding EventMessage"))
+            throw self.encodeWrongDefinitionMessage()
         }
 
         var msgData = Data()
@@ -263,27 +263,32 @@ open class EventMessage: FitMessage {
 
             case .event:
                 if let event = event {
-                    msgData.append(event.rawValue)
+                    let valueData = try key.encodeKeyed(value: event.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .eventType:
                 if let eventType = eventType {
-                    msgData.append(eventType.rawValue)
+                    let valueData = try key.encodeKeyed(value: eventType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .data16:
                 if let data16 = eventData {
-                    msgData.append(Data(from: data16.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: data16.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .data32:
                 if let data32 = eventMoreData {
-                    msgData.append(Data(from: data32.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: data32.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
-                    msgData.append(eventGroup.value)
+                    let valueData = try key.encodeKeyed(value: eventGroup.value)
+                    msgData.append(valueData)
                 }
 
             case .score:
@@ -305,10 +310,9 @@ open class EventMessage: FitMessage {
         if msgData.count > 0 {
             return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
-            throw FitError(.encodeError(msg: "EventMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
     }
-
 }
 
 private extension EventMessage {

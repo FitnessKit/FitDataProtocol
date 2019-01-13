@@ -178,7 +178,7 @@ open class HeartrateProfileMessage: FitMessage {
 
             return defMessage
         } else {
-            throw FitError(.encodeError(msg: "HeartrateProfileMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
     }
 
@@ -192,7 +192,7 @@ open class HeartrateProfileMessage: FitMessage {
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding HeartrateProfileMessage"))
+            throw self.encodeWrongDefinitionMessage()
         }
 
         var msgData = Data()
@@ -231,8 +231,7 @@ open class HeartrateProfileMessage: FitMessage {
         if msgData.count > 0 {
             return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
-            throw FitError(.encodeError(msg: "HeartrateProfileMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
     }
-
 }

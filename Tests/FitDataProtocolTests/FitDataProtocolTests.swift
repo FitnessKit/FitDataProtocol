@@ -21,6 +21,8 @@ class FitDataProtocolTests: XCTestCase {
                                   eventType: nil,
                                   eventGroup: nil)
 
+        print(act.messageName)
+
         let fiel = FileIdMessage(deviceSerialNumber: ValidatedBinaryInteger(value: UInt32(22), valid: true),
                                  fileCreationDate: fTime,
                                  manufacturer: Manufacturer.northPoleEngineering,

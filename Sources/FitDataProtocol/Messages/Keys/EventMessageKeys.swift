@@ -92,7 +92,60 @@ public extension EventMessage.FitCodingKeys {
             return .uint8z
         }
     }
+}
 
+internal extension EventMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .event:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .eventType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .data16:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .data32:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .eventGroup:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .score:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .opponentScore:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .frontGearNumber:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .frontGear:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .rearGearNumber:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .rearGear:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension EventMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension EventMessage.FitCodingKeys {

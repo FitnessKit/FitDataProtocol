@@ -26,7 +26,6 @@ import Foundation
 
 /// FitDataProtocol Error Reasons
 public enum ErrorReasons {
-
     /// Protocol Version Not Supported
     case protocolVersionNotSupported
     /// Not a Fit File

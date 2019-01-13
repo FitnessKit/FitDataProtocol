@@ -177,7 +177,7 @@ open class ExerciseTitleMessage: FitMessage {
 
             return defMessage
         } else {
-            throw FitError(.encodeError(msg: "ExerciseTitleMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
     }
 
@@ -191,7 +191,7 @@ open class ExerciseTitleMessage: FitMessage {
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding ExerciseTitleMessage"))
+            throw self.encodeWrongDefinitionMessage()
         }
 
         var msgData = Data()
@@ -206,12 +206,14 @@ open class ExerciseTitleMessage: FitMessage {
 
             case .category:
                 if let category = category {
-                    msgData.append(Data(from: category.rawValue.littleEndian))
+                    let valueData = try key.encodeKeyed(value: category.rawValue.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .exerciseName:
                 if let exerciseName = exerciseName {
-                    msgData.append(Data(from: exerciseName.number.littleEndian))
+                    let valueData = try key.encodeKeyed(value: exerciseName.number.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .stepName:
@@ -227,8 +229,7 @@ open class ExerciseTitleMessage: FitMessage {
         if msgData.count > 0 {
             return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
-            throw FitError(.encodeError(msg: "ExerciseTitleMessage contains no Properties Available to Encode"))
+            throw self.encodeNoPropertiesAvailable()
         }
     }
-
 }

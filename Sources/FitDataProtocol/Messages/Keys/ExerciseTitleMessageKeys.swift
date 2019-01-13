@@ -60,8 +60,46 @@ public extension ExerciseTitleMessage.FitCodingKeys {
             return .string // 200
         }
     }
-
 }
+
+internal extension ExerciseTitleMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .category:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .exerciseName:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .stepName:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension ExerciseTitleMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
+
 
 internal extension ExerciseTitleMessage.FitCodingKeys {
 

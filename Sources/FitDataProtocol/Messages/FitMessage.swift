@@ -145,6 +145,23 @@ internal extension FitMessage {
 
 internal extension FitMessage {
 
+    /// Create a FitError for Wrong DefinitionMessage for FitMessage
+    ///
+    /// - Parameter messageType: FitMessage Name
+    /// - Returns: FitError
+    internal func encodeWrongDefinitionMessage() -> FitError {
+        return FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding \(self.messageName)"))
+    }
+
+    internal func encodeNoPropertiesAvailable() -> FitError {
+        return FitError(.encodeError(msg: "\(self.messageName) contains no Properties Available to Encode"))
+    }
+
+    /// Name of the FitMessage
+    internal var messageName: String {
+        return String(describing: self)
+    }
+
     /// Encofed Data Message with Header
     ///
     /// - Parameters:
