@@ -32,6 +32,9 @@ extension DeviceInfoMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Timestamp
+        case timestamp          = 253
+
         /// Device Index
         case deviceIndex        = 0
         /// Device Type
@@ -66,9 +69,6 @@ extension DeviceInfoMessage: FitMessageKeys {
         case sourcetype         = 25
         /// Product Name
         case productName        = 27
-
-        /// Timestamp
-        case timestamp          = 253
     }
 }
 
@@ -77,6 +77,9 @@ public extension DeviceInfoMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .timestamp:
+            return .uint32
+
         case .deviceIndex:
             return .uint8
         case .deviceType:
@@ -111,11 +114,76 @@ public extension DeviceInfoMessage.FitCodingKeys {
             return .enumtype
         case .productName:
             return .string //20
-        case .timestamp:
-            return .uint32
         }
     }
+}
 
+internal extension DeviceInfoMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+
+        switch self {
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .deviceIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .deviceType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .manufacturer:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .serialNumber:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .product:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .softwareVersion:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .hardwareVersion:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .cumulativeOpTime:
+            // 1 * s + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .batteryVoltage:
+            // 256 * V + 0
+            return Resolution(scale: 256.0, offset: 0.0)
+        case .batteryStatus:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .sensorPosition:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .description:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .transmissionType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .deviceNumber:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .antNetwork:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .sourcetype:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .productName:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension DeviceInfoMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension DeviceInfoMessage.FitCodingKeys {

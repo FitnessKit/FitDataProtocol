@@ -95,8 +95,60 @@ public extension ConnectivityMessage.FitCodingKeys {
             return .enumtype
         }
     }
-
 }
+
+internal extension ConnectivityMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+
+        switch self {
+        case .bluetoothEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .bluetoothLowEnergyEnable:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .antEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .connectivityName:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .liveTrackingEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .weatherConditionsEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .weatherAlertsEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .autoActivityUploadEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .courseDownloadEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .workoutDownloadEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .gpsEphemerisDownloadEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .incidentDetectionEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .groupTrackEnabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension ConnectivityMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
+
 
 internal extension ConnectivityMessage.FitCodingKeys {
 

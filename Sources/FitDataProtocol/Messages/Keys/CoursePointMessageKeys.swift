@@ -32,6 +32,9 @@ extension CoursePointMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex   = 254
+
         /// Timestamp
         case timestamp      = 1
         /// Latitude
@@ -46,9 +49,6 @@ extension CoursePointMessage: FitMessageKeys {
         case name           = 6
         /// Favorite
         case favorite       = 7
-
-        /// Message Index
-        case messageIndex   = 254
     }
 }
 
@@ -57,6 +57,9 @@ public extension CoursePointMessage.FitCodingKeys {
     /// Key Base Type
     public var baseType: BaseType {
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .timestamp:
             return .uint32
         case .latitude:
@@ -71,11 +74,53 @@ public extension CoursePointMessage.FitCodingKeys {
             return .string
         case .favorite:
             return .enumtype
-        case .messageIndex:
-            return .uint16
         }
     }
+}
 
+internal extension CoursePointMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .latitude:
+            // 1 * semicircles + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .longitude:
+            // 1 * semicircles + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .distance:
+            // 100 * m + 0
+            return Resolution(scale: 100.0, offset: 0.0)
+        case .pointType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .name:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .favorite:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension CoursePointMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension CoursePointMessage.FitCodingKeys {

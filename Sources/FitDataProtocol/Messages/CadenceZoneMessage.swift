@@ -88,6 +88,11 @@ open class CadenceZoneMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
 
                 case .highValue:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
@@ -107,12 +112,6 @@ open class CadenceZoneMessage: FitMessage {
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
 
                 }
             }
@@ -139,6 +138,9 @@ open class CadenceZoneMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .highValue:
                 if let _ = highLevel { fileDefs.append(key.fieldDefinition()) }
             case .name:
@@ -151,8 +153,6 @@ open class CadenceZoneMessage: FitMessage {
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
 
             }
         }
@@ -189,12 +189,15 @@ open class CadenceZoneMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .highValue:
                 if let heartRate = highLevel {
-                    // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
-
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    msgData.append(valueData)
                 }
 
             case .name:
@@ -204,22 +207,11 @@ open class CadenceZoneMessage: FitMessage {
                     }
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 
         if msgData.count > 0 {
-            var encodedMsg = Data()
-
-            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
-            encodedMsg.append(recHeader.normalHeader)
-            encodedMsg.append(msgData)
-
-            return encodedMsg
-
+            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
             throw FitError(.encodeError(msg: "CadenceZoneMessage contains no Properties Available to Encode"))
         }

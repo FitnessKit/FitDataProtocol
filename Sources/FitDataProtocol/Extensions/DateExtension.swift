@@ -41,7 +41,7 @@ internal extension Date {
         c.month = month
         c.day = day
 
-        let gregorian = NSCalendar(identifier:NSCalendar.Identifier.gregorian)!
+        let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
 
         let date = gregorian.date(from: c)
         self.init(timeInterval:0, since:date!)

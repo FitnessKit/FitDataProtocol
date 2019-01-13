@@ -140,6 +140,11 @@ open class BloodPressureMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .timestamp:
+                    timeStamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 case .systolicPressure:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -231,12 +236,6 @@ open class BloodPressureMessage: FitMessage {
                     if value.isValidForBaseType(definition.baseType) {
                         userProfileIndex = MessageIndex(value: value)
                     }
-                    
-                case .timestamp:
-                    timeStamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
 
                 }
             }
@@ -271,6 +270,9 @@ open class BloodPressureMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .systolicPressure:
                 if let _ = systolicPressure { fileDefs.append(key.fieldDefinition()) }
             case .diastolicPressure:
@@ -291,8 +293,6 @@ open class BloodPressureMessage: FitMessage {
                 if let _ = status { fileDefs.append(key.fieldDefinition()) }
             case .userProfileIndex:
                 if let _ = userProfileIndex { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -328,76 +328,69 @@ open class BloodPressureMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
             case .systolicPressure:
                 if var systolicPressure = systolicPressure {
-                    // 1 * mmHg + 0
                     systolicPressure = systolicPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = systolicPressure.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: systolicPressure.value)
+                    msgData.append(valueData)
                 }
 
             case .diastolicPressure:
                 if var diastolicPressure = diastolicPressure {
-                    // 1 * mmHg + 0
                     diastolicPressure = diastolicPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = diastolicPressure.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: diastolicPressure.value)
+                    msgData.append(valueData)
                 }
 
             case .meanArterialPressure:
                 if var meanArterialPressure = meanArterialPressure {
-                    // 1 * mmHg + 0
                     meanArterialPressure = meanArterialPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = meanArterialPressure.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: meanArterialPressure.value)
+                    msgData.append(valueData)
                 }
 
             case .mapSampleMean:
                 if var mapSampleMean = mapSampleMean {
-                    // 1 * mmHg + 0
                     mapSampleMean = mapSampleMean.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = mapSampleMean.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: mapSampleMean.value)
+                    msgData.append(valueData)
                 }
 
             case .mapMorningValues:
                 if var mapMorningValues = mapMorningValues {
-                    // 1 * mmHg + 0
                     mapMorningValues = mapMorningValues.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = mapMorningValues.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: mapMorningValues.value)
+                    msgData.append(valueData)
                 }
 
             case .mapEveningValues:
                 if var mapEveningValues = mapEveningValues {
-                    // 1 * mmHg + 0
                     mapEveningValues = mapEveningValues.converted(to: UnitPressure.millimetersOfMercury)
-                    let value = mapEveningValues.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: mapEveningValues.value)
+                    msgData.append(valueData)
                 }
 
             case .heartRate:
                 if let heartRate = heartRate {
-                    // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
-
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    msgData.append(valueData)
                 }
 
             case .heartRateType:
                 if let heartRateType = heartRateType {
-                    msgData.append(heartRateType.rawValue)
+                    let valueData = try key.encodeKeyed(value: heartRateType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .status:
                 if let status = status {
-                    msgData.append(status.rawValue)
+                    let valueData = try key.encodeKeyed(value: status.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .userProfileIndex:
@@ -405,22 +398,11 @@ open class BloodPressureMessage: FitMessage {
                     msgData.append(userProfileIndex.encode())
                 }
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
             }
         }
 
         if msgData.count > 0 {
-            var encodedMsg = Data()
-
-            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
-            encodedMsg.append(recHeader.normalHeader)
-            encodedMsg.append(msgData)
-
-            return encodedMsg
-
+            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
             throw FitError(.encodeError(msg: "BloodPressureMessage contains no Properties Available to Encode"))
         }

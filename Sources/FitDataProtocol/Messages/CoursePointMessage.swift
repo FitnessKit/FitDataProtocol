@@ -114,6 +114,17 @@ open class CoursePointMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .messageIndex:
+                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
+                                                       endian: arch,
+                                                       definition: definition,
+                                                       data: fieldData)
+
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 case .latitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
@@ -171,18 +182,6 @@ open class CoursePointMessage: FitMessage {
                         isFavorite = value.boolValue
                     }
 
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
                 }
             }
         }
@@ -215,6 +214,9 @@ open class CoursePointMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
+
             case .timestamp:
                 if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             case .latitude:
@@ -237,9 +239,6 @@ open class CoursePointMessage: FitMessage {
                 }
             case .favorite:
                 if let _ = isFavorite { fileDefs.append(key.fieldDefinition()) }
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
             }
         }
 
@@ -275,6 +274,11 @@ open class CoursePointMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .messageIndex:
+                if let messageIndex = messageIndex {
+                    msgData.append(messageIndex.encode())
+                }
+
             case .timestamp:
                 if let timestamp = timeStamp {
                     msgData.append(timestamp.encode())
@@ -282,34 +286,29 @@ open class CoursePointMessage: FitMessage {
 
             case .latitude:
                 if var latitude = position.latitude {
-                    //  1 * semicircles + 0
                     latitude = latitude.converted(to: UnitAngle.garminSemicircle)
-                    let value = latitude.value.resolutionInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: latitude.value)
+                    msgData.append(valueData)
                 }
 
             case .longitude:
                 if var longitude = position.longitude {
-                    //  1 * semicircles + 0
                     longitude = longitude.converted(to: UnitAngle.garminSemicircle)
-                    let value = longitude.value.resolutionInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: longitude.value)
+                    msgData.append(valueData)
                 }
 
             case .distance:
                 if var distance = distance {
-                    //  100 * m + 0
                     distance = distance.converted(to: UnitLength.meters)
-                    let value = distance.value.resolutionUInt32(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: distance.value)
+                    msgData.append(valueData)
                 }
 
             case .pointType:
                 if let pointType = pointType {
-                    msgData.append(pointType.rawValue)
+                    let valueData = try key.encodeKeyed(value: pointType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .name:
@@ -321,25 +320,15 @@ open class CoursePointMessage: FitMessage {
 
             case .favorite:
                 if let favorite = isFavorite {
-                    msgData.append(favorite.uint8Value)
+                    let valueData = try key.encodeKeyed(value: favorite.uint8Value)
+                    msgData.append(valueData)
                 }
 
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
             }
         }
 
         if msgData.count > 0 {
-            var encodedMsg = Data()
-
-            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
-            encodedMsg.append(recHeader.normalHeader)
-            encodedMsg.append(msgData)
-
-            return encodedMsg
-
+            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
             throw FitError(.encodeError(msg: "CoursePointMessage contains no Properties Available to Encode"))
         }

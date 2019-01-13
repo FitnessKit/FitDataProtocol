@@ -1935,7 +1935,6 @@ open class SessionMessage: FitMessage {
                 if let heartRate = minimumHeartRate {
                     // 1 * bpm + 0
                     let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
-
                     msgData.append(value)
                 }
 
@@ -2086,14 +2085,7 @@ open class SessionMessage: FitMessage {
         }
 
         if msgData.count > 0 {
-            var encodedMsg = Data()
-
-            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
-            encodedMsg.append(recHeader.normalHeader)
-            encodedMsg.append(msgData)
-
-            return encodedMsg
-
+            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
             throw FitError(.encodeError(msg: "SessionMessage contains no Properties Available to Encode"))
         }

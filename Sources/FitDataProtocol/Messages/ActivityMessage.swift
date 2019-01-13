@@ -119,6 +119,12 @@ open class ActivityMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .timestamp:
+                    timeStamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
+
                 case .totalTimerTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -164,13 +170,7 @@ open class ActivityMessage: FitMessage {
                                                                          definition: definition,
                                                                          dataStrategy: dataStrategy)
 
-                case .timestamp:
-                    timeStamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
                 }
-
             }
         }
 
@@ -200,8 +200,11 @@ open class ActivityMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .totalTimerTime:
-                if var _ = totalTimerTime { fileDefs.append(key.fieldDefinition()) }
+                if let _ = totalTimerTime { fileDefs.append(key.fieldDefinition()) }
             case .numberOfSessions:
                 if let _ = numberOfSessions { fileDefs.append(key.fieldDefinition()) }
             case .activityType:
@@ -214,8 +217,6 @@ open class ActivityMessage: FitMessage {
                 if let _ = localTimeStamp { fileDefs.append(key.fieldDefinition()) }
             case .eventGroup:
                 if let _ = eventGroup { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -251,33 +252,40 @@ open class ActivityMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
             case .totalTimerTime:
                 if var totalTimerTime = totalTimerTime {
-                    // 1000 * s + 0
                     totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    let value = totalTimerTime.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalTimerTime.value)
+                    msgData.append(valueData)
                 }
 
             case .numberOfSessions:
                 if let numberOfSessions = numberOfSessions {
-                    msgData.append(Data(from: numberOfSessions.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: numberOfSessions.value)
+                    msgData.append(valueData)
                 }
 
             case .activityType:
                 if let activityType = activity {
-                    msgData.append(activityType.rawValue)
+                    let valueData = try key.encodeKeyed(value: activityType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .event:
                 if let event = event {
-                    msgData.append(event.rawValue)
+                    let valueData = try key.encodeKeyed(value: event.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .eventType:
                 if let eventType = eventType {
-                    msgData.append(eventType.rawValue)
+                    let valueData = try key.encodeKeyed(value: eventType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .localTimestamp:
@@ -287,25 +295,15 @@ open class ActivityMessage: FitMessage {
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
-                    msgData.append(eventGroup.value)
+                    let valueData = try key.encodeKeyed(value: eventGroup.value)
+                    msgData.append(valueData)
                 }
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
             }
         }
 
         if msgData.count > 0 {
-            var encodedMsg = Data()
-
-            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
-            encodedMsg.append(recHeader.normalHeader)
-            encodedMsg.append(msgData)
-
-            return encodedMsg
-
+            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
             throw FitError(.encodeError(msg: "ActivityMessage contains no Properties Available to Encode"))
         }

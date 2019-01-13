@@ -32,6 +32,9 @@ extension BloodPressureMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Timestamp
+        case timestamp              = 253
+
         /// Systolic Pressure
         case systolicPressure       = 0
         /// Diastolic Pressure
@@ -52,10 +55,6 @@ extension BloodPressureMessage: FitMessageKeys {
         case status                 = 8
         /// User Profile Index
         case userProfileIndex       = 9
-
-        /// Timestamp
-        case timestamp              = 253
-
     }
 }
 
@@ -65,6 +64,9 @@ public extension BloodPressureMessage.FitCodingKeys {
     public var baseType: BaseType {
 
         switch self {
+        case .timestamp:
+            return .uint32
+
         case .systolicPressure:
             return .uint16
         case .diastolicPressure:
@@ -85,13 +87,67 @@ public extension BloodPressureMessage.FitCodingKeys {
             return .enumtype
         case .userProfileIndex:
             return .uint16
-        case .timestamp:
-            return .uint32
         }
     }
-
 }
 
+internal extension BloodPressureMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+
+        switch self {
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .systolicPressure:
+            // 1 * mmHg + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .diastolicPressure:
+            // 1 * mmHg + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .meanArterialPressure:
+            // 1 * mmHg + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .mapSampleMean:
+            // 1 * mmHg + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .mapMorningValues:
+            // 1 * mmHg + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .mapEveningValues:
+            // 1 * mmHg + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .heartRate:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .heartRateType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .status:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .userProfileIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension BloodPressureMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
+
+// Field Definitions
 internal extension BloodPressureMessage.FitCodingKeys {
 
     /// Create a Field Definition Message From the Key

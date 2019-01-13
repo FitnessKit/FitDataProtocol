@@ -143,6 +143,26 @@ internal extension FitMessage {
 
 }
 
+internal extension FitMessage {
+
+    /// Encofed Data Message with Header
+    ///
+    /// - Parameters:
+    ///   - localMessageType: Local Message Type
+    ///   - msgData: Message Data
+    /// - Returns: Encoded DataMessage
+    internal func encodedDataMessage(localMessageType: UInt8, msgData: Data) -> Data {
+        var encodedMsg = Data()
+
+        let recHeader = RecordHeader(localMessageType: localMessageType,
+                                     isDataMessage: true).normalHeader
+        encodedMsg.append(recHeader)
+        encodedMsg.append(msgData)
+
+        return encodedMsg
+    }
+}
+
 //MARK: - Preferred Values
 internal extension FitMessage {
 

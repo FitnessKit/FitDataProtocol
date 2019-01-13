@@ -178,6 +178,11 @@ open class DeviceInfoMessage: FitMessage {
 
             case .some(let converter):
                 switch converter {
+                case .timestamp:
+                    timestamp = FitTime.decode(decoder: &localDecoder,
+                                               endian: arch,
+                                               definition: definition,
+                                               data: fieldData)
 
                 case .deviceIndex:
                     deviceIndex = DeviceIndex.decode(decoder: &localDecoder,
@@ -287,12 +292,6 @@ open class DeviceInfoMessage: FitMessage {
                                                 data: fieldData,
                                                 dataStrategy: dataStrategy)
 
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
                 }
             }
         }
@@ -333,6 +332,9 @@ open class DeviceInfoMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
+
             case .deviceIndex:
                 if let _ = deviceIndex { fileDefs.append(key.fieldDefinition()) }
             case .deviceType:
@@ -383,8 +385,6 @@ open class DeviceInfoMessage: FitMessage {
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                 }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -420,67 +420,77 @@ open class DeviceInfoMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
+            case .timestamp:
+                if let timestamp = timeStamp {
+                    msgData.append(timestamp.encode())
+                }
+
             case .deviceIndex:
                 if let deviceIndex = deviceIndex {
-                    msgData.append(deviceIndex.index)
+                    let valueData = try key.encodeKeyed(value: deviceIndex.index)
+                    msgData.append(valueData)
                 }
 
             case .deviceType:
                 if let deviceType = deviceType {
-                    msgData.append(deviceType.rawValue)
+                    let valueData = try key.encodeKeyed(value: deviceType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .serialNumber:
                 if let serialNumber = serialNumber {
-                    msgData.append(Data(from: serialNumber.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: serialNumber.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .product:
                 if let product = product {
-                    msgData.append(Data(from: product.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: product.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .softwareVersion:
                 if let softwareVersion = softwareVersion {
-                    msgData.append(Data(from: softwareVersion.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: softwareVersion.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .hardwareVersion:
                 if let hardwareVersion = hardwareVersion {
-                    msgData.append(hardwareVersion.value)
+                    let valueData = try key.encodeKeyed(value: hardwareVersion.value)
+                    msgData.append(valueData)
                 }
 
             case .cumulativeOpTime:
                 if var cumulativeOpTime = cumulativeOpTime {
-                    // 1 * s + 0
                     cumulativeOpTime = cumulativeOpTime.converted(to: UnitDuration.seconds)
-                    let value = cumulativeOpTime.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: cumulativeOpTime.value)
+                    msgData.append(valueData)
                 }
 
             case .batteryVoltage:
                 if var batteryVoltage = batteryVoltage {
-                    // 256 * V + 0
                     batteryVoltage = batteryVoltage.converted(to: UnitElectricPotentialDifference.volts)
-                    let value = batteryVoltage.value.resolutionUInt16(256, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: batteryVoltage.value)
+                    msgData.append(valueData)
                 }
 
             case .batteryStatus:
                 if let batteryStatus = batteryStatus {
-                    msgData.append(batteryStatus.rawValue)
+                    let valueData = try key.encodeKeyed(value: batteryStatus.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .sensorPosition:
                 if let sensorPosition = bodylocation {
-                    msgData.append(sensorPosition.rawValue)
+                    let valueData = try key.encodeKeyed(value: sensorPosition.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .description:
@@ -492,22 +502,26 @@ open class DeviceInfoMessage: FitMessage {
 
             case .transmissionType:
                 if let transmissionType = transmissionType {
-                    msgData.append(transmissionType.rawValue)
+                    let valueData = try key.encodeKeyed(value: transmissionType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .deviceNumber:
                 if let product = deviceNumber {
-                    msgData.append(Data(from: product.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: product.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .antNetwork:
                 if let antNetwork = antNetwork {
-                    msgData.append(antNetwork.rawValue)
+                    let valueData = try key.encodeKeyed(value: antNetwork.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .sourcetype:
                 if let sourcetype = source {
-                    msgData.append(sourcetype.rawValue)
+                    let valueData = try key.encodeKeyed(value: sourcetype.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .productName:
@@ -517,22 +531,11 @@ open class DeviceInfoMessage: FitMessage {
                     }
                 }
 
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
             }
         }
 
         if msgData.count > 0 {
-            var encodedMsg = Data()
-
-            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
-            encodedMsg.append(recHeader.normalHeader)
-            encodedMsg.append(msgData)
-
-            return encodedMsg
-
+            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
             throw FitError(.encodeError(msg: "DeviceInfoMessage contains no Properties Available to Encode"))
         }

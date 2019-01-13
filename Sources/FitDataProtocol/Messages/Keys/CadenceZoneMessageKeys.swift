@@ -32,13 +32,13 @@ extension CadenceZoneMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Message Index
+        case messageIndex   = 254
+
         /// High Value
         case highValue      = 0
         /// Name
         case name           = 1
-
-        /// Message Index
-        case messageIndex   = 254
     }
 }
 
@@ -48,16 +48,51 @@ public extension CadenceZoneMessage.FitCodingKeys {
     public var baseType: BaseType {
 
         switch self {
+        case .messageIndex:
+            return .uint16
+
         case .highValue:
             return .uint8
         case .name:
             return .string
-        case .messageIndex:
-            return .uint16
         }
     }
-
 }
+
+internal extension CadenceZoneMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .highValue:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .name:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension CadenceZoneMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
+
 
 internal extension CadenceZoneMessage.FitCodingKeys {
 

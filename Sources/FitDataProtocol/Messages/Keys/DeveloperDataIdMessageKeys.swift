@@ -62,8 +62,48 @@ public extension DeveloperDataIdMessage.FitCodingKeys {
             return .byte
         }
     }
-
 }
+
+internal extension DeveloperDataIdMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+
+        switch self {
+        case .developerId:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .applicationId:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .manufacturerId:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .dataIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .applicationVersion:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension DeveloperDataIdMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
+
 
 internal extension DeveloperDataIdMessage.FitCodingKeys {
 

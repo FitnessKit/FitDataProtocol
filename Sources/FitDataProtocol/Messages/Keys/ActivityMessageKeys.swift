@@ -58,6 +58,9 @@ public extension ActivityMessage.FitCodingKeys {
     public var baseType: BaseType {
 
         switch self {
+        case .timestamp:
+            return .uint32
+
         case .totalTimerTime:
             return .uint32
         case .numberOfSessions:
@@ -72,12 +75,56 @@ public extension ActivityMessage.FitCodingKeys {
             return .uint32
         case .eventGroup:
             return .uint8
-        case .timestamp:
-            return .uint32
         }
     }
 }
 
+internal extension ActivityMessage.FitCodingKeys {
+    
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+
+        switch self {
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .totalTimerTime:
+            // 1000 * s + 0
+            return Resolution(scale: 1000.0, offset: 0.0)
+        case .numberOfSessions:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .activityType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .event:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .eventType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .localTimestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .eventGroup:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension ActivityMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
+
+
+// Field Definitions
 internal extension ActivityMessage.FitCodingKeys {
 
     /// Create a Field Definition Message From the Key

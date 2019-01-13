@@ -10,9 +10,10 @@ class FitDataProtocolTests: XCTestCase {
 
         let fTime = FitTime(date: Date())
 
+        let timer = Measurement(value: 200.0, unit: UnitDuration.seconds)
 
         let act = ActivityMessage(timeStamp: fTime,
-                                  totalTimerTime: nil,
+                                  totalTimerTime: timer,
                                   localTimeStamp: nil,
                                   numberOfSessions: ValidatedBinaryInteger(value: UInt16(22), valid: true),
                                   activity: Activity.multisport,

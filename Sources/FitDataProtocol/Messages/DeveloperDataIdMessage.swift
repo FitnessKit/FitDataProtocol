@@ -228,30 +228,26 @@ open class DeveloperDataIdMessage: FitMessage {
 
             case .manufacturerId:
                 if let manufacturer = manufacturer {
-                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .dataIndex:
                 if let dataIndex = dataIndex {
-                    msgData.append(dataIndex.value)
+                    let valueData = try key.encodeKeyed(value: dataIndex.value)
+                    msgData.append(valueData)
                 }
 
             case .applicationVersion:
                 if let applicationVersion = applicationVersion {
-                    msgData.append(Data(from: applicationVersion.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: applicationVersion.value.littleEndian)
+                    msgData.append(valueData)
                 }
             }
         }
 
         if msgData.count > 0 {
-            var encodedMsg = Data()
-
-            let recHeader = RecordHeader(localMessageType: localMessageType, isDataMessage: true)
-            encodedMsg.append(recHeader.normalHeader)
-            encodedMsg.append(msgData)
-
-            return encodedMsg
-
+            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
         } else {
             throw FitError(.encodeError(msg: "DeveloperDataIdMessage contains no Properties Available to Encode"))
         }
