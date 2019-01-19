@@ -70,7 +70,6 @@ public extension FileIdMessage.FitCodingKeys {
             return .string //20
         }
     }
-
 }
 
 internal extension FileIdMessage.FitCodingKeys {
