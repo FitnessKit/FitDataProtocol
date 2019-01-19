@@ -258,7 +258,7 @@ open class FileIdMessage: FitMessage {
 
             case .product:
                 if let product = product {
-                    let valueData = try key.encodeKeyed(value: product.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: product)
                     msgData.append(valueData)
                 }
 
@@ -275,7 +275,7 @@ open class FileIdMessage: FitMessage {
 
             case .fileNumber:
                 if let fileNumber = fileNumber {
-                    let valueData = try key.encodeKeyed(value: fileNumber.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: fileNumber)
                     msgData.append(valueData)
                 }
 

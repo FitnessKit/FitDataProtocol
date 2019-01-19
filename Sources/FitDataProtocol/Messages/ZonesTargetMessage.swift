@@ -235,7 +235,7 @@ open class ZonesTargetMessage: FitMessage {
 
             case .functionalThresholdPower:
                 if let ftp = ftp {
-                    let valueData = try key.encodeKeyed(value: ftp.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: ftp)
                     msgData.append(valueData)
                 }
 

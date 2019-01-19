@@ -266,25 +266,25 @@ open class ActivityMessage: FitMessage {
 
             case .numberOfSessions:
                 if let numberOfSessions = numberOfSessions {
-                    let valueData = try key.encodeKeyed(value: numberOfSessions.value)
+                    let valueData = try key.encodeKeyed(value: numberOfSessions)
                     msgData.append(valueData)
                 }
 
             case .activityType:
                 if let activityType = activity {
-                    let valueData = try key.encodeKeyed(value: activityType.rawValue)
+                    let valueData = try key.encodeKeyed(value: activityType)
                     msgData.append(valueData)
                 }
 
             case .event:
                 if let event = event {
-                    let valueData = try key.encodeKeyed(value: event.rawValue)
+                    let valueData = try key.encodeKeyed(value: event)
                     msgData.append(valueData)
                 }
 
             case .eventType:
                 if let eventType = eventType {
-                    let valueData = try key.encodeKeyed(value: eventType.rawValue)
+                    let valueData = try key.encodeKeyed(value: eventType)
                     msgData.append(valueData)
                 }
 
@@ -295,7 +295,7 @@ open class ActivityMessage: FitMessage {
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
-                    let valueData = try key.encodeKeyed(value: eventGroup.value)
+                    let valueData = try key.encodeKeyed(value: eventGroup)
                     msgData.append(valueData)
                 }
 

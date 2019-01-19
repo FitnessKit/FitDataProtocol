@@ -342,13 +342,13 @@ open class GoalMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport.rawValue)
+                    let valueData = try key.encodeKeyed(value: sport)
                     msgData.append(valueData)
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    let valueData = try key.encodeKeyed(value: subSport.rawValue)
+                    let valueData = try key.encodeKeyed(value: subSport)
                     msgData.append(valueData)
                 }
 
@@ -381,8 +381,8 @@ open class GoalMessage: FitMessage {
                 }
 
             case .targetValue:
-                if let recurrenceValue = recurrenceValue {
-                    let valueData = try key.encodeKeyed(value: recurrenceValue.value.littleEndian)
+                if let targetValue = targetValue {
+                    let valueData = try key.encodeKeyed(value: targetValue.value.littleEndian)
                     msgData.append(valueData)
                 }
 
@@ -394,7 +394,7 @@ open class GoalMessage: FitMessage {
 
             case .recurrenceValue:
                 if let recurrenceValue = recurrenceValue {
-                    let valueData = try key.encodeKeyed(value: recurrenceValue.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: recurrenceValue)
                     msgData.append(valueData)
                 }
 

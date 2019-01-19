@@ -451,13 +451,13 @@ open class DeviceInfoMessage: FitMessage {
 
             case .product:
                 if let product = product {
-                    let valueData = try key.encodeKeyed(value: product.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: product)
                     msgData.append(valueData)
                 }
 
             case .softwareVersion:
                 if let softwareVersion = softwareVersion {
-                    let valueData = try key.encodeKeyed(value: softwareVersion.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: softwareVersion)
                     msgData.append(valueData)
                 }
 
@@ -508,7 +508,7 @@ open class DeviceInfoMessage: FitMessage {
 
             case .deviceNumber:
                 if let product = deviceNumber {
-                    let valueData = try key.encodeKeyed(value: product.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: product)
                     msgData.append(valueData)
                 }
 

@@ -263,19 +263,19 @@ open class EventMessage: FitMessage {
 
             case .event:
                 if let event = event {
-                    let valueData = try key.encodeKeyed(value: event.rawValue)
+                    let valueData = try key.encodeKeyed(value: event)
                     msgData.append(valueData)
                 }
 
             case .eventType:
                 if let eventType = eventType {
-                    let valueData = try key.encodeKeyed(value: eventType.rawValue)
+                    let valueData = try key.encodeKeyed(value: eventType)
                     msgData.append(valueData)
                 }
 
             case .data16:
                 if let data16 = eventData {
-                    let valueData = try key.encodeKeyed(value: data16.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: data16)
                     msgData.append(valueData)
                 }
 
@@ -287,7 +287,7 @@ open class EventMessage: FitMessage {
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
-                    let valueData = try key.encodeKeyed(value: eventGroup.value)
+                    let valueData = try key.encodeKeyed(value: eventGroup)
                     msgData.append(valueData)
                 }
 

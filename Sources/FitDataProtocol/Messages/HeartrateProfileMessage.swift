@@ -207,13 +207,13 @@ open class HeartrateProfileMessage: FitMessage {
 
             case .enabled:
                 if let enabled = enabled {
-                    let valueData = try key.encodeKeyed(value: enabled.uint8Value)
+                    let valueData = try key.encodeKeyed(value: enabled)
                     msgData.append(valueData)
                 }
 
             case .antID:
                 if let antID = antID {
-                    let valueData = try key.encodeKeyed(value: antID.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: antID)
                     msgData.append(valueData)
                 }
 

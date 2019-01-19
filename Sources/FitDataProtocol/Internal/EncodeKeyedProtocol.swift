@@ -24,6 +24,7 @@
 
 import Foundation
 import AntMessageProtocol
+import FitnessUnits
 
 /// Protocol for Encoding FitMessage keys
 internal protocol EncodeKeyed {
@@ -31,8 +32,12 @@ internal protocol EncodeKeyed {
     func encodeKeyed(value: Bool) throws -> Data
 
     func encodeKeyed(value: UInt8) throws -> Data
+    
+    func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data
 
     func encodeKeyed(value: UInt16) throws -> Data
+
+    func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data
 
     func encodeKeyed(value: UInt32) throws -> Data
 

@@ -256,7 +256,7 @@ open class FileCapabilitiesMessage: FitMessage {
 
             case .maxCount:
                 if let maxCount = maxCount {
-                    let valueData = try key.encodeKeyed(value: maxCount.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: maxCount)
                     msgData.append(valueData)
                 }
 

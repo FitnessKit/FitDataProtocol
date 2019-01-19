@@ -24,6 +24,7 @@
 
 import Foundation
 import AntMessageProtocol
+import FitnessUnits
 
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
@@ -83,6 +84,18 @@ public extension TotalsMessage.FitCodingKeys {
     }
 
 }
+
+//// Encoding
+//internal extension TotalsMessage.FitCodingKeys {
+//
+//    internal func encodeKeyed(value: Sport) throws -> Data {
+//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+//    }
+//
+//    internal func encodeKeyed(value: SubSport) throws -> Data {
+//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+//    }
+//}
 
 internal extension TotalsMessage.FitCodingKeys {
 

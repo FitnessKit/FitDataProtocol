@@ -24,6 +24,7 @@
 
 import Foundation
 import AntMessageProtocol
+import FitnessUnits
 
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
@@ -248,9 +249,9 @@ internal extension UserProfileMessage.FitCodingKeys {
     internal func encodeKeyed(value: PowerDisplayType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
-
 }
 
+// Encoding
 extension UserProfileMessage.FitCodingKeys: EncodeKeyed {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
@@ -261,7 +262,15 @@ extension UserProfileMessage.FitCodingKeys: EncodeKeyed {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
     internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 

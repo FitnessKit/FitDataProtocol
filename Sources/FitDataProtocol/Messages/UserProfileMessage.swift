@@ -703,7 +703,7 @@ open class UserProfileMessage: FitMessage {
 
             case .localID:
                 if let localID = localID {
-                    let valueData = try key.encodeKeyed(value: localID.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: localID)
                     msgData.append(valueData)
                 }
 

@@ -270,7 +270,7 @@ open class WorkoutMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport.rawValue)
+                    let valueData = try key.encodeKeyed(value: sport)
                     msgData.append(valueData)
                 }
 
@@ -279,7 +279,7 @@ open class WorkoutMessage: FitMessage {
                 
             case .numberOfValidSteps:
                 if let numberOfValidSteps = numberOfValidSteps {
-                    let valueData = try key.encodeKeyed(value: numberOfValidSteps.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: numberOfValidSteps)
                     msgData.append(valueData)
                 }
 
@@ -292,7 +292,7 @@ open class WorkoutMessage: FitMessage {
 
             case .subSport:
                 if let subSport = subSport {
-                    let valueData = try key.encodeKeyed(value: subSport.rawValue)
+                    let valueData = try key.encodeKeyed(value: subSport)
                     msgData.append(valueData)
                 }
 

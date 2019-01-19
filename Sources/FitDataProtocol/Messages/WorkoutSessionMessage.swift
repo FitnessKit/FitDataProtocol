@@ -238,25 +238,25 @@ open class WorkoutSessionMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport.rawValue)
+                    let valueData = try key.encodeKeyed(value: sport)
                     msgData.append(valueData)
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    let valueData = try key.encodeKeyed(value: subSport.rawValue)
+                    let valueData = try key.encodeKeyed(value: subSport)
                     msgData.append(valueData)
                 }
 
             case .numberOfValidSteps:
                 if let numberOfValidSteps = numberOfValidSteps {
-                    let valueData = try key.encodeKeyed(value: numberOfValidSteps.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: numberOfValidSteps)
                     msgData.append(valueData)
                 }
 
             case .firstStepIndex:
                 if let firstStepIndex = firstStepIndex {
-                    let valueData = try key.encodeKeyed(value: firstStepIndex.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: firstStepIndex)
                     msgData.append(valueData)
                 }
 
