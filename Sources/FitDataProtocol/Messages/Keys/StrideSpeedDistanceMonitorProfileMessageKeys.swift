@@ -78,7 +78,75 @@ public extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
             return .uint8
         }
     }
+}
 
+internal extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .enabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .antID:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .calibrationFactor:
+            // 10 * % + 0
+            return Resolution(scale: 10.0, offset: 0.0)
+        case .odometer:
+            // 100 * m + 0
+            return Resolution(scale: 100.0, offset: 0.0)
+        case .speedSource:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .transType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .odometerRollover:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: TransmissionType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+}
+
+// Encoding
+extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {

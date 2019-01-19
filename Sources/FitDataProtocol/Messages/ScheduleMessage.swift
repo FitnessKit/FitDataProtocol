@@ -243,17 +243,20 @@ open class ScheduleMessage: FitMessage {
             switch key {
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID)
+                    msgData.append(valueData)
                 }
 
             case .product:
                 if let product = product {
-                    msgData.append(Data(from: product.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: product)
+                    msgData.append(valueData)
                 }
 
             case .serialNumber:
                 if let serialNumber = serialNumber {
-                    msgData.append(Data(from: serialNumber.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: serialNumber.value)
+                    msgData.append(valueData)
                 }
 
             case .timeCreated:
@@ -263,12 +266,14 @@ open class ScheduleMessage: FitMessage {
 
             case .completed:
                 if let completed = completed {
-                    msgData.append(completed.uint8Value)
+                    let valueData = try key.encodeKeyed(value: completed)
+                    msgData.append(valueData)
                 }
 
             case .scheduleType:
                 if let scheduleType = scheduleType {
-                    msgData.append(scheduleType.rawValue)
+                    let valueData = try key.encodeKeyed(value: scheduleType)
+                    msgData.append(valueData)
                 }
 
             case .scheduledTime:

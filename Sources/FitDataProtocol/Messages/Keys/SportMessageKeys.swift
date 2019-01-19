@@ -64,17 +64,67 @@ public extension SportMessage.FitCodingKeys {
     }
 }
 
-//// Encoding
-//internal extension SportMessage.FitCodingKeys {
-//
-//    internal func encodeKeyed(value: Sport) throws -> Data {
-//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-//    }
-//
-//    internal func encodeKeyed(value: SubSport) throws -> Data {
-//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-//    }
-//}
+internal extension SportMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .sport:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .subSport:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .name:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension SportMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: Sport) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: SubSport) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
+// Encoding
+extension SportMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
 
 internal extension SportMessage.FitCodingKeys {
 

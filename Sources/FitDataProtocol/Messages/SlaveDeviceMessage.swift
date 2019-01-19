@@ -165,12 +165,14 @@ open class SlaveDeviceMessage: FitMessage {
             switch key {
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID)
+                    msgData.append(valueData)
                 }
 
             case .product:
                 if let product = product {
-                    msgData.append(Data(from: product.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: product)
+                    msgData.append(valueData)
                 }
             }
         }

@@ -184,12 +184,14 @@ open class SportMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    msgData.append(sport.rawValue)
+                    let valueData = try key.encodeKeyed(value: sport)
+                    msgData.append(valueData)
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    msgData.append(subSport.rawValue)
+                    let valueData = try key.encodeKeyed(value: subSport)
+                    msgData.append(valueData)
                 }
 
             case .name:

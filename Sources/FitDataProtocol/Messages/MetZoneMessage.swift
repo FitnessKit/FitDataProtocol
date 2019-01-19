@@ -211,28 +211,22 @@ open class MetZoneMessage: FitMessage {
 
             case .highBpm:
                 if let heartRate = heartRate {
-                    // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
-
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    msgData.append(valueData)
                 }
 
             case .calories:
                 if var calories = calories {
-                    // 10 * kcal / min + 0
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let value = calories.value.resolutionUInt16(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: calories.value)
+                    msgData.append(valueData)
                 }
 
             case .fatCalories:
                 if var fatCalories = fatCalories {
-                    // 10 * kcal / min + 0
                     fatCalories = fatCalories.converted(to: UnitEnergy.kilocalories)
-                    let value = fatCalories.value.resolutionUInt8(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: fatCalories.value)
+                    msgData.append(valueData)
                 }
 
             }

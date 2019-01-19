@@ -185,7 +185,8 @@ open class SoftwareMessage: FitMessage {
 
             case .version:
                 if let version = version {
-                    msgData.append(Data(from: version.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: version)
+                    msgData.append(valueData)
                 }
 
             case .partNumber:

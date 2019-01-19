@@ -262,44 +262,45 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
 
             case .enabled:
                 if let enabled = enabled {
-                    msgData.append(enabled.uint8Value)
+                    let valueData = try key.encodeKeyed(value: enabled)
+                    msgData.append(valueData)
                 }
 
             case .antID:
                 if let antID = antID {
-                    msgData.append(Data(from: antID.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: antID)
+                    msgData.append(valueData)
                 }
 
             case .calibrationFactor:
                 if let calibrationFactor = calibrationFactor {
-                    // 10 * % + 0
-                    let value = calibrationFactor.value.resolutionUInt16(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: calibrationFactor.value)
+                    msgData.append(valueData)
                 }
 
             case .odometer:
                 if var odometer = odometer {
-                    // 100 * m + 0
                     odometer = odometer.converted(to: UnitLength.meters)
-                    let value = odometer.value.resolutionUInt32(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: odometer.value)
+                    msgData.append(valueData)
                 }
 
             case .speedSource:
                 if let speedSource = speedSourceFootpod {
-                    msgData.append(speedSource.uint8Value)
+                    let valueData = try key.encodeKeyed(value: speedSource)
+                    msgData.append(valueData)
                 }
 
             case .transType:
                 if let transmissionType = transmissionType {
-                    msgData.append(transmissionType.rawValue)
+                    let valueData = try key.encodeKeyed(value: transmissionType)
+                    msgData.append(valueData)
                 }
 
             case .odometerRollover:
                 if let odometerRolloverCounter = odometerRolloverCounter {
-                    msgData.append(odometerRolloverCounter)
+                    let valueData = try key.encodeKeyed(value: odometerRolloverCounter)
+                    msgData.append(valueData)
                 }
 
             }

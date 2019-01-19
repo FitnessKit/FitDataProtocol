@@ -188,11 +188,9 @@ open class SpeedZoneMessage: FitMessage {
 
             case .highValue:
                 if var highLevel = highLevel {
-                    // 1000 * m/s + 0
                     highLevel = highLevel.converted(to: UnitSpeed.metersPerSecond)
-                    let value = highLevel.value.resolutionUInt16(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: highLevel.value)
+                    msgData.append(valueData)
                 }
 
             case .name:

@@ -241,29 +241,26 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
 
             case .boardType:
                 if let boardType = leaderType {
-                    msgData.append(boardType.rawValue)
+                    let valueData = try key.encodeKeyed(value: boardType)
+                    msgData.append(valueData)
                 }
 
             case .groupPrimaryKey:
                 if let leaderId = leaderId {
-                    let value = leaderId.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: leaderId.value)
+                    msgData.append(valueData)
                 }
 
             case .activityID:
                 if let activityId = activityId {
-                    let value = activityId.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: activityId.value)
+                    msgData.append(valueData)
                 }
 
             case .segmentTime:
                 if let segmentTime = segmentTime {
-                    /// 1000 * s + 0
-                    let value = segmentTime.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: segmentTime.value)
+                    msgData.append(valueData)
                 }
 
             }

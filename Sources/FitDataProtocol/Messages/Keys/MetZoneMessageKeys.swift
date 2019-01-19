@@ -62,7 +62,59 @@ public extension MetZoneMessage.FitCodingKeys {
             return .uint16
         }
     }
+}
 
+internal extension MetZoneMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .highBpm:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .calories:
+            // 10 * kcal / min + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .fatCalories:
+            // 10 * kcal / min + 0
+            return Resolution(scale: 10.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+extension MetZoneMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension MetZoneMessage.FitCodingKeys {

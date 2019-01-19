@@ -291,57 +291,49 @@ open class TotalsMessage: FitMessage {
 
             case .timerTime:
                 if var timerTime = timerTime {
-                    // 1 * s + 0
                     timerTime = timerTime.converted(to: UnitDuration.seconds)
-                    let value = timerTime.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: timerTime.value)
+                    msgData.append(valueData)
                 }
 
             case .distance:
                 if var distance = distance {
-                    // 1 * m + 0
                     distance = distance.converted(to: UnitLength.meters)
-                    let value = distance.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: distance.value)
+                    msgData.append(valueData)
                 }
 
             case .calories:
                 if var calories = calories {
-                    // 1 * kcal + 0
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let value = calories.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: calories.value)
+                    msgData.append(valueData)
                 }
 
             case .sport:
                 if let sport = sport {
-                    msgData.append(sport.rawValue)
+                    let valueData = try key.encodeKeyed(value: sport)
+                    msgData.append(valueData)
                 }
 
             case .elapsedTime:
                 if var elapsedTime = elapsedTime {
-                    // 1 * s + 0
                     elapsedTime = elapsedTime.converted(to: UnitDuration.seconds)
-                    let value = elapsedTime.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: elapsedTime.value)
+                    msgData.append(valueData)
                 }
 
             case .sessions:
                 if let sessions = sessions {
-                    msgData.append(Data(from: sessions.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: sessions.value)
+                    msgData.append(valueData)
                 }
 
             case .activeTime:
                 if var activeTime = activeTime {
-                    // 1 * s + 0
                     activeTime = activeTime.converted(to: UnitDuration.seconds)
-                    let value = activeTime.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: activeTime.value)
+                    msgData.append(valueData)
                 }
 
             }

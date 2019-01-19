@@ -188,11 +188,9 @@ open class PowerZoneMessage: FitMessage {
 
             case .highValue:
                 if var highLevel = highLevel {
-                    // 1 * watts + 0
                     highLevel = highLevel.converted(to: UnitPower.watts)
-                    let value = highLevel.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: highLevel.value)
+                    msgData.append(valueData)
                 }
 
             case .name:

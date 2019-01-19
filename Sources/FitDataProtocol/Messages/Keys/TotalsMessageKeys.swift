@@ -82,20 +82,89 @@ public extension TotalsMessage.FitCodingKeys {
             return .uint32
         }
     }
+}
+
+internal extension TotalsMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .timerTime:
+            // 1 * s + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .distance:
+            // 1 * m + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .calories:
+            // 1 * kcal + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .sport:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .elapsedTime:
+            // 1 * s + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .sessions:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .activeTime:
+            // 1 * s + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension TotalsMessage.FitCodingKeys {
 
 }
 
-//// Encoding
-//internal extension TotalsMessage.FitCodingKeys {
-//
-//    internal func encodeKeyed(value: Sport) throws -> Data {
-//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-//    }
-//
-//    internal func encodeKeyed(value: SubSport) throws -> Data {
-//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-//    }
-//}
+// Encoding
+internal extension TotalsMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: Sport) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: SubSport) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
+// Encoding
+extension TotalsMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
 
 internal extension TotalsMessage.FitCodingKeys {
 
