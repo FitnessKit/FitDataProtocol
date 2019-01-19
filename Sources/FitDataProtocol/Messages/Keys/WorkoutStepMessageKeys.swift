@@ -131,6 +131,30 @@ internal extension WorkoutStepMessage.FitCodingKeys {
 }
 
 // Encoding
+internal extension WorkoutStepMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: WorkoutStepDurationType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: WorkoutStepTargetType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ExerciseCategory) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Intensity) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: WorkoutEquipment) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
+// Encoding
 extension WorkoutStepMessage.FitCodingKeys: EncodeKeyed {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
@@ -154,6 +178,10 @@ extension WorkoutStepMessage.FitCodingKeys: EncodeKeyed {
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 

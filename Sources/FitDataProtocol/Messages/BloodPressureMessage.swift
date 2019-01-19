@@ -383,13 +383,13 @@ open class BloodPressureMessage: FitMessage {
 
             case .heartRateType:
                 if let heartRateType = heartRateType {
-                    let valueData = try key.encodeKeyed(value: heartRateType.rawValue)
+                    let valueData = try key.encodeKeyed(value: heartRateType)
                     msgData.append(valueData)
                 }
 
             case .status:
                 if let status = status {
-                    let valueData = try key.encodeKeyed(value: status.rawValue)
+                    let valueData = try key.encodeKeyed(value: status)
                     msgData.append(valueData)
                 }
 

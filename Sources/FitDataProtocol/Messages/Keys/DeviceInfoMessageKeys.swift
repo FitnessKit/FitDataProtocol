@@ -169,6 +169,34 @@ internal extension DeviceInfoMessage.FitCodingKeys {
 }
 
 // Encoding
+internal extension DeviceInfoMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: DeviceType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: BatteryStatus) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: BodyLocation) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: TransmissionType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: NetworkType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: SourceType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
+// Encoding
 extension DeviceInfoMessage.FitCodingKeys: EncodeKeyed {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
@@ -192,6 +220,10 @@ extension DeviceInfoMessage.FitCodingKeys: EncodeKeyed {
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 

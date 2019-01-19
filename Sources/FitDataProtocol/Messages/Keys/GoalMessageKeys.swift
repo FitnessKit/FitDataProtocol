@@ -139,6 +139,22 @@ internal extension GoalMessage.FitCodingKeys {
 // Encoding
 internal extension GoalMessage.FitCodingKeys {
 
+    internal func encodeKeyed(value: Goal) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: GoalRecurrence) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: GoalSource) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
+// Encoding
+internal extension GoalMessage.FitCodingKeys {
+
     internal func encodeKeyed(value: Sport) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
@@ -172,6 +188,10 @@ extension GoalMessage.FitCodingKeys: EncodeKeyed {
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 

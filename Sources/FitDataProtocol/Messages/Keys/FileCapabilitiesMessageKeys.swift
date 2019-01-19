@@ -95,6 +95,18 @@ internal extension FileCapabilitiesMessage.FitCodingKeys {
 }
 
 // Encoding
+internal extension FileCapabilitiesMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: FileType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: FitFileFlag) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
+// Encoding
 extension FileCapabilitiesMessage.FitCodingKeys: EncodeKeyed {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
@@ -118,6 +130,10 @@ extension FileCapabilitiesMessage.FitCodingKeys: EncodeKeyed {
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 

@@ -225,7 +225,8 @@ open class HeartrateProfileMessage: FitMessage {
 
             case .transType:
                 if let transmissionType = transmissionType {
-                    msgData.append(transmissionType.rawValue)
+                    let valueData = try key.encodeKeyed(value: transmissionType)
+                    msgData.append(valueData)
                 }
 
             }

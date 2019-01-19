@@ -281,7 +281,7 @@ open class EventMessage: FitMessage {
 
             case .data32:
                 if let data32 = eventMoreData {
-                    let valueData = try key.encodeKeyed(value: data32.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: data32)
                     msgData.append(valueData)
                 }
 

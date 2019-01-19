@@ -228,19 +228,19 @@ open class DeveloperDataIdMessage: FitMessage {
 
             case .manufacturerId:
                 if let manufacturer = manufacturer {
-                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID.littleEndian)
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID)
                     msgData.append(valueData)
                 }
 
             case .dataIndex:
                 if let dataIndex = dataIndex {
-                    let valueData = try key.encodeKeyed(value: dataIndex.value)
+                    let valueData = try key.encodeKeyed(value: dataIndex)
                     msgData.append(valueData)
                 }
 
             case .applicationVersion:
                 if let applicationVersion = applicationVersion {
-                    let valueData = try key.encodeKeyed(value: applicationVersion.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: applicationVersion)
                     msgData.append(valueData)
                 }
             }

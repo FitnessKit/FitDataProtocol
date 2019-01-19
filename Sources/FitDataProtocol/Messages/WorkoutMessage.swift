@@ -305,7 +305,7 @@ open class WorkoutMessage: FitMessage {
 
             case .poolLengthUnit:
                 if let poolLengthUnit = poolLengthUnit {
-                    let valueData = try key.encodeKeyed(value: poolLengthUnit.rawValue)
+                    let valueData = try key.encodeKeyed(value: poolLengthUnit)
                     msgData.append(valueData)
                 }
 

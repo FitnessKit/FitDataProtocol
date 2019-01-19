@@ -95,6 +95,10 @@ internal extension BaseType {
         return try encodedResolution(value: Double(value), resolution: resolution)
     }
 
+    func encodedResolution(value: ValidatedBinaryInteger<UInt32>, resolution: Resolution) throws -> Data {
+        return try encodedResolution(value: value.value, resolution: resolution)
+    }
+
     /// Encode Value into data with resolution to a BaseType Value
     ///
     /// - Parameters:

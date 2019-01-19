@@ -255,7 +255,7 @@ open class ScheduleMessage: FitMessage {
 
             case .serialNumber:
                 if let serialNumber = serialNumber {
-                    let valueData = try key.encodeKeyed(value: serialNumber.value)
+                    let valueData = try key.encodeKeyed(value: serialNumber)
                     msgData.append(valueData)
                 }
 

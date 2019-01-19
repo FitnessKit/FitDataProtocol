@@ -241,13 +241,13 @@ open class ZonesTargetMessage: FitMessage {
 
             case .heartRateCalculation:
                 if let heartRateZoneType = heartRateZoneType {
-                    let valueData = try key.encodeKeyed(value: heartRateZoneType.rawValue)
+                    let valueData = try key.encodeKeyed(value: heartRateZoneType)
                     msgData.append(valueData)
                 }
 
             case .powerCalculation:
                 if let powerZoneType = powerZoneType {
-                    let valueData = try key.encodeKeyed(value: powerZoneType.rawValue)
+                    let valueData = try key.encodeKeyed(value: powerZoneType)
                     msgData.append(valueData)
                 }
             }

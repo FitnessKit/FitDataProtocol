@@ -87,6 +87,19 @@ internal extension ZonesTargetMessage.FitCodingKeys {
     }
 }
 
+
+// Encoding
+internal extension ZonesTargetMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: HeartRateZoneCalculation) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: PowerZoneCalculation) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
 // Encoding
 extension ZonesTargetMessage.FitCodingKeys: EncodeKeyed {
 
@@ -111,6 +124,10 @@ extension ZonesTargetMessage.FitCodingKeys: EncodeKeyed {
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 

@@ -41,6 +41,8 @@ internal protocol EncodeKeyed {
 
     func encodeKeyed(value: UInt32) throws -> Data
 
+    func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data
+
     func encodeKeyed(value: Double) throws -> Data
 
 }

@@ -155,6 +155,10 @@ extension ActivityMessage.FitCodingKeys: EncodeKeyed {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
     internal func encodeKeyed(value: Double) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }

@@ -307,7 +307,7 @@ open class CoursePointMessage: FitMessage {
 
             case .pointType:
                 if let pointType = pointType {
-                    let valueData = try key.encodeKeyed(value: pointType.rawValue)
+                    let valueData = try key.encodeKeyed(value: pointType)
                     msgData.append(valueData)
                 }
 

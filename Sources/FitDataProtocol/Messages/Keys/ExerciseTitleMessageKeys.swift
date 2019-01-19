@@ -83,6 +83,18 @@ internal extension ExerciseTitleMessage.FitCodingKeys {
 }
 
 // Encoding
+internal extension ExerciseTitleMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: ExerciseCategory) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ExerciseNameType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.number, resolution: self.resolution)
+    }
+}
+
+// Encoding
 extension ExerciseTitleMessage.FitCodingKeys: EncodeKeyed {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
@@ -106,6 +118,10 @@ extension ExerciseTitleMessage.FitCodingKeys: EncodeKeyed {
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 

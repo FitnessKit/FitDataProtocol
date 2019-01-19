@@ -433,19 +433,19 @@ open class DeviceInfoMessage: FitMessage {
 
             case .deviceType:
                 if let deviceType = deviceType {
-                    let valueData = try key.encodeKeyed(value: deviceType.rawValue)
+                    let valueData = try key.encodeKeyed(value: deviceType)
                     msgData.append(valueData)
                 }
 
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID.littleEndian)
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID)
                     msgData.append(valueData)
                 }
 
             case .serialNumber:
                 if let serialNumber = serialNumber {
-                    let valueData = try key.encodeKeyed(value: serialNumber.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: serialNumber)
                     msgData.append(valueData)
                 }
 
@@ -483,13 +483,13 @@ open class DeviceInfoMessage: FitMessage {
 
             case .batteryStatus:
                 if let batteryStatus = batteryStatus {
-                    let valueData = try key.encodeKeyed(value: batteryStatus.rawValue)
+                    let valueData = try key.encodeKeyed(value: batteryStatus)
                     msgData.append(valueData)
                 }
 
             case .sensorPosition:
                 if let sensorPosition = bodylocation {
-                    let valueData = try key.encodeKeyed(value: sensorPosition.rawValue)
+                    let valueData = try key.encodeKeyed(value: sensorPosition)
                     msgData.append(valueData)
                 }
 
@@ -502,7 +502,7 @@ open class DeviceInfoMessage: FitMessage {
 
             case .transmissionType:
                 if let transmissionType = transmissionType {
-                    let valueData = try key.encodeKeyed(value: transmissionType.rawValue)
+                    let valueData = try key.encodeKeyed(value: transmissionType)
                     msgData.append(valueData)
                 }
 
@@ -514,13 +514,13 @@ open class DeviceInfoMessage: FitMessage {
 
             case .antNetwork:
                 if let antNetwork = antNetwork {
-                    let valueData = try key.encodeKeyed(value: antNetwork.rawValue)
+                    let valueData = try key.encodeKeyed(value: antNetwork)
                     msgData.append(valueData)
                 }
 
             case .sourcetype:
                 if let sourcetype = source {
-                    let valueData = try key.encodeKeyed(value: sourcetype.rawValue)
+                    let valueData = try key.encodeKeyed(value: sourcetype)
                     msgData.append(valueData)
                 }
 

@@ -246,13 +246,13 @@ open class FileIdMessage: FitMessage {
             switch key {
             case .fileType:
                 if let fileType = fileType {
-                    let valueData = try key.encodeKeyed(value: fileType.rawValue)
+                    let valueData = try key.encodeKeyed(value: fileType)
                     msgData.append(valueData)
                 }
 
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID.littleEndian)
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID)
                     msgData.append(valueData)
                 }
 
@@ -264,7 +264,7 @@ open class FileIdMessage: FitMessage {
 
             case .serialNumber:
                 if let deviceSerialNumber = deviceSerialNumber {
-                    let valueData = try key.encodeKeyed(value: deviceSerialNumber.value.littleEndian)
+                    let valueData = try key.encodeKeyed(value: deviceSerialNumber)
                     msgData.append(valueData)
                 }
 

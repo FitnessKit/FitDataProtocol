@@ -206,13 +206,13 @@ open class ExerciseTitleMessage: FitMessage {
 
             case .category:
                 if let category = category {
-                    let valueData = try key.encodeKeyed(value: category.rawValue.littleEndian)
+                    let valueData = try key.encodeKeyed(value: category)
                     msgData.append(valueData)
                 }
 
             case .exerciseName:
                 if let exerciseName = exerciseName {
-                    let valueData = try key.encodeKeyed(value: exerciseName.number.littleEndian)
+                    let valueData = try key.encodeKeyed(value: exerciseName)
                     msgData.append(valueData)
                 }
 

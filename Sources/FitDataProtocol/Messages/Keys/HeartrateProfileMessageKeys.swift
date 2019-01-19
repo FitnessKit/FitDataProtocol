@@ -89,6 +89,14 @@ internal extension HeartrateProfileMessage.FitCodingKeys {
 }
 
 // Encoding
+internal extension HeartrateProfileMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: TransmissionType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
+// Encoding
 extension HeartrateProfileMessage.FitCodingKeys: EncodeKeyed {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
@@ -112,6 +120,10 @@ extension HeartrateProfileMessage.FitCodingKeys: EncodeKeyed {
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 

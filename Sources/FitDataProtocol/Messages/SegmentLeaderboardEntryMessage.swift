@@ -247,19 +247,19 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
 
             case .groupPrimaryKey:
                 if let leaderId = leaderId {
-                    let valueData = try key.encodeKeyed(value: leaderId.value)
+                    let valueData = try key.encodeKeyed(value: leaderId)
                     msgData.append(valueData)
                 }
 
             case .activityID:
                 if let activityId = activityId {
-                    let valueData = try key.encodeKeyed(value: activityId.value)
+                    let valueData = try key.encodeKeyed(value: activityId)
                     msgData.append(valueData)
                 }
 
             case .segmentTime:
                 if let segmentTime = segmentTime {
-                    let valueData = try key.encodeKeyed(value: segmentTime.value)
+                    let valueData = try key.encodeKeyed(value: segmentTime)
                     msgData.append(valueData)
                 }
 
