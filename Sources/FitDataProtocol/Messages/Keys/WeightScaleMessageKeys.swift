@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import AntMessageProtocol
 
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
@@ -96,7 +97,74 @@ public extension WeightScaleMessage.FitCodingKeys {
             return .uint16
         }
     }
+}
 
+internal extension WeightScaleMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .weight:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .percentFat:
+            // 100 * % + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .percentHydration:
+            // 100 * % + 0
+            return Resolution(scale: 100.0, offset: 0.0)
+        case .visceralFatMass:
+            // 100 * kg + 0
+            return Resolution(scale: 100.0, offset: 0.0)
+        case .boneMass:
+            // 100 * kg + 0
+            return Resolution(scale: 100.0, offset: 0.0)
+        case .muscleMass:
+            // 100 * kg + 0
+            return Resolution(scale: 100.0, offset: 0.0)
+        case .basalMet:
+            // 4 * kcal/day + 0
+            return Resolution(scale: 4.0, offset: 0.0)
+        case .physiqueRating:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .activeMet:
+            // 4 * kcal/day + 0
+            return Resolution(scale: 4.0, offset: 0.0)
+        case .metabolicAge:
+            /// 1 * years
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .visceralFatRating:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .userProfileIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+extension WeightScaleMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension WeightScaleMessage.FitCodingKeys {

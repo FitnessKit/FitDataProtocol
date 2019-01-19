@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import AntMessageProtocol
 
 /// Protocol for Encoding FitMessage keys
 internal protocol EncodeKeyed {

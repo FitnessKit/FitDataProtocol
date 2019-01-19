@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import AntMessageProtocol
 
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
@@ -68,7 +69,52 @@ public extension WeatherAlertMessage.FitCodingKeys {
             return .enumtype
         }
     }
+}
 
+internal extension WeatherAlertMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .reportId:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .issueTime:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .expireTime:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .severity:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .alertType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+extension WeatherAlertMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension WeatherAlertMessage.FitCodingKeys {

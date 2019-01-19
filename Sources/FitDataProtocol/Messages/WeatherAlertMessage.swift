@@ -256,12 +256,14 @@ open class WeatherAlertMessage: FitMessage {
 
             case .severity:
                 if let severity = severity {
-                    msgData.append(severity.rawValue)
+                    let valueData = try key.encodeKeyed(value: severity.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .alertType:
                 if let alertType = alertType {
-                    msgData.append(alertType.rawValue)
+                    let valueData = try key.encodeKeyed(value: alertType.rawValue)
+                    msgData.append(valueData)
                 }
 
             }

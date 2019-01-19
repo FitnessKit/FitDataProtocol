@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import AntMessageProtocol
 
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
@@ -61,6 +62,51 @@ public extension ZonesTargetMessage.FitCodingKeys {
         case .powerCalculation:
             return .enumtype
         }
+    }
+}
+
+internal extension ZonesTargetMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .maxHeartRate:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .thresholdHeartRate:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .functionalThresholdPower:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .heartRateCalculation:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .powerCalculation:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+extension ZonesTargetMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 }
 

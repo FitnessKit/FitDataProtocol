@@ -256,29 +256,22 @@ open class WorkoutMessage: FitMessage {
 
         var msgData = Data()
 
-        var fileDefs = [FieldDefinition]()
-
         for key in FitCodingKeys.allCases {
 
             switch key {
             case .messageIndex:
                 if let messageIndex = messageIndex {
                     msgData.append(messageIndex.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
             case .timestamp:
                 if let timestamp = timeStamp {
                     msgData.append(timestamp.encode())
-
-                    fileDefs.append(key.fieldDefinition())
                 }
 
             case .sport:
                 if let sport = sport {
-                    msgData.append(sport.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
+                    let valueData = try key.encodeKeyed(value: sport.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .capabilities:
@@ -286,44 +279,34 @@ open class WorkoutMessage: FitMessage {
                 
             case .numberOfValidSteps:
                 if let numberOfValidSteps = numberOfValidSteps {
-                    msgData.append(Data(from: numberOfValidSteps.value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
+                    let valueData = try key.encodeKeyed(value: numberOfValidSteps.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .workoutName:
                 if let workoutName = workoutName {
                     if let stringData = workoutName.data(using: .utf8) {
                         msgData.append(stringData)
-
-                        //16 typical size... but we will count the String
-                        fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
                     }
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    msgData.append(subSport.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
+                    let valueData = try key.encodeKeyed(value: subSport.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .poolLength:
                 if var poolLength = poolLength {
-                    // 100 * m + 0
                     poolLength = poolLength.converted(to: UnitLength.meters)
-                    let value = poolLength.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
-
-                    fileDefs.append(key.fieldDefinition())
+                    let valueData = try key.encodeKeyed(value: poolLength.value)
+                    msgData.append(valueData)
                 }
 
             case .poolLengthUnit:
                 if let poolLengthUnit = poolLengthUnit {
-                    msgData.append(poolLengthUnit.rawValue)
-
-                    fileDefs.append(key.fieldDefinition())
+                    let valueData = try key.encodeKeyed(value: poolLengthUnit.rawValue)
+                    msgData.append(valueData)
                 }
 
             }

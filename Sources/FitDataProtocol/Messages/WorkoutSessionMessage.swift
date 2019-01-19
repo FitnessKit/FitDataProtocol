@@ -238,36 +238,39 @@ open class WorkoutSessionMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    msgData.append(sport.rawValue)
+                    let valueData = try key.encodeKeyed(value: sport.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    msgData.append(subSport.rawValue)
+                    let valueData = try key.encodeKeyed(value: subSport.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .numberOfValidSteps:
                 if let numberOfValidSteps = numberOfValidSteps {
-                    msgData.append(Data(from: numberOfValidSteps.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: numberOfValidSteps.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .firstStepIndex:
                 if let firstStepIndex = firstStepIndex {
-                    msgData.append(Data(from: firstStepIndex.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: firstStepIndex.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .poolLength:
                 if var poolLength = poolLength {
-                    // 100 * m + 0
                     poolLength = poolLength.converted(to: UnitLength.meters)
-                    let value = poolLength.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: poolLength.value)
+                    msgData.append(valueData)
                 }
 
             case .poolLengthUnit:
                 if let poolLengthUnit = poolLengthUnit {
-                    msgData.append(poolLengthUnit.rawValue)
+                    let valueData = try key.encodeKeyed(value: poolLengthUnit.rawValue)
+                    msgData.append(valueData)
                 }
 
             }

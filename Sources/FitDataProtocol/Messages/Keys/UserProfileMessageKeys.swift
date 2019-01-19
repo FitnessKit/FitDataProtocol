@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import AntMessageProtocol
 
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
@@ -148,7 +149,129 @@ public extension UserProfileMessage.FitCodingKeys {
             return .uint16
         }
     }
+}
 
+internal extension UserProfileMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .timestamp:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .friendlyName:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .gender:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .age:
+            /// 1 * years
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .height:
+            //  100 * m + 0
+            return Resolution(scale: 100.0, offset: 0.0)
+        case .weight:
+            //  10 * kg + 0
+            return Resolution(scale: 10.0, offset: 0.0)
+        case .language:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .elevationSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .weightSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .restingHeartRate:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .defaultMaxRunningHeartRate:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .defaultMaxBikingHeartRate:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .defaultMaxHeartRate:
+            // 1 * bpm + 0
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .heartRateSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .speedSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .distanceSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .powerSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .activityClass:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .positionSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .temperatureSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .localID:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .globalID:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .heightSetting:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .runningStepLength:
+            // 1000 * m + 0, User defined running step length set to 0 for auto length
+            return Resolution(scale: 1000.0, offset: 0.0)
+        case .walkingStepLength:
+            // 1000 * m + 0, User defined running step length set to 0 for auto length
+            return Resolution(scale: 1000.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+internal extension UserProfileMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: Gender) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Language) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: MeasurementDisplayType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: HeartRateDisplayType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: PositionDisplayType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: PowerDisplayType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+}
+
+extension UserProfileMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension UserProfileMessage.FitCodingKeys {

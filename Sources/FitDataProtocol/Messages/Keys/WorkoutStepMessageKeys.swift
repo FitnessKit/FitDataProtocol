@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import AntMessageProtocol
 
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
@@ -92,7 +93,64 @@ public extension WorkoutStepMessage.FitCodingKeys {
             return .uint16
         }
     }
+}
 
+internal extension WorkoutStepMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .stepName:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .durationType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .durationValue:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .targetType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .targetValue:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .customTargetValueLow:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .customTargetValueHigh:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .intensity:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .notes:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .equipment:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .category:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+extension WorkoutStepMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension WorkoutStepMessage.FitCodingKeys {

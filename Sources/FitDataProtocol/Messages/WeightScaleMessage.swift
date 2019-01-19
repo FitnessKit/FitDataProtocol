@@ -384,93 +384,69 @@ open class WeightScaleMessage: FitMessage {
 
             case .percentFat:
                 if let percentFat = percentFat {
-                    // 100 * % + 0
-                    let value = percentFat.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: percentFat.value)
+                    msgData.append(valueData)
                 }
 
             case .percentHydration:
                 if let percentHydration = percentHydration {
-                    // 100 * % + 0
-                    let value = percentHydration.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: percentHydration.value)
+                    msgData.append(valueData)
                 }
 
             case .visceralFatMass:
                 if var visceralFatMass = visceralFatMass {
-                    // 100 * kg + 0
                     visceralFatMass = visceralFatMass.converted(to: UnitMass.kilograms)
-
-                    let value = visceralFatMass.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: visceralFatMass.value)
+                    msgData.append(valueData)
                 }
 
             case .boneMass:
                 if var boneMass = boneMass {
-                    // 100 * kg + 0
                     boneMass = boneMass.converted(to: UnitMass.kilograms)
-
-                    let value = boneMass.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: boneMass.value)
+                    msgData.append(valueData)
                 }
 
             case .muscleMass:
                 if var muscleMass = muscleMass {
-                    // 100 * kg + 0
                     muscleMass = muscleMass.converted(to: UnitMass.kilograms)
-
-                    let value = muscleMass.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: muscleMass.value)
+                    msgData.append(valueData)
                 }
 
             case .basalMet:
                 if var basalMet = basalMet {
-                    // 4 * kcal/day + 0
                     basalMet = basalMet.converted(to: UnitEnergy.kilocalories)
-
-                    let value = basalMet.value.resolutionUInt16(4, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: basalMet.value)
+                    msgData.append(valueData)
                 }
 
             case .physiqueRating:
                 if let physiqueRating = physiqueRating {
-                    let value = physiqueRating.value.resolutionUInt8(1, offset: 0.0)
-
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: physiqueRating.value)
+                    msgData.append(valueData)
                 }
 
             case .activeMet:
                 if var activeMet = activeMet {
-                    // 4 * kcal/day + 0
                     activeMet = activeMet.converted(to: UnitEnergy.kilocalories)
-
-                    let value = activeMet.value.resolutionUInt16(4, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: activeMet.value)
+                    msgData.append(valueData)
                 }
 
             case .metabolicAge:
                 if var metabolicAge = metabolicAge {
-                    /// 1 * years
                     metabolicAge = metabolicAge.converted(to: UnitDuration.year)
-                    let value = metabolicAge.value.resolutionUInt8(1, offset: 0.0)
-
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: metabolicAge.value)
+                    msgData.append(valueData)
                 }
 
             case .visceralFatRating:
                 if let visceralFatRating = visceralFatRating {
-                    let value = visceralFatRating.value.resolutionUInt8(1, offset: 0.0)
-
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: visceralFatRating.value)
+                    msgData.append(valueData)
                 }
-
 
             case .userProfileIndex:
                 if let userProfileIndex = userProfileIndex {

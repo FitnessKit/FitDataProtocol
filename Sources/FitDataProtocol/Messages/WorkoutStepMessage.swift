@@ -335,37 +335,44 @@ open class WorkoutStepMessage: FitMessage {
 
             case .durationType:
                 if let durationType = durationType {
-                    msgData.append(durationType.rawValue)
+                    let valueData = try key.encodeKeyed(value: durationType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .durationValue:
                 if let durationValue = duration {
-                    msgData.append(Data(from: durationValue.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: durationValue.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .targetType:
                 if let targetType = targetType {
-                    msgData.append(targetType.rawValue)
+                    let valueData = try key.encodeKeyed(value: targetType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .targetValue:
                 if let targetValue = target {
-                    msgData.append(Data(from: targetValue.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: targetValue.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .customTargetValueLow:
                 if let targetLow = targetLow {
-                    msgData.append(Data(from: targetLow.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: targetLow.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .customTargetValueHigh:
                 if let targetHigh = targetHigh {
-                    msgData.append(Data(from: targetHigh.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: targetHigh.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .intensity:
                 if let intensity = intensity {
-                    msgData.append(intensity.rawValue)
+                    let valueData = try key.encodeKeyed(value: intensity.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .notes:
@@ -377,12 +384,14 @@ open class WorkoutStepMessage: FitMessage {
 
             case .equipment:
                 if let equipment = equipment {
-                    msgData.append(equipment.rawValue)
+                    let valueData = try key.encodeKeyed(value: equipment.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .category:
                 if let category = category {
-                    msgData.append(Data(from: category.rawValue.littleEndian))
+                    let valueData = try key.encodeKeyed(value: category.rawValue.littleEndian)
+                    msgData.append(valueData)
                 }
 
             }
