@@ -26,6 +26,16 @@ import Foundation
 import FitnessUnits
 import DataDecoder
 
+/// Internal Struct to define Base Type Data
+internal struct BaseData {
+
+    /// Base Type
+    var base: BaseType
+
+    /// Resolution
+    var resolution: Resolution
+}
+
 /// FIT Base Type
 public enum BaseType: UInt8 {
     /// Enum
