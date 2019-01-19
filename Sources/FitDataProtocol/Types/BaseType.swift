@@ -71,6 +71,10 @@ public enum BaseType: UInt8 {
 
 internal extension BaseType {
 
+    func encodedResolution(value: Bool, resolution: Resolution) throws -> Data {
+        return try encodedResolution(value: Double(value.uint8Value), resolution: resolution)
+    }
+
     func encodedResolution(value: UInt8, resolution: Resolution) throws -> Data {
         return try encodedResolution(value: Double(value), resolution: resolution)
     }

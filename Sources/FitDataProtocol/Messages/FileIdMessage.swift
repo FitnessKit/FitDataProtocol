@@ -246,22 +246,26 @@ open class FileIdMessage: FitMessage {
             switch key {
             case .fileType:
                 if let fileType = fileType {
-                    msgData.append(fileType.rawValue)
+                    let valueData = try key.encodeKeyed(value: fileType.rawValue)
+                    msgData.append(valueData)
                 }
 
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    msgData.append(Data(from: manufacturer.manufacturerID.littleEndian))
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .product:
                 if let product = product {
-                    msgData.append(Data(from: product.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: product.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .serialNumber:
                 if let deviceSerialNumber = deviceSerialNumber {
-                    msgData.append(Data(from: deviceSerialNumber.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: deviceSerialNumber.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .fileCreationDate:
@@ -271,7 +275,8 @@ open class FileIdMessage: FitMessage {
 
             case .fileNumber:
                 if let fileNumber = fileNumber {
-                    msgData.append(Data(from: fileNumber.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: fileNumber.value.littleEndian)
+                    msgData.append(valueData)
                 }
 
             case .productName:

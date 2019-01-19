@@ -96,7 +96,66 @@ public extension GoalMessage.FitCodingKeys {
             return .enumtype
         }
     }
+}
 
+internal extension GoalMessage.FitCodingKeys {
+
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .messageIndex:
+            return Resolution(scale: 1.0, offset: 0.0)
+
+        case .sport:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .subSport:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .startDate:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .endDate:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .goalType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .goalValue:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .repeatGoal:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .targetValue:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .recurrence:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .recurrenceValue:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .enabled:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .goalSource:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+extension GoalMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 }
 
 internal extension GoalMessage.FitCodingKeys {

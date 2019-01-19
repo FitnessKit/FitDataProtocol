@@ -81,7 +81,11 @@ internal extension ExerciseTitleMessage.FitCodingKeys {
 }
 
 // Encoding
-internal extension ExerciseTitleMessage.FitCodingKeys {
+extension ExerciseTitleMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
 
     internal func encodeKeyed(value: UInt8) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

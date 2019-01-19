@@ -320,7 +320,7 @@ open class CoursePointMessage: FitMessage {
 
             case .favorite:
                 if let favorite = isFavorite {
-                    let valueData = try key.encodeKeyed(value: favorite.uint8Value)
+                    let valueData = try key.encodeKeyed(value: favorite)
                     msgData.append(valueData)
                 }
 

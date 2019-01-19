@@ -168,12 +168,9 @@ open class HrvMessage: FitMessage {
                 if let hrv = hrv {
                     if hrv.count > 0 {
                         for time in hrv {
-                            /// 1000 * s + 0, Time between beats
                             let hrvTime = time.converted(to: UnitDuration.seconds)
-                            let value = hrvTime.value.resolutionUInt16(1000, offset: 0.0)
-
-                            msgData.append(Data(from: value.littleEndian))
-
+                            let valueData = try key.encodeKeyed(value: hrvTime.value)
+                            msgData.append(valueData)
                         }
                     }
                 }

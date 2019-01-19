@@ -74,6 +74,53 @@ public extension FileIdMessage.FitCodingKeys {
 
 internal extension FileIdMessage.FitCodingKeys {
 
+    /// Key Base Type Resolution
+    var resolution: Resolution {
+        switch self {
+        case .fileType:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .manufacturer:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .product:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .serialNumber:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .fileCreationDate:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .fileNumber:
+            return Resolution(scale: 1.0, offset: 0.0)
+        case .productName:
+            return Resolution(scale: 1.0, offset: 0.0)
+        }
+    }
+}
+
+// Encoding
+extension FileIdMessage.FitCodingKeys: EncodeKeyed {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    }
+}
+
+internal extension FileIdMessage.FitCodingKeys {
+
     /// Create a Field Definition Message From the Key
     ///
     /// - Parameter size: Data Size, if nil will use the keys predefined size
