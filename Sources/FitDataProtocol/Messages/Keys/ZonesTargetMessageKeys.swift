@@ -86,7 +86,7 @@ internal extension ZonesTargetMessage.FitCodingKeys {
 }
 
 // Encoding
-extension ZonesTargetMessage.FitCodingKeys: EncodeKeyed {
+extension ZonesTargetMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
@@ -121,7 +121,7 @@ extension ZonesTargetMessage.FitCodingKeys: EncodeKeyed {
     }
 }
 
-internal extension ZonesTargetMessage.FitCodingKeys {
+extension ZonesTargetMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

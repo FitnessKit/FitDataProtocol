@@ -252,7 +252,7 @@ internal extension UserProfileMessage.FitCodingKeys {
 }
 
 // Encoding
-extension UserProfileMessage.FitCodingKeys: EncodeKeyed {
+extension UserProfileMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

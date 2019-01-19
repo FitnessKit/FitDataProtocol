@@ -165,7 +165,7 @@ internal extension GoalMessage.FitCodingKeys {
 }
 
 // Encoding
-extension GoalMessage.FitCodingKeys: EncodeKeyed {
+extension GoalMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

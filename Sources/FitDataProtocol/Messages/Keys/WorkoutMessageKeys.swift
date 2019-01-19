@@ -134,7 +134,7 @@ internal extension WorkoutMessage.FitCodingKeys {
 }
 
 // Encoding
-extension WorkoutMessage.FitCodingKeys: EncodeKeyed {
+extension WorkoutMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

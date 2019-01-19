@@ -99,16 +99,16 @@ open class WorkoutSessionMessage: FitMessage {
 
         for definition in definition.fieldDefinitions {
 
-            let key = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
+            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
 
-            switch key {
+            switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("WorkoutSessionMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
-            case .some(let converter):
-                switch converter {
+            case .some(let key):
+                switch key {
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,
                                                        endian: arch,
@@ -143,14 +143,17 @@ open class WorkoutSessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.inverseResolution(key.baseData.resolution)
                         poolLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         poolLength = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
 
                 case .poolLengthUnit:
-                    poolLengthUnit = MeasurementDisplayType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
+                    poolLengthUnit = MeasurementDisplayType.decode(decoder: &localDecoder,
+                                                                   definition: definition,
+                                                                   data: fieldData,
+                                                                   dataStrategy: dataStrategy)
 
                 }
             }

@@ -78,7 +78,7 @@ internal extension PowerZoneMessage.FitCodingKeys {
 }
 
 // Encoding
-extension PowerZoneMessage.FitCodingKeys: EncodeKeyed {
+extension PowerZoneMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

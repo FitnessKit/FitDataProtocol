@@ -78,7 +78,7 @@ internal extension SpeedZoneMessage.FitCodingKeys {
 }
 
 // Encoding
-extension SpeedZoneMessage.FitCodingKeys: EncodeKeyed {
+extension SpeedZoneMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

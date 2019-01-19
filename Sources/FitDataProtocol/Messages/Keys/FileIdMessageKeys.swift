@@ -106,7 +106,7 @@ internal extension FileIdMessage.FitCodingKeys {
 }
 
 // Encoding
-extension FileIdMessage.FitCodingKeys: EncodeKeyed {
+extension FileIdMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

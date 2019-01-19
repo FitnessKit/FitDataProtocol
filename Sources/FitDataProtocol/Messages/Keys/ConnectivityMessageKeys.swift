@@ -135,7 +135,7 @@ internal extension ConnectivityMessage.FitCodingKeys {
 }
 
 // Encoding
-extension ConnectivityMessage.FitCodingKeys: EncodeKeyed {
+extension ConnectivityMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

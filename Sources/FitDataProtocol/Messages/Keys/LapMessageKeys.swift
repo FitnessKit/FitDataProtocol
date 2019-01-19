@@ -491,7 +491,7 @@ internal extension LapMessage.FitCodingKeys {
 }
 
 // Encoding
-extension LapMessage.FitCodingKeys: EncodeKeyed {
+extension LapMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)

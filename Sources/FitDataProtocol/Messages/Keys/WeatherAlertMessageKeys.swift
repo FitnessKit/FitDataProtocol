@@ -107,7 +107,7 @@ internal extension WeatherAlertMessage.FitCodingKeys {
 }
 
 // Encoding
-extension WeatherAlertMessage.FitCodingKeys: EncodeKeyed {
+extension WeatherAlertMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

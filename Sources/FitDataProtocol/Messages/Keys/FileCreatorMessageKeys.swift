@@ -68,7 +68,7 @@ internal extension FileCreatorMessage.FitCodingKeys {
 }
 
 // Encoding
-extension FileCreatorMessage.FitCodingKeys: EncodeKeyed {
+extension FileCreatorMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

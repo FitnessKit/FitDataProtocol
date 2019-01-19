@@ -73,7 +73,7 @@ internal extension WorkoutStepMessage.FitCodingKeys {
     internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .stepName:
             // 16
@@ -128,7 +128,7 @@ internal extension WorkoutStepMessage.FitCodingKeys {
 }
 
 // Encoding
-extension WorkoutStepMessage.FitCodingKeys: EncodeKeyed {
+extension WorkoutStepMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)

@@ -79,7 +79,7 @@ internal extension CadenceZoneMessage.FitCodingKeys {
 }
 
 // Encoding
-extension CadenceZoneMessage.FitCodingKeys: EncodeKeyed {
+extension CadenceZoneMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

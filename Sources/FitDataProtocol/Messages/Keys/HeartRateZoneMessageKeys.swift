@@ -78,7 +78,7 @@ internal extension HeartRateZoneMessage.FitCodingKeys {
 }
 
 // Encoding
-extension HeartRateZoneMessage.FitCodingKeys: EncodeKeyed {
+extension HeartRateZoneMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)

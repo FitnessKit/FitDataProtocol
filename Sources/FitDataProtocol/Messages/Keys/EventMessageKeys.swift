@@ -143,7 +143,7 @@ internal extension EventMessage.FitCodingKeys {
 }
 
 // Encoding
-extension EventMessage.FitCodingKeys: EncodeKeyed {
+extension EventMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
         return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
