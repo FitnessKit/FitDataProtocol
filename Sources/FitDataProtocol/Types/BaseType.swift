@@ -30,7 +30,7 @@ import DataDecoder
 internal struct BaseData {
 
     /// Base Type
-    var base: BaseType
+    var type: BaseType
 
     /// Resolution
     var resolution: Resolution

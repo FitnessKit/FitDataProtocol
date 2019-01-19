@@ -49,7 +49,7 @@ extension ZonesTargetMessage: FitMessageKeys {
 
 public extension ZonesTargetMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.base }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension ZonesTargetMessage.FitCodingKeys {
@@ -59,20 +59,19 @@ internal extension ZonesTargetMessage.FitCodingKeys {
         switch self {
         case .maxHeartRate:
             // 1 * bpm + 0
-            return BaseData(base: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .thresholdHeartRate:
             // 1 * bpm + 0
-            return BaseData(base: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .functionalThresholdPower:
-            return BaseData(base: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .heartRateCalculation:
-            return BaseData(base: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .powerCalculation:
-            return BaseData(base: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }
-
 
 // Encoding
 internal extension ZonesTargetMessage.FitCodingKeys {

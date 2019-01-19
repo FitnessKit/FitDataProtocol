@@ -41,6 +41,13 @@ protocol Resolutionable {
     ///   - offset: Value to Add
     /// - Returns: Number with Resolution applied
     func resolution(_ scale: Double, offset: Double) -> Double
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    func inverseResolution(_ resolution: Resolution) -> Double
+
 }
 
 protocol BinaryResolutionable {
@@ -123,6 +130,13 @@ extension Double: Resolutionable {
         return (Double(self) * scale) + offset
     }
 
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    func inverseResolution(_ resolution: Resolution) -> Double {
+        return (Double(self) * (1 / resolution.scale)) - resolution.offset
+    }
 }
 
 extension Double: BinaryResolutionable {
@@ -261,6 +275,13 @@ extension UInt8: Resolutionable {
         return (Double(self) * scale) + offset
     }
 
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    func inverseResolution(_ resolution: Resolution) -> Double {
+        return (Double(self) * (1 / resolution.scale)) - resolution.offset
+    }
 }
 
 extension UInt16: Resolutionable {
@@ -275,6 +296,13 @@ extension UInt16: Resolutionable {
         return (Double(self) * scale) + offset
     }
 
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    func inverseResolution(_ resolution: Resolution) -> Double {
+        return (Double(self) * (1 / resolution.scale)) - resolution.offset
+    }
 }
 
 extension Int16: Resolutionable {
@@ -289,6 +317,13 @@ extension Int16: Resolutionable {
         return (Double(self) * scale) + offset
     }
 
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    func inverseResolution(_ resolution: Resolution) -> Double {
+        return (Double(self) * (1 / resolution.scale)) - resolution.offset
+    }
 }
 
 extension UInt32: Resolutionable {
@@ -303,6 +338,13 @@ extension UInt32: Resolutionable {
         return (Double(self) * scale) + offset
     }
 
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    func inverseResolution(_ resolution: Resolution) -> Double {
+        return (Double(self) * (1 / resolution.scale)) - resolution.offset
+    }
 }
 
 extension UInt32: BinaryResolutionable {
@@ -439,5 +481,13 @@ extension Int32: Resolutionable {
     /// - Returns: Number with Resolution applied
     func resolution(_ scale: Double, offset: Double = 0) -> Double {
         return (Double(self) * scale) + offset
+    }
+
+    /// Apply a Resolution to a number
+    ///
+    /// - Parameter resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    func inverseResolution(_ resolution: Resolution) -> Double {
+        return (Double(self) * (1 / resolution.scale)) - resolution.offset
     }
 }
