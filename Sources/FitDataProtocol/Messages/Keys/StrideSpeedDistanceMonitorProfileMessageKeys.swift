@@ -153,7 +153,7 @@ extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
+extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

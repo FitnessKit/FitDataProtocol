@@ -104,7 +104,7 @@ extension SlaveDeviceMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension SlaveDeviceMessage.FitCodingKeys {
+extension SlaveDeviceMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

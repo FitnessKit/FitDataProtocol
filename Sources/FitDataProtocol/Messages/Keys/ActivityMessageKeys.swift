@@ -164,9 +164,8 @@ extension ActivityMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-
 // Field Definitions
-internal extension ActivityMessage.FitCodingKeys {
+extension ActivityMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

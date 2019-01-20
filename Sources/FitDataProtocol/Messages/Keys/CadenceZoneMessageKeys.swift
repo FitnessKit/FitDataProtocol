@@ -114,8 +114,7 @@ extension CadenceZoneMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-
-internal extension CadenceZoneMessage.FitCodingKeys {
+extension CadenceZoneMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

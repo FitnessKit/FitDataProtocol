@@ -141,7 +141,7 @@ extension FileIdMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension FileIdMessage.FitCodingKeys {
+extension FileIdMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

@@ -287,7 +287,7 @@ extension UserProfileMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension UserProfileMessage.FitCodingKeys {
+extension UserProfileMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

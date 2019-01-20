@@ -121,8 +121,7 @@ extension DeveloperDataIdMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-
-internal extension DeveloperDataIdMessage.FitCodingKeys {
+extension DeveloperDataIdMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

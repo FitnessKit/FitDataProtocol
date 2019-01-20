@@ -156,7 +156,7 @@ extension BloodPressureMessage.FitCodingKeys: KeyedEncoder {
 }
 
 // Field Definitions
-internal extension BloodPressureMessage.FitCodingKeys {
+extension BloodPressureMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

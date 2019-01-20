@@ -130,7 +130,7 @@ extension SportMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension SportMessage.FitCodingKeys {
+extension SportMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

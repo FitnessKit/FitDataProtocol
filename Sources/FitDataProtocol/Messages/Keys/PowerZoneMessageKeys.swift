@@ -113,7 +113,7 @@ extension PowerZoneMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension PowerZoneMessage.FitCodingKeys {
+extension PowerZoneMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

@@ -112,7 +112,7 @@ extension SoftwareMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension SoftwareMessage.FitCodingKeys {
+extension SoftwareMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

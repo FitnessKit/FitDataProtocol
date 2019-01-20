@@ -565,7 +565,7 @@ extension SessionMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension SessionMessage.FitCodingKeys {
+extension SessionMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

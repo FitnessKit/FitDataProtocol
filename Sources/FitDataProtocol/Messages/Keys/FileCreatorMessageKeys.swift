@@ -103,7 +103,7 @@ extension FileCreatorMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension FileCreatorMessage.FitCodingKeys {
+extension FileCreatorMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

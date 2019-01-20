@@ -170,7 +170,7 @@ extension TotalsMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension TotalsMessage.FitCodingKeys {
+extension TotalsMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

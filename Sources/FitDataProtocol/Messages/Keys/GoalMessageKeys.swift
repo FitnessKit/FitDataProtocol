@@ -200,7 +200,7 @@ extension GoalMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension GoalMessage.FitCodingKeys {
+extension GoalMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

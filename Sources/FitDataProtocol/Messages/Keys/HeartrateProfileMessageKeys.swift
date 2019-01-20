@@ -132,7 +132,7 @@ extension HeartrateProfileMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension HeartrateProfileMessage.FitCodingKeys {
+extension HeartrateProfileMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

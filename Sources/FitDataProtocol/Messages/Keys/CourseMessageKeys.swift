@@ -75,8 +75,7 @@ public extension CourseMessage.FitCodingKeys {
 //    }
 //}
 
-
-internal extension CourseMessage.FitCodingKeys {
+extension CourseMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

@@ -142,7 +142,7 @@ extension FileCapabilitiesMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension FileCapabilitiesMessage.FitCodingKeys {
+extension FileCapabilitiesMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

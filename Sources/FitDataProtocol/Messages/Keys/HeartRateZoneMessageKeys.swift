@@ -113,7 +113,7 @@ extension HeartRateZoneMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension HeartRateZoneMessage.FitCodingKeys {
+extension HeartRateZoneMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

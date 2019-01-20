@@ -153,7 +153,7 @@ extension CoursePointMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension CoursePointMessage.FitCodingKeys {
+extension CoursePointMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

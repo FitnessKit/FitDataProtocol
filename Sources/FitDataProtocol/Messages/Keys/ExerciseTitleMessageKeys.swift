@@ -130,8 +130,7 @@ extension ExerciseTitleMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-
-internal extension ExerciseTitleMessage.FitCodingKeys {
+extension ExerciseTitleMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

@@ -142,7 +142,7 @@ extension WeatherAlertMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension WeatherAlertMessage.FitCodingKeys {
+extension WeatherAlertMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

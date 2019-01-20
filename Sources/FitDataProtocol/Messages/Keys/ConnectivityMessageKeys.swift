@@ -170,8 +170,7 @@ extension ConnectivityMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-
-internal extension ConnectivityMessage.FitCodingKeys {
+extension ConnectivityMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

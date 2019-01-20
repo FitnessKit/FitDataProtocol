@@ -113,7 +113,7 @@ extension SpeedZoneMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension SpeedZoneMessage.FitCodingKeys {
+extension SpeedZoneMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

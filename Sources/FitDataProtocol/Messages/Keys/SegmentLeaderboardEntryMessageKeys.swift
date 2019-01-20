@@ -139,7 +139,7 @@ extension SegmentLeaderboardEntryMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension SegmentLeaderboardEntryMessage.FitCodingKeys {
+extension SegmentLeaderboardEntryMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

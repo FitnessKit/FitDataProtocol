@@ -232,7 +232,7 @@ extension DeviceInfoMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension DeviceInfoMessage.FitCodingKeys {
+extension DeviceInfoMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

@@ -529,8 +529,7 @@ extension LapMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-
-internal extension LapMessage.FitCodingKeys {
+extension LapMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

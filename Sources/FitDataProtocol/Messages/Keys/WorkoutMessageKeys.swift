@@ -57,58 +57,40 @@ extension WorkoutMessage: FitMessageKeys {
 }
 
 public extension WorkoutMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-        case .timestamp:
-            return .uint32
-
-        case .sport:
-            return .enumtype
-        case .capabilities:
-            return .uint32z
-        case .numberOfValidSteps:
-            return .uint16
-        case .workoutName:
-            return .string  //16
-        case .subSport:
-            return .enumtype
-        case .poolLength:
-            return .uint16
-        case .poolLengthUnit:
-            return .enumtype
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension WorkoutMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .timestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 1 * s + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .sport:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .capabilities:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .numberOfValidSteps:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .workoutName:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 16
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .subSport:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .poolLength:
             // 100 * m + 0
-            return Resolution(scale: 100.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .poolLengthUnit:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }
@@ -169,7 +151,7 @@ extension WorkoutMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension WorkoutMessage.FitCodingKeys {
+extension WorkoutMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

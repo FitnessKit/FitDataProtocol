@@ -141,7 +141,7 @@ extension WorkoutSessionMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension WorkoutSessionMessage.FitCodingKeys {
+extension WorkoutSessionMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

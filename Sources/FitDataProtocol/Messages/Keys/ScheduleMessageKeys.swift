@@ -142,8 +142,7 @@ extension ScheduleMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-
-internal extension ScheduleMessage.FitCodingKeys {
+extension ScheduleMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

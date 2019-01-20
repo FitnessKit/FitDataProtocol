@@ -180,7 +180,7 @@ extension WeightScaleMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension WeightScaleMessage.FitCodingKeys {
+extension WeightScaleMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

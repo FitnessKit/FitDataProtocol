@@ -121,7 +121,7 @@ extension MetZoneMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension MetZoneMessage.FitCodingKeys {
+extension MetZoneMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

@@ -98,7 +98,7 @@ extension HrvMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension HrvMessage.FitCodingKeys {
+extension HrvMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///

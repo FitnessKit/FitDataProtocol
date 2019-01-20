@@ -178,7 +178,7 @@ extension EventMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-internal extension EventMessage.FitCodingKeys {
+extension EventMessage.FitCodingKeys: KeyedFieldDefintion {
 
     /// Create a Field Definition Message From the Key
     ///
