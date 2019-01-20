@@ -87,16 +87,16 @@ open class DeveloperDataIdMessage: FitMessage {
 
         for definition in definition.fieldDefinitions {
 
-            let key = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
+            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
 
-            switch key {
+            switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("DeveloperDataIdMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
-            case .some(let converter):
-                switch converter {
+            case .some(let key):
+                switch key {
 
                 case .developerId:
                     let value = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))

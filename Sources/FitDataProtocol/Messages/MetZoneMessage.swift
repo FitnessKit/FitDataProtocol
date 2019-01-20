@@ -85,16 +85,16 @@ open class MetZoneMessage: FitMessage {
 
         for definition in definition.fieldDefinitions {
 
-            let key = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
+            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
 
-            switch key {
+            switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("MetZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
-            case .some(let converter):
-                switch converter {
+            case .some(let key):
+                switch key {
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,
                                                        endian: arch,
@@ -118,7 +118,7 @@ open class MetZoneMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * kcal / min + 0
-                        let value = value.resolution(1 / 10)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         calories = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
                         calories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
@@ -128,7 +128,7 @@ open class MetZoneMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * kcal / min + 0
-                        let value = value.resolution(1 / 10)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         fatCalories = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
                         fatCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)

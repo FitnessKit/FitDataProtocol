@@ -42,13 +42,6 @@ internal enum ResolutionDirection {
 }
 
 protocol Resolutionable {
-    /// Apply a Resolution to a number
-    ///
-    /// - Parameters:
-    ///   - scale: Scale
-    ///   - offset: Value to Add
-    /// - Returns: Number with Resolution applied
-    func resolution(_ scale: Double, offset: Double) -> Double
 
     /// Apply Resolution with Direction
     ///
@@ -128,16 +121,6 @@ protocol BinaryResolutionable {
 }
 
 extension Double: Resolutionable {
-
-    /// Apply a Resolution to a number
-    ///
-    /// - Parameters:
-    ///   - scale: Scale
-    ///   - offset: Value to Add
-    /// - Returns: Number with Resolution applied
-    func resolution(_ scale: Double, offset: Double = 0) -> Double {
-        return (Double(self) * scale) + offset
-    }
 
     /// Apply Resolution with Direction
     ///
@@ -281,16 +264,6 @@ extension Double: BinaryResolutionable {
 
 extension UInt8: Resolutionable {
 
-    /// Apply a Resolution to a number
-    ///
-    /// - Parameters:
-    ///   - scale: Scale
-    ///   - offset: Value to Add
-    /// - Returns: Number with Resolution applied
-    func resolution(_ scale: Double, offset: Double = 0) -> Double {
-        return (Double(self) * scale) + offset
-    }
-
     /// Apply Resolution with Direction
     ///
     /// - Parameters:
@@ -308,16 +281,6 @@ extension UInt8: Resolutionable {
 }
 
 extension UInt16: Resolutionable {
-
-    /// Apply a Resolution to a number
-    ///
-    /// - Parameters:
-    ///   - scale: Scale
-    ///   - offset: Value to Add
-    /// - Returns: Number with Resolution applied
-    func resolution(_ scale: Double, offset: Double = 0) -> Double {
-        return (Double(self) * scale) + offset
-    }
 
     /// Apply Resolution with Direction
     ///
@@ -337,16 +300,6 @@ extension UInt16: Resolutionable {
 
 extension Int16: Resolutionable {
 
-    /// Apply a Resolution to a number
-    ///
-    /// - Parameters:
-    ///   - scale: Scale
-    ///   - offset: Value to Add
-    /// - Returns: Number with Resolution applied
-    func resolution(_ scale: Double, offset: Double = 0) -> Double {
-        return (Double(self) * scale) + offset
-    }
-
     /// Apply Resolution with Direction
     ///
     /// - Parameters:
@@ -364,16 +317,6 @@ extension Int16: Resolutionable {
 }
 
 extension UInt32: Resolutionable {
-
-    /// Apply a Resolution to a number
-    ///
-    /// - Parameters:
-    ///   - scale: Scale
-    ///   - offset: Value to Add
-    /// - Returns: Number with Resolution applied
-    func resolution(_ scale: Double, offset: Double = 0) -> Double {
-        return (Double(self) * scale) + offset
-    }
 
     /// Apply Resolution with Direction
     ///
@@ -516,16 +459,6 @@ extension UInt32: BinaryResolutionable {
 
 
 extension Int32: Resolutionable {
-
-    /// Apply a Resolution to a number
-    ///
-    /// - Parameters:
-    ///   - scale: Scale
-    ///   - offset: Value to Add
-    /// - Returns: Number with Resolution applied
-    func resolution(_ scale: Double, offset: Double = 0) -> Double {
-        return (Double(self) * scale) + offset
-    }
 
     /// Apply Resolution with Direction
     ///

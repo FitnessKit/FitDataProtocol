@@ -141,16 +141,16 @@ open class WeightScaleMessage: FitMessage {
 
         for definition in definition.fieldDefinitions {
 
-            let key = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
+            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
 
-            switch key {
+            switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("WeightScaleMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
-            case .some(let converter):
-                switch converter {
+            case .some(let key):
+                switch key {
                 case .timestamp:
                     timestamp = FitTime.decode(decoder: &localDecoder,
                                                endian: arch,
@@ -174,7 +174,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         percentFat = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         percentFat = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -184,7 +184,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         percentHydration = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         percentHydration = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -194,7 +194,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * kg + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         visceralFatMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
                         visceralFatMass = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitMass.kilograms)
@@ -204,7 +204,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * kg + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         boneMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
                         boneMass = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitMass.kilograms)
@@ -214,7 +214,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * kg + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         muscleMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
                     } else {
                         muscleMass = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitMass.kilograms)
@@ -224,7 +224,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 4 * kcal/day + 0
-                        let value = value.resolution(1 / 4)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         basalMet = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
                         basalMet = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
@@ -243,7 +243,7 @@ open class WeightScaleMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 4 * kcal/day + 0
-                        let value = value.resolution(1 / 4)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         activeMet = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
                         activeMet = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)

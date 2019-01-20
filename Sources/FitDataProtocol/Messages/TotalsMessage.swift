@@ -116,16 +116,16 @@ open class TotalsMessage: FitMessage {
 
         for definition in definition.fieldDefinitions {
 
-            let key = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
+            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
 
-            switch key {
+            switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("TotalsMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
-            case .some(let converter):
-                switch converter {
+            case .some(let key):
+                switch key {
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,
                                                        endian: arch,
@@ -142,7 +142,7 @@ open class TotalsMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * s + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         timerTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
@@ -150,7 +150,7 @@ open class TotalsMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         distance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -175,7 +175,7 @@ open class TotalsMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * s + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         elapsedTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
@@ -189,7 +189,7 @@ open class TotalsMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * s + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         activeTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
