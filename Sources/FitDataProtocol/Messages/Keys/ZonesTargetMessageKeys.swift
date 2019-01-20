@@ -54,6 +54,9 @@ public extension ZonesTargetMessage.FitCodingKeys {
 
 internal extension ZonesTargetMessage.FitCodingKeys {
 
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
     /// Key Base Data
     internal var baseData: BaseData {
         switch self {
@@ -77,11 +80,11 @@ internal extension ZonesTargetMessage.FitCodingKeys {
 internal extension ZonesTargetMessage.FitCodingKeys {
 
     internal func encodeKeyed(value: HeartRateZoneCalculation) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
     internal func encodeKeyed(value: PowerZoneCalculation) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
 
@@ -89,35 +92,35 @@ internal extension ZonesTargetMessage.FitCodingKeys {
 extension ZonesTargetMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
     internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
     internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 
     internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
     }
 }
 

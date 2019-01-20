@@ -150,7 +150,7 @@ open class BloodPressureMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         systolicPressure = ValidatedMeasurement(value: value, valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
                         systolicPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
@@ -160,7 +160,7 @@ open class BloodPressureMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         diastolicPressure = ValidatedMeasurement(value: value, valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
                         diastolicPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
@@ -170,7 +170,7 @@ open class BloodPressureMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         meanArterialPressure = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
                         meanArterialPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
@@ -180,7 +180,7 @@ open class BloodPressureMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         mapSampleMean = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
                         mapSampleMean = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
@@ -190,7 +190,7 @@ open class BloodPressureMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         mapMorningValues = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
                         mapMorningValues = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
@@ -200,7 +200,7 @@ open class BloodPressureMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * mmHg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         mapEveningValues = ValidatedMeasurement(value: value,valid: true, unit: UnitPressure.millimetersOfMercury)
                     } else {
                         mapEveningValues = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
