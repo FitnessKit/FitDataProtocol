@@ -35,6 +35,7 @@ extension Data {
     var smartString: String? {
         var stringvalue: String?
 
+        // TODO: this should be enhanced, some fit files will have extra null padding
         if self[(self.count - 1)] == 0 {
             stringvalue = String(bytes: self[0..<(self.count - 1)], encoding: .utf8)
         } else {
