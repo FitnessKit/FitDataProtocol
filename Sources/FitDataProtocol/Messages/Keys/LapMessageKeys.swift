@@ -212,7 +212,7 @@ public extension LapMessage.FitCodingKeys {
 
 internal extension LapMessage.FitCodingKeys {
 
-    /// Key Base Type
+    /// Key Base Data
     internal var baseData: BaseData {
         switch self {
         case .messageIndex:

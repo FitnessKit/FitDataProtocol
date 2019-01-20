@@ -59,7 +59,7 @@ public extension WorkoutSessionMessage.FitCodingKeys {
 
 internal extension WorkoutSessionMessage.FitCodingKeys {
 
-    /// Key Base Type
+    /// Key Base Data
     internal var baseData: BaseData {
         switch self {
         case .messageIndex:

@@ -54,7 +54,7 @@ public extension ZonesTargetMessage.FitCodingKeys {
 
 internal extension ZonesTargetMessage.FitCodingKeys {
 
-    /// Key Base Type
+    /// Key Base Data
     internal var baseData: BaseData {
         switch self {
         case .maxHeartRate:

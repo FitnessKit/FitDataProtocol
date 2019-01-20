@@ -249,16 +249,16 @@ open class RecordMessage: FitMessage {
 
         for definition in definition.fieldDefinitions {
 
-            let key = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
+            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
 
-            switch key {
+            switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("RecordMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
-            case .some(let converter):
-                switch converter {
+            case .some(let key):
+                switch key {
                 case .timestamp:
                     timestamp = FitTime.decode(decoder: &localDecoder,
                                                endian: arch,
@@ -269,7 +269,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         latitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -279,7 +279,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         longitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -289,7 +289,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, offset: -500)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         altitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         altitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -327,7 +327,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         distance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -337,7 +337,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         speed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         speed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -347,7 +347,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1 * watts + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         power = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         power = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -361,7 +361,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         grade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         grade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -377,7 +377,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         timeFromCourse = ValidatedMeasurement(value: value, valid: false, unit: UnitDuration.seconds)
                     } else {
                         timeFromCourse = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitDuration.seconds)
@@ -387,7 +387,7 @@ open class RecordMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         cycleLength = ValidatedMeasurement(value: value, valid: false, unit: UnitLength.meters)
                     } else {
                         cycleLength = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -424,7 +424,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1 * watts + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         compressedAccumulatedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         compressedAccumulatedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -434,7 +434,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1 * watts + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         longAccumulatedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         longAccumulatedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -457,7 +457,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         verticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         verticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -476,7 +476,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * mm + 0
-                        let value = value.resolution(1 / 10)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         verticalOscillation = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.millimeters)
                     } else {
                         verticalOscillation = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.millimeters)
@@ -486,7 +486,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         stancePercent = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         stancePercent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -496,7 +496,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * ms + 0
-                        let value = value.resolution(1 / 10)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         stanceTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.millisecond)
                     } else {
                         stanceTime = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitDuration.millisecond)
@@ -512,7 +512,7 @@ open class RecordMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 2 * percent + 0
-                        let value = value.resolution(1 / 2)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         leftTorqueEff = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         leftTorqueEff = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -522,7 +522,7 @@ open class RecordMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 2 * percent + 0
-                        let value = value.resolution(1 / 2)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         rightTorqueEff = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         rightTorqueEff = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -532,7 +532,7 @@ open class RecordMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 2 * percent + 0
-                        let value = value.resolution(1 / 2)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         leftPedal = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         leftPedal = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -542,7 +542,7 @@ open class RecordMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 2 * percent + 0
-                        let value = value.resolution(1 / 2)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         rightPedal = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         rightPedal = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -552,7 +552,7 @@ open class RecordMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 2 * percent + 0
-                        let value = value.resolution(1 / 2)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         combinedPedal = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         combinedPedal = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -578,7 +578,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * m/s + 0,
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         ballSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         ballSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -626,7 +626,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         enhancedSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         enhancedSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -636,7 +636,7 @@ open class RecordMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, offset: -500)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         enhancedAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)

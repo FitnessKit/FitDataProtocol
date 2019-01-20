@@ -61,73 +61,45 @@ extension BloodPressureMessage: FitMessageKeys {
 }
 
 public extension BloodPressureMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-
-        switch self {
-        case .timestamp:
-            return .uint32
-
-        case .systolicPressure:
-            return .uint16
-        case .diastolicPressure:
-            return .uint16
-        case .meanArterialPressure:
-            return .uint16
-        case .mapSampleMean:
-            return .uint16
-        case .mapMorningValues:
-            return .uint16
-        case .mapEveningValues:
-            return .uint16
-        case .heartRate:
-            return .uint8
-        case .heartRateType:
-            return .enumtype
-        case .status:
-            return .enumtype
-        case .userProfileIndex:
-            return .uint16
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension BloodPressureMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .timestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .systolicPressure:
             // 1 * mmHg + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .diastolicPressure:
             // 1 * mmHg + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .meanArterialPressure:
             // 1 * mmHg + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .mapSampleMean:
             // 1 * mmHg + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .mapMorningValues:
             // 1 * mmHg + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .mapEveningValues:
             // 1 * mmHg + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .heartRate:
             // 1 * bpm + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .heartRateType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .status:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .userProfileIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }
@@ -136,11 +108,11 @@ internal extension BloodPressureMessage.FitCodingKeys {
 internal extension BloodPressureMessage.FitCodingKeys {
 
     internal func encodeKeyed(value: HeartRateType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
     internal func encodeKeyed(value: BloodPressureStatus) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 
@@ -148,35 +120,35 @@ internal extension BloodPressureMessage.FitCodingKeys {
 extension BloodPressureMessage.FitCodingKeys: KeyedEncoder {
 
     internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 
     internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 
     internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 
     internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 
     internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 }
 

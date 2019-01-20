@@ -141,7 +141,7 @@ public extension RecordMessage.FitCodingKeys {
 
 internal extension RecordMessage.FitCodingKeys {
 
-    /// Key Base Type
+    /// Key Base Data
     internal var baseData: BaseData {
         switch self {
         case .timestamp:
@@ -290,18 +290,6 @@ internal extension RecordMessage.FitCodingKeys {
 
 // Encoding
 internal extension RecordMessage.FitCodingKeys {
-
-//    internal func encodeKeyed(value: Intensity) throws -> Data {
-//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
-//    }
-//
-//    internal func encodeKeyed(value: LapTrigger) throws -> Data {
-//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
-//    }
-//
-    //    internal func encodeKeyed(value: SwimStroke) throws -> Data {
-    //        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
-    //    }
 
     internal func encodeKeyed(value: ActivityType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
