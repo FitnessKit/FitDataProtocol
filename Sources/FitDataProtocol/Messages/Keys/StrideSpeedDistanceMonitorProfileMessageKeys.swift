@@ -55,55 +55,37 @@ extension StrideSpeedDistanceMonitorProfileMessage: FitMessageKeys {
 }
 
 public extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-
-        case .enabled:
-            return .enumtype
-        case .antID:
-            return .uint16z
-        case .calibrationFactor:
-            return .uint16
-        case .odometer:
-            return .uint32
-        case .speedSource:
-            return .enumtype
-        case .transType:
-            return .uint8z
-        case .odometerRollover:
-            return .uint8
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .enabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .antID:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .calibrationFactor:
             // 10 * % + 0
-            return Resolution(scale: 10.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .odometer:
             // 100 * m + 0
-            return Resolution(scale: 100.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .speedSource:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .transType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .odometerRollover:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

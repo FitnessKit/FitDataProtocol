@@ -45,33 +45,26 @@ extension SoftwareMessage: FitMessageKeys {
 }
 
 public extension SoftwareMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-
-        case .version:
-            return .uint16
-        case .partNumber:
-            return .string  //16
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension SoftwareMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .version:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .partNumber:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 16
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

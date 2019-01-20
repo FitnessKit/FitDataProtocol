@@ -47,18 +47,26 @@ extension CourseMessage: FitMessageKeys {
 }
 
 public extension CourseMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
+    public var baseType: BaseType { return self.baseData.type }
+}
+
+internal extension CourseMessage.FitCodingKeys {
+
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .sport:
-            return .enumtype
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .name:
-            return .string
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .capabilities:
-            return .uint32z
+            return BaseData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .subSport:
-            return .enumtype
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

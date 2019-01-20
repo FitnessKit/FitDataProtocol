@@ -52,47 +52,32 @@ extension ScheduleMessage: FitMessageKeys {
 }
 
 public extension ScheduleMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .manufacturer:
-            return .uint16
-        case .product:
-            return .uint16
-        case .serialNumber:
-            return .uint32z
-        case .timeCreated:
-            return .uint32
-        case .completed:
-            return .enumtype
-        case .scheduleType:
-            return .enumtype
-        case .scheduledTime:
-            return .uint32
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension ScheduleMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .manufacturer:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .product:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .serialNumber:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .timeCreated:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .completed:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .scheduleType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .scheduledTime:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

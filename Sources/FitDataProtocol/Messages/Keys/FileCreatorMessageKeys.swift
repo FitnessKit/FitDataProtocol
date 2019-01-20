@@ -42,27 +42,22 @@ extension FileCreatorMessage: FitMessageKeys {
 }
 
 public extension FileCreatorMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .softwareVersion:
-            return .uint16
-        case .hardwareVersion:
-            return .uint8
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension FileCreatorMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .softwareVersion:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .hardwareVersion:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

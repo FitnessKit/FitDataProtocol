@@ -47,37 +47,29 @@ extension SportMessage: FitMessageKeys {
 }
 
 public extension SportMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .timestamp:
-            return .uint32
-
-        case .sport:
-            return .enumtype
-        case .subSport:
-            return .enumtype
-        case .name:
-            return .string  //16
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension SportMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .timestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 1 * s + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .sport:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .subSport:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .name:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 16
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

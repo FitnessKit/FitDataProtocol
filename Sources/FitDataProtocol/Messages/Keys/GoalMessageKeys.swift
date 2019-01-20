@@ -65,73 +65,45 @@ extension GoalMessage: FitMessageKeys {
 }
 
 public extension GoalMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-
-        case .sport:
-            return .enumtype
-        case .subSport:
-            return .enumtype
-        case .startDate:
-            return .uint32
-        case .endDate:
-            return .uint32
-        case .goalType:
-            return .enumtype
-        case .goalValue:
-            return .uint32
-        case .repeatGoal:
-            return .enumtype
-        case .targetValue:
-            return .uint32
-        case .recurrence:
-            return .enumtype
-        case .recurrenceValue:
-            return .uint16
-        case .enabled:
-            return .enumtype
-        case .goalSource:
-            return .enumtype
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension GoalMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .sport:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .subSport:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .startDate:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .endDate:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .goalType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .goalValue:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .repeatGoal:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .targetValue:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .recurrence:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .recurrenceValue:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .enabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .goalSource:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

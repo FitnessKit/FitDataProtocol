@@ -45,35 +45,26 @@ extension CadenceZoneMessage: FitMessageKeys {
 }
 
 public extension CadenceZoneMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-
-        switch self {
-        case .messageIndex:
-            return .uint16
-
-        case .highValue:
-            return .uint8
-        case .name:
-            return .string
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension CadenceZoneMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .highValue:
             // 1 * bpm + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .name:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

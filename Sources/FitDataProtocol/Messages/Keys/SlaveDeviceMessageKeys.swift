@@ -43,27 +43,22 @@ extension SlaveDeviceMessage: FitMessageKeys {
 }
 
 public extension SlaveDeviceMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .manufacturer:
-            return .uint16
-        case .product:
-            return .uint16
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension SlaveDeviceMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .manufacturer:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .product:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

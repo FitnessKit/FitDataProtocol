@@ -37,7 +37,7 @@ extension HeartRateZoneMessage: FitMessageKeys {
         /// Message Index
         case messageIndex   = 254
 
-        /// High BOM
+        /// High Beats Per Minute
         case highBpm        = 1
         /// Name
         case name           = 2
@@ -45,34 +45,27 @@ extension HeartRateZoneMessage: FitMessageKeys {
 }
 
 public extension HeartRateZoneMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint8
-
-        case .highBpm:
-            return .uint8
-        case .name:
-            return .string  //16
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension HeartRateZoneMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .highBpm:
             // 1 * bpm + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .name:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 16
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

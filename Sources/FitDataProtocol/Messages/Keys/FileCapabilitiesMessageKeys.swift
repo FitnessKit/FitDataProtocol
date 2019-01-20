@@ -51,45 +51,32 @@ extension FileCapabilitiesMessage: FitMessageKeys {
 }
 
 public extension FileCapabilitiesMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-
-        case .fileType:
-            return .enumtype
-        case .fileFlags:
-            return .uint8z
-        case .directory:
-            return .string // 16
-        case .maxCount:
-            return .uint16
-        case .maxSize:
-            return .uint32
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension FileCapabilitiesMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .fileType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .fileFlags:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .directory:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 16
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maxCount:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maxSize:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

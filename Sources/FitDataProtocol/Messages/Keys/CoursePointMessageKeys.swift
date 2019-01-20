@@ -55,56 +55,38 @@ extension CoursePointMessage: FitMessageKeys {
 }
 
 public extension CoursePointMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-
-        case .timestamp:
-            return .uint32
-        case .latitude:
-            return .sint32
-        case .longitude:
-            return .sint32
-        case .distance:
-            return .uint32
-        case .pointType:
-            return .enumtype
-        case .name:
-            return .string
-        case .favorite:
-            return .enumtype
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension CoursePointMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
-            
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+
         case .timestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .latitude:
             // 1 * semicircles + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .longitude:
             // 1 * semicircles + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .distance:
             // 100 * m + 0
-            return Resolution(scale: 100.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .pointType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .name:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .favorite:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

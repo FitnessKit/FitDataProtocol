@@ -55,55 +55,37 @@ extension ActivityMessage: FitMessageKeys {
 }
 
 public extension ActivityMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-
-        switch self {
-        case .timestamp:
-            return .uint32
-
-        case .totalTimerTime:
-            return .uint32
-        case .numberOfSessions:
-            return .uint16
-        case .activityType:
-            return .enumtype
-        case .event:
-            return .enumtype
-        case .eventType:
-            return .enumtype
-        case .localTimestamp:
-            return .uint32
-        case .eventGroup:
-            return .uint8
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension ActivityMessage.FitCodingKeys {
-    
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .timestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 1 * s + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .totalTimerTime:
             // 1000 * s + 0
-            return Resolution(scale: 1000.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .numberOfSessions:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .activityType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .event:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .eventType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .localTimestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .eventGroup:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

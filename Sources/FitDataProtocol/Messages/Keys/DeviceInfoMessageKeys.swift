@@ -75,95 +75,59 @@ extension DeviceInfoMessage: FitMessageKeys {
 }
 
 public extension DeviceInfoMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .timestamp:
-            return .uint32
-
-        case .deviceIndex:
-            return .uint8
-        case .deviceType:
-            return .uint8
-        case .manufacturer:
-            return .uint16
-        case .serialNumber:
-            return .uint32z
-        case .product:
-            return .uint16
-        case .softwareVersion:
-            return .uint16
-        case .hardwareVersion:
-            return .uint8
-        case .cumulativeOpTime:
-            return .uint32
-        case .batteryVoltage:
-            return .uint16
-        case .batteryStatus:
-            return .uint8
-        case .sensorPosition:
-            return .enumtype
-        case .description:
-            return .string
-        case .transmissionType:
-            return .uint8z
-        case .deviceNumber:
-            return .uint16z
-        case .antNetwork:
-            return .enumtype
-        case .sourcetype:
-            return .enumtype
-        case .productName:
-            return .string //20
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension DeviceInfoMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .timestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
-            
+            // 1 * s + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+
         case .deviceIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .deviceType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .manufacturer:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .serialNumber:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .product:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .softwareVersion:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .hardwareVersion:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .cumulativeOpTime:
             // 1 * s + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .batteryVoltage:
             // 256 * V + 0
-            return Resolution(scale: 256.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 256.0, offset: 0.0))
         case .batteryStatus:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .sensorPosition:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .description:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .transmissionType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .deviceNumber:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .antNetwork:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .sourcetype:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .productName:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 20
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

@@ -47,40 +47,30 @@ extension MetZoneMessage: FitMessageKeys {
 }
 
 public extension MetZoneMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-
-        case .highBpm:
-            return .uint8
-        case .calories:
-            return .uint16
-        case .fatCalories:
-            return .uint16
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension MetZoneMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .highBpm:
             // 1 * bpm + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .calories:
             // 10 * kcal / min + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .fatCalories:
             // 10 * kcal / min + 0
-            return Resolution(scale: 10.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         }
     }
 }

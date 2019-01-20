@@ -91,134 +91,83 @@ extension UserProfileMessage: FitMessageKeys {
 }
 
 public extension UserProfileMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-        case .timestamp:
-            return .uint32
-
-        case .friendlyName:
-            return .string //16
-        case .gender:
-            return .enumtype
-        case .age:
-            return .uint8
-        case .height:
-            return .uint8
-        case .weight:
-            return .uint16
-        case .language:
-            return .enumtype
-        case .elevationSetting:
-            return .enumtype
-        case .weightSetting:
-            return .enumtype
-        case .restingHeartRate:
-            return .uint8
-        case .defaultMaxRunningHeartRate:
-            return .uint8
-        case .defaultMaxBikingHeartRate:
-            return .uint8
-        case .defaultMaxHeartRate:
-            return .uint8
-        case .heartRateSetting:
-            return .enumtype
-        case .speedSetting:
-            return .enumtype
-        case .distanceSetting:
-            return .enumtype
-        case .powerSetting:
-            return .enumtype
-        case .activityClass:
-            return .enumtype
-        case .positionSetting:
-            return .enumtype
-        case .temperatureSetting:
-            return .enumtype
-        case .localID:
-            return .uint16
-        case .globalID:
-            return .byte    //6
-        case .heightSetting:
-            return .enumtype
-        case .runningStepLength:
-            return .uint16
-        case .walkingStepLength:
-            return .uint16
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension UserProfileMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .timestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 1 * s + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .friendlyName:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 16
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .gender:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .age:
             /// 1 * years
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .height:
-            //  100 * m + 0
-            return Resolution(scale: 100.0, offset: 0.0)
+            // 100 * m + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .weight:
-            //  10 * kg + 0
-            return Resolution(scale: 10.0, offset: 0.0)
+            // 10 * kg + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .language:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .elevationSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .weightSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .restingHeartRate:
             // 1 * bpm + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .defaultMaxRunningHeartRate:
             // 1 * bpm + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .defaultMaxBikingHeartRate:
             // 1 * bpm + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .defaultMaxHeartRate:
             // 1 * bpm + 0
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .heartRateSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .speedSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .distanceSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .powerSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .activityClass:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .positionSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .temperatureSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .localID:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .globalID:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 16
+            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .heightSetting:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .runningStepLength:
             // 1000 * m + 0, User defined running step length set to 0 for auto length
-            return Resolution(scale: 1000.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .walkingStepLength:
             // 1000 * m + 0, User defined running step length set to 0 for auto length
-            return Resolution(scale: 1000.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         }
     }
 }

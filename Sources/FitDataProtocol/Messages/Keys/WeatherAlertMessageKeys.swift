@@ -51,45 +51,33 @@ extension WeatherAlertMessage: FitMessageKeys {
 }
 
 public extension WeatherAlertMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .timestamp:
-            return .uint32
-
-        case .reportId:
-            return .string //12
-        case .issueTime:
-            return .uint32
-        case .expireTime:
-            return .uint32
-        case .severity:
-            return .enumtype
-        case .alertType:
-            return .enumtype
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension WeatherAlertMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .timestamp:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 1 * s + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .reportId:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 12
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .issueTime:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .expireTime:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .severity:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .alertType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

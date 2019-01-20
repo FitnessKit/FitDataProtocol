@@ -65,71 +65,44 @@ extension ConnectivityMessage: FitMessageKeys {
 }
 
 public extension ConnectivityMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .bluetoothEnabled:
-            return .enumtype
-        case .bluetoothLowEnergyEnable:
-            return .enumtype
-        case .antEnabled:
-            return .enumtype
-        case .connectivityName:
-            return .string
-        case .liveTrackingEnabled:
-            return .enumtype
-        case .weatherConditionsEnabled:
-            return .enumtype
-        case .weatherAlertsEnabled:
-            return .enumtype
-        case .autoActivityUploadEnabled:
-            return .enumtype
-        case .courseDownloadEnabled:
-            return .enumtype
-        case .workoutDownloadEnabled:
-            return .enumtype
-        case .gpsEphemerisDownloadEnabled:
-            return .enumtype
-        case .incidentDetectionEnabled:
-            return .enumtype
-        case .groupTrackEnabled:
-            return .enumtype
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension ConnectivityMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .bluetoothEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .bluetoothLowEnergyEnable:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .antEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .connectivityName:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .liveTrackingEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .weatherConditionsEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .weatherAlertsEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .autoActivityUploadEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .courseDownloadEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .workoutDownloadEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .gpsEphemerisDownloadEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .incidentDetectionEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .groupTrackEnabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

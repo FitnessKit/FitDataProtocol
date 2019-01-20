@@ -52,47 +52,33 @@ extension FileIdMessage: FitMessageKeys {
 }
 
 public extension FileIdMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .fileType:
-            return .enumtype
-        case .manufacturer:
-            return .uint16
-        case .product:
-            return .uint16
-        case .serialNumber:
-            return .uint32z
-        case .fileCreationDate:
-            return .uint32
-        case .fileNumber:
-            return .uint16
-        case .productName:
-            return .string //20
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension FileIdMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .fileType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .manufacturer:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .product:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .serialNumber:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .fileCreationDate:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .fileNumber:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .productName:
-            return Resolution(scale: 1.0, offset: 0.0)
+            // 20
+            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

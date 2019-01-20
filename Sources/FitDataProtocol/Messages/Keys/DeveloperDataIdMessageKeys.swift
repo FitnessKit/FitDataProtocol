@@ -48,39 +48,28 @@ extension DeveloperDataIdMessage: FitMessageKeys {
 }
 
 public extension DeveloperDataIdMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .developerId:
-            return .byte
-        case .applicationId:
-            return .byte
-        case .manufacturerId:
-            return .uint16
-        case .dataIndex:
-            return .uint8
-        case .applicationVersion:
-            return .byte
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension DeveloperDataIdMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .developerId:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .applicationId:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .manufacturerId:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .dataIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .applicationVersion:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

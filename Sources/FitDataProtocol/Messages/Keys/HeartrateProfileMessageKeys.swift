@@ -49,41 +49,29 @@ extension HeartrateProfileMessage: FitMessageKeys {
 }
 
 public extension HeartrateProfileMessage.FitCodingKeys {
-
     /// Key Base Type
-    public var baseType: BaseType {
-        switch self {
-        case .messageIndex:
-            return .uint16
-
-        case .enabled:
-            return .enumtype
-        case .antID:
-            return .uint16z
-        case .logHrv:
-            return .enumtype
-        case .transType:
-            return .uint8z
-        }
-    }
+    public var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension HeartrateProfileMessage.FitCodingKeys {
 
-    /// Key Base Type Resolution
-    var resolution: Resolution {
+    /// Key Base Resolution
+    internal var resolution: Resolution { return self.baseData.resolution }
+
+    /// Key Base Data
+    internal var baseData: BaseData {
         switch self {
         case .messageIndex:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .enabled:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .antID:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .logHrv:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .transType:
-            return Resolution(scale: 1.0, offset: 0.0)
+            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

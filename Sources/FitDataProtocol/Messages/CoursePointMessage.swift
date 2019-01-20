@@ -104,16 +104,16 @@ open class CoursePointMessage: FitMessage {
 
         for definition in definition.fieldDefinitions {
 
-            let key = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
+            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
 
-            switch key {
+            switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("CoursePointMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
-            case .some(let converter):
-                switch converter {
+            case .some(let key):
+                switch key {
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,
                                                        endian: arch,
@@ -130,7 +130,7 @@ open class CoursePointMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         latitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -140,7 +140,7 @@ open class CoursePointMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         longitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -150,7 +150,7 @@ open class CoursePointMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         distance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
