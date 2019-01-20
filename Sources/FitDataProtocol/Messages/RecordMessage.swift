@@ -869,25 +869,21 @@ open class RecordMessage: FitMessage {
 
             case .heartRate:
                 if let heartRate = heartRate {
-                    // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    msgData.append(valueData)
                 }
 
             case .cadence:
                 if let cadence = cadence {
-                    // 1 * rpm + 0
-                    let value = cadence.value.resolutionUInt8(1, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: cadence.value)
+                    msgData.append(valueData)
                 }
 
             case .distance:
                 if var distance = distance {
-                    // 100 * m + 0
                     distance = distance.converted(to: UnitLength.meters)
-                    let value = distance.value.resolutionUInt32(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: distance.value)
+                    msgData.append(valueData)
                 }
 
             case .speed:
@@ -895,9 +891,10 @@ open class RecordMessage: FitMessage {
                 break
 
             case .power:
-                if let power = power {
-                    let value = encodePowerUInt16(power)
-                    msgData.append(value)
+                if var power = power {
+                    power = power.converted(to: UnitPower.watts)
+                    let valueData = try key.encodeKeyed(value: power.value)
+                    msgData.append(valueData)
                 }
 
             case .compressedSpeedDistance:
@@ -905,40 +902,35 @@ open class RecordMessage: FitMessage {
 
             case .grade:
                 if let grade = grade {
-                    let value = encodeInt16Percent(grade)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: grade.value)
+                    msgData.append(valueData)
                 }
 
             case .resistance:
                 if let resistance = resistance {
-                    msgData.append(resistance.value)
+                    let valueData = try key.encodeKeyed(value: resistance)
+                    msgData.append(valueData)
                 }
 
             case .timeFromCourse:
                 if var timeFromCourse = timeFromCourse {
-                    // 1000 * s + 0
                     timeFromCourse = timeFromCourse.converted(to: UnitDuration.seconds)
-                    let value = timeFromCourse.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: timeFromCourse.value)
+                    msgData.append(valueData)
                 }
 
             case .cycleLength:
                 if var cycleLength = cycleLength {
-                    // 100 * m + 0
                     cycleLength = cycleLength.converted(to: UnitLength.meters)
-                    let value = cycleLength.value.resolutionUInt8(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: cycleLength.value)
+                    msgData.append(valueData)
                 }
 
             case .temperature:
                 if var temperature = temperature {
-                    // 1 * C + 0
                     temperature = temperature.converted(to: UnitTemperature.celsius)
-                    let value = temperature.value.resolutionInt8(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: temperature.value)
+                    msgData.append(valueData)
                 }
 
             case .speedOneSecondInterval:
@@ -946,14 +938,14 @@ open class RecordMessage: FitMessage {
 
             case .cycles:
                 if let cycles = cycles {
-                    // 1 * cycles + 0
-                    msgData.append(cycles.value)
+                    let valueData = try key.encodeKeyed(value: cycles)
+                    msgData.append(valueData)
                 }
 
             case .totalCycles:
                 if let totalCycles = totalCycles {
-                    // 1 * cycles + 0
-                    msgData.append(Data(from: totalCycles.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalCycles)
+                    msgData.append(valueData)
                 }
 
             case .compressedAccumulatedPower:
@@ -961,11 +953,9 @@ open class RecordMessage: FitMessage {
 
             case .accumulatedPower:
                 if var accumulatedPower = accumulatedPower {
-                    // 1 * watts + 0
                     accumulatedPower = accumulatedPower.converted(to: UnitPower.watts)
-                    let value = accumulatedPower.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: accumulatedPower.value)
+                    msgData.append(valueData)
                 }
 
             case .leftRightBalance:
@@ -973,91 +963,79 @@ open class RecordMessage: FitMessage {
 
             case .gpsAccuracy:
                 if var gpsAccuracy = gpsAccuracy {
-                    // 1 * m + 0
                     gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
-                    let value = gpsAccuracy.value.resolutionUInt8(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: gpsAccuracy.value)
+                    msgData.append(valueData)
                 }
 
             case .verticalSpeed:
-                if let verticalSpeed = verticalSpeed {
-                    let value = encodeVerticalSpeed(verticalSpeed)
-                    msgData.append(value)
+                if var verticalSpeed = verticalSpeed {
+                    verticalSpeed = verticalSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let valueData = try key.encodeKeyed(value: verticalSpeed.value)
+                    msgData.append(valueData)
                 }
 
             case .calories:
                 if var calories = calories {
-                    // 1 * kcal + 0
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let value = calories.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: calories.value)
+                    msgData.append(valueData)
                 }
 
             case .verticalOscillation:
                 if var verticalOscillation = verticalOscillation {
-                    // 10 * mm + 0
                     verticalOscillation = verticalOscillation.converted(to: UnitLength.millimeters)
-                    let value = verticalOscillation.value.resolutionUInt16(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: verticalOscillation.value)
+                    msgData.append(valueData)
                 }
 
             case .stanceTimePercent:
                 if let stancePercent = stanceTime.percent {
-                    // 100 * % + 0
-                    let value = encodeUInt16Percent(stancePercent)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: stancePercent.value)
+                    msgData.append(valueData)
                 }
 
             case .stanceTime:
                 if var stance = stanceTime.time {
-                    // 10 * ms + 0
                     stance = stance.converted(to: UnitDuration.millisecond)
-                    let value = stance.value.resolutionUInt16(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: stance.value)
+                    msgData.append(valueData)
                 }
 
             case .activityType:
                 if let activityType = activity {
-                    msgData.append(activityType.rawValue)
+                    let valueData = try key.encodeKeyed(value: activityType)
+                    msgData.append(valueData)
                 }
 
             case .leftTorqueEffectiveness:
                 if let left = torqueEffectiveness.left {
-                    // 2 * percent + 0
-                    let value = left.value.resolutionUInt8(2, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: left.value)
+                    msgData.append(valueData)
                 }
 
             case .rightTorqueEffectiveness:
                 if let right = torqueEffectiveness.right {
-                    // 2 * percent + 0
-                    let value = right.value.resolutionUInt8(2, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: right.value)
+                    msgData.append(valueData)
                 }
 
             case .leftPedalSmoothness:
                 if let left = pedalSmoothness.left {
-                    // 2 * percent + 0
-                    let value = left.value.resolutionUInt8(2, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: left.value)
+                    msgData.append(valueData)
                 }
 
             case .rightPedalSmoothness:
                 if let right = pedalSmoothness.right {
-                    // 2 * percent + 0
-                    let value = right.value.resolutionUInt8(2, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: right.value)
+                    msgData.append(valueData)
                 }
 
             case .combinedPedalSmoothness:
                 if let combined = pedalSmoothness.combined {
-                    // 2 * percent + 0
-                    let value = combined.value.resolutionUInt8(2, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: combined.value)
+                    msgData.append(valueData)
                 }
 
             case .time128Second:
@@ -1065,21 +1043,21 @@ open class RecordMessage: FitMessage {
 
             case .strokeType:
                 if let strokeType = stroke {
-                    msgData.append(strokeType.rawValue)
+                    let valueData = try key.encodeKeyed(value: strokeType)
+                    msgData.append(valueData)
                 }
 
             case .zone:
                 if let zone = zone {
-                    msgData.append(zone.value)
+                    let valueData = try key.encodeKeyed(value: zone)
+                    msgData.append(valueData)
                 }
 
             case .ballSpeed:
                 if var ballSpeed = ballSpeed {
-                    // 100 * m/s + 0
                     ballSpeed = ballSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = ballSpeed.value.resolutionInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: ballSpeed.value)
+                    msgData.append(valueData)
                 }
 
             case .cadence256:
@@ -1101,22 +1079,22 @@ open class RecordMessage: FitMessage {
 
             case .deviceIndex:
                 if let deviceIndex = deviceIndex {
-                    msgData.append(deviceIndex.index)
+                    let valueData = try key.encodeKeyed(value: deviceIndex.index)
+                    msgData.append(valueData)
                 }
 
             case .enhancedSpeed:
                 if var enhancedSpeed = speed {
-                    // 1000 * m/s + 0
                     enhancedSpeed = enhancedSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = enhancedSpeed.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: enhancedSpeed.value)
+                    msgData.append(valueData)
                 }
 
             case .enhancedAltitude:
-                if let enhancedAltitude = altitude {
-                    let valData = encodeEnhancedAltitude(enhancedAltitude)
-                    msgData.append(valData)
+                if var altitude = altitude {
+                    altitude = altitude.converted(to: UnitLength.meters)
+                    let valueData = try key.encodeKeyed(value: altitude.value)
+                    msgData.append(valueData)
                 }
 
             }
@@ -1128,51 +1106,6 @@ open class RecordMessage: FitMessage {
             throw self.encodeNoPropertiesAvailable()
         }
     }
-}
-
-private extension RecordMessage {
-
-    func encodePowerUInt16(_ power: ValidatedMeasurement<UnitPower>) -> Data {
-        var vpower = power
-        // 1 * watts + 0
-        vpower = vpower.converted(to: UnitPower.watts)
-        let value = vpower.value.resolutionUInt16(1, offset: 0.0)
-
-        return Data(from: value.littleEndian)
-    }
-
-    func encodeUInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
-        // 100 * % + 0
-        let value = percent.value.resolutionUInt16(100, offset: 0.0)
-
-        return Data(from: value.littleEndian)
-    }
-
-    func encodeInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
-        // 100 * % + 0
-        let value = percent.value.resolutionInt16(100, offset: 0.0)
-
-        return Data(from: value.littleEndian)
-    }
-
-    func encodeVerticalSpeed(_ speed: ValidatedMeasurement<UnitSpeed>) -> Data {
-        var vspeed = speed
-        // 1000 * m/s + 0
-        vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
-        let value = vspeed.value.resolutionInt16(1000, offset: 0.0)
-
-        return Data(from: value.littleEndian)
-    }
-
-    func encodeEnhancedAltitude(_ alt: ValidatedMeasurement<UnitLength>) -> Data {
-        var altitude = alt
-        // 5 * m + 500
-        altitude = altitude.converted(to: UnitLength.meters)
-        let value = altitude.value.resolutionUInt32(5, offset: 500)
-
-        return Data(from: value.littleEndian)
-    }
-
 }
 
 private extension RecordMessage {

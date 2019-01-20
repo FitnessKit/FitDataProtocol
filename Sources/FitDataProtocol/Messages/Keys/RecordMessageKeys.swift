@@ -135,111 +135,231 @@ extension RecordMessage: FitMessageKeys {
 }
 
 public extension RecordMessage.FitCodingKeys {
+    /// Key Base Type
+    public var baseType: BaseType { return self.baseData.type }
+}
+
+internal extension RecordMessage.FitCodingKeys {
 
     /// Key Base Type
-    public var baseType: BaseType {
+    internal var baseData: BaseData {
         switch self {
         case .timestamp:
-            return .uint32
+            // 1 * s + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
 
         case .positionLatitude:
-            return .sint32
+            // 1 * semicircles + 0
+            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .positionLongitude:
-            return .sint32
+            // 1 * semicircles + 0
+            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .altitude:
-            return .uint16
+            // 5 * m + 500
+            return BaseData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .heartRate:
-            return .uint8
+            // 1 * bpm + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .cadence:
-            return .uint8
+            // 1 * rpm + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .distance:
-            return .uint32
+            // 100 * m + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .speed:
-            return .uint16
+            // 1000 * m/s + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .power:
-            return .uint16
+            // 1 * watts + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .compressedSpeedDistance:
-            return .byte // 3
+            // 3 typical units
+            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .grade:
-            return .sint16
+            // 100 * % + 0
+            return BaseData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .resistance:
-            return .uint8
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .timeFromCourse:
-            return .sint32
+            // 1000 * s + 0
+            return BaseData(type: .sint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .cycleLength:
-            return .uint8
+            // 100 * m + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .temperature:
-            return .sint8
+            // 1 * C + 0
+            return BaseData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .speedOneSecondInterval:
-            return .uint8 // 5
+            // 16 * m/s + 0
+            // 5 units typical
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .cycles:
-            return .uint8
+            // 1 * cycles + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalCycles:
-            return .uint32
+            // 1 * cycles + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .compressedAccumulatedPower:
-            return .uint16
+            // 1 * watts + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .accumulatedPower:
-            return .uint32
+            // 1 * watts + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .leftRightBalance:
-            return .uint8
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .gpsAccuracy:
-            return .uint8
+            // 1 * m + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .verticalSpeed:
-            return .sint16
+            // 1000 * m/s + 0
+            return BaseData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .calories:
-            return .uint16
+            // 1 * kcal + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .verticalOscillation:
-            return .uint16
+            // 10 * mm + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .stanceTimePercent:
-            return .uint16
+            // 100 * percent + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .stanceTime:
-            return .uint16
+            // 10 * ms + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .activityType:
-            return .enumtype
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .leftTorqueEffectiveness:
-            return .uint8
+            // 2 * percent + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .rightTorqueEffectiveness:
-            return .uint8
+            // 2 * percent + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .leftPedalSmoothness:
-            return .uint8
+            // 2 * percent + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .rightPedalSmoothness:
-            return .uint8
+            // 2 * percent + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .combinedPedalSmoothness:
-            return .uint8
+            // 2 * percent + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .time128Second:
-            return .uint8
+            // 128 * s + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
         case .strokeType:
-            return .enumtype
+            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .zone:
-            return .uint8
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .ballSpeed:
-            return .uint16
+            // 100 * m/s + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .cadence256:
-            return .uint16
+            // 256 * rpm + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 256.0, offset: 0.0))
         case .fractionalCadence:
-            return .uint8
+            // 128 * rpm + 0
+            return BaseData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
         case .totalHemoglobinConcentration:
-            return .uint16
+            // 100 * g/dL + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .totalHemoglobinConcentrationMin:
-            return .uint16
+            // 100 * g/dL + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .totalHemoglobinConcentrationMax:
-            return .uint16
+            // 100 * g/dL + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .saturatedHemoglobinPercent:
-            return .uint16
+            // 10 * % + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .saturatedHemoglobinPercentMin:
-            return .uint16
+            // 10 * % + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .saturatedHemoglobinPercentMax:
-            return .uint16
+            // 10 * % + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .deviceIndex:
-            return .uint8
+            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .enhancedSpeed:
-            return .uint32
+            // 1000 * m/s + 0
+            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .enhancedAltitude:
-            return .uint32
+            // 5 * m + 500
+            return BaseData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
         }
     }
-
 }
+
+// Encoding
+internal extension RecordMessage.FitCodingKeys {
+
+//    internal func encodeKeyed(value: Intensity) throws -> Data {
+//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+//    }
+//
+//    internal func encodeKeyed(value: LapTrigger) throws -> Data {
+//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+//    }
+//
+    //    internal func encodeKeyed(value: SwimStroke) throws -> Data {
+    //        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+    //    }
+
+    internal func encodeKeyed(value: ActivityType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: Stroke) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+    }
+}
+
+// Encoding
+internal extension RecordMessage.FitCodingKeys {
+
+    internal func encodeKeyed(value: Event) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: EventType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+    }
+}
+
+// Encoding
+extension RecordMessage.FitCodingKeys: KeyedEncoder {
+
+    internal func encodeKeyed(value: Bool) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt8) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt16) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: UInt32) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+    }
+
+    internal func encodeKeyed(value: Double) throws -> Data {
+        return try self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+    }
+}
+
 
 internal extension RecordMessage.FitCodingKeys {
 
