@@ -351,7 +351,6 @@ extension RecordMessage.FitCodingKeys: KeyedEncoder {
     }
 }
 
-
 internal extension RecordMessage.FitCodingKeys {
 
     /// Create a Field Definition Message From the Key

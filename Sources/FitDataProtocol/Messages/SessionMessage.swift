@@ -36,15 +36,21 @@ open class SessionMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 18 }
 
     /// Timestamp
+    ///
+    /// Sesson end time
     private(set) public var timeStamp: FitTime?
 
     /// Message Index
     private(set) public var messageIndex: MessageIndex?
 
     /// Event
+    ///
+    /// - note: Event should be .session
     private(set) public var event: Event?
 
     /// Event Type
+    ///
+    /// - note: EventType should be .stop
     private(set) public var eventType: EventType?
 
     /// Start Time
@@ -498,16 +504,16 @@ open class SessionMessage: FitMessage {
 
         for definition in definition.fieldDefinitions {
 
-            let key = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
+            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
 
-            switch key {
+            switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("SessionMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
 
-            case .some(let converter):
-                switch converter {
+            case .some(let key):
+                switch key {
 
                 case .messageIndex:
                     messageIndex = MessageIndex.decode(decoder: &localDecoder,
@@ -542,7 +548,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         startPositionlatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         startPositionlatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -552,7 +558,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         startPositionlongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         startPositionlongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -574,7 +580,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0, Time (includes pauses)
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         totalElapsedTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
@@ -582,7 +588,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0, Time (excludes pauses)
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
@@ -590,7 +596,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         totalDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         totalDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -625,7 +631,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         averageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -635,7 +641,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         maximumSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         maximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -697,7 +703,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averagePower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         averagePower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -707,7 +713,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         maximumPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         maximumPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -717,7 +723,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         totalAscent = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         totalAscent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -727,7 +733,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         totalDescent = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         totalDescent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -767,7 +773,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         necLatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         necLatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -777,7 +783,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         necLongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         necLongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -787,7 +793,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         swcLatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         swcLatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -797,7 +803,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         swcLongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         swcLongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -807,7 +813,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         normalizedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         normalizedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -829,7 +835,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageStrokeDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         averageStrokeDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -845,7 +851,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * m + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         poolLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         poolLength = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -855,7 +861,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
-                        let value = value.resolution(1)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         thresholdPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         thresholdPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -884,7 +890,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, offset: -500)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         averageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -894,7 +900,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, offset: -500)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         maximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         maximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -913,7 +919,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         averageGrade = ValidatedMeasurement.invalidValue(definition.baseType,
@@ -925,7 +931,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averagePositiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         averagePositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -935,7 +941,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageNegitiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         averageNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -945,7 +951,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         maximumPositiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         maximumPositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -955,7 +961,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         maximumNegitiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         maximumNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -983,7 +989,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         totalMovingTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
                     
@@ -991,7 +997,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averagePositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         averagePositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1001,7 +1007,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         averageNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1011,7 +1017,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         maximumPositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         maximumPositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1021,7 +1027,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         maximumNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         maximumNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1056,7 +1062,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageLapTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
 
@@ -1070,7 +1076,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, offset: -500)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         minimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         minimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1104,7 +1110,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * m/s + 0,
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         maximumBallSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         maximumBallSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1114,7 +1120,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * m/s + 0,
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageBallSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         averageBallSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1124,7 +1130,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * mm + 0
-                        let value = value.resolution(1 / 10)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageVerticalOscillation = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.millimeters)
                     } else {
                         averageVerticalOscillation = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.millimeters)
@@ -1134,7 +1140,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * % + 0
-                        let value = value.resolution(1 / 100)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageStancePercent = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         averageStancePercent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -1144,7 +1150,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * ms + 0
-                        let value = value.resolution(1 / 10)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         averageStanceTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.millisecond)
                     } else {
                         averageStanceTime = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitDuration.millisecond)
@@ -1169,7 +1175,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         enhancedAverageSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         enhancedAverageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1179,7 +1185,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(1 / 1000)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         enhancedMaximumSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         enhancedMaximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1189,7 +1195,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, offset: -500)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         enhancedAverageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedAverageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1199,7 +1205,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, offset: -500)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         enhancedMinimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedMinimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1209,7 +1215,7 @@ open class SessionMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(1 / 5, offset: -500)
+                        let value = value.resolution(.removing, resolution: key.resolution)
                         enhancedMaximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedMaximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1578,12 +1584,14 @@ open class SessionMessage: FitMessage {
 
             case .event:
                 if let event = event {
-                    msgData.append(event.rawValue)
+                    let valueData = try key.encodeKeyed(value: event)
+                    msgData.append(valueData)
                 }
 
             case .eventType:
                 if let eventType = eventType {
-                    msgData.append(eventType.rawValue)
+                    let valueData = try key.encodeKeyed(value: eventType)
+                    msgData.append(valueData)
                 }
 
             case .startTime:
@@ -1603,63 +1611,55 @@ open class SessionMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    msgData.append(sport.rawValue)
+                    let valueData = try key.encodeKeyed(value: sport)
+                    msgData.append(valueData)
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    msgData.append(subSport.rawValue)
+                    let valueData = try key.encodeKeyed(value: subSport)
+                    msgData.append(valueData)
                 }
 
             case .totalElapsedTime:
                 if var totalElapsedTime = totalElapsedTime {
-                    // 1000 * s + 0, Time (includes pauses)
                     totalElapsedTime = totalElapsedTime.converted(to: UnitDuration.seconds)
-                    let value = totalElapsedTime.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalElapsedTime.value)
+                    msgData.append(valueData)
                 }
 
             case .totalTimerTime:
                 if var totalTimerTime = totalTimerTime {
-                    // 1000 * s + 0, Time (excludes pauses)
                     totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    let value = totalTimerTime.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalTimerTime.value)
+                    msgData.append(valueData)
                 }
 
             case .totalDistance:
                 if var totalDistance = totalDistance {
-                    // 100 * m + 0
                     totalDistance = totalDistance.converted(to: UnitLength.meters)
-                    let value = totalDistance.value.resolutionUInt32(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalDistance.value)
+                    msgData.append(valueData)
                 }
 
             case .totalCycles:
                 if let totalCycles = totalCycles {
-                    // 1 * cycles + 0
-                    msgData.append(Data(from: totalCycles.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalCycles)
+                    msgData.append(valueData)
                 }
 
             case .totalCalories:
                 if var totalCalories = totalCalories {
-                    // 1 * kcal + 0
                     totalCalories = totalCalories.converted(to: UnitEnergy.kilocalories)
-                    let value = totalCalories.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalCalories.value)
+                    msgData.append(valueData)
                 }
 
             case .totalFatCalories:
                 if var totalFatCalories = totalFatCalories {
-                    // 1 * kcal + 0
                     totalFatCalories = totalFatCalories.converted(to: UnitEnergy.kilocalories)
-                    let value = totalFatCalories.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalFatCalories.value)
+                    msgData.append(valueData)
                 }
 
             case .averageSpeed:
@@ -1670,85 +1670,84 @@ open class SessionMessage: FitMessage {
                 break
             case .averageHeartRate:
                 if let averageHeartRate = averageHeartRate {
-                    // 1 * bpm + 0
-                    let value = averageHeartRate.value.resolutionUInt8(1, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: averageHeartRate.value)
+                    msgData.append(valueData)
                 }
 
             case .maximumHeartRate:
                 if let maximumHeartRate = maximumHeartRate {
-                    // 1 * bpm + 0
-                    let value = maximumHeartRate.value.resolutionUInt8(1, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: maximumHeartRate.value)
+                    msgData.append(valueData)
                 }
 
             case .averageCadence:
                 if let averageCadence = averageCadence {
-                    // 1 * rpm + 0
-                    let value = averageCadence.value.resolutionUInt8(1, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: averageCadence.value)
+                    msgData.append(valueData)
                 }
 
             case .maximumCadence:
                 if let maximumCadence = maximumCadence {
-                    // 1 * rpm + 0
-                    let value = maximumCadence.value.resolutionUInt8(1, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: maximumCadence.value)
+                    msgData.append(valueData)
                 }
 
             case .averagePower:
-                if let averagePower = averagePower {
-                    let value = encodePower(averagePower)
-                    msgData.append(value)
+                if var power = averagePower {
+                    power = power.converted(to: UnitPower.watts)
+                    let valueData = try key.encodeKeyed(value: power.value)
+                    msgData.append(valueData)
                 }
 
             case .maximumPower:
-                if let maximumPower = maximumPower {
-                    let value = encodePower(maximumPower)
-                    msgData.append(value)
+                if var power = maximumPower {
+                    power = power.converted(to: UnitPower.watts)
+                    let valueData = try key.encodeKeyed(value: power.value)
+                    msgData.append(valueData)
                 }
 
             case .totalAscent:
                 if var totalAscent = totalAscent {
-                    // 1 * m + 0
                     totalAscent = totalAscent.converted(to: UnitLength.meters)
-                    let value = totalAscent.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalAscent.value)
+                    msgData.append(valueData)
                 }
 
             case .totalDescent:
                 if var totalDescent = totalDescent {
-                    // 1 * m + 0
                     totalDescent = totalDescent.converted(to: UnitLength.meters)
-                    let value = totalDescent.value.resolutionUInt16(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalDescent.value)
+                    msgData.append(valueData)
                 }
 
             case .totalTrainingEffect:
                 if let totalTrainingEffect = totalTrainingEffect {
-                    msgData.append(totalTrainingEffect.value)
+                    let valueData = try key.encodeKeyed(value: totalTrainingEffect)
+                    msgData.append(valueData)
                 }
 
             case .firstLapIndex:
                 if let firstLapIndex = firstLapIndex {
-                    msgData.append(Data(from: firstLapIndex.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: firstLapIndex)
+                    msgData.append(valueData)
                 }
 
             case .numberOfLaps:
                 if let numberOfLaps = numberOfLaps {
-                    msgData.append(Data(from: numberOfLaps.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: numberOfLaps)
+                    msgData.append(valueData)
                 }
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
-                    msgData.append(eventGroup.value)
+                    let valueData = try key.encodeKeyed(value: eventGroup)
+                    msgData.append(valueData)
                 }
 
             case .trigger:
                 if let trigger = trigger {
-                    msgData.append(trigger.rawValue)
+                    let valueData = try key.encodeKeyed(value: trigger)
+                    msgData.append(valueData)
                 }
 
             case .necLatitude:
@@ -1772,9 +1771,10 @@ open class SessionMessage: FitMessage {
                 }
 
             case .normalizedPower:
-                if let normalizedPower = normalizedPower {
-                    let value = encodePower(normalizedPower)
-                    msgData.append(value)
+                if var normalizedPower = normalizedPower {
+                    normalizedPower = normalizedPower.converted(to: UnitPower.watts)
+                    let valueData = try key.encodeKeyed(value: normalizedPower.value)
+                    msgData.append(valueData)
                 }
 
             case .trainingStressScore:
@@ -1788,51 +1788,49 @@ open class SessionMessage: FitMessage {
 
             case .averageStrokeDistance:
                 if var averageStrokeDistance = averageStrokeDistance {
-                    // 100 * m + 0
                     averageStrokeDistance = averageStrokeDistance.converted(to: UnitLength.meters)
-                    let value = averageStrokeDistance.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: averageStrokeDistance.value)
+                    msgData.append(valueData)
                 }
 
             case .swimStroke:
                 if let swimStroke = swimStroke {
-                    msgData.append(swimStroke.rawValue)
+                    let valueData = try key.encodeKeyed(value: swimStroke)
+                    msgData.append(valueData)
                 }
 
             case .poolLength:
                 if var poolLength = poolLength {
                     // 100 * m + 0
                     poolLength = poolLength.converted(to: UnitLength.meters)
-                    let value = poolLength.value.resolutionUInt16(100, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: poolLength.value)
+                    msgData.append(valueData)
                 }
 
             case .thresholdPower:
-                if let thresholdPower = thresholdPower {
-                    let value = encodePower(thresholdPower)
-                    msgData.append(value)
+                if var thresholdPower = thresholdPower {
+                    thresholdPower = thresholdPower.converted(to: UnitPower.watts)
+                    let valueData = try key.encodeKeyed(value: thresholdPower.value)
+                    msgData.append(valueData)
                 }
 
             case .poolLengthUnit:
                 if let poolLengthUnit = poolLengthUnit {
-                    msgData.append(poolLengthUnit.rawValue)
+                    let valueData = try key.encodeKeyed(value: poolLengthUnit)
+                    msgData.append(valueData)
                 }
 
             case .numberActiveLengths:
                 if let numberActiveLengths = activeLengths {
-                    // 1 * lengths + 0
-                    msgData.append(Data(from: numberActiveLengths.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: numberActiveLengths)
+                    msgData.append(valueData)
                 }
 
             case .totalWork:
                 if var totalWork = totalWork {
-                    // 1 * j + 0
                     totalWork = totalWork.converted(to: UnitEnergy.joules)
-                    let value = totalWork.value.resolutionUInt32(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalWork.value)
+                    msgData.append(valueData)
                 }
 
             case .averageAltitude:
@@ -1843,99 +1841,94 @@ open class SessionMessage: FitMessage {
                 break
             case .gpsAccuracy:
                 if var gpsAccuracy = gpsAccuracy {
-                    // 1 * m + 0
                     gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
-                    let value = gpsAccuracy.value.resolutionUInt8(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: gpsAccuracy.value)
+                    msgData.append(valueData)
                 }
 
             case .averageGrade:
                 if let averageGrade = averageGrade {
-                    let value = encodeInt16Percent(averageGrade)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: averageGrade.value)
+                    msgData.append(valueData)
                 }
 
             case .averagePositiveGrade:
                 if let averagePositiveGrade = averagePositiveGrade {
-                    let value = encodeInt16Percent(averagePositiveGrade)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: averagePositiveGrade.value)
+                    msgData.append(valueData)
                 }
 
             case .averageNegitiveGrade:
                 if let averageNegitiveGrade = averageNegitiveGrade {
-                    let value = encodeInt16Percent(averageNegitiveGrade)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: averageNegitiveGrade.value)
+                    msgData.append(valueData)
                 }
 
             case .maximumPositiveGrade:
                 if let maximumPositiveGrade = maximumPositiveGrade {
-                    let value = encodeInt16Percent(maximumPositiveGrade)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: maximumPositiveGrade.value)
+                    msgData.append(valueData)
                 }
 
             case .maximumNegitiveGrade:
                 if let maximumNegitiveGrade = maximumNegitiveGrade {
-                    let value = encodeInt16Percent(maximumNegitiveGrade)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: maximumNegitiveGrade.value)
+                    msgData.append(valueData)
                 }
 
             case .averageTemperature:
                 if var averageTemperature = averageTemperature {
-                    // 1 * C + 0
                     averageTemperature = averageTemperature.converted(to: UnitTemperature.celsius)
-                    let value = averageTemperature.value.resolutionInt8(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: averageTemperature.value)
+                    msgData.append(valueData)
                 }
 
             case .maximumTemperature:
                 if var maximumTemperature = maximumTemperature {
-                    // 1 * C + 0
                     maximumTemperature = maximumTemperature.converted(to: UnitTemperature.celsius)
-                    let value = maximumTemperature.value.resolutionInt8(1, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: maximumTemperature.value)
+                    msgData.append(valueData)
                 }
 
             case .totalMovingTime:
                 if var totalMovingTime = totalMovingTime {
-                    // 1000 * s + 0
                     totalMovingTime = totalMovingTime.converted(to: UnitDuration.seconds)
-                    let value = totalMovingTime.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: totalMovingTime.value)
+                    msgData.append(valueData)
                 }
 
             case .averagePositiveVerticalSpeed:
-                if let averagePositiveVerticalSpeed = averagePositiveVerticalSpeed {
-                    let value = encodeVerticalSpeed(averagePositiveVerticalSpeed)
-                    msgData.append(value)
+                if var vspeed = averagePositiveVerticalSpeed {
+                    vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
+                    let valueData = try key.encodeKeyed(value: vspeed.value)
+                    msgData.append(valueData)
                 }
 
             case .averageNegitiveVerticalSpeed:
-                if let averageNegitiveVerticalSpeed = averageNegitiveVerticalSpeed {
-                    let value = encodeVerticalSpeed(averageNegitiveVerticalSpeed)
-                    msgData.append(value)
+                if var vspeed = averageNegitiveVerticalSpeed {
+                    vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
+                    let valueData = try key.encodeKeyed(value: vspeed.value)
+                    msgData.append(valueData)
                 }
 
             case .maximumPositiveVerticalSpeed:
-                if let maximumPositiveVerticalSpeed = maximumPositiveVerticalSpeed {
-                    let value = encodeVerticalSpeed(maximumPositiveVerticalSpeed)
-                    msgData.append(value)
+                if var vspeed = maximumPositiveVerticalSpeed {
+                    vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
+                    let valueData = try key.encodeKeyed(value: vspeed.value)
+                    msgData.append(valueData)
                 }
 
             case .maximumNegitiveVerticalSpeed:
-                if let maximumNegitiveVerticalSpeed = maximumNegitiveVerticalSpeed {
-                    let value = encodeVerticalSpeed(maximumNegitiveVerticalSpeed)
-                    msgData.append(value)
+                if var vspeed = maximumNegitiveVerticalSpeed {
+                    vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
+                    let valueData = try key.encodeKeyed(value: vspeed.value)
+                    msgData.append(valueData)
                 }
 
             case .minimumHeartRate:
                 if let heartRate = minimumHeartRate {
-                    // 1 * bpm + 0
-                    let value = heartRate.value.resolutionUInt8(1, offset: 0.0)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    msgData.append(valueData)
                 }
 
             case .timeInHeartRateZone:
@@ -1949,16 +1942,15 @@ open class SessionMessage: FitMessage {
 
             case .averageLapTime:
                 if var averageLapTime = averageLapTime {
-                    // 1000 * s + 0
                     averageLapTime = averageLapTime.converted(to: UnitDuration.seconds)
-                    let value = averageLapTime.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: averageLapTime.value)
+                    msgData.append(valueData)
                 }
 
             case .bestLapIndex:
                 if let bestLapIndex = bestLapIndex {
-                    msgData.append(Data(from: bestLapIndex.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: bestLapIndex)
+                    msgData.append(valueData)
                 }
 
             case .minimumAltitude:
@@ -1966,12 +1958,14 @@ open class SessionMessage: FitMessage {
                 break
             case .playerScore:
                 if let playerScore = score.playerScore {
-                    msgData.append(Data(from: playerScore.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: playerScore)
+                    msgData.append(valueData)
                 }
 
             case .opponentScore:
                 if let opponentScore = score.opponentScore {
-                    msgData.append(Data(from: opponentScore.value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: opponentScore)
+                    msgData.append(valueData)
                 }
 
             case .opponentName:
@@ -1988,44 +1982,37 @@ open class SessionMessage: FitMessage {
 
             case .maximumBallSpeed:
                 if var maximumBallSpeed = maximumBallSpeed {
-                    // 100 * m/s + 0
                     maximumBallSpeed = maximumBallSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = maximumBallSpeed.value.resolutionUInt16(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: maximumBallSpeed.value)
+                    msgData.append(valueData)
                 }
 
             case .averageBallSpeed:
                 if var averageBallSpeed = averageBallSpeed {
-                    // 100 * m/s + 0
                     averageBallSpeed = averageBallSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = averageBallSpeed.value.resolutionUInt16(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: averageBallSpeed.value)
+                    msgData.append(valueData)
                 }
 
             case .averageVerticalOscillation:
                 if var averageVerticalOscillation = averageVerticalOscillation {
-                    // 10 * mm + 0
                     averageVerticalOscillation = averageVerticalOscillation.converted(to: UnitLength.millimeters)
-                    let value = averageVerticalOscillation.value.resolutionUInt16(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: averageVerticalOscillation.value)
+                    msgData.append(valueData)
                 }
 
             case .averageStanceTimePercent:
                 if let averageStanceTimePercent = averageStanceTime.percent {
-                    let value = encodeUInt16Percent(averageStanceTimePercent)
-                    msgData.append(value)
+                    let valueData = try key.encodeKeyed(value: averageStanceTimePercent.value)
+                    msgData.append(valueData)
                 }
 
             case .averageStanceTime:
                 if var averageStanceTime = averageStanceTime.time {
                     // 10 * ms + 0
                     averageStanceTime = averageStanceTime.converted(to: UnitDuration.millisecond)
-                    let value = averageStanceTime.value.resolutionUInt16(10, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: averageStanceTime.value)
+                    msgData.append(valueData)
                 }
 
             case .averageFractionalCadence:
@@ -2037,43 +2024,43 @@ open class SessionMessage: FitMessage {
 
             case .sportIndex:
                 if let sportIndex = sportIndex {
-                    msgData.append(sportIndex.value)
+                    let valueData = try key.encodeKeyed(value: sportIndex)
+                    msgData.append(valueData)
                 }
 
             case .enhancedAverageSpeed:
                 if var enhancedAverageSpeed = averageSpeed {
-                    // 1000 * m/s + 0
                     enhancedAverageSpeed = enhancedAverageSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = enhancedAverageSpeed.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: enhancedAverageSpeed.value)
+                    msgData.append(valueData)
                 }
 
             case .enhancedMaximumSpeed:
                 if var enhancedMaximumSpeed = maximumSpeed {
-                    // 1000 * m/s + 0
                     enhancedMaximumSpeed = enhancedMaximumSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let value = enhancedMaximumSpeed.value.resolutionUInt32(1000, offset: 0.0)
-
-                    msgData.append(Data(from: value.littleEndian))
+                    let valueData = try key.encodeKeyed(value: enhancedMaximumSpeed.value)
+                    msgData.append(valueData)
                 }
 
             case .enhancedAverageAltitude:
-                if let enhancedAverageAltitude = averageAltitude {
-                    let valData = encodeEnhancedAltitude(enhancedAverageAltitude)
-                    msgData.append(valData)
+                if var altitude = averageAltitude {
+                    altitude = altitude.converted(to: UnitLength.meters)
+                    let valueData = try key.encodeKeyed(value: altitude.value)
+                    msgData.append(valueData)
                 }
 
             case .enhancedMinimumAltitude:
-                if let enhancedMinimumAltitude = minimumAltitude {
-                    let valData = encodeEnhancedAltitude(enhancedMinimumAltitude)
-                    msgData.append(valData)
+                if var altitude = minimumAltitude {
+                    altitude = altitude.converted(to: UnitLength.meters)
+                    let valueData = try key.encodeKeyed(value: altitude.value)
+                    msgData.append(valueData)
                 }
 
             case .enhancedMaximumAltitude:
-                if let enhancedMaximumAltitude = maximumAltitude {
-                    let valData = encodeEnhancedAltitude(enhancedMaximumAltitude)
-                    msgData.append(valData)
+                if var altitude = maximumAltitude {
+                    altitude = altitude.converted(to: UnitLength.meters)
+                    let valueData = try key.encodeKeyed(value: altitude.value)
+                    msgData.append(valueData)
                 }
 
             case .totalAnaerobicTrainingEffect:
@@ -2139,49 +2126,4 @@ private extension SessionMessage {
         }
 
     }
-}
-
-private extension SessionMessage {
-
-    func encodePower(_ power: ValidatedMeasurement<UnitPower>) -> Data {
-        var vpower = power
-        // 1 * watts + 0
-        vpower = vpower.converted(to: UnitPower.watts)
-        let value = vpower.value.resolutionUInt16(1, offset: 0.0)
-
-        return Data(from: value.littleEndian)
-    }
-
-    func encodeUInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
-        // 100 * % + 0
-        let value = percent.value.resolutionUInt16(100, offset: 0.0)
-
-        return Data(from: value.littleEndian)
-    }
-
-    func encodeInt16Percent(_ percent: ValidatedMeasurement<UnitPercent>) -> Data {
-        // 100 * % + 0
-        let value = percent.value.resolutionInt16(100, offset: 0.0)
-
-        return Data(from: value.littleEndian)
-    }
-
-    func encodeVerticalSpeed(_ speed: ValidatedMeasurement<UnitSpeed>) -> Data {
-        var vspeed = speed
-        // 1000 * m/s + 0
-        vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
-        let value = vspeed.value.resolutionInt16(1000, offset: 0.0)
-
-        return Data(from: value.littleEndian)
-    }
-
-    func encodeEnhancedAltitude(_ alt: ValidatedMeasurement<UnitLength>) -> Data {
-        var altitude = alt
-        // 5 * m + 500
-        altitude = altitude.converted(to: UnitLength.meters)
-        let value = altitude.value.resolutionUInt32(5, offset: 500)
-
-        return Data(from: value.littleEndian)
-    }
-
 }
