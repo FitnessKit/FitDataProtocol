@@ -238,7 +238,7 @@ open class WorkoutStepMessage: FitMessage {
     /// - Throws: FitError
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
 
-        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+        try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -402,5 +402,40 @@ open class WorkoutStepMessage: FitMessage {
         } else {
             throw self.encodeNoPropertiesAvailable()
         }
+    }
+}
+
+private extension WorkoutStepMessage {
+
+    private func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
+
+        switch dataValidityStrategy {
+        case .none:
+        break // do nothing
+        case .fileType:
+            if fileType == FileType.workout {
+                try validateWorkout()
+            }
+        case .garminConnect:
+            break // do nothing
+        }
+    }
+
+    private func validateWorkout() throws {
+
+        let msg = "Workout Files"
+
+        guard self.messageIndex != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require WorkoutStepMessage to contain messageIndex, can not be nil"))
+        }
+
+        guard self.durationType != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require WorkoutStepMessage to contain durationType, can not be nil"))
+        }
+
+        guard self.targetType != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require WorkoutStepMessage to contain targetType, can not be nil"))
+        }
+
     }
 }

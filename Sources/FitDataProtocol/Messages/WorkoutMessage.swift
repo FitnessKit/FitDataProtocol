@@ -165,7 +165,7 @@ open class WorkoutMessage: FitMessage {
     /// - Throws: FitError
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
 
-        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+        try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
 
         var fileDefs = [FieldDefinition]()
 
@@ -278,5 +278,32 @@ open class WorkoutMessage: FitMessage {
         } else {
             throw self.encodeNoPropertiesAvailable()
         }
+    }
+}
+
+private extension WorkoutMessage {
+
+    private func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
+
+        switch dataValidityStrategy {
+        case .none:
+        break // do nothing
+        case .fileType:
+            if fileType == FileType.workout {
+                try validateWorkout()
+            }
+        case .garminConnect:
+            break // do nothing
+        }
+    }
+
+    private func validateWorkout() throws {
+
+        let msg = "Workout Files"
+
+        guard self.numberOfValidSteps != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require WorkoutMessage to contain numberOfValidSteps, can not be nil"))
+        }
+
     }
 }

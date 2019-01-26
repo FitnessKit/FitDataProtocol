@@ -140,6 +140,10 @@ private extension FitFileEncoder {
                 try validateActivity(fildIdMessage: fildIdMessage, messages: messages, isGarmin: false)
             }
 
+            if fileType == FileType.workout {
+                try validateWorkoutFile(fildIdMessage: fildIdMessage, messages: messages)
+            }
+
 
         case .garminConnect:
             guard fildIdMessage.fileType != nil else {
@@ -209,8 +213,43 @@ private extension FitFileEncoder {
         if countMessages(SessionMessage.self, messages: messages) != 1 {
             throw FitError(.encodeError(msg: "Garmin Connect requires 1 Session Message"))
         }
-
     }
+
+    private func validateWorkoutFile(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws {
+        //Workout file shall contain file_id, workout, and workout_step
+
+        let msg = "Workout Files"
+
+        /// this should have already been established
+        guard fildIdMessage.fileType == FileType.workout else {
+            throw FitError(.encodeError(msg: "\(msg) require FileType.workout"))
+        }
+
+        guard fildIdMessage.manufacturer != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain Manufacturer, can not be nil"))
+        }
+
+        guard fildIdMessage.product != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain product, can not be nil"))
+        }
+
+        guard fildIdMessage.deviceSerialNumber != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain deviceSerialNumber, can not be nil"))
+        }
+
+        guard fildIdMessage.fileCreationDate != nil else {
+            throw FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain fileCreationDate, can not be nil"))
+        }
+
+        if containsMessage(WorkoutMessage.self, messages: messages) == false {
+            throw FitError(.encodeError(msg: "\(msg) require WorkoutMessage"))
+        }
+
+        if containsMessage(WorkoutStepMessage.self, messages: messages) == false {
+            throw FitError(.encodeError(msg: "\(msg) require WorkoutStepMessage"))
+        }
+    }
+
 }
 
 extension FitFileEncoder {
