@@ -35,12 +35,6 @@ open class WorkoutMessage: FitMessage {
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 26 }
 
-    /// Timestamp
-    private(set) public var timeStamp: FitTime?
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
     /// Workout Name
     private(set) public var workoutName: String?
 
@@ -61,17 +55,13 @@ open class WorkoutMessage: FitMessage {
 
     public required init() {}
 
-    public init(timeStamp: FitTime? = nil,
-                messageIndex: MessageIndex? = nil,
-                workoutName: String? = nil,
+    public init(workoutName: String? = nil,
                 numberOfValidSteps: ValidatedBinaryInteger<UInt16>? = nil,
                 poolLength: ValidatedMeasurement<UnitLength>? = nil,
                 poolLengthUnit: MeasurementDisplayType? = nil,
                 sport: Sport? = nil,
                 subSport: SubSport? = nil) {
 
-        self.timeStamp = timeStamp
-        self.messageIndex = messageIndex
         self.workoutName = workoutName
         self.numberOfValidSteps = numberOfValidSteps
         self.poolLength = poolLength
@@ -90,8 +80,6 @@ open class WorkoutMessage: FitMessage {
     /// - Throws: FitError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WorkoutMessage  {
 
-        var timestamp: FitTime?
-        var messageIndex: MessageIndex?
         var workoutName: String?
         var numberOfValidSteps: ValidatedBinaryInteger<UInt16>?
         var poolLength: ValidatedMeasurement<UnitLength>?
@@ -115,17 +103,6 @@ open class WorkoutMessage: FitMessage {
 
             case .some(let key):
                 switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
                 case .sport:
                     sport = Sport.decode(decoder: &localDecoder,
                                          definition: definition,
@@ -171,9 +148,7 @@ open class WorkoutMessage: FitMessage {
             }
         }
 
-        return WorkoutMessage(timeStamp: timestamp,
-                              messageIndex: messageIndex,
-                              workoutName: workoutName,
+        return WorkoutMessage(workoutName: workoutName,
                               numberOfValidSteps: numberOfValidSteps,
                               poolLength: poolLength,
                               poolLengthUnit: poolLengthUnit,
@@ -197,11 +172,6 @@ open class WorkoutMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-
             case .sport:
                 if let _ = sport { fileDefs.append(key.fieldDefinition()) }
             case .capabilities:
@@ -259,15 +229,6 @@ open class WorkoutMessage: FitMessage {
         for key in FitCodingKeys.allCases {
 
             switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
             case .sport:
                 if let sport = sport {
                     let valueData = try key.encodeKeyed(value: sport)

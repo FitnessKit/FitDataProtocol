@@ -82,23 +82,19 @@ if let fileData = fileData {
 
                 print("Got Message: \(message)")
 
-                if message is FileIdMessage {
-                    let message = message as! FileIdMessage
+                if let message = message as? FileIdMessage {
                     print("mssage", message.deviceSerialNumber)
                 }
 
-                if message is RecordMessage {
-                    let message = message as! RecordMessage
+                if let message = message as? RecordMessage {
                     records.append(message)
                 }
 
-                if message is SportMessage {
-                    let message = message as! SportMessage
+                if let message = message as? SportMessage {
                     sports.append(message)
                 }
 
-                if message is ActivityMessage {
-                    let message = message as! ActivityMessage
+                if let message = message as? ActivityMessage {
                     activity.append(message)
                 }
         })

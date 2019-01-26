@@ -28,31 +28,35 @@ import DataDecoder
 /// Event Types
 public enum EventType: UInt8 {
     /// Start
-    case start          = 0
+    case start                  = 0
     /// Stop
-    case stop           = 1
+    case stop                   = 1
     /// Consecutive
-    @available(*, deprecated, message: "no longer available ...")
-    case consecutive    = 2
+    ///
+    /// - note: Deprecated
+    case consecutiveDeprecated  = 2
     /// Marker
-    case marker         = 3
+    case marker                 = 3
     /// Stop All
-    case stopAll        = 4
+    case stopAll                = 4
     /// Begin
-    @available(*, deprecated, message: "no longer available ...")
-    case begin          = 5
+    ///
+    /// - note: Deprecated
+    case beginDeprecated        = 5
     /// End
-    @available(*, deprecated, message: "no longer available ...")
-    case end            = 6
+    ///
+    /// - note: Deprecated
+    case endDeprecated          = 6
     /// End All
-    @available(*, deprecated, message: "no longer available ...")
-    case endAll         = 7
+    ///
+    /// - note: Deprecated
+    case endAllDeprecated       = 7
     /// Stop Disable
-    case stopDisable    = 8
+    case stopDisable            = 8
     /// Stop Disable All
-    case stopDisableAll = 9
+    case stopDisableAll         = 9
     /// Invalid
-    case invalid        = 255
+    case invalid                = 255
 }
 
 internal extension EventType {

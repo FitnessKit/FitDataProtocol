@@ -27,6 +27,9 @@ import DataDecoder
 
 /// Message Index
 public struct MessageIndex {
+    private let kSelected: UInt16 = 0x8000
+    private let kReserved: UInt16 = 0x7000
+    private let kMask: UInt16 = 0x0FFF
 
     /// Index is Selected
     private(set) public var isSelected: Bool
@@ -34,14 +37,14 @@ public struct MessageIndex {
     /// Index
     private(set) public var index: UInt16
 
-    public init(isSelected: Bool, value: UInt16) {
+    public init(isSelected: Bool = false, value: UInt16) {
         self.isSelected = isSelected
-        self.index = (value & 0x0FFF)
+        self.index = (value & kMask)
     }
 
     internal init(value: UInt16) {
-        self.isSelected = (value & 0x8000) == 0x8000
-        self.index = (value & 0x0FFF)
+        self.isSelected = (value & kSelected) == kSelected
+        self.index = (value & kMask)
     }
 }
 
@@ -50,7 +53,7 @@ internal extension MessageIndex {
     internal func encode() -> Data {
         var encode = Data()
 
-        let selected: UInt16 = isSelected == true ? 0x8000 : 0
+        let selected: UInt16 = isSelected == true ? kSelected : 0
         let value = index | selected
 
         encode.append(Data(from: value.littleEndian))
