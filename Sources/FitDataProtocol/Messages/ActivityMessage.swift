@@ -310,9 +310,15 @@ open class ActivityMessage: FitMessage {
     }
 }
 
-private extension ActivityMessage {
+extension ActivityMessage: MessageValidator {
 
-    private func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
+    /// Validate Message
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType the Message is being used in
+    ///   - dataValidityStrategy: Data Validity Strategy
+    /// - Throws: FitError
+    internal func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
 
         switch dataValidityStrategy {
         case .none:

@@ -32,6 +32,18 @@ public protocol FitMessageKeys {
     associatedtype FitCodingKeys: CodingKey
 }
 
+/// Message Validator
+internal protocol MessageValidator {
+
+    /// Validate Message
+    ///
+    /// - Parameters:
+    ///   - fileType: FileType the Message is being used in
+    ///   - dataValidityStrategy: Data Validity Strategy
+    /// - Throws: FitError
+    func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws
+}
+
 /// Base Class for FIT Messages
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
