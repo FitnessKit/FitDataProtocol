@@ -34,6 +34,9 @@ extension ActivityMessage: FitMessageKeys {
 
     /// FIT Message Keys
     public enum MessageKeys: Int, CodingKey, CaseIterable {
+        /// Timestamp
+        case timestamp          = 253
+
         /// Total Timer Time
         case totalTimerTime     = 0
         /// Number of Sessions
@@ -48,9 +51,6 @@ extension ActivityMessage: FitMessageKeys {
         case localTimestamp     = 5
         /// Event Group
         case eventGroup         = 6
-
-        /// Timestamp
-        case timestamp          = 253
     }
 }
 

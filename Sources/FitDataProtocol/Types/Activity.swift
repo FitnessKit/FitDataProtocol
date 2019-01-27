@@ -74,6 +74,8 @@ public enum ActivityType: UInt8 {
     case walking            = 6
     /// Sedentary
     case sedentary          = 8
+    /// All
+    case all                = 254
     /// Invalid Activity
     case invalid            = 255
 }
@@ -118,6 +120,8 @@ extension ActivityType {
             return "Walking"
         case .sedentary:
             return "Sedentary"
+        case .all:
+            return "All"
         default:
             return "Invalid"
         }
