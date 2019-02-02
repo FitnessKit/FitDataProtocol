@@ -257,5 +257,4 @@ public extension BenchPressExerciseName {
     public static var alternatingDumbbellChestPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Alternating Dumbbell and Chest Press", number: 26)
     }
-
 }

@@ -65,7 +65,6 @@ extension CalfRaiseExerciseName: Hashable {
     }
 }
 
-
 public extension CalfRaiseExerciseName {
 
     /// List of Supported ExerciseNames
