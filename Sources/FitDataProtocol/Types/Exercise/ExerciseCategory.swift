@@ -138,6 +138,9 @@ internal extension ExerciseCategory {
             return LegCurlExerciseName.self
         case .olympicLift:
             return OlympicLiftExerciseName.self
+
+        case .run:
+            return RunExerciseName.self
             
         default:
             return nil

@@ -220,5 +220,4 @@ public extension OlympicLiftExerciseName {
     public static var squatCleanAndJerk: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Squat Clean and Jerk", number: 20)
     }
-
 }
