@@ -119,32 +119,33 @@ internal extension BaseType {
     func encodedResolution(value: Double, resolution: Resolution) throws -> Data {
         switch self {
         case .enumtype, .uint8, .uint8z, .byte:
-            let new = value.resolutionUInt8(resolution.scale, offset: resolution.offset)
+
+            let new = value.resolution(type: UInt8.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
             return data
 
         case .sint8:
-            let new = value.resolutionInt8(resolution.scale, offset: resolution.offset)
+            let new = value.resolution(type: Int8.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
             return data
 
         case .sint16:
-            let new = value.resolutionInt16(resolution.scale, offset: resolution.offset)
+            let new = value.resolution(type: Int16.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
             return data
 
         case .uint16, .uint16z:
-            let new = value.resolutionUInt16(resolution.scale, offset: resolution.offset)
+            let new = value.resolution(type: UInt16.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
             return data
 
         case .sint32:
-            let new = value.resolutionInt32(resolution.scale, offset: resolution.offset)
+            let new = value.resolution(type: Int32.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
             return data
 
         case .uint32, .uint32z, .float32:
-            let new = value.resolutionUInt32(resolution.scale, offset: resolution.offset)
+            let new = value.resolution(type: UInt32.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
             return data
 
@@ -152,12 +153,12 @@ internal extension BaseType {
             fatalError("Can not Apply Resolution to string")
 
         case .sint64:
-            let new = value.resolutionInt64(resolution.scale, offset: resolution.offset)
+            let new = value.resolution(type: Int64.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
             return data
 
         case .uint64, .uint64z, .float64:
-            let new = value.resolutionUInt64(resolution.scale, offset: resolution.offset)
+            let new = value.resolution(type: UInt64.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
             return data
 

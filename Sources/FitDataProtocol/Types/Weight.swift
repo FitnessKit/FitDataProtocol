@@ -31,6 +31,9 @@ import FitnessUnits
 public struct Weight {
     private let kCalculatingValue: UInt16 = 0xFFFE
 
+    /// 100 * kg + 0
+    private let resolution = Resolution(scale: 100.0, offset: 0.0)
+
     /// Weight is being Calculated
     private(set) public var calculating: Bool
 
@@ -88,11 +91,13 @@ internal extension Weight {
 
             if let weightV = self.weight {
 
-                /// 100 * kg + 0
                 var weightMes = Measurement<UnitMass>(value: weightV.value, unit: weightV.unit)
                 weightMes = weightMes.converted(to: UnitMass.kilograms)
 
-                let value = weightMes.value.resolutionUInt16(100, offset: 0.0)
+                let value = weightMes.value.resolution(type: UInt16.self,
+                                                       ResolutionDirection.adding,
+                                                       resolution: resolution)
+
                 msgData.append(Data(from: value.littleEndian))
                 
             } else {

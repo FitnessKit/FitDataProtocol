@@ -71,7 +71,10 @@ internal extension Position {
         var vSemi = semi
         //  1 * semicircles + 0
         vSemi = vSemi.converted(to: UnitAngle.garminSemicircle)
-        let value = vSemi.value.resolutionInt32(1, offset: 0.0)
+
+        let value = vSemi.value.resolution(type: Int32.self,
+                                           ResolutionDirection.adding,
+                                           resolution: Resolution(scale: 1.0, offset: 0.0))
 
         return Data(from: value.littleEndian)
     }
