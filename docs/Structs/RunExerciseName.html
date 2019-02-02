@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ActivitySubType Enumeration Reference</title>
+    <title>RunExerciseName Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -11,8 +11,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/ActivitySubType" class="dashAnchor"></a>
-    <a title="ActivitySubType Enumeration Reference"></a>
+    <a name="//apple_ref/swift/Struct/RunExerciseName" class="dashAnchor"></a>
+    <a title="RunExerciseName Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p>
@@ -36,7 +36,7 @@
             <a href="../index.html">FitDataProtocol Reference</a>
             <img id="carat" src="../img/carat.png" />
           </span>
-          ActivitySubType Enumeration Reference
+          RunExerciseName Structure Reference
         </p>
       </div>
     </div>
@@ -45,14 +45,14 @@
         <article class="main-content">
           <section>
             <section class="section">
-              <h1>ActivitySubType</h1>
+              <h1>RunExerciseName</h1>
                 <div class="declaration">
                   <div class="language">
-                    <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ActivitySubType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+                    <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RunExerciseName</span> <span class="p">:</span> <span class="kt">ExerciseName</span></code></pre>
 
                   </div>
                 </div>
-              <p>FIT Activity Sub Type</p>
+              <p>Run Exercise Name</p>
 
             </section>
             <section class="section task-group-section">
@@ -61,9 +61,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO7genericyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/generic" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO7genericyA2CmF">generic</a>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV0eF4Typea"></a>
+                      <a name="//apple_ref/swift/Alias/ExerciseNameType" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV0eF4Typea">ExerciseNameType</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -71,14 +71,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Generic</p>
+                          <p>Exercise Name Type</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">generic</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ExerciseNameType</span> <span class="o">=</span> <span class="kt">RunExerciseName</span></code></pre>
 
                           </div>
                         </div>
@@ -88,9 +88,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO9treadmillyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/treadmill" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO9treadmillyA2CmF">treadmill</a>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV4nameSSvp"></a>
+                      <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV4nameSSvp">name</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -98,14 +98,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Treadmill</p>
+                          <p>Exercise Name</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">treadmill</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                           </div>
                         </div>
@@ -115,9 +115,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO6streetyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/street" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO6streetyA2CmF">street</a>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV6numbers6UInt16Vvp"></a>
+                      <a name="//apple_ref/swift/Property/number" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV6numbers6UInt16Vvp">number</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -125,14 +125,48 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Street (Run)</p>
+                          <p>Exercise Name Number</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">street</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">number</span><span class="p">:</span> <span class="kt">UInt16</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="task-group">
+                <ul>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV9hashValueSivp"></a>
+                      <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV9hashValueSivp">hashValue</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>The hash value.</p>
+
+<p>Hash values are not guaranteed to be equal across different executions of
+your program. Do not save hash values to use during a future execution.</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -142,9 +176,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO5trailyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/trail" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO5trailyA2CmF">trail</a>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV2eeoiySbAC_ACtFZ"></a>
+                      <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV2eeoiySbAC_ACtFZ">==(_:_:)</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -152,14 +186,171 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Trail (Run)</p>
+                          <p>Returns a Boolean value indicating whether two values are equal.</p>
+
+<p>Equality is the inverse of inequality. For any values <code>a</code> and <code>b</code>,
+<code>a == b</code> implies that <code>a != b</code> is <code>false</code>.</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">trail</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">RunExerciseName</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">RunExerciseName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                          </div>
+                        </div>
+                        <div>
+                          <h4>Parameters</h4>
+                          <table class="graybox">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>lhs</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>A value to compare.</p>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>rhs</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>Another value to compare.</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="task-group">
+                <ul>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV09supportedE5NamesSayACGvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/supportedExerciseNames" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV09supportedE5NamesSayACGvpZ">supportedExerciseNames</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>List of Supported ExerciseNames</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">supportedExerciseNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">RunExerciseName</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="task-group">
+                <ul>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV6create8rawValueACSgs6UInt16V_tFZ"></a>
+                      <a name="//apple_ref/swift/Method/create(rawValue:)" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV6create8rawValueACSgs6UInt16V_tFZ">create(rawValue:)</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Creates a ExerciseName Object</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">RunExerciseName</span><span class="p">?</span></code></pre>
+
+                          </div>
+                        </div>
+                        <div>
+                          <h4>Parameters</h4>
+                          <table class="graybox">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>rawValue</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>exerciseNumber</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div>
+                          <h4>Return Value</h4>
+                          <p>ExerciseName Object</p>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Exercise%20Types"></a>
+                  <a name="//apple_ref/swift/Section/Exercise Types" class="dashAnchor"></a>
+                  <a href="#/Exercise%20Types">
+                    <h3 class="section-name">Exercise Types</h3>
+                  </a>
+                </div>
+                <ul>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV3runACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/run" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV3runACvpZ">run</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Run</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">run</span><span class="p">:</span> <span class="kt">RunExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -169,9 +360,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO5trackyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/track" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO5trackyA2CmF">track</a>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV4walkACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/walk" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV4walkACvpZ">walk</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -179,14 +370,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Track (Run)</p>
+                          <p>Walk</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">track</span> <span class="o">=</span> <span class="mi">4</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">walk</span><span class="p">:</span> <span class="kt">RunExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -196,9 +387,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO4spinyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/spin" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO4spinyA2CmF">spin</a>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV3jogACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/jog" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV3jogACvpZ">jog</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -206,14 +397,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Spin (Cycling)</p>
+                          <p>Jog</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">spin</span> <span class="o">=</span> <span class="mi">5</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">jog</span><span class="p">:</span> <span class="kt">RunExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -223,9 +414,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO13indoorCyclingyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/indoorCycling" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO13indoorCyclingyA2CmF">indoorCycling</a>
+                      <a name="/s:15FitDataProtocol15RunExerciseNameV6sprintACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/sprint" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol15RunExerciseNameV6sprintACvpZ">sprint</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -233,392 +424,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Indoor Cycling (Cycling)</p>
+                          <p>Sprint</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">indoorCycling</span> <span class="o">=</span> <span class="mi">6</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO4roadyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/road" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO4roadyA2CmF">road</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Road (Cycling)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">road</span> <span class="o">=</span> <span class="mi">7</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO8mountainyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/mountain" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO8mountainyA2CmF">mountain</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Mountain (Cycling)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">mountain</span> <span class="o">=</span> <span class="mi">8</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO8downhillyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/downhill" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO8downhillyA2CmF">downhill</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Downhill (Cycling)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">downhill</span> <span class="o">=</span> <span class="mi">9</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO9recumbentyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/recumbent" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO9recumbentyA2CmF">recumbent</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Recumbent (Cycling)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">recumbent</span> <span class="o">=</span> <span class="mi">10</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO10cycloCrossyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/cycloCross" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO10cycloCrossyA2CmF">cycloCross</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Cyclocross (Cycling)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">cycloCross</span> <span class="o">=</span> <span class="mi">11</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO11handCyclingyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/handCycling" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO11handCyclingyA2CmF">handCycling</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Hand Cycling (Cycling)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">handCycling</span> <span class="o">=</span> <span class="mi">12</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO12trackCyclingyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/trackCycling" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO12trackCyclingyA2CmF">trackCycling</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Track Cycling (Cycling)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">trackCycling</span> <span class="o">=</span> <span class="mi">13</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO12indoorRowingyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/indoorRowing" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO12indoorRowingyA2CmF">indoorRowing</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Indoor Rowing (Fitness Equipment)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">indoorRowing</span> <span class="o">=</span> <span class="mi">14</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO10ellipticalyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/elliptical" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO10ellipticalyA2CmF">elliptical</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Elliptical (Fitness Equipment)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">elliptical</span> <span class="o">=</span> <span class="mi">15</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO13stairClimbingyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/stairClimbing" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO13stairClimbingyA2CmF">stairClimbing</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Stair Climbing (Fitness Equipment)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">stairClimbing</span> <span class="o">=</span> <span class="mi">16</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO11lapSwimmingyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/lapSwimming" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO11lapSwimmingyA2CmF">lapSwimming</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Lap Swimming (Swimming)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">lapSwimming</span> <span class="o">=</span> <span class="mi">17</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO9openWateryA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/openWater" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO9openWateryA2CmF">openWater</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Open Water (SWimming)</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">openWater</span> <span class="o">=</span> <span class="mi">18</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO3allyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/all" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO3allyA2CmF">all</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>All</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="n">all</span> <span class="o">=</span> <span class="mi">254</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol15ActivitySubTypeO7InvalidyA2CmF"></a>
-                      <a name="//apple_ref/swift/Element/Invalid" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol15ActivitySubTypeO7InvalidyA2CmF">Invalid</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Invalid</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="k">case</span> <span class="kt">Invalid</span> <span class="o">=</span> <span class="mi">255</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">sprint</span><span class="p">:</span> <span class="kt">RunExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
