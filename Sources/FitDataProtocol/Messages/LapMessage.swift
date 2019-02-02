@@ -222,6 +222,11 @@ open class LapMessage: FitMessage {
     /// Average Stance Time
     private(set) public var averageStanceTime: StanceTime
 
+    /// Velocità Ascensionale Media
+    ///
+    /// VAM - Average Ascent Speed
+    private(set) public var averageAscentSpeed: ValidatedMeasurement<UnitSpeed>?
+
     public required init() {
         self.startPosition = Position(latitude: nil, longitude: nil)
         self.endPosition = Position(latitude: nil, longitude: nil)
@@ -285,7 +290,8 @@ open class LapMessage: FitMessage {
                 workoutStepIndex: MessageIndex? = nil,
                 score: Score,
                 averageVerticalOscillation: ValidatedMeasurement<UnitLength>? = nil,
-                averageStanceTime: StanceTime){
+                averageStanceTime: StanceTime,
+                averageAscentSpeed: ValidatedMeasurement<UnitSpeed>? = nil){
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -366,6 +372,7 @@ open class LapMessage: FitMessage {
         self.score = score
         self.averageVerticalOscillation = averageVerticalOscillation
         self.averageStanceTime = averageStanceTime
+        self.averageAscentSpeed = averageAscentSpeed
     }
 
     /// Decode Message Data into FitMessage
@@ -444,7 +451,7 @@ open class LapMessage: FitMessage {
         var enhancedAverageAltitude: ValidatedMeasurement<UnitLength>?
         var enhancedMinimumAltitude: ValidatedMeasurement<UnitLength>?
         var enhancedMaximumAltitude: ValidatedMeasurement<UnitLength>?
-
+        var averageAscentSpeed: ValidatedMeasurement<UnitSpeed>?
 
         let arch = definition.architecture
 
@@ -1102,7 +1109,14 @@ open class LapMessage: FitMessage {
                     }
 
                 case .averageVam:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
+                    if value.isValidForBaseType(definition.baseType) {
+                        // 1000 * m/s + 0
+                        let value = value.resolution(.removing, resolution: key.resolution)
+                        averageAscentSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
+                    } else {
+                        averageAscentSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
+                    }
 
                 }
 
@@ -1192,7 +1206,8 @@ open class LapMessage: FitMessage {
                           workoutStepIndex: workoutStepIndex,
                           score: score,
                           averageVerticalOscillation: averageVerticalOscillation,
-                          averageStanceTime: averageStance)
+                          averageStanceTime: averageStance,
+                          averageAscentSpeed: averageAscentSpeed)
     }
 
     /// Encodes the Definition Message for FitMessage
@@ -1382,7 +1397,7 @@ open class LapMessage: FitMessage {
             case .enhancedMaximumAltitude:
                 if let _ = maximumAltitude { fileDefs.append(key.fieldDefinition()) }
             case .averageVam:
-                break
+                if let _ = averageAscentSpeed { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -1858,7 +1873,11 @@ open class LapMessage: FitMessage {
                 }
 
             case .averageVam:
-                break
+                if var averageAscentSpeed = averageAscentSpeed {
+                    averageAscentSpeed = averageAscentSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let valueData = try key.encodeKeyed(value: averageAscentSpeed.value)
+                    msgData.append(valueData)
+                }
 
             }
         }

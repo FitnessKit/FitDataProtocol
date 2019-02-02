@@ -199,7 +199,7 @@ extension LapMessage: FitMessageKeys {
         case enhancedMinimumAltitude                = 113
         /// Enhanced Max Altitude
         case enhancedMaximumAltitude                = 114
-        /// Average Vam
+        /// Average Vam (average ascent speed)
         case averageVam                             = 121
 
     }
@@ -448,7 +448,8 @@ internal extension LapMessage.FitCodingKeys {
             // 5 * m + 500
             return BaseData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .averageVam:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            // 1000 * m/s + 0
+            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         }
     }
 }

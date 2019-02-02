@@ -248,6 +248,11 @@ open class SessionMessage: FitMessage {
     /// Sport Group
     private(set) public var sportIndex: ValidatedBinaryInteger<UInt8>?
 
+    /// Velocità Ascensionale Media
+    ///
+    /// VAM - Average Ascent Speed
+    private(set) public var averageAscentSpeed: ValidatedMeasurement<UnitSpeed>?
+
     ///sportIndex
     public required init() {
         self.startPosition = Position(latitude: nil, longitude: nil)
@@ -321,7 +326,8 @@ open class SessionMessage: FitMessage {
                 averageBallSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
                 averageVerticalOscillation: ValidatedMeasurement<UnitLength>? = nil,
                 averageStanceTime: StanceTime,
-                sportIndex: ValidatedBinaryInteger<UInt8>? = nil) {
+                sportIndex: ValidatedBinaryInteger<UInt8>? = nil,
+                averageAscentSpeed: ValidatedMeasurement<UnitSpeed>? = nil) {
 
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
@@ -410,6 +416,8 @@ open class SessionMessage: FitMessage {
         self.averageVerticalOscillation = averageVerticalOscillation
         self.averageStanceTime = averageStanceTime
         self.sportIndex = sportIndex
+        self.averageAscentSpeed = averageAscentSpeed
+
     }
 
     /// Decode Message Data into FitMessage
@@ -497,6 +505,7 @@ open class SessionMessage: FitMessage {
         var enhancedAverageAltitude: ValidatedMeasurement<UnitLength>?
         var enhancedMinimumAltitude: ValidatedMeasurement<UnitLength>?
         var enhancedMaximumAltitude: ValidatedMeasurement<UnitLength>?
+        var averageAscentSpeed: ValidatedMeasurement<UnitSpeed>?
 
         let arch = definition.architecture
 
@@ -1225,7 +1234,14 @@ open class SessionMessage: FitMessage {
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
 
                 case .averageVam:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
+                    if value.isValidForBaseType(definition.baseType) {
+                        // 1000 * m/s + 0
+                        let value = value.resolution(.removing, resolution: key.resolution)
+                        averageAscentSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
+                    } else {
+                        averageAscentSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
+                    }
 
                 }
             }
@@ -1322,7 +1338,8 @@ open class SessionMessage: FitMessage {
                               averageBallSpeed: averageBallSpeed,
                               averageVerticalOscillation: averageVerticalOscillation,
                               averageStanceTime: averageStance,
-                              sportIndex: sportIndex)
+                              sportIndex: sportIndex,
+                              averageAscentSpeed: averageAscentSpeed)
 
     }
 
@@ -1535,7 +1552,7 @@ open class SessionMessage: FitMessage {
             case .totalAnaerobicTrainingEffect:
                 break
             case .averageVam:
-                break
+                if let _ = averageAscentSpeed { fileDefs.append(key.fieldDefinition()) }
             }
         }
 
@@ -2066,7 +2083,11 @@ open class SessionMessage: FitMessage {
             case .totalAnaerobicTrainingEffect:
                 break
             case .averageVam:
-                break
+                if var averageAscentSpeed = averageAscentSpeed {
+                    averageAscentSpeed = averageAscentSpeed.converted(to: UnitSpeed.metersPerSecond)
+                    let valueData = try key.encodeKeyed(value: averageAscentSpeed.value)
+                    msgData.append(valueData)
+                }
 
             }
         }
