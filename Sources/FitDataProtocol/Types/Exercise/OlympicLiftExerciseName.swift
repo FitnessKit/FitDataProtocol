@@ -80,7 +80,17 @@ public extension OlympicLiftExerciseName {
                 .barbellHangPull,
                 .barbellHighPull,
                 .barbellSnatch,
-                
+                .barbellSplitJerk,
+                .clean,
+                .dumbbellClean,
+                .dumbbellHangPull,
+                .oneHandDumbbellSplitSnatch,
+                .pushJerk,
+                .singleArmDumbbellSnatch,
+                .singleArmHangSnatch,
+                .singleArmKettlebellSnatch,
+                .splitJerk,
+                .squatCleanAndJerk
         ]
     }
 }
@@ -154,6 +164,61 @@ public extension OlympicLiftExerciseName {
     /// Barbell Snatch
     public static var barbellSnatch: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Snatch", number: 9)
+    }
+
+    /// Barbell Split Jerk
+    public static var barbellSplitJerk: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Barbell Split Jerk", number: 10)
+    }
+
+    /// Clean
+    public static var clean: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Clean", number: 11)
+    }
+
+    /// Dumbbell Clean
+    public static var dumbbellClean: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Dumbbell Clean", number: 12)
+    }
+
+    /// Dumbbell Hang Pull
+    public static var dumbbellHangPull: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Dumbbell Hang Pull", number: 13)
+    }
+
+    /// One Hand Dumbbell Split Snatch
+    public static var oneHandDumbbellSplitSnatch: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "One Hand Dumbbell Split Snatch", number: 14)
+    }
+
+    /// Push Jerk
+    public static var pushJerk: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Push Jerk", number: 15)
+    }
+
+    /// Single Arm Dumbbell Snatch
+    public static var singleArmDumbbellSnatch: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Single Arm Dumbbell Snatch", number: 16)
+    }
+
+    /// Single Arm Hang Snatch
+    public static var singleArmHangSnatch: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Single Arm Hang Snatch", number: 17)
+    }
+
+    /// Single Arm Kettelbell Snatch
+    public static var singleArmKettlebellSnatch: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Single Arm Kettelbell Snatch", number: 18)
+    }
+
+    /// Split Jerk
+    public static var splitJerk: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Split Jerk", number: 19)
+    }
+
+    /// Squat Clean and Jerk
+    public static var squatCleanAndJerk: OlympicLiftExerciseName {
+        return OlympicLiftExerciseName(name: "Squat Clean and Jerk", number: 20)
     }
 
 }
