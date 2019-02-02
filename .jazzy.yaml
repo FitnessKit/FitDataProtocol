@@ -86,3 +86,6 @@ custom_categories:
     - HyperextensionExerciseName
     - LateralRaiseExerciseName
     - LegCurlExerciseName
+    - OlympicLiftExerciseName
+    - RunExerciseName
+    - WarmUpExerciseName

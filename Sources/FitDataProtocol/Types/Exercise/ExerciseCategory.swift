@@ -139,6 +139,8 @@ internal extension ExerciseCategory {
         case .olympicLift:
             return OlympicLiftExerciseName.self
 
+        case .warmUp:
+            return WarmUpExerciseName.self
         case .run:
             return RunExerciseName.self
             
