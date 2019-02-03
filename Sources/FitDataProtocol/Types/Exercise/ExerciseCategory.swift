@@ -78,7 +78,7 @@ public enum ExerciseCategory: UInt16 {
     /// Shoulder Press
     case shoulderPress      = 24
     //// Shoulder Stability
-    case shouldStability    = 25
+    case shoulderStability  = 25
     /// Shrug
     case shrug              = 26
     /// Sit Up
@@ -154,7 +154,7 @@ internal extension ExerciseCategory {
             return nil
         case .shoulderPress:
             return nil
-        case .shouldStability:
+        case .shoulderStability:
             return nil
         case .shrug:
             return ShrugExerciseName.self
