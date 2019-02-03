@@ -1,0 +1,229 @@
+//
+//  LegRaiseExerciseName.swift
+//  FitDataProtocol
+//
+//  Created by Kevin Hoogheem on 2/3/19.
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+
+import Foundation
+
+/// Leg Raise Exercise Name
+public struct LegRaiseExerciseName: ExerciseName {
+    /// Exercise Name Type
+    public typealias ExerciseNameType = LegRaiseExerciseName
+
+    /// Exercise Name
+    private(set) public var name: String
+
+    /// Exercise Name Number
+    private(set) public var number: UInt16
+
+    private init (name: String, number: UInt16) {
+        self.name = name
+        self.number = number
+    }
+}
+
+extension LegRaiseExerciseName: Hashable {
+
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
+    public var hashValue: Int {
+        return name.hashValue ^ number.hashValue
+    }
+
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func == (lhs: LegRaiseExerciseName, rhs: LegRaiseExerciseName) -> Bool {
+        return lhs.name == rhs.name &&
+            lhs.number == rhs.number
+    }
+}
+
+public extension LegRaiseExerciseName {
+
+    /// List of Supported ExerciseNames
+    public static var supportedExerciseNames: [LegRaiseExerciseName] {
+
+        return [.hangingKneeRaise,
+                .hangingLegRaise,
+                .weightedHangingLegRaise,
+                .hangingSingleLegRaise,
+                .weightedHangingSingleLegRaise,
+                .kettlebellLegRaises,
+                .legLoweringDrill,
+                .weightedLegLoweringDrill,
+                .lyingStraightLegRaise,
+                .weightedLyingStraightLegRaise,
+                .medicineBallLegDrops,
+                .quadrupedLegRaise,
+                .weightedQuadrupedLegRaise,
+                .reverseLegRaise,
+                .weightedReverseLegRaise,
+                .reverseLegRaiseOnSwissBall,
+                .weightedReverseLegRaiseOnSwissBall,
+                .singleLegLoweringDrill,
+                .weightedSingleLegLoweringDrill,
+                .weightedHangingKneeRaise,
+                .lateralStepover,
+                .weightedLateralStepover
+        ]
+    }
+}
+
+public extension LegRaiseExerciseName {
+
+    /// Creates a ExerciseName Object
+    ///
+    /// - Parameter rawValue: exerciseNumber
+    /// - Returns: ExerciseName Object
+    public static func create(rawValue: UInt16) -> LegRaiseExerciseName? {
+
+        for name in LegRaiseExerciseName.supportedExerciseNames {
+            if name.number == rawValue {
+                return name
+            }
+        }
+
+        return nil
+    }
+}
+
+// MARK: - Exercise Types
+public extension LegRaiseExerciseName {
+
+    /// Hanging Knee Raise
+    public static var hangingKneeRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Hanging Knee Raise", number: 0)
+    }
+
+    /// Hanging Leg Raise
+    public static var hangingLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Hanging Leg Raise", number: 1)
+    }
+
+    /// Weighted Hanging Leg Raise
+    public static var weightedHangingLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Hanging Leg Raise", number: 2)
+    }
+
+    /// Hanging Single Leg Raise
+    public static var hangingSingleLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Hanging Single Leg Raise", number: 3)
+    }
+
+    /// Weighted Hanging Single Leg Raise
+    public static var weightedHangingSingleLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Hanging Single Leg Raise", number: 4)
+    }
+
+    /// Kettelbell Leg Raises
+    public static var kettlebellLegRaises: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Kettelbell Leg Raises", number: 5)
+    }
+
+    /// Leg Lowering Drill
+    public static var legLoweringDrill: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Leg Lowering Drill", number: 6)
+    }
+
+    /// Weighted Leg Lowering Drill
+    public static var weightedLegLoweringDrill: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Leg Lowering Drill", number: 7)
+    }
+
+    /// Lying Straight Leg Raise
+    public static var lyingStraightLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Lying Straight Leg Raise", number: 8)
+    }
+
+    /// Weighted Lying Straight Leg Raise
+    public static var weightedLyingStraightLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Lying Straight Leg Raise", number: 9)
+    }
+
+    /// Medicine Ball Leg Drops
+    public static var medicineBallLegDrops: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Medicine Ball Leg Drops", number: 10)
+    }
+
+    /// Quadruped Leg Raise
+    public static var quadrupedLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Quadruped Leg Raise", number: 11)
+    }
+
+    /// Weighted Quadruped Leg Raise
+    public static var weightedQuadrupedLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Quadruped Leg Raise", number: 12)
+    }
+
+    /// Reverse Leg Raise
+    public static var reverseLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Reverse Leg Raise", number: 13)
+    }
+
+    /// Weighted Reverse Leg Raise
+    public static var weightedReverseLegRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Reverse Leg Raise", number: 14)
+    }
+
+    /// Reverse Leg Raise on Swiss Ball
+    public static var reverseLegRaiseOnSwissBall: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Reverse Leg Raise on Swiss Ball", number: 15)
+    }
+
+    /// Weighted Reverse Leg Raise on Swiss Ball
+    public static var weightedReverseLegRaiseOnSwissBall: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Reverse Leg Raise on Swiss Ball", number: 16)
+    }
+
+    /// Single Leg Lowering Drill
+    public static var singleLegLoweringDrill: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Single Leg Lowering Drill", number: 17)
+    }
+
+    /// Weighted Single Leg Lowering Drill
+    public static var weightedSingleLegLoweringDrill: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Single Leg Lowering Drill", number: 18)
+    }
+
+    /// Weighted Hanging Knee Raise
+    public static var weightedHangingKneeRaise: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Hanging Knee Raise", number: 19)
+    }
+
+    /// Lateral Stepover
+    public static var lateralStepover: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Lateral Stepover", number: 20)
+    }
+
+    /// Weighted Lateral Stepover
+    public static var weightedLateralStepover: LegRaiseExerciseName {
+        return LegRaiseExerciseName(name: "Weighted Lateral Stepover", number: 21)
+    }
+}
