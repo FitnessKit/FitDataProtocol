@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>WeightScaleMessage Class Reference</title>
+    <title>TotalBodyExerciseName Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -11,8 +11,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/WeightScaleMessage" class="dashAnchor"></a>
-    <a title="WeightScaleMessage Class Reference"></a>
+    <a name="//apple_ref/swift/Struct/TotalBodyExerciseName" class="dashAnchor"></a>
+    <a title="TotalBodyExerciseName Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p>
@@ -36,7 +36,7 @@
             <a href="../index.html">FitDataProtocol Reference</a>
             <img id="carat" src="../img/carat.png" />
           </span>
-          WeightScaleMessage Class Reference
+          TotalBodyExerciseName Structure Reference
         </p>
       </div>
     </div>
@@ -45,15 +45,14 @@
         <article class="main-content">
           <section>
             <section class="section">
-              <h1>WeightScaleMessage</h1>
+              <h1>TotalBodyExerciseName</h1>
                 <div class="declaration">
                   <div class="language">
-                    <pre class="highlight swift"><code><span class="kd">@available(* 4.2, iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)</span>
-<span class="kd">open</span> <span class="kd">class</span> <span class="kt">WeightScaleMessage</span> <span class="p">:</span> <span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span></code></pre>
+                    <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">:</span> <span class="kt">ExerciseName</span></code></pre>
 
                   </div>
                 </div>
-              <p>FIT Weight Scale Message</p>
+              <p>Total Body Exercise Name</p>
 
             </section>
             <section class="section task-group-section">
@@ -62,9 +61,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC06globalF6Numbers6UInt16VyFZ"></a>
-                      <a name="//apple_ref/swift/Method/globalMessageNumber()" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC06globalF6Numbers6UInt16VyFZ">globalMessageNumber()</a>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV0fG4Typea"></a>
+                      <a name="//apple_ref/swift/Alias/ExerciseNameType" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV0fG4Typea">ExerciseNameType</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -72,14 +71,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>FIT Message Global Number</p>
+                          <p>Exercise Name Type</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">globalMessageNumber</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UInt16</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ExerciseNameType</span> <span class="o">=</span> <span class="kt">TotalBodyExerciseName</span></code></pre>
 
                           </div>
                         </div>
@@ -89,9 +88,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC9timeStampAA0A4TimeVSgvp"></a>
-                      <a name="//apple_ref/swift/Property/timeStamp" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC9timeStampAA0A4TimeVSgvp">timeStamp</a>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV4nameSSvp"></a>
+                      <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV4nameSSvp">name</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -99,14 +98,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Timestamp</p>
+                          <p>Exercise Name</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                           </div>
                         </div>
@@ -116,9 +115,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC6weightAA0D0VSgvp"></a>
-                      <a name="//apple_ref/swift/Property/weight" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC6weightAA0D0VSgvp">weight</a>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV6numbers6UInt16Vvp"></a>
+                      <a name="//apple_ref/swift/Property/number" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV6numbers6UInt16Vvp">number</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -126,383 +125,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Weight</p>
+                          <p>Exercise Name Number</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">weight</span><span class="p">:</span> <span class="kt"><a href="../Structs/Weight.html">Weight</a></span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC10percentFat12FitnessUnits20ValidatedMeasurementVyAE11UnitPercentCGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/percentFat" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC10percentFat12FitnessUnits20ValidatedMeasurementVyAE11UnitPercentCGSgvp">percentFat</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Percent Fat</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">percentFat</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC16percentHydration12FitnessUnits20ValidatedMeasurementVyAE11UnitPercentCGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/percentHydration" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC16percentHydration12FitnessUnits20ValidatedMeasurementVyAE11UnitPercentCGSgvp">percentHydration</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Percent Hydration</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">percentHydration</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC15visceralFatMass12FitnessUnits20ValidatedMeasurementVySo06NSUnitI0CGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/visceralFatMass" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC15visceralFatMass12FitnessUnits20ValidatedMeasurementVySo06NSUnitI0CGSgvp">visceralFatMass</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Visceral Fat Mass</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">visceralFatMass</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitMass</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC8boneMass12FitnessUnits20ValidatedMeasurementVySo06NSUnitH0CGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/boneMass" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC8boneMass12FitnessUnits20ValidatedMeasurementVySo06NSUnitH0CGSgvp">boneMass</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Bone Mass</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">boneMass</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitMass</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC10muscleMass12FitnessUnits20ValidatedMeasurementVySo06NSUnitH0CGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/muscleMass" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC10muscleMass12FitnessUnits20ValidatedMeasurementVySo06NSUnitH0CGSgvp">muscleMass</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Muscle Mass</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">muscleMass</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitMass</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC8basalMet12FitnessUnits20ValidatedMeasurementVySo12NSUnitEnergyCGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/basalMet" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC8basalMet12FitnessUnits20ValidatedMeasurementVySo12NSUnitEnergyCGSgvp">basalMet</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Basal MET</p>
-
-<p>Units are per day</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">basalMet</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitEnergy</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC14physiqueRating12FitnessUnits20ValidatedMeasurementVyAA0H4UnitCGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/physiqueRating" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC14physiqueRating12FitnessUnits20ValidatedMeasurementVyAA0H4UnitCGSgvp">physiqueRating</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Physique Rating</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">physiqueRating</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/RatingUnit.html">RatingUnit</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC9activeMet12FitnessUnits20ValidatedMeasurementVySo12NSUnitEnergyCGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/activeMet" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC9activeMet12FitnessUnits20ValidatedMeasurementVySo12NSUnitEnergyCGSgvp">activeMet</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Active MET</p>
-
-<p>Units are per day</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">activeMet</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitEnergy</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC12metabolicAge12FitnessUnits20ValidatedMeasurementVySo14NSUnitDurationCGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/metabolicAge" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC12metabolicAge12FitnessUnits20ValidatedMeasurementVySo14NSUnitDurationCGSgvp">metabolicAge</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Metabolic Age</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">metabolicAge</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC17visceralFatRating12FitnessUnits20ValidatedMeasurementVyAA0I4UnitCGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/visceralFatRating" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC17visceralFatRating12FitnessUnits20ValidatedMeasurementVyAA0I4UnitCGSgvp">visceralFatRating</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Visceral Fat Rating</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">visceralFatRating</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/RatingUnit.html">RatingUnit</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC16userProfileIndexAA0fI0VSgvp"></a>
-                      <a name="//apple_ref/swift/Property/userProfileIndex" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC16userProfileIndexAA0fI0VSgvp">userProfileIndex</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>User Profile Index</p>
-
-<p>Associates this blood pressure message to a user.  This corresponds to the index of the user profile message in the blood pressure file.</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">userProfileIndex</span><span class="p">:</span> <span class="kt"><a href="../Structs/MessageIndex.html">MessageIndex</a></span><span class="p">?</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageCACycfc"></a>
-                      <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageCACycfc">init()</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Undocumented</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">()</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC9timeStamp6weight10percentFat0J9Hydration08visceralK4Mass04boneN006muscleN08basalMet14physiqueRating06activeR012metabolicAge0mkT016userProfileIndexAcA0A4TimeVSg_AA0D0VSg12FitnessUnits20ValidatedMeasurementVyAW11UnitPercentCGSgA1_AYySo06NSUnitN0CGSgA5_A5_AYySo12NSUnitEnergyCGSgAYyAA0T4UnitCGSgA9_AYySo14NSUnitDurationCGSgA13_AA0fZ0VSgtcfc"></a>
-                      <a name="//apple_ref/swift/Method/init(timeStamp:weight:percentFat:percentHydration:visceralFatMass:boneMass:muscleMass:basalMet:physiqueRating:activeMet:metabolicAge:visceralFatRating:userProfileIndex:)" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC9timeStamp6weight10percentFat0J9Hydration08visceralK4Mass04boneN006muscleN08basalMet14physiqueRating06activeR012metabolicAge0mkT016userProfileIndexAcA0A4TimeVSg_AA0D0VSg12FitnessUnits20ValidatedMeasurementVyAW11UnitPercentCGSgA1_AYySo06NSUnitN0CGSgA5_A5_AYySo12NSUnitEnergyCGSgAYyAA0T4UnitCGSgA9_AYySo14NSUnitDurationCGSgA13_AA0fZ0VSgtcfc">init(timeStamp:weight:percentFat:percentHydration:visceralFatMass:boneMass:muscleMass:basalMet:physiqueRating:activeMet:metabolicAge:visceralFatRating:userProfileIndex:)</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Undocumented</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">weight</span><span class="p">:</span> <span class="kt"><a href="../Structs/Weight.html">Weight</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">percentFat</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">percentHydration</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">visceralFatMass</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitMass</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">boneMass</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitMass</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">muscleMass</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitMass</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">basalMet</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitEnergy</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">physiqueRating</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/RatingUnit.html">RatingUnit</a></span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">activeMet</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitEnergy</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">metabolicAge</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">visceralFatRating</span><span class="p">:</span> <span class="kt">ValidatedMeasurement</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/RatingUnit.html">RatingUnit</a></span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">userProfileIndex</span><span class="p">:</span> <span class="kt"><a href="../Structs/MessageIndex.html">MessageIndex</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">number</span><span class="p">:</span> <span class="kt">UInt16</span></code></pre>
 
                           </div>
                         </div>
@@ -516,9 +146,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC0A10CodingKeysa"></a>
-                      <a name="//apple_ref/swift/Alias/FitCodingKeys" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC0A10CodingKeysa">FitCodingKeys</a>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV9hashValueSivp"></a>
+                      <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV9hashValueSivp">hashValue</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -526,14 +156,17 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>CodingKeys for FIT Message Type</p>
+                          <p>The hash value.</p>
+
+<p>Hash values are not guaranteed to be equal across different executions of
+your program. Do not save hash values to use during a future execution.</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">FitCodingKeys</span> <span class="o">=</span> <span class="kt"><a href="../Classes/WeightScaleMessage/MessageKeys.html">MessageKeys</a></span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -543,9 +176,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC0F4KeysO"></a>
-                      <a name="//apple_ref/swift/Enum/MessageKeys" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC0F4KeysO">MessageKeys</a>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV2eeoiySbAC_ACtFZ"></a>
+                      <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV2eeoiySbAC_ACtFZ">==(_:_:)</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -553,15 +186,79 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>FIT Message Keys</p>
+                          <p>Returns a Boolean value indicating whether two values are equal.</p>
 
-                          <a href="../Classes/WeightScaleMessage/MessageKeys.html" class="slightly-smaller">See more</a>
+<p>Equality is the inverse of inequality. For any values <code>a</code> and <code>b</code>,
+<code>a == b</code> implies that <code>a != b</code> is <code>false</code>.</p>
+
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MessageKeys</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CodingKey</span><span class="p">,</span> <span class="kt">CaseIterable</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                          </div>
+                        </div>
+                        <div>
+                          <h4>Parameters</h4>
+                          <table class="graybox">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>lhs</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>A value to compare.</p>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>rhs</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>Another value to compare.</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="task-group">
+                <ul>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV09supportedF5NamesSayACGvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/supportedExerciseNames" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV09supportedF5NamesSayACGvpZ">supportedExerciseNames</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>List of Supported ExerciseNames</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">supportedExerciseNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">TotalBodyExerciseName</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -575,9 +272,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol18WeightScaleMessageC0A10CodingKeysa"></a>
-                      <a name="//apple_ref/swift/Extension/FitCodingKeys" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol18WeightScaleMessageC0A10CodingKeysa">FitCodingKeys</a>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV6create8rawValueACSgs6UInt16V_tFZ"></a>
+                      <a name="//apple_ref/swift/Method/create(rawValue:)" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV6create8rawValueACSgs6UInt16V_tFZ">create(rawValue:)</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -585,14 +282,399 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          
-                          <a href="../Classes/WeightScaleMessage/FitCodingKeys.html" class="slightly-smaller">See more</a>
+                          <p>Creates a ExerciseName Object</p>
+
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt"><a href="../Classes/WeightScaleMessage.html#/s:15FitDataProtocol18WeightScaleMessageC0A10CodingKeysa">FitCodingKeys</a></span> <span class="o">=</span> <span class="kt"><a href="../Classes/WeightScaleMessage/MessageKeys.html">MessageKeys</a></span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">TotalBodyExerciseName</span><span class="p">?</span></code></pre>
+
+                          </div>
+                        </div>
+                        <div>
+                          <h4>Parameters</h4>
+                          <table class="graybox">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>rawValue</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>exerciseNumber</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div>
+                          <h4>Return Value</h4>
+                          <p>ExerciseName Object</p>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Exercise%20Types"></a>
+                  <a name="//apple_ref/swift/Section/Exercise Types" class="dashAnchor"></a>
+                  <a href="#/Exercise%20Types">
+                    <h3 class="section-name">Exercise Types</h3>
+                  </a>
+                </div>
+                <ul>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV6burpeeACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/burpee" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV6burpeeACvpZ">burpee</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Burpee</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">burpee</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV14weightedBurpeeACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/weightedBurpee" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV14weightedBurpeeACvpZ">weightedBurpee</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Weighted Burpee</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedBurpee</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV13burpeeBoxJumpACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/burpeeBoxJump" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV13burpeeBoxJumpACvpZ">burpeeBoxJump</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Burpee Box Jump</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">burpeeBoxJump</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV21weightedBurpeeBoxJumpACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/weightedBurpeeBoxJump" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV21weightedBurpeeBoxJumpACvpZ">weightedBurpeeBoxJump</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Weighted Burpee Box Jump</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedBurpeeBoxJump</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV14highPullBurpeeACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/highPullBurpee" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV14highPullBurpeeACvpZ">highPullBurpee</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>High Pull Burpee</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">highPullBurpee</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV9manMakersACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/manMakers" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV9manMakersACvpZ">manMakers</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Man Makers</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">manMakers</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV12oneArmBurpeeACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/oneArmBurpee" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV12oneArmBurpeeACvpZ">oneArmBurpee</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>One Arm Burpee</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">oneArmBurpee</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV12squatThrustsACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/squatThrusts" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV12squatThrustsACvpZ">squatThrusts</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Squat Thrusts</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">squatThrusts</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV20weightedSquatThrustsACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/weightedSquatThrusts" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV20weightedSquatThrustsACvpZ">weightedSquatThrusts</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Weighted Squat Thrusts</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSquatThrusts</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV16squatPlankPushUpACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/squatPlankPushUp" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV16squatPlankPushUpACvpZ">squatPlankPushUp</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Squat Plank Push Up</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">squatPlankPushUp</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV24weightedSquatPlankPushUpACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/weightedSquatPlankPushUp" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV24weightedSquatPlankPushUpACvpZ">weightedSquatPlankPushUp</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Weighted Squat Plank Push Up</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedSquatPlankPushUp</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV24standingTRotationBalanceACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/standingTRotationBalance" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV24standingTRotationBalanceACvpZ">standingTRotationBalance</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Standing T Rotation Balance</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">standingTRotationBalance</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div>
+                      <code>
+                      <a name="/s:15FitDataProtocol21TotalBodyExerciseNameV32weightedStandingTRotationBalanceACvpZ"></a>
+                      <a name="//apple_ref/swift/Variable/weightedStandingTRotationBalance" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol21TotalBodyExerciseNameV32weightedStandingTRotationBalanceACvpZ">weightedStandingTRotationBalance</a>
+                      </code>
+                    </div>
+                    <div class="height-container">
+                      <div class="pointer-container"></div>
+                      <section class="section">
+                        <div class="pointer"></div>
+                        <div class="abstract">
+                          <p>Weighted Standing T Rotation Balance</p>
+
+                        </div>
+                        <div class="declaration">
+                          <h4>Declaration</h4>
+                          <div class="language">
+                            <p class="aside-title">Swift</p>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">weightedStandingTRotationBalance</span><span class="p">:</span> <span class="kt">TotalBodyExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
