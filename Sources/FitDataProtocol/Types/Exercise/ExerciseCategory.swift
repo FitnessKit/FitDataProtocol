@@ -136,9 +136,32 @@ internal extension ExerciseCategory {
             return LateralRaiseExerciseName.self
         case .legCurl:
             return LegCurlExerciseName.self
+        case .legRaise:
+            return nil
+        case .lunge:
+            return nil
         case .olympicLift:
             return OlympicLiftExerciseName.self
-
+        case .plank:
+            return nil
+        case .plyo:
+            return nil
+        case .pullUp:
+            return nil
+        case .pushUp:
+            return nil
+        case .row:
+            return nil
+        case .shoulderPress:
+            return nil
+        case .shouldStability:
+            return nil
+        case .shrug:
+            return nil
+        case .sitUp:
+            return SitUpExerciseName.self
+        case .squat:
+            return nil
         case .totalBody:
             return TotalBodyExerciseName.self
         case .tricepExtension:
@@ -147,8 +170,10 @@ internal extension ExerciseCategory {
             return WarmUpExerciseName.self
         case .run:
             return RunExerciseName.self
-            
-        default:
+
+        case .unknown:
+            return nil
+        case .invalid:
             return nil
         }
     }
