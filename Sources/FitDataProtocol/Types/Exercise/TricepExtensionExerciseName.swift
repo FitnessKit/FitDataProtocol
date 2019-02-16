@@ -96,8 +96,8 @@ public extension TricepExtensionExerciseName {
                 .seatedSingleArmOverheadTricepsExtension,
                 .singleArmDumbbellOverheadTricepsExtension,
                 .singleDumbbellSeatedOverheadTricepsExtension,
-                .singleLegBenchDipAndKick,
-                .weightedSingleLegBenchDipAndKick,
+                .singleLegBenchDipKick,
+                .weightedSingleLegBenchDipKick,
                 .singleLegDip,
                 .weightedSingleLegDip,
                 .staticLyingTricepsExtension,
@@ -267,12 +267,12 @@ public extension TricepExtensionExerciseName {
     }
 
     /// Single Leg Bench Dip and Kick
-    public static var singleLegBenchDipAndKick: TricepExtensionExerciseName {
+    public static var singleLegBenchDipKick: TricepExtensionExerciseName {
         return TricepExtensionExerciseName(name: "Single Leg Bench Dip and Kick", number: 26)
     }
 
     /// Weighted Single Leg Bench Dip and Kick
-    public static var weightedSingleLegBenchDipAndKick: TricepExtensionExerciseName {
+    public static var weightedSingleLegBenchDipKick: TricepExtensionExerciseName {
         return TricepExtensionExerciseName(name: "Weighted Single Leg Bench Dip and Kick", number: 27)
     }
 

@@ -82,9 +82,9 @@ public extension DeadliftExerciseName {
                 .singleArmDeadlift,
                 .singleLegBarbellDeadlift,
                 .singleLegBarbellStraightLegDeadlift,
-                .singleLegDeadliftWithBarbell,
+                .singleLegDeadliftBarbell,
                 .singleLegRdlCircuit,
-                .singleLegRomanianDeadliftWithDumbbell,
+                .singleLegRomanianDeadliftDumbbell,
                 .sumoDeadlift,
                 .sumoDeadliftHighPull,
                 .trapBarDeadlift,
@@ -175,7 +175,7 @@ public extension DeadliftExerciseName {
     }
 
     /// Single Leg Deadlift with Barbell
-    public static var singleLegDeadliftWithBarbell: DeadliftExerciseName {
+    public static var singleLegDeadliftBarbell: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Single Leg Deadlift with Barbell", number: 12)
     }
 
@@ -185,7 +185,7 @@ public extension DeadliftExerciseName {
     }
 
     /// Single Leg Romanian Deadlift with Dumbbell
-    public static var singleLegRomanianDeadliftWithDumbbell: DeadliftExerciseName {
+    public static var singleLegRomanianDeadliftDumbbell: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Single Leg Romanian Deadlift with Dumbbell", number: 14)
     }
 

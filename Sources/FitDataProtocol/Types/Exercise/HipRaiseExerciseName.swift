@@ -71,47 +71,47 @@ public extension HipRaiseExerciseName {
     public static var supportedExerciseNames: [HipRaiseExerciseName] {
 
         return [.barbellHipThrustOnFloor,
-                .barbellHipThrustWithBench,
+                .barbellHipThrustBench,
                 .bentKneeSwissBallReverseHipRaise,
                 .weightedBentKneeSwissBallReverseHipRaise,
-                .bridgeWithLegExtension,
-                .weightedBridgeWithLegExtension,
+                .bridgeLegExtension,
+                .weightedBridgeLegExtension,
                 .clamBridge,
                 .frontKickTabletop,
                 .weightedFrontKickTabletop,
-                .hipExtensionAndCross,
-                .weightedHipExtensionAndCross,
+                .hipExtensionCross,
+                .weightedHipExtensionCross,
                 .hipRaise,
                 .weightedHipRaise,
-                .hipRaiseWithFeetOnSwissBall,
-                .weightedHipRaiseWithFeetOnSwissBall,
-                .hipRaiseWithHeadOnBosuBall,
-                .weightedHipRaiseWithHeadOnBosuBall,
-                .hipRaiseWithHeadOnSwissBall,
-                .weightedHipRaiseWithHeadOnSwissBall,
-                .hipRaiseWithKneeSqueeze,
-                .weightedHipRaiseWithKneeSqueeze,
+                .hipRaiseFeetOnSwissBall,
+                .weightedHipRaiseFeetOnSwissBall,
+                .hipRaiseHeadOnBosuBall,
+                .weightedHipRaiseHeadOnBosuBall,
+                .hipRaiseHeadOnSwissBall,
+                .weightedHipRaiseHeadOnSwissBall,
+                .hipRaiseKneeSqueeze,
+                .weightedHipRaiseKneeSqueeze,
                 .inclineRearLegExtension,
                 .weightedInclineRearLegExtension,
                 .kettlebellSwing,
                 .marchingHipRaise,
                 .weightedMarchingHipRaise,
-                .marchingHipRaiseWithFeeOnSwissBall,
-                .weightedMarchingHipRaiseWithFeeOnSwissBall,
+                .marchingHipRaiseFeeOnSwissBall,
+                .weightedMarchingHipRaiseFeeOnSwissBall,
                 .reverseHipRaise,
                 .weightedReverseHipRaise,
                 .singleLegHipRaise,
                 .weightedSingleLegHipRaise,
-                .singleLegHipRaiseWithFootOnBench,
-                .weightedSingleLegHipRaiseWithFootOnBench,
-                .singleLegHipRaiseWithFootOnBosuBall,
-                .weightedSingleLegHipRaiseWithFootOnBosuBall,
-                .singleLegHipRaiseWithFootOnFoamRoller,
-                .weightedSingleLegHipRaiseWithFootOnFoamRoller,
-                .singleLegHipRaiseWithFootOnMedicineBall,
-                .weightedSingleLegHipRaiseWithFootOnMedicineBall,
-                .singleLegHipRaiseWithHeaddOnBosuBall,
-                .weightedSingleLegHipRaiseWithHeaddOnBosuBall,
+                .singleLegHipRaiseFootOnBench,
+                .weightedSingleLegHipRaiseFootOnBench,
+                .singleLegHipRaiseFootOnBosuBall,
+                .weightedSingleLegHipRaiseFootOnBosuBall,
+                .singleLegHipRaiseFootOnFoamRoller,
+                .weightedSingleLegHipRaiseFootOnFoamRoller,
+                .singleLegHipRaiseFootOnMedicineBall,
+                .weightedSingleLegHipRaiseFootOnMedicineBall,
+                .singleLegHipRaiseHeaddOnBosuBall,
+                .weightedSingleLegHipRaiseHeaddOnBosuBall,
                 .weightedClamBridge
         ]
     }
@@ -144,7 +144,7 @@ public extension HipRaiseExerciseName {
     }
 
     /// Barbell Hip Thrust with Bench
-    public static var barbellHipThrustWithBench: HipRaiseExerciseName {
+    public static var barbellHipThrustBench: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Barbell Hip Thrust with Bench", number: 1)
     }
 
@@ -159,12 +159,12 @@ public extension HipRaiseExerciseName {
     }
 
     /// Bridge with Leg Extension
-    public static var bridgeWithLegExtension: HipRaiseExerciseName {
+    public static var bridgeLegExtension: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Bridge with Leg Extension", number: 4)
     }
 
     /// Weighted Bridge with Leg Extension
-    public static var weightedBridgeWithLegExtension: HipRaiseExerciseName {
+    public static var weightedBridgeLegExtension: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Bridge with Leg Extension", number: 5)
     }
 
@@ -184,12 +184,12 @@ public extension HipRaiseExerciseName {
     }
 
     /// Hip Extension and Cross
-    public static var hipExtensionAndCross: HipRaiseExerciseName {
+    public static var hipExtensionCross: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Hip Extension and Cross", number: 9)
     }
 
     /// Weighted Hip Extension and Cross
-    public static var weightedHipExtensionAndCross: HipRaiseExerciseName {
+    public static var weightedHipExtensionCross: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Hip Extension and Cross", number: 10)
     }
 
@@ -204,42 +204,42 @@ public extension HipRaiseExerciseName {
     }
 
     /// Hip Raise with Feet on Swiss Ball
-    public static var hipRaiseWithFeetOnSwissBall: HipRaiseExerciseName {
+    public static var hipRaiseFeetOnSwissBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Hip Raise with Feet on Swiss Ball", number: 13)
     }
 
     /// Weighted Hip Raise with Feet on Swiss Ball
-    public static var weightedHipRaiseWithFeetOnSwissBall: HipRaiseExerciseName {
+    public static var weightedHipRaiseFeetOnSwissBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Hip Raise with Feet on Swiss Ball", number: 14)
     }
 
     /// Hip Raise with Head on Bosu Ball
-    public static var hipRaiseWithHeadOnBosuBall: HipRaiseExerciseName {
+    public static var hipRaiseHeadOnBosuBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Hip Raise with Head on Bosu Ball", number: 15)
     }
 
     /// Weighted Hip Raise with Head on Bosu Ball
-    public static var weightedHipRaiseWithHeadOnBosuBall: HipRaiseExerciseName {
+    public static var weightedHipRaiseHeadOnBosuBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Hip Raise with Head on Bosu Ball", number: 16)
     }
 
     /// Hip Raise with Head on Swiss Ball
-    public static var hipRaiseWithHeadOnSwissBall: HipRaiseExerciseName {
+    public static var hipRaiseHeadOnSwissBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Hip Raise with Head on Swiss Ball", number: 17)
     }
 
     /// Weighted Hip Raise with Head on Swiss Ball
-    public static var weightedHipRaiseWithHeadOnSwissBall: HipRaiseExerciseName {
+    public static var weightedHipRaiseHeadOnSwissBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Hip Raise with Head on Swiss Ball", number: 18)
     }
 
     /// Hip Raise with Knee Squeeze
-    public static var hipRaiseWithKneeSqueeze: HipRaiseExerciseName {
+    public static var hipRaiseKneeSqueeze: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Hip Raise with Knee Squeeze", number: 19)
     }
 
     /// Weighted Hip Raise with Knee Squeeze
-    public static var weightedHipRaiseWithKneeSqueeze: HipRaiseExerciseName {
+    public static var weightedHipRaiseKneeSqueeze: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Hip Raise with Knee Squeeze", number: 20)
     }
 
@@ -269,12 +269,12 @@ public extension HipRaiseExerciseName {
     }
 
     /// Marching Hip Raise with Feet on a Swiss Ball
-    public static var marchingHipRaiseWithFeeOnSwissBall: HipRaiseExerciseName {
+    public static var marchingHipRaiseFeeOnSwissBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Marching Hip Raise with Feet on a Swiss Ball", number: 26)
     }
 
     /// Weighted Marching Hip Raise with Feet on a Swiss Ball
-    public static var weightedMarchingHipRaiseWithFeeOnSwissBall: HipRaiseExerciseName {
+    public static var weightedMarchingHipRaiseFeeOnSwissBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Marching Hip Raise with Feet on a Swiss Ball", number: 27)
     }
 
@@ -299,52 +299,52 @@ public extension HipRaiseExerciseName {
     }
 
     /// Single Leg Hip Raise with Foot on Bench
-    public static var singleLegHipRaiseWithFootOnBench: HipRaiseExerciseName {
+    public static var singleLegHipRaiseFootOnBench: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Single Leg Hip Raise with Foot on Bench", number: 32)
     }
 
     /// Weighted Single Leg Hip Raise with Foot on Bench
-    public static var weightedSingleLegHipRaiseWithFootOnBench: HipRaiseExerciseName {
+    public static var weightedSingleLegHipRaiseFootOnBench: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Single Leg Hip Raise with Foot on Bench", number: 33)
     }
 
     /// Single Leg Hip Raise with Foot on Bosu Ball
-    public static var singleLegHipRaiseWithFootOnBosuBall: HipRaiseExerciseName {
+    public static var singleLegHipRaiseFootOnBosuBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Single Leg Hip Raise with Foot on Bosu Ball", number: 34)
     }
 
     /// Weighted Single Leg Hip Raise with Foot on Bosu Ball
-    public static var weightedSingleLegHipRaiseWithFootOnBosuBall: HipRaiseExerciseName {
+    public static var weightedSingleLegHipRaiseFootOnBosuBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Single Leg Hip Raise with Foot on Bosu Ball", number: 35)
     }
 
     /// Single Leg Hip Raise with Foot on Foam Roller
-    public static var singleLegHipRaiseWithFootOnFoamRoller: HipRaiseExerciseName {
+    public static var singleLegHipRaiseFootOnFoamRoller: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Single Leg Hip Raise with Foot on Foam Roller", number: 36)
     }
 
     /// Weighted Single Leg Hip Raise with Foot on Foam Roller
-    public static var weightedSingleLegHipRaiseWithFootOnFoamRoller: HipRaiseExerciseName {
+    public static var weightedSingleLegHipRaiseFootOnFoamRoller: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Single Leg Hip Raise with Foot on Foam Roller", number: 37)
     }
 
     /// Single Leg Hip Raise with Foot on Medicine Ball
-    public static var singleLegHipRaiseWithFootOnMedicineBall: HipRaiseExerciseName {
+    public static var singleLegHipRaiseFootOnMedicineBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Single Leg Hip Raise with Foot on Medicine Ball", number: 38)
     }
 
     /// Weighted Single Leg Hip Raise with Foot on Medicine Ball
-    public static var weightedSingleLegHipRaiseWithFootOnMedicineBall: HipRaiseExerciseName {
+    public static var weightedSingleLegHipRaiseFootOnMedicineBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Single Leg Hip Raise with Foot on Medicine Ball", number: 39)
     }
 
     /// Single Leg Hip Raise with Head on Bosu Ball
-    public static var singleLegHipRaiseWithHeaddOnBosuBall: HipRaiseExerciseName {
+    public static var singleLegHipRaiseHeaddOnBosuBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Single Leg Hip Raise with Head on Bosu Ball", number: 40)
     }
 
     /// Weighted Single Leg Hip Raise with Head on Bosu Ball
-    public static var weightedSingleLegHipRaiseWithHeaddOnBosuBall: HipRaiseExerciseName {
+    public static var weightedSingleLegHipRaiseHeaddOnBosuBall: HipRaiseExerciseName {
         return HipRaiseExerciseName(name: "Weighted Single Leg Hip Raise with Head on Bosu Ball", number: 41)
     }
 

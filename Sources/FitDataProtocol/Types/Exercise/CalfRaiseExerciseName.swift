@@ -84,7 +84,7 @@ public extension CalfRaiseExerciseName {
                 .singleLegDeclinePushUp,
                 .singleLegDonkeyCalfRaise,
                 .weightedSingleLegDonkeyCalfRaise,
-                .singleLegHipRaiseWithKneeHold,
+                .singleLegHipRaiseKneeHold,
                 .singleLegStandingCalfRaise,
                 .singleLegStandingDumbbellCalfRaise,
                 .standingBarbellCalfRaise,
@@ -187,7 +187,7 @@ public extension CalfRaiseExerciseName {
     }
 
     /// Single Leg Hip Raise With Knee Hold
-    public static var singleLegHipRaiseWithKneeHold: CalfRaiseExerciseName {
+    public static var singleLegHipRaiseKneeHold: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Single Leg Hip Raise With Knee Hold", number: 14)
     }
 

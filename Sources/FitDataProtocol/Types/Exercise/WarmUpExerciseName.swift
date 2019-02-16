@@ -73,26 +73,26 @@ public extension WarmUpExerciseName {
         return [.quadrupedRocking,
                 .neckTilts,
                 .ankleCircles,
-                .ankleDorsiflexionWithBand,
+                .ankleDorsiflexionBand,
                 .ankleInternalRotation,
                 .armCircles,
                 .bentOverReachToSky,
                 .catCamel,
                 .elbowToFootLunge,
-                .forwardAndBackwardLegSwings,
+                .forwardBackwardLegSwings,
                 .groiners,
                 .invertedHamstringStretch,
                 .lateralDuckUnder,
                 .neckRotations,
-                .oppositeArmAndLegBalance,
-                .reachRollAndLift,
+                .oppositeArmLegBalance,
+                .reachRollLift,
                 .scorpion,
                 .shoulderCircles,
                 .sideToSideLegSwings,
                 .sleeperStretch,
                 .slideOut,
                 .swissBallHipCrossOver,
-                .swissBallReachRollAndLift,
+                .swissBallReachRollLift,
                 .swissBallWindshieldWipers,
                 .thoracicRotation,
                 .walkingHighKicks,
@@ -142,7 +142,7 @@ public extension WarmUpExerciseName {
     }
 
     /// Ankle Dorsiflexion with Band
-    public static var ankleDorsiflexionWithBand: WarmUpExerciseName {
+    public static var ankleDorsiflexionBand: WarmUpExerciseName {
         return WarmUpExerciseName(name: "Ankle Dorsiflexion with Band", number: 3)
     }
 
@@ -172,7 +172,7 @@ public extension WarmUpExerciseName {
     }
 
     /// Forward and Backward Leg Swings
-    public static var forwardAndBackwardLegSwings: WarmUpExerciseName {
+    public static var forwardBackwardLegSwings: WarmUpExerciseName {
         return WarmUpExerciseName(name: "Forward and Backward Leg Swings", number: 9)
     }
 
@@ -197,12 +197,12 @@ public extension WarmUpExerciseName {
     }
 
     /// Oppoaite Arm and Lege Balance
-    public static var oppositeArmAndLegBalance: WarmUpExerciseName {
+    public static var oppositeArmLegBalance: WarmUpExerciseName {
         return WarmUpExerciseName(name: "Oppoaite Arm and Lege Balance", number: 14)
     }
 
     /// Reach Roll and Lift
-    public static var reachRollAndLift: WarmUpExerciseName {
+    public static var reachRollLift: WarmUpExerciseName {
         return WarmUpExerciseName(name: "Reach Roll and Lift", number: 15)
     }
 
@@ -237,7 +237,7 @@ public extension WarmUpExerciseName {
     }
 
     /// Swiss Ball Reach Roll and Lift
-    public static var swissBallReachRollAndLift: WarmUpExerciseName {
+    public static var swissBallReachRollLift: WarmUpExerciseName {
         return WarmUpExerciseName(name: "Swiss Ball Reach Roll and Lift", number: 22)
     }
 

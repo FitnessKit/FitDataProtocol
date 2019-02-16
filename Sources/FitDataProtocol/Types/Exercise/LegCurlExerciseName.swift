@@ -80,7 +80,7 @@ public extension LegCurlExerciseName {
                 .splitBarbellGoodMorning,
                 .splitStanceExtension,
                 .staggeredStanceGoodMorning,
-                .swissBallHipRaiseAndLegCurl,
+                .swissBallHipRaiseLegCurl,
                 .zercherGoodMorning
         ]
     }
@@ -158,7 +158,7 @@ public extension LegCurlExerciseName {
     }
 
     /// Swiss Ball Hip Raise and Leg Curl
-    public static var swissBallHipRaiseAndLegCurl: LegCurlExerciseName {
+    public static var swissBallHipRaiseLegCurl: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Swiss Ball Hip Raise and Leg Curl", number: 10)
     }
 
@@ -166,5 +166,4 @@ public extension LegCurlExerciseName {
     public static var zercherGoodMorning: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Zercher Good Morning", number: 11)
     }
-
 }

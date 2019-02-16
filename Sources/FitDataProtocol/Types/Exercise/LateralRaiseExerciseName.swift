@@ -71,7 +71,7 @@ public extension LateralRaiseExerciseName {
     public static var supportedExerciseNames: [LateralRaiseExerciseName] {
 
         return [.fortyFiveDegreeCableExternalRotation,
-                .alternatingLateralRaiseWithStaticHold,
+                .alternatingLateralRaiseStaticHold,
                 .barMuscleUp,
                 .bentOverLateralRaise,
                 .cableDiagonalRaise,
@@ -133,7 +133,7 @@ public extension LateralRaiseExerciseName {
     }
 
     /// Alternating Lteral Raise with Static Hold
-    public static var alternatingLateralRaiseWithStaticHold: LateralRaiseExerciseName {
+    public static var alternatingLateralRaiseStaticHold: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Alternating Lteral Raise with Static Hold", number: 1)
     }
 

@@ -85,7 +85,7 @@ public extension CurlExerciseName {
                 .crossBodyDumbbellHammerCurl,
                 .deadHangBicepsCurl,
                 .declineHammerCurl,
-                .dumbbellBicepsCurlWithStaticHold,
+                .dumbbellBicepsCurlStaticHold,
                 .dumbbellReverseWristCurl,
                 .dumbbellWristCurl,
                 .ezBarPreacherCurl,
@@ -97,7 +97,7 @@ public extension CurlExerciseName {
                 .lyingConcentrationCableCurl,
                 .oneArmPreacherCurl,
                 .platePinchCurl,
-                .preacherCurlWithCable,
+                .preacherCurlCable,
                 .reverseEzBarCurl,
                 .reverseGripWristCurl,
                 .reverseGripBarbellBicepsCurl,
@@ -214,7 +214,7 @@ public extension CurlExerciseName {
     }
 
     /// Dumbbell Biceps Curl with Static Hold
-    public static var dumbbellBicepsCurlWithStaticHold: CurlExerciseName {
+    public static var dumbbellBicepsCurlStaticHold: CurlExerciseName {
         return CurlExerciseName(name: "Dumbbell Biceps Curl with Static Hold", number: 15)
     }
 
@@ -279,7 +279,7 @@ public extension CurlExerciseName {
     }
 
     /// Preacher Curl with Cable
-    public static var preacherCurlWithCable: CurlExerciseName {
+    public static var preacherCurlCable: CurlExerciseName {
         return CurlExerciseName(name: "Preacher Curl with Cable", number: 28)
     }
 

@@ -70,8 +70,8 @@ public extension CardioExerciseName {
     /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [CardioExerciseName] {
 
-        return [.bobAndWeaveCircle,
-                .weightedBobAndWeaveCircle,
+        return [.bobWeaveCircle,
+                .weightedBobWeaveCircle,
                 .cardioCoreCrawl,
                 .weightedCardioCoreCrawl,
                 .doubleUnder,
@@ -118,12 +118,12 @@ public extension CardioExerciseName {
 public extension CardioExerciseName {
 
     /// Bob and Weave Circle
-    public static var bobAndWeaveCircle: CardioExerciseName {
+    public static var bobWeaveCircle: CardioExerciseName {
         return CardioExerciseName(name: "Bob and Weave Circle", number: 0)
     }
 
     /// Weighted Bob and Weave Circle
-    public static var weightedBobAndWeaveCircle: CardioExerciseName {
+    public static var weightedBobWeaveCircle: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Bob and Weave Circle", number: 1)
     }
 

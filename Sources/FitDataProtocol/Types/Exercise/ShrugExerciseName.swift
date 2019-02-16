@@ -80,7 +80,7 @@ public extension ShrugExerciseName {
                 .inclineDumbbellShrug,
                 .overheadBarbellShrug,
                 .overheadDumbbellShrug,
-                .scaptionAndShrug,
+                .scaptionShrug,
                 .scapularRetraction,
                 .serratusChairShurg,
                 .weightedSerratusChairShurg,
@@ -163,7 +163,7 @@ public extension ShrugExerciseName {
     }
 
     /// Scaption And Shrug
-    public static var scaptionAndShrug: ShrugExerciseName {
+    public static var scaptionShrug: ShrugExerciseName {
         return ShrugExerciseName(name: "Scaption And Shrug", number: 10)
     }
 

@@ -81,7 +81,7 @@ public extension HipStabilityExerciseName {
                 .weightedHipCircles,
                 .innerThighLift,
                 .weightedInnerThighLift,
-                .lateralWalksWithBandAtAnkles,
+                .lateralWalksBandAtAnkles,
                 .pretzelSideKick,
                 .weightedPretzelSideKick,
                 .proneHipInternalRotation,
@@ -89,8 +89,8 @@ public extension HipStabilityExerciseName {
                 .quadruped,
                 .quadrupedHipExtension,
                 .weightedQuadrupedHipExtension,
-                .quadrupedWithLegLift,
-                .weightedQuadrupedWithLegLift,
+                .quadrupedLegLift,
+                .weightedQuadrupedLegLift,
                 .sideLyingLegRaise,
                 .weightedSideLyingLegRaise,
                 .slidingHipAdduction,
@@ -185,7 +185,7 @@ public extension HipStabilityExerciseName {
     }
 
     /// Lateral Walks with Band at Ankles
-    public static var lateralWalksWithBandAtAnkles: HipStabilityExerciseName {
+    public static var lateralWalksBandAtAnkles: HipStabilityExerciseName {
         return HipStabilityExerciseName(name: "Lateral Walks with Band at Ankles", number: 11)
     }
 
@@ -225,12 +225,12 @@ public extension HipStabilityExerciseName {
     }
 
     /// Quadruped with Leg Lift
-    public static var quadrupedWithLegLift: HipStabilityExerciseName {
+    public static var quadrupedLegLift: HipStabilityExerciseName {
         return HipStabilityExerciseName(name: "Quadruped with Leg Lift", number: 19)
     }
 
     /// Weighted Quadruped with Leg Lift
-    public static var weightedQuadrupedWithLegLift: HipStabilityExerciseName {
+    public static var weightedQuadrupedLegLift: HipStabilityExerciseName {
         return HipStabilityExerciseName(name: "Weighted Quadruped with Leg Lift", number: 20)
     }
 

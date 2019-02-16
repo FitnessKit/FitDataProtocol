@@ -87,8 +87,8 @@ public extension CrunchExerciseName {
                 .weightedFlutterKicks,
                 .foamRollerReverseCrunchOnBench,
                 .weightedFoamRollerReverseCrunchOnBench,
-                .foamRollerReverseCrunchWithDumbbell,
-                .foamRollerReverseCrunchWithMedicineBall,
+                .foamRollerReverseCrunchDumbbell,
+                .foamRollerReverseCrunchMedicineBall,
                 .frogPress,
                 .hangingKneeRaiseObliqueCrunch,
                 .weightedHangingKneeRaiseObliqueCrunch,
@@ -108,28 +108,28 @@ public extension CrunchExerciseName {
                 .legLevers,
                 .mcgillCurlUp,
                 .weightedMcgillCurlUp,
-                .modifiedPilatesRollUpWithBall,
-                .weightedModifiedPilatesRollUpWithBall,
+                .modifiedPilatesRollUpBall,
+                .weightedModifiedPilatesRollUpBall,
                 .pilatesCrunch,
                 .weightedPilatesCrunch,
-                .pilatesRollUpWithBall,
-                .weightePilatesRollUpWithBall,
+                .pilatesRollUpBall,
+                .weightePilatesRollUpBall,
                 .raisedLegsCrunch,
                 .weightedRaisedLegsCrunch,
                 .reverseCrunch,
                 .weightedReverseCrunch,
                 .reverseCrunchOnBench,
                 .weightedReverseCrunchOnBench,
-                .reverseCurlAndLift,
-                .weightedReverseCurlAndLift,
+                .reverseCurlLift,
+                .weightedReverseCurlLift,
                 .rotationalLift,
                 .weightedRotationalLift,
                 .seatedAlternatingReverseCrunch,
                 .weightedSeatedAlternatingReverseCrunch,
                 .seatedLegU,
                 .weightedSeatedLegU,
-                .sideToSideCrunchAndWeave,
-                .weightedSideToSideCrunchAndWeave,
+                .sideToSideCrunchWeave,
+                .weightedSideToSideCrunchWeave,
                 .singleLegReverseCrunch,
                 .weightedSingleLegReverseCrunch,
                 .skaterCrunchCross,
@@ -265,12 +265,12 @@ public extension CrunchExerciseName {
     }
 
     /// Foam Roller Reverse Crunch with Dumbbell
-    public static var foamRollerReverseCrunchWithDumbbell: CrunchExerciseName {
+    public static var foamRollerReverseCrunchDumbbell: CrunchExerciseName {
         return CrunchExerciseName(name: "Foam Roller Reverse Crunch with Dumbbell", number: 17)
     }
 
     /// Foam Roller Reverse Crunch with Medicine Ball
-    public static var foamRollerReverseCrunchWithMedicineBall: CrunchExerciseName {
+    public static var foamRollerReverseCrunchMedicineBall: CrunchExerciseName {
         return CrunchExerciseName(name: "Foam Roller Reverse Crunch with Medicine Ball", number: 18)
     }
 
@@ -370,12 +370,12 @@ public extension CrunchExerciseName {
     }
 
     /// Modified Pilates Roll up with Ball
-    public static var modifiedPilatesRollUpWithBall: CrunchExerciseName {
+    public static var modifiedPilatesRollUpBall: CrunchExerciseName {
         return CrunchExerciseName(name: "Modified Pilates Roll up with Ball", number: 38)
     }
 
     /// Weighted Modified Pilates Roll up with Ball
-    public static var weightedModifiedPilatesRollUpWithBall: CrunchExerciseName {
+    public static var weightedModifiedPilatesRollUpBall: CrunchExerciseName {
         return CrunchExerciseName(name: "Weighted Modified Pilates Roll up with Ball", number: 39)
     }
 
@@ -390,12 +390,12 @@ public extension CrunchExerciseName {
     }
 
     /// Pilates Roll up with Ball
-    public static var pilatesRollUpWithBall: CrunchExerciseName {
+    public static var pilatesRollUpBall: CrunchExerciseName {
         return CrunchExerciseName(name: "Pilates Roll up with Ball", number: 42)
     }
 
     /// Weighted Pilates Roll up with Ball
-    public static var weightePilatesRollUpWithBall: CrunchExerciseName {
+    public static var weightePilatesRollUpBall: CrunchExerciseName {
         return CrunchExerciseName(name: "Weighted Pilates Roll up with Ball", number: 43)
     }
 
@@ -430,12 +430,12 @@ public extension CrunchExerciseName {
     }
 
     /// Reverse Curl and Lift
-    public static var reverseCurlAndLift: CrunchExerciseName {
+    public static var reverseCurlLift: CrunchExerciseName {
         return CrunchExerciseName(name: "Reverse Curl and Lift", number: 50)
     }
 
     /// Weighted Reverse Curl and Lift
-    public static var weightedReverseCurlAndLift: CrunchExerciseName {
+    public static var weightedReverseCurlLift: CrunchExerciseName {
         return CrunchExerciseName(name: "Weighted Reverse Curl and Lift", number: 51)
     }
 
@@ -470,12 +470,12 @@ public extension CrunchExerciseName {
     }
 
     /// Side to Side Crunch and Weave
-    public static var sideToSideCrunchAndWeave: CrunchExerciseName {
+    public static var sideToSideCrunchWeave: CrunchExerciseName {
         return CrunchExerciseName(name: "Side to Side Crunch and Weave", number: 58)
     }
 
     /// Weighted Side to Side Crunch and Weave
-    public static var weightedSideToSideCrunchAndWeave: CrunchExerciseName {
+    public static var weightedSideToSideCrunchWeave: CrunchExerciseName {
         return CrunchExerciseName(name: "Weighted Side to Side Crunch and Weave", number: 59)
     }
 

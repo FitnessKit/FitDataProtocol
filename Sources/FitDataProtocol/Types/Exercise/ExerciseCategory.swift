@@ -155,7 +155,7 @@ internal extension ExerciseCategory {
         case .shoulderPress:
             return nil
         case .shoulderStability:
-            return nil
+            return ShoulderStabilityExerciseName.self
         case .shrug:
             return ShrugExerciseName.self
         case .sitUp:

@@ -71,25 +71,25 @@ public extension HyperextensionExerciseName {
     /// List of Supported ExerciseNames
     public static var supportedExerciseNames: [HyperextensionExerciseName] {
 
-        return [.backExtensionWithOppositeArmAndLegReach,
-                .weightedBackExtensionWithOppositeArmAndLegReach,
+        return [.backExtensionOppositeArmLegReach,
+                .weightedBackExtensionOppositeArmLegReach,
                 .baseRotations,
                 .weightedBaseRotations,
                 .bentKneeReverseHyperextension,
                 .weightedBentKneeReverseHyperextension,
-                .hollowHoldAndRoll,
-                .weightedHollowHoldAndRoll,
+                .hollowHoldRoll,
+                .weightedHollowHoldRoll,
                 .kicks,
                 .weightedKicks,
                 .kneeRaises,
                 .weightedKneeRaises,
                 .kneelingSuperman,
                 .weightedKneelingSuperman,
-                .latPullDownWithRow,
+                .latPullDownRow,
                 .medicineBallDeadliftToReach,
                 .oneArmOneLegRow,
-                .oneArmOneLegRowWithBand,
-                .overheadLungeWithMedicineBall,
+                .oneArmOneLegRowBand,
+                .overheadLungeMedicineBall,
                 .plankKneeTucks,
                 .weightedPlankKneeTucks,
                 .sideStep,
@@ -106,8 +106,8 @@ public extension HyperextensionExerciseName {
                 .weightedSwissBallBackExtension,
                 .swissBallHyperextension,
                 .weightedSwissBallHyperextension,
-                .swissBallOppositeArmAndLegLift,
-                .weightedSwissBallOppositeArmAndLegLift
+                .swissBallOppositeArmLegLift,
+                .weightedSwissBallOppositeArmLegLift
         ]
     }
 }
@@ -134,12 +134,12 @@ public extension HyperextensionExerciseName {
 public extension HyperextensionExerciseName {
 
     /// Back Extension with Opposite Arm and Leg Reach
-    public static var backExtensionWithOppositeArmAndLegReach: HyperextensionExerciseName {
+    public static var backExtensionOppositeArmLegReach: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Back Extension with Opposite Arm and Leg Reach", number: 0)
     }
 
     /// Weighted Back Extension with Opposite Arm and Leg Reach
-    public static var weightedBackExtensionWithOppositeArmAndLegReach: HyperextensionExerciseName {
+    public static var weightedBackExtensionOppositeArmLegReach: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Back Extension with Opposite Arm and Leg Reach", number: 1)
     }
 
@@ -164,12 +164,12 @@ public extension HyperextensionExerciseName {
     }
 
     /// Hollow Hold and Roll
-    public static var hollowHoldAndRoll: HyperextensionExerciseName {
+    public static var hollowHoldRoll: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Hollow Hold and Roll", number: 6)
     }
 
     /// Weighted Hollow Hold and Roll
-    public static var weightedHollowHoldAndRoll: HyperextensionExerciseName {
+    public static var weightedHollowHoldRoll: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Hollow Hold and Roll", number: 7)
     }
 
@@ -204,7 +204,7 @@ public extension HyperextensionExerciseName {
     }
 
     /// Lat Pull Down with Row
-    public static var latPullDownWithRow: HyperextensionExerciseName {
+    public static var latPullDownRow: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Lat Pull Down with Row", number: 14)
     }
 
@@ -219,12 +219,12 @@ public extension HyperextensionExerciseName {
     }
 
     /// One Arm One Leg Row with Band
-    public static var oneArmOneLegRowWithBand: HyperextensionExerciseName {
+    public static var oneArmOneLegRowBand: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "One Arm One Leg Row with Band", number: 17)
     }
 
     /// Overhead Lunge with Medicine Ball
-    public static var overheadLungeWithMedicineBall: HyperextensionExerciseName {
+    public static var overheadLungeMedicineBall: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Overhead Lunge with Medicine Ball", number: 18)
     }
 
@@ -309,12 +309,12 @@ public extension HyperextensionExerciseName {
     }
 
     /// Swiss Ball Opposite Arm and Leg Lift
-    public static var swissBallOppositeArmAndLegLift: HyperextensionExerciseName {
+    public static var swissBallOppositeArmLegLift: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Swiss Ball Opposite Arm and Leg Lift", number: 35)
     }
 
     /// Weighted Swiss Ball Opposite Arm and Leg Lift
-    public static var weightedSwissBallOppositeArmAndLegLift: HyperextensionExerciseName {
+    public static var weightedSwissBallOppositeArmLegLift: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Swiss Ball Opposite Arm and Leg Lift", number: 36)
     }
 }

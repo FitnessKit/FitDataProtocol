@@ -75,7 +75,7 @@ public extension OlympicLiftExerciseName {
                 .barbellPowerClean,
                 .barbellPowerSnatch,
                 .barbellSquatClean,
-                .cleanAndJerk,
+                .cleanJerk,
                 .barbellHangPowerSnatch,
                 .barbellHangPull,
                 .barbellHighPull,
@@ -90,7 +90,7 @@ public extension OlympicLiftExerciseName {
                 .singleArmHangSnatch,
                 .singleArmKettlebellSnatch,
                 .splitJerk,
-                .squatCleanAndJerk
+                .squatCleanJerk
         ]
     }
 }
@@ -142,7 +142,7 @@ public extension OlympicLiftExerciseName {
     }
 
     /// Clean and Jerk
-    public static var cleanAndJerk: OlympicLiftExerciseName {
+    public static var cleanJerk: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Clean and Jerk", number: 5)
     }
 
@@ -217,7 +217,7 @@ public extension OlympicLiftExerciseName {
     }
 
     /// Squat Clean and Jerk
-    public static var squatCleanAndJerk: OlympicLiftExerciseName {
+    public static var squatCleanJerk: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Squat Clean and Jerk", number: 20)
     }
 }
