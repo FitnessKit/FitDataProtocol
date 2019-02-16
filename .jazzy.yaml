@@ -89,6 +89,7 @@ custom_categories:
     - LegRaiseExerciseName
     - OlympicLiftExerciseName
     - RunExerciseName
+    - ShoulderStabilityExerciseName
     - ShrugExerciseName
     - SitUpExerciseName
     - TotalBodyExerciseName
