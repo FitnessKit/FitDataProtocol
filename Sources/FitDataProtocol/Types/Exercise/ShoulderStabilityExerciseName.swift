@@ -72,7 +72,37 @@ public extension ShoulderStabilityExerciseName {
 
         return [.nintyDegreeCableExternalRotation,
                 .bandExternalRotation,
-
+                .bandInternalRotation,
+                .bentArmLateralRaiseExternalRotation,
+                .cableExternalRotation,
+                .dumbbellFacePullExternalRotation,
+                .floorIRaise,
+                .weightedFloorIRaise,
+                .floorTRaise,
+                .weightedFloorTRaise,
+                .floorYRaise,
+                .weightedFloorYRaise,
+                .inclineIRaise,
+                .weightedInclineIRaise,
+                .inclineLRaise,
+                .weightedInclineLRaise,
+                .inclineTRaise,
+                .weightedInclineTRaise,
+                .inclineWRaise,
+                .weightedInclineWRaise,
+                .inclineYRaise,
+                .weightedInclineYRaise,
+                .lyingExternalRotation,
+                .seatedDumbbellExternalRotation,
+                .standingLRaise,
+                .swissBallIRaise,
+                .weightedSwissBallIRaise,
+                .swissBallTRaise,
+                .weightedSwissBallTRaise,
+                .swissBallWRaise,
+                .weightedSwissBallWRaise,
+                .swissBallYRaise,
+                .weightedSwissBallYRaise
         ]
     }
 }
