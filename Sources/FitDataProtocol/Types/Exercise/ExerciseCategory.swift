@@ -145,9 +145,9 @@ internal extension ExerciseCategory {
         case .plank:
             return nil
         case .plyo:
-            return nil
+            return PlyoExerciseName.self
         case .pullUp:
-            return nil
+            return PullUpExerciseName.self
         case .pushUp:
             return nil
         case .row:

@@ -87,7 +87,10 @@ custom_categories:
     - LateralRaiseExerciseName
     - LegCurlExerciseName
     - LegRaiseExerciseName
+    - LungeExerciseName
     - OlympicLiftExerciseName
+    - PlyoExerciseName
+    - PullUpExerciseName
     - RowExerciseName
     - RunExerciseName
     - ShoulderPressExerciseName

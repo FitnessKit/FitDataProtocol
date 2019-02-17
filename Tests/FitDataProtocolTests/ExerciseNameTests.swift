@@ -354,7 +354,7 @@ class ExerciseNameTests: XCTestCase {
             XCTFail("Wrong Exercise Name")
         }
 
-        if HipRaiseExerciseName.create(rawValue: 4) != HipRaiseExerciseName.bridgeWithLegExtension {
+        if HipRaiseExerciseName.create(rawValue: 4) != HipRaiseExerciseName.bridgeLegExtension {
             XCTFail("Wrong Exercise Name")
         }
 
