@@ -119,12 +119,13 @@ internal extension FileHeader {
 
         let headerSize = decoder.decodeUInt8(data)
 
-        guard headerSize <= data.count else { throw FitError(message: "Header Size mismatch") }
+        /// Just call this not a Fit file if the header size doesn't match the data size
+        guard headerSize <= data.count else { throw FitError(.nonFitFile) }
 
         let protocolVersion = decoder.decodeUInt8(data)
 
-        guard ProtocolVersionMajor(protocolVersion) <= ProtocolVersionMajor(protocolVersion20) else { throw FitError(.protocolVersionNotSupported) }
-
+        /// we will check the protocolVersion later.
+        
         let profileVersion = decoder.decodeUInt16(data)
         let dataSize = decoder.decodeUInt32(data)
 
@@ -132,6 +133,10 @@ internal extension FileHeader {
         let fitString = String(bytes: fitCheckData, encoding: .ascii)
 
         guard fitString == ".FIT" else { throw FitError(.nonFitFile) }
+
+        guard ProtocolVersionMajor(protocolVersion) <= ProtocolVersionMajor(protocolVersion20) else {
+            throw FitError(.protocolVersionNotSupported)
+        }
 
         // If we have a size of 14 in Header check CRC
         var crc: UInt16?
