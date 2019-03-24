@@ -34,15 +34,31 @@ extension Data {
     /// Smartly Decodes String
     var smartString: String? {
         var stringvalue: String?
+        
+        var charSet = CharacterSet()
+        charSet.insert("\0")
 
-        // TODO: this should be enhanced, some fit files will have extra null padding
-        if self[(self.count - 1)] == 0 {
-            stringvalue = String(bytes: self[0..<(self.count - 1)], encoding: .utf8)
+        guard self.count > 1 else { return stringvalue }
+
+        stringvalue = String(bytes: self, encoding: .utf8)
+
+        if self[(self.endIndex - 1)] == 0 {
+            stringvalue = String(bytes: self, encoding: .utf8)
         } else {
-            stringvalue = String(bytes: self[0..<(self.count - 1)], encoding: .ascii)
+            stringvalue = String(bytes: self, encoding: .ascii)
         }
 
-        return stringvalue
+        if let checkString = stringvalue {
+            let trimmed = checkString.trimmingCharacters(in: charSet)
+            
+            if trimmed.isEmpty {
+                return nil
+            }
+            
+            return trimmed
+        }
+        
+        return nil
     }
 
     /// Provide Segments of the Data
