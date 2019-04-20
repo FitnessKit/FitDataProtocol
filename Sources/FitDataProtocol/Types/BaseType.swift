@@ -163,7 +163,7 @@ internal extension BaseType {
             return data
 
         case .unknown:
-            throw FitError(.encodeError(msg: "Unknown BaseType for Encoding"))
+            throw FitEncodingError.unknownBaseType
         }
     }
 }

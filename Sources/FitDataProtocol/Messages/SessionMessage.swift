@@ -1349,16 +1349,16 @@ open class SessionMessage: FitMessage {
     ///   - fileType: FileType
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
-    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitError> {
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
 
         do {
             try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-        } catch let error as FitError {
+        } catch let error as FitEncodingError {
             return.failure(error)
         } catch {
-            return.failure(FitError(message: error.localizedDescription))
+            return.failure(FitEncodingError.fileType(error.localizedDescription))
         }
-
+        
         var fileDefs = [FieldDefinition]()
 
         for key in FitCodingKeys.allCases {
@@ -1517,7 +1517,7 @@ open class SessionMessage: FitMessage {
                     //16 typical size... but we will count the String
 
                     guard stringData.count <= UInt8.max else {
-                        return.failure(FitError(.encodeError(msg: "opponentName size can not exceed 255")))
+                        return.failure(FitEncodingError.properySize("opponentName size can not exceed 255"))
                     }
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
@@ -2134,27 +2134,27 @@ extension SessionMessage: MessageValidator {
         let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
 
         guard self.timeStamp != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain timeStamp, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require SessionMessage to contain timeStamp, can not be nil")
         }
 
         guard self.startTime != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain startTime, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require SessionMessage to contain startTime, can not be nil")
         }
 
         guard self.totalElapsedTime != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain totalElapsedTime, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require SessionMessage to contain totalElapsedTime, can not be nil")
         }
 
         guard self.sport != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain sport, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require SessionMessage to contain sport, can not be nil")
         }
 
         guard self.event != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain event, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require SessionMessage to contain event, can not be nil")
         }
 
         guard self.eventType != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require SessionMessage to contain eventType, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require SessionMessage to contain eventType, can not be nil")
         }
 
     }

@@ -176,15 +176,15 @@ open class FileIdMessage: FitMessage {
     ///   - fileType: FileType
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
-    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitError> {
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
 
         /// Validation is done in the encoder right now
 //        do {
 //            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitError {
+//        } catch let error as FitEncodingError {
 //            return.failure(error)
 //        } catch {
-//            return.failure(FitError(message: error.localizedDescription))
+//            return.failure(FitEncodingError.fileType(error.localizedDescription))
 //        }
 
         var fileDefs = [FieldDefinition]()
@@ -209,7 +209,7 @@ open class FileIdMessage: FitMessage {
                     //20 typical size... but we will count the String
 
                     guard stringData.count <= UInt8.max else {
-                        return.failure(FitError(.encodeError(msg: "productName size can not exceed 255")))
+                        return.failure(FitEncodingError.properySize("productName size can not exceed 255"))
                     }
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))

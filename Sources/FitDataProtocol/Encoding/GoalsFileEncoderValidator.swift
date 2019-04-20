@@ -25,30 +25,30 @@ import Foundation
 /// Goals File Validator
 internal struct GoalsFileEncoderValidator: EncoderFileTypeValidator {    
     
-    internal static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitError> {
+    internal static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitEncodingError> {
         //Goals file shall contain file_id, workout, and workout_step
 
         let msg = "Goals Files"
 
         /// this should have already been established
         guard fildIdMessage.fileType == FileType.goals else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileType.goals")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileType.goals"))
         }
 
         guard fildIdMessage.manufacturer != nil else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain Manufacturer, can not be nil")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileIdMessage to contain Manufacturer, can not be nil"))
         }
 
         guard fildIdMessage.product != nil else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain product, can not be nil")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileIdMessage to contain product, can not be nil"))
         }
 
         guard fildIdMessage.deviceSerialNumber != nil else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain deviceSerialNumber, can not be nil")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileIdMessage to contain deviceSerialNumber, can not be nil"))
         }
 
         if EncoderValidator.containsMessage(GoalMessage.self, messages: messages) == false {
-            return.failure(FitError(.encodeError(msg: "\(msg) require GoalMessage")))
+            return.failure(FitEncodingError.fileType("\(msg) require GoalMessage"))
         }
         
         return.success(true)

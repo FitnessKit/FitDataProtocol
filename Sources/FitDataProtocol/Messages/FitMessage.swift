@@ -74,8 +74,8 @@ open class FitMessage {
     ///   - fileType: FileType
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
-    internal func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitError> {
-        return.failure(FitError(.encodeError(msg: "Message not currently supported for Encode")))
+    internal func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
+        return.failure(FitEncodingError.notSupported)
         //fatalError("*** You must override in your class.")
     }
 
@@ -88,7 +88,7 @@ open class FitMessage {
     /// - Returns: Data representation
     /// - Throws: FitError
     internal func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
-        throw FitError(.encodeError(msg: "Message not currently supported for Encode"))
+        throw FitEncodingError.notSupported
         //fatalError("*** You must override in your class.")
     }
 
@@ -161,12 +161,12 @@ internal extension FitMessage {
     ///
     /// - Parameter messageType: FitMessage Name
     /// - Returns: FitError
-    func encodeWrongDefinitionMessage() -> FitError {
-        return FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding \(self.messageName)"))
+    func encodeWrongDefinitionMessage() -> FitEncodingError {
+        return FitEncodingError.wrongDefinitionMessage("Wrong DefinitionMessage used for Encoding \(self.messageName)")
     }
 
-    func encodeNoPropertiesAvailable() -> FitError {
-        return FitError(.encodeError(msg: "\(self.messageName) contains no Properties Available to Encode"))
+    func encodeNoPropertiesAvailable() -> FitEncodingError {
+        return FitEncodingError.noProperties("\(self.messageName) contains no Properties Available to Encode")
     }
 
     /// Name of the FitMessage

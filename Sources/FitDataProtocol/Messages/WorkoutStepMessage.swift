@@ -235,14 +235,14 @@ open class WorkoutStepMessage: FitMessage {
     ///   - fileType: FileType
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
-    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitError> {
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
 
         do {
             try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-        } catch let error as FitError {
+        } catch let error as FitEncodingError {
             return.failure(error)
         } catch {
-            return.failure(FitError(message: error.localizedDescription))
+            return.failure(FitEncodingError.fileType(error.localizedDescription))
         }
 
         var fileDefs = [FieldDefinition]()
@@ -258,7 +258,7 @@ open class WorkoutStepMessage: FitMessage {
                     //16 typical size... but we will count the String
 
                     guard stringData.count <= UInt8.max else {
-                        return.failure(FitError(.encodeError(msg: "name size can not exceed 255")))
+                        return.failure(FitEncodingError.properySize("name size can not exceed 255"))
                     }
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
@@ -282,7 +282,7 @@ open class WorkoutStepMessage: FitMessage {
                     //50 typical size... but we will count the String
 
                     guard stringData.count <= UInt8.max else {
-                        return.failure(FitError(.encodeError(msg: "notes size can not exceed 255")))
+                        return.failure(FitEncodingError.properySize("notes size can not exceed 255"))
                     }
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
@@ -437,15 +437,15 @@ extension WorkoutStepMessage: MessageValidator {
         let msg = "Workout Files"
 
         guard self.messageIndex != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require WorkoutStepMessage to contain messageIndex, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require WorkoutStepMessage to contain messageIndex, can not be nil")
         }
 
         guard self.durationType != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require WorkoutStepMessage to contain durationType, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require WorkoutStepMessage to contain durationType, can not be nil")
         }
 
         guard self.targetType != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require WorkoutStepMessage to contain targetType, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require WorkoutStepMessage to contain targetType, can not be nil")
         }
 
     }

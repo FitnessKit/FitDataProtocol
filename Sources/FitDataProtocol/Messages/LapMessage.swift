@@ -1216,14 +1216,14 @@ open class LapMessage: FitMessage {
     ///   - fileType: FileType
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
-    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitError> {
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
 
         do {
             try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-        } catch let error as FitError {
+        } catch let error as FitEncodingError {
             return.failure(error)
         } catch {
-            return.failure(FitError(message: error.localizedDescription))
+            return.failure(FitEncodingError.fileType(error.localizedDescription))
         }
 
         var fileDefs = [FieldDefinition]()
@@ -1924,15 +1924,15 @@ extension LapMessage: MessageValidator {
         let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
 
         guard self.timeStamp != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require LapMessage to contain timeStamp, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require LapMessage to contain timeStamp, can not be nil")
         }
 
         guard self.event != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require LapMessage to contain event, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require LapMessage to contain event, can not be nil")
         }
 
         guard self.eventType != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require LapMessage to contain eventType, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require LapMessage to contain eventType, can not be nil")
         }
     }
 }

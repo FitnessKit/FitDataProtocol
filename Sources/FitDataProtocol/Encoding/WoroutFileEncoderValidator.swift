@@ -25,38 +25,38 @@ import Foundation
 /// Workout File Validator
 internal struct WorkoutFileEncoderValidator: EncoderFileTypeValidator {
 
-    internal static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitError> {
+    internal static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitEncodingError> {
         //Workout file shall contain file_id, workout, and workout_step
         
         let msg = "Workout Files"
         
         /// this should have already been established
         guard fildIdMessage.fileType == FileType.workout else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileType.workout")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileType.workout"))
         }
         
         guard fildIdMessage.manufacturer != nil else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain Manufacturer, can not be nil")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileIdMessage to contain Manufacturer, can not be nil"))
         }
         
         guard fildIdMessage.product != nil else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain product, can not be nil")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileIdMessage to contain product, can not be nil"))
         }
         
         guard fildIdMessage.deviceSerialNumber != nil else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain deviceSerialNumber, can not be nil")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileIdMessage to contain deviceSerialNumber, can not be nil"))
         }
         
         guard fildIdMessage.fileCreationDate != nil else {
-            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain fileCreationDate, can not be nil")))
+            return.failure(FitEncodingError.fileType("\(msg) require FileIdMessage to contain fileCreationDate, can not be nil"))
         }
         
         if EncoderValidator.containsMessage(WorkoutMessage.self, messages: messages) == false {
-            return.failure(FitError(.encodeError(msg: "\(msg) require WorkoutMessage")))
+            return.failure(FitEncodingError.fileType("\(msg) require WorkoutMessage"))
         }
         
         if EncoderValidator.containsMessage(WorkoutStepMessage.self, messages: messages) == false {
-            return.failure(FitError(.encodeError(msg: "\(msg) require WorkoutStepMessage")))
+            return.failure(FitEncodingError.fileType("\(msg) require WorkoutStepMessage"))
         }
 
         return.success(true)

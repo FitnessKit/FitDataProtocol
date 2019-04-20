@@ -703,14 +703,14 @@ open class RecordMessage: FitMessage {
     ///   - fileType: FileType
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
-    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitError> {
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
 
 //        do {
 //            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitError {
+//        } catch let error as FitEncodingError {
 //            return.failure(error)
 //        } catch {
-//            return.failure(FitError(message: error.localizedDescription))
+//            return.failure(FitEncodingError.fileType(error.localizedDescription))
 //        }
 
         var fileDefs = [FieldDefinition]()
@@ -1142,7 +1142,7 @@ extension RecordMessage: MessageValidator {
         let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
 
         guard self.timeStamp != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require RecordMessage to contain timeStamp, can not be nil"))
+            throw FitEncodingError.fileType("\(msg) require RecordMessage to contain timeStamp, can not be nil")
         }
 
     }

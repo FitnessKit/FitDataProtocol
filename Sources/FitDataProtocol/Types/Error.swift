@@ -39,9 +39,6 @@ public enum ErrorReasons {
     /// FIT File Conversion Issue
     case fitFileConversion
 
-    /// Encoding error
-    case encodeError(msg: String)
-
     /// Generic
     case generic(String)
 }
@@ -64,5 +61,57 @@ public struct FitError: Error {
     /// - Parameter message: Generic Message Type with Message
     public init(message: String) {
         self.type = .generic(message)
+    }
+}
+
+/// Errors for FIT File Encoding
+enum FitEncodingError: Error {
+    /// No Messages
+    case noMessages
+    /// Multiple FileIdMessages
+    case multipleFileIdMessage
+    /// Resulting File is too large
+    case tooManyMessages
+    /// FIT Message Not supported
+    case notSupported
+    /// Property Size Issue
+    case properySize(String)
+    /// No Properties available to Encdode
+    case noProperties(String)
+    /// File Type
+    ///
+    /// Many FIT File Types have specific requirements for the messages
+    /// or properties that must be used.
+    case fileType(String)
+    /// Wrong Definition Message
+    case wrongDefinitionMessage(String)
+    /// Base Type Issue
+    case unknownBaseType
+}
+
+extension FitEncodingError: LocalizedError {
+    
+    /// A localized message describing what error occurred.
+    public var errorDescription: String? {
+        switch self {
+        case .noMessages:
+            return "No Messages to Encode"
+        case .multipleFileIdMessage:
+            return "messages can not contain second FileIdMessage"
+        case .tooManyMessages:
+            return "Fit File has to many Messages. Can only encode \(UInt32.max) bytes"
+        case .notSupported:
+            return "Message not currently supported for Encode"
+        case .properySize(let msg):
+            return msg
+        case .noProperties(let msg):
+            return msg
+        case .fileType(let msg):
+            return msg
+        case .wrongDefinitionMessage(let msg):
+            return msg
+        case .unknownBaseType:
+            return "Unknown BaseType"
+        }
     }
 }

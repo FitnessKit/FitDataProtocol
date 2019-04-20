@@ -77,7 +77,7 @@ public extension FitFileEncoder {
         }
 
         guard messages.count > 0 else {
-            throw FitError(.encodeError(msg: "No Messages to Encode"))
+            throw FitEncodingError.noMessages
         }
 
         var msgData = Data()
@@ -92,7 +92,7 @@ public extension FitFileEncoder {
         for message in messages {
 
             if message is FileIdMessage {
-                throw FitError(.encodeError(msg: "messages can not contain second FileIdMessage"))
+                throw FitEncodingError.multipleFileIdMessage
             }
 
             let def = try message.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy).get()
@@ -106,7 +106,7 @@ public extension FitFileEncoder {
         }
 
         if msgData.count > UInt32.max {
-            throw FitError(.encodeError(msg: "Fit File has to many Messages. Can only encode \(UInt32.max) bytes"))
+            throw FitEncodingError.tooManyMessages
         }
 
         let header = FileHeader(dataSize: UInt32(msgData.count))
