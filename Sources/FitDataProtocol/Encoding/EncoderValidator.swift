@@ -24,90 +24,124 @@ import Foundation
 
 /// File Type Validator Protocol
 internal protocol EncoderFileTypeValidator {
-    static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws
+    static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitError>
+
 }
 
 /// Encoder Validator
 internal struct EncoderValidator {
 
-    static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
-
+    static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) ->  Result<Bool, FitError> {
+        
         switch dataValidityStrategy {
         case .none:
         break // do nothing
         case .fileType:
-
+            
             guard let fileType = fildIdMessage.fileType else {
-                throw FitError(.encodeError(msg: "File Type should not be nil"))
+                return.failure(FitError(.encodeError(msg: "File Type should not be nil")))
             }
-
+            
             switch fileType {
             case FileType.activity:
-                try validateActivity(fildIdMessage: fildIdMessage, messages: messages, isGarmin: false)
+                let result = validateActivity(fildIdMessage: fildIdMessage, messages: messages, isGarmin: true)
+                switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    return Result.failure(error)
+                }
 
             case FileType.workout:
-                try WorkoutFileEncoderValidator.validate(fildIdMessage: fildIdMessage, messages: messages)
+                let result = WorkoutFileEncoderValidator.validate(fildIdMessage: fildIdMessage, messages: messages, dataValidityStrategy: dataValidityStrategy)
+                switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    return Result.failure(error)
+                }
 
             case FileType.goals:
-                try GoalsFileEncoderValidator.validate(fildIdMessage: fildIdMessage, messages: messages)
+                let result = GoalsFileEncoderValidator.validate(fildIdMessage: fildIdMessage, messages: messages, dataValidityStrategy: dataValidityStrategy)
+                switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    return Result.failure(error)
+                }
 
             default:
                 break
             }
-
+            
         case .garminConnect:
             guard fildIdMessage.fileType != nil else {
-                throw FitError(.encodeError(msg: "File Type should not be nil"))
+                return.failure(FitError(.encodeError(msg: "File Type should not be nil")))
+            }
+            
+            let activity = validateActivity(fildIdMessage: fildIdMessage, messages: messages, isGarmin: true)
+            switch activity {
+            case .success(_):
+                break
+            case .failure(let error):
+                return Result.failure(error)
             }
 
-            try validateActivity(fildIdMessage: fildIdMessage, messages: messages, isGarmin: true)
-            try validateGarminConnect(fildIdMessage: fildIdMessage, messages: messages)
+            let garmin = validateGarminConnect(fildIdMessage: fildIdMessage, messages: messages)
+            switch garmin {
+            case .success(_):
+                break
+            case .failure(let error):
+                return Result.failure(error)
+            }
+
         }
 
+        return.success(true)
     }
 }
 
 
 private extension EncoderValidator {
 
-    private static func validateActivity(fildIdMessage: FileIdMessage, messages: [FitMessage], isGarmin: Bool) throws {
+    private static func validateActivity(fildIdMessage: FileIdMessage, messages: [FitMessage], isGarmin: Bool) -> Result<Bool, FitError> {
         //An activity file shall contain file_id, activity, session, and lap messages
 
         let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
 
         /// this should have already been established
         guard fildIdMessage.fileType == FileType.activity else {
-            throw FitError(.encodeError(msg: "\(msg) require FileType.activity"))
+            return.failure(FitError(.encodeError(msg: "\(msg) require FileType.activity")))
         }
 
         guard fildIdMessage.manufacturer != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain Manufacturer, can not be nil"))
+            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain Manufacturer, can not be nil")))
         }
 
         guard fildIdMessage.product != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain product, can not be nil"))
+            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain product, can not be nil")))
         }
 
         guard fildIdMessage.deviceSerialNumber != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain deviceSerialNumber, can not be nil"))
+            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain deviceSerialNumber, can not be nil")))
         }
 
         guard fildIdMessage.fileCreationDate != nil else {
-            throw FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain fileCreationDate, can not be nil"))
+            return.failure(FitError(.encodeError(msg: "\(msg) require FileIdMessage to contain fileCreationDate, can not be nil")))
         }
 
         if containsMessage(SessionMessage.self, messages: messages) == false {
-            throw FitError(.encodeError(msg: "\(msg) require SessionMessage"))
+            return.failure(FitError(.encodeError(msg: "\(msg) require SessionMessage")))
         }
 
         if containsMessage(ActivityMessage.self, messages: messages) == false {
-            throw FitError(.encodeError(msg: "\(msg) require ActivityMessage"))
+            return.failure(FitError(.encodeError(msg: "\(msg) require ActivityMessage")))
         }
 
+        return.success(true)
     }
 
-    private static func validateGarminConnect(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws {
-
+    private static func validateGarminConnect(fildIdMessage: FileIdMessage, messages: [FitMessage]) -> Result<Bool, FitError> {
         /// Garmin Connect Requires
         /// - File type == 4 Activity
         /// - DeviceInfo message
@@ -115,20 +149,21 @@ private extension EncoderValidator {
         /// - Lap Message ( however we know it works without)
         /// - Session message - 1 Only
         /// - Activity Message
-
+        
         if containsMessage(DeviceInfoMessage.self, messages: messages) == false {
-            throw FitError(.encodeError(msg: "Garmin Connect requires DeviceInfoMessage"))
+            return.failure(FitError(.encodeError(msg: "Garmin Connect requires DeviceInfoMessage")))
         }
-
+        
         if containsMessage(RecordMessage.self, messages: messages) == false {
-            throw FitError(.encodeError(msg: "Garmin Connect requires RecordMessage"))
+            return.failure(FitError(.encodeError(msg: "Garmin Connect requires RecordMessage")))
         }
-
+        
         if countMessages(SessionMessage.self, messages: messages) != 1 {
-            throw FitError(.encodeError(msg: "Garmin Connect requires 1 Session Message"))
+            return.failure(FitError(.encodeError(msg: "Garmin Connect requires 1 Session Message")))
         }
+        
+        return.success(true)
     }
-
 }
 
 internal extension EncoderValidator {

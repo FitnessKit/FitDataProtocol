@@ -144,11 +144,16 @@ open class DeveloperDataIdMessage: FitMessage {
     /// - Parameters:
     ///   - fileType: FileType
     ///   - dataValidityStrategy: Validity Strategy
-    /// - Returns: DefinitionMessage
-    /// - Throws: FitError
-    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws -> DefinitionMessage {
+    /// - Returns: DefinitionMessage Result
+    internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitError> {
 
-        //try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+//        do {
+//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
+//        } catch let error as FitError {
+//            return.failure(error)
+//        } catch {
+//            return.failure(FitError(message: error.localizedDescription))
+//        }
 
         var fileDefs = [FieldDefinition]()
 
@@ -160,7 +165,7 @@ open class DeveloperDataIdMessage: FitMessage {
                     //16 typical size..
 
                     guard developerId.count <= UInt8.max else {
-                        throw FitError(.encodeError(msg: "developerId size can not exceed 255"))
+                        return.failure(FitError(.encodeError(msg: "developerId size can not exceed 255")))
                     }
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(developerId.count)))
@@ -170,7 +175,7 @@ open class DeveloperDataIdMessage: FitMessage {
                     //16 typical size..
 
                     guard applicationId.count <= UInt8.max else {
-                        throw FitError(.encodeError(msg: "applicationId size can not exceed 255"))
+                        return.failure(FitError(.encodeError(msg: "applicationId size can not exceed 255")))
                     }
 
                     fileDefs.append(key.fieldDefinition(size: UInt8(applicationId.count)))
@@ -192,9 +197,9 @@ open class DeveloperDataIdMessage: FitMessage {
                                                fieldDefinitions: fileDefs,
                                                developerFieldDefinitions: [DeveloperFieldDefinition]())
 
-            return defMessage
+            return.success(defMessage)
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 

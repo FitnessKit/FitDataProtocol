@@ -56,7 +56,7 @@ public struct FitFileEncoder {
 }
 
 public extension FitFileEncoder {
-
+        
     /// Encode FITFile
     ///
     /// - Parameters:
@@ -82,9 +82,9 @@ public extension FitFileEncoder {
 
         var msgData = Data()
 
-        try EncoderValidator.validate(fildIdMessage: fildIdMessage, messages: messages, dataValidityStrategy: dataValidityStrategy)
+        let _ = try EncoderValidator.validate(fildIdMessage: fildIdMessage, messages: messages, dataValidityStrategy: dataValidityStrategy).get()
 
-        var lastDefiniton = try fildIdMessage.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy)
+        var lastDefiniton = try fildIdMessage.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy).get()
         msgData.append(encodeDefHeader(index: 0, definition: lastDefiniton))
 
         msgData.append(try fildIdMessage.encode(localMessageType: 0, definition: lastDefiniton))
@@ -95,7 +95,7 @@ public extension FitFileEncoder {
                 throw FitError(.encodeError(msg: "messages can not contain second FileIdMessage"))
             }
 
-            let def = try message.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy)
+            let def = try message.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy).get()
 
             if lastDefiniton != def {
                 lastDefiniton = def
