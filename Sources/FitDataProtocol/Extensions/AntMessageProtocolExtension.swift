@@ -28,7 +28,7 @@ import DataDecoder
 
 internal extension Gender {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Gender? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Gender? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {
@@ -47,7 +47,7 @@ internal extension Gender {
 
 internal extension Sport {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Sport? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Sport? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {
@@ -66,7 +66,7 @@ internal extension Sport {
 
 internal extension SubSport {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> SubSport? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> SubSport? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {
@@ -85,7 +85,7 @@ internal extension SubSport {
 
 internal extension DeviceType {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> DeviceType? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> DeviceType? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {
@@ -104,7 +104,7 @@ internal extension DeviceType {
 
 internal extension BodyLocation {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> BodyLocation? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> BodyLocation? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {
@@ -124,7 +124,7 @@ internal extension BodyLocation {
 
 internal extension NetworkType {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> NetworkType? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> NetworkType? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {
@@ -143,7 +143,7 @@ internal extension NetworkType {
 
 internal extension BatteryStatus {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> BatteryStatus? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> BatteryStatus? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {

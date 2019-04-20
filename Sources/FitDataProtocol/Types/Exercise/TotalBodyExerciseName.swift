@@ -43,12 +43,22 @@ public struct TotalBodyExerciseName: ExerciseName {
 
 extension TotalBodyExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension TotalBodyExerciseName: Hashable {
 public extension TotalBodyExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [TotalBodyExerciseName] {
+    static var supportedExerciseNames: [TotalBodyExerciseName] {
 
         return [.burpee,
                 .weightedBurpee,
@@ -93,7 +103,7 @@ public extension TotalBodyExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> TotalBodyExerciseName? {
+    static func create(rawValue: UInt16) -> TotalBodyExerciseName? {
 
         for name in TotalBodyExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -109,67 +119,67 @@ public extension TotalBodyExerciseName {
 public extension TotalBodyExerciseName {
 
     /// Burpee
-    public static var burpee: TotalBodyExerciseName {
+    static var burpee: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Burpee", number: 0)
     }
 
     /// Weighted Burpee
-    public static var weightedBurpee: TotalBodyExerciseName {
+    static var weightedBurpee: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Weighted Burpee", number: 1)
     }
 
     /// Burpee Box Jump
-    public static var burpeeBoxJump: TotalBodyExerciseName {
+    static var burpeeBoxJump: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Burpee Box Jump", number: 2)
     }
 
     /// Weighted Burpee Box Jump
-    public static var weightedBurpeeBoxJump: TotalBodyExerciseName {
+    static var weightedBurpeeBoxJump: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Weighted Burpee Box Jump", number: 3)
     }
 
     /// High Pull Burpee
-    public static var highPullBurpee: TotalBodyExerciseName {
+    static var highPullBurpee: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "High Pull Burpee", number: 4)
     }
 
     /// Man Makers
-    public static var manMakers: TotalBodyExerciseName {
+    static var manMakers: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Man Makers", number: 5)
     }
 
     /// One Arm Burpee
-    public static var oneArmBurpee: TotalBodyExerciseName {
+    static var oneArmBurpee: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "One Arm Burpee", number: 6)
     }
 
     /// Squat Thrusts
-    public static var squatThrusts: TotalBodyExerciseName {
+    static var squatThrusts: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Squat Thrusts", number: 7)
     }
 
     /// Weighted Squat Thrusts
-    public static var weightedSquatThrusts: TotalBodyExerciseName {
+    static var weightedSquatThrusts: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Weighted Squat Thrusts", number: 8)
     }
 
     /// Squat Plank Push Up
-    public static var squatPlankPushUp: TotalBodyExerciseName {
+    static var squatPlankPushUp: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Squat Plank Push Up", number: 9)
     }
 
     /// Weighted Squat Plank Push Up
-    public static var weightedSquatPlankPushUp: TotalBodyExerciseName {
+    static var weightedSquatPlankPushUp: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Weighted Squat Plank Push Up", number: 10)
     }
 
     /// Standing T Rotation Balance
-    public static var standingTRotationBalance: TotalBodyExerciseName {
+    static var standingTRotationBalance: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Standing T Rotation Balance", number: 11)
     }
 
     /// Weighted Standing T Rotation Balance
-    public static var weightedStandingTRotationBalance: TotalBodyExerciseName {
+    static var weightedStandingTRotationBalance: TotalBodyExerciseName {
         return TotalBodyExerciseName(name: "Weighted Standing T Rotation Balance", number: 12)
     }
 }

@@ -112,7 +112,7 @@ public enum Language: UInt8 {
 
 internal extension Language {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Language? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Language? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {

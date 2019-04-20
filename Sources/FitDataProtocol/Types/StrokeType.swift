@@ -48,7 +48,7 @@ public enum Stroke: UInt8 {
 
 internal extension Stroke {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Stroke? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Stroke? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {

@@ -38,7 +38,7 @@ public enum ScheduleType: UInt8 {
 
 internal extension ScheduleType {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ScheduleType? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ScheduleType? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {

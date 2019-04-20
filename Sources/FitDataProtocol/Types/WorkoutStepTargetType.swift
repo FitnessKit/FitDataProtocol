@@ -62,7 +62,7 @@ public enum WorkoutStepTargetType: UInt8 {
 
 internal extension WorkoutStepTargetType {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> WorkoutStepTargetType? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> WorkoutStepTargetType? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {

@@ -43,12 +43,22 @@ public struct RunExerciseName: ExerciseName {
 
 extension RunExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension RunExerciseName: Hashable {
 public extension RunExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [RunExerciseName] {
+    static var supportedExerciseNames: [RunExerciseName] {
 
         return [.run,
                 .walk,
@@ -84,7 +94,7 @@ public extension RunExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> RunExerciseName? {
+    static func create(rawValue: UInt16) -> RunExerciseName? {
 
         for name in RunExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -100,22 +110,22 @@ public extension RunExerciseName {
 public extension RunExerciseName {
 
     /// Run
-    public static var run: RunExerciseName {
+    static var run: RunExerciseName {
         return RunExerciseName(name: "Run", number: 0)
     }
 
     /// Walk
-    public static var walk: RunExerciseName {
+    static var walk: RunExerciseName {
         return RunExerciseName(name: "Walk", number: 1)
     }
 
     /// Jog
-    public static var jog: RunExerciseName {
+    static var jog: RunExerciseName {
         return RunExerciseName(name: "Jog", number: 2)
     }
 
     /// Sprint
-    public static var sprint: RunExerciseName {
+    static var sprint: RunExerciseName {
         return RunExerciseName(name: "Sprint", number: 3)
     }
 }

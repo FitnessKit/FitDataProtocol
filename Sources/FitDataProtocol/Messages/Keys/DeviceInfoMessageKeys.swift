@@ -76,16 +76,16 @@ extension DeviceInfoMessage: FitMessageKeys {
 
 public extension DeviceInfoMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.type }
+    var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension DeviceInfoMessage.FitCodingKeys {
 
     /// Key Base Resolution
-    internal var resolution: Resolution { return self.baseData.resolution }
+    var resolution: Resolution { return self.baseData.resolution }
 
     /// Key Base Data
-    internal var baseData: BaseData {
+    var baseData: BaseData {
         switch self {
         case .timestamp:
             // 1 * s + 0
@@ -135,27 +135,27 @@ internal extension DeviceInfoMessage.FitCodingKeys {
 // Encoding
 internal extension DeviceInfoMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: DeviceType) throws -> Data {
+    func encodeKeyed(value: DeviceType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: BatteryStatus) throws -> Data {
+    func encodeKeyed(value: BatteryStatus) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: BodyLocation) throws -> Data {
+    func encodeKeyed(value: BodyLocation) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: TransmissionType) throws -> Data {
+    func encodeKeyed(value: TransmissionType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: NetworkType) throws -> Data {
+    func encodeKeyed(value: NetworkType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: SourceType) throws -> Data {
+    func encodeKeyed(value: SourceType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }

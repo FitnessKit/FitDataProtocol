@@ -43,12 +43,22 @@ public struct HyperextensionExerciseName: ExerciseName {
 
 extension HyperextensionExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -69,7 +79,7 @@ extension HyperextensionExerciseName: Hashable {
 public extension HyperextensionExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [HyperextensionExerciseName] {
+    static var supportedExerciseNames: [HyperextensionExerciseName] {
 
         return [.backExtensionOppositeArmLegReach,
                 .weightedBackExtensionOppositeArmLegReach,
@@ -118,7 +128,7 @@ public extension HyperextensionExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> HyperextensionExerciseName? {
+    static func create(rawValue: UInt16) -> HyperextensionExerciseName? {
 
         for name in HyperextensionExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -134,187 +144,187 @@ public extension HyperextensionExerciseName {
 public extension HyperextensionExerciseName {
 
     /// Back Extension with Opposite Arm and Leg Reach
-    public static var backExtensionOppositeArmLegReach: HyperextensionExerciseName {
+    static var backExtensionOppositeArmLegReach: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Back Extension with Opposite Arm and Leg Reach", number: 0)
     }
 
     /// Weighted Back Extension with Opposite Arm and Leg Reach
-    public static var weightedBackExtensionOppositeArmLegReach: HyperextensionExerciseName {
+    static var weightedBackExtensionOppositeArmLegReach: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Back Extension with Opposite Arm and Leg Reach", number: 1)
     }
 
     /// Base Rotations
-    public static var baseRotations: HyperextensionExerciseName {
+    static var baseRotations: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Base Rotations", number: 2)
     }
 
     /// Weighted Base Rotations
-    public static var weightedBaseRotations: HyperextensionExerciseName {
+    static var weightedBaseRotations: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Base Rotations", number: 3)
     }
 
     /// Bent Knee Reverse Hyperextension
-    public static var bentKneeReverseHyperextension: HyperextensionExerciseName {
+    static var bentKneeReverseHyperextension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Bent Knee Reverse Hyperextension", number: 4)
     }
 
     /// Weighted Bent Knee Reverse Hyperextension
-    public static var weightedBentKneeReverseHyperextension: HyperextensionExerciseName {
+    static var weightedBentKneeReverseHyperextension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Bent Knee Reverse Hyperextension", number: 5)
     }
 
     /// Hollow Hold and Roll
-    public static var hollowHoldRoll: HyperextensionExerciseName {
+    static var hollowHoldRoll: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Hollow Hold and Roll", number: 6)
     }
 
     /// Weighted Hollow Hold and Roll
-    public static var weightedHollowHoldRoll: HyperextensionExerciseName {
+    static var weightedHollowHoldRoll: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Hollow Hold and Roll", number: 7)
     }
 
     /// Kicks
-    public static var kicks: HyperextensionExerciseName {
+    static var kicks: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Kicks", number: 8)
     }
 
     /// Weighted Kicks
-    public static var weightedKicks: HyperextensionExerciseName {
+    static var weightedKicks: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Kicks", number: 9)
     }
 
     /// Knee Raises
-    public static var kneeRaises: HyperextensionExerciseName {
+    static var kneeRaises: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Knee Raises", number: 10)
     }
 
     /// Weighted Knee Raises
-    public static var weightedKneeRaises: HyperextensionExerciseName {
+    static var weightedKneeRaises: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Knee Raises", number: 11)
     }
 
     /// Kneeling Superman
-    public static var kneelingSuperman: HyperextensionExerciseName {
+    static var kneelingSuperman: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Kneeling Superman", number: 12)
     }
 
     /// Weighted Kneeling Superman
-    public static var weightedKneelingSuperman: HyperextensionExerciseName {
+    static var weightedKneelingSuperman: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Kneeling Superman", number: 13)
     }
 
     /// Lat Pull Down with Row
-    public static var latPullDownRow: HyperextensionExerciseName {
+    static var latPullDownRow: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Lat Pull Down with Row", number: 14)
     }
 
     /// Medicine Ball Deadlift to Reach
-    public static var medicineBallDeadliftToReach: HyperextensionExerciseName {
+    static var medicineBallDeadliftToReach: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Medicine Ball Deadlift to Reach", number: 15)
     }
 
     /// One Arm One Leg Row
-    public static var oneArmOneLegRow: HyperextensionExerciseName {
+    static var oneArmOneLegRow: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "One Arm One Leg Row", number: 16)
     }
 
     /// One Arm One Leg Row with Band
-    public static var oneArmOneLegRowBand: HyperextensionExerciseName {
+    static var oneArmOneLegRowBand: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "One Arm One Leg Row with Band", number: 17)
     }
 
     /// Overhead Lunge with Medicine Ball
-    public static var overheadLungeMedicineBall: HyperextensionExerciseName {
+    static var overheadLungeMedicineBall: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Overhead Lunge with Medicine Ball", number: 18)
     }
 
     /// Plank Knee Tucks
-    public static var plankKneeTucks: HyperextensionExerciseName {
+    static var plankKneeTucks: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Plank Knee Tucks", number: 19)
     }
 
     /// Weighted Plank Knee Tucks
-    public static var weightedPlankKneeTucks: HyperextensionExerciseName {
+    static var weightedPlankKneeTucks: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Plank Knee Tucks", number: 20)
     }
 
     /// Side Step
-    public static var sideStep: HyperextensionExerciseName {
+    static var sideStep: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Side Step", number: 21)
     }
 
     /// Weighted Side Step
-    public static var weightedSideStep: HyperextensionExerciseName {
+    static var weightedSideStep: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Side Step", number: 22)
     }
 
     /// Single Leg Back Extension
-    public static var singleLegBackExtension: HyperextensionExerciseName {
+    static var singleLegBackExtension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Single Leg Back Extension", number: 23)
     }
 
     /// Weighted Single Leg Back Extension
-    public static var weightedSingleLegBackExtension: HyperextensionExerciseName {
+    static var weightedSingleLegBackExtension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Single Leg Back Extension", number: 24)
     }
 
     /// Spine Extension
-    public static var spineExtension: HyperextensionExerciseName {
+    static var spineExtension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Spine Extension", number: 25)
     }
 
     /// Weighted Spine Extension
-    public static var weightedSpineExtension: HyperextensionExerciseName {
+    static var weightedSpineExtension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Spine Extension", number: 26)
     }
 
     /// Static Back Extension
-    public static var staticBackExtension: HyperextensionExerciseName {
+    static var staticBackExtension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Static Back Extension", number: 27)
     }
 
     /// Weighted Static Back Extension
-    public static var weightedStaticBackExtension: HyperextensionExerciseName {
+    static var weightedStaticBackExtension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Static Back Extension", number: 28)
     }
 
     /// Superman from Floor
-    public static var supermanFromFloor: HyperextensionExerciseName {
+    static var supermanFromFloor: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Superman from Floor", number: 29)
     }
 
     /// Weighted Superman from Floor
-    public static var weightedSupermanFromFloor: HyperextensionExerciseName {
+    static var weightedSupermanFromFloor: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Superman from Floor", number: 30)
     }
 
     /// Swiss Ball Back Extension
-    public static var swissBallBackExtension: HyperextensionExerciseName {
+    static var swissBallBackExtension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Swiss Ball Back Extension", number: 31)
     }
 
     /// Weighted Swiss Ball Back Extension
-    public static var weightedSwissBallBackExtension: HyperextensionExerciseName {
+    static var weightedSwissBallBackExtension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Swiss Ball Back Extension", number: 32)
     }
 
     /// Swiss Ball Hyperextension
-    public static var swissBallHyperextension: HyperextensionExerciseName {
+    static var swissBallHyperextension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Swiss Ball Hyperextension", number: 33)
     }
 
     /// Weighted Swiss Ball Hyperextension
-    public static var weightedSwissBallHyperextension: HyperextensionExerciseName {
+    static var weightedSwissBallHyperextension: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Swiss Ball Hyperextension", number: 34)
     }
 
     /// Swiss Ball Opposite Arm and Leg Lift
-    public static var swissBallOppositeArmLegLift: HyperextensionExerciseName {
+    static var swissBallOppositeArmLegLift: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Swiss Ball Opposite Arm and Leg Lift", number: 35)
     }
 
     /// Weighted Swiss Ball Opposite Arm and Leg Lift
-    public static var weightedSwissBallOppositeArmLegLift: HyperextensionExerciseName {
+    static var weightedSwissBallOppositeArmLegLift: HyperextensionExerciseName {
         return HyperextensionExerciseName(name: "Weighted Swiss Ball Opposite Arm and Leg Lift", number: 36)
     }
 }

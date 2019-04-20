@@ -43,12 +43,22 @@ public struct CurlExerciseName: ExerciseName {
 
 extension CurlExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension CurlExerciseName: Hashable {
 public extension CurlExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [CurlExerciseName] {
+    static var supportedExerciseNames: [CurlExerciseName] {
 
         return [.alternatingDumbbellBicepsCurl,
                 .alternatingDumbbellBicepsCurlOnSwissBall,
@@ -123,7 +133,7 @@ public extension CurlExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> CurlExerciseName? {
+    static func create(rawValue: UInt16) -> CurlExerciseName? {
 
         for name in CurlExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -139,222 +149,222 @@ public extension CurlExerciseName {
 public extension CurlExerciseName {
 
     /// Alternating Dumbbell Biceps Curl
-    public static var alternatingDumbbellBicepsCurl: CurlExerciseName {
+    static var alternatingDumbbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Alternating Dumbbell Biceps Curl", number: 0)
     }
 
     /// Alternating Dumbbell Biceps Curl on Swiss Ball
-    public static var alternatingDumbbellBicepsCurlOnSwissBall: CurlExerciseName {
+    static var alternatingDumbbellBicepsCurlOnSwissBall: CurlExerciseName {
         return CurlExerciseName(name: "Alternating Dumbbell Biceps Curl on Swiss Ball", number: 1)
     }
 
     /// Alternating Incline Dumbbell Biceps Curl
-    public static var alternatingInclineDumbbellBicepsCurl: CurlExerciseName {
+    static var alternatingInclineDumbbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Alternating Incline Dumbbell Biceps Curl", number: 2)
     }
 
     /// Barbell Biceps Curl
-    public static var barbellBicepsCurl: CurlExerciseName {
+    static var barbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Barbell Biceps Curl", number: 3)
     }
 
     /// Barbell Reverse Wrist Curl
-    public static var barbellReverseWristCurl: CurlExerciseName {
+    static var barbellReverseWristCurl: CurlExerciseName {
         return CurlExerciseName(name: "Barbell Reverse Wrist Curl", number: 4)
     }
 
     /// Barbell Wrist Curl
-    public static var barbellWristCurl: CurlExerciseName {
+    static var barbellWristCurl: CurlExerciseName {
         return CurlExerciseName(name: "Barbell Wrist Curl", number: 5)
     }
 
     /// Behind the Back Barbell Reverse Wrist Curl
-    public static var behindTheBackBarbellReverseWristCurl: CurlExerciseName {
+    static var behindTheBackBarbellReverseWristCurl: CurlExerciseName {
         return CurlExerciseName(name: "Behind the Back Barbell Reverse Wrist Curl", number: 6)
     }
 
     /// Behind the Back one Arm Cable Curl
-    public static var behindTheBackOneArmCableCurl: CurlExerciseName {
+    static var behindTheBackOneArmCableCurl: CurlExerciseName {
         return CurlExerciseName(name: "Behind the Back one Arm Cable Curl", number: 7)
     }
 
     /// Cable Biceps Curl
-    public static var cableBicepsCurl: CurlExerciseName {
+    static var cableBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Cable Biceps Curl", number: 8)
     }
 
     /// Cable Hammer Curl
-    public static var cableHammerCurl: CurlExerciseName {
+    static var cableHammerCurl: CurlExerciseName {
         return CurlExerciseName(name: "Cable Hammer Curl", number: 9)
     }
 
     /// Cheating Barbell Biceps Curl
-    public static var cheatingBarbellBicepsCurl: CurlExerciseName {
+    static var cheatingBarbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Cheating Barbell Biceps Curl", number: 10)
     }
 
     /// Close Grip EZ Bar Biceps Curl
-    public static var closeGripEzBarBicepsCurl: CurlExerciseName {
+    static var closeGripEzBarBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Close Grip EZ Bar Biceps Curl", number: 11)
     }
 
     /// Cross Body Dumbbell Hammer Curl
-    public static var crossBodyDumbbellHammerCurl: CurlExerciseName {
+    static var crossBodyDumbbellHammerCurl: CurlExerciseName {
         return CurlExerciseName(name: "Cross Body Dumbbell Hammer Curl", number: 12)
     }
 
     /// Dead Hang Biceps Curl
-    public static var deadHangBicepsCurl: CurlExerciseName {
+    static var deadHangBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Dead Hang Biceps Curl", number: 13)
     }
 
     /// Decline Hammer Curl
-    public static var declineHammerCurl: CurlExerciseName {
+    static var declineHammerCurl: CurlExerciseName {
         return CurlExerciseName(name: "Decline Hammer Curl", number: 14)
     }
 
     /// Dumbbell Biceps Curl with Static Hold
-    public static var dumbbellBicepsCurlStaticHold: CurlExerciseName {
+    static var dumbbellBicepsCurlStaticHold: CurlExerciseName {
         return CurlExerciseName(name: "Dumbbell Biceps Curl with Static Hold", number: 15)
     }
 
     /// Dumbbell Hammer Curl
-    public static var dumbellHammerCurl: CurlExerciseName {
+    static var dumbellHammerCurl: CurlExerciseName {
         return CurlExerciseName(name: "Dumbbell Hammer Curl", number: 16)
     }
 
     /// Dumbbell Reverse Wrist Curl
-    public static var dumbbellReverseWristCurl: CurlExerciseName {
+    static var dumbbellReverseWristCurl: CurlExerciseName {
         return CurlExerciseName(name: "Dumbbell Reverse Wrist Curl", number: 17)
     }
 
     /// Dumbbell Wrist Curl
-    public static var dumbbellWristCurl: CurlExerciseName {
+    static var dumbbellWristCurl: CurlExerciseName {
         return CurlExerciseName(name: "Dumbbell Wrist Curl", number: 18)
     }
 
     /// EZ Bar Preacher Curl
-    public static var ezBarPreacherCurl: CurlExerciseName {
+    static var ezBarPreacherCurl: CurlExerciseName {
         return CurlExerciseName(name: "EZ Bar Preacher Curl", number: 19)
     }
 
     /// Forward Bend Biceps Curl
-    public static var forwardBendBicepsCurl: CurlExerciseName {
+    static var forwardBendBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Forward Bend Biceps Curl", number: 20)
     }
 
     /// Hammer Curl to Press
-    public static var hammerCurlToPress: CurlExerciseName {
+    static var hammerCurlToPress: CurlExerciseName {
         return CurlExerciseName(name: "Hammer Curl to Press", number: 21)
     }
 
     /// Incline Dumbbell Biceps Curl
-    public static var inclineDumbbellBicepsCurl: CurlExerciseName {
+    static var inclineDumbbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Incline Dumbbell Biceps Curl", number: 22)
     }
 
     /// Incline Offset Thumb Dumbbell Curl
-    public static var inclineOffsetThumbDumbbellCurl: CurlExerciseName {
+    static var inclineOffsetThumbDumbbellCurl: CurlExerciseName {
         return CurlExerciseName(name: "Incline Offset Thumb Dumbbell Curl", number: 23)
     }
 
     /// Kettlebell Biceps Curl
-    public static var kettlebellBicepsCurl: CurlExerciseName {
+    static var kettlebellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Kettlebell Biceps Curl", number: 24)
     }
 
     /// Lying Concentration Cable Curl
-    public static var lyingConcentrationCableCurl: CurlExerciseName {
+    static var lyingConcentrationCableCurl: CurlExerciseName {
         return CurlExerciseName(name: "Lying Concentration Cable Curl", number: 25)
     }
 
     /// One Arm Preacher Curl
-    public static var oneArmPreacherCurl: CurlExerciseName {
+    static var oneArmPreacherCurl: CurlExerciseName {
         return CurlExerciseName(name: "One Arm Preacher Curl", number: 26)
     }
 
     /// Plate Pinch Curl
-    public static var platePinchCurl: CurlExerciseName {
+    static var platePinchCurl: CurlExerciseName {
         return CurlExerciseName(name: "Plate Pinch Curl", number: 27)
     }
 
     /// Preacher Curl with Cable
-    public static var preacherCurlCable: CurlExerciseName {
+    static var preacherCurlCable: CurlExerciseName {
         return CurlExerciseName(name: "Preacher Curl with Cable", number: 28)
     }
 
     /// Reverse EZ Bar Curl
-    public static var reverseEzBarCurl: CurlExerciseName {
+    static var reverseEzBarCurl: CurlExerciseName {
         return CurlExerciseName(name: "Reverse EZ Bar Curl", number: 29)
     }
 
     /// Reverse Grip Wrist Curl
-    public static var reverseGripWristCurl: CurlExerciseName {
+    static var reverseGripWristCurl: CurlExerciseName {
         return CurlExerciseName(name: "Reverse Grip Wrist Curl", number: 30)
     }
 
     /// Reverse Grip Barbell Biceps Curl
-    public static var reverseGripBarbellBicepsCurl: CurlExerciseName {
+    static var reverseGripBarbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Reverse Grip Barbell Biceps Curl", number: 31)
     }
 
     /// Seated Alternating Dumbbell Biceps Curl
-    public static var seatedAlternatingDumbbellBicepsCurl: CurlExerciseName {
+    static var seatedAlternatingDumbbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Seated Alternating Dumbbell Biceps Curl", number: 32)
     }
 
     /// Seated Dumbbell Biceps Curl
-    public static var seatedDumbbellBicepsCurl: CurlExerciseName {
+    static var seatedDumbbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Seated Dumbbell Biceps Curl", number: 33)
     }
 
     /// Seated Reverse Dumbbell Biceps Curl
-    public static var seatedReverseDumbbellBicepsCurl: CurlExerciseName {
+    static var seatedReverseDumbbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Seated Reverse Dumbbell Biceps Curl", number: 34)
     }
 
     /// Split Stance Offset Pinky Dumbbell Curl
-    public static var splitStanceOffsetPinkyDumbbellCurl: CurlExerciseName {
+    static var splitStanceOffsetPinkyDumbbellCurl: CurlExerciseName {
         return CurlExerciseName(name: "Split Stance Offset Pinky Dumbbell Curl", number: 35)
     }
 
     /// Standing Alternating Dumbbell Curls
-    public static var standingAlternatingDumbbellCurls: CurlExerciseName {
+    static var standingAlternatingDumbbellCurls: CurlExerciseName {
         return CurlExerciseName(name: "Standing Alternating Dumbbell Curls", number: 36)
     }
 
     /// Standing Dumbbell Biceps Curl
-    public static var standingDumbbellBicepsCurl: CurlExerciseName {
+    static var standingDumbbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Standing Dumbbell Biceps Curl", number: 37)
     }
 
     /// Standing EZ Bar Biceps Curl
-    public static var standingEzBarBicepsCurl: CurlExerciseName {
+    static var standingEzBarBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Standing EZ Bar Biceps Curl", number: 38)
     }
 
     /// Static Curl
-    public static var staticCurl: CurlExerciseName {
+    static var staticCurl: CurlExerciseName {
         return CurlExerciseName(name: "Static Curl", number: 39)
     }
 
     /// Swiss Ball Dumbbell Overhead Triceps Extension
-    public static var swissBallDumbbellOverheadTricepsExtension: CurlExerciseName {
+    static var swissBallDumbbellOverheadTricepsExtension: CurlExerciseName {
         return CurlExerciseName(name: "Swiss Ball Dumbbell Overhead Triceps Extension", number: 40)
     }
 
     /// Swiss Ball EZ Bar Preacher Curl
-    public static var swissBallEzBarPreacherCurl: CurlExerciseName {
+    static var swissBallEzBarPreacherCurl: CurlExerciseName {
         return CurlExerciseName(name: "Swiss Ball EZ Bar Preacher Curl", number: 41)
     }
 
     /// Twisting Standing Dumbbell Biceps Curl
-    public static var twistingStandingDumbbellBicepsCurl: CurlExerciseName {
+    static var twistingStandingDumbbellBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Twisting Standing Dumbbell Biceps Curl", number: 42)
     }
 
     /// Wide Grip EZ Bar Biceps Curl
-    public static var wideGripEzBarBicepsCurl: CurlExerciseName {
+    static var wideGripEzBarBicepsCurl: CurlExerciseName {
         return CurlExerciseName(name: "Wide Grip EZ Bar Biceps Curl", number: 43)
     }
 }

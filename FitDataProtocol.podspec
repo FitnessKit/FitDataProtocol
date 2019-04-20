@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FitDataProtocol'
-  s.version          = '0.40.2'
+  s.version          = '1.0.0'
   s.summary          = 'Garmin Flexible and Interoperable Data Transfer Protocol.'
 
 
@@ -21,7 +21,7 @@ Swift version of the Garmin Flexible and Interoperable Data Transfer Protocol.
   s.license             = { :type => 'MIT', :file => 'LICENSE' }
   s.author              = { 'Kevin A. Hoogheem' => 'kevin@hoogheem.net' }
   s.source              = { :git => 'https://github.com/FitnessKit/FitDataProtocol.git', :tag => s.version.to_s }
-  s.swift_version       = '4.2'
+  s.swift_version       = '5.0'
 
 #Targets
   s.ios.deployment_target = '10.0'
@@ -36,8 +36,8 @@ Swift version of the Garmin Flexible and Interoperable Data Transfer Protocol.
 #  s.ios.framework       = [ 'Dispatch' ]
 
 #Dependancy
-  s.dependency 'DataDecoder', '>= 4.4.0'
-  s.dependency 'FitnessUnits', '>= 2.1.2'
-  s.dependency 'AntMessageProtocol', '>= 0.3.0'
+  s.dependency 'DataDecoder', '>= 5.0.0'
+  s.dependency 'FitnessUnits', '>= 3.0.0'
+  s.dependency 'AntMessageProtocol', '>= 1.0.0'
 
 end

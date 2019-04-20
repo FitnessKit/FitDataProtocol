@@ -74,7 +74,6 @@ open class GoalMessage: FitMessage {
     /// Goal Source
     private(set) public var source: GoalSource?
 
-
     public required init() {}
 
     public init(messageIndex: MessageIndex? = nil,

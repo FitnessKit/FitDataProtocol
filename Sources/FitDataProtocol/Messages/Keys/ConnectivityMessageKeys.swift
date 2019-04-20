@@ -66,16 +66,16 @@ extension ConnectivityMessage: FitMessageKeys {
 
 public extension ConnectivityMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.type }
+    var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension ConnectivityMessage.FitCodingKeys {
 
     /// Key Base Resolution
-    internal var resolution: Resolution { return self.baseData.resolution }
+    var resolution: Resolution { return self.baseData.resolution }
 
     /// Key Base Data
-    internal var baseData: BaseData {
+    var baseData: BaseData {
         switch self {
         case .bluetoothEnabled:
             return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))

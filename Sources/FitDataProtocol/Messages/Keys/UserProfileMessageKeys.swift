@@ -92,16 +92,16 @@ extension UserProfileMessage: FitMessageKeys {
 
 public extension UserProfileMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.type }
+    var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension UserProfileMessage.FitCodingKeys {
 
     /// Key Base Resolution
-    internal var resolution: Resolution { return self.baseData.resolution }
+    var resolution: Resolution { return self.baseData.resolution }
 
     /// Key Base Data
-    internal var baseData: BaseData {
+    var baseData: BaseData {
         switch self {
         case .messageIndex:
             return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
@@ -175,27 +175,27 @@ internal extension UserProfileMessage.FitCodingKeys {
 // Encoding
 internal extension UserProfileMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: Gender) throws -> Data {
+    func encodeKeyed(value: Gender) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: Language) throws -> Data {
+    func encodeKeyed(value: Language) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: MeasurementDisplayType) throws -> Data {
+    func encodeKeyed(value: MeasurementDisplayType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: HeartRateDisplayType) throws -> Data {
+    func encodeKeyed(value: HeartRateDisplayType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: PositionDisplayType) throws -> Data {
+    func encodeKeyed(value: PositionDisplayType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: PowerDisplayType) throws -> Data {
+    func encodeKeyed(value: PowerDisplayType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }

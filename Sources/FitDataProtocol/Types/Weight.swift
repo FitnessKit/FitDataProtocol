@@ -82,7 +82,7 @@ internal extension Weight {
     /// Encodes the FileIdMessage into Data
     ///
     /// - Returns: Data representation
-    internal func encode() -> Data {
+    func encode() -> Data {
         var msgData = Data()
 
         if calculating {

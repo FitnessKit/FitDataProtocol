@@ -43,12 +43,22 @@ public struct DeadliftExerciseName: ExerciseName {
 
 extension DeadliftExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension DeadliftExerciseName: Hashable {
 public extension DeadliftExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [DeadliftExerciseName] {
+    static var supportedExerciseNames: [DeadliftExerciseName] {
 
         return [.barbellDeadlift,
                 .barbellStraightLegDeadlift,
@@ -99,7 +109,7 @@ public extension DeadliftExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> DeadliftExerciseName? {
+    static func create(rawValue: UInt16) -> DeadliftExerciseName? {
 
         for name in DeadliftExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -115,97 +125,97 @@ public extension DeadliftExerciseName {
 public extension DeadliftExerciseName {
 
     /// Barbell Deadlift
-    public static var barbellDeadlift: DeadliftExerciseName {
+    static var barbellDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Barbell Deadlift", number: 0)
     }
 
     /// Barbell Straight Leg Deadlift
-    public static var barbellStraightLegDeadlift: DeadliftExerciseName {
+    static var barbellStraightLegDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Barbell Straight Leg Deadlift", number: 1)
     }
 
     /// Dumbbell Deadlift
-    public static var dumbbellDeadlift: DeadliftExerciseName {
+    static var dumbbellDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Dumbbell Deadlift", number: 2)
     }
 
     /// Dumbbell Single Leg Deadlift to Row
-    public static var dumbbellSingleLegDeadliftToRow: DeadliftExerciseName {
+    static var dumbbellSingleLegDeadliftToRow: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Dumbbell Single Leg Deadlift to Row", number: 3)
     }
 
     /// Dumbbell Straight Leg Deadlift
-    public static var dumbbellStraightLegDeadlift: DeadliftExerciseName {
+    static var dumbbellStraightLegDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Dumbbell Straight Leg Deadlift", number: 4)
     }
 
     /// Kettlebell Floor to Shelf
-    public static var kettlebellFloorToShelf: DeadliftExerciseName {
+    static var kettlebellFloorToShelf: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Kettlebell Floor to Shelf", number: 5)
     }
 
     /// One Arm One Leg Deadlift
-    public static var oneArmOneLegDeadlift: DeadliftExerciseName {
+    static var oneArmOneLegDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "One Arm One Leg Deadlift", number: 6)
     }
 
     /// Rack Pull
-    public static var rackPull: DeadliftExerciseName {
+    static var rackPull: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Rack Pull", number: 7)
     }
 
     /// Rotational Dumbbell Straight Leg Deadlift
-    public static var rotationalDumbbellStraightLegDeadlift: DeadliftExerciseName {
+    static var rotationalDumbbellStraightLegDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Rotational Dumbbell Straight Leg Deadlift", number: 8)
     }
 
     /// Single Arm Deadlift
-    public static var singleArmDeadlift: DeadliftExerciseName {
+    static var singleArmDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Single Arm Deadlift", number: 9)
     }
 
     /// Single Leg Barbell Deadlift
-    public static var singleLegBarbellDeadlift: DeadliftExerciseName {
+    static var singleLegBarbellDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Single Leg Barbell Deadlift", number: 10)
     }
 
     /// Single Leg Barbell Straight Leg Deadlift
-    public static var singleLegBarbellStraightLegDeadlift: DeadliftExerciseName {
+    static var singleLegBarbellStraightLegDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Single Leg Barbell Straight Leg Deadlift", number: 11)
     }
 
     /// Single Leg Deadlift with Barbell
-    public static var singleLegDeadliftBarbell: DeadliftExerciseName {
+    static var singleLegDeadliftBarbell: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Single Leg Deadlift with Barbell", number: 12)
     }
 
     /// Single Leg RDL Circuit
-    public static var singleLegRdlCircuit: DeadliftExerciseName {
+    static var singleLegRdlCircuit: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Single Leg RDL Circuit", number: 13)
     }
 
     /// Single Leg Romanian Deadlift with Dumbbell
-    public static var singleLegRomanianDeadliftDumbbell: DeadliftExerciseName {
+    static var singleLegRomanianDeadliftDumbbell: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Single Leg Romanian Deadlift with Dumbbell", number: 14)
     }
 
     /// Sumo Deadlift
-    public static var sumoDeadlift: DeadliftExerciseName {
+    static var sumoDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Sumo Deadlift", number: 15)
     }
 
     /// Sumo Deadlift High Pull
-    public static var sumoDeadliftHighPull: DeadliftExerciseName {
+    static var sumoDeadliftHighPull: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Sumo Deadlift High Pull", number: 16)
     }
 
     /// Trap Bar Deadlift
-    public static var trapBarDeadlift: DeadliftExerciseName {
+    static var trapBarDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Trap Bar Deadlift", number: 17)
     }
 
     /// Wide Grip Barbell Deadlift
-    public static var wideGripBarbellDeadlift: DeadliftExerciseName {
+    static var wideGripBarbellDeadlift: DeadliftExerciseName {
         return DeadliftExerciseName(name: "Wide Grip Barbell Deadlift", number: 18)
     }
 }

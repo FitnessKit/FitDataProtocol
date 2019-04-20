@@ -43,12 +43,22 @@ public struct ShoulderStabilityExerciseName: ExerciseName {
 
 extension ShoulderStabilityExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension ShoulderStabilityExerciseName: Hashable {
 public extension ShoulderStabilityExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [ShoulderStabilityExerciseName] {
+    static var supportedExerciseNames: [ShoulderStabilityExerciseName] {
 
         return [.nintyDegreeCableExternalRotation,
                 .bandExternalRotation,
@@ -113,7 +123,7 @@ public extension ShoulderStabilityExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> ShoulderStabilityExerciseName? {
+    static func create(rawValue: UInt16) -> ShoulderStabilityExerciseName? {
 
         for name in ShoulderStabilityExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -129,167 +139,167 @@ public extension ShoulderStabilityExerciseName {
 public extension ShoulderStabilityExerciseName {
 
     /// 90 Degree Cable External Rotation
-    public static var nintyDegreeCableExternalRotation: ShoulderStabilityExerciseName {
+    static var nintyDegreeCableExternalRotation: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "90 Degree Cable External Rotation", number: 0)
     }
 
     /// Band External Rotation
-    public static var bandExternalRotation: ShoulderStabilityExerciseName {
+    static var bandExternalRotation: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Band External Rotation", number: 1)
     }
 
     /// Band Internal Rotation
-    public static var bandInternalRotation: ShoulderStabilityExerciseName {
+    static var bandInternalRotation: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Band Internal Rotation", number: 2)
     }
 
     /// Bent Arm Lateral Raise and External Rotation
-    public static var bentArmLateralRaiseExternalRotation: ShoulderStabilityExerciseName {
+    static var bentArmLateralRaiseExternalRotation: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Bent Arm Lateral Raise and External Rotation", number: 3)
     }
 
     /// Cable External Rotation
-    public static var cableExternalRotation: ShoulderStabilityExerciseName {
+    static var cableExternalRotation: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Cable External Rotation", number: 4)
     }
 
     /// Dumbbell Face Pull with External Rotation
-    public static var dumbbellFacePullExternalRotation: ShoulderStabilityExerciseName {
+    static var dumbbellFacePullExternalRotation: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Dumbbell Face Pull with External Rotation", number: 5)
     }
 
     /// Floor I Raise
-    public static var floorIRaise: ShoulderStabilityExerciseName {
+    static var floorIRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Floor I Raise", number: 6)
     }
 
     /// Weighted Floor I Raise
-    public static var weightedFloorIRaise: ShoulderStabilityExerciseName {
+    static var weightedFloorIRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Floor I Raise", number: 7)
     }
 
     /// Floor T Raise
-    public static var floorTRaise: ShoulderStabilityExerciseName {
+    static var floorTRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Floor T Raise", number: 8)
     }
 
     /// Weighted Floor T Raise
-    public static var weightedFloorTRaise: ShoulderStabilityExerciseName {
+    static var weightedFloorTRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Floor T Raise", number: 9)
     }
 
     /// Floor Y Raise
-    public static var floorYRaise: ShoulderStabilityExerciseName {
+    static var floorYRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Floor Y Raise", number: 10)
     }
 
     /// Weighted Floor Y Raise
-    public static var weightedFloorYRaise: ShoulderStabilityExerciseName {
+    static var weightedFloorYRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Floor Y Raise", number: 11)
     }
 
     /// Incline I Raise
-    public static var inclineIRaise: ShoulderStabilityExerciseName {
+    static var inclineIRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Incline I Raise", number: 12)
     }
 
     /// Weighted Incline I Raise
-    public static var weightedInclineIRaise: ShoulderStabilityExerciseName {
+    static var weightedInclineIRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Incline I Raise", number: 13)
     }
 
     /// Incline L Raise
-    public static var inclineLRaise: ShoulderStabilityExerciseName {
+    static var inclineLRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Incline L Raise", number: 14)
     }
 
     /// Weighted Incline L Raise
-    public static var weightedInclineLRaise: ShoulderStabilityExerciseName {
+    static var weightedInclineLRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Incline L Raise", number: 15)
     }
 
     /// Incline T Raise
-    public static var inclineTRaise: ShoulderStabilityExerciseName {
+    static var inclineTRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Incline T Raise", number: 16)
     }
 
     /// Weighted Incline T Raise
-    public static var weightedInclineTRaise: ShoulderStabilityExerciseName {
+    static var weightedInclineTRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Incline T Raise", number: 17)
     }
 
     /// Incline W Raise
-    public static var inclineWRaise: ShoulderStabilityExerciseName {
+    static var inclineWRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Incline W Raise", number: 18)
     }
 
     /// Weighted Incline W Raise
-    public static var weightedInclineWRaise: ShoulderStabilityExerciseName {
+    static var weightedInclineWRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Incline W Raise", number: 19)
     }
 
     /// Incline Y Raise
-    public static var inclineYRaise: ShoulderStabilityExerciseName {
+    static var inclineYRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Incline Y Raise", number: 20)
     }
 
     /// Weighted Incline Y Raise
-    public static var weightedInclineYRaise: ShoulderStabilityExerciseName {
+    static var weightedInclineYRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Incline Y Raise", number: 21)
     }
 
     /// Lying External Rotation
-    public static var lyingExternalRotation: ShoulderStabilityExerciseName {
+    static var lyingExternalRotation: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Lying External Rotation", number: 22)
     }
 
     /// Seated Dumbbell External Rotation
-    public static var seatedDumbbellExternalRotation: ShoulderStabilityExerciseName {
+    static var seatedDumbbellExternalRotation: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Seated Dumbbell External Rotation", number: 23)
     }
 
     /// Standing L Raise
-    public static var standingLRaise: ShoulderStabilityExerciseName {
+    static var standingLRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Standing L Raise", number: 24)
     }
 
     /// Swiss Ball I Raise
-    public static var swissBallIRaise: ShoulderStabilityExerciseName {
+    static var swissBallIRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Swiss Ball L Raise", number: 25)
     }
 
     /// Weighted Swiss Ball I Raise
-    public static var weightedSwissBallIRaise: ShoulderStabilityExerciseName {
+    static var weightedSwissBallIRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Swiss Ball L Raise", number: 26)
     }
 
     /// Swiss Ball T Raise
-    public static var swissBallTRaise: ShoulderStabilityExerciseName {
+    static var swissBallTRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Swiss Ball T Raise", number: 27)
     }
 
     /// Weighted Swiss Ball T Raise
-    public static var weightedSwissBallTRaise: ShoulderStabilityExerciseName {
+    static var weightedSwissBallTRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Swiss Ball T Raise", number: 28)
     }
 
     /// Swiss Ball W Raise
-    public static var swissBallWRaise: ShoulderStabilityExerciseName {
+    static var swissBallWRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Swiss Ball W Raise", number: 29)
     }
 
     /// Weighted Swiss Ball W Raise
-    public static var weightedSwissBallWRaise: ShoulderStabilityExerciseName {
+    static var weightedSwissBallWRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Swiss Ball W Raise", number: 30)
     }
 
     /// Swiss Ball Y Raise
-    public static var swissBallYRaise: ShoulderStabilityExerciseName {
+    static var swissBallYRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Swiss Ball Y Raise", number: 31)
     }
 
     /// Weighted Swiss Ball Y Raise
-    public static var weightedSwissBallYRaise: ShoulderStabilityExerciseName {
+    static var weightedSwissBallYRaise: ShoulderStabilityExerciseName {
         return ShoulderStabilityExerciseName(name: "Weighted Swiss Ball Y Raise", number: 32)
     }
 }

@@ -64,7 +64,7 @@ open class FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage
     /// - Throws: FitError
-    internal func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> Self  {
+    internal func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FitMessage  {
         fatalError("*** You must override in your class.")
     }
 
@@ -104,7 +104,7 @@ internal extension FitMessage {
     ///   - endian: Endian
     ///   - data: Field Data
     /// - Returns: Decoded Int32
-    internal func decodeInt16(decoder: inout DecodeData, endian: Endian, data: FieldData) -> Int16 {
+    func decodeInt16(decoder: inout DecodeData, endian: Endian, data: FieldData) -> Int16 {
 
         let value = endian == .little ? decoder.decodeInt16(data.fieldData).littleEndian : decoder.decodeInt16(data.fieldData).bigEndian
 
@@ -118,7 +118,7 @@ internal extension FitMessage {
     ///   - endian: Endian
     ///   - data: Field Data
     /// - Returns: Decoded Int32
-    internal func decodeUInt16(decoder: inout DecodeData, endian: Endian, data: FieldData) -> UInt16 {
+    func decodeUInt16(decoder: inout DecodeData, endian: Endian, data: FieldData) -> UInt16 {
 
         let value = endian == .little ? decoder.decodeUInt16(data.fieldData).littleEndian : decoder.decodeUInt16(data.fieldData).bigEndian
 
@@ -132,7 +132,7 @@ internal extension FitMessage {
     ///   - endian: Endian
     ///   - data: Field Data
     /// - Returns: Decoded Int32
-    internal func decodeInt32(decoder: inout DecodeData, endian: Endian, data: FieldData) -> Int32 {
+    func decodeInt32(decoder: inout DecodeData, endian: Endian, data: FieldData) -> Int32 {
 
         let value = endian == .little ? decoder.decodeInt32(data.fieldData).littleEndian : decoder.decodeInt32(data.fieldData).bigEndian
 
@@ -146,7 +146,7 @@ internal extension FitMessage {
     ///   - endian: Endian
     ///   - data: Field Data
     /// - Returns: Decoded Int32
-    internal func decodeUInt32(decoder: inout DecodeData, endian: Endian, data: FieldData) -> UInt32 {
+    func decodeUInt32(decoder: inout DecodeData, endian: Endian, data: FieldData) -> UInt32 {
 
         let value = endian == .little ? decoder.decodeUInt32(data.fieldData).littleEndian : decoder.decodeUInt32(data.fieldData).bigEndian
 
@@ -161,16 +161,16 @@ internal extension FitMessage {
     ///
     /// - Parameter messageType: FitMessage Name
     /// - Returns: FitError
-    internal func encodeWrongDefinitionMessage() -> FitError {
+    func encodeWrongDefinitionMessage() -> FitError {
         return FitError(.encodeError(msg: "Wrong DefinitionMessage used for Encoding \(self.messageName)"))
     }
 
-    internal func encodeNoPropertiesAvailable() -> FitError {
+    func encodeNoPropertiesAvailable() -> FitError {
         return FitError(.encodeError(msg: "\(self.messageName) contains no Properties Available to Encode"))
     }
 
     /// Name of the FitMessage
-    internal var messageName: String {
+    var messageName: String {
         return String(describing: self)
     }
 
@@ -180,7 +180,7 @@ internal extension FitMessage {
     ///   - localMessageType: Local Message Type
     ///   - msgData: Message Data
     /// - Returns: Encoded DataMessage
-    internal func encodedDataMessage(localMessageType: UInt8, msgData: Data) -> Data {
+    func encodedDataMessage(localMessageType: UInt8, msgData: Data) -> Data {
         var encodedMsg = Data()
 
         let recHeader = RecordHeader(localMessageType: localMessageType,
@@ -201,7 +201,7 @@ internal extension FitMessage {
     ///   - valueOne: Value for First Unit type
     ///   - valueTwo: Value for Second Unit type
     /// - Returns: Preferred Value for Unit Type
-    internal func preferredValue<T>(valueOne: ValidatedMeasurement<T>?, valueTwo: ValidatedMeasurement<T>?) -> ValidatedMeasurement<T>? {
+    func preferredValue<T>(valueOne: ValidatedMeasurement<T>?, valueTwo: ValidatedMeasurement<T>?) -> ValidatedMeasurement<T>? {
 
         var newValue: ValidatedMeasurement<T>?
 

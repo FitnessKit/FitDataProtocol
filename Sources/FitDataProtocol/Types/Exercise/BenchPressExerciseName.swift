@@ -43,12 +43,22 @@ public struct BenchPressExerciseName: ExerciseName {
 
 extension BenchPressExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension BenchPressExerciseName: Hashable {
 public extension BenchPressExerciseName {
     
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [BenchPressExerciseName] {
+    static var supportedExerciseNames: [BenchPressExerciseName] {
         return [
             .alternatingDumbbellChestPressOnSwissBall,
             .barbellBenchPress,
@@ -107,7 +117,7 @@ public extension BenchPressExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> BenchPressExerciseName? {
+    static func create(rawValue: UInt16) -> BenchPressExerciseName? {
 
         for name in BenchPressExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -124,137 +134,137 @@ public extension BenchPressExerciseName {
 public extension BenchPressExerciseName {
 
     /// Alternating Dumbbell and Chest Press on Swiss Ball
-    public static var alternatingDumbbellChestPressOnSwissBall: BenchPressExerciseName {
+    static var alternatingDumbbellChestPressOnSwissBall: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Alternating Dumbbell and Chest Press on Swiss Ball", number: 0)
     }
 
     /// Barbell Bench Press
-    public static var barbellBenchPress: BenchPressExerciseName {
+    static var barbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Barbell Bench Press", number: 1)
     }
 
     /// Barbell Board Bench Press
-    public static var barbellBoardBenchPress: BenchPressExerciseName {
+    static var barbellBoardBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Barbell Board Bench Press", number: 2)
     }
 
     /// Barbell Floor Press
-    public static var barbellFloorPress: BenchPressExerciseName {
+    static var barbellFloorPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Barbell Floor Press", number: 3)
     }
 
     /// Close Grip Barbell Bench Press
-    public static var closeGripBarbellBenchPress: BenchPressExerciseName {
+    static var closeGripBarbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Close Grip Barbell Bench Press", number: 4)
     }
 
     /// Decline Dumbbell Bench Press
-    public static var declineDumbbellBenchPress: BenchPressExerciseName {
+    static var declineDumbbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Decline Dumbbell Bench Press", number: 5)
     }
 
     /// Dumbbell Bench Press
-    public static var dumbbellBenchPress: BenchPressExerciseName {
+    static var dumbbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Dumbbell Bench Press", number: 6)
     }
 
     /// Dumbbell Floor Press
-    public static var dumbbellFloorPress: BenchPressExerciseName {
+    static var dumbbellFloorPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Dumbbell Floor Press", number: 7)
     }
 
     /// Incline Barbell Bench Press
-    public static var inclineBarbellBenchPress: BenchPressExerciseName {
+    static var inclineBarbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Incline Barbell Bench Press", number: 8)
     }
 
     /// Incline Dumbbell Bench Press
-    public static var inclineDumbbellBenchPress: BenchPressExerciseName {
+    static var inclineDumbbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Incline Dumbbell Bench Press", number: 9)
     }
 
     /// Incline Smith Machine Bench Press
-    public static var inclineSmithMachineBenchPress: BenchPressExerciseName {
+    static var inclineSmithMachineBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Incline Smith Machine Bench Press", number: 10)
     }
 
     /// Isometric Barbell Bench Press
-    public static var isometricBarbellBenchPress: BenchPressExerciseName {
+    static var isometricBarbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Isometric Barbell Bench Press", number: 11)
     }
 
     /// Kettlebell Chest Press
-    public static var kettlebellChestPress: BenchPressExerciseName {
+    static var kettlebellChestPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Kettlebell Chest Press", number: 12)
     }
 
     /// Neutral Grip Dumbbell Bench Press
-    public static var neutralGripDumbbellBenchPress: BenchPressExerciseName {
+    static var neutralGripDumbbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Neutral Grip Dumbbell Bench Press", number: 13)
     }
 
     /// Neutral Grip Dumbbell Incline Bench Press
-    public static var neutralGripDumbbellInclineBenchPress: BenchPressExerciseName {
+    static var neutralGripDumbbellInclineBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Neutral Grip Dumbbell Incline Bench Press", number: 14)
     }
 
     /// One Arm Floor Press
-    public static var oneArmFloorPress: BenchPressExerciseName {
+    static var oneArmFloorPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "One Arm Floor Press", number: 15)
     }
 
     /// Weighted One Arm Floor Press
-    public static var weightedOneArmFloorPress: BenchPressExerciseName {
+    static var weightedOneArmFloorPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Weighted One Arm Floor Press", number: 16)
     }
 
     /// Partial Lockout
-    public static var partialLockout: BenchPressExerciseName {
+    static var partialLockout: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Partial Lockout", number: 17)
     }
 
     /// Reverse Grip Barbell Bench Press
-    public static var reverseGripBarbellBenchPress: BenchPressExerciseName {
+    static var reverseGripBarbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Reverse Grip Barbell Bench Press", number: 18)
     }
 
     /// Reverse Grip Incline Bench Press
-    public static var reverseGripInclineBenchPress: BenchPressExerciseName {
+    static var reverseGripInclineBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Reverse Grip Incline Bench Press", number: 19)
     }
 
     /// Single Arm Cable Chest Press
-    public static var singleArmCableChestPress: BenchPressExerciseName {
+    static var singleArmCableChestPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Single Arm Cable Chest Press", number: 20)
     }
 
     /// Single Arm Dumbbell Bench Press
-    public static var singleArmDumbbellBenchPress: BenchPressExerciseName {
+    static var singleArmDumbbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Single Arm Dumbbell Bench Press", number: 21)
     }
 
     /// Smith Machine Bench Press
-    public static var smithMachineBenchPress: BenchPressExerciseName {
+    static var smithMachineBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Smith Machine Bench Press", number: 22)
     }
 
     /// Swiss Ball Dumbbell Chest Press
-    public static var swissBallDumbbellChestPress: BenchPressExerciseName {
+    static var swissBallDumbbellChestPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Swiss Ball Dumbbell Chest Press", number: 23)
     }
 
     /// Triple Stop Barbell Bench Press
-    public static var tripleStopBarbellBenchPress: BenchPressExerciseName {
+    static var tripleStopBarbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Triple Stop Barbell Bench Press", number: 24)
     }
 
     /// Wide Grip Barbell Bench Press
-    public static var wideGripBarbellBenchPress: BenchPressExerciseName {
+    static var wideGripBarbellBenchPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Wide Grip Barbell Bench Press", number: 25)
     }
 
     /// Alternating Dumbbell and Chest Press
-    public static var alternatingDumbbellChestPress: BenchPressExerciseName {
+    static var alternatingDumbbellChestPress: BenchPressExerciseName {
         return BenchPressExerciseName(name: "Alternating Dumbbell and Chest Press", number: 26)
     }
 }

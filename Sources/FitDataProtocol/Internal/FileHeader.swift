@@ -95,7 +95,7 @@ extension FileHeader: Equatable {
 
 internal extension FileHeader {
 
-    internal var encodedData: Data {
+    var encodedData: Data {
         var encode = Data()
 
         encode.append(headerSize)
@@ -114,7 +114,7 @@ internal extension FileHeader {
 
 internal extension FileHeader {
 
-    internal static func decode(data: Data, validateCrc: Bool = true) throws -> FileHeader {
+    static func decode(data: Data, validateCrc: Bool = true) throws -> FileHeader {
         var decoder = DecodeData()
 
         let headerSize = decoder.decodeUInt8(data)

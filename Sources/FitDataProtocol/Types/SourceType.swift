@@ -45,7 +45,7 @@ public enum SourceType: UInt8 {
 
 internal extension SourceType {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> SourceType? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> SourceType? {
 
         let value = decoder.decodeUInt8(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {
@@ -65,7 +65,7 @@ internal extension SourceType {
 public extension SourceType {
 
     /// String Value
-    public var stringValue: String {
+    var stringValue: String {
         switch self {
         case .ant:
             return "ANT"

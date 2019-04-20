@@ -86,7 +86,7 @@ public extension FitFileMerger {
     /// - Parameter files: Array of FIT files as Data
     /// - Returns: FIT File Data
     /// - Throws: FitError
-    public func merge(files: [Data]) throws -> Data {
+    func merge(files: [Data]) throws -> Data {
 
         var fitFiles: [MergeFile] = [MergeFile]()
 

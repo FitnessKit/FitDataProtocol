@@ -43,12 +43,22 @@ public struct LungeExerciseName: ExerciseName {
 
 extension LungeExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension LungeExerciseName: Hashable {
 public extension LungeExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [LungeExerciseName] {
+    static var supportedExerciseNames: [LungeExerciseName] {
 
         return [.overheadLunge,
                 .lungeMatrix,
@@ -159,7 +169,7 @@ public extension LungeExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> LungeExerciseName? {
+    static func create(rawValue: UInt16) -> LungeExerciseName? {
 
         for name in LungeExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -175,407 +185,407 @@ public extension LungeExerciseName {
 public extension LungeExerciseName {
 
     /// Overhead Lunge
-    public static var overheadLunge: LungeExerciseName {
+    static var overheadLunge: LungeExerciseName {
         return LungeExerciseName(name: "Overhead Lunge", number: 0)
     }
 
     /// Lunge Matrix
-    public static var lungeMatrix: LungeExerciseName {
+    static var lungeMatrix: LungeExerciseName {
         return LungeExerciseName(name: "Lunge Matrix", number: 1)
     }
 
     /// Weighted Lunge Matrix
-    public static var weightedLungeMatrix: LungeExerciseName {
+    static var weightedLungeMatrix: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Lunge Matrix", number: 2)
     }
 
     /// Alternating Barbell Forward Lunge
-    public static var alternatingBarbellForwardLunge: LungeExerciseName {
+    static var alternatingBarbellForwardLunge: LungeExerciseName {
         return LungeExerciseName(name: "Alternating Barbell Forward Lunge", number: 3)
     }
 
     /// Alternating Dumbbell Forward Lunge
-    public static var alternatingDumbbellForwardLunge: LungeExerciseName {
+    static var alternatingDumbbellForwardLunge: LungeExerciseName {
         return LungeExerciseName(name: "Alternating Dumbbell Forward Lunge", number: 4)
     }
 
     /// Back Foot Elevated Dumbbell Split Squat
-    public static var backFootElevatedDumbbellSplitSquat: LungeExerciseName {
+    static var backFootElevatedDumbbellSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Back Foot Elevated Dumbbell Split Squat", number: 5)
     }
 
     /// Barbell Box Lunge
-    public static var barbellBoxLunge: LungeExerciseName {
+    static var barbellBoxLunge: LungeExerciseName {
         return LungeExerciseName(name: "Barbell Box Lunge", number: 6)
     }
 
     /// Barbell Bulgarian Split Squat
-    public static var barbellBulgarianSplitSquat: LungeExerciseName {
+    static var barbellBulgarianSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Barbell Bulgarian Split Squat", number: 7)
     }
 
     /// Barbell Crossover Lunge
-    public static var barbellCrossoverLunge: LungeExerciseName {
+    static var barbellCrossoverLunge: LungeExerciseName {
         return LungeExerciseName(name: "Barbell Crossover Lunge", number: 8)
     }
 
     /// Barbell Front Split Squat
-    public static var barbellFrontSplitSquat: LungeExerciseName {
+    static var barbellFrontSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Barbell Front Split Squat", number: 9)
     }
 
     /// Barbell Lunge
-    public static var barbellLunge: LungeExerciseName {
+    static var barbellLunge: LungeExerciseName {
         return LungeExerciseName(name: "Barbell Lunge", number: 10)
     }
 
     /// Barbell Reverse Lunge
-    public static var barbellReverseLunge: LungeExerciseName {
+    static var barbellReverseLunge: LungeExerciseName {
         return LungeExerciseName(name: "Barbell Reverse Lunge", number: 11)
     }
 
     /// Barbell Side Lunge
-    public static var barbellSideLunge: LungeExerciseName {
+    static var barbellSideLunge: LungeExerciseName {
         return LungeExerciseName(name: "Barbell Side Lunge", number: 12)
     }
 
     /// Barbell Split Squat
-    public static var barbellSplitSquat: LungeExerciseName {
+    static var barbellSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Barbell Split Squat", number: 13)
     }
 
     /// Core Control Rear Lunge
-    public static var coreControlRearLunge: LungeExerciseName {
+    static var coreControlRearLunge: LungeExerciseName {
         return LungeExerciseName(name: "Core Control Rear Lunge", number: 14)
     }
 
     /// Diagonal Lunge
-    public static var diagonalLunge: LungeExerciseName {
+    static var diagonalLunge: LungeExerciseName {
         return LungeExerciseName(name: "Diagonal Lunge", number: 15)
     }
 
     /// Drop Lunge
-    public static var dropLunge: LungeExerciseName {
+    static var dropLunge: LungeExerciseName {
         return LungeExerciseName(name: "Drop Lunge", number: 16)
     }
 
     /// Dumbbell Box Lunge
-    public static var dumbellBoxLunge: LungeExerciseName {
+    static var dumbellBoxLunge: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Box Lunge", number: 17)
     }
 
     /// Dumbbell Bulgarian Split Squat
-    public static var dumbellBulgarianSplitSquat: LungeExerciseName {
+    static var dumbellBulgarianSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Bulgarian Split Squat", number: 18)
     }
 
     /// Dumbbell Crossover Lunge
-    public static var dumbbellCrossoverLunge: LungeExerciseName {
+    static var dumbbellCrossoverLunge: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Crossover Lunge", number: 19)
     }
 
     /// Dumbbell Diagonal Lunge
-    public static var dumbbellDiagonalLunge: LungeExerciseName {
+    static var dumbbellDiagonalLunge: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Diagonal Lunge", number: 20)
     }
 
     /// Dumbbell Lunge
-    public static var dumbbellLunge: LungeExerciseName {
+    static var dumbbellLunge: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Lunge", number: 21)
     }
 
     /// Dumbbell Lunge and Rotation
-    public static var dumbbellLungeRotation: LungeExerciseName {
+    static var dumbbellLungeRotation: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Lunge and Rotation", number: 22)
     }
 
     /// Dumbbell Overhead Bulgarian Split Squat
-    public static var dumbbellOverheadBulgarianSplitSquat: LungeExerciseName {
+    static var dumbbellOverheadBulgarianSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Overhead Bulgarian Split Squat", number: 23)
     }
 
     /// Dumbbell Reverse Lunge to High Knee and Press
-    public static var dumbbellReverseLungeHighKneePress: LungeExerciseName {
+    static var dumbbellReverseLungeHighKneePress: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Reverse Lunge to High Knee and Press", number: 24)
     }
 
     /// Dumbbell Side Lunge
-    public static var dumbbellSideLunge: LungeExerciseName {
+    static var dumbbellSideLunge: LungeExerciseName {
         return LungeExerciseName(name: "Dumbbell Side Lunge", number: 25)
     }
 
     /// Elevated Front Foot Barbell Split Squat
-    public static var elevatedFrontFootBarbellSplitSquat: LungeExerciseName {
+    static var elevatedFrontFootBarbellSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Elevated Front Foot Barbell Split Squat", number: 26)
     }
 
     /// Front Foot Elevated Dumbbell Split Squat
-    public static var frontFootElevatedDumbbellSplitSquat: LungeExerciseName {
+    static var frontFootElevatedDumbbellSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Front Foot Elevated Dumbbell Split Squat", number: 27)
     }
 
     /// Gunslinger Lunge
-    public static var gungslingerLunge: LungeExerciseName {
+    static var gungslingerLunge: LungeExerciseName {
         return LungeExerciseName(name: "Gunslinger Lunge", number: 28)
     }
 
     /// Lawnmower Lunge
-    public static var lawnmowerLunge: LungeExerciseName {
+    static var lawnmowerLunge: LungeExerciseName {
         return LungeExerciseName(name: "Lawnmower Lunge", number: 29)
     }
 
     /// Low Lunge with Isometric Adduction
-    public static var lowLungeIsometricAdduction: LungeExerciseName {
+    static var lowLungeIsometricAdduction: LungeExerciseName {
         return LungeExerciseName(name: "Low Lunge with Isometric Adduction", number: 30)
     }
 
     /// Low Side to Side Lunge
-    public static var lowSideToSideLunge: LungeExerciseName {
+    static var lowSideToSideLunge: LungeExerciseName {
         return LungeExerciseName(name: "Low Side to Side Lunge", number: 31)
     }
 
     /// Lunge
-    public static var lunge: LungeExerciseName {
+    static var lunge: LungeExerciseName {
         return LungeExerciseName(name: "Lunge", number: 32)
     }
 
     /// Weighted Lunge
-    public static var weightedLunge: LungeExerciseName {
+    static var weightedLunge: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Lunge", number: 33)
     }
 
     /// Lunge with Arm Reach
-    public static var lungeArmReach: LungeExerciseName {
+    static var lungeArmReach: LungeExerciseName {
         return LungeExerciseName(name: "Lunge with Arm Reach", number: 34)
     }
 
     /// Lunge with Diagonal Reach
-    public static var lungeDiagonalReach: LungeExerciseName {
+    static var lungeDiagonalReach: LungeExerciseName {
         return LungeExerciseName(name: "Lunge with Diagonal Reach", number: 35)
     }
 
     /// Lunge with Side Bend
-    public static var lungeSideBend: LungeExerciseName {
+    static var lungeSideBend: LungeExerciseName {
         return LungeExerciseName(name: "Lunge with Side Bend", number: 36)
     }
 
     /// Offset Dumbbell Lunge
-    public static var offsetDumbbellLunge: LungeExerciseName {
+    static var offsetDumbbellLunge: LungeExerciseName {
         return LungeExerciseName(name: "Offset Dumbbell Lunge", number: 37)
     }
 
     /// Offset Dumbbell Reverse Lunge
-    public static var offsetDumbbellReverseLunge: LungeExerciseName {
+    static var offsetDumbbellReverseLunge: LungeExerciseName {
         return LungeExerciseName(name: "Offset Dumbbell Reverse Lunge", number: 38)
     }
 
     /// Overhead Bulgarian Split Squat
-    public static var overheadBulgarianSplitSquat: LungeExerciseName {
+    static var overheadBulgarianSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Overhead Bulgarian Split Squat", number: 39)
     }
 
     /// Overhead Dumbbell Reverse Lunge
-    public static var overheadDumbbellReverseLunge: LungeExerciseName {
+    static var overheadDumbbellReverseLunge: LungeExerciseName {
         return LungeExerciseName(name: "Overhead Dumbbell Reverse Lunge", number: 40)
     }
 
     /// Overhead Dumbbell Split Squat
-    public static var overheadDumbbellSplitSquat: LungeExerciseName {
+    static var overheadDumbbellSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Overhead Dumbbell Split Squat", number: 41)
     }
 
     /// Overhead Lunge with Rotation
-    public static var overheadLungeRotation: LungeExerciseName {
+    static var overheadLungeRotation: LungeExerciseName {
         return LungeExerciseName(name: "Overhead Lunge with Rotation", number: 42)
     }
 
     /// Reverse Barbell Box Lunge
-    public static var reverseBarbellBoxLunge: LungeExerciseName {
+    static var reverseBarbellBoxLunge: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Barbell Box Lunge", number: 43)
     }
 
     /// Reverse Box Lunge
-    public static var reverseBoxLunge: LungeExerciseName {
+    static var reverseBoxLunge: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Box Lunge", number: 44)
     }
 
     /// Reverse Dumbbell Box Lunge
-    public static var reverseDumbbellBoxLunge: LungeExerciseName {
+    static var reverseDumbbellBoxLunge: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Dumbbell Box Lunge", number: 45)
     }
 
     /// Reverse Dumbbell Crossover Lunge
-    public static var reverseDumbbellCrossoverLunge: LungeExerciseName {
+    static var reverseDumbbellCrossoverLunge: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Dumbbell Crossover Lunge", number: 46)
     }
 
     /// Reverse Dumbbell Diagonal Lunge
-    public static var reverseDumbbellDiagonalLunge: LungeExerciseName {
+    static var reverseDumbbellDiagonalLunge: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Dumbbell Diagonal Lunge", number: 47)
     }
 
     /// Reverse Lunge with Reach Back
-    public static var reverseLungReachBack: LungeExerciseName {
+    static var reverseLungReachBack: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Lunge with Reach Back", number: 48)
     }
 
     /// Weighted Reverse Lunge with Reach Back
-    public static var weightedReverseLungReachBack: LungeExerciseName {
+    static var weightedReverseLungReachBack: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Reverse Lunge with Reach Back", number: 49)
     }
 
     /// Reverse Lunge with Twist and Overhead Reach
-    public static var reverseLungeTwistOverheadReach: LungeExerciseName {
+    static var reverseLungeTwistOverheadReach: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Lunge with Twist and Overhead Reach", number: 50)
     }
 
     /// Weighted Reverse Lunge with Twist and Overhead Reach
-    public static var weightedReverseLungeTwistOverheadReach: LungeExerciseName {
+    static var weightedReverseLungeTwistOverheadReach: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Reverse Lunge with Twist and Overhead Reach", number: 51)
     }
 
     /// Reverse Sliding Box Lunge
-    public static var reverseSlidingBoxLunge: LungeExerciseName {
+    static var reverseSlidingBoxLunge: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Sliding Box Lunge", number: 52)
     }
 
     /// Weighted Reverse Sliding Box Lunge
-    public static var weightedReverseSlidingBoxLunge: LungeExerciseName {
+    static var weightedReverseSlidingBoxLunge: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Reverse Sliding Box Lunge", number: 53)
     }
 
     /// Reverse Sliding Lunge
-    public static var reverseSlidingLunge: LungeExerciseName {
+    static var reverseSlidingLunge: LungeExerciseName {
         return LungeExerciseName(name: "Reverse Sliding Lunge", number: 54)
     }
 
     /// Weighted Reverse Sliding Lunge
-    public static var weightedReverseSlidingLunge: LungeExerciseName {
+    static var weightedReverseSlidingLunge: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Reverse Sliding Lunge", number: 55)
     }
 
     /// Runners Lunge to Balance
-    public static var runnersLungeBalance: LungeExerciseName {
+    static var runnersLungeBalance: LungeExerciseName {
         return LungeExerciseName(name: "Runners Lunge to Balance", number: 56)
     }
 
     /// Weighted Runners Lunge to Balance
-    public static var weightedRunnersLungeBalance: LungeExerciseName {
+    static var weightedRunnersLungeBalance: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Runners Lunge to Balance", number: 57)
     }
 
     /// Shifting Side Lunge
-    public static var shiftingSideLunge: LungeExerciseName {
+    static var shiftingSideLunge: LungeExerciseName {
         return LungeExerciseName(name: "Shifting Side Lunge", number: 58)
     }
 
     /// Side and Crossover Lunge
-    public static var sideCrossoverLunge: LungeExerciseName {
+    static var sideCrossoverLunge: LungeExerciseName {
         return LungeExerciseName(name: "Side and Crossover Lunge", number: 59)
     }
 
     /// Weighted Side and Crossover Lunge
-    public static var weightedSideCrossoverLunge: LungeExerciseName {
+    static var weightedSideCrossoverLunge: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Side and Crossover Lunge", number: 60)
     }
 
     /// Side Lunge
-    public static var sideLunge: LungeExerciseName {
+    static var sideLunge: LungeExerciseName {
         return LungeExerciseName(name: "Side Lunge", number: 61)
     }
 
     /// Weighted Side Lunge
-    public static var weightedSideLunge: LungeExerciseName {
+    static var weightedSideLunge: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Side Lunge", number: 62)
     }
 
     /// Side Lunge and Press
-    public static var sideLungePress: LungeExerciseName {
+    static var sideLungePress: LungeExerciseName {
         return LungeExerciseName(name: "Side Lunge and Press", number: 63)
     }
 
     /// Side Lunge Jump Off
-    public static var sideLungeJumpOff: LungeExerciseName {
+    static var sideLungeJumpOff: LungeExerciseName {
         return LungeExerciseName(name: "Side Lunge Jump Off", number: 64)
     }
 
     /// Side Lunge Sweep
-    public static var sideLungeSweep: LungeExerciseName {
+    static var sideLungeSweep: LungeExerciseName {
         return LungeExerciseName(name: "Side Lunge Sweep", number: 65)
     }
 
     /// Weighted Side Lunge Sweep
-    public static var weightedSideLungeSweep: LungeExerciseName {
+    static var weightedSideLungeSweep: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Side Lunge Sweep", number: 66)
     }
 
     /// Side Lunge to Crossover Tap
-    public static var sideLungeCrossoverTap: LungeExerciseName {
+    static var sideLungeCrossoverTap: LungeExerciseName {
         return LungeExerciseName(name: "Side Lunge to Crossover Tap", number: 67)
     }
 
     /// Weighted Side Lunge to Crossover Tap
-    public static var weightedSideLungeCrossoverTap: LungeExerciseName {
+    static var weightedSideLungeCrossoverTap: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Side Lunge to Crossover Tap", number: 68)
     }
 
     /// Side to Side Lunge Chops
-    public static var sideToSideLungeChops: LungeExerciseName {
+    static var sideToSideLungeChops: LungeExerciseName {
         return LungeExerciseName(name: "Side to Side Lunge Chops", number: 69)
     }
 
     /// Weighted Side to Side Lunge Chops
-    public static var weightedSideToSideLungeChops: LungeExerciseName {
+    static var weightedSideToSideLungeChops: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Side to Side Lunge Chops", number: 70)
     }
 
     /// Siff Jump Lunge
-    public static var siffJumpLunge: LungeExerciseName {
+    static var siffJumpLunge: LungeExerciseName {
         return LungeExerciseName(name: "Siff Jump Lunge", number: 71)
     }
 
     /// Weighted Siff Jump Lunge
-    public static var weightedSiffJumpLunge: LungeExerciseName {
+    static var weightedSiffJumpLunge: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Siff Jump Lunge", number: 72)
     }
 
     /// Single Arm Reverse Lunge and Press
-    public static var singleArmReverseLungePress: LungeExerciseName {
+    static var singleArmReverseLungePress: LungeExerciseName {
         return LungeExerciseName(name: "Single Arm Reverse Lunge and Press", number: 73)
     }
 
     /// Sliding Lateral Lunge
-    public static var slidingLateralLunge: LungeExerciseName {
+    static var slidingLateralLunge: LungeExerciseName {
         return LungeExerciseName(name: "Sliding Lateral Lunge", number: 74)
     }
 
     /// Weighted Sliding Lateral Lunge
-    public static var weightedSlidingLateralLunge: LungeExerciseName {
+    static var weightedSlidingLateralLunge: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Sliding Lateral Lunge", number: 75)
     }
 
     /// Walking Barbell Lunge
-    public static var walkingBarbellLunge: LungeExerciseName {
+    static var walkingBarbellLunge: LungeExerciseName {
         return LungeExerciseName(name: "Walking Barbell Lunge", number: 76)
     }
 
     /// Walking Dumbbell Lunge
-    public static var walkingDumbbellLunge: LungeExerciseName {
+    static var walkingDumbbellLunge: LungeExerciseName {
         return LungeExerciseName(name: "Walking Dumbbell Lunge", number: 77)
     }
 
     /// Walking Lunge
-    public static var walkingLunge: LungeExerciseName {
+    static var walkingLunge: LungeExerciseName {
         return LungeExerciseName(name: "Walking Lunge", number: 78)
     }
 
     /// Weighted Walking Lunge
-    public static var weightedWalkingLunge: LungeExerciseName {
+    static var weightedWalkingLunge: LungeExerciseName {
         return LungeExerciseName(name: "Weighted Walking Lunge", number: 79)
     }
 
     /// Wide Grip Overhead Barbell Split Squat
-    public static var wideGripOverheadBarbellSplitSquat: LungeExerciseName {
+    static var wideGripOverheadBarbellSplitSquat: LungeExerciseName {
         return LungeExerciseName(name: "Wide Grip Overhead Barbell Split Squat", number: 80)
     }
 }

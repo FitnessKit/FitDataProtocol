@@ -43,12 +43,22 @@ public struct ShoulderPressExerciseName: ExerciseName {
 
 extension ShoulderPressExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension ShoulderPressExerciseName: Hashable {
 public extension ShoulderPressExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [ShoulderPressExerciseName] {
+    static var supportedExerciseNames: [ShoulderPressExerciseName] {
 
         return [.alternatingDumbbellShoulderPress,
                 .arnoldPress,
@@ -104,7 +114,7 @@ public extension ShoulderPressExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> ShoulderPressExerciseName? {
+    static func create(rawValue: UInt16) -> ShoulderPressExerciseName? {
 
         for name in ShoulderPressExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -120,122 +130,122 @@ public extension ShoulderPressExerciseName {
 public extension ShoulderPressExerciseName {
 
     /// Alternating Dumbbell Shoulder Press
-    public static var alternatingDumbbellShoulderPress: ShoulderPressExerciseName {
+    static var alternatingDumbbellShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Alternating Dumbbell Shoulder Press", number: 0)
     }
 
     /// Arnold Press
-    public static var arnoldPress: ShoulderPressExerciseName {
+    static var arnoldPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Arnold Press", number: 1)
     }
 
     /// Barbell Front Squat to Push Press
-    public static var barbellFrontSquatPushPress: ShoulderPressExerciseName {
+    static var barbellFrontSquatPushPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Barbell Front Squat to Push Press", number: 2)
     }
 
     /// Barbell Push Press
-    public static var barbellPushPress: ShoulderPressExerciseName {
+    static var barbellPushPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Barbell Push Press", number: 3)
     }
 
     /// Barbell Shoulder Press
-    public static var barbellShoulderPress: ShoulderPressExerciseName {
+    static var barbellShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Barbell Shoulder Press", number: 4)
     }
 
     /// Dead Curl Press
-    public static var deadCurlPress: ShoulderPressExerciseName {
+    static var deadCurlPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Dead Curl Press", number: 5)
     }
 
     /// Dumbbell Alternating Shoulder Press and Twist
-    public static var dumbbellAlternatingShoulderPressTwist: ShoulderPressExerciseName {
+    static var dumbbellAlternatingShoulderPressTwist: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Dumbbell Alternating Shoulder Press and Twist", number: 6)
     }
 
     /// Dumbbell Hammer Curl to Lunge to Press
-    public static var dumbbellHammerCurlLungePress: ShoulderPressExerciseName {
+    static var dumbbellHammerCurlLungePress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Dumbbell Hammer Curl to Lunge to Press", number: 7)
     }
 
     /// Dumbbell Push Press
-    public static var dumbbellPushPress: ShoulderPressExerciseName {
+    static var dumbbellPushPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Dumbbell Push Press", number: 8)
     }
 
     /// Floor Inverted Shoulder Press
-    public static var floorInvertedShoulderPress: ShoulderPressExerciseName {
+    static var floorInvertedShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Floor Inverted Shoulder Press", number: 9)
     }
 
     /// Weighted Floor Inverted Shoulder Press
-    public static var weightedFloorInvertedShoulderPress: ShoulderPressExerciseName {
+    static var weightedFloorInvertedShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Weighted Floor Inverted Shoulder Press", number: 10)
     }
 
     /// Inverted Shoulder Press
-    public static var invertedShoulderPress: ShoulderPressExerciseName {
+    static var invertedShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Inverted Shoulder Press", number: 11)
     }
 
     /// Weighted Inverted Shoulder Press
-    public static var weightedInvertedShoulderPress: ShoulderPressExerciseName {
+    static var weightedInvertedShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Weighted Inverted Shoulder Press", number: 12)
     }
 
     /// One Arm Push Press
-    public static var oneArmPushPress: ShoulderPressExerciseName {
+    static var oneArmPushPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "One Arm Push Press", number: 13)
     }
 
     /// Overhead Barbell Press
-    public static var overheadBarbellPress: ShoulderPressExerciseName {
+    static var overheadBarbellPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Overhead Barbell Press", number: 14)
     }
 
     /// Overhead Dumbbell Press
-    public static var overheadDumbbellPress: ShoulderPressExerciseName {
+    static var overheadDumbbellPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Overhead Dumbbell Press", number: 15)
     }
 
     /// Seated Barbell Shoulder Press
-    public static var seatedBarbellShoulderPress: ShoulderPressExerciseName {
+    static var seatedBarbellShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Seated Barbell Shoulder Press", number: 16)
     }
 
     /// Seated Dumbbell Shoulder Press
-    public static var seatedDumbbellShoulderPress: ShoulderPressExerciseName {
+    static var seatedDumbbellShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Seated Dumbbell Shoulder Press", number: 17)
     }
 
     /// Single Arm Dumbbell Shoulder Press
-    public static var singleArmDumbbellShoulderPress: ShoulderPressExerciseName {
+    static var singleArmDumbbellShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Single Arm Dumbbell Shoulder Press", number: 18)
     }
 
     /// Single Arm Step Up and Press
-    public static var singleArmStepUpPress: ShoulderPressExerciseName {
+    static var singleArmStepUpPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Single Arm Step Up an Press", number: 19)
     }
 
     /// Smith Machine Overhead Press
-    public static var smithMachineOverheadPress: ShoulderPressExerciseName {
+    static var smithMachineOverheadPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Smith Machine Overhead Press", number: 20)
     }
 
     /// Split Stance Hammer Curl to Press
-    public static var splitStanceHammerCurlPress: ShoulderPressExerciseName {
+    static var splitStanceHammerCurlPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Split Stance Hammer Curl to Press", number: 21)
     }
 
     /// Swiss Ball Dumbbell Shoulder Press
-    public static var swissBallDumbbellShoulderPress: ShoulderPressExerciseName {
+    static var swissBallDumbbellShoulderPress: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Swiss Ball Dumbbell Shoulder Press", number: 22)
     }
 
     /// Weight Plate Front Raise
-    public static var weightPlateFrontRaise: ShoulderPressExerciseName {
+    static var weightPlateFrontRaise: ShoulderPressExerciseName {
         return ShoulderPressExerciseName(name: "Weight Plate Front Raise", number: 23)
     }
 }

@@ -27,7 +27,7 @@ import DataDecoder
 
 internal extension String {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> String? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> String? {
 
         let stringData = decoder.decodeData(data.fieldData, length: Int(definition.size))
         if stringData.count != 0 {

@@ -139,7 +139,7 @@ internal extension EncoderValidator {
     ///   - msgType: FitMessage Type
     ///   - messages: FitMessages
     /// - Returns: Count of msgType
-    internal static func countMessages(_ msgType: FitMessage.Type, messages: [FitMessage]) -> Int {
+    static func countMessages(_ msgType: FitMessage.Type, messages: [FitMessage]) -> Int {
 
         let count = messages.reduce(0) { (total: Int, message: FitMessage) -> Int in
 
@@ -159,7 +159,7 @@ internal extension EncoderValidator {
     ///   - msgType: FitMessage Type
     ///   - messages: FitMessages
     /// - Returns: True if msgType is contained in array
-    internal static func containsMessage(_ msgType: FitMessage.Type, messages: [FitMessage]) -> Bool {
+    static func containsMessage(_ msgType: FitMessage.Type, messages: [FitMessage]) -> Bool {
 
         if messages.contains(where: { (fitmessage) -> Bool in
 

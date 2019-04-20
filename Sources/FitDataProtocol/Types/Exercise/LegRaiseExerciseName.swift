@@ -43,12 +43,22 @@ public struct LegRaiseExerciseName: ExerciseName {
 
 extension LegRaiseExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension LegRaiseExerciseName: Hashable {
 public extension LegRaiseExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [LegRaiseExerciseName] {
+    static var supportedExerciseNames: [LegRaiseExerciseName] {
 
         return [.hangingKneeRaise,
                 .hangingLegRaise,
@@ -102,7 +112,7 @@ public extension LegRaiseExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> LegRaiseExerciseName? {
+    static func create(rawValue: UInt16) -> LegRaiseExerciseName? {
 
         for name in LegRaiseExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -118,112 +128,112 @@ public extension LegRaiseExerciseName {
 public extension LegRaiseExerciseName {
 
     /// Hanging Knee Raise
-    public static var hangingKneeRaise: LegRaiseExerciseName {
+    static var hangingKneeRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Hanging Knee Raise", number: 0)
     }
 
     /// Hanging Leg Raise
-    public static var hangingLegRaise: LegRaiseExerciseName {
+    static var hangingLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Hanging Leg Raise", number: 1)
     }
 
     /// Weighted Hanging Leg Raise
-    public static var weightedHangingLegRaise: LegRaiseExerciseName {
+    static var weightedHangingLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Hanging Leg Raise", number: 2)
     }
 
     /// Hanging Single Leg Raise
-    public static var hangingSingleLegRaise: LegRaiseExerciseName {
+    static var hangingSingleLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Hanging Single Leg Raise", number: 3)
     }
 
     /// Weighted Hanging Single Leg Raise
-    public static var weightedHangingSingleLegRaise: LegRaiseExerciseName {
+    static var weightedHangingSingleLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Hanging Single Leg Raise", number: 4)
     }
 
     /// Kettelbell Leg Raises
-    public static var kettlebellLegRaises: LegRaiseExerciseName {
+    static var kettlebellLegRaises: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Kettelbell Leg Raises", number: 5)
     }
 
     /// Leg Lowering Drill
-    public static var legLoweringDrill: LegRaiseExerciseName {
+    static var legLoweringDrill: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Leg Lowering Drill", number: 6)
     }
 
     /// Weighted Leg Lowering Drill
-    public static var weightedLegLoweringDrill: LegRaiseExerciseName {
+    static var weightedLegLoweringDrill: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Leg Lowering Drill", number: 7)
     }
 
     /// Lying Straight Leg Raise
-    public static var lyingStraightLegRaise: LegRaiseExerciseName {
+    static var lyingStraightLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Lying Straight Leg Raise", number: 8)
     }
 
     /// Weighted Lying Straight Leg Raise
-    public static var weightedLyingStraightLegRaise: LegRaiseExerciseName {
+    static var weightedLyingStraightLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Lying Straight Leg Raise", number: 9)
     }
 
     /// Medicine Ball Leg Drops
-    public static var medicineBallLegDrops: LegRaiseExerciseName {
+    static var medicineBallLegDrops: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Medicine Ball Leg Drops", number: 10)
     }
 
     /// Quadruped Leg Raise
-    public static var quadrupedLegRaise: LegRaiseExerciseName {
+    static var quadrupedLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Quadruped Leg Raise", number: 11)
     }
 
     /// Weighted Quadruped Leg Raise
-    public static var weightedQuadrupedLegRaise: LegRaiseExerciseName {
+    static var weightedQuadrupedLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Quadruped Leg Raise", number: 12)
     }
 
     /// Reverse Leg Raise
-    public static var reverseLegRaise: LegRaiseExerciseName {
+    static var reverseLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Reverse Leg Raise", number: 13)
     }
 
     /// Weighted Reverse Leg Raise
-    public static var weightedReverseLegRaise: LegRaiseExerciseName {
+    static var weightedReverseLegRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Reverse Leg Raise", number: 14)
     }
 
     /// Reverse Leg Raise on Swiss Ball
-    public static var reverseLegRaiseOnSwissBall: LegRaiseExerciseName {
+    static var reverseLegRaiseOnSwissBall: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Reverse Leg Raise on Swiss Ball", number: 15)
     }
 
     /// Weighted Reverse Leg Raise on Swiss Ball
-    public static var weightedReverseLegRaiseOnSwissBall: LegRaiseExerciseName {
+    static var weightedReverseLegRaiseOnSwissBall: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Reverse Leg Raise on Swiss Ball", number: 16)
     }
 
     /// Single Leg Lowering Drill
-    public static var singleLegLoweringDrill: LegRaiseExerciseName {
+    static var singleLegLoweringDrill: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Single Leg Lowering Drill", number: 17)
     }
 
     /// Weighted Single Leg Lowering Drill
-    public static var weightedSingleLegLoweringDrill: LegRaiseExerciseName {
+    static var weightedSingleLegLoweringDrill: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Single Leg Lowering Drill", number: 18)
     }
 
     /// Weighted Hanging Knee Raise
-    public static var weightedHangingKneeRaise: LegRaiseExerciseName {
+    static var weightedHangingKneeRaise: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Hanging Knee Raise", number: 19)
     }
 
     /// Lateral Stepover
-    public static var lateralStepover: LegRaiseExerciseName {
+    static var lateralStepover: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Lateral Stepover", number: 20)
     }
 
     /// Weighted Lateral Stepover
-    public static var weightedLateralStepover: LegRaiseExerciseName {
+    static var weightedLateralStepover: LegRaiseExerciseName {
         return LegRaiseExerciseName(name: "Weighted Lateral Stepover", number: 21)
     }
 }

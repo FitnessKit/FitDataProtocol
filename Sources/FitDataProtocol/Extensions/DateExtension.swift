@@ -35,7 +35,7 @@ internal extension Date {
 
      - returns: an Date object with the given
      */
-    internal init(year:Int, month:Int, day:Int) {
+    init(year:Int, month:Int, day:Int) {
         var c = DateComponents()
         c.year = year
         c.month = month
@@ -48,7 +48,7 @@ internal extension Date {
     }
 
     /// ANT+ EPOCH
-    internal static var antEPOCH: Date {
+    static var antEPOCH: Date {
         var comps = DateComponents(year: 1989,
                                    month: 12,
                                    day: 31)
@@ -58,7 +58,7 @@ internal extension Date {
     }
 
     /// Localized ANT+ EPOCH
-    internal static var localAntEPOCH: Date {
+    static var localAntEPOCH: Date {
         var comps = DateComponents(year: 1989,
                                    month: 12,
                                    day: 31)

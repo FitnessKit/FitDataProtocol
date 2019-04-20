@@ -56,16 +56,16 @@ extension ActivityMessage: FitMessageKeys {
 
 public extension ActivityMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.type }
+    var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension ActivityMessage.FitCodingKeys {
 
     /// Key Base Resolution
-    internal var resolution: Resolution { return self.baseData.resolution }
+    var resolution: Resolution { return self.baseData.resolution }
 
     /// Key Base Data
-    internal var baseData: BaseData {
+    var baseData: BaseData {
         switch self {
         case .timestamp:
             // 1 * s + 0
@@ -93,7 +93,7 @@ internal extension ActivityMessage.FitCodingKeys {
 // Encoding
 internal extension ActivityMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: Activity) throws -> Data {
+    func encodeKeyed(value: Activity) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
@@ -101,11 +101,11 @@ internal extension ActivityMessage.FitCodingKeys {
 // Encoding
 internal extension ActivityMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: Event) throws -> Data {
+    func encodeKeyed(value: Event) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: EventType) throws -> Data {
+    func encodeKeyed(value: EventType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }

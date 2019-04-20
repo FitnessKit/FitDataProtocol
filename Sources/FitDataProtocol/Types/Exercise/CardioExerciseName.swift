@@ -43,12 +43,22 @@ public struct CardioExerciseName: ExerciseName {
 
 extension CardioExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension CardioExerciseName: Hashable {
 public extension CardioExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [CardioExerciseName] {
+    static var supportedExerciseNames: [CardioExerciseName] {
 
         return [.bobWeaveCircle,
                 .weightedBobWeaveCircle,
@@ -102,7 +112,7 @@ public extension CardioExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> CardioExerciseName? {
+    static func create(rawValue: UInt16) -> CardioExerciseName? {
 
         for name in CardioExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -118,112 +128,112 @@ public extension CardioExerciseName {
 public extension CardioExerciseName {
 
     /// Bob and Weave Circle
-    public static var bobWeaveCircle: CardioExerciseName {
+    static var bobWeaveCircle: CardioExerciseName {
         return CardioExerciseName(name: "Bob and Weave Circle", number: 0)
     }
 
     /// Weighted Bob and Weave Circle
-    public static var weightedBobWeaveCircle: CardioExerciseName {
+    static var weightedBobWeaveCircle: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Bob and Weave Circle", number: 1)
     }
 
     /// Cardio Core Crawl
-    public static var cardioCoreCrawl: CardioExerciseName {
+    static var cardioCoreCrawl: CardioExerciseName {
         return CardioExerciseName(name: "Cardio Core Crawl", number: 2)
     }
 
     /// Weighted Cardio Core Crawl
-    public static var weightedCardioCoreCrawl: CardioExerciseName {
+    static var weightedCardioCoreCrawl: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Cardio Core Crawl", number: 3)
     }
 
     /// Double Under
-    public static var doubleUnder: CardioExerciseName {
+    static var doubleUnder: CardioExerciseName {
         return CardioExerciseName(name: "Double Under", number: 4)
     }
 
     /// Weighted Double Under
-    public static var weightedDoubleUnder: CardioExerciseName {
+    static var weightedDoubleUnder: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Double Under", number: 5)
     }
 
     /// Jump Rope
-    public static var jumpRope: CardioExerciseName {
+    static var jumpRope: CardioExerciseName {
         return CardioExerciseName(name: "Jump Rope", number: 6)
     }
 
     /// Weighted Jump Rope
-    public static var weightedJumpRope: CardioExerciseName {
+    static var weightedJumpRope: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Jump Rope", number: 7)
     }
 
     /// Jump Rope Crossover
-    public static var jumpRopeCrossover: CardioExerciseName {
+    static var jumpRopeCrossover: CardioExerciseName {
         return CardioExerciseName(name: "Jump Rope Crossover", number: 8)
     }
 
     /// Weighted Jump Rope Crossover
-    public static var weightedJumpRopeCrossover: CardioExerciseName {
+    static var weightedJumpRopeCrossover: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Jump Rope Crossover", number: 9)
     }
 
     /// Jump Rope Jog
-    public static var jumpRopeJog: CardioExerciseName {
+    static var jumpRopeJog: CardioExerciseName {
         return CardioExerciseName(name: "Jump Rope Jog", number: 10)
     }
 
     /// Weighted Jump Rope Jog
-    public static var weightedJumpRopeJog: CardioExerciseName {
+    static var weightedJumpRopeJog: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Jump Rope Jog", number: 11)
     }
 
     /// Jumping Jacks
-    public static var jumpingJacks: CardioExerciseName {
+    static var jumpingJacks: CardioExerciseName {
         return CardioExerciseName(name: "Jumping Jacks", number: 12)
     }
 
     /// Weighted Jumping Jacks
-    public static var weightedJumpingJacks: CardioExerciseName {
+    static var weightedJumpingJacks: CardioExerciseName {
         return CardioExerciseName(name: "JWeighted umping Jacks", number: 13)
     }
 
     /// Ski Moguls
-    public static var skiMoguls: CardioExerciseName {
+    static var skiMoguls: CardioExerciseName {
         return CardioExerciseName(name: "Ski Moguls", number: 14)
     }
 
     /// Weighted Ski Moguls
-    public static var weightedSkiMoguls: CardioExerciseName {
+    static var weightedSkiMoguls: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Ski Moguls", number: 15)
     }
 
     /// Split Jacks
-    public static var splitJacks: CardioExerciseName {
+    static var splitJacks: CardioExerciseName {
         return CardioExerciseName(name: "Split Jacks", number: 16)
     }
 
     /// Weighted Split Jacks
-    public static var weightedSplitJacks: CardioExerciseName {
+    static var weightedSplitJacks: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Split Jacks", number: 17)
     }
 
     /// Squat Jacks
-    public static var squatJacks: CardioExerciseName {
+    static var squatJacks: CardioExerciseName {
         return CardioExerciseName(name: "Squat Jacks", number: 18)
     }
 
     /// Weighted Squat Jacks
-    public static var weightedSquatJacks: CardioExerciseName {
+    static var weightedSquatJacks: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Squat Jacks", number: 19)
     }
 
     /// Triple Under
-    public static var tripleUnder: CardioExerciseName {
+    static var tripleUnder: CardioExerciseName {
         return CardioExerciseName(name: "Triple Under", number: 20)
     }
 
     /// Weighted Triple Under
-    public static var weightedTripleUnder: CardioExerciseName {
+    static var weightedTripleUnder: CardioExerciseName {
         return CardioExerciseName(name: "Weighted Triple Under", number: 21)
     }
 }

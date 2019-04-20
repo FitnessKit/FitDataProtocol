@@ -42,7 +42,7 @@ internal extension FieldDefinition {
     /// Encodes the FieldDefinition into Data
     ///
     /// - Returns: Data representation
-    internal func encode() -> Data {
+    func encode() -> Data {
         var msgData = Data()
 
         msgData.append(fieldDefinitionNumber)
@@ -79,7 +79,7 @@ extension FieldDefinition: Equatable {
 
 internal extension FieldDefinition {
 
-    internal static func decode(decoder: inout DecodeData, data: Data) throws -> FieldDefinition {
+    static func decode(decoder: inout DecodeData, data: Data) throws -> FieldDefinition {
 
         let messageNumber = decoder.decodeUInt8(data)
         let size = decoder.decodeUInt8(data)

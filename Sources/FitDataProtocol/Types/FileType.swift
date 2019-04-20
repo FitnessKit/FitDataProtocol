@@ -66,13 +66,23 @@ extension FileType: Equatable {
 
 extension FileType: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return rawValue.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
     }
+
 }
 
 
@@ -80,7 +90,7 @@ extension FileType: Hashable {
 public extension FileType {
 
     /// Non FIT File
-    public static let nonFitFile = FileType(rawValue: 0)
+    static let nonFitFile = FileType(rawValue: 0)
 
     /// Device - Read only, single File
     ///
@@ -88,7 +98,7 @@ public extension FileType {
     /// file structure/capabilities. The records provide details on the types of files
     /// a device supports, and restrictions/capabilities (if applicable) of the messages
     /// and fields contained within each file type.
-    public static let device = FileType(rawValue: 1)
+    static let device = FileType(rawValue: 1)
 
     /// Settings - Read/Write, single File
     ///
@@ -97,37 +107,37 @@ public extension FileType {
     /// device profiles (such as HRMs, SDMs and activity monitors). The profiles provide
     /// information about the user, bicycle, sensors that a device may pair to, and user
     /// interface preferences.
-    public static let settings = FileType(rawValue: 2)
+    static let settings = FileType(rawValue: 2)
 
     /// Sport - Read/write, multiple files
     ///
     /// The sports settings file contains information about the user’s desired target zones.
     /// The records provide details on the types of zones supported (such as heart rate or power),
     /// and the desired target levels. The sports settings file allows these values to be grouped by sport.
-    public static let sport = FileType(rawValue: 3)
+    static let sport = FileType(rawValue: 3)
 
     /// Activity - Read/write/erase, multiple files
     ///
     /// Activity files are used to record sensor data and events from an active session
-    public static let activity = FileType(rawValue: 4)
+    static let activity = FileType(rawValue: 4)
 
     /// Workout - Read/write/erase, multiple files
     ///
     /// A workout file describes a structured activity and guides a user through the activity.
     /// It can be designed on a computer and transferred to a display device or generated on the device itself.
-    public static let workout = FileType(rawValue: 5)
+    static let workout = FileType(rawValue: 5)
 
     /// Course - Read/write/erase, multiple files
     ///
     /// A course file contains data from a recorded activity that can be transferred to a display
     /// device to guide a user through the same activity.
-    public static let course = FileType(rawValue: 6)
+    static let course = FileType(rawValue: 6)
 
     /// Schedules - Read/write, single file
     ///
     /// Schedule files are used to schedule a user’s workouts and may contain multiple schedule
     /// messages each representing the start time of a workout.
-    public static let schedules = FileType(rawValue: 7)
+    static let schedules = FileType(rawValue: 7)
 
     /// Weight - Read, single file
     ///
@@ -137,52 +147,52 @@ public extension FileType {
     /// recording any weight messages. No definition messages should appear after weight data
     /// messages have been recorded. To link multiple data messages in a weight file, they must
     /// have identical timestamps.
-    public static let weight = FileType(rawValue: 9)
+    static let weight = FileType(rawValue: 9)
 
     /// Totals - Read, single file
     ///
     /// Totals files are used to summarize a user’s activities and may contain multiple totals
     /// messages each representing summaries of a different activity type/sport.
-    public static let totals = FileType(rawValue: 10)
+    static let totals = FileType(rawValue: 10)
 
     /// Goals - Read/write, single file
     ///
     /// Goals files allow a user to communicate their exercise/health goals. Goals may be set for
     /// a variety of activities, over specific periods of time, and with desired targets set according
     /// to total duration, calories consumed, distance travelled, number of steps taken and/or frequency of activity.
-    public static let goals = FileType(rawValue: 11)
+    static let goals = FileType(rawValue: 11)
 
     /// Blood Pressure - Read
-    public static let bloodPressure = FileType(rawValue: 14)
+    static let bloodPressure = FileType(rawValue: 14)
 
     /// Monitoring A - Read
-    public static let monitoringA = FileType(rawValue: 15)
+    static let monitoringA = FileType(rawValue: 15)
 
     /// Activity Summary - Read/erase
     ///
     /// Activity summary files are a compact version of the activity file.
-    public static let activitySummary = FileType(rawValue: 20)
+    static let activitySummary = FileType(rawValue: 20)
 
     /// Monitoring Daily
-    public static let monitoringDaily = FileType(rawValue: 28)
+    static let monitoringDaily = FileType(rawValue: 28)
 
     /// Monitoring B - Read
-    public static let monitoringB = FileType(rawValue: 32)
+    static let monitoringB = FileType(rawValue: 32)
 
     /// Segment - Read/write/erase
     ///
     /// Segment files contain data defining a route and timing information to gauge progress
     /// against previous performances or other users.
-    public static let segment = FileType(rawValue: 34)
+    static let segment = FileType(rawValue: 34)
 
     /// Segment List - Read/write/erase
     ///
     /// Segment List files maintain a list of available segments on the device.
-    public static let segmentList = FileType(rawValue: 35)
+    static let segmentList = FileType(rawValue: 35)
 
     /// Extd Configuration - Read/write/erase
-    public static let extdConfiguration = FileType(rawValue: 40)
+    static let extdConfiguration = FileType(rawValue: 40)
 
     /// Invalid
-    public static let invalid = FileType(rawValue: 255)
+    static let invalid = FileType(rawValue: 255)
 } 

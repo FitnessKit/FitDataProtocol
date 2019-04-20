@@ -43,12 +43,22 @@ public struct LateralRaiseExerciseName: ExerciseName {
 
 extension LateralRaiseExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension LateralRaiseExerciseName: Hashable {
 public extension LateralRaiseExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [LateralRaiseExerciseName] {
+    static var supportedExerciseNames: [LateralRaiseExerciseName] {
 
         return [.fortyFiveDegreeCableExternalRotation,
                 .alternatingLateralRaiseStaticHold,
@@ -112,7 +122,7 @@ public extension LateralRaiseExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> LateralRaiseExerciseName? {
+    static func create(rawValue: UInt16) -> LateralRaiseExerciseName? {
 
         for name in LateralRaiseExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -128,162 +138,162 @@ public extension LateralRaiseExerciseName {
 public extension LateralRaiseExerciseName {
 
     /// 45 Degree Cable External Rotation
-    public static var fortyFiveDegreeCableExternalRotation: LateralRaiseExerciseName {
+    static var fortyFiveDegreeCableExternalRotation: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "45 Degree Cable External Rotation", number: 0)
     }
 
     /// Alternating Lteral Raise with Static Hold
-    public static var alternatingLateralRaiseStaticHold: LateralRaiseExerciseName {
+    static var alternatingLateralRaiseStaticHold: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Alternating Lteral Raise with Static Hold", number: 1)
     }
 
     /// Bar Muscle Up
-    public static var barMuscleUp: LateralRaiseExerciseName {
+    static var barMuscleUp: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Bar Muscle Up", number: 2)
     }
 
     /// Bent Over Lateral Raise
-    public static var bentOverLateralRaise: LateralRaiseExerciseName {
+    static var bentOverLateralRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Bent Over Lateral Raise", number: 3)
     }
 
     /// Cable Diagonal Raise
-    public static var cableDiagonalRaise: LateralRaiseExerciseName {
+    static var cableDiagonalRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Cable Diagonal Raise", number: 4)
     }
 
     /// Cable Front Raise
-    public static var cableFrontRaise: LateralRaiseExerciseName {
+    static var cableFrontRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Cable Front Raise", number: 5)
     }
 
     /// Calorie Row
-    public static var calorieRow: LateralRaiseExerciseName {
+    static var calorieRow: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Calorie Row", number: 6)
     }
 
     /// Combo Shoulder Raise
-    public static var comboShoulderRaise: LateralRaiseExerciseName {
+    static var comboShoulderRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Combo Shoulder Raise", number: 7)
     }
 
     /// Dumbbell Diagonal Raise
-    public static var dumbbellDiagonalRaise: LateralRaiseExerciseName {
+    static var dumbbellDiagonalRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Dumbbell Diagonal Raise", number: 8)
     }
 
     /// Dumbbell V Raise
-    public static var dumbbellVRaise: LateralRaiseExerciseName {
+    static var dumbbellVRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Dumbbell V Raise", number: 9)
     }
 
     /// Front Raise
-    public static var frontRaise: LateralRaiseExerciseName {
+    static var frontRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Front Raise", number: 10)
     }
 
     /// Leaning Dumbbell Lateral Raise
-    public static var leaningDumbbellLateralRaise: LateralRaiseExerciseName {
+    static var leaningDumbbellLateralRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Leaning Dumbbell Lateral Raise", number: 11)
     }
 
     /// Lying Dumbbell Raise
-    public static var lyingDumbbellRaise: LateralRaiseExerciseName {
+    static var lyingDumbbellRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Lying Dumbbell Raise", number: 12)
     }
 
     /// Muscle Up
-    public static var muscleUp: LateralRaiseExerciseName {
+    static var muscleUp: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Muscle Up", number: 13)
     }
 
     /// One Arm Cable Lateral Raise
-    public static var oneArmCableLateralRaise: LateralRaiseExerciseName {
+    static var oneArmCableLateralRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "One Arm Cable Lateral Raise", number: 14)
     }
 
     /// Overhand Grip Rear Lateral Raise
-    public static var overhandGripRearLateralRaise: LateralRaiseExerciseName {
+    static var overhandGripRearLateralRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Overhand Grip Rear Lateral Raise", number: 15)
     }
 
     /// Plate Raises
-    public static var plateRaises: LateralRaiseExerciseName {
+    static var plateRaises: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Plate Raises", number: 16)
     }
 
     /// Ring Dip
-    public static var ringDip: LateralRaiseExerciseName {
+    static var ringDip: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Ring Dip", number: 17)
     }
 
     /// Weighted Ring Dip
-    public static var weightedRingDip: LateralRaiseExerciseName {
+    static var weightedRingDip: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Weighted Ring Dip", number: 18)
     }
 
     /// Ring Muscle Up
-    public static var ringMuscleUp: LateralRaiseExerciseName {
+    static var ringMuscleUp: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Ring Muscle Up", number: 19)
     }
 
     /// Weighted Ring Muscle Up
-    public static var weightedRingMuscleUp: LateralRaiseExerciseName {
+    static var weightedRingMuscleUp: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Weighted Ring Muscle Up", number: 20)
     }
 
     /// Rope Climb
-    public static var ropeClimb: LateralRaiseExerciseName {
+    static var ropeClimb: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Rope Climb", number: 21)
     }
 
     /// Weighted Rope Climb
-    public static var weightedRopeClimb: LateralRaiseExerciseName {
+    static var weightedRopeClimb: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Weighted Rope Climb", number: 22)
     }
 
     /// Scaption
-    public static var scaption: LateralRaiseExerciseName {
+    static var scaption: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Scaption", number: 23)
     }
 
     /// Seated Lateral Raise
-    public static var seatedLateralRaise: LateralRaiseExerciseName {
+    static var seatedLateralRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Seated Lateral Raise", number: 24)
     }
 
     /// Seated Rear Lateral Raise
-    public static var seatedRearLateralRaise: LateralRaiseExerciseName {
+    static var seatedRearLateralRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Seated Rear Lateral Raise", number: 25)
     }
 
     /// Side Lying Lateral Raise
-    public static var sideLyingLatralRaise: LateralRaiseExerciseName {
+    static var sideLyingLatralRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Side Lying Lateral Raise", number: 26)
     }
 
     /// Standing Lift
-    public static var standingLift: LateralRaiseExerciseName {
+    static var standingLift: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Standing Lift", number: 27)
     }
 
     /// Suspended Row
-    public static var suspendedRow: LateralRaiseExerciseName {
+    static var suspendedRow: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Suspended Row", number: 28)
     }
 
     /// Underhand Grip Rear Lateral Raise
-    public static var underhandGripRearLateralRaise: LateralRaiseExerciseName {
+    static var underhandGripRearLateralRaise: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Underhand Grip Rear Lateral Raise", number: 29)
     }
 
     /// Wall Slide
-    public static var wallSlide: LateralRaiseExerciseName {
+    static var wallSlide: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Wall Slide", number: 30)
     }
 
     /// Weighted Wall Slide
-    public static var weightedWallSlide: LateralRaiseExerciseName {
+    static var weightedWallSlide: LateralRaiseExerciseName {
         return LateralRaiseExerciseName(name: "Weighted Wall Slide", number: 31)
     }
 }

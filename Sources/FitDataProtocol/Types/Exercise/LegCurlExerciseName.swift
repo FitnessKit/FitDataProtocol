@@ -43,12 +43,22 @@ public struct LegCurlExerciseName: ExerciseName {
 
 extension LegCurlExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension LegCurlExerciseName: Hashable {
 public extension LegCurlExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [LegCurlExerciseName] {
+    static var supportedExerciseNames: [LegCurlExerciseName] {
 
         return [.legCurl,
                 .weightedLegCurl,
@@ -92,7 +102,7 @@ public extension LegCurlExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> LegCurlExerciseName? {
+    static func create(rawValue: UInt16) -> LegCurlExerciseName? {
 
         for name in LegCurlExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -108,62 +118,62 @@ public extension LegCurlExerciseName {
 public extension LegCurlExerciseName {
 
     /// Leg Curl
-    public static var legCurl: LegCurlExerciseName {
+    static var legCurl: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Leg Curl", number: 0)
     }
 
     /// Weighted Leg Curl
-    public static var weightedLegCurl: LegCurlExerciseName {
+    static var weightedLegCurl: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Weighted Leg Curl", number: 1)
     }
 
     /// Good Morning
-    public static var goodMorning: LegCurlExerciseName {
+    static var goodMorning: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Good Morning", number: 2)
     }
 
     /// Seated Barbell Good Morning
-    public static var seatedBarbellGoodMorning: LegCurlExerciseName {
+    static var seatedBarbellGoodMorning: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Seated Barbell Good Morning", number: 3)
     }
 
     /// Single Leg Barbell Good Morning
-    public static var singleLegBarbellGoodMorning: LegCurlExerciseName {
+    static var singleLegBarbellGoodMorning: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Single Leg Barbell Good Morning", number: 4)
     }
 
     /// Single Leg Sliding Leg Curl
-    public static var singleLegSlidingLegCurl: LegCurlExerciseName {
+    static var singleLegSlidingLegCurl: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Single Leg Sliding Leg Curl", number: 5)
     }
 
     /// Sliding Leg Curl
-    public static var slidingLegCurl: LegCurlExerciseName {
+    static var slidingLegCurl: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Sliding Leg Curl", number: 6)
     }
 
     /// Split Barbell Good Morning
-    public static var splitBarbellGoodMorning: LegCurlExerciseName {
+    static var splitBarbellGoodMorning: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Split Barbell Good Morning", number: 7)
     }
 
     /// Split Stance Extension
-    public static var splitStanceExtension: LegCurlExerciseName {
+    static var splitStanceExtension: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Split Stance Extension", number: 8)
     }
 
     /// Staggered Stance Good Morning
-    public static var staggeredStanceGoodMorning: LegCurlExerciseName {
+    static var staggeredStanceGoodMorning: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Staggered Stance Good Morning", number: 9)
     }
 
     /// Swiss Ball Hip Raise and Leg Curl
-    public static var swissBallHipRaiseLegCurl: LegCurlExerciseName {
+    static var swissBallHipRaiseLegCurl: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Swiss Ball Hip Raise and Leg Curl", number: 10)
     }
 
     /// Zercher Good Morning
-    public static var zercherGoodMorning: LegCurlExerciseName {
+    static var zercherGoodMorning: LegCurlExerciseName {
         return LegCurlExerciseName(name: "Zercher Good Morning", number: 11)
     }
 }

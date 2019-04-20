@@ -43,12 +43,22 @@ public struct CalfRaiseExerciseName: ExerciseName {
 
 extension CalfRaiseExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension CalfRaiseExerciseName: Hashable {
 public extension CalfRaiseExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [CalfRaiseExerciseName] {
+    static var supportedExerciseNames: [CalfRaiseExerciseName] {
 
         return [.threewayCalfRaise,
                 .threewayWeightedCalfRaise,
@@ -101,7 +111,7 @@ public extension CalfRaiseExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> CalfRaiseExerciseName? {
+    static func create(rawValue: UInt16) -> CalfRaiseExerciseName? {
 
         for name in CalfRaiseExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -117,107 +127,107 @@ public extension CalfRaiseExerciseName {
 public extension CalfRaiseExerciseName {
 
     /// 3-Way Calf Raise
-    public static var threewayCalfRaise: CalfRaiseExerciseName {
+    static var threewayCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "3-Way Calf Raise", number: 0)
     }
 
     /// 3-Way Weighted Calf Raise
-    public static var threewayWeightedCalfRaise: CalfRaiseExerciseName {
+    static var threewayWeightedCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "3-Way Weighted Calf Raise", number: 1)
     }
 
     /// 3-Way Single Leg Calf Raise
-    public static var threewaySingleLegCalfRaise: CalfRaiseExerciseName {
+    static var threewaySingleLegCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "3-Way Single Leg Calf Raise", number: 2)
     }
 
     /// 3-Way Weighted Single Leg Calf Raise
-    public static var threewaySingleWeightedLegCalfRaise: CalfRaiseExerciseName {
+    static var threewaySingleWeightedLegCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "3-Way Weighted Single Leg Calf Raise", number: 3)
     }
 
     /// Donkey Calf Raise
-    public static var donkeyCalfRaise: CalfRaiseExerciseName {
+    static var donkeyCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Donkey Calf Raise", number: 4)
     }
 
     /// Weighted Donkey Calf Raise
-    public static var weightedDonkeyCalfRaise: CalfRaiseExerciseName {
+    static var weightedDonkeyCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Weighted Donkey Calf Raise", number: 5)
     }
 
     /// Seated Calf Raise
-    public static var seatedCalfRaise: CalfRaiseExerciseName {
+    static var seatedCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Seated Calf Raise", number: 6)
     }
 
     /// Weighted Seated Calf Raise
-    public static var weightedSeatedCalfRaise: CalfRaiseExerciseName {
+    static var weightedSeatedCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Weighted Seated Calf Raise", number: 7)
     }
 
     /// Seated Dumbbell Toe Raise
-    public static var seatedDumbbellToeRaise: CalfRaiseExerciseName {
+    static var seatedDumbbellToeRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Seated Dumbbell Toe Raise", number: 8)
     }
 
     /// Single Leg Bent Knee Calf Raise
-    public static var singleLegBentKneeCalfRaise: CalfRaiseExerciseName {
+    static var singleLegBentKneeCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Single Leg Bent Knee Calf Raise", number: 9)
     }
 
     /// Weighted Single Leg Bent Knee Calf Raise
-    public static var weightedSingleLegBentKneeCalfRaise: CalfRaiseExerciseName {
+    static var weightedSingleLegBentKneeCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Weighted Single Leg Bent Knee Calf Raise", number: 10)
     }
 
     /// Single Leg Decline Push Up
-    public static var singleLegDeclinePushUp: CalfRaiseExerciseName {
+    static var singleLegDeclinePushUp: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Single Leg Decline Push Up", number: 11)
     }
 
     /// Single Leg Donkey Calf Raise
-    public static var singleLegDonkeyCalfRaise: CalfRaiseExerciseName {
+    static var singleLegDonkeyCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Single Leg Donkey Calf Raise", number: 12)
     }
 
     /// Weighted Single Leg Donkey Calf Raise
-    public static var weightedSingleLegDonkeyCalfRaise: CalfRaiseExerciseName {
+    static var weightedSingleLegDonkeyCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Weighted Single Leg Donkey Calf Raise", number: 13)
     }
 
     /// Single Leg Hip Raise With Knee Hold
-    public static var singleLegHipRaiseKneeHold: CalfRaiseExerciseName {
+    static var singleLegHipRaiseKneeHold: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Single Leg Hip Raise With Knee Hold", number: 14)
     }
 
     /// Single Leg Standing Calf Raise
-    public static var singleLegStandingCalfRaise: CalfRaiseExerciseName {
+    static var singleLegStandingCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Single Leg Standing Calf Raise", number: 15)
     }
 
     /// Single Leg Standing Dumbbell Calf Raise
-    public static var singleLegStandingDumbbellCalfRaise: CalfRaiseExerciseName {
+    static var singleLegStandingDumbbellCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Single Leg Standing Dumbbell Calf Raise", number: 16)
     }
 
     /// Standing Barbell Calf Raise
-    public static var standingBarbellCalfRaise: CalfRaiseExerciseName {
+    static var standingBarbellCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Standing Barbell Calf Raise", number: 17)
     }
 
     /// Standing Calf Raise
-    public static var standingCalfRaise: CalfRaiseExerciseName {
+    static var standingCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Standing Calf Raise", number: 18)
     }
 
     /// Weighted Standing Calf Raise
-    public static var weightedStandingCalfRaise: CalfRaiseExerciseName {
+    static var weightedStandingCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Weighted Standing Calf Raise", number: 19)
     }
 
     /// Weighted Standing Dumbbell Calf Raise
-    public static var weightedStandingDumbbellCalfRaise: CalfRaiseExerciseName {
+    static var weightedStandingDumbbellCalfRaise: CalfRaiseExerciseName {
         return CalfRaiseExerciseName(name: "Weighted Standing Dumbbell Calf Raise", number: 20)
     }
 }

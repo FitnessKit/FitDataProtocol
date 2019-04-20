@@ -43,12 +43,22 @@ public struct CarryExerciseName: ExerciseName {
 
 extension CarryExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension CarryExerciseName: Hashable {
 public extension CarryExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [CarryExerciseName] {
+    static var supportedExerciseNames: [CarryExerciseName] {
 
         return [.barHolds,
                 .farmersWalk,
@@ -85,7 +95,7 @@ public extension CarryExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> CarryExerciseName? {
+    static func create(rawValue: UInt16) -> CarryExerciseName? {
 
         for name in CarryExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -101,27 +111,27 @@ public extension CarryExerciseName {
 public extension CarryExerciseName {
 
     /// Bar Holds
-    public static var barHolds: CarryExerciseName {
+    static var barHolds: CarryExerciseName {
         return CarryExerciseName(name: "Bar Holds", number: 0)
     }
 
     /// Farmers Walk
-    public static var farmersWalk: CarryExerciseName {
+    static var farmersWalk: CarryExerciseName {
         return CarryExerciseName(name: "Farmers Walk", number: 1)
     }
 
     /// Farmers Walk on Toes
-    public static var farmersWalkOnToes: CarryExerciseName {
+    static var farmersWalkOnToes: CarryExerciseName {
         return CarryExerciseName(name: "Farmers Walk on Toes", number: 2)
     }
 
     /// Hex Dumbbell Hold
-    public static var hexDumbbellHold: CarryExerciseName {
+    static var hexDumbbellHold: CarryExerciseName {
         return CarryExerciseName(name: "Hex Dumbbell Hold", number: 3)
     }
 
     /// Overhead Carry
-    public static var overheadCarry: CarryExerciseName {
+    static var overheadCarry: CarryExerciseName {
         return CarryExerciseName(name: "Overhead Carry", number: 4)
     }
 }

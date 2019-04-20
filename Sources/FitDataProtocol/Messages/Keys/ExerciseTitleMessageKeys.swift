@@ -48,16 +48,16 @@ extension ExerciseTitleMessage: FitMessageKeys {
 
 public extension ExerciseTitleMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.type }
+    var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension ExerciseTitleMessage.FitCodingKeys {
 
     /// Key Base Resolution
-    internal var resolution: Resolution { return self.baseData.resolution }
+    var resolution: Resolution { return self.baseData.resolution }
 
     /// Key Base Data
-    internal var baseData: BaseData {
+    var baseData: BaseData {
         switch self {
         case .messageIndex:
             return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
@@ -76,11 +76,11 @@ internal extension ExerciseTitleMessage.FitCodingKeys {
 // Encoding
 internal extension ExerciseTitleMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: ExerciseCategory) throws -> Data {
+    func encodeKeyed(value: ExerciseCategory) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: ExerciseNameType) throws -> Data {
+    func encodeKeyed(value: ExerciseNameType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.number, resolution: self.resolution)
     }
 }

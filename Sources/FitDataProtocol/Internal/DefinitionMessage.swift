@@ -71,7 +71,7 @@ internal extension DefinitionMessage {
     /// Encodes the DefinitionMessage into Data
     ///
     /// - Returns: Data representation
-    internal func encode() -> Data {
+    func encode() -> Data {
         var msgData = Data()
 
         msgData.append(UInt8(0))
@@ -86,7 +86,7 @@ internal extension DefinitionMessage {
         return msgData
     }
 
-    internal static func decode(decoder: inout DecodeData, data: Data, header: RecordHeader) throws -> DefinitionMessage {
+    static func decode(decoder: inout DecodeData, data: Data, header: RecordHeader) throws -> DefinitionMessage {
 
         // Reserved Byte
         let _ = decoder.decodeUInt8(data)

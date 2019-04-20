@@ -43,12 +43,22 @@ public struct FlyeExerciseName: ExerciseName {
 
 extension FlyeExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension FlyeExerciseName: Hashable {
 public extension FlyeExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [FlyeExerciseName] {
+    static var supportedExerciseNames: [FlyeExerciseName] {
 
         return [.cableCrossover,
                 .declineDumbbellFlye,
@@ -88,7 +98,7 @@ public extension FlyeExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> FlyeExerciseName? {
+    static func create(rawValue: UInt16) -> FlyeExerciseName? {
 
         for name in FlyeExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -104,42 +114,42 @@ public extension FlyeExerciseName {
 public extension FlyeExerciseName {
 
     /// Cable Crossover
-    public static var cableCrossover: FlyeExerciseName {
+    static var cableCrossover: FlyeExerciseName {
         return FlyeExerciseName(name: "Cable Crossover", number: 0)
     }
 
     /// Decline Dumbbell Flye
-    public static var declineDumbbellFlye: FlyeExerciseName {
+    static var declineDumbbellFlye: FlyeExerciseName {
         return FlyeExerciseName(name: "Decline Dumbbell Flye", number: 1)
     }
 
     /// Dumbbell Flye
-    public static var dumbbellFlye: FlyeExerciseName {
+    static var dumbbellFlye: FlyeExerciseName {
         return FlyeExerciseName(name: "Dumbbell Flye", number: 2)
     }
 
     /// Incline Dumbbell Flye
-    public static var inclineDumbbellFlye: FlyeExerciseName {
+    static var inclineDumbbellFlye: FlyeExerciseName {
         return FlyeExerciseName(name: "Incline Dumbbell Flye", number: 3)
     }
 
     /// Kettlebell Flye
-    public static var kettlebellFlye: FlyeExerciseName {
+    static var kettlebellFlye: FlyeExerciseName {
         return FlyeExerciseName(name: "Kettlebell Flye", number: 4)
     }
 
     /// Kneeling Rear Flye
-    public static var kneelingRearFlye: FlyeExerciseName {
+    static var kneelingRearFlye: FlyeExerciseName {
         return FlyeExerciseName(name: "Kneeling Rear Flye", number: 5)
     }
 
     /// Single Arm Standing Cable Reverse Flye
-    public static var singleArmStandingCableReverseFlye: FlyeExerciseName {
+    static var singleArmStandingCableReverseFlye: FlyeExerciseName {
         return FlyeExerciseName(name: "Single Arm Standing Cable Reverse Flye", number: 6)
     }
 
     /// Swiss Ball Dumbbell Flye
-    public static var swissBallDumbbellFlye: FlyeExerciseName {
+    static var swissBallDumbbellFlye: FlyeExerciseName {
         return FlyeExerciseName(name: "Swiss Ball Dumbbell Flye", number: 7)
     }
 

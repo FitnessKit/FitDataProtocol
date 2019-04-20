@@ -43,12 +43,22 @@ public struct OlympicLiftExerciseName: ExerciseName {
 
 extension OlympicLiftExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension OlympicLiftExerciseName: Hashable {
 public extension OlympicLiftExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [OlympicLiftExerciseName] {
+    static var supportedExerciseNames: [OlympicLiftExerciseName] {
 
         return [.barbellHangPowerClean,
                 .barbellHangSquatClean,
@@ -101,7 +111,7 @@ public extension OlympicLiftExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> OlympicLiftExerciseName? {
+    static func create(rawValue: UInt16) -> OlympicLiftExerciseName? {
 
         for name in OlympicLiftExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -117,107 +127,107 @@ public extension OlympicLiftExerciseName {
 public extension OlympicLiftExerciseName {
 
     /// Barbell Hang Power Clean
-    public static var barbellHangPowerClean: OlympicLiftExerciseName {
+    static var barbellHangPowerClean: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Hang Power Clean", number: 0)
     }
 
     /// Barbell Hang Squat Clean
-    public static var barbellHangSquatClean: OlympicLiftExerciseName {
+    static var barbellHangSquatClean: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Hang Squat Clean", number: 1)
     }
 
     /// Barbell Power Clean
-    public static var barbellPowerClean: OlympicLiftExerciseName {
+    static var barbellPowerClean: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Power Clean", number: 2)
     }
 
     /// Barbell Power Snatch
-    public static var barbellPowerSnatch: OlympicLiftExerciseName {
+    static var barbellPowerSnatch: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Power Snatch", number: 3)
     }
 
     /// Barbell Squat Clean
-    public static var barbellSquatClean: OlympicLiftExerciseName {
+    static var barbellSquatClean: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Squat Clean", number: 4)
     }
 
     /// Clean and Jerk
-    public static var cleanJerk: OlympicLiftExerciseName {
+    static var cleanJerk: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Clean and Jerk", number: 5)
     }
 
     /// Barbell Hang Power Snatch
-    public static var barbellHangPowerSnatch: OlympicLiftExerciseName {
+    static var barbellHangPowerSnatch: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Hang Power Snatch", number: 6)
     }
 
     /// Barbell Hang Pull
-    public static var barbellHangPull: OlympicLiftExerciseName {
+    static var barbellHangPull: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Hang Pull", number: 7)
     }
 
     /// Barbell High Pull
-    public static var barbellHighPull: OlympicLiftExerciseName {
+    static var barbellHighPull: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell High Pull", number: 8)
     }
 
     /// Barbell Snatch
-    public static var barbellSnatch: OlympicLiftExerciseName {
+    static var barbellSnatch: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Snatch", number: 9)
     }
 
     /// Barbell Split Jerk
-    public static var barbellSplitJerk: OlympicLiftExerciseName {
+    static var barbellSplitJerk: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Barbell Split Jerk", number: 10)
     }
 
     /// Clean
-    public static var clean: OlympicLiftExerciseName {
+    static var clean: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Clean", number: 11)
     }
 
     /// Dumbbell Clean
-    public static var dumbbellClean: OlympicLiftExerciseName {
+    static var dumbbellClean: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Dumbbell Clean", number: 12)
     }
 
     /// Dumbbell Hang Pull
-    public static var dumbbellHangPull: OlympicLiftExerciseName {
+    static var dumbbellHangPull: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Dumbbell Hang Pull", number: 13)
     }
 
     /// One Hand Dumbbell Split Snatch
-    public static var oneHandDumbbellSplitSnatch: OlympicLiftExerciseName {
+    static var oneHandDumbbellSplitSnatch: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "One Hand Dumbbell Split Snatch", number: 14)
     }
 
     /// Push Jerk
-    public static var pushJerk: OlympicLiftExerciseName {
+    static var pushJerk: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Push Jerk", number: 15)
     }
 
     /// Single Arm Dumbbell Snatch
-    public static var singleArmDumbbellSnatch: OlympicLiftExerciseName {
+    static var singleArmDumbbellSnatch: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Single Arm Dumbbell Snatch", number: 16)
     }
 
     /// Single Arm Hang Snatch
-    public static var singleArmHangSnatch: OlympicLiftExerciseName {
+    static var singleArmHangSnatch: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Single Arm Hang Snatch", number: 17)
     }
 
     /// Single Arm Kettelbell Snatch
-    public static var singleArmKettlebellSnatch: OlympicLiftExerciseName {
+    static var singleArmKettlebellSnatch: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Single Arm Kettelbell Snatch", number: 18)
     }
 
     /// Split Jerk
-    public static var splitJerk: OlympicLiftExerciseName {
+    static var splitJerk: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Split Jerk", number: 19)
     }
 
     /// Squat Clean and Jerk
-    public static var squatCleanJerk: OlympicLiftExerciseName {
+    static var squatCleanJerk: OlympicLiftExerciseName {
         return OlympicLiftExerciseName(name: "Squat Clean and Jerk", number: 20)
     }
 }

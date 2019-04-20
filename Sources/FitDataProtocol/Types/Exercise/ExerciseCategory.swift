@@ -102,7 +102,8 @@ public enum ExerciseCategory: UInt16 {
 
 internal extension ExerciseCategory {
 
-    internal var validExerciseNameType: ExerciseNameType.Type? {
+    /// Gets the Valid Exercise Name Type
+    var validExerciseNameType: ExerciseNameType.Type? {
         switch self {
         case .benchPress:
             return BenchPressExerciseName.self
@@ -181,14 +182,14 @@ internal extension ExerciseCategory {
 
 internal extension ExerciseCategory {
 
-    internal func exerciseName(from: UInt16) -> ExerciseNameType? {
+    func exerciseName(from: UInt16) -> ExerciseNameType? {
         return validExerciseNameType?.create(rawValue: from)
     }
 }
 
 internal extension ExerciseCategory {
 
-    internal static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ExerciseCategory? {
+    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ExerciseCategory? {
 
         let value = decoder.decodeUInt16(data.fieldData)
         if value.isValidForBaseType(definition.baseType) {

@@ -48,16 +48,16 @@ extension SportMessage: FitMessageKeys {
 
 public extension SportMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.type }
+    var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension SportMessage.FitCodingKeys {
 
     /// Key Base Resolution
-    internal var resolution: Resolution { return self.baseData.resolution }
+    var resolution: Resolution { return self.baseData.resolution }
 
     /// Key Base Data
-    internal var baseData: BaseData {
+    var baseData: BaseData {
         switch self {
         case .timestamp:
             // 1 * s + 0
@@ -77,11 +77,11 @@ internal extension SportMessage.FitCodingKeys {
 // Encoding
 internal extension SportMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: Sport) throws -> Data {
+    func encodeKeyed(value: Sport) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: SubSport) throws -> Data {
+    func encodeKeyed(value: SubSport) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }

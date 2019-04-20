@@ -43,14 +43,24 @@ public struct HipSwingExerciseName: ExerciseName {
 
 extension HipSwingExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
-    
+
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -69,7 +79,7 @@ extension HipSwingExerciseName: Hashable {
 public extension HipSwingExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [HipSwingExerciseName] {
+    static var supportedExerciseNames: [HipSwingExerciseName] {
 
         return [.armKettlebellSwing,
                 .singleArmDumbbellSwing,
@@ -84,7 +94,7 @@ public extension HipSwingExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> HipSwingExerciseName? {
+    static func create(rawValue: UInt16) -> HipSwingExerciseName? {
 
         for name in HipSwingExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -100,17 +110,17 @@ public extension HipSwingExerciseName {
 public extension HipSwingExerciseName {
 
     /// Arm Kettlebell Swing
-    public static var armKettlebellSwing: HipSwingExerciseName {
+    static var armKettlebellSwing: HipSwingExerciseName {
         return HipSwingExerciseName(name: "Arm Kettlebell Swing", number: 0)
     }
 
     /// Single Arm Dumbbell Swing
-    public static var singleArmDumbbellSwing: HipSwingExerciseName {
+    static var singleArmDumbbellSwing: HipSwingExerciseName {
         return HipSwingExerciseName(name: "Single Arm Dumbbell Swing", number: 1)
     }
 
     /// Step Out Swing
-    public static var stepOutSwing: HipSwingExerciseName {
+    static var stepOutSwing: HipSwingExerciseName {
         return HipSwingExerciseName(name: "Step Out Swing", number: 2)
     }
 }

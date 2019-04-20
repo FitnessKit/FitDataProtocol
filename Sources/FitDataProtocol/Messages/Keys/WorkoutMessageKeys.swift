@@ -53,16 +53,16 @@ extension WorkoutMessage: FitMessageKeys {
 
 public extension WorkoutMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.type }
+    var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension WorkoutMessage.FitCodingKeys {
 
     /// Key Base Resolution
-    internal var resolution: Resolution { return self.baseData.resolution }
+    var resolution: Resolution { return self.baseData.resolution }
 
     /// Key Base Data
-    internal var baseData: BaseData {
+    var baseData: BaseData {
         switch self {
         case .sport:
             return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
@@ -87,7 +87,7 @@ internal extension WorkoutMessage.FitCodingKeys {
 // Encoding
 internal extension WorkoutMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: MeasurementDisplayType) throws -> Data {
+    func encodeKeyed(value: MeasurementDisplayType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
@@ -95,11 +95,11 @@ internal extension WorkoutMessage.FitCodingKeys {
 // Encoding
 internal extension WorkoutMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: Sport) throws -> Data {
+    func encodeKeyed(value: Sport) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: SubSport) throws -> Data {
+    func encodeKeyed(value: SubSport) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }

@@ -43,12 +43,22 @@ public struct PullUpExerciseName: ExerciseName {
 
 extension PullUpExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension PullUpExerciseName: Hashable {
 public extension PullUpExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [PullUpExerciseName] {
+    static var supportedExerciseNames: [PullUpExerciseName] {
 
         return [.bandedPullUp,
                 .thirtyDegreeLatPulldown,
@@ -118,7 +128,7 @@ public extension PullUpExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> PullUpExerciseName? {
+    static func create(rawValue: UInt16) -> PullUpExerciseName? {
 
         for name in PullUpExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -134,197 +144,197 @@ public extension PullUpExerciseName {
 public extension PullUpExerciseName {
 
     /// Banded Pull Up
-    public static var bandedPullUp: PullUpExerciseName {
+    static var bandedPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Banded Pull Up", number: 0)
     }
 
     /// 30 Degree Lat Pulldown
-    public static var thirtyDegreeLatPulldown: PullUpExerciseName {
+    static var thirtyDegreeLatPulldown: PullUpExerciseName {
         return PullUpExerciseName(name: "30 Degree Lat Pulldown", number: 1)
     }
 
     /// Band Assisted Chin Up
-    public static var bandAssistedChinUp: PullUpExerciseName {
+    static var bandAssistedChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Band Assisted Chin Up", number: 2)
     }
 
     /// Close Grip Chin Up
-    public static var closeGripChinUp: PullUpExerciseName {
+    static var closeGripChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Close Grip Chin Up", number: 3)
     }
 
     /// Weighted Close Grip Chin Up
-    public static var weightedCloseGripChinUp: PullUpExerciseName {
+    static var weightedCloseGripChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Close Grip Chin Up", number: 4)
     }
 
     /// Close Grip Lat Pulldown
-    public static var closeGripLatPulldown: PullUpExerciseName {
+    static var closeGripLatPulldown: PullUpExerciseName {
         return PullUpExerciseName(name: "Close Grip Lat Pulldown", number: 5)
     }
 
     /// Crossover Chin Up
-    public static var crossoverChinUp: PullUpExerciseName {
+    static var crossoverChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Crossover Chin Up", number: 6)
     }
 
     /// Weighted Crossover Chin Up
-    public static var weightedCrossoverChinUp: PullUpExerciseName {
+    static var weightedCrossoverChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Crossover Chin Up", number: 7)
     }
 
     /// EZ Bar Pullover
-    public static var ezBarPullover: PullUpExerciseName {
+    static var ezBarPullover: PullUpExerciseName {
         return PullUpExerciseName(name: "EZ Bar Pullover", number: 8)
     }
 
     /// Hanging Hurdle
-    public static var hangingHurdle: PullUpExerciseName {
+    static var hangingHurdle: PullUpExerciseName {
         return PullUpExerciseName(name: "Hanging Hurdle", number: 9)
     }
 
     /// Weighted Hanging Hurdle
-    public static var weightedHangingHurdle: PullUpExerciseName {
+    static var weightedHangingHurdle: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Hanging Hurdle", number: 10)
     }
 
     /// Kneeling Lat Pulldown
-    public static var kneelingLatPulldown: PullUpExerciseName {
+    static var kneelingLatPulldown: PullUpExerciseName {
         return PullUpExerciseName(name: "Kneeling Lat Pulldown", number: 11)
     }
 
     /// Kneeling Underhand Grip Lat Pulldown
-    public static var kneelingUnderhandGripLatPulldown: PullUpExerciseName {
+    static var kneelingUnderhandGripLatPulldown: PullUpExerciseName {
         return PullUpExerciseName(name: "Kneeling Underhand Grip Lat Pulldown", number: 12)
     }
 
     /// Lat Pulldown
-    public static var latPulldown: PullUpExerciseName {
+    static var latPulldown: PullUpExerciseName {
         return PullUpExerciseName(name: "Lat Pulldown", number: 13)
     }
 
     /// Mixed Grip Chin Up
-    public static var mixedGripChinUp: PullUpExerciseName {
+    static var mixedGripChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Mixed Grip Chin Up", number: 14)
     }
 
     /// Weighted Mixed Grip Chin Up
-    public static var weightedMixedGripChinUp: PullUpExerciseName {
+    static var weightedMixedGripChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Mixed Grip Chin Up", number: 15)
     }
 
     /// Mixed Grip Pull Up
-    public static var mixedGripPullUp: PullUpExerciseName {
+    static var mixedGripPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Mixed Grip Pull Up", number: 16)
     }
 
     /// Weighted Mixed Grip Pull Up
-    public static var weightedMixedGripPullUp: PullUpExerciseName {
+    static var weightedMixedGripPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Mixed Grip Pull Up", number: 17)
     }
 
     /// Reverse Grip Pulldown
-    public static var reverseGripPulldown: PullUpExerciseName {
+    static var reverseGripPulldown: PullUpExerciseName {
         return PullUpExerciseName(name: "Reverse Grip Pulldown", number: 18)
     }
 
     /// Standing Cable Pullover
-    public static var standingCablePullover: PullUpExerciseName {
+    static var standingCablePullover: PullUpExerciseName {
         return PullUpExerciseName(name: "Standing Cable Pullover", number: 19)
     }
 
     /// Straight Arm Pulldown
-    public static var straightArmPulldown: PullUpExerciseName {
+    static var straightArmPulldown: PullUpExerciseName {
         return PullUpExerciseName(name: "Straight Arm Pulldown", number: 20)
     }
 
     /// Swiss Ball EZ Bar Pullover
-    public static var swissBallEzBarPullover: PullUpExerciseName {
+    static var swissBallEzBarPullover: PullUpExerciseName {
         return PullUpExerciseName(name: "Swiss Ball EZ Bar Pullover", number: 21)
     }
 
     /// Towel Pull Up
-    public static var towelPullUp: PullUpExerciseName {
+    static var towelPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Towel Pull Up", number: 22)
     }
 
     /// Weighted Towel Pull Up
-    public static var weightedTowelPullUp: PullUpExerciseName {
+    static var weightedTowelPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Towel Pull Up", number: 23)
     }
 
     /// Weighted Pull Up
-    public static var weightedPullUp: PullUpExerciseName {
+    static var weightedPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Pull Up", number: 24)
     }
 
     /// Wide Grip Lat Pulldown
-    public static var wideGripLatPulldown: PullUpExerciseName {
+    static var wideGripLatPulldown: PullUpExerciseName {
         return PullUpExerciseName(name: "Wide Grip Lat Pulldown", number: 25)
     }
 
     /// Wide Grip Pull Up
-    public static var wideGripPullUp: PullUpExerciseName {
+    static var wideGripPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Wide Grip Pull Up", number: 26)
     }
 
     /// Weighted Wide Grip Pull Up
-    public static var weightedWideGripPullUp: PullUpExerciseName {
+    static var weightedWideGripPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Wide Grip Pull Up", number: 27)
     }
 
     /// Burpee Pull Up
-    public static var burpeePullUp: PullUpExerciseName {
+    static var burpeePullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Burpee Pull Up", number: 28)
     }
 
     /// Weighted Burpee Pull Up
-    public static var weightedBurpeePullUp: PullUpExerciseName {
+    static var weightedBurpeePullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Burpee Pull Up", number: 29)
     }
 
     /// Jumping Pull Up
-    public static var jumpingPullUps: PullUpExerciseName {
+    static var jumpingPullUps: PullUpExerciseName {
         return PullUpExerciseName(name: "Jumping Pull Up", number: 30)
     }
 
     /// Weighted Jumping Pull Up
-    public static var weightedJumpingPullUps: PullUpExerciseName {
+    static var weightedJumpingPullUps: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Jumping Pull Up", number: 31)
     }
 
     /// Kipping Pull Up
-    public static var kippingPullUp: PullUpExerciseName {
+    static var kippingPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Kipping Pull Up", number: 32)
     }
 
     /// Weighted Kipping Pull Up
-    public static var weightedKippingPullUp: PullUpExerciseName {
+    static var weightedKippingPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Kipping Pull Up", number: 33)
     }
 
     /// L Pull Up
-    public static var lPullUp: PullUpExerciseName {
+    static var lPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "L Pull Up", number: 34)
     }
 
     /// Weighted L Pull Up
-    public static var weightedLPullUp: PullUpExerciseName {
+    static var weightedLPullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted L Pull Up", number: 35)
     }
 
     /// Suspended Chin Up
-    public static var suspendedChinUp: PullUpExerciseName {
+    static var suspendedChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Suspended Chin Up", number: 36)
     }
 
     /// Weighted Suspended Chin Up
-    public static var weightedSuspendedChinUp: PullUpExerciseName {
+    static var weightedSuspendedChinUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Weighted Suspended Chin Up", number: 37)
     }
 
     /// Pull Up
-    public static var pullUp: PullUpExerciseName {
+    static var pullUp: PullUpExerciseName {
         return PullUpExerciseName(name: "Pull Up", number: 38)
     }
 }

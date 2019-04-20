@@ -54,7 +54,7 @@ internal struct RecordHeader {
 
 internal extension RecordHeader {
 
-    internal static func decode(decoder: inout DecodeData, data: Data) throws -> RecordHeader {
+    static func decode(decoder: inout DecodeData, data: Data) throws -> RecordHeader {
 
         let header = decoder.decodeUInt8(data)
 

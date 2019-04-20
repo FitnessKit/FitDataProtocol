@@ -43,12 +43,22 @@ public struct RowExerciseName: ExerciseName {
 
 extension RowExerciseName: Hashable {
 
-    /// The hash value.
+    /// Hashes the essential components of this value by feeding them into the
+    /// given hasher.
     ///
-    /// Hash values are not guaranteed to be equal across different executions of
-    /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
-        return name.hashValue ^ number.hashValue
+    /// Implement this method to conform to the `Hashable` protocol. The
+    /// components used for hashing must be the same as the components compared
+    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
+    /// with each of these components.
+    ///
+    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
+    ///   compile-time error in the future.
+    ///
+    /// - Parameter hasher: The hasher to use when combining the components
+    ///   of this instance.
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(number)
     }
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -68,7 +78,7 @@ extension RowExerciseName: Hashable {
 public extension RowExerciseName {
 
     /// List of Supported ExerciseNames
-    public static var supportedExerciseNames: [RowExerciseName] {
+    static var supportedExerciseNames: [RowExerciseName] {
 
         return [.barbellStraightLegDeadliftRow,
                 .cableRowStanding,
@@ -113,7 +123,7 @@ public extension RowExerciseName {
     ///
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
-    public static func create(rawValue: UInt16) -> RowExerciseName? {
+    static func create(rawValue: UInt16) -> RowExerciseName? {
 
         for name in RowExerciseName.supportedExerciseNames {
             if name.number == rawValue {
@@ -129,167 +139,167 @@ public extension RowExerciseName {
 public extension RowExerciseName {
 
     /// Barbell Straight Leg Deadlift to Row
-    public static var barbellStraightLegDeadliftRow: RowExerciseName {
+    static var barbellStraightLegDeadliftRow: RowExerciseName {
         return RowExerciseName(name: "Barbell Straight Leg Deadlift to Row", number: 0)
     }
 
     /// Cable Row Standing
-    public static var cableRowStanding: RowExerciseName {
+    static var cableRowStanding: RowExerciseName {
         return RowExerciseName(name: "Cable Row Standing", number: 1)
     }
 
     /// Dumbbell Row
-    public static var dumbbellRow: RowExerciseName {
+    static var dumbbellRow: RowExerciseName {
         return RowExerciseName(name: "Dumbbell Row", number: 2)
     }
 
     /// Elevated Feet Inverted Row
-    public static var elevatedFeetInvertedRow: RowExerciseName {
+    static var elevatedFeetInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Elevated Feet Inverted Row", number: 3)
     }
 
     /// Weighted Elevated Feet Inverted Row
-    public static var weightedElevatedFeetInvertedRow: RowExerciseName {
+    static var weightedElevatedFeetInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Weighted Elevated Feet Inverted Row", number: 4)
     }
 
     /// Face Pull
-    public static var facePull: RowExerciseName {
+    static var facePull: RowExerciseName {
         return RowExerciseName(name: "Face Pull", number: 5)
     }
 
     /// Face Pull with External Rotation
-    public static var facePullExternalRotation: RowExerciseName {
+    static var facePullExternalRotation: RowExerciseName {
         return RowExerciseName(name: "Face Pull with External Rotation", number: 6)
     }
 
     /// Inverted Row with Feet on Swiss Ball
-    public static var intertedRowFeetSwissBall: RowExerciseName {
+    static var intertedRowFeetSwissBall: RowExerciseName {
         return RowExerciseName(name: "Inverted Row with Feet on Swiss Ball", number: 7)
     }
 
     /// Weighted Inverted Row with Feet on Swiss Ball
-    public static var weightedIntertedRowFeetSwissBall: RowExerciseName {
+    static var weightedIntertedRowFeetSwissBall: RowExerciseName {
         return RowExerciseName(name: "Weighted Inverted Row with Feet on Swiss Ball", number: 8)
     }
 
     /// Kettlebell Row
-    public static var kettlebellRow: RowExerciseName {
+    static var kettlebellRow: RowExerciseName {
         return RowExerciseName(name: "Kettlebell Row", number: 9)
     }
 
     /// Modified Inverted Row
-    public static var modifiedInvertedRow: RowExerciseName {
+    static var modifiedInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Modified Inverted Row", number: 10)
     }
 
     /// Weighted Modified Inverted Row
-    public static var weightedModifiedInvertedRow: RowExerciseName {
+    static var weightedModifiedInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Weighted Modified Inverted Row", number: 11)
     }
 
     /// Neutral Grip Alternating Dumbbell Row
-    public static var neutralGripAlternatingDumbbellRow: RowExerciseName {
+    static var neutralGripAlternatingDumbbellRow: RowExerciseName {
         return RowExerciseName(name: "Neutral Grip Alternating Dumbbell Row", number: 12)
     }
 
     /// One Arm Bent Over Row
-    public static var oneArmBentOverRow: RowExerciseName {
+    static var oneArmBentOverRow: RowExerciseName {
         return RowExerciseName(name: "One Arm Bent Over Row", number: 13)
     }
 
     /// One Legged Dumbbell Row
-    public static var oneLeggedDumbbellRow: RowExerciseName {
+    static var oneLeggedDumbbellRow: RowExerciseName {
         return RowExerciseName(name: "One Legged Dumbbell Row", number: 14)
     }
 
     /// Renegade Row
-    public static var renegadeRow: RowExerciseName {
+    static var renegadeRow: RowExerciseName {
         return RowExerciseName(name: "Renegade Row", number: 15)
     }
 
     /// Reverse Grip Barbrell Row
-    public static var reverseGripBarbellRow: RowExerciseName {
+    static var reverseGripBarbellRow: RowExerciseName {
         return RowExerciseName(name: "Reverse Grip Barbrell Row", number: 16)
     }
 
     /// Rope Handle Cable Row
-    public static var ropeHandleCableRow: RowExerciseName {
+    static var ropeHandleCableRow: RowExerciseName {
         return RowExerciseName(name: "Rope Handle Cable Row", number: 17)
     }
 
     /// Seated Cable Row
-    public static var seatedCableRow: RowExerciseName {
+    static var seatedCableRow: RowExerciseName {
         return RowExerciseName(name: "Seated Cable Row", number: 18)
     }
 
     /// Seated Dumbbell Row
-    public static var seatedDumbbellRow: RowExerciseName {
+    static var seatedDumbbellRow: RowExerciseName {
         return RowExerciseName(name: "Seated Dumbbell Row", number: 19)
     }
 
     /// Single Arm Cable Row
-    public static var singleArmCableRow: RowExerciseName {
+    static var singleArmCableRow: RowExerciseName {
         return RowExerciseName(name: "Single Arm Cable Row", number: 20)
     }
 
     /// Single Arm Cable Row and Rotation
-    public static var singleArmCableRowRotation: RowExerciseName {
+    static var singleArmCableRowRotation: RowExerciseName {
         return RowExerciseName(name: "Single Arm Cable Row and Rotation", number: 21)
     }
 
     /// Single Arm Inverted Row
-    public static var singleArmInvertedRow: RowExerciseName {
+    static var singleArmInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Single Arm Inverted Row", number: 22)
     }
 
     /// Weighted Single Arm Inverted Row
-    public static var weightedSingleArmInvertedRow: RowExerciseName {
+    static var weightedSingleArmInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Weighted Single Arm Inverted Row", number: 23)
     }
 
     /// Single Arm Neutral Grip Dumbbell Row and Rotation
-    public static var singleArmNeutralGripDumbbellRowRotation: RowExerciseName {
+    static var singleArmNeutralGripDumbbellRowRotation: RowExerciseName {
         return RowExerciseName(name: "Single Arm Neutral Grip Dumbbell Row and Rotation", number: 25)
     }
 
     /// Suspended Inverted Row
-    public static var suspendedInvertedRow: RowExerciseName {
+    static var suspendedInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Suspended Inverted Row", number: 26)
     }
 
     /// Weighted Suspended Inverted Row
-    public static var weightedSuspendedInvertedRow: RowExerciseName {
+    static var weightedSuspendedInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Weighted Suspended Inverted Row", number: 27)
     }
 
     /// T Bar Row
-    public static var tBarRow: RowExerciseName {
+    static var tBarRow: RowExerciseName {
         return RowExerciseName(name: "T Bar Row", number: 28)
     }
 
     /// Towel Grip Inverted Row
-    public static var towelGripInvertedRow: RowExerciseName {
+    static var towelGripInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Towel Grip Inverted Row", number: 29)
     }
 
     /// Weighted Towel Grip Inverted Row
-    public static var weightedTowelGripInvertedRow: RowExerciseName {
+    static var weightedTowelGripInvertedRow: RowExerciseName {
         return RowExerciseName(name: "Weighted Towel Grip Inverted Row", number: 30)
     }
 
     /// Underhand Grip Cable Row
-    public static var underhandGripCableRow: RowExerciseName {
+    static var underhandGripCableRow: RowExerciseName {
         return RowExerciseName(name: "Underhand Grip Cable Row", number: 31)
     }
 
     /// V Grip Cable Row
-    public static var vGripCableRow: RowExerciseName {
+    static var vGripCableRow: RowExerciseName {
         return RowExerciseName(name: "V Grip Cable Row", number: 32)
     }
 
     /// Wide Grip Seated Cable Row
-    public static var wideGripSeatedCableRow: RowExerciseName {
+    static var wideGripSeatedCableRow: RowExerciseName {
         return RowExerciseName(name: "Wide Grip Seated Cable Row", number: 33)
     }
 

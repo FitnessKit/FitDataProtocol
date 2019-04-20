@@ -64,7 +64,7 @@ public extension FitFileEncoder {
     ///   - messages: Array of other FitMessages
     /// - Returns: Encoded Data
     /// - Throws: FitError
-    public func encode(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws -> Data {
+    func encode(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws -> Data {
 
         func encodeDefHeader(index: UInt8, definition: DefinitionMessage) -> Data {
             var msgData = Data()

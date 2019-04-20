@@ -70,7 +70,7 @@ internal extension FitTime {
     /// Encodes the FileIdMessage into Data
     ///
     /// - Returns: Data representation
-    internal func encode(isLocal: Bool = false) -> Data {
+    func encode(isLocal: Bool = false) -> Data {
         var msgData = Data()
 
         if let recordDate = recordDate {
@@ -100,7 +100,7 @@ internal extension FitTime {
     ///   - data: Field Data Message
     ///   - isLocal: If Time is Local
     /// - Returns: Message Index
-    internal static func decode(decoder: inout DecodeData, endian: Endian, definition: FieldDefinition, data: FieldData, isLocal: Bool = false) -> FitTime? {
+    static func decode(decoder: inout DecodeData, endian: Endian, definition: FieldDefinition, data: FieldData, isLocal: Bool = false) -> FitTime? {
 
         let value = endian == .little ? decoder.decodeUInt32(data.fieldData).littleEndian : decoder.decodeUInt32(data.fieldData).bigEndian
 

@@ -221,16 +221,16 @@ extension SessionMessage: FitMessageKeys {
 
 public extension SessionMessage.FitCodingKeys {
     /// Key Base Type
-    public var baseType: BaseType { return self.baseData.type }
+    var baseType: BaseType { return self.baseData.type }
 }
 
 internal extension SessionMessage.FitCodingKeys {
 
     /// Key Base Resolution
-    internal var resolution: Resolution { return self.baseData.resolution }
+    var resolution: Resolution { return self.baseData.resolution }
 
     /// Key Base Data
-    internal var baseData: BaseData {
+    var baseData: BaseData {
         switch self {
         case .messageIndex:
             return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
@@ -492,27 +492,15 @@ internal extension SessionMessage.FitCodingKeys {
 // Encoding
 internal extension SessionMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: MeasurementDisplayType) throws -> Data {
+    func encodeKeyed(value: MeasurementDisplayType) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: SessionTrigger) throws -> Data {
+    func encodeKeyed(value: SessionTrigger) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: SwimStroke) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
-
-// Encoding
-internal extension SessionMessage.FitCodingKeys {
-
-    internal func encodeKeyed(value: Event) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: EventType) throws -> Data {
+    func encodeKeyed(value: SwimStroke) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
@@ -520,11 +508,23 @@ internal extension SessionMessage.FitCodingKeys {
 // Encoding
 internal extension SessionMessage.FitCodingKeys {
 
-    internal func encodeKeyed(value: Sport) throws -> Data {
+    func encodeKeyed(value: Event) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    internal func encodeKeyed(value: SubSport) throws -> Data {
+    func encodeKeyed(value: EventType) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+}
+
+// Encoding
+internal extension SessionMessage.FitCodingKeys {
+
+    func encodeKeyed(value: Sport) throws -> Data {
+        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    }
+
+    func encodeKeyed(value: SubSport) throws -> Data {
         return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
