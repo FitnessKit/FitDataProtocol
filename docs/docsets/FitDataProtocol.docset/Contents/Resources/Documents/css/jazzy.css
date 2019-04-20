@@ -236,9 +236,11 @@ header {
   .item code {
     background-color: transparent;
     padding: 0; }
-  .item .token {
+  .item .token, .item .direct-link {
     padding-left: 3px;
     margin-left: 35px; }
+  .item .discouraged {
+    text-decoration: line-through; }
   .item .declaration-note {
     font-size: .85em;
     color: gray;
@@ -300,9 +302,9 @@ header {
   .language .aside-title {
     color: #4b8afb; }
 
-.aside-warning {
+.aside-warning, .aside-deprecated, .aside-unavailable {
   border-left: 5px solid #ff6666; }
-  .aside-warning .aside-title {
+  .aside-warning .aside-title, .aside-deprecated .aside-title, .aside-unavailable .aside-title {
     color: #ff0000; }
 
 .graybox {

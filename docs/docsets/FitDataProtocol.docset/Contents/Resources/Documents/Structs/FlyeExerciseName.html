@@ -146,9 +146,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol16FlyeExerciseNameV9hashValueSivp"></a>
-                      <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol16FlyeExerciseNameV9hashValueSivp">hashValue</a>
+                      <a name="/s:15FitDataProtocol16FlyeExerciseNameV4hash4intoys6HasherVz_tF"></a>
+                      <a name="//apple_ref/swift/Method/hash(into:)" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol16FlyeExerciseNameV4hash4intoys6HasherVz_tF">hash(into:)</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -156,19 +156,48 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>The hash value.</p>
+                          <p>Hashes the essential components of this value by feeding them into the
+given hasher.</p>
 
-<p>Hash values are not guaranteed to be equal across different executions of
-your program. Do not save hash values to use during a future execution.</p>
+<p>Implement this method to conform to the <code>Hashable</code> protocol. The
+components used for hashing must be the same as the components compared
+in your type&rsquo;s <code>==</code> operator implementation. Call <code>hasher.combine(_:)</code>
+with each of these components.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    <p>Never call <code>finalize()</code> on <code>hasher</code>. Doing so may become a
+compile-time error in the future.</p>
+
+</div>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">hash</span><span class="p">(</span><span class="n">into</span> <span class="nv">hasher</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Hasher</span><span class="p">)</span></code></pre>
 
                           </div>
+                        </div>
+                        <div>
+                          <h4>Parameters</h4>
+                          <table class="graybox">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <code>
+                                  <em>hasher</em>
+                                  </code>
+                                </td>
+                                <td>
+                                  <div>
+                                    <p>The hasher to use when combining the components
+of this instance.</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </section>
                     </div>
@@ -258,7 +287,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">supportedExerciseNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">FlyeExerciseName</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">supportedExerciseNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">FlyeExerciseName</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -289,7 +318,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">FlyeExerciseName</span><span class="p">?</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">FlyeExerciseName</span><span class="p">?</span></code></pre>
 
                           </div>
                         </div>
@@ -350,7 +379,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">cableCrossover</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">cableCrossover</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -377,7 +406,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">declineDumbbellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">declineDumbbellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -404,7 +433,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">dumbbellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">dumbbellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -431,7 +460,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">inclineDumbbellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">inclineDumbbellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -458,7 +487,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">kettlebellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">kettlebellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -485,7 +514,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">kneelingRearFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">kneelingRearFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -512,7 +541,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">singleArmStandingCableReverseFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">singleArmStandingCableReverseFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -539,7 +568,7 @@ your program. Do not save hash values to use during a future execution.</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">swissBallDumbbellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">swissBallDumbbellFlye</span><span class="p">:</span> <span class="kt">FlyeExerciseName</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -1241,7 +1270,7 @@ your program. Do not save hash values to use during a future execution.</p>
       <div class="footer-wrapper">
         <section id="footer">
           <p>© 2017 Kevin A. Hoogheem</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </div>
     </div>
