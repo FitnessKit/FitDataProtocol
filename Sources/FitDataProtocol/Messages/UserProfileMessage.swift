@@ -600,94 +600,94 @@ open class UserProfileMessage: FitMessage {
 
             case .gender:
                 if let gender = gender {
-                    let valueData = try key.encodeKeyed(value: gender)
+                    let valueData = try key.encodeKeyed(value: gender).get()
                     msgData.append(valueData)
                 }
 
             case .age:
                 if var age = age {
                     age = age.converted(to: UnitDuration.year)
-                    let valueData = try key.encodeKeyed(value: age.value)
+                    let valueData = try key.encodeKeyed(value: age.value).get()
                     msgData.append(valueData)
                 }
 
             case .height:
                 if var height = height {
                     height = height.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: height.value)
+                    let valueData = try key.encodeKeyed(value: height.value).get()
                     msgData.append(valueData)
                 }
 
             case .weight:
                 if var weight = weight {
                     weight = weight.converted(to: UnitMass.kilograms)
-                    let valueData = try key.encodeKeyed(value: weight.value)
+                    let valueData = try key.encodeKeyed(value: weight.value).get()
                     msgData.append(valueData)
                 }
 
             case .language:
                 if let language = language {
-                    let valueData = try key.encodeKeyed(value: language)
+                    let valueData = try key.encodeKeyed(value: language).get()
                     msgData.append(valueData)
                 }
 
             case .elevationSetting:
                 if let elevationSetting = elevationSetting {
-                    let valueData = try key.encodeKeyed(value: elevationSetting)
+                    let valueData = try key.encodeKeyed(value: elevationSetting).get()
                     msgData.append(valueData)
                 }
 
             case .weightSetting:
                 if let weightSetting = weightSetting {
-                    let valueData = try key.encodeKeyed(value: weightSetting)
+                    let valueData = try key.encodeKeyed(value: weightSetting).get()
                     msgData.append(valueData)
                 }
 
             case .restingHeartRate:
                 if let restingHeartRate = restingHeartRate {
-                    let valueData = try key.encodeKeyed(value: restingHeartRate.value)
+                    let valueData = try key.encodeKeyed(value: restingHeartRate.value).get()
                     msgData.append(valueData)
                 }
 
             case .defaultMaxRunningHeartRate:
                 if let maxRunningHeartRate = maxRunningHeartRate {
-                    let valueData = try key.encodeKeyed(value: maxRunningHeartRate.value)
+                    let valueData = try key.encodeKeyed(value: maxRunningHeartRate.value).get()
                     msgData.append(valueData)
                 }
 
             case .defaultMaxBikingHeartRate:
                 if let maxBikingHeartRate = maxBikingHeartRate {
-                    let valueData = try key.encodeKeyed(value: maxBikingHeartRate.value)
+                    let valueData = try key.encodeKeyed(value: maxBikingHeartRate.value).get()
                     msgData.append(valueData)
                 }
 
             case .defaultMaxHeartRate:
                 if let maxHeartRate = maxHeartRate {
-                    let valueData = try key.encodeKeyed(value: maxHeartRate.value)
+                    let valueData = try key.encodeKeyed(value: maxHeartRate.value).get()
                     msgData.append(valueData)
                 }
 
             case .heartRateSetting:
                 if let heartRateSetting = heartRateSetting {
-                    let valueData = try key.encodeKeyed(value: heartRateSetting)
+                    let valueData = try key.encodeKeyed(value: heartRateSetting).get()
                     msgData.append(valueData)
                 }
 
             case .speedSetting:
                 if let speedSetting = speedSetting {
-                    let valueData = try key.encodeKeyed(value: speedSetting)
+                    let valueData = try key.encodeKeyed(value: speedSetting).get()
                     msgData.append(valueData)
                 }
 
             case .distanceSetting:
                 if let distanceSetting = distanceSetting {
-                    let valueData = try key.encodeKeyed(value: distanceSetting)
+                    let valueData = try key.encodeKeyed(value: distanceSetting).get()
                     msgData.append(valueData)
                 }
 
             case .powerSetting:
                 if let powerSetting = powerSetting {
-                    let valueData = try key.encodeKeyed(value: powerSetting)
+                    let valueData = try key.encodeKeyed(value: powerSetting).get()
                     msgData.append(valueData)
                 }
 
@@ -696,19 +696,19 @@ open class UserProfileMessage: FitMessage {
 
             case .positionSetting:
                 if let positionSetting = positionSetting {
-                    let valueData = try key.encodeKeyed(value: positionSetting)
+                    let valueData = try key.encodeKeyed(value: positionSetting).get()
                     msgData.append(valueData)
                 }
 
             case .temperatureSetting:
                 if let temperatureSetting = temperatureSetting {
-                    let valueData = try key.encodeKeyed(value: temperatureSetting)
+                    let valueData = try key.encodeKeyed(value: temperatureSetting).get()
                     msgData.append(valueData)
                 }
 
             case .localID:
                 if let localID = localID {
-                    let valueData = try key.encodeKeyed(value: localID)
+                    let valueData = try key.encodeKeyed(value: localID).get()
                     msgData.append(valueData)
                 }
 
@@ -717,21 +717,21 @@ open class UserProfileMessage: FitMessage {
 
             case .heightSetting:
                 if let heightSetting = heightSetting {
-                    let valueData = try key.encodeKeyed(value: heightSetting)
+                    let valueData = try key.encodeKeyed(value: heightSetting).get()
                     msgData.append(valueData)
                 }
 
             case .runningStepLength:
                 if var runningStepLength = runningStepLength {
                     runningStepLength = runningStepLength.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: runningStepLength.value)
+                    let valueData = try key.encodeKeyed(value: runningStepLength.value).get()
                     msgData.append(valueData)
                 }
 
             case .walkingStepLength:
                 if var walkingStepLength = walkingStepLength {
                     walkingStepLength = walkingStepLength.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: walkingStepLength.value)
+                    let valueData = try key.encodeKeyed(value: walkingStepLength.value).get()
                     msgData.append(valueData)
                 }
 

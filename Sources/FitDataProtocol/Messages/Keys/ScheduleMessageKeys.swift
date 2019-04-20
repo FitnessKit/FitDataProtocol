@@ -51,16 +51,12 @@ extension ScheduleMessage: FitMessageKeys {
     }
 }
 
-public extension ScheduleMessage.FitCodingKeys {
+extension ScheduleMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-}
-
-internal extension ScheduleMessage.FitCodingKeys {
-
     /// Key Base Resolution
     var resolution: Resolution { return self.baseData.resolution }
-
+    
     /// Key Base Data
     var baseData: BaseData {
         switch self {
@@ -82,49 +78,15 @@ internal extension ScheduleMessage.FitCodingKeys {
     }
 }
 
+extension ScheduleMessage.FitCodingKeys: KeyedEncoder {}
+
 // Encoding
 internal extension ScheduleMessage.FitCodingKeys {
 
-    func encodeKeyed(value: ScheduleType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: ScheduleType) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-}
-
-// Encoding
-extension ScheduleMessage.FitCodingKeys: KeyedEncoder {
-
-    internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
 }
 
 extension ScheduleMessage.FitCodingKeys: KeyedFieldDefintion {

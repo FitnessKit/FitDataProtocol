@@ -189,13 +189,13 @@ open class SportMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport)
+                    let valueData = try key.encodeKeyed(value: sport).get()
                     msgData.append(valueData)
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    let valueData = try key.encodeKeyed(value: subSport)
+                    let valueData = try key.encodeKeyed(value: subSport).get()
                     msgData.append(valueData)
                 }
 

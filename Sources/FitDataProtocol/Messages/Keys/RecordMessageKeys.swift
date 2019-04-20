@@ -134,23 +134,19 @@ extension RecordMessage: FitMessageKeys {
     }
 }
 
-public extension RecordMessage.FitCodingKeys {
+extension RecordMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-}
-
-internal extension RecordMessage.FitCodingKeys {
-
     /// Key Base Resolution
     var resolution: Resolution { return self.baseData.resolution }
-
+    
     /// Key Base Data
     var baseData: BaseData {
         switch self {
         case .timestamp:
             // 1 * s + 0
             return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
-
+            
         case .positionLatitude:
             // 1 * semicircles + 0
             return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
@@ -291,65 +287,22 @@ internal extension RecordMessage.FitCodingKeys {
     }
 }
 
-// Encoding
-internal extension RecordMessage.FitCodingKeys {
-
-    func encodeKeyed(value: ActivityType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-
-    func encodeKeyed(value: Stroke) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
+extension RecordMessage.FitCodingKeys: KeyedEncoder {}
 
 // Encoding
 internal extension RecordMessage.FitCodingKeys {
 
-    func encodeKeyed(value: Event) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: ActivityType) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    func encodeKeyed(value: EventType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
-
-// Encoding
-extension RecordMessage.FitCodingKeys: KeyedEncoder {
-
-    internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    func encodeKeyed(value: Stroke) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
+
+// Event Encoding
+extension RecordMessage.FitCodingKeys: KeyedEncoderEvent {}
 
 extension RecordMessage.FitCodingKeys: KeyedFieldDefintion {
 

@@ -341,60 +341,60 @@ open class BloodPressureMessage: FitMessage {
             case .systolicPressure:
                 if var systolicPressure = systolicPressure {
                     systolicPressure = systolicPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: systolicPressure.value)
+                    let valueData = try key.encodeKeyed(value: systolicPressure.value).get()
                     msgData.append(valueData)
                 }
 
             case .diastolicPressure:
                 if var diastolicPressure = diastolicPressure {
                     diastolicPressure = diastolicPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: diastolicPressure.value)
+                    let valueData = try key.encodeKeyed(value: diastolicPressure.value).get()
                     msgData.append(valueData)
                 }
 
             case .meanArterialPressure:
                 if var meanArterialPressure = meanArterialPressure {
                     meanArterialPressure = meanArterialPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: meanArterialPressure.value)
+                    let valueData = try key.encodeKeyed(value: meanArterialPressure.value).get()
                     msgData.append(valueData)
                 }
 
             case .mapSampleMean:
                 if var mapSampleMean = mapSampleMean {
                     mapSampleMean = mapSampleMean.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: mapSampleMean.value)
+                    let valueData = try key.encodeKeyed(value: mapSampleMean.value).get()
                     msgData.append(valueData)
                 }
 
             case .mapMorningValues:
                 if var mapMorningValues = mapMorningValues {
                     mapMorningValues = mapMorningValues.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: mapMorningValues.value)
+                    let valueData = try key.encodeKeyed(value: mapMorningValues.value).get()
                     msgData.append(valueData)
                 }
 
             case .mapEveningValues:
                 if var mapEveningValues = mapEveningValues {
                     mapEveningValues = mapEveningValues.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: mapEveningValues.value)
+                    let valueData = try key.encodeKeyed(value: mapEveningValues.value).get()
                     msgData.append(valueData)
                 }
 
             case .heartRate:
                 if let heartRate = heartRate {
-                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value).get()
                     msgData.append(valueData)
                 }
 
             case .heartRateType:
                 if let heartRateType = heartRateType {
-                    let valueData = try key.encodeKeyed(value: heartRateType)
+                    let valueData = try key.encodeKeyed(value: heartRateType).get()
                     msgData.append(valueData)
                 }
 
             case .status:
                 if let status = status {
-                    let valueData = try key.encodeKeyed(value: status)
+                    let valueData = try key.encodeKeyed(value: status).get()
                     msgData.append(valueData)
                 }
 

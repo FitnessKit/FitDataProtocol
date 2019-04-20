@@ -194,7 +194,7 @@ open class PowerZoneMessage: FitMessage {
             case .highValue:
                 if var highLevel = highLevel {
                     highLevel = highLevel.converted(to: UnitPower.watts)
-                    let valueData = try key.encodeKeyed(value: highLevel.value)
+                    let valueData = try key.encodeKeyed(value: highLevel.value).get()
                     msgData.append(valueData)
                 }
 

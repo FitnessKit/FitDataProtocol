@@ -219,16 +219,12 @@ extension SessionMessage: FitMessageKeys {
     }
 }
 
-public extension SessionMessage.FitCodingKeys {
+extension SessionMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-}
-
-internal extension SessionMessage.FitCodingKeys {
-
     /// Key Base Resolution
     var resolution: Resolution { return self.baseData.resolution }
-
+    
     /// Key Base Data
     var baseData: BaseData {
         switch self {
@@ -237,7 +233,7 @@ internal extension SessionMessage.FitCodingKeys {
         case .timestamp:
             // 1 * s + 0, Sesson end time
             return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
-
+            
         case .event:
             return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .eventType:
@@ -279,7 +275,7 @@ internal extension SessionMessage.FitCodingKeys {
             // 1000 * m/s + 0
             return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .averageHeartRate:
-             // 1 * bpm + 0
+            // 1 * bpm + 0
             return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maximumHeartRate:
             // 1 * bpm + 0
@@ -489,81 +485,28 @@ internal extension SessionMessage.FitCodingKeys {
     }
 }
 
-// Encoding
-internal extension SessionMessage.FitCodingKeys {
+extension SessionMessage.FitCodingKeys: KeyedEncoder {}
 
-    func encodeKeyed(value: MeasurementDisplayType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-
-    func encodeKeyed(value: SessionTrigger) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-
-    func encodeKeyed(value: SwimStroke) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
+// Display Types Encoding
+extension SessionMessage.FitCodingKeys: KeyedEncoderDisplayType {}
 
 // Encoding
 internal extension SessionMessage.FitCodingKeys {
 
-    func encodeKeyed(value: Event) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: SessionTrigger) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    func encodeKeyed(value: EventType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
-
-// Encoding
-internal extension SessionMessage.FitCodingKeys {
-
-    func encodeKeyed(value: Sport) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-
-    func encodeKeyed(value: SubSport) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: SwimStroke) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
 
-// Encoding
-extension SessionMessage.FitCodingKeys: KeyedEncoder {
+// Event Encoding
+extension SessionMessage.FitCodingKeys: KeyedEncoderEvent {}
 
-    internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-}
+// Sport Encoder
+extension SessionMessage.FitCodingKeys: KeyedEncoderSport {}
 
 extension SessionMessage.FitCodingKeys: KeyedFieldDefintion {
 

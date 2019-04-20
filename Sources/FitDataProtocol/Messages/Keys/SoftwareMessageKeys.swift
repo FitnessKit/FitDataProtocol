@@ -44,22 +44,18 @@ extension SoftwareMessage: FitMessageKeys {
     }
 }
 
-public extension SoftwareMessage.FitCodingKeys {
+extension SoftwareMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-}
-
-internal extension SoftwareMessage.FitCodingKeys {
-
     /// Key Base Resolution
     var resolution: Resolution { return self.baseData.resolution }
-
+    
     /// Key Base Data
     var baseData: BaseData {
         switch self {
         case .messageIndex:
             return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
-
+            
         case .version:
             return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .partNumber:
@@ -69,41 +65,7 @@ internal extension SoftwareMessage.FitCodingKeys {
     }
 }
 
-// Encoding
-extension SoftwareMessage.FitCodingKeys: KeyedEncoder {
-
-    internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-}
+extension SoftwareMessage.FitCodingKeys: KeyedEncoder {}
 
 extension SoftwareMessage.FitCodingKeys: KeyedFieldDefintion {
 

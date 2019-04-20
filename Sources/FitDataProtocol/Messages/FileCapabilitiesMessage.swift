@@ -242,13 +242,13 @@ open class FileCapabilitiesMessage: FitMessage {
 
             case .fileType:
                 if let fileType = fileType {
-                    let valueData = try key.encodeKeyed(value: fileType)
+                    let valueData = try key.encodeKeyed(value: fileType).get()
                     msgData.append(valueData)
                 }
 
             case .fileFlags:
                 if let fileFlags = fileFlags {
-                    let valueData = try key.encodeKeyed(value: fileFlags)
+                    let valueData = try key.encodeKeyed(value: fileFlags).get()
                     msgData.append(valueData)
                 }
 
@@ -261,13 +261,13 @@ open class FileCapabilitiesMessage: FitMessage {
 
             case .maxCount:
                 if let maxCount = maxCount {
-                    let valueData = try key.encodeKeyed(value: maxCount)
+                    let valueData = try key.encodeKeyed(value: maxCount).get()
                     msgData.append(valueData)
                 }
 
             case .maxSize:
                 if let maxSize = maxSize {
-                    let valueData = try key.encodeKeyed(value: maxSize)
+                    let valueData = try key.encodeKeyed(value: maxSize).get()
                     msgData.append(valueData)
                 }
 

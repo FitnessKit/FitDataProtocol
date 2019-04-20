@@ -62,22 +62,18 @@ extension WorkoutStepMessage: FitMessageKeys {
     }
 }
 
-public extension WorkoutStepMessage.FitCodingKeys {
+extension WorkoutStepMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-}
-
-internal extension WorkoutStepMessage.FitCodingKeys {
-
     /// Key Base Resolution
     var resolution: Resolution { return self.baseData.resolution }
-
+    
     /// Key Base Data
     var baseData: BaseData {
         switch self {
         case .messageIndex:
             return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
-
+            
         case .stepName:
             // 16
             return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
@@ -106,63 +102,28 @@ internal extension WorkoutStepMessage.FitCodingKeys {
     }
 }
 
+extension WorkoutStepMessage.FitCodingKeys: KeyedEncoder {}
+
+// Exercise Endoding
+extension WorkoutStepMessage.FitCodingKeys: KeyedEncoderExercise {}
+
 // Encoding
 internal extension WorkoutStepMessage.FitCodingKeys {
 
-    func encodeKeyed(value: WorkoutStepDurationType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: WorkoutStepDurationType) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    func encodeKeyed(value: WorkoutStepTargetType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: WorkoutStepTargetType) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    func encodeKeyed(value: ExerciseCategory) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: Intensity) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    func encodeKeyed(value: Intensity) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-
-    func encodeKeyed(value: WorkoutEquipment) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
-
-// Encoding
-extension WorkoutStepMessage.FitCodingKeys: KeyedEncoder {
-
-    internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
+    func encodeKeyed(value: WorkoutEquipment) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
 

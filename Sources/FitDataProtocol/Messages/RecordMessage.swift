@@ -874,20 +874,20 @@ open class RecordMessage: FitMessage {
 
             case .heartRate:
                 if let heartRate = heartRate {
-                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value).get()
                     msgData.append(valueData)
                 }
 
             case .cadence:
                 if let cadence = cadence {
-                    let valueData = try key.encodeKeyed(value: cadence.value)
+                    let valueData = try key.encodeKeyed(value: cadence.value).get()
                     msgData.append(valueData)
                 }
 
             case .distance:
                 if var distance = distance {
                     distance = distance.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: distance.value)
+                    let valueData = try key.encodeKeyed(value: distance.value).get()
                     msgData.append(valueData)
                 }
 
@@ -898,7 +898,7 @@ open class RecordMessage: FitMessage {
             case .power:
                 if var power = power {
                     power = power.converted(to: UnitPower.watts)
-                    let valueData = try key.encodeKeyed(value: power.value)
+                    let valueData = try key.encodeKeyed(value: power.value).get()
                     msgData.append(valueData)
                 }
 
@@ -907,34 +907,34 @@ open class RecordMessage: FitMessage {
 
             case .grade:
                 if let grade = grade {
-                    let valueData = try key.encodeKeyed(value: grade.value)
+                    let valueData = try key.encodeKeyed(value: grade.value).get()
                     msgData.append(valueData)
                 }
 
             case .resistance:
                 if let resistance = resistance {
-                    let valueData = try key.encodeKeyed(value: resistance)
+                    let valueData = try key.encodeKeyed(value: resistance).get()
                     msgData.append(valueData)
                 }
 
             case .timeFromCourse:
                 if var timeFromCourse = timeFromCourse {
                     timeFromCourse = timeFromCourse.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: timeFromCourse.value)
+                    let valueData = try key.encodeKeyed(value: timeFromCourse.value).get()
                     msgData.append(valueData)
                 }
 
             case .cycleLength:
                 if var cycleLength = cycleLength {
                     cycleLength = cycleLength.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: cycleLength.value)
+                    let valueData = try key.encodeKeyed(value: cycleLength.value).get()
                     msgData.append(valueData)
                 }
 
             case .temperature:
                 if var temperature = temperature {
                     temperature = temperature.converted(to: UnitTemperature.celsius)
-                    let valueData = try key.encodeKeyed(value: temperature.value)
+                    let valueData = try key.encodeKeyed(value: temperature.value).get()
                     msgData.append(valueData)
                 }
 
@@ -943,13 +943,13 @@ open class RecordMessage: FitMessage {
 
             case .cycles:
                 if let cycles = cycles {
-                    let valueData = try key.encodeKeyed(value: cycles)
+                    let valueData = try key.encodeKeyed(value: cycles).get()
                     msgData.append(valueData)
                 }
 
             case .totalCycles:
                 if let totalCycles = totalCycles {
-                    let valueData = try key.encodeKeyed(value: totalCycles)
+                    let valueData = try key.encodeKeyed(value: totalCycles).get()
                     msgData.append(valueData)
                 }
 
@@ -959,7 +959,7 @@ open class RecordMessage: FitMessage {
             case .accumulatedPower:
                 if var accumulatedPower = accumulatedPower {
                     accumulatedPower = accumulatedPower.converted(to: UnitPower.watts)
-                    let valueData = try key.encodeKeyed(value: accumulatedPower.value)
+                    let valueData = try key.encodeKeyed(value: accumulatedPower.value).get()
                     msgData.append(valueData)
                 }
 
@@ -969,77 +969,77 @@ open class RecordMessage: FitMessage {
             case .gpsAccuracy:
                 if var gpsAccuracy = gpsAccuracy {
                     gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: gpsAccuracy.value)
+                    let valueData = try key.encodeKeyed(value: gpsAccuracy.value).get()
                     msgData.append(valueData)
                 }
 
             case .verticalSpeed:
                 if var verticalSpeed = verticalSpeed {
                     verticalSpeed = verticalSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: verticalSpeed.value)
+                    let valueData = try key.encodeKeyed(value: verticalSpeed.value).get()
                     msgData.append(valueData)
                 }
 
             case .calories:
                 if var calories = calories {
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: calories.value)
+                    let valueData = try key.encodeKeyed(value: calories.value).get()
                     msgData.append(valueData)
                 }
 
             case .verticalOscillation:
                 if var verticalOscillation = verticalOscillation {
                     verticalOscillation = verticalOscillation.converted(to: UnitLength.millimeters)
-                    let valueData = try key.encodeKeyed(value: verticalOscillation.value)
+                    let valueData = try key.encodeKeyed(value: verticalOscillation.value).get()
                     msgData.append(valueData)
                 }
 
             case .stanceTimePercent:
                 if let stancePercent = stanceTime.percent {
-                    let valueData = try key.encodeKeyed(value: stancePercent.value)
+                    let valueData = try key.encodeKeyed(value: stancePercent.value).get()
                     msgData.append(valueData)
                 }
 
             case .stanceTime:
                 if var stance = stanceTime.time {
                     stance = stance.converted(to: UnitDuration.millisecond)
-                    let valueData = try key.encodeKeyed(value: stance.value)
+                    let valueData = try key.encodeKeyed(value: stance.value).get()
                     msgData.append(valueData)
                 }
 
             case .activityType:
                 if let activityType = activity {
-                    let valueData = try key.encodeKeyed(value: activityType)
+                    let valueData = try key.encodeKeyed(value: activityType).get()
                     msgData.append(valueData)
                 }
 
             case .leftTorqueEffectiveness:
                 if let left = torqueEffectiveness.left {
-                    let valueData = try key.encodeKeyed(value: left.value)
+                    let valueData = try key.encodeKeyed(value: left.value).get()
                     msgData.append(valueData)
                 }
 
             case .rightTorqueEffectiveness:
                 if let right = torqueEffectiveness.right {
-                    let valueData = try key.encodeKeyed(value: right.value)
+                    let valueData = try key.encodeKeyed(value: right.value).get()
                     msgData.append(valueData)
                 }
 
             case .leftPedalSmoothness:
                 if let left = pedalSmoothness.left {
-                    let valueData = try key.encodeKeyed(value: left.value)
+                    let valueData = try key.encodeKeyed(value: left.value).get()
                     msgData.append(valueData)
                 }
 
             case .rightPedalSmoothness:
                 if let right = pedalSmoothness.right {
-                    let valueData = try key.encodeKeyed(value: right.value)
+                    let valueData = try key.encodeKeyed(value: right.value).get()
                     msgData.append(valueData)
                 }
 
             case .combinedPedalSmoothness:
                 if let combined = pedalSmoothness.combined {
-                    let valueData = try key.encodeKeyed(value: combined.value)
+                    let valueData = try key.encodeKeyed(value: combined.value).get()
                     msgData.append(valueData)
                 }
 
@@ -1048,20 +1048,20 @@ open class RecordMessage: FitMessage {
 
             case .strokeType:
                 if let strokeType = stroke {
-                    let valueData = try key.encodeKeyed(value: strokeType)
+                    let valueData = try key.encodeKeyed(value: strokeType).get()
                     msgData.append(valueData)
                 }
 
             case .zone:
                 if let zone = zone {
-                    let valueData = try key.encodeKeyed(value: zone)
+                    let valueData = try key.encodeKeyed(value: zone).get()
                     msgData.append(valueData)
                 }
 
             case .ballSpeed:
                 if var ballSpeed = ballSpeed {
                     ballSpeed = ballSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: ballSpeed.value)
+                    let valueData = try key.encodeKeyed(value: ballSpeed.value).get()
                     msgData.append(valueData)
                 }
 
@@ -1084,21 +1084,21 @@ open class RecordMessage: FitMessage {
 
             case .deviceIndex:
                 if let deviceIndex = deviceIndex {
-                    let valueData = try key.encodeKeyed(value: deviceIndex.index)
+                    let valueData = try key.encodeKeyed(value: deviceIndex.index).get()
                     msgData.append(valueData)
                 }
 
             case .enhancedSpeed:
                 if var enhancedSpeed = speed {
                     enhancedSpeed = enhancedSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: enhancedSpeed.value)
+                    let valueData = try key.encodeKeyed(value: enhancedSpeed.value).get()
                     msgData.append(valueData)
                 }
 
             case .enhancedAltitude:
                 if var altitude = altitude {
                     altitude = altitude.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: altitude.value)
+                    let valueData = try key.encodeKeyed(value: altitude.value).get()
                     msgData.append(valueData)
                 }
 

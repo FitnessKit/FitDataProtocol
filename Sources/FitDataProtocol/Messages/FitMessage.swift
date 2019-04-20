@@ -78,8 +78,7 @@ open class FitMessage {
         return.failure(FitEncodingError.notSupported)
         //fatalError("*** You must override in your class.")
     }
-
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:

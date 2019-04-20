@@ -250,6 +250,7 @@ open class ActivityMessage: FitMessage {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             throw self.encodeWrongDefinitionMessage()
+//            return.failure(self.encodeWrongDefinitionMessage())
         }
 
         var msgData = Data()
@@ -265,31 +266,31 @@ open class ActivityMessage: FitMessage {
             case .totalTimerTime:
                 if var totalTimerTime = totalTimerTime {
                     totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: totalTimerTime.value)
+                    let valueData = try key.encodeKeyed(value: totalTimerTime.value).get()
                     msgData.append(valueData)
                 }
 
             case .numberOfSessions:
                 if let numberOfSessions = numberOfSessions {
-                    let valueData = try key.encodeKeyed(value: numberOfSessions)
+                    let valueData = try key.encodeKeyed(value: numberOfSessions).get()
                     msgData.append(valueData)
                 }
 
             case .activityType:
                 if let activityType = activity {
-                    let valueData = try key.encodeKeyed(value: activityType)
+                    let valueData = try key.encodeKeyed(value: activityType).get()
                     msgData.append(valueData)
                 }
 
             case .event:
                 if let event = event {
-                    let valueData = try key.encodeKeyed(value: event)
+                    let valueData = try key.encodeKeyed(value: event).get()
                     msgData.append(valueData)
                 }
 
             case .eventType:
                 if let eventType = eventType {
-                    let valueData = try key.encodeKeyed(value: eventType)
+                    let valueData = try key.encodeKeyed(value: eventType).get()
                     msgData.append(valueData)
                 }
 
@@ -300,12 +301,18 @@ open class ActivityMessage: FitMessage {
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
-                    let valueData = try key.encodeKeyed(value: eventGroup)
+                    let valueData = try key.encodeKeyed(value: eventGroup).get()
                     msgData.append(valueData)
                 }
 
             }
         }
+
+//        if msgData.count > 0 {
+//            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData))
+//        } else {
+//            return.failure(self.encodeNoPropertiesAvailable())
+//        }
 
         if msgData.count > 0 {
             return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)

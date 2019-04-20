@@ -161,7 +161,7 @@ extension FitDataProtocolTests {
                                  product: ValidatedBinaryInteger(value: UInt16(22), valid: true),
                                  fileNumber: nil,
                                  fileType: FileType.activity,
-                                 productName: "sdf")
+                                 productName: "sdf--22")
         
         do {
             let encoder = FitFileEncoder(dataValidityStrategy: .none)
@@ -175,6 +175,19 @@ extension FitDataProtocolTests {
                 
                 try decoder.decode(data: data, messages: FitFileDecoder.defaultMessages, decoded: { (message) in
                     
+                    if let fileId = message as? FileIdMessage {
+                        if fileId.manufacturer != Manufacturer.northPoleEngineering {
+                            XCTFail()
+                        }
+                        if fileId.product?.value != UInt16(22) {
+                            XCTFail()
+                        }
+                        if fileId.productName != "sdf--22" {
+                            XCTFail()
+                        }
+
+
+                    }
                     print(message)
                 })
                 

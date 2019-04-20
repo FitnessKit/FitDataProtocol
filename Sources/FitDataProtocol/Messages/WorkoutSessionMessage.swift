@@ -246,38 +246,38 @@ open class WorkoutSessionMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport)
+                    let valueData = try key.encodeKeyed(value: sport).get()
                     msgData.append(valueData)
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    let valueData = try key.encodeKeyed(value: subSport)
+                    let valueData = try key.encodeKeyed(value: subSport).get()
                     msgData.append(valueData)
                 }
 
             case .numberOfValidSteps:
                 if let numberOfValidSteps = numberOfValidSteps {
-                    let valueData = try key.encodeKeyed(value: numberOfValidSteps)
+                    let valueData = try key.encodeKeyed(value: numberOfValidSteps).get()
                     msgData.append(valueData)
                 }
 
             case .firstStepIndex:
                 if let firstStepIndex = firstStepIndex {
-                    let valueData = try key.encodeKeyed(value: firstStepIndex)
+                    let valueData = try key.encodeKeyed(value: firstStepIndex).get()
                     msgData.append(valueData)
                 }
 
             case .poolLength:
                 if var poolLength = poolLength {
                     poolLength = poolLength.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: poolLength.value)
+                    let valueData = try key.encodeKeyed(value: poolLength.value).get()
                     msgData.append(valueData)
                 }
 
             case .poolLengthUnit:
                 if let poolLengthUnit = poolLengthUnit {
-                    let valueData = try key.encodeKeyed(value: poolLengthUnit)
+                    let valueData = try key.encodeKeyed(value: poolLengthUnit).get()
                     msgData.append(valueData)
                 }
 

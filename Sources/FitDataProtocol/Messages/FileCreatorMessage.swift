@@ -161,13 +161,13 @@ open class FileCreatorMessage: FitMessage {
             switch key {
             case .softwareVersion:
                 if let softwareVersion = softwareVersion {
-                    let valueData = try key.encodeKeyed(value: softwareVersion)
+                    let valueData = try key.encodeKeyed(value: softwareVersion).get()
                     msgData.append(valueData)
                 }
 
             case .hardwareVersion:
                 if let hardwareVersion = hardwareVersion {
-                    let valueData = try key.encodeKeyed(value: hardwareVersion)
+                    let valueData = try key.encodeKeyed(value: hardwareVersion).get()
                     msgData.append(valueData)
                 }
             }

@@ -200,7 +200,7 @@ open class CadenceZoneMessage: FitMessage {
 
             case .highValue:
                 if let heartRate = highLevel {
-                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value).get()
                     msgData.append(valueData)
                 }
 

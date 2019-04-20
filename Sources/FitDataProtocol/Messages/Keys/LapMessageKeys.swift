@@ -205,16 +205,12 @@ extension LapMessage: FitMessageKeys {
     }
 }
 
-public extension LapMessage.FitCodingKeys {
+extension LapMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-}
-
-internal extension LapMessage.FitCodingKeys {
-
     /// Key Base Resolution
     var resolution: Resolution { return self.baseData.resolution }
-
+    
     /// Key Base Data
     var baseData: BaseData {
         switch self {
@@ -223,7 +219,7 @@ internal extension LapMessage.FitCodingKeys {
         case .timestamp:
             // 1 * s + 0, Lap end time
             return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
-
+            
         case .event:
             return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .eventType:
@@ -454,81 +450,29 @@ internal extension LapMessage.FitCodingKeys {
     }
 }
 
-// Encoding
-internal extension LapMessage.FitCodingKeys {
-
-    func encodeKeyed(value: Intensity) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-
-    func encodeKeyed(value: LapTrigger) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-
-    func encodeKeyed(value: SwimStroke) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
+extension LapMessage.FitCodingKeys: KeyedEncoder {}
 
 // Encoding
 internal extension LapMessage.FitCodingKeys {
 
-    func encodeKeyed(value: Event) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: Intensity) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    func encodeKeyed(value: EventType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
-
-// Encoding
-internal extension LapMessage.FitCodingKeys {
-
-    func encodeKeyed(value: Sport) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: LapTrigger) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 
-    func encodeKeyed(value: SubSport) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+    func encodeKeyed(value: SwimStroke) -> Result<Data, FitEncodingError> {
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
     }
 }
 
-// Encoding
-extension LapMessage.FitCodingKeys: KeyedEncoder {
+// Event Encoding
+extension LapMessage.FitCodingKeys: KeyedEncoderEvent {}
 
-    internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-}
+// Sport Encoding
+extension LapMessage.FitCodingKeys: KeyedEncoderSport {}
 
 extension LapMessage.FitCodingKeys: KeyedFieldDefintion {
 

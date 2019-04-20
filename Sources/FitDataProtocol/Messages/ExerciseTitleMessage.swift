@@ -211,13 +211,13 @@ open class ExerciseTitleMessage: FitMessage {
 
             case .category:
                 if let category = category {
-                    let valueData = try key.encodeKeyed(value: category)
+                    let valueData = try key.encodeKeyed(value: category).get()
                     msgData.append(valueData)
                 }
 
             case .exerciseName:
                 if let exerciseName = exerciseName {
-                    let valueData = try key.encodeKeyed(value: exerciseName)
+                    let valueData = try key.encodeKeyed(value: exerciseName).get()
                     msgData.append(valueData)
                 }
 

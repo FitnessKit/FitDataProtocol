@@ -81,32 +81,32 @@ public enum BaseType: UInt8 {
 
 internal extension BaseType {
 
-    func encodedResolution(value: Bool, resolution: Resolution) throws -> Data {
-        return try encodedResolution(value: Double(value.uint8Value), resolution: resolution)
+    func encodedResolution(value: Bool, resolution: Resolution) -> Result<Data, FitEncodingError> {
+        return encodedResolution(value: Double(value.uint8Value), resolution: resolution)
     }
 
-    func encodedResolution(value: UInt8, resolution: Resolution) throws -> Data {
-        return try encodedResolution(value: Double(value), resolution: resolution)
+    func encodedResolution(value: UInt8, resolution: Resolution) -> Result<Data, FitEncodingError> {
+        return encodedResolution(value: Double(value), resolution: resolution)
     }
 
-    func encodedResolution(value: ValidatedBinaryInteger<UInt8>, resolution: Resolution) throws -> Data {
-        return try encodedResolution(value: value.value, resolution: resolution)
+    func encodedResolution(value: ValidatedBinaryInteger<UInt8>, resolution: Resolution) -> Result<Data, FitEncodingError> {
+        return encodedResolution(value: value.value, resolution: resolution)
     }
 
-    func encodedResolution(value: UInt16, resolution: Resolution) throws -> Data {
-        return try encodedResolution(value: Double(value), resolution: resolution)
+    func encodedResolution(value: UInt16, resolution: Resolution) -> Result<Data, FitEncodingError> {
+        return encodedResolution(value: Double(value), resolution: resolution)
     }
 
-    func encodedResolution(value: ValidatedBinaryInteger<UInt16>, resolution: Resolution) throws -> Data {
-        return try encodedResolution(value: value.value, resolution: resolution)
+    func encodedResolution(value: ValidatedBinaryInteger<UInt16>, resolution: Resolution) -> Result<Data, FitEncodingError> {
+        return encodedResolution(value: value.value, resolution: resolution)
     }
 
-    func encodedResolution(value: UInt32, resolution: Resolution) throws -> Data {
-        return try encodedResolution(value: Double(value), resolution: resolution)
+    func encodedResolution(value: UInt32, resolution: Resolution) -> Result<Data, FitEncodingError> {
+        return encodedResolution(value: Double(value), resolution: resolution)
     }
 
-    func encodedResolution(value: ValidatedBinaryInteger<UInt32>, resolution: Resolution) throws -> Data {
-        return try encodedResolution(value: value.value, resolution: resolution)
+    func encodedResolution(value: ValidatedBinaryInteger<UInt32>, resolution: Resolution) -> Result<Data, FitEncodingError> {
+        return encodedResolution(value: value.value, resolution: resolution)
     }
 
     /// Encode Value into data with resolution to a BaseType Value
@@ -114,40 +114,39 @@ internal extension BaseType {
     /// - Parameters:
     ///   - value: Value to apply Resolution to
     ///   - resolution: Resolution
-    /// - Returns: Data
-    /// - Throws: FitError
-    func encodedResolution(value: Double, resolution: Resolution) throws -> Data {
+    /// - Returns: Data Result
+    func encodedResolution(value: Double, resolution: Resolution) -> Result<Data, FitEncodingError> {
         switch self {
         case .enumtype, .uint8, .uint8z, .byte:
 
             let new = value.resolution(type: UInt8.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
-            return data
+            return.success(data)
 
         case .sint8:
             let new = value.resolution(type: Int8.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
-            return data
+            return.success(data)
 
         case .sint16:
             let new = value.resolution(type: Int16.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
-            return data
+            return.success(data)
 
         case .uint16, .uint16z:
             let new = value.resolution(type: UInt16.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
-            return data
+            return.success(data)
 
         case .sint32:
             let new = value.resolution(type: Int32.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
-            return data
+            return.success(data)
 
         case .uint32, .uint32z, .float32:
             let new = value.resolution(type: UInt32.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
-            return data
+            return.success(data)
 
         case .string:
             fatalError("Can not Apply Resolution to string")
@@ -155,15 +154,15 @@ internal extension BaseType {
         case .sint64:
             let new = value.resolution(type: Int64.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
-            return data
+            return.success(data)
 
         case .uint64, .uint64z, .float64:
             let new = value.resolution(type: UInt64.self, ResolutionDirection.adding, resolution: resolution)
             let data = Data(from: new.littleEndian)
-            return data
+            return.success(data)
 
         case .unknown:
-            throw FitEncodingError.unknownBaseType
+            return.failure(FitEncodingError.unknownBaseType)
         }
     }
 }

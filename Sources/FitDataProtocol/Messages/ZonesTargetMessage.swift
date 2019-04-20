@@ -229,31 +229,31 @@ open class ZonesTargetMessage: FitMessage {
             switch key {
             case .maxHeartRate:
                 if let maxHeartRate = maxHeartRate {
-                    let valueData = try key.encodeKeyed(value: maxHeartRate.value)
+                    let valueData = try key.encodeKeyed(value: maxHeartRate.value).get()
                     msgData.append(valueData)
                 }
 
             case .thresholdHeartRate:
                 if let thresholdHeartRate = thresholdHeartRate {
-                    let valueData = try key.encodeKeyed(value: thresholdHeartRate.value)
+                    let valueData = try key.encodeKeyed(value: thresholdHeartRate.value).get()
                     msgData.append(valueData)
                 }
 
             case .functionalThresholdPower:
                 if let ftp = ftp {
-                    let valueData = try key.encodeKeyed(value: ftp)
+                    let valueData = try key.encodeKeyed(value: ftp).get()
                     msgData.append(valueData)
                 }
 
             case .heartRateCalculation:
                 if let heartRateZoneType = heartRateZoneType {
-                    let valueData = try key.encodeKeyed(value: heartRateZoneType)
+                    let valueData = try key.encodeKeyed(value: heartRateZoneType).get()
                     msgData.append(valueData)
                 }
 
             case .powerCalculation:
                 if let powerZoneType = powerZoneType {
-                    let valueData = try key.encodeKeyed(value: powerZoneType)
+                    let valueData = try key.encodeKeyed(value: powerZoneType).get()
                     msgData.append(valueData)
                 }
             }

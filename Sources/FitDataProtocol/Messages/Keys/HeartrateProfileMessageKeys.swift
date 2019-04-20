@@ -48,22 +48,18 @@ extension HeartrateProfileMessage: FitMessageKeys {
     }
 }
 
-public extension HeartrateProfileMessage.FitCodingKeys {
+extension HeartrateProfileMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-}
-
-internal extension HeartrateProfileMessage.FitCodingKeys {
-
     /// Key Base Resolution
     var resolution: Resolution { return self.baseData.resolution }
-
+    
     /// Key Base Data
     var baseData: BaseData {
         switch self {
         case .messageIndex:
             return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
-
+            
         case .enabled:
             return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .antID:
@@ -76,49 +72,10 @@ internal extension HeartrateProfileMessage.FitCodingKeys {
     }
 }
 
-// Encoding
-internal extension HeartrateProfileMessage.FitCodingKeys {
+extension HeartrateProfileMessage.FitCodingKeys: KeyedEncoder {}
 
-    func encodeKeyed(value: TransmissionType) throws -> Data {
-        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-    }
-}
-
-// Encoding
-extension HeartrateProfileMessage.FitCodingKeys: KeyedEncoder {
-
-    internal func encodeKeyed(value: Bool) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt8) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt16) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: UInt32) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-
-    internal func encodeKeyed(value: Double) throws -> Data {
-        return try self.baseType.encodedResolution(value: value, resolution: self.resolution)
-    }
-}
+// AntDevice Encoding
+extension HeartrateProfileMessage.FitCodingKeys: KeyedEncoderAntDevice {}
 
 extension HeartrateProfileMessage.FitCodingKeys: KeyedFieldDefintion {
 

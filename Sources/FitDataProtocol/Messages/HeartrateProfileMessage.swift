@@ -212,25 +212,25 @@ open class HeartrateProfileMessage: FitMessage {
 
             case .enabled:
                 if let enabled = enabled {
-                    let valueData = try key.encodeKeyed(value: enabled)
+                    let valueData = try key.encodeKeyed(value: enabled).get()
                     msgData.append(valueData)
                 }
 
             case .antID:
                 if let antID = antID {
-                    let valueData = try key.encodeKeyed(value: antID)
+                    let valueData = try key.encodeKeyed(value: antID).get()
                     msgData.append(valueData)
                 }
 
             case .logHrv:
                 if let logHrv = logHrv {
-                    let valueData = try key.encodeKeyed(value: logHrv)
+                    let valueData = try key.encodeKeyed(value: logHrv).get()
                     msgData.append(valueData)
                 }
 
             case .transType:
                 if let transmissionType = transmissionType {
-                    let valueData = try key.encodeKeyed(value: transmissionType)
+                    let valueData = try key.encodeKeyed(value: transmissionType).get()
                     msgData.append(valueData)
                 }
 

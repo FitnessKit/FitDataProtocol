@@ -190,7 +190,7 @@ open class SoftwareMessage: FitMessage {
 
             case .version:
                 if let version = version {
-                    let valueData = try key.encodeKeyed(value: version)
+                    let valueData = try key.encodeKeyed(value: version).get()
                     msgData.append(valueData)
                 }
 

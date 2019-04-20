@@ -389,67 +389,67 @@ open class WeightScaleMessage: FitMessage {
 
             case .percentFat:
                 if let percentFat = percentFat {
-                    let valueData = try key.encodeKeyed(value: percentFat.value)
+                    let valueData = try key.encodeKeyed(value: percentFat.value).get()
                     msgData.append(valueData)
                 }
 
             case .percentHydration:
                 if let percentHydration = percentHydration {
-                    let valueData = try key.encodeKeyed(value: percentHydration.value)
+                    let valueData = try key.encodeKeyed(value: percentHydration.value).get()
                     msgData.append(valueData)
                 }
 
             case .visceralFatMass:
                 if var visceralFatMass = visceralFatMass {
                     visceralFatMass = visceralFatMass.converted(to: UnitMass.kilograms)
-                    let valueData = try key.encodeKeyed(value: visceralFatMass.value)
+                    let valueData = try key.encodeKeyed(value: visceralFatMass.value).get()
                     msgData.append(valueData)
                 }
 
             case .boneMass:
                 if var boneMass = boneMass {
                     boneMass = boneMass.converted(to: UnitMass.kilograms)
-                    let valueData = try key.encodeKeyed(value: boneMass.value)
+                    let valueData = try key.encodeKeyed(value: boneMass.value).get()
                     msgData.append(valueData)
                 }
 
             case .muscleMass:
                 if var muscleMass = muscleMass {
                     muscleMass = muscleMass.converted(to: UnitMass.kilograms)
-                    let valueData = try key.encodeKeyed(value: muscleMass.value)
+                    let valueData = try key.encodeKeyed(value: muscleMass.value).get()
                     msgData.append(valueData)
                 }
 
             case .basalMet:
                 if var basalMet = basalMet {
                     basalMet = basalMet.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: basalMet.value)
+                    let valueData = try key.encodeKeyed(value: basalMet.value).get()
                     msgData.append(valueData)
                 }
 
             case .physiqueRating:
                 if let physiqueRating = physiqueRating {
-                    let valueData = try key.encodeKeyed(value: physiqueRating.value)
+                    let valueData = try key.encodeKeyed(value: physiqueRating.value).get()
                     msgData.append(valueData)
                 }
 
             case .activeMet:
                 if var activeMet = activeMet {
                     activeMet = activeMet.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: activeMet.value)
+                    let valueData = try key.encodeKeyed(value: activeMet.value).get()
                     msgData.append(valueData)
                 }
 
             case .metabolicAge:
                 if var metabolicAge = metabolicAge {
                     metabolicAge = metabolicAge.converted(to: UnitDuration.year)
-                    let valueData = try key.encodeKeyed(value: metabolicAge.value)
+                    let valueData = try key.encodeKeyed(value: metabolicAge.value).get()
                     msgData.append(valueData)
                 }
 
             case .visceralFatRating:
                 if let visceralFatRating = visceralFatRating {
-                    let valueData = try key.encodeKeyed(value: visceralFatRating.value)
+                    let valueData = try key.encodeKeyed(value: visceralFatRating.value).get()
                     msgData.append(valueData)
                 }
 

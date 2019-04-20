@@ -346,13 +346,13 @@ open class GoalMessage: FitMessage {
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport)
+                    let valueData = try key.encodeKeyed(value: sport).get()
                     msgData.append(valueData)
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    let valueData = try key.encodeKeyed(value: subSport)
+                    let valueData = try key.encodeKeyed(value: subSport).get()
                     msgData.append(valueData)
                 }
 
@@ -368,49 +368,49 @@ open class GoalMessage: FitMessage {
 
             case .goalType:
                 if let goalType = goalType {
-                    let valueData = try key.encodeKeyed(value: goalType)
+                    let valueData = try key.encodeKeyed(value: goalType).get()
                     msgData.append(valueData)
                 }
 
             case .goalValue:
                 if let goalValue = goalValue {
-                    let valueData = try key.encodeKeyed(value: goalValue)
+                    let valueData = try key.encodeKeyed(value: goalValue).get()
                     msgData.append(valueData)
                 }
 
             case .repeatGoal:
                 if let enabled = enabled {
-                    let valueData = try key.encodeKeyed(value: enabled)
+                    let valueData = try key.encodeKeyed(value: enabled).get()
                     msgData.append(valueData)
                 }
 
             case .targetValue:
                 if let targetValue = targetValue {
-                    let valueData = try key.encodeKeyed(value: targetValue)
+                    let valueData = try key.encodeKeyed(value: targetValue).get()
                     msgData.append(valueData)
                 }
 
             case .recurrence:
                 if let recurrence = recurrence {
-                    let valueData = try key.encodeKeyed(value: recurrence)
+                    let valueData = try key.encodeKeyed(value: recurrence).get()
                     msgData.append(valueData)
                 }
 
             case .recurrenceValue:
                 if let recurrenceValue = recurrenceValue {
-                    let valueData = try key.encodeKeyed(value: recurrenceValue)
+                    let valueData = try key.encodeKeyed(value: recurrenceValue).get()
                     msgData.append(valueData)
                 }
 
             case .enabled:
                 if let enabled = enabled {
-                    let valueData = try key.encodeKeyed(value: enabled)
+                    let valueData = try key.encodeKeyed(value: enabled).get()
                     msgData.append(valueData)
                 }
 
             case .goalSource:
                 if let goalSource = source {
-                    let valueData = try key.encodeKeyed(value: goalSource)
+                    let valueData = try key.encodeKeyed(value: goalSource).get()
                     msgData.append(valueData)
                 }
 

@@ -292,27 +292,27 @@ open class CoursePointMessage: FitMessage {
             case .latitude:
                 if var latitude = position.latitude {
                     latitude = latitude.converted(to: UnitAngle.garminSemicircle)
-                    let valueData = try key.encodeKeyed(value: latitude.value)
+                    let valueData = try key.encodeKeyed(value: latitude.value).get()
                     msgData.append(valueData)
                 }
 
             case .longitude:
                 if var longitude = position.longitude {
                     longitude = longitude.converted(to: UnitAngle.garminSemicircle)
-                    let valueData = try key.encodeKeyed(value: longitude.value)
+                    let valueData = try key.encodeKeyed(value: longitude.value).get()
                     msgData.append(valueData)
                 }
 
             case .distance:
                 if var distance = distance {
                     distance = distance.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: distance.value)
+                    let valueData = try key.encodeKeyed(value: distance.value).get()
                     msgData.append(valueData)
                 }
 
             case .pointType:
                 if let pointType = pointType {
-                    let valueData = try key.encodeKeyed(value: pointType)
+                    let valueData = try key.encodeKeyed(value: pointType).get()
                     msgData.append(valueData)
                 }
 
@@ -325,7 +325,7 @@ open class CoursePointMessage: FitMessage {
 
             case .favorite:
                 if let favorite = isFavorite {
-                    let valueData = try key.encodeKeyed(value: favorite)
+                    let valueData = try key.encodeKeyed(value: favorite).get()
                     msgData.append(valueData)
                 }
 

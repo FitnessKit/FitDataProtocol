@@ -46,16 +46,12 @@ extension CourseMessage: FitMessageKeys {
     }
 }
 
-public extension CourseMessage.FitCodingKeys {
+extension CourseMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-}
-
-internal extension CourseMessage.FitCodingKeys {
-
     /// Key Base Resolution
     var resolution: Resolution { return self.baseData.resolution }
-
+    
     /// Key Base Data
     var baseData: BaseData {
         switch self {
@@ -71,17 +67,7 @@ internal extension CourseMessage.FitCodingKeys {
     }
 }
 
-//// Encoding
-//internal extension CourseMessage.FitCodingKeys {
-//
-//    internal func encodeKeyed(value: Sport) throws -> Data {
-//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-//    }
-//
-//    internal func encodeKeyed(value: SubSport) throws -> Data {
-//        return try self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
-//    }
-//}
+extension CourseMessage.FitCodingKeys: KeyedEncoder {}
 
 extension CourseMessage.FitCodingKeys: KeyedFieldDefintion {
 

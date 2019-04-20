@@ -432,69 +432,69 @@ open class DeviceInfoMessage: FitMessage {
 
             case .deviceIndex:
                 if let deviceIndex = deviceIndex {
-                    let valueData = try key.encodeKeyed(value: deviceIndex.index)
+                    let valueData = try key.encodeKeyed(value: deviceIndex.index).get()
                     msgData.append(valueData)
                 }
 
             case .deviceType:
                 if let deviceType = deviceType {
-                    let valueData = try key.encodeKeyed(value: deviceType)
+                    let valueData = try key.encodeKeyed(value: deviceType).get()
                     msgData.append(valueData)
                 }
 
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID)
+                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID).get()
                     msgData.append(valueData)
                 }
 
             case .serialNumber:
                 if let serialNumber = serialNumber {
-                    let valueData = try key.encodeKeyed(value: serialNumber)
+                    let valueData = try key.encodeKeyed(value: serialNumber).get()
                     msgData.append(valueData)
                 }
 
             case .product:
                 if let product = product {
-                    let valueData = try key.encodeKeyed(value: product)
+                    let valueData = try key.encodeKeyed(value: product).get()
                     msgData.append(valueData)
                 }
 
             case .softwareVersion:
                 if let softwareVersion = softwareVersion {
-                    let valueData = try key.encodeKeyed(value: softwareVersion)
+                    let valueData = try key.encodeKeyed(value: softwareVersion).get()
                     msgData.append(valueData)
                 }
 
             case .hardwareVersion:
                 if let hardwareVersion = hardwareVersion {
-                    let valueData = try key.encodeKeyed(value: hardwareVersion.value)
+                    let valueData = try key.encodeKeyed(value: hardwareVersion.value).get()
                     msgData.append(valueData)
                 }
 
             case .cumulativeOpTime:
                 if var cumulativeOpTime = cumulativeOpTime {
                     cumulativeOpTime = cumulativeOpTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: cumulativeOpTime.value)
+                    let valueData = try key.encodeKeyed(value: cumulativeOpTime.value).get()
                     msgData.append(valueData)
                 }
 
             case .batteryVoltage:
                 if var batteryVoltage = batteryVoltage {
                     batteryVoltage = batteryVoltage.converted(to: UnitElectricPotentialDifference.volts)
-                    let valueData = try key.encodeKeyed(value: batteryVoltage.value)
+                    let valueData = try key.encodeKeyed(value: batteryVoltage.value).get()
                     msgData.append(valueData)
                 }
 
             case .batteryStatus:
                 if let batteryStatus = batteryStatus {
-                    let valueData = try key.encodeKeyed(value: batteryStatus)
+                    let valueData = try key.encodeKeyed(value: batteryStatus).get()
                     msgData.append(valueData)
                 }
 
             case .sensorPosition:
                 if let sensorPosition = bodylocation {
-                    let valueData = try key.encodeKeyed(value: sensorPosition)
+                    let valueData = try key.encodeKeyed(value: sensorPosition).get()
                     msgData.append(valueData)
                 }
 
@@ -507,25 +507,25 @@ open class DeviceInfoMessage: FitMessage {
 
             case .transmissionType:
                 if let transmissionType = transmissionType {
-                    let valueData = try key.encodeKeyed(value: transmissionType)
+                    let valueData = try key.encodeKeyed(value: transmissionType).get()
                     msgData.append(valueData)
                 }
 
             case .deviceNumber:
                 if let product = deviceNumber {
-                    let valueData = try key.encodeKeyed(value: product)
+                    let valueData = try key.encodeKeyed(value: product).get()
                     msgData.append(valueData)
                 }
 
             case .antNetwork:
                 if let antNetwork = antNetwork {
-                    let valueData = try key.encodeKeyed(value: antNetwork)
+                    let valueData = try key.encodeKeyed(value: antNetwork).get()
                     msgData.append(valueData)
                 }
 
             case .sourcetype:
                 if let sourcetype = source {
-                    let valueData = try key.encodeKeyed(value: sourcetype)
+                    let valueData = try key.encodeKeyed(value: sourcetype).get()
                     msgData.append(valueData)
                 }
 

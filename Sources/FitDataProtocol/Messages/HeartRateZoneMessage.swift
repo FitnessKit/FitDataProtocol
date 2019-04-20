@@ -200,7 +200,7 @@ open class HeartRateZoneMessage: FitMessage {
 
             case .highBpm:
                 if let heartRate = heartRate {
-                    let valueData = try key.encodeKeyed(value: heartRate.value)
+                    let valueData = try key.encodeKeyed(value: heartRate.value).get()
                     msgData.append(valueData)
                 }
 

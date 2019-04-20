@@ -1,8 +1,8 @@
 //
-//  FitCodingKeysProtocols.swift
+//  KeyedFieldDefintionProtocol.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 1/19/19.
+//  Created by Kevin Hoogheem on 4/20/19.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,28 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import AntMessageProtocol
-import FitnessUnits
-
-/// Protocol for Encoding FitMessage keys
-internal protocol KeyedEncoder {
-
-    func encodeKeyed(value: Bool) throws -> Data
-
-    func encodeKeyed(value: UInt8) throws -> Data
-    
-    func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) throws -> Data
-
-    func encodeKeyed(value: UInt16) throws -> Data
-
-    func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) throws -> Data
-
-    func encodeKeyed(value: UInt32) throws -> Data
-
-    func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) throws -> Data
-
-    func encodeKeyed(value: Double) throws -> Data
-}
 
 /// Protocol for Creating Field Definition Message from FitMessage keys
 internal protocol KeyedFieldDefintion {
@@ -53,7 +31,7 @@ internal protocol KeyedFieldDefintion {
     /// - Parameter size: Data Size, if nil will use the keys predefined size
     /// - Returns: FieldDefinition
     func fieldDefinition(size: UInt8) -> FieldDefinition
-
+    
     /// Create a Field Definition Message From the Key
     ///
     /// - Returns: FieldDefinition

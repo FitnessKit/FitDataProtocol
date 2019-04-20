@@ -174,7 +174,7 @@ open class HrvMessage: FitMessage {
                     if hrv.count > 0 {
                         for time in hrv {
                             let hrvTime = time.converted(to: UnitDuration.seconds)
-                            let valueData = try key.encodeKeyed(value: hrvTime.value)
+                            let valueData = try key.encodeKeyed(value: hrvTime.value).get()
                             msgData.append(valueData)
                         }
                     }

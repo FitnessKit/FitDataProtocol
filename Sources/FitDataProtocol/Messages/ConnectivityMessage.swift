@@ -334,19 +334,19 @@ open class ConnectivityMessage: FitMessage {
             switch key {
             case .bluetoothEnabled:
                 if let bluetoothEnabled = bluetoothEnabled {
-                    let valueData = try key.encodeKeyed(value: bluetoothEnabled)
+                    let valueData = try key.encodeKeyed(value: bluetoothEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .bluetoothLowEnergyEnable:
                 if let bluetoothLowEnergyEnable = bluetoothLowEnergyEnable {
-                    let valueData = try key.encodeKeyed(value: bluetoothLowEnergyEnable)
+                    let valueData = try key.encodeKeyed(value: bluetoothLowEnergyEnable).get()
                     msgData.append(valueData)
                 }
 
             case .antEnabled:
                 if let antEnabled = antEnabled {
-                    let valueData = try key.encodeKeyed(value: antEnabled)
+                    let valueData = try key.encodeKeyed(value: antEnabled).get()
                     msgData.append(valueData)
                 }
 
@@ -359,55 +359,55 @@ open class ConnectivityMessage: FitMessage {
 
             case .liveTrackingEnabled:
                 if let liveTrackingEnabled = liveTrackingEnabled {
-                    let valueData = try key.encodeKeyed(value: liveTrackingEnabled)
+                    let valueData = try key.encodeKeyed(value: liveTrackingEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .weatherConditionsEnabled:
                 if let weatherConditionsEnabled = weatherConditionsEnabled {
-                    let valueData = try key.encodeKeyed(value: weatherConditionsEnabled)
+                    let valueData = try key.encodeKeyed(value: weatherConditionsEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .weatherAlertsEnabled:
                 if let weatherAlertsEnabled = weatherAlertsEnabled {
-                    let valueData = try key.encodeKeyed(value: weatherAlertsEnabled)
+                    let valueData = try key.encodeKeyed(value: weatherAlertsEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .autoActivityUploadEnabled:
                 if let autoActivityUploadEnabled = autoActivityUploadEnabled {
-                    let valueData = try key.encodeKeyed(value: autoActivityUploadEnabled)
+                    let valueData = try key.encodeKeyed(value: autoActivityUploadEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .courseDownloadEnabled:
                 if let courseDownloadEnabled = courseDownloadEnabled {
-                    let valueData = try key.encodeKeyed(value: courseDownloadEnabled)
+                    let valueData = try key.encodeKeyed(value: courseDownloadEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .workoutDownloadEnabled:
                 if let workoutDownloadEnabled = workoutDownloadEnabled {
-                    let valueData = try key.encodeKeyed(value: workoutDownloadEnabled)
+                    let valueData = try key.encodeKeyed(value: workoutDownloadEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .gpsEphemerisDownloadEnabled:
                 if let gpsEphemerisDownloadEnabled = gpsEphemerisDownloadEnabled {
-                    let valueData = try key.encodeKeyed(value: gpsEphemerisDownloadEnabled)
+                    let valueData = try key.encodeKeyed(value: gpsEphemerisDownloadEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .incidentDetectionEnabled:
                 if let incidentDetectionEnabled = incidentDetectionEnabled {
-                    let valueData = try key.encodeKeyed(value: incidentDetectionEnabled)
+                    let valueData = try key.encodeKeyed(value: incidentDetectionEnabled).get()
                     msgData.append(valueData)
                 }
 
             case .groupTrackEnabled:
                 if let groupTrackEnabled = groupTrackEnabled {
-                    let valueData = try key.encodeKeyed(value: groupTrackEnabled)
+                    let valueData = try key.encodeKeyed(value: groupTrackEnabled).get()
                     msgData.append(valueData)
                 }
             }

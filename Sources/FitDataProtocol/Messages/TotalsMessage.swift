@@ -297,47 +297,47 @@ open class TotalsMessage: FitMessage {
             case .timerTime:
                 if var timerTime = timerTime {
                     timerTime = timerTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: timerTime.value)
+                    let valueData = try key.encodeKeyed(value: timerTime.value).get()
                     msgData.append(valueData)
                 }
 
             case .distance:
                 if var distance = distance {
                     distance = distance.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: distance.value)
+                    let valueData = try key.encodeKeyed(value: distance.value).get()
                     msgData.append(valueData)
                 }
 
             case .calories:
                 if var calories = calories {
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: calories.value)
+                    let valueData = try key.encodeKeyed(value: calories.value).get()
                     msgData.append(valueData)
                 }
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport)
+                    let valueData = try key.encodeKeyed(value: sport).get()
                     msgData.append(valueData)
                 }
 
             case .elapsedTime:
                 if var elapsedTime = elapsedTime {
                     elapsedTime = elapsedTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: elapsedTime.value)
+                    let valueData = try key.encodeKeyed(value: elapsedTime.value).get()
                     msgData.append(valueData)
                 }
 
             case .sessions:
                 if let sessions = sessions {
-                    let valueData = try key.encodeKeyed(value: sessions.value)
+                    let valueData = try key.encodeKeyed(value: sessions.value).get()
                     msgData.append(valueData)
                 }
 
             case .activeTime:
                 if var activeTime = activeTime {
                     activeTime = activeTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: activeTime.value)
+                    let valueData = try key.encodeKeyed(value: activeTime.value).get()
                     msgData.append(valueData)
                 }
 
