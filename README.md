@@ -86,9 +86,7 @@ The options are
 
 Example:
 ```
-let time = FitTime(date: Date())
-
-let activity = ActivityMessage(timeStamp: time,
+let activity = ActivityMessage(timeStamp: FitTime(date: Date()),
                                totalTimerTime: nil,
                                localTimeStamp: nil,
                                numberOfSessions: nil,
@@ -106,10 +104,24 @@ let fieldId = FileIdMessage(deviceSerialNumber: nil,
                             fileType: FileType.activity,
                             productName: nil)
 
+let encoder = FitFileEncoder(dataValidityStrategy: .none)
+
+let result = encoder.encode(fildIdMessage: fiel, messages: [activity])
+switch result {
+case .success(let encodedData):
+    print(encodedData as NSData)
+    /// you can save off the file data
+case .failure(let error):
+    print(error.localizedDescription)
+}
+
+///
+/// You can still use doCatch 
+///
 do {
     let encoder = FitFileEncoder(dataValidityStrategy: .none)
 
-    let data = try encoder.encode(fildIdMessage: fieldId, messages: [activity])
+    let data = try encoder.encode(fildIdMessage: fieldId, messages: [activity]).get()
     print(data as NSData)
 
     /// you can save off the file data

@@ -163,41 +163,45 @@ extension FitDataProtocolTests {
                                  fileType: FileType.activity,
                                  productName: "sdf--22")
         
-        do {
-            let encoder = FitFileEncoder(dataValidityStrategy: .none)
-            
-            let data = try encoder.encode(fildIdMessage: fiel, messages: [act, act])
+        let encoder = FitFileEncoder(dataValidityStrategy: .none)
+        
+        var encodedData: Data!
+        
+        let result = encoder.encode(fildIdMessage: fiel, messages: [act, act])
+        switch result {
+        case .success(let data):
             print(data as NSData)
-            //print(data.hexDebug)
+            encodedData = data
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        
+        do {
+            var decoder = FitFileDecoder(crcCheckingStrategy: .throws)
             
-            do {
-                var decoder = FitFileDecoder(crcCheckingStrategy: .throws)
+            try decoder.decode(data: encodedData, messages: FitFileDecoder.defaultMessages, decoded: { (message) in
                 
-                try decoder.decode(data: data, messages: FitFileDecoder.defaultMessages, decoded: { (message) in
-                    
-                    if let fileId = message as? FileIdMessage {
-                        if fileId.manufacturer != Manufacturer.northPoleEngineering {
-                            XCTFail()
-                        }
-                        if fileId.product?.value != UInt16(22) {
-                            XCTFail()
-                        }
-                        if fileId.productName != "sdf--22" {
-                            XCTFail()
-                        }
-
-
+                if let fileId = message as? FileIdMessage {
+                    if fileId.manufacturer != Manufacturer.northPoleEngineering {
+                        XCTFail()
                     }
-                    print(message)
-                })
-                
-            } catch  {
-                print(error)
-            }
+                    if fileId.product?.value != UInt16(22) {
+                        XCTFail()
+                    }
+                    if fileId.productName != "sdf--22" {
+                        XCTFail()
+                    }
+
+
+                }
+                print(message)
+            })
             
         } catch  {
             print(error)
         }
+        
         
     }
 

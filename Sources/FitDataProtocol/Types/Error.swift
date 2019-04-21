@@ -65,7 +65,7 @@ public struct FitError: Error {
 }
 
 /// Errors for FIT File Encoding
-enum FitEncodingError: Error {
+public enum FitEncodingError: Error {
     /// No Messages
     case noMessages
     /// Multiple FileIdMessages

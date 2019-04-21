@@ -62,9 +62,8 @@ public extension FitFileEncoder {
     /// - Parameters:
     ///   - fildIdMessage: FileID Message
     ///   - messages: Array of other FitMessages
-    /// - Returns: Encoded Data
-    /// - Throws: FitError
-    func encode(fildIdMessage: FileIdMessage, messages: [FitMessage]) throws -> Data {
+    /// - Returns: Data Result
+    func encode(fildIdMessage: FileIdMessage, messages: [FitMessage]) -> Result<Data, FitEncodingError> {
 
         func encodeDefHeader(index: UInt8, definition: DefinitionMessage) -> Data {
             var msgData = Data()
@@ -77,36 +76,67 @@ public extension FitFileEncoder {
         }
 
         guard messages.count > 0 else {
-            throw FitEncodingError.noMessages
+            return.failure(FitEncodingError.noMessages)
         }
 
         var msgData = Data()
 
-        let _ = try EncoderValidator.validate(fildIdMessage: fildIdMessage, messages: messages, dataValidityStrategy: dataValidityStrategy).get()
+        let validator = EncoderValidator.validate(fildIdMessage: fildIdMessage, messages: messages, dataValidityStrategy: dataValidityStrategy)
+        switch validator {
+        case .success(_):
+            break
+        case .failure(let error):
+            return.failure(error)
+        }
 
-        var lastDefiniton = try fildIdMessage.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy).get()
+        var lastDefiniton: DefinitionMessage!
+        
+        switch fildIdMessage.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy) {
+        case .success(let definition):
+            lastDefiniton = definition
+        case .failure(let error):
+            return.failure(error)
+        }
+        
         msgData.append(encodeDefHeader(index: 0, definition: lastDefiniton))
 
-        msgData.append(try fildIdMessage.encode(localMessageType: 0, definition: lastDefiniton).get())
+        switch fildIdMessage.encode(localMessageType: 0, definition: lastDefiniton) {
+        case .success(let data):
+            msgData.append(data)
+        case .failure(let error):
+            return.failure(error)
+        }
 
         for message in messages {
 
             if message is FileIdMessage {
-                throw FitEncodingError.multipleFileIdMessage
+                return.failure(FitEncodingError.multipleFileIdMessage)
             }
 
-            let def = try message.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy).get()
-
-            if lastDefiniton != def {
-                lastDefiniton = def
-                msgData.append(encodeDefHeader(index: 0, definition: lastDefiniton))
+            /// Endocde the Definition
+            let def = message.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy)
+            switch def {
+            case .success(let definition):
+                if lastDefiniton != definition {
+                    lastDefiniton = definition
+                    msgData.append(encodeDefHeader(index: 0, definition: lastDefiniton))
+                }
+                
+            case .failure(let error):
+                return.failure(error)
             }
 
-            msgData.append(try message.encode(localMessageType: 0, definition: lastDefiniton).get())
+            /// Endode the Message
+            switch message.encode(localMessageType: 0, definition: lastDefiniton) {
+            case .success(let data):
+                msgData.append(data)
+            case .failure(let error):
+                return.failure(error)
+            }
         }
 
         if msgData.count > UInt32.max {
-            throw FitEncodingError.tooManyMessages
+            return.failure(FitEncodingError.tooManyMessages)
         }
 
         let header = FileHeader(dataSize: UInt32(msgData.count))
@@ -118,7 +148,7 @@ public extension FitFileEncoder {
         fileData.append(header.encodedData)
         fileData.append(msgData)
 
-        return fileData
+        return.success(fileData)
     }
 
 }
