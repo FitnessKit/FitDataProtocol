@@ -25,7 +25,6 @@ import Foundation
 /// File Type Validator Protocol
 internal protocol EncoderFileTypeValidator {
     static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitEncodingError>
-
 }
 
 /// Encoder Validator

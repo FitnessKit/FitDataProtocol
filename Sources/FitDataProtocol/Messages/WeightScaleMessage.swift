@@ -364,15 +364,14 @@ open class WeightScaleMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -389,68 +388,78 @@ open class WeightScaleMessage: FitMessage {
 
             case .percentFat:
                 if let percentFat = percentFat {
-                    let valueData = try key.encodeKeyed(value: percentFat.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: percentFat.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .percentHydration:
                 if let percentHydration = percentHydration {
-                    let valueData = try key.encodeKeyed(value: percentHydration.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: percentHydration.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .visceralFatMass:
                 if var visceralFatMass = visceralFatMass {
                     visceralFatMass = visceralFatMass.converted(to: UnitMass.kilograms)
-                    let valueData = try key.encodeKeyed(value: visceralFatMass.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: visceralFatMass.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .boneMass:
                 if var boneMass = boneMass {
                     boneMass = boneMass.converted(to: UnitMass.kilograms)
-                    let valueData = try key.encodeKeyed(value: boneMass.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: boneMass.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .muscleMass:
                 if var muscleMass = muscleMass {
                     muscleMass = muscleMass.converted(to: UnitMass.kilograms)
-                    let valueData = try key.encodeKeyed(value: muscleMass.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: muscleMass.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .basalMet:
                 if var basalMet = basalMet {
                     basalMet = basalMet.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: basalMet.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: basalMet.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .physiqueRating:
                 if let physiqueRating = physiqueRating {
-                    let valueData = try key.encodeKeyed(value: physiqueRating.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: physiqueRating.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .activeMet:
                 if var activeMet = activeMet {
                     activeMet = activeMet.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: activeMet.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: activeMet.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .metabolicAge:
                 if var metabolicAge = metabolicAge {
                     metabolicAge = metabolicAge.converted(to: UnitDuration.year)
-                    let valueData = try key.encodeKeyed(value: metabolicAge.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: metabolicAge.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .visceralFatRating:
                 if let visceralFatRating = visceralFatRating {
-                    let valueData = try key.encodeKeyed(value: visceralFatRating.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: visceralFatRating.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .userProfileIndex:
@@ -461,10 +470,10 @@ open class WeightScaleMessage: FitMessage {
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

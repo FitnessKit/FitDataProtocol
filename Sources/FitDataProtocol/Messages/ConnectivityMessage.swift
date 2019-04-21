@@ -319,35 +319,37 @@ open class ConnectivityMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
             switch key {
             case .bluetoothEnabled:
                 if let bluetoothEnabled = bluetoothEnabled {
-                    let valueData = try key.encodeKeyed(value: bluetoothEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: bluetoothEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .bluetoothLowEnergyEnable:
                 if let bluetoothLowEnergyEnable = bluetoothLowEnergyEnable {
-                    let valueData = try key.encodeKeyed(value: bluetoothLowEnergyEnable).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: bluetoothLowEnergyEnable)) {
+                        return.failure(error)
+                    }
                 }
 
             case .antEnabled:
                 if let antEnabled = antEnabled {
-                    let valueData = try key.encodeKeyed(value: antEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: antEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .connectivityName:
@@ -359,64 +361,73 @@ open class ConnectivityMessage: FitMessage {
 
             case .liveTrackingEnabled:
                 if let liveTrackingEnabled = liveTrackingEnabled {
-                    let valueData = try key.encodeKeyed(value: liveTrackingEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: liveTrackingEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .weatherConditionsEnabled:
                 if let weatherConditionsEnabled = weatherConditionsEnabled {
-                    let valueData = try key.encodeKeyed(value: weatherConditionsEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: weatherConditionsEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .weatherAlertsEnabled:
                 if let weatherAlertsEnabled = weatherAlertsEnabled {
-                    let valueData = try key.encodeKeyed(value: weatherAlertsEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: weatherAlertsEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .autoActivityUploadEnabled:
                 if let autoActivityUploadEnabled = autoActivityUploadEnabled {
-                    let valueData = try key.encodeKeyed(value: autoActivityUploadEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: autoActivityUploadEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .courseDownloadEnabled:
                 if let courseDownloadEnabled = courseDownloadEnabled {
-                    let valueData = try key.encodeKeyed(value: courseDownloadEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: courseDownloadEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .workoutDownloadEnabled:
                 if let workoutDownloadEnabled = workoutDownloadEnabled {
-                    let valueData = try key.encodeKeyed(value: workoutDownloadEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: workoutDownloadEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .gpsEphemerisDownloadEnabled:
                 if let gpsEphemerisDownloadEnabled = gpsEphemerisDownloadEnabled {
-                    let valueData = try key.encodeKeyed(value: gpsEphemerisDownloadEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: gpsEphemerisDownloadEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .incidentDetectionEnabled:
                 if let incidentDetectionEnabled = incidentDetectionEnabled {
-                    let valueData = try key.encodeKeyed(value: incidentDetectionEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: incidentDetectionEnabled)) {
+                        return.failure(error)
+                    }
                 }
 
             case .groupTrackEnabled:
                 if let groupTrackEnabled = groupTrackEnabled {
-                    let valueData = try key.encodeKeyed(value: groupTrackEnabled).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: groupTrackEnabled)) {
+                        return.failure(error)
+                    }
                 }
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

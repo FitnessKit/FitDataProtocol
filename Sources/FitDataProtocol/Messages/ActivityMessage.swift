@@ -244,16 +244,14 @@ open class ActivityMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
-//            return.failure(self.encodeWrongDefinitionMessage())
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -266,32 +264,37 @@ open class ActivityMessage: FitMessage {
             case .totalTimerTime:
                 if var totalTimerTime = totalTimerTime {
                     totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: totalTimerTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalTimerTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .numberOfSessions:
                 if let numberOfSessions = numberOfSessions {
-                    let valueData = try key.encodeKeyed(value: numberOfSessions).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: numberOfSessions)) {
+                        return.failure(error)
+                    }
                 }
 
             case .activityType:
                 if let activityType = activity {
-                    let valueData = try key.encodeKeyed(value: activityType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: activityType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .event:
                 if let event = event {
-                    let valueData = try key.encodeKeyed(value: event).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: event)) {
+                        return.failure(error)
+                    }
                 }
 
             case .eventType:
                 if let eventType = eventType {
-                    let valueData = try key.encodeKeyed(value: eventType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: eventType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .localTimestamp:
@@ -301,23 +304,18 @@ open class ActivityMessage: FitMessage {
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
-                    let valueData = try key.encodeKeyed(value: eventGroup).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: eventGroup)) {
+                        return.failure(error)
+                    }
                 }
 
             }
         }
 
-//        if msgData.count > 0 {
-//            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData))
-//        } else {
-//            return.failure(self.encodeNoPropertiesAvailable())
-//        }
-
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

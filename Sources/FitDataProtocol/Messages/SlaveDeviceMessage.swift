@@ -155,37 +155,38 @@ open class SlaveDeviceMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
             switch key {
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: manufacturer.manufacturerID)) {
+                        return.failure(error)
+                    }
                 }
 
             case .product:
                 if let product = product {
-                    let valueData = try key.encodeKeyed(value: product).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: product)) {
+                        return.failure(error)
+                    }
                 }
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

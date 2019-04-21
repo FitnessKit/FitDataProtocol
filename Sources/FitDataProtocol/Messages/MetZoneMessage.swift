@@ -196,15 +196,14 @@ open class MetZoneMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -216,31 +215,34 @@ open class MetZoneMessage: FitMessage {
 
             case .highBpm:
                 if let heartRate = heartRate {
-                    let valueData = try key.encodeKeyed(value: heartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .calories:
                 if var calories = calories {
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: calories.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: calories.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .fatCalories:
                 if var fatCalories = fatCalories {
                     fatCalories = fatCalories.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: fatCalories.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: fatCalories.value)) {
+                        return.failure(error)
+                    }
                 }
 
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

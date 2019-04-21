@@ -271,15 +271,14 @@ open class TotalsMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError>  {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -297,57 +296,64 @@ open class TotalsMessage: FitMessage {
             case .timerTime:
                 if var timerTime = timerTime {
                     timerTime = timerTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: timerTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: timerTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .distance:
                 if var distance = distance {
                     distance = distance.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: distance.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: distance.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .calories:
                 if var calories = calories {
                     calories = calories.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: calories.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: calories.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sport)) {
+                        return.failure(error)
+                    }
                 }
 
             case .elapsedTime:
                 if var elapsedTime = elapsedTime {
                     elapsedTime = elapsedTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: elapsedTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: elapsedTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .sessions:
                 if let sessions = sessions {
-                    let valueData = try key.encodeKeyed(value: sessions.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sessions.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .activeTime:
                 if var activeTime = activeTime {
                     activeTime = activeTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: activeTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: activeTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

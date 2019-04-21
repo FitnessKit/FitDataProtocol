@@ -313,15 +313,14 @@ open class WorkoutStepMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -340,44 +339,51 @@ open class WorkoutStepMessage: FitMessage {
 
             case .durationType:
                 if let durationType = durationType {
-                    let valueData = try key.encodeKeyed(value: durationType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: durationType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .durationValue:
                 if let durationValue = duration {
-                    let valueData = try key.encodeKeyed(value: durationValue).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: durationValue)) {
+                        return.failure(error)
+                    }
                 }
 
             case .targetType:
                 if let targetType = targetType {
-                    let valueData = try key.encodeKeyed(value: targetType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .targetValue:
                 if let targetValue = target {
-                    let valueData = try key.encodeKeyed(value: targetValue).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetValue)) {
+                        return.failure(error)
+                    }
                 }
 
             case .customTargetValueLow:
                 if let targetLow = targetLow {
-                    let valueData = try key.encodeKeyed(value: targetLow).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetLow)) {
+                        return.failure(error)
+                    }
                 }
 
             case .customTargetValueHigh:
                 if let targetHigh = targetHigh {
-                    let valueData = try key.encodeKeyed(value: targetHigh).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetHigh)) {
+                        return.failure(error)
+                    }
                 }
 
             case .intensity:
                 if let intensity = intensity {
-                    let valueData = try key.encodeKeyed(value: intensity).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: intensity)) {
+                        return.failure(error)
+                    }
                 }
 
             case .notes:
@@ -389,23 +395,25 @@ open class WorkoutStepMessage: FitMessage {
 
             case .equipment:
                 if let equipment = equipment {
-                    let valueData = try key.encodeKeyed(value: equipment).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: equipment)) {
+                        return.failure(error)
+                    }
                 }
 
             case .category:
                 if let category = category {
-                    let valueData = try key.encodeKeyed(value: category).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: category)) {
+                        return.failure(error)
+                    }
                 }
 
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

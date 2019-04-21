@@ -214,55 +214,59 @@ open class ZonesTargetMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
             switch key {
             case .maxHeartRate:
                 if let maxHeartRate = maxHeartRate {
-                    let valueData = try key.encodeKeyed(value: maxHeartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maxHeartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .thresholdHeartRate:
                 if let thresholdHeartRate = thresholdHeartRate {
-                    let valueData = try key.encodeKeyed(value: thresholdHeartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: thresholdHeartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .functionalThresholdPower:
                 if let ftp = ftp {
-                    let valueData = try key.encodeKeyed(value: ftp).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: ftp)) {
+                        return.failure(error)
+                    }
                 }
 
             case .heartRateCalculation:
                 if let heartRateZoneType = heartRateZoneType {
-                    let valueData = try key.encodeKeyed(value: heartRateZoneType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heartRateZoneType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .powerCalculation:
                 if let powerZoneType = powerZoneType {
-                    let valueData = try key.encodeKeyed(value: powerZoneType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: powerZoneType)) {
+                        return.failure(error)
+                    }
                 }
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

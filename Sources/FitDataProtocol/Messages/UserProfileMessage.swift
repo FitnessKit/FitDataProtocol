@@ -568,15 +568,14 @@ open class UserProfileMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -600,95 +599,110 @@ open class UserProfileMessage: FitMessage {
 
             case .gender:
                 if let gender = gender {
-                    let valueData = try key.encodeKeyed(value: gender).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: gender)) {
+                        return.failure(error)
+                    }
                 }
 
             case .age:
                 if var age = age {
                     age = age.converted(to: UnitDuration.year)
-                    let valueData = try key.encodeKeyed(value: age.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: age.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .height:
                 if var height = height {
                     height = height.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: height.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: height.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .weight:
                 if var weight = weight {
                     weight = weight.converted(to: UnitMass.kilograms)
-                    let valueData = try key.encodeKeyed(value: weight.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: weight.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .language:
                 if let language = language {
-                    let valueData = try key.encodeKeyed(value: language).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: language)) {
+                        return.failure(error)
+                    }
                 }
 
             case .elevationSetting:
                 if let elevationSetting = elevationSetting {
-                    let valueData = try key.encodeKeyed(value: elevationSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: elevationSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .weightSetting:
                 if let weightSetting = weightSetting {
-                    let valueData = try key.encodeKeyed(value: weightSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: weightSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .restingHeartRate:
                 if let restingHeartRate = restingHeartRate {
-                    let valueData = try key.encodeKeyed(value: restingHeartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: restingHeartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .defaultMaxRunningHeartRate:
                 if let maxRunningHeartRate = maxRunningHeartRate {
-                    let valueData = try key.encodeKeyed(value: maxRunningHeartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maxRunningHeartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .defaultMaxBikingHeartRate:
                 if let maxBikingHeartRate = maxBikingHeartRate {
-                    let valueData = try key.encodeKeyed(value: maxBikingHeartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maxBikingHeartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .defaultMaxHeartRate:
                 if let maxHeartRate = maxHeartRate {
-                    let valueData = try key.encodeKeyed(value: maxHeartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maxHeartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .heartRateSetting:
                 if let heartRateSetting = heartRateSetting {
-                    let valueData = try key.encodeKeyed(value: heartRateSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heartRateSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .speedSetting:
                 if let speedSetting = speedSetting {
-                    let valueData = try key.encodeKeyed(value: speedSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: speedSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .distanceSetting:
                 if let distanceSetting = distanceSetting {
-                    let valueData = try key.encodeKeyed(value: distanceSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: distanceSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .powerSetting:
                 if let powerSetting = powerSetting {
-                    let valueData = try key.encodeKeyed(value: powerSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: powerSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .activityClass:
@@ -696,20 +710,23 @@ open class UserProfileMessage: FitMessage {
 
             case .positionSetting:
                 if let positionSetting = positionSetting {
-                    let valueData = try key.encodeKeyed(value: positionSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: positionSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .temperatureSetting:
                 if let temperatureSetting = temperatureSetting {
-                    let valueData = try key.encodeKeyed(value: temperatureSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: temperatureSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .localID:
                 if let localID = localID {
-                    let valueData = try key.encodeKeyed(value: localID).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: localID)) {
+                        return.failure(error)
+                    }
                 }
 
             case .globalID:
@@ -717,31 +734,34 @@ open class UserProfileMessage: FitMessage {
 
             case .heightSetting:
                 if let heightSetting = heightSetting {
-                    let valueData = try key.encodeKeyed(value: heightSetting).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heightSetting)) {
+                        return.failure(error)
+                    }
                 }
 
             case .runningStepLength:
                 if var runningStepLength = runningStepLength {
                     runningStepLength = runningStepLength.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: runningStepLength.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: runningStepLength.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .walkingStepLength:
                 if var walkingStepLength = walkingStepLength {
                     walkingStepLength = walkingStepLength.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: walkingStepLength.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: walkingStepLength.value)) {
+                        return.failure(error)
+                    }
                 }
 
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

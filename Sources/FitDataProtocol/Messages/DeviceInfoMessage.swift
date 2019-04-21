@@ -412,15 +412,14 @@ open class DeviceInfoMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -432,70 +431,81 @@ open class DeviceInfoMessage: FitMessage {
 
             case .deviceIndex:
                 if let deviceIndex = deviceIndex {
-                    let valueData = try key.encodeKeyed(value: deviceIndex.index).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: deviceIndex.index)) {
+                        return.failure(error)
+                    }
                 }
 
             case .deviceType:
                 if let deviceType = deviceType {
-                    let valueData = try key.encodeKeyed(value: deviceType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: deviceType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .manufacturer:
                 if let manufacturer = manufacturer {
-                    let valueData = try key.encodeKeyed(value: manufacturer.manufacturerID).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: manufacturer.manufacturerID)) {
+                        return.failure(error)
+                    }
                 }
 
             case .serialNumber:
                 if let serialNumber = serialNumber {
-                    let valueData = try key.encodeKeyed(value: serialNumber).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: serialNumber)) {
+                        return.failure(error)
+                    }
                 }
 
             case .product:
                 if let product = product {
-                    let valueData = try key.encodeKeyed(value: product).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: product)) {
+                        return.failure(error)
+                    }
                 }
 
             case .softwareVersion:
                 if let softwareVersion = softwareVersion {
-                    let valueData = try key.encodeKeyed(value: softwareVersion).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: softwareVersion)) {
+                        return.failure(error)
+                    }
                 }
 
             case .hardwareVersion:
                 if let hardwareVersion = hardwareVersion {
-                    let valueData = try key.encodeKeyed(value: hardwareVersion.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: hardwareVersion.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .cumulativeOpTime:
                 if var cumulativeOpTime = cumulativeOpTime {
                     cumulativeOpTime = cumulativeOpTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: cumulativeOpTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: cumulativeOpTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .batteryVoltage:
                 if var batteryVoltage = batteryVoltage {
                     batteryVoltage = batteryVoltage.converted(to: UnitElectricPotentialDifference.volts)
-                    let valueData = try key.encodeKeyed(value: batteryVoltage.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: batteryVoltage.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .batteryStatus:
                 if let batteryStatus = batteryStatus {
-                    let valueData = try key.encodeKeyed(value: batteryStatus).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: batteryStatus)) {
+                        return.failure(error)
+                    }
                 }
 
             case .sensorPosition:
                 if let sensorPosition = bodylocation {
-                    let valueData = try key.encodeKeyed(value: sensorPosition).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sensorPosition)) {
+                        return.failure(error)
+                    }
                 }
 
             case .description:
@@ -507,26 +517,30 @@ open class DeviceInfoMessage: FitMessage {
 
             case .transmissionType:
                 if let transmissionType = transmissionType {
-                    let valueData = try key.encodeKeyed(value: transmissionType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: transmissionType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .deviceNumber:
-                if let product = deviceNumber {
-                    let valueData = try key.encodeKeyed(value: product).get()
-                    msgData.append(valueData)
+                if let deviceNumber = deviceNumber {
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: deviceNumber)) {
+                        return.failure(error)
+                    }
                 }
 
             case .antNetwork:
                 if let antNetwork = antNetwork {
-                    let valueData = try key.encodeKeyed(value: antNetwork).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: antNetwork)) {
+                        return.failure(error)
+                    }
                 }
 
             case .sourcetype:
                 if let sourcetype = source {
-                    let valueData = try key.encodeKeyed(value: sourcetype).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sourcetype)) {
+                        return.failure(error)
+                    }
                 }
 
             case .productName:
@@ -539,10 +553,10 @@ open class DeviceInfoMessage: FitMessage {
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

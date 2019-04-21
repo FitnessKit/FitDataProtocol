@@ -320,15 +320,14 @@ open class BloodPressureMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -341,61 +340,70 @@ open class BloodPressureMessage: FitMessage {
             case .systolicPressure:
                 if var systolicPressure = systolicPressure {
                     systolicPressure = systolicPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: systolicPressure.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: systolicPressure.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .diastolicPressure:
                 if var diastolicPressure = diastolicPressure {
                     diastolicPressure = diastolicPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: diastolicPressure.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: diastolicPressure.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .meanArterialPressure:
                 if var meanArterialPressure = meanArterialPressure {
                     meanArterialPressure = meanArterialPressure.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: meanArterialPressure.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: meanArterialPressure.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .mapSampleMean:
                 if var mapSampleMean = mapSampleMean {
                     mapSampleMean = mapSampleMean.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: mapSampleMean.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: mapSampleMean.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .mapMorningValues:
                 if var mapMorningValues = mapMorningValues {
                     mapMorningValues = mapMorningValues.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: mapMorningValues.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: mapMorningValues.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .mapEveningValues:
                 if var mapEveningValues = mapEveningValues {
                     mapEveningValues = mapEveningValues.converted(to: UnitPressure.millimetersOfMercury)
-                    let valueData = try key.encodeKeyed(value: mapEveningValues.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: mapEveningValues.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .heartRate:
                 if let heartRate = heartRate {
-                    let valueData = try key.encodeKeyed(value: heartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .heartRateType:
                 if let heartRateType = heartRateType {
-                    let valueData = try key.encodeKeyed(value: heartRateType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heartRateType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .status:
                 if let status = status {
-                    let valueData = try key.encodeKeyed(value: status).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: status)) {
+                        return.failure(error)
+                    }
                 }
 
             case .userProfileIndex:
@@ -406,10 +414,10 @@ open class BloodPressureMessage: FitMessage {
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

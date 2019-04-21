@@ -84,10 +84,9 @@ open class FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
-        throw FitEncodingError.notSupported
+    /// - Returns: Data Result
+    internal func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
+        return.failure(FitEncodingError.notSupported)
         //fatalError("*** You must override in your class.")
     }
 

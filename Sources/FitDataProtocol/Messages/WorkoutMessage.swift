@@ -221,23 +221,23 @@ open class WorkoutMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
             switch key {
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sport)) {
+                        return.failure(error)
+                    }
                 }
 
             case .capabilities:
@@ -245,8 +245,9 @@ open class WorkoutMessage: FitMessage {
                 
             case .numberOfValidSteps:
                 if let numberOfValidSteps = numberOfValidSteps {
-                    let valueData = try key.encodeKeyed(value: numberOfValidSteps).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: numberOfValidSteps)) {
+                        return.failure(error)
+                    }
                 }
 
             case .workoutName:
@@ -258,30 +259,33 @@ open class WorkoutMessage: FitMessage {
 
             case .subSport:
                 if let subSport = subSport {
-                    let valueData = try key.encodeKeyed(value: subSport).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: subSport)) {
+                        return.failure(error)
+                    }
                 }
 
             case .poolLength:
                 if var poolLength = poolLength {
                     poolLength = poolLength.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: poolLength.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: poolLength.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .poolLengthUnit:
                 if let poolLengthUnit = poolLengthUnit {
-                    let valueData = try key.encodeKeyed(value: poolLengthUnit).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: poolLengthUnit)) {
+                        return.failure(error)
+                    }
                 }
 
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

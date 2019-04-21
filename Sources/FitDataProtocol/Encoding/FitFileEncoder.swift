@@ -87,7 +87,7 @@ public extension FitFileEncoder {
         var lastDefiniton = try fildIdMessage.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy).get()
         msgData.append(encodeDefHeader(index: 0, definition: lastDefiniton))
 
-        msgData.append(try fildIdMessage.encode(localMessageType: 0, definition: lastDefiniton))
+        msgData.append(try fildIdMessage.encode(localMessageType: 0, definition: lastDefiniton).get())
 
         for message in messages {
 
@@ -102,7 +102,7 @@ public extension FitFileEncoder {
                 msgData.append(encodeDefHeader(index: 0, definition: lastDefiniton))
             }
 
-            msgData.append(try message.encode(localMessageType: 0, definition: lastDefiniton))
+            msgData.append(try message.encode(localMessageType: 0, definition: lastDefiniton).get())
         }
 
         if msgData.count > UInt32.max {

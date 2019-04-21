@@ -266,15 +266,14 @@ open class CoursePointMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -292,28 +291,32 @@ open class CoursePointMessage: FitMessage {
             case .latitude:
                 if var latitude = position.latitude {
                     latitude = latitude.converted(to: UnitAngle.garminSemicircle)
-                    let valueData = try key.encodeKeyed(value: latitude.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: latitude.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .longitude:
                 if var longitude = position.longitude {
                     longitude = longitude.converted(to: UnitAngle.garminSemicircle)
-                    let valueData = try key.encodeKeyed(value: longitude.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: longitude.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .distance:
                 if var distance = distance {
                     distance = distance.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: distance.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: distance.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .pointType:
                 if let pointType = pointType {
-                    let valueData = try key.encodeKeyed(value: pointType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: pointType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .name:
@@ -325,17 +328,17 @@ open class CoursePointMessage: FitMessage {
 
             case .favorite:
                 if let favorite = isFavorite {
-                    let valueData = try key.encodeKeyed(value: favorite).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: favorite)) {
+                        return.failure(error)
+                    }
                 }
-
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

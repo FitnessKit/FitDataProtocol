@@ -1425,15 +1425,14 @@ open class LapMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -1450,14 +1449,16 @@ open class LapMessage: FitMessage {
 
             case .event:
                 if let event = event {
-                    let valueData = try key.encodeKeyed(value: event).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: event)) {
+                        return.failure(error)
+                    }
                 }
 
             case .eventType:
                 if let eventType = eventType {
-                    let valueData = try key.encodeKeyed(value: eventType).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: eventType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .startTime:
@@ -1488,42 +1489,48 @@ open class LapMessage: FitMessage {
             case .totalElapsedTime:
                 if var totalElapsedTime = totalElapsedTime {
                     totalElapsedTime = totalElapsedTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: totalElapsedTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalElapsedTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalTimerTime:
                 if var totalTimerTime = totalTimerTime {
                     totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: totalTimerTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalTimerTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalDistance:
                 if var totalDistance = totalDistance {
                     totalDistance = totalDistance.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: totalDistance.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalDistance.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalCycles:
                 if let totalCycles = totalCycles {
-                    let valueData = try key.encodeKeyed(value: totalCycles).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalCycles)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalCalories:
                 if var totalCalories = totalCalories {
                     totalCalories = totalCalories.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: totalCalories.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalCalories.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalFatCalories:
                 if var totalFatCalories = totalFatCalories {
                     totalFatCalories = totalFatCalories.converted(to: UnitEnergy.kilocalories)
-                    let valueData = try key.encodeKeyed(value: totalFatCalories.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalFatCalories.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageSpeed:
@@ -1535,91 +1542,105 @@ open class LapMessage: FitMessage {
 
             case .averageHeartRate:
                 if let averageHeartRate = averageHeartRate {
-                    let valueData = try key.encodeKeyed(value: averageHeartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageHeartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .maximumHeartRate:
                 if let maximumHeartRate = maximumHeartRate {
-                    let valueData = try key.encodeKeyed(value: maximumHeartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumHeartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageCadence:
                 if let averageCadence = averageCadence {
-                    let valueData = try key.encodeKeyed(value: averageCadence.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageCadence.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .maximumCadence:
                 if let maximumCadence = maximumCadence {
-                    let valueData = try key.encodeKeyed(value: maximumCadence.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumCadence.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averagePower:
                 if var averagePower = averagePower {
                     averagePower = averagePower.converted(to: UnitPower.watts)
-                    let valueData = try key.encodeKeyed(value: averagePower.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averagePower.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .maximumPower:
                 if var maximumPower = maximumPower {
                     maximumPower = maximumPower.converted(to: UnitPower.watts)
-                    let valueData = try key.encodeKeyed(value: maximumPower.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumPower.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalAscent:
                 if var totalAscent = totalAscent {
                     totalAscent = totalAscent.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: totalAscent.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalAscent.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalDescent:
                 if var totalDescent = totalDescent {
                     totalDescent = totalDescent.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: totalDescent.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalDescent.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .intensity:
                 if let intensity = intensity {
-                    let valueData = try key.encodeKeyed(value: intensity).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: intensity)) {
+                        return.failure(error)
+                    }
                 }
 
             case .lapTrigger:
                 if let lapTrigger = lapTrigger {
-                    let valueData = try key.encodeKeyed(value: lapTrigger).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: lapTrigger)) {
+                        return.failure(error)
+                    }
                 }
 
             case .sport:
                 if let sport = sport {
-                    let valueData = try key.encodeKeyed(value: sport).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sport)) {
+                        return.failure(error)
+                    }
                 }
 
             case .eventGroup:
                 if let eventGroup = eventGroup {
-                    let valueData = try key.encodeKeyed(value: eventGroup).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: eventGroup)) {
+                        return.failure(error)
+                    }
                 }
 
             case .lengths:
                 if let lengths = lengths {
-                    let valueData = try key.encodeKeyed(value: lengths).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: lengths)) {
+                        return.failure(error)
+                    }
                 }
 
             case .normalizedPower:
                 if var normalizedPower = normalizedPower {
                     normalizedPower = normalizedPower.converted(to: UnitPower.watts)
-                    let valueData = try key.encodeKeyed(value: normalizedPower.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: normalizedPower.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .leftRightBalance:
@@ -1627,40 +1648,46 @@ open class LapMessage: FitMessage {
 
             case .firstLengthIndex:
                 if let firstLengthIndex = firstLengthIndex {
-                    let valueData = try key.encodeKeyed(value: firstLengthIndex).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: firstLengthIndex)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageStrokeDistance:
                 if var averageStrokeDistance = averageStrokeDistance {
                     averageStrokeDistance = averageStrokeDistance.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: averageStrokeDistance.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageStrokeDistance.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .swimStroke:
                 if let swimStroke = swimStroke {
-                    let valueData = try key.encodeKeyed(value: swimStroke).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: swimStroke)) {
+                        return.failure(error)
+                    }
                 }
 
             case .subSport:
                 if let subSport = subSport {
-                    let valueData = try key.encodeKeyed(value: subSport).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: subSport)) {
+                        return.failure(error)
+                    }
                 }
 
             case .activeLengths:
                 if let activeLengths = activeLengths {
-                    let valueData = try key.encodeKeyed(value: activeLengths).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: activeLengths)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalWork:
                 if var totalWork = totalWork {
                     totalWork = totalWork.converted(to: UnitEnergy.joules)
-                    let valueData = try key.encodeKeyed(value: totalWork.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalWork.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageAltitude:
@@ -1672,87 +1699,100 @@ open class LapMessage: FitMessage {
             case .gpsAccuracy:
                 if var gpsAccuracy = gpsAccuracy {
                     gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: gpsAccuracy.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: gpsAccuracy.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageGrade:
                 if let averageGrade = averageGrade {
-                    let valueData = try key.encodeKeyed(value: averageGrade.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageGrade.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averagePositiveGrade:
                 if let averagePositiveGrade = averagePositiveGrade {
-                    let valueData = try key.encodeKeyed(value: averagePositiveGrade.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averagePositiveGrade.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageNegitiveGrade:
                 if let averageNegitiveGrade = averageNegitiveGrade {
-                    let valueData = try key.encodeKeyed(value: averageNegitiveGrade.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageNegitiveGrade.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .maximumPositiveGrade:
                 if let maximumPositiveGrade = maximumPositiveGrade {
-                    let valueData = try key.encodeKeyed(value: maximumPositiveGrade.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumPositiveGrade.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .maximumNegitiveGrade:
                 if let maximumNegitiveGrade = maximumNegitiveGrade {
-                    let valueData = try key.encodeKeyed(value: maximumNegitiveGrade.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumNegitiveGrade.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageTemperature:
                 if var averageTemperature = averageTemperature {
                     averageTemperature = averageTemperature.converted(to: UnitTemperature.celsius)
-                    let valueData = try key.encodeKeyed(value: averageTemperature.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageTemperature.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .maximumTemperature:
                 if var maximumTemperature = maximumTemperature {
                     maximumTemperature = maximumTemperature.converted(to: UnitTemperature.celsius)
-                    let valueData = try key.encodeKeyed(value: maximumTemperature.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumTemperature.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .totalMovingTime:
                 if var totalMovingTime = totalMovingTime {
                     totalMovingTime = totalMovingTime.converted(to: UnitDuration.seconds)
-                    let valueData = try key.encodeKeyed(value: totalMovingTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalMovingTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averagePositiveVerticalSpeed:
                 if var speed = averagePositiveVerticalSpeed {
                     speed = speed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: speed.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: speed.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageNegitiveVerticalSpeed:
                 if var speed = averageNegitiveVerticalSpeed {
                     speed = speed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: speed.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: speed.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .maximumPositiveVerticalSpeed:
                 if var speed = maximumPositiveVerticalSpeed {
                     speed = speed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: speed.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: speed.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .maximumNegitiveVerticalSpeed:
                 if var speed = maximumNegitiveVerticalSpeed {
                     speed = speed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: speed.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: speed.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .timeInHrZone:
@@ -1766,8 +1806,9 @@ open class LapMessage: FitMessage {
 
             case .repetionNumber:
                 if let repetionNumber = repetionNumber {
-                    let valueData = try key.encodeKeyed(value: repetionNumber).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: repetionNumber)) {
+                        return.failure(error)
+                    }
                 }
 
             case .minimumAltitude:
@@ -1776,8 +1817,9 @@ open class LapMessage: FitMessage {
 
             case .minimumHeartRate:
                 if let heartRate = minimumHeartRate {
-                    let valueData = try key.encodeKeyed(value: heartRate.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heartRate.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .workoutStepIndex:
@@ -1787,8 +1829,9 @@ open class LapMessage: FitMessage {
 
             case .opponentScore:
                 if let opponentScore = score.opponentScore {
-                    let valueData = try key.encodeKeyed(value: opponentScore).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: opponentScore)) {
+                        return.failure(error)
+                    }
                 }
 
             case .strokeCount:
@@ -1799,21 +1842,24 @@ open class LapMessage: FitMessage {
             case .averageVerticalOscillation:
                 if var averageVerticalOscillation = averageVerticalOscillation {
                     averageVerticalOscillation = averageVerticalOscillation.converted(to: UnitLength.millimeters)
-                    let valueData = try key.encodeKeyed(value: averageVerticalOscillation.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageVerticalOscillation.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageStanceTimePercent:
                 if let averageStanceTimePercent = averageStanceTime.percent {
-                    let valueData = try key.encodeKeyed(value: averageStanceTimePercent.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageStanceTimePercent.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageStanceTime:
                 if var averageStanceTime = averageStanceTime.time {
                     averageStanceTime = averageStanceTime.converted(to: UnitDuration.millisecond)
-                    let valueData = try key.encodeKeyed(value: averageStanceTime.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageStanceTime.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageFractionalCadence:
@@ -1825,8 +1871,9 @@ open class LapMessage: FitMessage {
 
             case .playerScore:
                 if let playerScore = score.playerScore {
-                    let valueData = try key.encodeKeyed(value: playerScore).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: playerScore)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageTotalHemoglobinConcentration:
@@ -1845,52 +1892,58 @@ open class LapMessage: FitMessage {
             case .enhancedAverageSpeed:
                 if var enhancedAverageSpeed = averageSpeed {
                     enhancedAverageSpeed = enhancedAverageSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: enhancedAverageSpeed.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: enhancedAverageSpeed.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .enhancedMaximumSpeed:
                 if var enhancedMaximumSpeed = maximumSpeed {
                     enhancedMaximumSpeed = enhancedMaximumSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: enhancedMaximumSpeed.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: enhancedMaximumSpeed.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .enhancedAverageAltitude:
                 if var altitude = averageAltitude {
                     altitude = altitude.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: altitude.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: altitude.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .enhancedMinimumAltitude:
                 if var altitude = minimumAltitude {
                     altitude = altitude.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: altitude.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: altitude.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .enhancedMaximumAltitude:
                 if var altitude = maximumAltitude {
                     altitude = altitude.converted(to: UnitLength.meters)
-                    let valueData = try key.encodeKeyed(value: altitude.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: altitude.value)) {
+                        return.failure(error)
+                    }
                 }
 
             case .averageVam:
                 if var averageAscentSpeed = averageAscentSpeed {
                     averageAscentSpeed = averageAscentSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    let valueData = try key.encodeKeyed(value: averageAscentSpeed.value).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageAscentSpeed.value)) {
+                        return.failure(error)
+                    }
                 }
 
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }

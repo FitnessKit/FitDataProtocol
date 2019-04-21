@@ -219,15 +219,14 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
     /// - Parameters:
     ///   - localMessageType: Message Number, that matches the defintions header number
     ///   - definition: DefinitionMessage
-    /// - Returns: Data representation
-    /// - Throws: FitError
-    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) throws -> Data {
+    /// - Returns: Data Result
+    internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
 
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
-            throw self.encodeWrongDefinitionMessage()
+            return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        var msgData = Data()
+        let msgData = MessageData()
 
         for key in FitCodingKeys.allCases {
 
@@ -245,36 +244,39 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                 }
 
             case .boardType:
-                if let boardType = leaderType {
-                    let valueData = try key.encodeKeyed(value: boardType).get()
-                    msgData.append(valueData)
+                if let leaderType = leaderType {
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: leaderType)) {
+                        return.failure(error)
+                    }
                 }
 
             case .groupPrimaryKey:
                 if let leaderId = leaderId {
-                    let valueData = try key.encodeKeyed(value: leaderId).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: leaderId)) {
+                        return.failure(error)
+                    }
                 }
 
             case .activityID:
                 if let activityId = activityId {
-                    let valueData = try key.encodeKeyed(value: activityId).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: activityId)) {
+                        return.failure(error)
+                    }
                 }
 
             case .segmentTime:
                 if let segmentTime = segmentTime {
-                    let valueData = try key.encodeKeyed(value: segmentTime).get()
-                    msgData.append(valueData)
+                    if let error = msgData.shouldAppend(key.encodeKeyed(value: segmentTime)) {
+                        return.failure(error)
+                    }
                 }
-
             }
         }
 
-        if msgData.count > 0 {
-            return encodedDataMessage(localMessageType: localMessageType, msgData: msgData)
+        if msgData.message.count > 0 {
+            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
         } else {
-            throw self.encodeNoPropertiesAvailable()
+            return.failure(self.encodeNoPropertiesAvailable())
         }
     }
 }
