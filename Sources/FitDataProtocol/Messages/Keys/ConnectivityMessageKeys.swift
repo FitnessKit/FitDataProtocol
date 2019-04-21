@@ -106,31 +106,6 @@ extension ConnectivityMessage.FitCodingKeys: BaseTypeable {
 extension ConnectivityMessage.FitCodingKeys: KeyedEncoder {}
 
 extension ConnectivityMessage.FitCodingKeys: KeyedFieldDefintion {
-
-    /// Create a Field Definition Message From the Key
-    ///
-    /// - Parameter size: Data Size, if nil will use the keys predefined size
-    /// - Returns: FieldDefinition
-    internal func fieldDefinition(size: UInt8) -> FieldDefinition {
-
-        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.rawValue),
-                                              size: size,
-                                              endianAbility: self.baseType.hasEndian,
-                                              baseType: self.baseType)
-
-        return fieldDefinition
-    }
-
-    /// Create a Field Definition Message From the Key
-    ///
-    /// - Returns: FieldDefinition
-    internal func fieldDefinition() -> FieldDefinition {
-
-        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.rawValue),
-                                              size: self.baseType.dataSize,
-                                              endianAbility: self.baseType.hasEndian,
-                                              baseType: self.baseType)
-
-        return fieldDefinition
-    }
+    /// Raw Value for CodingKey
+    var keyRawValue: Int { return self.rawValue }
 }

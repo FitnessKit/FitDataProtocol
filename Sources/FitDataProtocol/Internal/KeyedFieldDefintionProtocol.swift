@@ -25,6 +25,8 @@
 import Foundation
 
 /// Protocol for Creating Field Definition Message from FitMessage keys
+///
+/// This is typically added to the FitCodingKeys for a Message
 internal protocol KeyedFieldDefintion {
     /// Create a Field Definition Message From the Key
     ///
@@ -36,4 +38,38 @@ internal protocol KeyedFieldDefintion {
     ///
     /// - Returns: FieldDefinition
     func fieldDefinition() -> FieldDefinition
+    
+    /// Raw Value for CodingKey
+    var keyRawValue: Int { get }
+}
+
+extension KeyedFieldDefintion where Self: BaseTypeable {
+    
+    /// Create a Field Definition Message From the Key
+    ///
+    /// - Parameter size: Data Size, if nil will use the keys predefined size
+    /// - Returns: FieldDefinition
+    internal func fieldDefinition(size: UInt8) -> FieldDefinition {
+        
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.keyRawValue),
+                                              size: size,
+                                              endianAbility: self.baseType.hasEndian,
+                                              baseType: self.baseType)
+        
+        return fieldDefinition
+    }
+    
+    /// Create a Field Definition Message From the Key
+    ///
+    /// - Returns: FieldDefinition
+    internal func fieldDefinition() -> FieldDefinition {
+        
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.keyRawValue),
+                                              size: self.baseType.dataSize,
+                                              endianAbility: self.baseType.hasEndian,
+                                              baseType: self.baseType)
+        
+        return fieldDefinition
+    }
+
 }
