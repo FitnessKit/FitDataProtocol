@@ -26,19 +26,6 @@ import Foundation
 
 /// FitDataProtocol Error Reasons
 public enum ErrorReasons {
-    /// Protocol Version Not Supported
-    case protocolVersionNotSupported
-    /// Not a Fit File
-    case nonFitFile
-
-    /// CRC Value Invalid
-    case invalidHeaderCrc
-    /// CRC Value Invalid
-    case invalidFileCrc
-
-    /// FIT File Conversion Issue
-    case fitFileConversion
-
     /// Generic
     case generic(String)
 }
@@ -61,6 +48,43 @@ public struct FitError: Error {
     /// - Parameter message: Generic Message Type with Message
     public init(message: String) {
         self.type = .generic(message)
+    }
+}
+
+/// Errors for FIT File Decoding
+public enum FitDecodingError: Error {
+    /// Invalid Architecture Type
+    case invalidArchitecture
+    /// Not a Fit File
+    case nonFitFile
+    /// Protocol Version Not Supported
+    case protocolVersionNotSupported
+    /// CRC Value Invalid
+    case invalidHeaderCrc
+    /// CRC Value Invalid
+    case invalidFileCrc
+    /// Duplicate FitMessage types
+    case duplicateFitMessage
+}
+
+extension FitDecodingError: LocalizedError {
+
+    /// A localized message describing what error occurred.
+    public var errorDescription: String? {
+        switch self {
+        case .invalidArchitecture:
+            return "Architecture Type is invalid."
+        case .nonFitFile:
+            return "Does not appear to be a valid FIT File format."
+        case .protocolVersionNotSupported:
+            return "Protocol Version not Supported."
+        case .invalidHeaderCrc:
+            return "Invalid Header CRC"
+        case .invalidFileCrc:
+            return "Invalid File CRC"
+        case .duplicateFitMessage:
+            return "Duplicate FitMessage.Type is not allowed."
+        }
     }
 }
 

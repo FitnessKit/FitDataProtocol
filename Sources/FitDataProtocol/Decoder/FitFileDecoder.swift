@@ -124,7 +124,7 @@ public struct FitFileDecoder {
         let duplicates = Array(Set(globalMsgs.filter({ (i: UInt16) in globalMsgs.filter({ $0 == i }).count > 1})))
 
         guard duplicates.count == 0 else {
-            throw FitError(.generic("Duplicate FitMessage types."))
+            throw FitDecodingError.duplicateFitMessage
         }
 
         var shouldValidate: Bool = true
@@ -135,16 +135,21 @@ public struct FitFileDecoder {
             shouldValidate = true
         }
 
-        try readFitFile(data: data, validateCrc: shouldValidate)
+        switch readFitFile(data: data, validateCrc: shouldValidate) {
+        case .success(let data):
+            messageData = data
+        case .failure(let error):
+            throw error
+        }
 
         var decoder = DecodeData()
 
         repeat {
-            let header = try RecordHeader.decode(decoder: &decoder, data: messageData)
+            let header = RecordHeader.decode(decoder: &decoder, data: messageData)            
             //print(header)
 
             if header.isDataMessage == false {
-                let lastDefinition = try DefinitionMessage.decode(decoder: &decoder, data: messageData, header: header)
+                let lastDefinition = try DefinitionMessage.decode(decoder: &decoder, data: messageData, header: header).get()
                 definitionDict[header.localMessageType] = lastDefinition
 
                 //print(definitionDict[header.localMessageType] as Any)
@@ -203,11 +208,17 @@ private extension FitFileDecoder {
     /// - Parameters:
     ///   - data: FIT File Data
     ///   - validateCrc: Should Validate CRC Values
-    /// - Throws: FitError
-    private mutating func readFitFile(data: Data, validateCrc: Bool) throws {
+    /// - Returns: Data Result
+    private func readFitFile(data: Data, validateCrc: Bool) -> Result<Data, FitDecodingError> {
 
-        let header = try FileHeader.decode(data: data, validateCrc: validateCrc)
+        let header: FileHeader!
         //print(header)
+        switch FileHeader.decode(data: data, validateCrc: validateCrc) {
+        case .success(let fileHeader):
+            header = fileHeader
+        case .failure(let error):
+            return.failure(error)
+        }
 
         var decoder = DecodeData()
 
@@ -220,9 +231,9 @@ private extension FitFileDecoder {
         if validateCrc == true && header.protocolVersion >= 20 {
             let crcCheck = CRC16(data: msgData).crc
 
-            guard fileCrc == crcCheck else { throw FitError(.invalidFileCrc) }
+            guard fileCrc == crcCheck else { return.failure(FitDecodingError.invalidFileCrc) }
         }
 
-        messageData = msgData
+        return.success(msgData)
     }
 }

@@ -25,6 +25,7 @@
 import Foundation
 import DataDecoder
 
+/// Architecture Endian
 internal enum Endian: UInt8 {
     /// Little
     case little     = 0
@@ -32,16 +33,22 @@ internal enum Endian: UInt8 {
     case big        = 1
 }
 
+/// FIT Definition Message
 internal struct DefinitionMessage {
 
+    /// Architecture
     private(set) var architecture: Endian
 
+    /// Global Message Number
     private(set) var globalMessageNumber: UInt16
 
+    /// Number of Fields
     private(set) var fields: UInt8
 
+    /// Field Definitions
     private(set) var fieldDefinitions: [FieldDefinition]
 
+    /// Developer Field Definitions
     private(set) var developerFieldDefinitions: [DeveloperFieldDefinition]
 
 }
@@ -86,14 +93,14 @@ internal extension DefinitionMessage {
         return msgData
     }
 
-    static func decode(decoder: inout DecodeData, data: Data, header: RecordHeader) throws -> DefinitionMessage {
+    static func decode(decoder: inout DecodeData, data: Data, header: RecordHeader) -> Result<DefinitionMessage, FitDecodingError>  {
 
         // Reserved Byte
         let _ = decoder.decodeUInt8(data)
 
         let archvalue = decoder.decodeUInt8(data);
 
-        guard let architecture = Endian(rawValue: archvalue) else { throw FitError(message: "Architecture Type is invalid.") }
+        guard let architecture = Endian(rawValue: archvalue) else { return.failure(FitDecodingError.invalidArchitecture) }
 
         var globalMessage = decoder.decodeUInt16(data)
 
@@ -109,9 +116,13 @@ internal extension DefinitionMessage {
         var definitions: [FieldDefinition] = [FieldDefinition]()
 
         for _ in 0..<fields {
-            let fieldDef = try FieldDefinition.decode(decoder: &decoder, data: data)
-
-            definitions.append(fieldDef)
+            
+            switch FieldDefinition.decode(decoder: &decoder, data: data) {
+            case .success(let fieldDef):
+                definitions.append(fieldDef)
+            case .failure(let error):
+                return.failure(error)
+            }
         }
 
         var devDefinitions: [DeveloperFieldDefinition] = [DeveloperFieldDefinition]()
@@ -120,16 +131,21 @@ internal extension DefinitionMessage {
 
             for _ in 0..<devFields {
 
-                let fieldDef = try DeveloperFieldDefinition.decode(decoder: &decoder, data: data)
-
-                devDefinitions.append(fieldDef)
+                switch DeveloperFieldDefinition.decode(decoder: &decoder, data: data) {
+                case .success(let devField):
+                    devDefinitions.append(devField)
+                case .failure(let error):
+                    return.failure(error)
+                }
             }
         }
 
-        return DefinitionMessage(architecture: architecture,
-                                 globalMessageNumber: globalMessage,
-                                 fields: fields,
-                                 fieldDefinitions: definitions,
-                                 developerFieldDefinitions: devDefinitions)
+        let definition =  DefinitionMessage(architecture: architecture,
+                                            globalMessageNumber: globalMessage,
+                                            fields: fields,
+                                            fieldDefinitions: definitions,
+                                            developerFieldDefinitions: devDefinitions)
+        
+        return.success(definition)
     }
 }

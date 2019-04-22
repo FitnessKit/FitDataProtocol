@@ -114,13 +114,13 @@ internal extension FileHeader {
 
 internal extension FileHeader {
 
-    static func decode(data: Data, validateCrc: Bool = true) throws -> FileHeader {
+    static func decode(data: Data, validateCrc: Bool = true) -> Result<FileHeader, FitDecodingError> {
         var decoder = DecodeData()
 
         let headerSize = decoder.decodeUInt8(data)
 
         /// Just call this not a Fit file if the header size doesn't match the data size
-        guard headerSize <= data.count else { throw FitError(.nonFitFile) }
+        guard headerSize <= data.count else { return.failure(FitDecodingError.nonFitFile) }
 
         let protocolVersion = decoder.decodeUInt8(data)
 
@@ -132,10 +132,10 @@ internal extension FileHeader {
         let fitCheckData = decoder.decodeData(data, length: 4)
         let fitString = String(bytes: fitCheckData, encoding: .ascii)
 
-        guard fitString == ".FIT" else { throw FitError(.nonFitFile) }
+        guard fitString == ".FIT" else { return.failure(FitDecodingError.nonFitFile) }
 
         guard ProtocolVersionMajor(protocolVersion) <= ProtocolVersionMajor(protocolVersion20) else {
-            throw FitError(.protocolVersionNotSupported)
+            return.failure(FitDecodingError.protocolVersionNotSupported)
         }
 
         // If we have a size of 14 in Header check CRC
@@ -151,16 +151,18 @@ internal extension FileHeader {
 
                     let value = CRC16(data: crcData).crc
 
-                    guard value == crc else { throw FitError(.invalidHeaderCrc) }
+                    guard value == crc else { return.failure(FitDecodingError.invalidHeaderCrc) }
                 }
             }
         }
 
-        return FileHeader(headerSize: headerSize,
-                          protocolVersion: protocolVersion,
-                          profileVersion: profileVersion,
-                          dataSize: dataSize,
-                          crc: crc)
+        let fileHeader = FileHeader(headerSize: headerSize,
+                                    protocolVersion: protocolVersion,
+                                    profileVersion: profileVersion,
+                                    dataSize: dataSize,
+                                    crc: crc)
+
+        return.success(fileHeader)
     }
 }
 

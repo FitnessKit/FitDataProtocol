@@ -79,7 +79,7 @@ extension FieldDefinition: Equatable {
 
 internal extension FieldDefinition {
 
-    static func decode(decoder: inout DecodeData, data: Data) throws -> FieldDefinition {
+    static func decode(decoder: inout DecodeData, data: Data) -> Result<FieldDefinition, FitDecodingError> {
 
         let messageNumber = decoder.decodeUInt8(data)
         let size = decoder.decodeUInt8(data)
@@ -88,9 +88,11 @@ internal extension FieldDefinition {
         let endian = (baseType & 0x80 == 0x80)
         let baseNumber = BaseType(rawValue: (baseType & 0x1F)) ?? .unknown
 
-        return FieldDefinition(fieldDefinitionNumber: messageNumber,
-                               size: size,
-                               endianAbility: endian,
-                               baseType: baseNumber)
+        let fieldDefinition =  FieldDefinition(fieldDefinitionNumber: messageNumber,
+                                               size: size,
+                                               endianAbility: endian,
+                                               baseType: baseNumber)
+
+        return.success(fieldDefinition)
     }
 }

@@ -33,17 +33,14 @@ extension FitDataProtocolTests {
                 XCTFail("Not a .FIT File")
             })
 
-        } catch {
-            if let error = error as? FitError {
-                switch error.type {
-                case .nonFitFile:
-                    break // good
-                default:
-                    XCTFail("Error should have been nonFitFile")
-                }
+        } catch let error as FitDecodingError {
+            if error != .nonFitFile {
+                XCTFail("Error should have been nonFitFile")
             }
-
+        } catch {
+            XCTFail("Error should have been nonFitFile")
         }
+
     }
     
     func testBadProtocolFitFile() {
@@ -57,15 +54,12 @@ extension FitDataProtocolTests {
                 XCTFail("Not a .FIT File")
             })
             
-        } catch {
-            if let error = error as? FitError {
-                switch error.type {
-                case .protocolVersionNotSupported:
-                    break // good
-                default:
-                    XCTFail("Error should have been protocolVersionNotSupported")
-                }
+        } catch let error as FitDecodingError {
+            if error != .protocolVersionNotSupported {
+                XCTFail("Error should have been protocolVersionNotSupported")
             }
+        } catch {
+            XCTFail("Error should have been protocolVersionNotSupported")
         }
     }
     
@@ -80,16 +74,14 @@ extension FitDataProtocolTests {
                 XCTFail("Not a .FIT File")
             })
             
-        } catch {
-            if let error = error as? FitError {
-                switch error.type {
-                case .nonFitFile:
-                    break // good
-                default:
-                    XCTFail("Error should have been protocolVersionNotSupported")
-                }
+        } catch let error as FitDecodingError {
+            if error != .nonFitFile {
+                XCTFail("Error should have been nonFitFile")
             }
+        } catch {
+            XCTFail("Error should have been nonFitFile")
         }
+
     }
 
     func testHeaderSizeWrong() {
@@ -102,15 +94,12 @@ extension FitDataProtocolTests {
                 XCTFail("Not a .FIT File")
             })
             
-        } catch {
-            if let error = error as? FitError {
-                switch error.type {
-                case .nonFitFile:
-                    break // good
-                default:
-                    XCTFail("Error should have been protocolVersionNotSupported")
-                }
+        } catch let error as FitDecodingError {
+            if error != .nonFitFile {
+                XCTFail("Error should have been nonFitFile")
             }
+        } catch {
+            XCTFail("Error should have been nonFitFile")
         }
     }
 
@@ -126,15 +115,12 @@ extension FitDataProtocolTests {
                 XCTFail("Not a .FIT File")
             })
             
-        } catch {
-            if let error = error as? FitError {
-                switch error.type {
-                case .nonFitFile:
-                    break // good
-                default:
-                    XCTFail("Error should have been protocolVersionNotSupported")
-                }
+        } catch let error as FitDecodingError {
+            if error != .nonFitFile {
+                XCTFail("Error should have been nonFitFile")
             }
+        } catch {
+            XCTFail("Error should have been nonFitFile")
         }
     }
 

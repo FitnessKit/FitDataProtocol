@@ -54,23 +54,29 @@ internal struct RecordHeader {
 
 internal extension RecordHeader {
 
-    static func decode(decoder: inout DecodeData, data: Data) throws -> RecordHeader {
+    /// Decodes the Record Header
+    ///
+    /// - Parameters:
+    ///   - decoder: DataDecoder
+    ///   - data: Fitfile Data
+    /// - Returns: RecordHeader
+    static func decode(decoder: inout DecodeData, data: Data) -> RecordHeader {
 
-        let header = decoder.decodeUInt8(data)
+        let head = decoder.decodeUInt8(data)
 
         var isDataMessage = false
         var developerData = false
         var messageType: UInt8 = 0
 
-        if (header & 0x80 == 0x80) {
+        if (head & 0x80 == 0x80) {
 
-            messageType = header & 0x60 >> 5
+            messageType = head & 0x60 >> 5
 
         } else {
 
-            if (header & 0x40 == 0x40) {
+            if (head & 0x40 == 0x40) {
 
-                if header & 0x20 == 0x20 {
+                if head & 0x20 == 0x20 {
                     developerData = true
                 }
 
@@ -78,7 +84,7 @@ internal extension RecordHeader {
                 isDataMessage = true
             }
 
-            messageType = header & 0xF
+            messageType = head & 0xF
         }
 
         return RecordHeader(localMessageType: messageType,

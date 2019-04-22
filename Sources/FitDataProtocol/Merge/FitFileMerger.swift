@@ -100,7 +100,7 @@ public extension FitFileMerger {
 
         // Step 1.  Get all Files and Check for CRC if requested
         for fitfile in files {
-            let header = try FileHeader.decode(data: fitfile, validateCrc: shouldValidate)
+            let header = try FileHeader.decode(data: fitfile, validateCrc: shouldValidate).get()
             //print(header)
 
             var decoder = DecodeData()
@@ -113,7 +113,7 @@ public extension FitFileMerger {
 
             if shouldValidate == true && header.protocolVersion >= 20 {
                 let crcCheck = CRC16(data: msgData).crc
-                guard fileCrc == crcCheck else { throw FitError(.invalidFileCrc) }
+                guard fileCrc == crcCheck else { throw FitDecodingError.invalidFileCrc }
             }
 
             let newFile = MergeFile(header: header, messageData: msgData)

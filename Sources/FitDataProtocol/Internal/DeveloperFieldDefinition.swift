@@ -36,15 +36,16 @@ internal struct DeveloperFieldDefinition {
 
 internal extension DeveloperFieldDefinition {
 
-    static func decode(decoder: inout DecodeData, data: Data) throws -> DeveloperFieldDefinition {
+    static func decode(decoder: inout DecodeData, data: Data) -> Result<DeveloperFieldDefinition, FitDecodingError>  {
 
         let fieldNumber = decoder.decodeUInt8(data)
         let size = decoder.decodeUInt8(data)
         let dataIndex = decoder.decodeUInt8(data)
 
-        return DeveloperFieldDefinition(fieldNumber: fieldNumber,
-                                        size: size,
-                                        dataIndex: dataIndex)
+        let devField = DeveloperFieldDefinition(fieldNumber: fieldNumber,
+                                                size: size,
+                                                dataIndex: dataIndex)
+        return.success(devField)
     }
 
 }
