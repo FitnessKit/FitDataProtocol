@@ -24,33 +24,6 @@
 
 import Foundation
 
-/// FitDataProtocol Error Reasons
-public enum ErrorReasons {
-    /// Generic
-    case generic(String)
-}
-
-/// FitDataProtocol Error
-public struct FitError: Error {
-
-    /// Type of Error
-    public let type: ErrorReasons
-
-    /// Create FitError With Error Reason
-    ///
-    /// - Parameter type: Error Reason
-    public init(_ type: ErrorReasons) {
-        self.type = type
-    }
-
-    /// Create FitError
-    ///
-    /// - Parameter message: Generic Message Type with Message
-    public init(message: String) {
-        self.type = .generic(message)
-    }
-}
-
 /// Errors for FIT File Decoding
 public enum FitDecodingError: Error {
     /// Invalid Architecture Type

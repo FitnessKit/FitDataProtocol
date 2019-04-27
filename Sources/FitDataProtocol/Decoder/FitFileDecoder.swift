@@ -112,7 +112,7 @@ public struct FitFileDecoder {
     ///   - data: FIT File data
     ///   - messages: FitMessage Types to Decode
     ///   - decoded: Decoded FitMessages
-    /// - Throws: FitError
+    /// - Throws: FitDecodingError
     public mutating func decode(data: Data, messages: [FitMessage.Type], decoded: ((_: FitMessage) -> Void)? ) throws {
 
         /// Clear out any old data
@@ -212,7 +212,7 @@ private extension FitFileDecoder {
     private func readFitFile(data: Data, validateCrc: Bool) -> Result<Data, FitDecodingError> {
 
         let header: FileHeader!
-        //print(header)
+
         switch FileHeader.decode(data: data, validateCrc: validateCrc) {
         case .success(let fileHeader):
             header = fileHeader

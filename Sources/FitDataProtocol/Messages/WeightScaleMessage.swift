@@ -118,7 +118,7 @@ open class WeightScaleMessage: FitMessage {
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage
-    /// - Throws: FitError
+    /// - Throws: FitDecodingError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WeightScaleMessage  {
 
         var timestamp: FitTime?

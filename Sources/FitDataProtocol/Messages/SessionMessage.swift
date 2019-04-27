@@ -427,7 +427,7 @@ open class SessionMessage: FitMessage {
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage
-    /// - Throws: FitError
+    /// - Throws: FitDecodingError
     internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SessionMessage  {
 
         var timestamp: FitTime?
