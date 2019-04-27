@@ -59,6 +59,8 @@ public enum FitDecodingError: Error {
     case nonFitFile
     /// Protocol Version Not Supported
     case protocolVersionNotSupported
+    /// Protocol Version Mismatch
+    case protocolVersionMismatch
     /// CRC Value Invalid
     case invalidHeaderCrc
     /// CRC Value Invalid
@@ -78,6 +80,8 @@ extension FitDecodingError: LocalizedError {
             return "Does not appear to be a valid FIT File format."
         case .protocolVersionNotSupported:
             return "Protocol Version not Supported."
+        case .protocolVersionMismatch:
+            return "Protocol Version Mismatch during merge"
         case .invalidHeaderCrc:
             return "Invalid Header CRC"
         case .invalidFileCrc:

@@ -86,7 +86,7 @@ public extension FitFileMerger {
     /// - Parameter files: Array of FIT files as Data
     /// - Returns: FIT File Data
     /// - Throws: FitError
-    func merge(files: [Data]) throws -> Data {
+    func merge(files: [Data]) -> Result<Data, FitDecodingError> {
 
         var fitFiles: [MergeFile] = [MergeFile]()
 
@@ -100,8 +100,14 @@ public extension FitFileMerger {
 
         // Step 1.  Get all Files and Check for CRC if requested
         for fitfile in files {
-            let header = try FileHeader.decode(data: fitfile, validateCrc: shouldValidate).get()
-            //print(header)
+            let header: FileHeader!
+            
+            switch FileHeader.decode(data: fitfile, validateCrc: shouldValidate) {
+            case .success(let filehead):
+                header = filehead
+            case .failure(let error):
+                return.failure(error)
+            }
 
             var decoder = DecodeData()
 
@@ -113,7 +119,7 @@ public extension FitFileMerger {
 
             if shouldValidate == true && header.protocolVersion >= 20 {
                 let crcCheck = CRC16(data: msgData).crc
-                guard fileCrc == crcCheck else { throw FitDecodingError.invalidFileCrc }
+                guard fileCrc == crcCheck else { return.failure(FitDecodingError.invalidFileCrc) }
             }
 
             let newFile = MergeFile(header: header, messageData: msgData)
@@ -122,7 +128,7 @@ public extension FitFileMerger {
 
         // Step 2.  Check if the FIT Versions match
         guard let firstHeader = fitFiles.first?.header else {
-            throw FitError(.generic("Error With Fit Files"))
+            return.failure(FitDecodingError.nonFitFile)
         }
 
         var dataSize: UInt32 = 0
@@ -132,7 +138,7 @@ public extension FitFileMerger {
 
             for file in fitFiles {
                 if ProtocolVersionMajor(file.header.protocolVersion) != ProtocolVersionMajor(firstHeader.protocolVersion) {
-                    throw FitError(.generic("Protocol Version Mismatch during merge."))
+                    return.failure(FitDecodingError.protocolVersionMismatch)
                 }
                 dataSize = dataSize + UInt32(file.messageData.count)
                 mergedMsgData.append(file.messageData)
@@ -148,7 +154,7 @@ public extension FitFileMerger {
         let crcCheck = CRC16(data: mergedMsgData).crc
         fileData.append(Data(from:crcCheck.littleEndian))
 
-        return fileData
+        return.success(fileData)
     }
 }
 
