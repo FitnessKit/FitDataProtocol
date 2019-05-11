@@ -55,48 +55,47 @@ open class FileCreatorMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileCreatorMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: FileCreatorMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var softwareVersion: ValidatedBinaryInteger<UInt16>?
         var hardwareVersion: ValidatedBinaryInteger<UInt8>?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("FileCreatorMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
-
+                    
                 case .softwareVersion:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     softwareVersion = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                                definition: definition,
                                                                                dataStrategy: dataStrategy)
-
+                    
                 case .hardwareVersion:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     hardwareVersion = ValidatedBinaryInteger<UInt8>.validated(value: value,
                                                                               definition: definition,
                                                                               dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
-        return FileCreatorMessage(softwareVersion: softwareVersion,
-                                  hardwareVersion: hardwareVersion)
+        
+        let msg = FileCreatorMessage(softwareVersion: softwareVersion,
+                                     hardwareVersion: hardwareVersion)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

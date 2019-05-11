@@ -84,34 +84,32 @@ open class CoursePointMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> CoursePointMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: CoursePointMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var messageIndex: MessageIndex?
-
+        
         var name: String?
         var latitude: ValidatedMeasurement<UnitAngle>?
         var longitude: ValidatedMeasurement<UnitAngle>?
         var distance: ValidatedMeasurement<UnitLength>?
         var pointType: CoursePoint?
         var isFavorite: Bool?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("CoursePointMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -119,13 +117,13 @@ open class CoursePointMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .timestamp:
                     timestamp = FitTime.decode(decoder: &localDecoder,
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData)
-
+                    
                 case .latitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -135,7 +133,7 @@ open class CoursePointMessage: FitMessage {
                     } else {
                         latitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
-
+                    
                 case .longitude:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -145,7 +143,7 @@ open class CoursePointMessage: FitMessage {
                     } else {
                         longitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
-
+                    
                 case .distance:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -155,13 +153,13 @@ open class CoursePointMessage: FitMessage {
                     } else {
                         distance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .pointType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         pointType = CoursePoint(rawValue: value)
                     } else {
-
+                        
                         switch dataStrategy {
                         case .nil:
                             break
@@ -169,33 +167,34 @@ open class CoursePointMessage: FitMessage {
                             pointType = CoursePoint.invalid
                         }
                     }
-
+                    
                 case .name:
                     name = String.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .favorite:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         isFavorite = value.boolValue
                     }
-
+                    
                 }
             }
         }
-
+        
         /// setup Position
         let position = Position(latitude: latitude, longitude: longitude)
-
-        return CoursePointMessage(timeStamp: timestamp,
-                                  messageIndex: messageIndex,
-                                  name: name,
-                                  position: position,
-                                  distance: distance,
-                                  pointType: pointType,
-                                  isFavorite: isFavorite)
+        
+        let msg = CoursePointMessage(timeStamp: timestamp,
+                                     messageIndex: messageIndex,
+                                     name: name,
+                                     position: position,
+                                     distance: distance,
+                                     pointType: pointType,
+                                     isFavorite: isFavorite)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

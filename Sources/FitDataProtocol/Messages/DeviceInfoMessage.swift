@@ -139,10 +139,8 @@ open class DeviceInfoMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> DeviceInfoMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: DeviceInfoMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var serialNumber: ValidatedBinaryInteger<UInt32>?
         var cumulativeOpTime: ValidatedMeasurement<UnitDuration>?
@@ -161,21 +159,21 @@ open class DeviceInfoMessage: FitMessage {
         var transmissionType: TransmissionType?
         var antNetwork: NetworkType?
         var source: SourceType?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("DeviceInfoMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .timestamp:
@@ -183,49 +181,49 @@ open class DeviceInfoMessage: FitMessage {
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData)
-
+                    
                 case .deviceIndex:
                     deviceIndex = DeviceIndex.decode(decoder: &localDecoder,
                                                      definition: definition,
                                                      data: fieldData,
                                                      dataStrategy: dataStrategy)
-
+                    
                 case .deviceType:
                     deviceType = DeviceType.decode(decoder: &localDecoder,
                                                    definition: definition,
                                                    data: fieldData,
                                                    dataStrategy: dataStrategy)
-
+                    
                 case .manufacturer:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         manufacturer = Manufacturer.company(id: value)
                     }
-
+                    
                 case .serialNumber:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     serialNumber = ValidatedBinaryInteger<UInt32>.validated(value: value,
                                                                             definition: definition,
                                                                             dataStrategy: dataStrategy)
-
+                    
                 case .product:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     product = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                        definition: definition,
                                                                        dataStrategy: dataStrategy)
-
+                    
                 case .softwareVersion:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     softwareVersion = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                                definition: definition,
                                                                                dataStrategy: dataStrategy)
-
+                    
                 case .hardwareVersion:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     hardwareVersion = ValidatedBinaryInteger<UInt8>.validated(value: value,
                                                                               definition: definition,
                                                                               dataStrategy: dataStrategy)
-
+                    
                 case .cumulativeOpTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -233,7 +231,7 @@ open class DeviceInfoMessage: FitMessage {
                         let value = Double(value)
                         cumulativeOpTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.seconds)
                     }
-
+                    
                 case .batteryVoltage:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -243,79 +241,80 @@ open class DeviceInfoMessage: FitMessage {
                     } else {
                         batteryVoltage = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitElectricPotentialDifference.volts)
                     }
-
+                    
                 case .batteryStatus:
                     batteryStatus = BatteryStatus.decode(decoder: &localDecoder,
                                                          definition: definition,
                                                          data: fieldData,
                                                          dataStrategy: dataStrategy)
-
+                    
                 case .sensorPosition:
                     bodylocation = BodyLocation.decode(decoder: &localDecoder,
                                                        definition: definition,
                                                        data: fieldData,
                                                        dataStrategy: dataStrategy)
-
+                    
                 case .description:
                     sensorDescription = String.decode(decoder: &localDecoder,
                                                       definition: definition,
                                                       data: fieldData,
                                                       dataStrategy: dataStrategy)
-
+                    
                 case .transmissionType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         transmissionType = TransmissionType(value)
                     }
-
+                    
                 case .deviceNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     deviceNumber = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                             definition: definition,
                                                                             dataStrategy: dataStrategy)
-
+                    
                 case .antNetwork:
                     antNetwork = NetworkType.decode(decoder: &localDecoder,
                                                     definition: definition,
                                                     data: fieldData,
                                                     dataStrategy: dataStrategy)
-
+                    
                 case .sourcetype:
                     source = SourceType.decode(decoder: &localDecoder,
                                                definition: definition,
                                                data: fieldData,
                                                dataStrategy: dataStrategy)
-
+                    
                 case .productName:
                     productname = String.decode(decoder: &localDecoder,
                                                 definition: definition,
                                                 data: fieldData,
                                                 dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
-        return DeviceInfoMessage(timeStamp: timestamp,
-                                 serialNumber: serialNumber,
-                                 cumulativeOpTime: cumulativeOpTime,
-                                 productName: productname,
-                                 manufacturer: manufacturer,
-                                 product: product,
-                                 softwareVersion: softwareVersion,
-                                 hardwareVersion: hardwareVersion,
-                                 batteryVoltage: batteryVoltage,
-                                 batteryStatus: batteryStatus,
-                                 deviceNumber: deviceNumber,
-                                 deviceType: deviceType,
-                                 deviceIndex: deviceIndex,
-                                 sensorDescription: sensorDescription,
-                                 bodylocation: bodylocation,
-                                 transmissionType: transmissionType,
-                                 antNetwork: antNetwork,
-                                 source: source)
+        
+        let msg = DeviceInfoMessage(timeStamp: timestamp,
+                                    serialNumber: serialNumber,
+                                    cumulativeOpTime: cumulativeOpTime,
+                                    productName: productname,
+                                    manufacturer: manufacturer,
+                                    product: product,
+                                    softwareVersion: softwareVersion,
+                                    hardwareVersion: hardwareVersion,
+                                    batteryVoltage: batteryVoltage,
+                                    batteryStatus: batteryStatus,
+                                    deviceNumber: deviceNumber,
+                                    deviceType: deviceType,
+                                    deviceIndex: deviceIndex,
+                                    sensorDescription: sensorDescription,
+                                    bodylocation: bodylocation,
+                                    transmissionType: transmissionType,
+                                    antNetwork: antNetwork,
+                                    source: source)
+        return.success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:

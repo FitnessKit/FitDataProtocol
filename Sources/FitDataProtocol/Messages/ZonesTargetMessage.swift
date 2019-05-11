@@ -78,10 +78,8 @@ open class ZonesTargetMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> ZonesTargetMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: ZonesTargetMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var maxHeartRate: UInt8?
         var thresholdHeartRate: UInt8?
         var heartRateZoneType: HeartRateZoneCalculation?
@@ -153,11 +151,12 @@ open class ZonesTargetMessage: FitMessage {
             }
         }
 
-        return ZonesTargetMessage(maxHeartRate: maxHeartRate,
-                                  thresholdHeartRate: thresholdHeartRate,
-                                  heartRateZoneType: heartRateZoneType,
-                                  ftp: ftp,
-                                  powerZoneType: powerZoneType)
+        let msg = ZonesTargetMessage(maxHeartRate: maxHeartRate,
+                                     thresholdHeartRate: thresholdHeartRate,
+                                     heartRateZoneType: heartRateZoneType,
+                                     ftp: ftp,
+                                     powerZoneType: powerZoneType)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

@@ -90,10 +90,8 @@ open class ActivityMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> ActivityMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: ActivityMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timeStamp: FitTime?
         var totalTimerTime: Measurement<UnitDuration>?
         var localTimeStamp: FitTime?
@@ -102,21 +100,21 @@ open class ActivityMessage: FitMessage {
         var event: Event?
         var eventType: EventType?
         var eventGroup: ValidatedBinaryInteger<UInt8>?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("ActivityMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .timestamp:
@@ -124,7 +122,7 @@ open class ActivityMessage: FitMessage {
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData)
-
+                    
                 case .totalTimerTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -132,56 +130,57 @@ open class ActivityMessage: FitMessage {
                         let value = value.resolution(.removing, resolution: key.resolution)
                         totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
-
+                    
                 case .numberOfSessions:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     numberOfSessions = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                                 definition: definition,
                                                                                 dataStrategy: dataStrategy)
-
+                    
                 case .activityType:
                     activity = Activity.decode(decoder: &localDecoder,
                                                definition: definition,
                                                data: fieldData,
                                                dataStrategy: dataStrategy)
-
+                    
                 case .event:
                     event = Event.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .eventType:
                     eventType = EventType.decode(decoder: &localDecoder,
                                                  definition: definition,
                                                  data: fieldData,
                                                  dataStrategy: dataStrategy)
-
+                    
                 case .localTimestamp:
                     localTimeStamp = FitTime.decode(decoder: &localDecoder,
                                                     endian: arch,
                                                     definition: definition,
                                                     data: fieldData,
                                                     isLocal: true)
-
+                    
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     eventGroup = ValidatedBinaryInteger<UInt8>.validated(value: value,
                                                                          definition: definition,
                                                                          dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
-        return ActivityMessage(timeStamp: timeStamp,
-                               totalTimerTime: totalTimerTime,
-                               localTimeStamp: localTimeStamp,
-                               numberOfSessions: numberOfSessions,
-                               activity: activity,
-                               event: event,
-                               eventType: eventType,
-                               eventGroup: eventGroup)
+        
+        let msg = ActivityMessage(timeStamp: timeStamp,
+                                  totalTimerTime: totalTimerTime,
+                                  localTimeStamp: localTimeStamp,
+                                  numberOfSessions: numberOfSessions,
+                                  activity: activity,
+                                  event: event,
+                                  eventType: eventType,
+                                  eventGroup: eventGroup)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

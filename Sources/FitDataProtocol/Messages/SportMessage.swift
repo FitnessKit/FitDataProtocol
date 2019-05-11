@@ -57,10 +57,8 @@ open class SportMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SportMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: SportMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var name: String?
         var sport: Sport?
         var subSport: SubSport?
@@ -106,9 +104,10 @@ open class SportMessage: FitMessage {
             }
         }
 
-        return SportMessage(name: name,
-                            sport: sport,
-                            subSport: subSport)
+        let msg = SportMessage(name: name,
+                               sport: sport,
+                               subSport: subSport)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

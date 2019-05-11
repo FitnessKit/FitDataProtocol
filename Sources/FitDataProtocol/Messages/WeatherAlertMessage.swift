@@ -83,10 +83,8 @@ open class WeatherAlertMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WeatherAlertMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: WeatherAlertMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var reportID: String?
         var issueTime: FitTime?
@@ -152,12 +150,13 @@ open class WeatherAlertMessage: FitMessage {
             }
         }
 
-        return WeatherAlertMessage(timeStamp: timestamp,
-                                   reportID: reportID,
-                                   issueTime: issueTime,
-                                   expireTime: expireTime,
-                                   severity: severity,
-                                   alertType: alertType)
+        let msg = WeatherAlertMessage(timeStamp: timestamp,
+                                      reportID: reportID,
+                                      issueTime: issueTime,
+                                      expireTime: expireTime,
+                                      severity: severity,
+                                      alertType: alertType)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

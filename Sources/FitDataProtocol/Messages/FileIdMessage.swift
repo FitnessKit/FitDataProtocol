@@ -81,10 +81,8 @@ open class FileIdMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileIdMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: FileIdMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var deviceSerialNumber: ValidatedBinaryInteger<UInt32>?
         var fileCreationDate: FitTime?
         var manufacturer: Manufacturer?
@@ -92,21 +90,21 @@ open class FileIdMessage: FitMessage {
         var fileNumber: ValidatedBinaryInteger<UInt16>?
         var fileType: FileType?
         var productName: String?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("FileIdMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .fileType:
@@ -121,7 +119,7 @@ open class FileIdMessage: FitMessage {
                             fileType = FileType.invalid
                         }
                     }
-
+                    
                 case .manufacturer:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -133,25 +131,25 @@ open class FileIdMessage: FitMessage {
                     product = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                        definition: definition,
                                                                        dataStrategy: dataStrategy)
-
+                    
                 case .serialNumber:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     deviceSerialNumber = ValidatedBinaryInteger<UInt32>.validated(value: value,
                                                                                   definition: definition,
                                                                                   dataStrategy: dataStrategy)
-
+                    
                 case .fileCreationDate:
                     fileCreationDate = FitTime.decode(decoder: &localDecoder,
                                                       endian: arch,
                                                       definition: definition,
                                                       data: fieldData)
-
+                    
                 case .fileNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     fileNumber = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                           definition: definition,
                                                                           dataStrategy: dataStrategy)
-
+                    
                 case .productName:
                     productName = String.decode(decoder: &localDecoder,
                                                 definition: definition,
@@ -160,16 +158,17 @@ open class FileIdMessage: FitMessage {
                 }
             }
         }
-
-        return FileIdMessage(deviceSerialNumber: deviceSerialNumber,
-                             fileCreationDate: fileCreationDate,
-                             manufacturer: manufacturer,
-                             product: product,
-                             fileNumber: fileNumber,
-                             fileType: fileType,
-                             productName: productName)
+        
+        let msg = FileIdMessage(deviceSerialNumber: deviceSerialNumber,
+                                fileCreationDate: fileCreationDate,
+                                manufacturer: manufacturer,
+                                product: product,
+                                fileNumber: fileNumber,
+                                fileType: fileType,
+                                productName: productName)
+        return.success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:

@@ -123,7 +123,7 @@ public struct FitFileDecoder {
         let globalMsgs = messages.map {$0.globalMessageNumber()}
         let duplicates = Array(Set(globalMsgs.filter({ (i: UInt16) in globalMsgs.filter({ $0 == i }).count > 1})))
 
-        guard duplicates.count == 0 else {
+        guard duplicates.isEmpty else {
             throw FitDecodingError.duplicateFitMessage
         }
 
@@ -183,10 +183,17 @@ public struct FitFileDecoder {
                 let fieldData = FieldData(fieldData: stdData, developerFieldData: devData)
 
                 if hasMessageDecoder == true {
-                    let message = try messageType.decode(fieldData: fieldData,
-                                                         definition: definitionDict[header.localMessageType]!,
-                                                         dataStrategy: dataDecodingStrategy)
-                    decoded?(message)
+
+                    let result = messageType.decode(fieldData: fieldData,
+                                                    definition: definitionDict[header.localMessageType]!,
+                                                    dataStrategy: dataDecodingStrategy)
+                    
+                    switch result {
+                    case .success(let message):
+                        decoded?(message)
+                    case .failure(let error):
+                        throw error
+                    }
                     
                 } else {
                     //print("NO Decoder for type")

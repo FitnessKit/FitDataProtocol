@@ -58,10 +58,8 @@ open class SlaveDeviceMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SlaveDeviceMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: SlaveDeviceMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var manufacturer: Manufacturer?
         var product: UInt16?
 
@@ -104,8 +102,9 @@ open class SlaveDeviceMessage: FitMessage {
             }
         }
 
-        return SlaveDeviceMessage(manufacturer: manufacturer,
-                                  product: product)
+        let msg = SlaveDeviceMessage(manufacturer: manufacturer,
+                                     product: product)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

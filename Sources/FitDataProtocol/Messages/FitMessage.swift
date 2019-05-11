@@ -56,15 +56,26 @@ open class FitMessage {
         fatalError("*** You must override in your class.")
     }
 
+//    /// Decode Message Data into FitMessage
+//    ///
+//    /// - Parameters:
+//    ///   - fieldData: FileData
+//    ///   - definition: Definition Message
+//    ///   - dataStrategy: Decoding Strategy
+//    /// - Returns: FitMessage
+//    /// - Throws: FitDecodingError
+//    internal func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FitMessage  {
+//        fatalError("*** You must override in your class.")
+//    }
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FitMessage  {
+    /// - Returns: FitMessage Result
+    internal func decode<F: FitMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         fatalError("*** You must override in your class.")
     }
     
@@ -76,7 +87,6 @@ open class FitMessage {
     /// - Returns: DefinitionMessage Result
     internal func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
         return.failure(FitEncodingError.notSupported)
-        //fatalError("*** You must override in your class.")
     }
     
     /// Encodes the Message into Data
@@ -87,7 +97,6 @@ open class FitMessage {
     /// - Returns: Data Result
     internal func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
         return.failure(FitEncodingError.notSupported)
-        //fatalError("*** You must override in your class.")
     }
 
 }

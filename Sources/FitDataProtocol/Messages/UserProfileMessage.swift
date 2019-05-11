@@ -188,10 +188,8 @@ open class UserProfileMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> UserProfileMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: UserProfileMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var messageIndex: MessageIndex?
         var friendlyName: String?
@@ -438,30 +436,31 @@ open class UserProfileMessage: FitMessage {
             }
         }
 
-        return UserProfileMessage(timeStamp: timestamp,
-                                  messageIndex: messageIndex,
-                                  friendlyName: friendlyName,
-                                  weight: weight,
-                                  speedSetting: speedSetting,
-                                  heartRateSetting: heartRateSetting,
-                                  distanceSetting: distanceSetting,
-                                  powerSetting: powerSetting,
-                                  positionSetting: positionSetting,
-                                  temperatureSetting: temperatureSetting,
-                                  localID: localID,
-                                  heightSetting: heightSetting,
-                                  runningStepLength: runningStepLength,
-                                  walkingStepLength: walkingStepLength,
-                                  gender: gender,
-                                  age: age,
-                                  height: height,
-                                  language: language,
-                                  elevationSetting: elevationSetting,
-                                  weightSetting: weightSetting,
-                                  restingHeartRate: restingHeartRate,
-                                  maxRunningHeartRate: maxRunningHeartRate,
-                                  maxBikingHeartRate: maxBikingHeartRate,
-                                  maxHeartRate: maxHeartRate)
+        let msg = UserProfileMessage(timeStamp: timestamp,
+                                     messageIndex: messageIndex,
+                                     friendlyName: friendlyName,
+                                     weight: weight,
+                                     speedSetting: speedSetting,
+                                     heartRateSetting: heartRateSetting,
+                                     distanceSetting: distanceSetting,
+                                     powerSetting: powerSetting,
+                                     positionSetting: positionSetting,
+                                     temperatureSetting: temperatureSetting,
+                                     localID: localID,
+                                     heightSetting: heightSetting,
+                                     runningStepLength: runningStepLength,
+                                     walkingStepLength: walkingStepLength,
+                                     gender: gender,
+                                     age: age,
+                                     height: height,
+                                     language: language,
+                                     elevationSetting: elevationSetting,
+                                     weightSetting: weightSetting,
+                                     restingHeartRate: restingHeartRate,
+                                     maxRunningHeartRate: maxRunningHeartRate,
+                                     maxBikingHeartRate: maxBikingHeartRate,
+                                     maxHeartRate: maxHeartRate)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

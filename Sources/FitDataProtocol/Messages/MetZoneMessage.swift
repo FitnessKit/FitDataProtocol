@@ -70,29 +70,27 @@ open class MetZoneMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> MetZoneMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: MetZoneMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var heartRate: UInt8?
         var calories: ValidatedMeasurement<UnitEnergy>?
         var fatCalories: ValidatedMeasurement<UnitEnergy>?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("MetZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -100,7 +98,7 @@ open class MetZoneMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .highBpm:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -113,7 +111,7 @@ open class MetZoneMessage: FitMessage {
                             heartRate = nil
                         }
                     }
-
+                    
                 case .calories:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -123,7 +121,7 @@ open class MetZoneMessage: FitMessage {
                     } else {
                         calories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
                     }
-
+                    
                 case .fatCalories:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -133,15 +131,16 @@ open class MetZoneMessage: FitMessage {
                     } else {
                         fatCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
                     }
-
+                    
                 }
             }
         }
-
-        return MetZoneMessage(messageIndex: messageIndex,
-                              heartRate: heartRate,
-                              calories: calories,
-                              fatCalories: fatCalories)
+        
+        let msg = MetZoneMessage(messageIndex: messageIndex,
+                                 heartRate: heartRate,
+                                 calories: calories,
+                                 fatCalories: fatCalories)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

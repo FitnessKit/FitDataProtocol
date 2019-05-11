@@ -108,10 +108,8 @@ open class BloodPressureMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> BloodPressureMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: BloodPressureMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timeStamp: FitTime?
         var systolicPressure: ValidatedMeasurement<UnitPressure>?
         var diastolicPressure: ValidatedMeasurement<UnitPressure>?
@@ -123,21 +121,21 @@ open class BloodPressureMessage: FitMessage {
         var heartRateType: HeartRateType?
         var status: BloodPressureStatus?
         var userProfileIndex: MessageIndex?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("BloodPressureMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .timestamp:
@@ -145,7 +143,7 @@ open class BloodPressureMessage: FitMessage {
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData)
-
+                    
                 case .systolicPressure:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -155,7 +153,7 @@ open class BloodPressureMessage: FitMessage {
                     } else {
                         systolicPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
-
+                    
                 case .diastolicPressure:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -165,7 +163,7 @@ open class BloodPressureMessage: FitMessage {
                     } else {
                         diastolicPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
-
+                    
                 case .meanArterialPressure:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -175,7 +173,7 @@ open class BloodPressureMessage: FitMessage {
                     } else {
                         meanArterialPressure = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
-
+                    
                 case .mapSampleMean:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -185,7 +183,7 @@ open class BloodPressureMessage: FitMessage {
                     } else {
                         mapSampleMean = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
-
+                    
                 case .mapMorningValues:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -195,7 +193,7 @@ open class BloodPressureMessage: FitMessage {
                     } else {
                         mapMorningValues = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
-
+                    
                 case .mapEveningValues:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -205,7 +203,7 @@ open class BloodPressureMessage: FitMessage {
                     } else {
                         mapEveningValues = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPressure.millimetersOfMercury)
                     }
-
+                    
                 case .heartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -218,40 +216,42 @@ open class BloodPressureMessage: FitMessage {
                             heartRate = nil
                         }
                     }
-
+                    
                 case .heartRateType:
                     heartRateType = HeartRateType.decode(decoder: &localDecoder,
                                                          definition: definition,
                                                          data: fieldData,
                                                          dataStrategy: dataStrategy)
-
+                    
                 case .status:
                     status = BloodPressureStatus.decode(decoder: &localDecoder,
                                                         definition: definition,
                                                         data: fieldData,
                                                         dataStrategy: dataStrategy)
-
+                    
                 case .userProfileIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         userProfileIndex = MessageIndex(value: value)
                     }
-
+                    
                 }
             }
         }
+        
+        let msg = BloodPressureMessage(timeStamp: timeStamp,
+                                       systolicPressure: systolicPressure,
+                                       diastolicPressure: diastolicPressure,
+                                       meanArterialPressure: meanArterialPressure,
+                                       mapSampleMean: mapSampleMean,
+                                       mapMorningValues: mapMorningValues,
+                                       mapEveningValues: mapEveningValues,
+                                       heartRate: heartRate,
+                                       heartRateType: heartRateType,
+                                       status: status,
+                                       userProfileIndex: userProfileIndex)
+        return.success(msg as! F)
 
-        return BloodPressureMessage(timeStamp: timeStamp,
-                                    systolicPressure: systolicPressure,
-                                    diastolicPressure: diastolicPressure,
-                                    meanArterialPressure: meanArterialPressure,
-                                    mapSampleMean: mapSampleMean,
-                                    mapMorningValues: mapMorningValues,
-                                    mapEveningValues: mapEveningValues,
-                                    heartRate: heartRate,
-                                    heartRateType: heartRateType,
-                                    status: status,
-                                    userProfileIndex: userProfileIndex)
     }
 
     /// Encodes the Definition Message for FitMessage

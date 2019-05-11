@@ -91,10 +91,8 @@ open class ScheduleMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> ScheduleMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: ScheduleMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var manufacturer: Manufacturer?
         var product: ValidatedBinaryInteger<UInt16>?
         var serialNumber: ValidatedBinaryInteger<UInt32>?
@@ -167,13 +165,15 @@ open class ScheduleMessage: FitMessage {
             }
         }
 
-        return ScheduleMessage(manufacturer: manufacturer,
-                               product: product,
-                               serialNumber: serialNumber,
-                               timeCreated: timeCreated,
-                               completed: completed,
-                               scheduleType: scheduleType,
-                               scheduledTime: scheduledTime)
+        let msg = ScheduleMessage(manufacturer: manufacturer,
+                                  product: product,
+                                  serialNumber: serialNumber,
+                                  timeCreated: timeCreated,
+                                  completed: completed,
+                                  scheduleType: scheduleType,
+                                  scheduledTime: scheduledTime)
+
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

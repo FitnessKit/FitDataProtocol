@@ -75,31 +75,29 @@ open class FileCapabilitiesMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FileCapabilitiesMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: FileCapabilitiesMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var fileType: FileType?
         var fileFlags: FitFileFlag?
         var directory: String?
         var maxCount: ValidatedBinaryInteger<UInt16>?
         var maxSize: ValidatedBinaryInteger<UInt32>?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("FileCapabilitiesMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -107,7 +105,7 @@ open class FileCapabilitiesMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .fileType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -120,44 +118,45 @@ open class FileCapabilitiesMessage: FitMessage {
                             fileType = FileType.invalid
                         }
                     }
-
+                    
                 case .fileFlags:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         fileFlags = FitFileFlag(rawValue: value)
                     }
-
-
+                    
+                    
                 case .directory:
                     directory = String.decode(decoder: &localDecoder,
                                               definition: definition,
                                               data: fieldData,
                                               dataStrategy: dataStrategy)
-
+                    
                 case .maxCount:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     maxCount = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                         definition: definition,
                                                                         dataStrategy: dataStrategy)
-
+                    
                 case .maxSize:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     maxSize = ValidatedBinaryInteger<UInt32>.validated(value: value,
                                                                        definition: definition,
                                                                        dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
-        return FileCapabilitiesMessage(messageIndex: messageIndex,
-                                       fileType: fileType,
-                                       fileFlags: fileFlags,
-                                       directory: directory,
-                                       maxCount: maxCount,
-                                       maxSize: maxSize)
+        
+        let msg = FileCapabilitiesMessage(messageIndex: messageIndex,
+                                          fileType: fileType,
+                                          fileFlags: fileFlags,
+                                          directory: directory,
+                                          maxCount: maxCount,
+                                          maxSize: maxSize)
+        return.success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:

@@ -76,10 +76,8 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SegmentLeaderboardEntryMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: SegmentLeaderboardEntryMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var name: String?
         var leaderType: LeaderboardType?
@@ -147,12 +145,13 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
             }
         }
 
-        return SegmentLeaderboardEntryMessage(messageIndex: messageIndex,
-                                              name: name,
-                                              leaderType: leaderType,
-                                              leaderId: leaderId,
-                                              activityId: activityId,
-                                              segmentTime: segmentTime)
+        let msg = SegmentLeaderboardEntryMessage(messageIndex: messageIndex,
+                                                 name: name,
+                                                 leaderType: leaderType,
+                                                 leaderId: leaderId,
+                                                 activityId: activityId,
+                                                 segmentTime: segmentTime)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

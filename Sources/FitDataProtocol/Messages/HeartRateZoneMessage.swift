@@ -64,28 +64,26 @@ open class HeartRateZoneMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> HeartRateZoneMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: HeartRateZoneMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var name: String?
         var heartRate: UInt8?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("HeartRateZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -93,7 +91,7 @@ open class HeartRateZoneMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .highBpm:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -106,22 +104,23 @@ open class HeartRateZoneMessage: FitMessage {
                             heartRate = nil
                         }
                     }
-
+                    
                 case .name:
                     name = String.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
-        return HeartRateZoneMessage(messageIndex: messageIndex,
-                                    name: name,
-                                    heartRate: heartRate)
+        
+        let msg = HeartRateZoneMessage(messageIndex: messageIndex,
+                                       name: name,
+                                       heartRate: heartRate)
+        return.success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:

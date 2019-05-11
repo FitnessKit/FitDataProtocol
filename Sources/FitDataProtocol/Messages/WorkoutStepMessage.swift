@@ -106,10 +106,8 @@ open class WorkoutStepMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WorkoutStepMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: WorkoutStepMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var name: String?
         var duration: ValidatedBinaryInteger<UInt32>?
@@ -215,18 +213,19 @@ open class WorkoutStepMessage: FitMessage {
             }
         }
 
-        return WorkoutStepMessage(messageIndex: messageIndex,
-                                  name: name,
-                                  duration: duration,
-                                  durationType: durationType,
-                                  target: target,
-                                  targetLow: targetLow,
-                                  targetHigh: targetHigh,
-                                  targetType: targetType,
-                                  category: category,
-                                  intensity: intensity,
-                                  notes: notes,
-                                  equipment: equipment)
+        let msg = WorkoutStepMessage(messageIndex: messageIndex,
+                                     name: name,
+                                     duration: duration,
+                                     durationType: durationType,
+                                     target: target,
+                                     targetLow: targetLow,
+                                     targetHigh: targetHigh,
+                                     targetType: targetType,
+                                     category: category,
+                                     intensity: intensity,
+                                     notes: notes,
+                                     equipment: equipment)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

@@ -96,10 +96,8 @@ open class TotalsMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> TotalsMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: TotalsMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var messageIndex: MessageIndex?
         var timerTime: Measurement<UnitDuration>?
@@ -198,15 +196,16 @@ open class TotalsMessage: FitMessage {
             }
         }
 
-        return TotalsMessage(timeStamp: timestamp,
-                             messageIndex: messageIndex,
-                             timerTime: timerTime,
-                             distance: distance,
-                             calories: calories,
-                             sport: sport,
-                             elapsedTime: elapsedTime,
-                             sessions: sessions,
-                             activeTime: activeTime)
+        let msg = TotalsMessage(timeStamp: timestamp,
+                                messageIndex: messageIndex,
+                                timerTime: timerTime,
+                                distance: distance,
+                                calories: calories,
+                                sport: sport,
+                                elapsedTime: elapsedTime,
+                                sessions: sessions,
+                                activeTime: activeTime)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

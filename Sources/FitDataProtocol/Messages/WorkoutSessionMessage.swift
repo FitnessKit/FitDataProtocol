@@ -81,10 +81,8 @@ open class WorkoutSessionMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WorkoutSessionMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: WorkoutSessionMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var sport: Sport?
         var subSport: SubSport?
@@ -159,13 +157,14 @@ open class WorkoutSessionMessage: FitMessage {
             }
         }
 
-        return WorkoutSessionMessage(messageIndex: messageIndex,
-                                     sport: sport,
-                                     subSport: subSport,
-                                     numberOfValidSteps: numberOfValidSteps,
-                                     firstStepIndex: firstStepIndex,
-                                     poolLength: poolLength,
-                                     poolLengthUnit: poolLengthUnit)
+        let msg = WorkoutSessionMessage(messageIndex: messageIndex,
+                                        sport: sport,
+                                        subSport: subSport,
+                                        numberOfValidSteps: numberOfValidSteps,
+                                        firstStepIndex: firstStepIndex,
+                                        poolLength: poolLength,
+                                        poolLengthUnit: poolLengthUnit)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

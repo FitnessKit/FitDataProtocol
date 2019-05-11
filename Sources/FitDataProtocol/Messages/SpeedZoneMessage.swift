@@ -60,10 +60,8 @@ open class SpeedZoneMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SpeedZoneMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: SpeedZoneMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var name: String?
         var highLevel: ValidatedMeasurement<UnitSpeed>?
@@ -110,9 +108,11 @@ open class SpeedZoneMessage: FitMessage {
             }
         }
 
-        return SpeedZoneMessage(messageIndex: messageIndex,
-                                name: name,
-                                highLevel: highLevel)
+        let msg = SpeedZoneMessage(messageIndex: messageIndex,
+                                   name: name,
+                                   highLevel: highLevel)
+
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

@@ -60,28 +60,26 @@ open class PowerZoneMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> PowerZoneMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: PowerZoneMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var name: String?
         var highLevel: ValidatedMeasurement<UnitPower>?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("PowerZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -89,7 +87,7 @@ open class PowerZoneMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .highValue:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -99,20 +97,21 @@ open class PowerZoneMessage: FitMessage {
                     } else {
                         highLevel = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
-
+                    
                 case .name:
                     name = String.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
-        return PowerZoneMessage(messageIndex: messageIndex,
-                                  name: name,
-                                  highLevel: highLevel)
+        
+        let msg = PowerZoneMessage(messageIndex: messageIndex,
+                                   name: name,
+                                   highLevel: highLevel)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

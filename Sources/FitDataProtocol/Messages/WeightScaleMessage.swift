@@ -117,10 +117,8 @@ open class WeightScaleMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> WeightScaleMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: WeightScaleMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var weight: Weight?
         var percentFat: ValidatedMeasurement<UnitPercent>?
@@ -279,19 +277,20 @@ open class WeightScaleMessage: FitMessage {
             }
         }
 
-        return WeightScaleMessage(timeStamp: timestamp,
-                                  weight: weight,
-                                  percentFat: percentFat,
-                                  percentHydration: percentHydration,
-                                  visceralFatMass: visceralFatMass,
-                                  boneMass: boneMass,
-                                  muscleMass: muscleMass,
-                                  basalMet: basalMet,
-                                  physiqueRating: physiqueRating,
-                                  activeMet: activeMet,
-                                  metabolicAge: metabolicAge,
-                                  visceralFatRating: visceralFatRating,
-                                  userProfileIndex: userProfileIndex)
+        let msg = WeightScaleMessage(timeStamp: timestamp,
+                                     weight: weight,
+                                     percentFat: percentFat,
+                                     percentHydration: percentHydration,
+                                     visceralFatMass: visceralFatMass,
+                                     boneMass: boneMass,
+                                     muscleMass: muscleMass,
+                                     basalMet: basalMet,
+                                     physiqueRating: physiqueRating,
+                                     activeMet: activeMet,
+                                     metabolicAge: metabolicAge,
+                                     visceralFatRating: visceralFatRating,
+                                     userProfileIndex: userProfileIndex)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

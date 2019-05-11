@@ -110,10 +110,8 @@ open class ConnectivityMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> ConnectivityMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: ConnectivityMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var bluetoothEnabled: Bool?
         var bluetoothLowEnergyEnable: Bool?
         var antEnabled: Bool?
@@ -127,119 +125,120 @@ open class ConnectivityMessage: FitMessage {
         var incidentDetectionEnabled: Bool?
         var groupTrackEnabled: Bool?
         var name: String?
-
+        
         //let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("ConnectivityMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
-
+                    
                 case .bluetoothEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         bluetoothEnabled = value.boolValue
                     }
-
+                    
                 case .bluetoothLowEnergyEnable:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         bluetoothLowEnergyEnable = value.boolValue
                     }
-
+                    
                 case .antEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         antEnabled = value.boolValue
                     }
-
+                    
                 case .connectivityName:
                     name = String.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .liveTrackingEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         liveTrackingEnabled = value.boolValue
                     }
-
+                    
                 case .weatherConditionsEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         weatherConditionsEnabled = value.boolValue
                     }
-
+                    
                 case .weatherAlertsEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         weatherAlertsEnabled = value.boolValue
                     }
-
+                    
                 case .autoActivityUploadEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         autoActivityUploadEnabled = value.boolValue
                     }
-
+                    
                 case .courseDownloadEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         courseDownloadEnabled = value.boolValue
                     }
-
+                    
                 case .workoutDownloadEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         workoutDownloadEnabled = value.boolValue
                     }
-
+                    
                 case .gpsEphemerisDownloadEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         gpsEphemerisDownloadEnabled = value.boolValue
                     }
-
+                    
                 case .incidentDetectionEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         incidentDetectionEnabled = value.boolValue
                     }
-
+                    
                 case .groupTrackEnabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         groupTrackEnabled = value.boolValue
                     }
-
+                    
                 }
             }
         }
-
-        return ConnectivityMessage(bluetoothEnabled: bluetoothEnabled,
-                                   bluetoothLowEnergyEnable: bluetoothLowEnergyEnable,
-                                   antEnabled: antEnabled,
-                                   name: name,
-                                   liveTrackingEnabled: liveTrackingEnabled,
-                                   weatherConditionsEnabled: weatherConditionsEnabled,
-                                   weatherAlertsEnabled: weatherAlertsEnabled,
-                                   autoActivityUploadEnabled: autoActivityUploadEnabled,
-                                   courseDownloadEnabled: courseDownloadEnabled,
-                                   workoutDownloadEnabled: workoutDownloadEnabled,
-                                   gpsEphemerisDownloadEnabled: gpsEphemerisDownloadEnabled,
-                                   incidentDetectionEnabled: incidentDetectionEnabled,
-                                   groupTrackEnabled: groupTrackEnabled)
+        
+        let msg = ConnectivityMessage(bluetoothEnabled: bluetoothEnabled,
+                                      bluetoothLowEnergyEnable: bluetoothLowEnergyEnable,
+                                      antEnabled: antEnabled,
+                                      name: name,
+                                      liveTrackingEnabled: liveTrackingEnabled,
+                                      weatherConditionsEnabled: weatherConditionsEnabled,
+                                      weatherAlertsEnabled: weatherAlertsEnabled,
+                                      autoActivityUploadEnabled: autoActivityUploadEnabled,
+                                      courseDownloadEnabled: courseDownloadEnabled,
+                                      workoutDownloadEnabled: workoutDownloadEnabled,
+                                      gpsEphemerisDownloadEnabled: gpsEphemerisDownloadEnabled,
+                                      incidentDetectionEnabled: incidentDetectionEnabled,
+                                      groupTrackEnabled: groupTrackEnabled)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

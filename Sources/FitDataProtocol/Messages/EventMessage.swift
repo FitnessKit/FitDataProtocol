@@ -75,31 +75,29 @@ open class EventMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> EventMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: EventMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var eventData: ValidatedBinaryInteger<UInt16>?
         var eventMoreData: ValidatedBinaryInteger<UInt32>?
         var event: Event?
         var eventType: EventType?
         var eventGroup: ValidatedBinaryInteger<UInt8>?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("EventMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .timestamp:
@@ -107,77 +105,78 @@ open class EventMessage: FitMessage {
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData)
-
+                    
                 case .event:
                     event = Event.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .eventType:
                     eventType = EventType.decode(decoder: &localDecoder,
                                                  definition: definition,
                                                  data: fieldData,
                                                  dataStrategy: dataStrategy)
-
+                    
                 case .data16:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     eventData = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                          definition: definition,
                                                                          dataStrategy: dataStrategy)
-
+                    
                 case .data32:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     eventMoreData = ValidatedBinaryInteger<UInt32>.validated(value: value,
                                                                              definition: definition,
                                                                              dataStrategy: dataStrategy)
-
+                    
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     eventGroup = ValidatedBinaryInteger<UInt8>.validated(value: value,
                                                                          definition: definition,
                                                                          dataStrategy: dataStrategy)
-
+                    
                 case .score:
                     // not populated directly
                     // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .opponentScore:
                     // not populated directly
                     // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .frontGearNumber:
                     // not populated directly
                     // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .frontGear:
                     // not populated directly
                     // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .rearGearNumber:
                     // not populated directly
                     // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .rearGear:
                     // not populated directly
                     // We still need to pull this data off the stack just in case it is included
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 }
             }
         }
-
-        return EventMessage(timeStamp: timestamp,
-                            eventData: eventData,
-                            eventMoreData: eventMoreData,
-                            event: event,
-                            eventType: eventType,
-                            eventGroup: eventGroup)
+        
+        let msg = EventMessage(timeStamp: timestamp,
+                               eventData: eventData,
+                               eventMoreData: eventMoreData,
+                               event: event,
+                               eventType: eventType,
+                               eventGroup: eventGroup)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

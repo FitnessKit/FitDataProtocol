@@ -201,10 +201,8 @@ open class RecordMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> RecordMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: RecordMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var latitude: ValidatedMeasurement<UnitAngle>?
         var longitude: ValidatedMeasurement<UnitAngle>?
@@ -667,34 +665,35 @@ open class RecordMessage: FitMessage {
         /// Stance Time
         let stance = StanceTime(percent: stancePercent, time: stanceTime)
 
-        return RecordMessage(timeStamp: timestamp,
-                             position: position,
-                             distance: distance,
-                             timeFromCourse: timeFromCourse,
-                             cycles: cycles,
-                             totalCycles: totalCycles,
-                             accumulatedPower: accumulatedPower,
-                             altitude: recordAltitude,
-                             speed: recordSpeed,
-                             power: power,
-                             gpsAccuracy: gpsAccuracy,
-                             verticalSpeed: verticalSpeed,
-                             calories: calories,
-                             verticalOscillation: verticalOscillation,
-                             stanceTime: stance,
-                             heartRate: heartRate,
-                             cadence: cadence,
-                             grade: grade,
-                             resistance: resistance,
-                             cycleLength: cycleLength,
-                             temperature: temperature,
-                             activity: activity,
-                             torqueEffectiveness: torqueEff,
-                             pedalSmoothness: pedal,
-                             stroke: stroke,
-                             zone: zone,
-                             ballSpeed: ballSpeed,
-                             deviceIndex: deviceIndex)
+        let msg = RecordMessage(timeStamp: timestamp,
+                                position: position,
+                                distance: distance,
+                                timeFromCourse: timeFromCourse,
+                                cycles: cycles,
+                                totalCycles: totalCycles,
+                                accumulatedPower: accumulatedPower,
+                                altitude: recordAltitude,
+                                speed: recordSpeed,
+                                power: power,
+                                gpsAccuracy: gpsAccuracy,
+                                verticalSpeed: verticalSpeed,
+                                calories: calories,
+                                verticalOscillation: verticalOscillation,
+                                stanceTime: stance,
+                                heartRate: heartRate,
+                                cadence: cadence,
+                                grade: grade,
+                                resistance: resistance,
+                                cycleLength: cycleLength,
+                                temperature: temperature,
+                                activity: activity,
+                                torqueEffectiveness: torqueEff,
+                                pedalSmoothness: pedal,
+                                stroke: stroke,
+                                zone: zone,
+                                ballSpeed: ballSpeed,
+                                deviceIndex: deviceIndex)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

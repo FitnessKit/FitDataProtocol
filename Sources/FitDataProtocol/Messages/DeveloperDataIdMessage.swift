@@ -71,45 +71,43 @@ open class DeveloperDataIdMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> DeveloperDataIdMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: DeveloperDataIdMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var developerId: Data?
         var applicationId: Data?
         var applicationVersion: ValidatedBinaryInteger<UInt32>?
         var manufacturer: Manufacturer?
         var dataIndex: ValidatedBinaryInteger<UInt8>?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("DeveloperDataIdMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
-
+                    
                 case .developerId:
                     let value = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if value.isValidForBaseType(definition.baseType) {
                         developerId = value
                     }
-
+                    
                 case .applicationId:
                     let value = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                     if value.isValidForBaseType(definition.baseType) {
                         applicationId = value
                     }
-
+                    
                 case .manufacturerId:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -121,22 +119,23 @@ open class DeveloperDataIdMessage: FitMessage {
                     dataIndex = ValidatedBinaryInteger<UInt8>.validated(value: value,
                                                                         definition: definition,
                                                                         dataStrategy: dataStrategy)
-
+                    
                 case .applicationVersion:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     applicationVersion = ValidatedBinaryInteger<UInt32>.validated(value: value,
                                                                                   definition: definition,
                                                                                   dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
-        return DeveloperDataIdMessage(developerId: developerId,
-                                      applicationId: applicationId,
-                                      applicationVersion: applicationVersion,
-                                      manufacturer: manufacturer,
-                                      dataIndex: dataIndex)
+        
+        let msg = DeveloperDataIdMessage(developerId: developerId,
+                                         applicationId: applicationId,
+                                         applicationVersion: applicationVersion,
+                                         manufacturer: manufacturer,
+                                         dataIndex: dataIndex)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

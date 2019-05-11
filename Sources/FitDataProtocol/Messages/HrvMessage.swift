@@ -57,54 +57,53 @@ open class HrvMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> HrvMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: HrvMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var hrv: [Measurement<UnitDuration>]?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("HrvMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
-
+                    
                 case .time:
                     let timeData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                     var localDecoder = DecodeData()
-
+                    
                     var seconds = arch == .little ? localDecoder.decodeUInt16(timeData).littleEndian : localDecoder.decodeUInt16(timeData).bigEndian
-
+                    
                     while seconds != 0 {
                         /// 1000 * s + 0, Time between beats
                         let value = seconds.resolution(.removing, resolution: key.resolution)
                         let interval = Measurement(value: value, unit: UnitDuration.seconds)
-
+                        
                         if hrv == nil {
                             hrv = [Measurement<UnitDuration>]()
                         }
                         hrv?.append(interval)
-
+                        
                         seconds = arch == .little ? localDecoder.decodeUInt16(timeData).littleEndian : localDecoder.decodeUInt16(timeData).bigEndian
                     }
-
+                    
                 }
             }
         }
-
-        return HrvMessage(hrv)
+        
+        let msg = HrvMessage(hrv)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

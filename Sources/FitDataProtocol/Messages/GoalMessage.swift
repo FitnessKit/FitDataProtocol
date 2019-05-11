@@ -116,10 +116,8 @@ open class GoalMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> GoalMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: GoalMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var startDate: FitTime?
         var endDate: FitTime?
@@ -133,21 +131,21 @@ open class GoalMessage: FitMessage {
         var recurrenceValue: ValidatedBinaryInteger<UInt16>?
         var enabled: Bool?
         var source: GoalSource?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("GoalMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -155,40 +153,40 @@ open class GoalMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .sport:
                     sport = Sport.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .subSport:
                     subSport = SubSport.decode(decoder: &localDecoder,
                                                definition: definition,
                                                data: fieldData,
                                                dataStrategy: dataStrategy)
-
+                    
                 case .startDate:
                     startDate = FitTime.decode(decoder: &localDecoder,
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData,
                                                isLocal: true)
-
-
+                    
+                    
                 case .endDate:
                     endDate = FitTime.decode(decoder: &localDecoder,
                                              endian: arch,
                                              definition: definition,
                                              data: fieldData,
                                              isLocal: true)
-
+                    
                 case .goalType:
                     goalType = Goal.decode(decoder: &localDecoder,
                                            definition: definition,
                                            data: fieldData,
                                            dataStrategy: dataStrategy)
-
+                    
                 case .goalValue:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -200,62 +198,63 @@ open class GoalMessage: FitMessage {
                             goalValue = nil
                         }
                     }
-
+                    
                 case .repeatGoal:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         repeatGoal = value.boolValue
                     }
-
+                    
                 case .targetValue:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     targetValue = ValidatedBinaryInteger<UInt32>.validated(value: value,
                                                                            definition: definition,
                                                                            dataStrategy: dataStrategy)
-
+                    
                 case .recurrence:
                     recurrence = GoalRecurrence.decode(decoder: &localDecoder,
                                                        definition: definition,
                                                        data: fieldData,
                                                        dataStrategy: dataStrategy)
-
+                    
                 case .recurrenceValue:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     recurrenceValue = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                                definition: definition,
                                                                                dataStrategy: dataStrategy)
-
+                    
                 case .enabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         enabled = value.boolValue
                     }
-
+                    
                 case .goalSource:
                     source = GoalSource.decode(decoder: &localDecoder,
                                                definition: definition,
                                                data: fieldData,
                                                dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
-        return GoalMessage(messageIndex: messageIndex,
-                           startDate: startDate,
-                           endDate: endDate,
-                           sport: sport,
-                           subSport: subSport,
-                           goalType: goalType,
-                           goalValue: goalValue,
-                           repeatGoal: repeatGoal,
-                           targetValue: targetValue,
-                           recurrence: recurrence,
-                           recurrenceValue: recurrenceValue,
-                           enabled: enabled,
-                           source: source)
+        
+        let msg = GoalMessage(messageIndex: messageIndex,
+                              startDate: startDate,
+                              endDate: endDate,
+                              sport: sport,
+                              subSport: subSport,
+                              goalType: goalType,
+                              goalValue: goalValue,
+                              repeatGoal: repeatGoal,
+                              targetValue: targetValue,
+                              recurrence: recurrence,
+                              recurrenceValue: recurrenceValue,
+                              enabled: enabled,
+                              source: source)
+        return.success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:

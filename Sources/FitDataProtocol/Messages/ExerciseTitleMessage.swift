@@ -65,32 +65,30 @@ open class ExerciseTitleMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> ExerciseTitleMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: ExerciseTitleMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
-
+        
         var stepName: String?
         var category: ExerciseCategory?
         var exerciseName: ExerciseNameType?
-
+        
         var exerciseNumber: UInt16?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("ExerciseTitleMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -98,37 +96,38 @@ open class ExerciseTitleMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .category:
                     category = ExerciseCategory.decode(decoder: &localDecoder,
                                                        definition: definition,
                                                        data: fieldData,
                                                        dataStrategy: dataStrategy)
-
+                    
                 case .exerciseName:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         exerciseNumber = value
                     }
-
+                    
                 case .stepName:
                     stepName = String.decode(decoder: &localDecoder,
                                              definition: definition,
                                              data: fieldData,
                                              dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
-
+        
         if let exerciseNumber = exerciseNumber {
             exerciseName = category?.exerciseName(from: exerciseNumber)
         }
-
-        return ExerciseTitleMessage(messageIndex: messageIndex,
-                                    stepName: stepName,
-                                    category: category,
-                                    exerciseName: exerciseName)
+        
+        let msg = ExerciseTitleMessage(messageIndex: messageIndex,
+                                       stepName: stepName,
+                                       category: category,
+                                       exerciseName: exerciseName)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

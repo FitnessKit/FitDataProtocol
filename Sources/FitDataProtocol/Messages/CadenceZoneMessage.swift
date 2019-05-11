@@ -64,28 +64,26 @@ open class CadenceZoneMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> CadenceZoneMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: CadenceZoneMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var name: String?
         var highLevel: UInt8?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("CadenceZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -93,7 +91,7 @@ open class CadenceZoneMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .highValue:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -106,20 +104,22 @@ open class CadenceZoneMessage: FitMessage {
                             highLevel = nil
                         }
                     }
-
+                    
                 case .name:
                     name = String.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
+        
+        let msg = CadenceZoneMessage(messageIndex: messageIndex,
+                                     name: name,
+                                     highLevel: highLevel)
+        return.success(msg as! F)
 
-        return CadenceZoneMessage(messageIndex: messageIndex,
-                                  name: name,
-                                  highLevel: highLevel)
     }
 
     /// Encodes the Definition Message for FitMessage

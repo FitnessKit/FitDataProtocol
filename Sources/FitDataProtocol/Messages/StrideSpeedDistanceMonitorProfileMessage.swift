@@ -88,10 +88,8 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> StrideSpeedDistanceMonitorProfileMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: StrideSpeedDistanceMonitorProfileMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var enabled: Bool?
         var antID: ValidatedBinaryInteger<UInt16>?
@@ -177,14 +175,15 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
             }
         }
 
-        return StrideSpeedDistanceMonitorProfileMessage(messageIndex: messageIndex,
-                                                        enabled: enabled,
-                                                        antID: antID,
-                                                        calibrationFactor: calibrationFactor,
-                                                        odometer: odometer,
-                                                        speedSourceFootpod: speedSourceFootpod,
-                                                        transmissionType: transmissionType,
-                                                        odometerRolloverCounter: odometerRolloverCounter)
+        let msg = StrideSpeedDistanceMonitorProfileMessage(messageIndex: messageIndex,
+                                                           enabled: enabled,
+                                                           antID: antID,
+                                                           calibrationFactor: calibrationFactor,
+                                                           odometer: odometer,
+                                                           speedSourceFootpod: speedSourceFootpod,
+                                                           transmissionType: transmissionType,
+                                                           odometerRolloverCounter: odometerRolloverCounter)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

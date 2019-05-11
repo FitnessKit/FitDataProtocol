@@ -61,10 +61,8 @@ open class SoftwareMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> SoftwareMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: SoftwareMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var version: ValidatedBinaryInteger<UInt16>?
         var partNumber: String?
@@ -107,9 +105,10 @@ open class SoftwareMessage: FitMessage {
             }
         }
 
-        return SoftwareMessage(messageIndex: messageIndex,
-                               version: version,
-                               partNumber: partNumber)
+        let msg = SoftwareMessage(messageIndex: messageIndex,
+                                  version: version,
+                                  partNumber: partNumber)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

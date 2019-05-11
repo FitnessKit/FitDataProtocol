@@ -381,10 +381,8 @@ open class LapMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> LapMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: LapMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var timestamp: FitTime?
         var messageIndex: MessageIndex?
         var event: Event?
@@ -452,21 +450,21 @@ open class LapMessage: FitMessage {
         var enhancedMinimumAltitude: ValidatedMeasurement<UnitLength>?
         var enhancedMaximumAltitude: ValidatedMeasurement<UnitLength>?
         var averageAscentSpeed: ValidatedMeasurement<UnitSpeed>?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("LapMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -474,32 +472,32 @@ open class LapMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .timestamp:
                     timestamp = FitTime.decode(decoder: &localDecoder,
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData)
-
-
+                    
+                    
                 case .event:
                     event = Event.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .eventType:
                     eventType = EventType.decode(decoder: &localDecoder,
                                                  definition: definition,
                                                  data: fieldData,
                                                  dataStrategy: dataStrategy)
-
+                    
                 case .startTime:
                     startTime = FitTime.decode(decoder: &localDecoder,
                                                endian: arch,
                                                definition: definition,
                                                data: fieldData)
-
+                    
                 case .startPositionLat:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -509,7 +507,7 @@ open class LapMessage: FitMessage {
                     } else {
                         startPositionlatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
-
+                    
                 case .startPositionLong:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -519,7 +517,7 @@ open class LapMessage: FitMessage {
                     } else {
                         startPositionlongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
-
+                    
                 case .endPositionLat:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -529,7 +527,7 @@ open class LapMessage: FitMessage {
                     } else {
                         endPositionlatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
-
+                    
                 case .endPositionLong:
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -539,7 +537,7 @@ open class LapMessage: FitMessage {
                     } else {
                         endPositionlongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
                     }
-
+                    
                 case .totalElapsedTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -547,7 +545,7 @@ open class LapMessage: FitMessage {
                         let value = value.resolution(.removing, resolution: key.resolution)
                         totalElapsedTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
-
+                    
                 case .totalTimerTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -555,7 +553,7 @@ open class LapMessage: FitMessage {
                         let value = value.resolution(.removing, resolution: key.resolution)
                         totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
-
+                    
                 case .totalDistance:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -565,14 +563,14 @@ open class LapMessage: FitMessage {
                     } else {
                         totalDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .totalCycles:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     // 1 * cycles + 0
                     totalCycles = ValidatedBinaryInteger<UInt32>.validated(value: value,
                                                                            definition: definition,
                                                                            dataStrategy: dataStrategy)
-
+                    
                 case .totalCalories:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -581,7 +579,7 @@ open class LapMessage: FitMessage {
                     } else {
                         totalCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
                     }
-
+                    
                 case .totalFatCalories:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -590,7 +588,7 @@ open class LapMessage: FitMessage {
                     } else {
                         totalFatCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
                     }
-
+                    
                 case .averageSpeed:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -600,7 +598,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 case .maximumSpeed:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -610,7 +608,7 @@ open class LapMessage: FitMessage {
                     } else {
                         maximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 case .averageHeartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -623,7 +621,7 @@ open class LapMessage: FitMessage {
                             averageHeartRate = nil
                         }
                     }
-
+                    
                 case .maximumHeartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -636,7 +634,7 @@ open class LapMessage: FitMessage {
                             maximumHeartRate = nil
                         }
                     }
-
+                    
                 case .averageCadence:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -649,7 +647,7 @@ open class LapMessage: FitMessage {
                             averageCadence = nil
                         }
                     }
-
+                    
                 case .maximumCadence:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -662,7 +660,7 @@ open class LapMessage: FitMessage {
                             maximumCadence = nil
                         }
                     }
-
+                    
                 case .averagePower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -672,7 +670,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averagePower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
-
+                    
                 case .maximumPower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -682,7 +680,7 @@ open class LapMessage: FitMessage {
                     } else {
                         maximumPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
-
+                    
                 case .totalAscent:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -692,7 +690,7 @@ open class LapMessage: FitMessage {
                     } else {
                         totalAscent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .totalDescent:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -702,38 +700,38 @@ open class LapMessage: FitMessage {
                     } else {
                         totalDescent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .intensity:
                     intensity = Intensity.decode(decoder: &localDecoder,
                                                  definition: definition,
                                                  data: fieldData,
                                                  dataStrategy: dataStrategy)
-
+                    
                 case .lapTrigger:
                     lapTrigger = LapTrigger.decode(decoder: &localDecoder,
                                                    definition: definition,
                                                    data: fieldData,
                                                    dataStrategy: dataStrategy)
-
+                    
                 case .sport:
                     sport = Sport.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .eventGroup:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     eventGroup = ValidatedBinaryInteger<UInt8>.validated(value: value,
                                                                          definition: definition,
                                                                          dataStrategy: dataStrategy)
-
+                    
                 case .lengths:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     // 1 * lengths + 0
                     lengths = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                        definition: definition,
                                                                        dataStrategy: dataStrategy)
-
+                    
                 case .normalizedPower:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -743,16 +741,16 @@ open class LapMessage: FitMessage {
                     } else {
                         normalizedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
                     }
-
+                    
                 case .leftRightBalance:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .firstLengthIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     firstLengthIndex = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                                 definition: definition,
                                                                                 dataStrategy: dataStrategy)
-
+                    
                 case .averageStrokeDistance:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -762,26 +760,26 @@ open class LapMessage: FitMessage {
                     } else {
                         averageStrokeDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .swimStroke:
                     swimStroke = SwimStroke.decode(decoder: &localDecoder,
                                                    definition: definition,
                                                    data: fieldData,
                                                    dataStrategy: dataStrategy)
-
+                    
                 case .subSport:
                     subSport = SubSport.decode(decoder: &localDecoder,
                                                definition: definition,
                                                data: fieldData,
                                                dataStrategy: dataStrategy)
-
+                    
                 case .activeLengths:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     // 1 * lengths + 0
                     activeLengths = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                              definition: definition,
                                                                              dataStrategy: dataStrategy)
-
+                    
                 case .totalWork:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -790,7 +788,7 @@ open class LapMessage: FitMessage {
                     } else {
                         totalWork = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.joules)
                     }
-
+                    
                 case .averageAltitude:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -800,7 +798,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .maximumAltitude:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -810,7 +808,7 @@ open class LapMessage: FitMessage {
                     } else {
                         maximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .gpsAccuracy:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -819,7 +817,7 @@ open class LapMessage: FitMessage {
                     } else {
                         gpsAccuracy = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .averageGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -829,7 +827,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averageGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
-
+                    
                 case .averagePositiveGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -839,7 +837,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averagePositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
-
+                    
                 case .averageNegitiveGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -849,7 +847,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averageNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
-
+                    
                 case .maximumPositiveGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -859,7 +857,7 @@ open class LapMessage: FitMessage {
                     } else {
                         maximumPositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
-
+                    
                 case .maximumNegitiveGrade:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -869,7 +867,7 @@ open class LapMessage: FitMessage {
                     } else {
                         maximumNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
-
+                    
                 case .averageTemperature:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -878,7 +876,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averageTemperature = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitTemperature.celsius)
                     }
-
+                    
                 case .maximumTemperature:
                     let value = localDecoder.decodeInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -887,7 +885,7 @@ open class LapMessage: FitMessage {
                     } else {
                         maximumTemperature = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitTemperature.celsius)
                     }
-
+                    
                 case .totalMovingTime:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -895,7 +893,7 @@ open class LapMessage: FitMessage {
                         let value = value.resolution(.removing, resolution: key.resolution)
                         totalMovingTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
-
+                    
                 case .averagePositiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -905,7 +903,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averagePositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 case .averageNegitiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -915,7 +913,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averageNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 case .maximumPositiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -925,7 +923,7 @@ open class LapMessage: FitMessage {
                     } else {
                         maximumPositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 case .maximumNegitiveVerticalSpeed:
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -935,25 +933,25 @@ open class LapMessage: FitMessage {
                     } else {
                         maximumNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 case .timeInHrZone:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .timeInSpeedZone:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .timeInCadenceZone:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .timeInPowerZone:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .repetionNumber:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     repetionNumber = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                               definition: definition,
                                                                               dataStrategy: dataStrategy)
-
+                    
                 case .minimumAltitude:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -963,7 +961,7 @@ open class LapMessage: FitMessage {
                     } else {
                         minimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .minimumHeartRate:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -976,25 +974,25 @@ open class LapMessage: FitMessage {
                             minimumHeartRate = nil
                         }
                     }
-
+                    
                 case .workoutStepIndex:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         workoutStepIndex = MessageIndex(value: value)
                     }
-
+                    
                 case .opponentScore:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     opponentScore = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                              definition: definition,
                                                                              dataStrategy: dataStrategy)
-
+                    
                 case .strokeCount:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .zoneCount:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .averageVerticalOscillation:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1004,7 +1002,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averageVerticalOscillation = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.millimeters)
                     }
-
+                    
                 case .averageStanceTimePercent:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1014,7 +1012,7 @@ open class LapMessage: FitMessage {
                     } else {
                         averageStancePercent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
                     }
-
+                    
                 case .averageStanceTime:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1024,40 +1022,40 @@ open class LapMessage: FitMessage {
                     } else {
                         averageStanceTime = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitDuration.millisecond)
                     }
-
+                    
                 case .averageFractionalCadence:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .maximumFractionalCadence:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .totalFractionalCadence:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .playerScore:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     playerScore = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                            definition: definition,
                                                                            dataStrategy: dataStrategy)
-
+                    
                 case .averageTotalHemoglobinConcentration:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .minimumTotalHemoglobinConcentration:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .maximumTotalHemoglobinConcentration:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .averageSaturatedHemoglobinPercent:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .minimumSaturatedHemoglobinPercent:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .maximumSaturatedHemoglobinPercent:
                     let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+                    
                 case .enhancedAverageSpeed:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1067,7 +1065,7 @@ open class LapMessage: FitMessage {
                     } else {
                         enhancedAverageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 case .enhancedMaximumSpeed:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1077,7 +1075,7 @@ open class LapMessage: FitMessage {
                     } else {
                         enhancedMaximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 case .enhancedAverageAltitude:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1087,7 +1085,7 @@ open class LapMessage: FitMessage {
                     } else {
                         enhancedAverageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .enhancedMinimumAltitude:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1097,7 +1095,7 @@ open class LapMessage: FitMessage {
                     } else {
                         enhancedMinimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .enhancedMaximumAltitude:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1107,7 +1105,7 @@ open class LapMessage: FitMessage {
                     } else {
                         enhancedMaximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
                     }
-
+                    
                 case .averageVam:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
@@ -1117,97 +1115,98 @@ open class LapMessage: FitMessage {
                     } else {
                         averageAscentSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
                     }
-
+                    
                 }
-
+                
             }
         }
-
+        
         /// Determine which Avg Speed to use
         let recordAvgSpeed = preferredValue(valueOne: averageSpeed, valueTwo: enhancedAverageSpeed)
-
+        
         /// Determine which Avg Speed to use
         let recordMaxSpeed = preferredValue(valueOne: maximumSpeed, valueTwo: enhancedMaximumSpeed)
-
+        
         /// Determine which Avg Altitude to use
         let recordAvgAltitude = preferredValue(valueOne: averageAltitude, valueTwo: enhancedAverageAltitude)
-
+        
         /// Determine which Min Altitude to use
         let recordMinAltitude = preferredValue(valueOne: minimumAltitude, valueTwo: enhancedMinimumAltitude)
-
+        
         /// Determine which Max Altitude to use
         let recordMaxAltitude = preferredValue(valueOne: maximumAltitude, valueTwo: enhancedMaximumAltitude)
-
+        
         /// Start Position
         let startPosition = Position(latitude: startPositionlatitude, longitude: startPositionlongitude)
-
+        
         /// End Position
         let endPosition = Position(latitude: endPositionlatitude, longitude: endPositionlongitude)
-
+        
         /// Score Information
         let score = Score(playerScore: playerScore, opponentScore: opponentScore)
-
+        
         /// Avarage Stance Time
         let averageStance = StanceTime(percent: averageStancePercent, time: averageStanceTime)
-
-        return LapMessage(timeStamp: timestamp,
-                          messageIndex: messageIndex,
-                          event: event,
-                          eventType: eventType,
-                          startTime: startTime,
-                          startPosition: startPosition,
-                          endPosition: endPosition,
-                          totalElapsedTime: totalElapsedTime,
-                          totalTimerTime: totalTimerTime,
-                          totalDistance: totalDistance,
-                          totalCycles: totalCycles,
-                          totalCalories: totalCalories,
-                          totalFatCalories: totalFatCalories,
-                          averageSpeed: recordAvgSpeed,
-                          maximumSpeed: recordMaxSpeed,
-                          averageHeartRate: averageHeartRate,
-                          maximumHeartRate: maximumHeartRate,
-                          averageCadence: averageCadence,
-                          maximumCadence: maximumCadence,
-                          averagePower: averagePower,
-                          maximumPower: maximumPower,
-                          totalAscent: totalAscent,
-                          totalDescent: totalDescent,
-                          intensity: intensity,
-                          lapTrigger: lapTrigger,
-                          sport: sport,
-                          subSport: subSport,
-                          eventGroup: eventGroup,
-                          lengths: lengths,
-                          normalizedPower: normalizedPower,
-                          firstLengthIndex: firstLengthIndex,
-                          averageStrokeDistance: averageStrokeDistance,
-                          swimStroke: swimStroke,
-                          activeLengths: activeLengths,
-                          totalWork: totalWork,
-                          averageAltitude: recordAvgAltitude,
-                          maximumAltitude: recordMaxAltitude,
-                          gpsAccuracy: gpsAccuracy,
-                          averageGrade: averageGrade,
-                          averagePositiveGrade: averagePositiveGrade,
-                          averageNegitiveGrade: averageNegitiveGrade,
-                          maximumPositiveGrade: maximumPositiveGrade,
-                          maximumNegitiveGrade: maximumNegitiveGrade,
-                          averageTemperature: averageTemperature,
-                          maximumTemperature: maximumTemperature,
-                          totalMovingTime: totalMovingTime,
-                          averagePositiveVerticalSpeed: averagePositiveVerticalSpeed,
-                          averageNegitiveVerticalSpeed: averageNegitiveVerticalSpeed,
-                          maximumPositiveVerticalSpeed: maximumPositiveVerticalSpeed,
-                          maximumNegitiveVerticalSpeed: maximumNegitiveVerticalSpeed,
-                          repetionNumber: repetionNumber,
-                          minimumAltitude: recordMinAltitude,
-                          minimumHeartRate: minimumHeartRate,
-                          workoutStepIndex: workoutStepIndex,
-                          score: score,
-                          averageVerticalOscillation: averageVerticalOscillation,
-                          averageStanceTime: averageStance,
-                          averageAscentSpeed: averageAscentSpeed)
+        
+        let msg = LapMessage(timeStamp: timestamp,
+                             messageIndex: messageIndex,
+                             event: event,
+                             eventType: eventType,
+                             startTime: startTime,
+                             startPosition: startPosition,
+                             endPosition: endPosition,
+                             totalElapsedTime: totalElapsedTime,
+                             totalTimerTime: totalTimerTime,
+                             totalDistance: totalDistance,
+                             totalCycles: totalCycles,
+                             totalCalories: totalCalories,
+                             totalFatCalories: totalFatCalories,
+                             averageSpeed: recordAvgSpeed,
+                             maximumSpeed: recordMaxSpeed,
+                             averageHeartRate: averageHeartRate,
+                             maximumHeartRate: maximumHeartRate,
+                             averageCadence: averageCadence,
+                             maximumCadence: maximumCadence,
+                             averagePower: averagePower,
+                             maximumPower: maximumPower,
+                             totalAscent: totalAscent,
+                             totalDescent: totalDescent,
+                             intensity: intensity,
+                             lapTrigger: lapTrigger,
+                             sport: sport,
+                             subSport: subSport,
+                             eventGroup: eventGroup,
+                             lengths: lengths,
+                             normalizedPower: normalizedPower,
+                             firstLengthIndex: firstLengthIndex,
+                             averageStrokeDistance: averageStrokeDistance,
+                             swimStroke: swimStroke,
+                             activeLengths: activeLengths,
+                             totalWork: totalWork,
+                             averageAltitude: recordAvgAltitude,
+                             maximumAltitude: recordMaxAltitude,
+                             gpsAccuracy: gpsAccuracy,
+                             averageGrade: averageGrade,
+                             averagePositiveGrade: averagePositiveGrade,
+                             averageNegitiveGrade: averageNegitiveGrade,
+                             maximumPositiveGrade: maximumPositiveGrade,
+                             maximumNegitiveGrade: maximumNegitiveGrade,
+                             averageTemperature: averageTemperature,
+                             maximumTemperature: maximumTemperature,
+                             totalMovingTime: totalMovingTime,
+                             averagePositiveVerticalSpeed: averagePositiveVerticalSpeed,
+                             averageNegitiveVerticalSpeed: averageNegitiveVerticalSpeed,
+                             maximumPositiveVerticalSpeed: maximumPositiveVerticalSpeed,
+                             maximumNegitiveVerticalSpeed: maximumNegitiveVerticalSpeed,
+                             repetionNumber: repetionNumber,
+                             minimumAltitude: recordMinAltitude,
+                             minimumHeartRate: minimumHeartRate,
+                             workoutStepIndex: workoutStepIndex,
+                             score: score,
+                             averageVerticalOscillation: averageVerticalOscillation,
+                             averageStanceTime: averageStance,
+                             averageAscentSpeed: averageAscentSpeed)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage

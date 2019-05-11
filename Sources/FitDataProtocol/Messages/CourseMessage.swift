@@ -94,64 +94,64 @@ open class CourseMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> CourseMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: CourseMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var name: String?
         var capabilities: Capabilities?
         var sport: Sport?
         var subSport: SubSport?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("CourseMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
-
+                    
                 case .sport:
                     sport = Sport.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .name:
                     name = String.decode(decoder: &localDecoder,
                                          definition: definition,
                                          data: fieldData,
                                          dataStrategy: dataStrategy)
-
+                    
                 case .capabilities:
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         capabilities = Capabilities(rawValue: value)
                     }
-
+                    
                 case .subSport:
                     subSport = SubSport.decode(decoder: &localDecoder,
                                                definition: definition,
                                                data: fieldData,
                                                dataStrategy: dataStrategy)
-
+                    
                 }
             }
         }
+        
+        let msg = CourseMessage(name: name,
+                                capabilities: capabilities,
+                                sport: sport,
+                                subSport: subSport)
+        return.success(msg as! F)
 
-        return CourseMessage(name: name,
-                             capabilities: capabilities,
-                             sport: sport,
-                             subSport: subSport)
     }
 
     /// Encodes the Definition Message for FitMessage

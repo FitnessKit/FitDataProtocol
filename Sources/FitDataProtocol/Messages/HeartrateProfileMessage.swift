@@ -71,30 +71,28 @@ open class HeartrateProfileMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     ///   - dataStrategy: Decoding Strategy
-    /// - Returns: FitMessage
-    /// - Throws: FitDecodingError
-    internal override func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> HeartrateProfileMessage  {
-
+    /// - Returns: FitMessage Result
+    override func decode<F: HeartrateProfileMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
         var messageIndex: MessageIndex?
         var enabled: Bool?
         var antID: ValidatedBinaryInteger<UInt16>?
         var logHrv: Bool?
         var transmissionType: TransmissionType?
-
+        
         let arch = definition.architecture
-
+        
         var localDecoder = DecodeData()
-
+        
         for definition in definition.fieldDefinitions {
-
+            
             let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
+            
             switch fitKey {
             case .none:
                 // We still need to pull this data off the stack
                 let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
                 //print("HeartrateProfileMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
+                
             case .some(let key):
                 switch key {
                 case .messageIndex:
@@ -102,40 +100,41 @@ open class HeartrateProfileMessage: FitMessage {
                                                        endian: arch,
                                                        definition: definition,
                                                        data: fieldData)
-
+                    
                 case .enabled:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         enabled = value.boolValue
                     }
-
+                    
                 case .antID:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     antID = ValidatedBinaryInteger<UInt16>.validated(value: value,
                                                                      definition: definition,
                                                                      dataStrategy: dataStrategy)
-
+                    
                 case .logHrv:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         logHrv = value.boolValue
                     }
-
+                    
                 case .transType:
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         transmissionType = TransmissionType(value)
                     }
-
+                    
                 }
             }
         }
-
-        return HeartrateProfileMessage(messageIndex: messageIndex,
-                                       enabled: enabled,
-                                       antID: antID,
-                                       logHrv: logHrv,
-                                       transmissionType: transmissionType)
+        
+        let msg = HeartrateProfileMessage(messageIndex: messageIndex,
+                                          enabled: enabled,
+                                          antID: antID,
+                                          logHrv: logHrv,
+                                          transmissionType: transmissionType)
+        return.success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage
