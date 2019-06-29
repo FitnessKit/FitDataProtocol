@@ -55,18 +55,6 @@ open class FitMessage {
     public class func globalMessageNumber() -> UInt16 {
         fatalError("*** You must override in your class.")
     }
-
-//    /// Decode Message Data into FitMessage
-//    ///
-//    /// - Parameters:
-//    ///   - fieldData: FileData
-//    ///   - definition: Definition Message
-//    ///   - dataStrategy: Decoding Strategy
-//    /// - Returns: FitMessage
-//    /// - Throws: FitDecodingError
-//    internal func decode(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) throws -> FitMessage  {
-//        fatalError("*** You must override in your class.")
-//    }
     
     /// Decode Message Data into FitMessage
     ///

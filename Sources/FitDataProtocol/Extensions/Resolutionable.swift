@@ -75,7 +75,7 @@ extension Double: Resolutionable, FixedWidthIntegerResolutionable {
     func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
-            return (Double(self) * resolution.scale) + resolution.offset
+            return (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
@@ -93,7 +93,7 @@ extension Double: Resolutionable, FixedWidthIntegerResolutionable {
 
         switch direction {
         case .adding:
-            value = (Double(self) * resolution.scale) + resolution.offset
+            value = (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             value = (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
@@ -116,7 +116,7 @@ extension UInt8: Resolutionable {
     func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
-            return (Double(self) * resolution.scale) + resolution.offset
+            return (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
@@ -134,7 +134,7 @@ extension UInt16: Resolutionable {
     func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
-            return (Double(self) * resolution.scale) + resolution.offset
+            return (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
@@ -152,7 +152,7 @@ extension Int16: Resolutionable {
     func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
-            return (Double(self) * resolution.scale) + resolution.offset
+            return (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
@@ -170,7 +170,7 @@ extension UInt32: Resolutionable {
     func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
-            return (Double(self) * resolution.scale) + resolution.offset
+            return (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
@@ -191,7 +191,7 @@ extension UInt32: FixedWidthIntegerResolutionable {
 
         switch direction {
         case .adding:
-            value = (Double(self) * resolution.scale) + resolution.offset
+            value = (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             value = (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
@@ -214,7 +214,7 @@ extension Int32: Resolutionable {
     func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
-            return (Double(self) * resolution.scale) + resolution.offset
+            return (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
