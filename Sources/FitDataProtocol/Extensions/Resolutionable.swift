@@ -25,8 +25,7 @@
 import Foundation
 
 /// Struct to Hold Resolution Scale and Offset
-internal struct Resolution {
-
+public struct Resolution {
     /// Scale
     var scale: Double
 
@@ -34,14 +33,14 @@ internal struct Resolution {
     var offset: Double
 }
 
-internal enum ResolutionDirection {
+public enum ResolutionDirection {
     /// Adds Resolution
     case adding
     /// Removes Resolution
     case removing
 }
 
-protocol Resolutionable {
+public protocol Resolutionable {
 
     /// Apply Resolution with Direction
     ///
@@ -52,7 +51,7 @@ protocol Resolutionable {
     func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double
 }
 
-protocol FixedWidthIntegerResolutionable {
+public protocol FixedWidthIntegerResolutionable {
 
     /// Apply Resolution With Direction
     ///
@@ -72,7 +71,7 @@ extension Double: Resolutionable, FixedWidthIntegerResolutionable {
     ///   - direction: Type of Resolution Direction
     ///   - resolution: Resolution
     /// - Returns: Number with Resolution applied
-    func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
             return (Double(self) + resolution.offset) * resolution.scale
@@ -88,7 +87,7 @@ extension Double: Resolutionable, FixedWidthIntegerResolutionable {
     ///   - direction: Resolution Direction
     ///   - resolution: Resolution
     /// - Returns: Number with Resolution Applied
-    func resolution<T>(type: T.Type, _ direction: ResolutionDirection, resolution: Resolution) -> T where T: FixedWidthInteger {
+    public func resolution<T>(type: T.Type, _ direction: ResolutionDirection, resolution: Resolution) -> T where T: FixedWidthInteger {
         var value = Double(T.min)
 
         switch direction {
@@ -113,7 +112,25 @@ extension UInt8: Resolutionable {
     ///   - direction: Type of Resolution Direction
     ///   - resolution: Resolution
     /// - Returns: Number with Resolution applied
-    func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+        switch direction {
+        case .adding:
+            return (Double(self) + resolution.offset) * resolution.scale
+        case .removing:
+            return (Double(self) * (1 / resolution.scale)) - resolution.offset
+        }
+    }
+}
+
+extension Int8: Resolutionable {
+
+    /// Apply Resolution with Direction
+    ///
+    /// - Parameters:
+    ///   - direction: Type of Resolution Direction
+    ///   - resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
             return (Double(self) + resolution.offset) * resolution.scale
@@ -131,7 +148,7 @@ extension UInt16: Resolutionable {
     ///   - direction: Type of Resolution Direction
     ///   - resolution: Resolution
     /// - Returns: Number with Resolution applied
-    func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
             return (Double(self) + resolution.offset) * resolution.scale
@@ -149,7 +166,7 @@ extension Int16: Resolutionable {
     ///   - direction: Type of Resolution Direction
     ///   - resolution: Resolution
     /// - Returns: Number with Resolution applied
-    func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
             return (Double(self) + resolution.offset) * resolution.scale
@@ -159,7 +176,7 @@ extension Int16: Resolutionable {
     }
 }
 
-extension UInt32: Resolutionable {
+extension UInt32: Resolutionable, FixedWidthIntegerResolutionable {
 
     /// Apply Resolution with Direction
     ///
@@ -167,7 +184,7 @@ extension UInt32: Resolutionable {
     ///   - direction: Type of Resolution Direction
     ///   - resolution: Resolution
     /// - Returns: Number with Resolution applied
-    func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
             return (Double(self) + resolution.offset) * resolution.scale
@@ -175,10 +192,7 @@ extension UInt32: Resolutionable {
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
     }
-}
-
-extension UInt32: FixedWidthIntegerResolutionable {
-
+    
     /// Apply Resolution With Direction
     ///
     /// - Parameters:
@@ -186,7 +200,7 @@ extension UInt32: FixedWidthIntegerResolutionable {
     ///   - direction: Resolution Direction
     ///   - resolution: Resolution
     /// - Returns: Number with Resolution Applied
-    func resolution<T>(type: T.Type, _ direction: ResolutionDirection, resolution: Resolution) -> T where T: FixedWidthInteger {
+    public func resolution<T>(type: T.Type, _ direction: ResolutionDirection, resolution: Resolution) -> T where T: FixedWidthInteger {
         var value = Double(T.min)
 
         switch direction {
@@ -211,12 +225,12 @@ extension Int32: Resolutionable {
     ///   - direction: Type of Resolution Direction
     ///   - resolution: Resolution
     /// - Returns: Number with Resolution applied
-    func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
         switch direction {
         case .adding:
             return (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
-    }
+    }    
 }

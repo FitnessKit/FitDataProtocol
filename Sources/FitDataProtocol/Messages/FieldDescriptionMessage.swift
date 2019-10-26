@@ -55,6 +55,8 @@ open class FieldDescriptionMessage: FitMessage {
     private(set) public var baseUnits: BaseUnitType?
 
     /// Message Number
+    ///
+    /// This will match up with the FitMessage.globalMessageNumber()
     private(set) public var messageNumber: UInt16?
     
     /// Field Number
