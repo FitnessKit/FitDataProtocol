@@ -71,44 +71,44 @@ extension WeightScaleMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .timestamp:
             // 1 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .weight:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .percentFat:
             // 100 * % + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .percentHydration:
             // 100 * % + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .visceralFatMass:
             // 100 * kg + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .boneMass:
             // 100 * kg + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .muscleMass:
             // 100 * kg + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .basalMet:
             // 4 * kcal/day + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0))
         case .physiqueRating:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .activeMet:
             // 4 * kcal/day + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0))
         case .metabolicAge:
             /// 1 * years
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .visceralFatRating:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .userProfileIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

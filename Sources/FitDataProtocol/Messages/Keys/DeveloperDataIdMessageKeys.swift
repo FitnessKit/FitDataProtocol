@@ -54,18 +54,18 @@ extension DeveloperDataIdMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .developerId:
-            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .applicationId:
-            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .manufacturerId:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .dataIndex:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .applicationVersion:
-            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

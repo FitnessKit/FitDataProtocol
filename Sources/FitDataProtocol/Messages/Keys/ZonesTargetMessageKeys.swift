@@ -54,20 +54,20 @@ extension ZonesTargetMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .maxHeartRate:
             // 1 * bpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .thresholdHeartRate:
             // 1 * bpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .functionalThresholdPower:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .heartRateCalculation:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .powerCalculation:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

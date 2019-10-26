@@ -46,11 +46,11 @@ extension HrvMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .time:
             /// 1000 * s + 0, Time between beats
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         }
     }
 }

@@ -88,10 +88,10 @@ internal extension FieldDefinition {
         let endian = (baseType & 0x80 == 0x80)
         let baseNumber = BaseType(rawValue: (baseType & 0x1F)) ?? .unknown
 
-        let fieldDefinition =  FieldDefinition(fieldDefinitionNumber: messageNumber,
-                                               size: size,
-                                               endianAbility: endian,
-                                               baseType: baseNumber)
+        let fieldDefinition = FieldDefinition(fieldDefinitionNumber: messageNumber,
+                                              size: size,
+                                              endianAbility: endian,
+                                              baseType: baseNumber)
 
         return.success(fieldDefinition)
     }

@@ -50,12 +50,12 @@ extension SlaveDeviceMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .manufacturer:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .product:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

@@ -23,6 +23,7 @@ Swift version of the Garmin Flexible and Interoperable Data Transfer Protocol.
   s.source              = { :git => 'https://github.com/FitnessKit/FitDataProtocol.git', :tag => s.version.to_s }
 
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
+  s.swift_version       = '5.0'
 
 #Targets
   s.ios.deployment_target = '10.0'

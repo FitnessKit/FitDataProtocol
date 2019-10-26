@@ -57,22 +57,22 @@ extension SegmentLeaderboardEntryMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .messageIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .name:
-            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .boardType:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .groupPrimaryKey:
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .activityID:
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .segmentTime:
             /// 1000 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         }
     }
 }

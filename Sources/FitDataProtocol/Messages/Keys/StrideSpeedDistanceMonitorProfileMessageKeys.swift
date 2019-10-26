@@ -61,27 +61,27 @@ extension StrideSpeedDistanceMonitorProfileMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .messageIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .enabled:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .antID:
-            return BaseData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .calibrationFactor:
             // 10 * % + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .odometer:
             // 100 * m + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .speedSource:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .transType:
-            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .odometerRollover:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

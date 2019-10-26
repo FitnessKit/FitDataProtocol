@@ -26,8 +26,8 @@ import Foundation
 import FitnessUnits
 import DataDecoder
 
-/// Internal Struct to define Base Type Data
-internal struct BaseData {
+/// Defines Base Type Data
+public struct BaseTypeData {
 
     /// Base Type
     var type: BaseType

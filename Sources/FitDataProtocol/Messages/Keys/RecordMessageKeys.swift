@@ -141,148 +141,148 @@ extension RecordMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .timestamp:
             // 1 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .positionLatitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .positionLongitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .altitude:
             // 5 * m + 500
-            return BaseData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .heartRate:
             // 1 * bpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .cadence:
             // 1 * rpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .distance:
             // 100 * m + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .speed:
             // 1000 * m/s + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .power:
             // 1 * watts + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .compressedSpeedDistance:
             // 3 typical units
-            return BaseData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .grade:
             // 100 * % + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .resistance:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .timeFromCourse:
             // 1000 * s + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .cycleLength:
             // 100 * m + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .temperature:
             // 1 * C + 0
-            return BaseData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .speedOneSecondInterval:
             // 16 * m/s + 0
             // 5 units typical
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .cycles:
             // 1 * cycles + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalCycles:
             // 1 * cycles + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .compressedAccumulatedPower:
             // 1 * watts + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .accumulatedPower:
             // 1 * watts + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .leftRightBalance:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .gpsAccuracy:
             // 1 * m + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .verticalSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .calories:
             // 1 * kcal + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .verticalOscillation:
             // 10 * mm + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .stanceTimePercent:
             // 100 * percent + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .stanceTime:
             // 10 * ms + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .activityType:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .leftTorqueEffectiveness:
             // 2 * percent + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .rightTorqueEffectiveness:
             // 2 * percent + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .leftPedalSmoothness:
             // 2 * percent + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .rightPedalSmoothness:
             // 2 * percent + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .combinedPedalSmoothness:
             // 2 * percent + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0))
         case .time128Second:
             // 128 * s + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
         case .strokeType:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .zone:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .ballSpeed:
             // 100 * m/s + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .cadence256:
             // 256 * rpm + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 256.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 256.0, offset: 0.0))
         case .fractionalCadence:
             // 128 * rpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
         case .totalHemoglobinConcentration:
             // 100 * g/dL + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .totalHemoglobinConcentrationMin:
             // 100 * g/dL + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .totalHemoglobinConcentrationMax:
             // 100 * g/dL + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .saturatedHemoglobinPercent:
             // 10 * % + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .saturatedHemoglobinPercentMin:
             // 10 * % + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .saturatedHemoglobinPercentMax:
             // 10 * % + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .deviceIndex:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .enhancedSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .enhancedAltitude:
             // 5 * m + 500
-            return BaseData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
         }
     }
 }

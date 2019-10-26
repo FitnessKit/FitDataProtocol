@@ -51,16 +51,16 @@ extension CadenceZoneMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .messageIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .highValue:
             // 1 * bpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .name:
-            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

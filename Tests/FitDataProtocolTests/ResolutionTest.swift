@@ -36,6 +36,4 @@ extension ResolutionTest {
             XCTFail()
         }
     }
-
-
 }

@@ -57,22 +57,22 @@ extension FileCapabilitiesMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .messageIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .fileType:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .fileFlags:
-            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .directory:
             // 16
-            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maxCount:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maxSize:
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

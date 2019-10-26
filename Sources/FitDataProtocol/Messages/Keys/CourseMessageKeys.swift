@@ -53,16 +53,16 @@ extension CourseMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .sport:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .name:
-            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .capabilities:
-            return BaseData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .subSport:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

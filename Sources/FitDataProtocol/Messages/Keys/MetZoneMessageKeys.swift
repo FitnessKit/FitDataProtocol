@@ -53,20 +53,20 @@ extension MetZoneMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .messageIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .highBpm:
             // 1 * bpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .calories:
             // 10 * kcal / min + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .fatCalories:
             // 10 * kcal / min + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         }
     }
 }

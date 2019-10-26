@@ -68,8 +68,9 @@ public struct FitFileDecoder {
                                          CadenceZoneMessage.self,
                                          SegmentLeaderboardEntryMessage.self,
                                          WorkoutSessionMessage.self,
+                                         FieldDescriptionMessage.self,
                                          DeveloperDataIdMessage.self,
-                                         ExerciseTitleMessage.self,
+                                         ExerciseTitleMessage.self
                                         ]
 
     /// Options for CRC Checking

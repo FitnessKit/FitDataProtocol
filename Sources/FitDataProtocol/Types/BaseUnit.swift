@@ -1,8 +1,8 @@
 //
-//  BaseTypeable.swift
+//  BaseUnit.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 4/20/19.
+//  Created by Kevin Hoogheem on 10/26/19.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,15 @@
 
 import Foundation
 
-/// Items that need to contain a BaseType
-internal protocol BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { get }
-    /// Key Base Resolution
-    var resolution: Resolution { get }
-    /// Key Base Data
-    var baseData: BaseTypeData { get }
+/// FIT Base Unit Type
+public enum BaseUnitType: UInt16 {
+    /// Other
+    case other          = 0
+    /// Kilogram
+    case kilogram       = 1
+    /// Pound
+    case pound          = 2
+    
+    /// Invalid
+    case invalid        = 65535
 }

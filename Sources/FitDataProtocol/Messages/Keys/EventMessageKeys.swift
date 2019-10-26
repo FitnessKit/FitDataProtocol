@@ -69,34 +69,34 @@ extension EventMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .timestamp:
             // 1 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .event:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .eventType:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .data16:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .data32:
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .eventGroup:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .score:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .opponentScore:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .frontGearNumber:
-            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .frontGear:
-            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .rearGearNumber:
-            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .rearGear:
-            return BaseData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }

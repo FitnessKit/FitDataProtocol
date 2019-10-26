@@ -226,261 +226,261 @@ extension SessionMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .messageIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .timestamp:
             // 1 * s + 0, Sesson end time
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .event:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .eventType:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .startTime:
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .startPositionLatitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .startPositionLongitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .sport:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .subSport:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalElapsedTime:
             // 1000 * s + 0, Time (includes pauses)
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .totalTimerTime:
             // 1000 * s + 0, Timer Time (excludes pauses)
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .totalDistance:
             // 100 * m + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .totalCycles:
             // 1 * cycles + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalCalories:
             // 1 * kcal + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalFatCalories:
             // 1 * kcal + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .averageSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .maximumSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .averageHeartRate:
             // 1 * bpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maximumHeartRate:
             // 1 * bpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .averageCadence:
             // 1 * rpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maximumCadence:
             // 1 * rpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .averagePower:
             // 1 * watts + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maximumPower:
             // 1 * watts + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalAscent:
             // 1 * m + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalDescent:
             // 1 * m + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalTrainingEffect:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .firstLapIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .numberOfLaps:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .eventGroup:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .trigger:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .necLatitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .necLongitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .swcLatitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .swcLongitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .normalizedPower:
             // 1 * watts + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .trainingStressScore:
             // 10 * tss + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .intensityFactor:
             // 1000 * if + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .leftRightBalance:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .averageStrokeCount:
             // 10 * strokes/lap + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .averageStrokeDistance:
             // 100 * m + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .swimStroke:
             // 1 * swim_stroke + 0
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .poolLength:
             // 100 * m + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .thresholdPower:
             // 1 * watts + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .poolLengthUnit:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .numberActiveLengths:
             // 1 * lengths + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalWork:
             // 1 * J + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .averageAltitude:
             // 5 * m + 500
-            return BaseData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .maximumAltitude:
             // 5 * m + 500
-            return BaseData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .gpsAccuracy:
             // 1 * m + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .averageGrade:
             // 100 * % + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .averagePositiveGrade:
             // 100 * % + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .averageNegitiveGrade:
             // 100 * % + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .maximumPositiveGrade:
             // 100 * % + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .maximumNegitiveGrade:
             // 100 * % + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .averageTemperature:
             // 1 * C + 0
-            return BaseData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maximumTemperature:
             // 1 * C + 0
-            return BaseData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .totalMovingTime:
             // 1000 * s + 0,
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .averagePositiveVerticalSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .averageNegitiveVerticalSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .maximumPositiveVerticalSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .maximumNegitiveVerticalSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .minimumHeartRate:
             // 1 * bpm + 0
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .timeInHeartRateZone:
             // 1000 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .timeInSpeedZone:
             // 1000 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .timeInCadenceZone:
             // 1000 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .timeInPowerZone:
             // 1000 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .averageLapTime:
             // 1000 * s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .bestLapIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .minimumAltitude:
             // 5 * m + 500
-            return BaseData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .playerScore:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .opponentScore:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .opponentName:
             //1
-            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .strokeCount:
             // 1 * counts + 0, stroke_type enum used as the index
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .zoneCount:
             // 1 * counts + 0, zone number used as the index
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .maximumBallSpeed:
             // 100 * m/s + 0,
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .averageBallSpeed:
             // 100 * m/s + 0,
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .averageVerticalOscillation:
             // 10 * mm + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .averageStanceTimePercent:
             // 100 * percent + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .averageStanceTime:
             // 10 * ms + 0
-            return BaseData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0))
         case .averageFractionalCadence:
             // 128 * rpm + 0, fractional part of the avg_cadence
-            return BaseData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
         case .maximumFractionalCadence:
             // 128 * rpm + 0, fractional part of the max_cadence
-            return BaseData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
         case .totalFractionalCycles:
             // 128 * cycles + 0, fractional part of the total_cycles
-            return BaseData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0))
         case .sportIndex:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .enhancedAverageSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .enhancedMaximumSpeed:
             // 1000 * m/s + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0))
         case .enhancedAverageAltitude:
             // 5 * m + 500
-            return BaseData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .enhancedMinimumAltitude:
             // 5 * m + 500
-            return BaseData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .enhancedMaximumAltitude:
             // 5 * m + 500
-            return BaseData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0))
         case .totalAnaerobicTrainingEffect:
-            return BaseData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .averageVam:
             // 1000 * m/s + 0,
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0))
         }
     }
 }

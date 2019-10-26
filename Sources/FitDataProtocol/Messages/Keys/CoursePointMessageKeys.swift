@@ -61,28 +61,28 @@ extension CoursePointMessage.FitCodingKeys: BaseTypeable {
     var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
-    var baseData: BaseData {
+    var baseData: BaseTypeData {
         switch self {
         case .messageIndex:
-            return BaseData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0))
             
         case .timestamp:
-            return BaseData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .latitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .longitude:
             // 1 * semicircles + 0
-            return BaseData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .distance:
             // 100 * m + 0
-            return BaseData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
+            return BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0))
         case .pointType:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .name:
-            return BaseData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0))
         case .favorite:
-            return BaseData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
+            return BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0))
         }
     }
 }
