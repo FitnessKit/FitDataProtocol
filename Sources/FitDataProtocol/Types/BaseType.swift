@@ -30,10 +30,10 @@ import DataDecoder
 public struct BaseTypeData {
 
     /// Base Type
-    var type: BaseType
+    public var type: BaseType
 
     /// Resolution
-    var resolution: Resolution
+    public var resolution: Resolution
 }
 
 /// FIT Base Type
