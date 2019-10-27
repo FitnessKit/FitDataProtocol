@@ -150,6 +150,10 @@ open class CourseMessage: FitMessage {
                                 capabilities: capabilities,
                                 sport: sport,
                                 subSport: subSport)
+        
+        let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
+        msg.developerData = devData.isEmpty ? nil : devData
+
         return.success(msg as! F)
 
     }

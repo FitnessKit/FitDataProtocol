@@ -194,6 +194,10 @@ open class CoursePointMessage: FitMessage {
                                      distance: distance,
                                      pointType: pointType,
                                      isFavorite: isFavorite)
+        
+        let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
+        msg.developerData = devData.isEmpty ? nil : devData
+
         return.success(msg as! F)
     }
 

@@ -140,6 +140,10 @@ open class MetZoneMessage: FitMessage {
                                  heartRate: heartRate,
                                  calories: calories,
                                  fatCalories: fatCalories)
+        
+        let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
+        msg.developerData = devData.isEmpty ? nil : devData
+
         return.success(msg as! F)
     }
 

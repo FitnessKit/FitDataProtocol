@@ -238,6 +238,10 @@ open class ConnectivityMessage: FitMessage {
                                       gpsEphemerisDownloadEnabled: gpsEphemerisDownloadEnabled,
                                       incidentDetectionEnabled: incidentDetectionEnabled,
                                       groupTrackEnabled: groupTrackEnabled)
+        
+        let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
+        msg.developerData = devData.isEmpty ? nil : devData
+
         return.success(msg as! F)
     }
 

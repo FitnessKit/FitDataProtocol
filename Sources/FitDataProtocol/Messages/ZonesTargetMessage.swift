@@ -156,6 +156,10 @@ open class ZonesTargetMessage: FitMessage {
                                      heartRateZoneType: heartRateZoneType,
                                      ftp: ftp,
                                      powerZoneType: powerZoneType)
+        
+        let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
+        msg.developerData = devData.isEmpty ? nil : devData
+
         return.success(msg as! F)
     }
 

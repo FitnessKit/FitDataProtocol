@@ -366,7 +366,6 @@ internal extension ValidatedMeasurement {
 // MARK: ValidatedBinaryInteger
 internal extension ValidatedBinaryInteger {
 
-
     static func validated<T>(value: T, definition: FieldDefinition, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ValidatedBinaryInteger<T>? where T: BinaryInteger {
 
         if value.isValidForBaseType(definition.baseType) {

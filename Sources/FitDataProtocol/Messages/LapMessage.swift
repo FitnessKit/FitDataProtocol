@@ -1206,6 +1206,10 @@ open class LapMessage: FitMessage {
                              averageVerticalOscillation: averageVerticalOscillation,
                              averageStanceTime: averageStance,
                              averageAscentSpeed: averageAscentSpeed)
+        
+        let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
+        msg.developerData = devData.isEmpty ? nil : devData
+
         return.success(msg as! F)
     }
 
