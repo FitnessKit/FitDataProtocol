@@ -50,7 +50,7 @@ internal protocol MessageValidator {
 open class FitMessage {
 
     /// Developer Data 
-    var developerData: [DeveloperDataType]?
+    internal(set) public var developerData: [DeveloperDataType]?
     
     public required init() {}
 

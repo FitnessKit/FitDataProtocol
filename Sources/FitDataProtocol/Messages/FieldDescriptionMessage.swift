@@ -180,9 +180,11 @@ public extension FieldDescriptionMessage {
     
     /// Decode Developer Data into String
     /// - Parameter developerData: DeveloperDataType
-    func decode(developerData: DeveloperDataType) -> Result<String?, FitDeveloperDecodingError> {
-        guard developerData.fieldNumber == self.fieldNumber else { return.failure(.fieldNumberMismatch) }
+    func decodeString(developerData: DeveloperDataType) -> Result<String?, FitDeveloperDecodingError> {
         guard developerData.dataIndex == self.dataIndex else { return.failure(.dataIndexMismatch) }
+        if let fieldNumber = self.fieldNumber {
+            guard developerData.fieldNumber == fieldNumber else { return.failure(.fieldNumberMismatch) }
+        }
 
         if let baseInfo = self.baseInfo {
             var decoder = DecodeData()
@@ -207,9 +209,11 @@ public extension FieldDescriptionMessage {
     ///
     /// Resoulution is applied
     /// - Parameter developerData: DeveloperDataType
-    func decode(developerData: DeveloperDataType) -> Result<Double, FitDeveloperDecodingError> {
-        guard developerData.fieldNumber == self.fieldNumber else { return.failure(.fieldNumberMismatch) }
+    func decodeDouble(developerData: DeveloperDataType) -> Result<Double, FitDeveloperDecodingError> {
         guard developerData.dataIndex == self.dataIndex else { return.failure(.dataIndexMismatch) }
+        if let fieldNumber = self.fieldNumber {
+            guard developerData.fieldNumber == fieldNumber else { return.failure(.fieldNumberMismatch) }
+        }
 
         if let baseInfo = self.baseInfo {
             var decoder = DecodeData()
