@@ -175,3 +175,42 @@ open class FieldDescriptionMessage: FitMessage {
     }
 
 }
+
+
+public extension FieldDescriptionMessage {
+    
+    func decode<T: FixedWidthInteger>(developerData: DeveloperDataType) -> Result<T, FitDeveloperDecodingError> {
+        if let baseInfo = self.baseInfo {
+            
+            switch baseInfo.type {
+                case .enumtype, .uint8, .uint8z, .byte:
+break
+                case .sint8:
+break
+                case .sint16:
+break
+                case .uint16, .uint16z:
+break
+                case .sint32:
+break
+                case .uint32, .uint32z, .float32:
+break
+                case .string:
+break
+                case .sint64:
+break
+                case .uint64, .uint64z, .float64:
+                break
+                
+                case .unknown:
+                    return.failure(.unknowBaseType)
+
+            }
+            
+            return.success(UInt8() as! T)
+        }
+        
+        return.failure(.noBaseType)
+    }
+    
+}

@@ -25,6 +25,21 @@
 import Foundation
 import DataDecoder
 
+public struct DeveloperDataType {
+    
+    /// Architecture
+    private(set) var architecture: Endian
+
+    /// Field Number
+    private(set) var fieldNumber: UInt8
+
+    /// Developer Data Index
+    private(set) var dataIndex: UInt8
+
+    /// Developer Data
+    private(set) var data: Data
+}
+
 internal struct DeveloperFieldDefinition {
 
     private(set) var fieldNumber: UInt8

@@ -26,7 +26,7 @@ import Foundation
 import DataDecoder
 
 /// Architecture Endian
-internal enum Endian: UInt8 {
+public enum Endian: UInt8 {
     /// Little
     case little     = 0
     /// Big

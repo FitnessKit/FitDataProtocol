@@ -49,6 +49,9 @@ internal protocol MessageValidator {
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class FitMessage {
 
+    /// Developer Data 
+    var developerData: [DeveloperDataType]?
+    
     public required init() {}
 
     /// FIT Message Global Number
@@ -91,6 +94,25 @@ open class FitMessage {
 
 //MARK: - Standrd Decodes
 internal extension FitMessage {
+    
+    func decodeDeveloperData(data: FieldData, definition: DefinitionMessage) -> [DeveloperDataType] {
+        
+        var devDecoder = DecodeData()
+        var devDataTypes = [DeveloperDataType]()
+        let arch = definition.architecture
+
+        for definition in definition.developerFieldDefinitions {
+            let devdata = devDecoder.decodeData(data.developerFieldData, length: Int(definition.size))
+            let devType = DeveloperDataType(architecture: arch,
+                                            fieldNumber: definition.fieldNumber,
+                                            dataIndex: definition.dataIndex,
+                                            data: devdata)
+            
+            devDataTypes.append(devType)
+        }
+
+        return devDataTypes
+    }
 
     /// Decode Int16
     ///

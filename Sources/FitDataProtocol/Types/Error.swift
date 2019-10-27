@@ -24,6 +24,26 @@
 
 import Foundation
 
+public enum FitDeveloperDecodingError: Error {
+    /// No BaseType was available
+    case noBaseType
+    /// Unable to determine base type
+    case unknowBaseType
+}
+
+extension FitDeveloperDecodingError: LocalizedError {
+    /// A localized message describing what error occurred.
+    public var errorDescription: String? {
+        switch self {
+        case .noBaseType:
+            return "No BaseType was available"
+        case .unknowBaseType:
+            return "Unknown BaseType"
+        }
+    }
+
+}
+
 /// Errors for FIT File Decoding
 public enum FitDecodingError: Error {
     /// Invalid Architecture Type

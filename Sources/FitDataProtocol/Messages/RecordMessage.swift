@@ -242,7 +242,7 @@ open class RecordMessage: FitMessage {
         var deviceIndex: DeviceIndex?
 
         let arch = definition.architecture
-
+                
         var localDecoder = DecodeData()
 
         for definition in definition.fieldDefinitions {
@@ -693,6 +693,10 @@ open class RecordMessage: FitMessage {
                                 zone: zone,
                                 ballSpeed: ballSpeed,
                                 deviceIndex: deviceIndex)
+        
+        let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
+        msg.developerData = devData.isEmpty ? nil : devData
+        
         return.success(msg as! F)
     }
 
