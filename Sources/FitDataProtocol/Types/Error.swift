@@ -29,6 +29,12 @@ public enum FitDeveloperDecodingError: Error {
     case noBaseType
     /// Unable to determine base type
     case unknowBaseType
+    /// Invalid Return Type
+    case invalidReturnType
+    /// Data Index mismatch
+    case dataIndexMismatch
+    /// Field Number mismatch
+    case fieldNumberMismatch
 }
 
 extension FitDeveloperDecodingError: LocalizedError {
@@ -39,6 +45,12 @@ extension FitDeveloperDecodingError: LocalizedError {
             return "No BaseType was available"
         case .unknowBaseType:
             return "Unknown BaseType"
+        case .invalidReturnType:
+            return "Return type does not match the data type"
+        case .dataIndexMismatch:
+            return "Data Index don't match"
+        case .fieldNumberMismatch:
+            return "Field Numbers don't match"
         }
     }
 

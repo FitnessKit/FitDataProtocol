@@ -104,6 +104,25 @@ extension Double: Resolutionable, FixedWidthIntegerResolutionable {
     }
 }
 
+extension Float32: Resolutionable {
+    
+    /// Apply Resolution with Direction
+    ///
+    /// - Parameters:
+    ///   - direction: Type of Resolution Direction
+    ///   - resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+        switch direction {
+        case .adding:
+            return (Double(self) + resolution.offset) * resolution.scale
+        case .removing:
+            return (Double(self) * (1 / resolution.scale)) - resolution.offset
+        }
+    }
+    
+}
+
 extension UInt8: Resolutionable {
 
     /// Apply Resolution with Direction
@@ -233,4 +252,42 @@ extension Int32: Resolutionable {
             return (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
     }    
+}
+
+extension Int64: Resolutionable {
+    
+    /// Apply Resolution with Direction
+    ///
+    /// - Parameters:
+    ///   - direction: Type of Resolution Direction
+    ///   - resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+        switch direction {
+        case .adding:
+            return (Double(self) + resolution.offset) * resolution.scale
+        case .removing:
+            return (Double(self) * (1 / resolution.scale)) - resolution.offset
+        }
+    }
+    
+}
+
+extension UInt64: Resolutionable {
+    
+    /// Apply Resolution with Direction
+    ///
+    /// - Parameters:
+    ///   - direction: Type of Resolution Direction
+    ///   - resolution: Resolution
+    /// - Returns: Number with Resolution applied
+    public func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double {
+        switch direction {
+        case .adding:
+            return (Double(self) + resolution.offset) * resolution.scale
+        case .removing:
+            return (Double(self) * (1 / resolution.scale)) - resolution.offset
+        }
+    }
+    
 }
