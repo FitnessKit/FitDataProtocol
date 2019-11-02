@@ -32,10 +32,10 @@ import FitnessUnits
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class FieldDescriptionMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 206 }
-
+    
     /// Developer Data Index
     private(set) public var dataIndex: UInt8?
     
@@ -47,13 +47,13 @@ open class FieldDescriptionMessage: FitMessage {
     
     /// Base Unit Type Information
     private(set) public var baseInfo: BaseTypeData?
-
+    
     /// Units name
     private(set) public var units: String?
     
     /// Base Units
     private(set) public var baseUnits: BaseUnitType?
-
+    
     /// Message Number
     ///
     /// This will match up with the FitMessage.globalMessageNumber()
@@ -61,9 +61,9 @@ open class FieldDescriptionMessage: FitMessage {
     
     /// Field Number
     private(set) public var fieldNumber: UInt8?
-
+    
     public required init() {}
-
+    
     public init(dataIndex: UInt8?,
                 definitionNumber: UInt8?,
                 fieldName: String?,
@@ -95,12 +95,12 @@ open class FieldDescriptionMessage: FitMessage {
         var baseTypeId: BaseType = .unknown
         var fieldName: String?
         var scale: UInt8 = 1
-        var offset: UInt8 = 0
+        var offset: Int8 = 0
         var units: String?
         var baseUnits: BaseUnitType?
         var messageNumber: UInt16?
         var fieldNumber: UInt8?
-
+        
         let arch = definition.architecture
         
         var localDecoder = DecodeData()
@@ -119,40 +119,47 @@ open class FieldDescriptionMessage: FitMessage {
                 switch key {
                 case .dataIndex:
                     dataIndex = localDecoder.decodeUInt8(fieldData.fieldData)
-
+                    
                 case .definitionNumber:
                     definitionNumber = localDecoder.decodeUInt8(fieldData.fieldData)
+                    
                 case .baseTypeId:
                     let base = localDecoder.decodeUInt8(fieldData.fieldData)
                     baseTypeId = BaseType(rawValue: (base & 0x1F)) ?? .unknown
-
+                    
                 case .fieldName:
                     fieldName = String.decode(decoder: &localDecoder,
                                               definition: definition,
                                               data: fieldData,
                                               dataStrategy: dataStrategy)
-
+                    
                 case .scale:
-                    scale = localDecoder.decodeUInt8(fieldData.fieldData)
+                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
+                    if value.isValidForBaseType(definition.baseType) {
+                        scale = value
+                    }
                     
                 case .offset:
-                    offset = localDecoder.decodeUInt8(fieldData.fieldData)
-
+                    let value = localDecoder.decodeInt8(fieldData.fieldData)
+                    if value.isValidForBaseType(definition.baseType) {
+                        offset = value
+                    }
+                    
                 case .units:
                     units = String.decode(decoder: &localDecoder,
                                           definition: definition,
                                           data: fieldData,
                                           dataStrategy: dataStrategy)
-
+                    
                 case .baseUnits:
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         baseUnits = BaseUnitType(rawValue: value)
                     }
-
+                    
                 case .messageNumber:
                     messageNumber = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-
+                    
                 case .fieldNumber:
                     fieldNumber = localDecoder.decodeUInt8(fieldData.fieldData)
                 }
@@ -173,7 +180,7 @@ open class FieldDescriptionMessage: FitMessage {
         
         return.success(msg as! F)
     }
-
+    
 }
 
 public extension FieldDescriptionMessage {
@@ -182,13 +189,13 @@ public extension FieldDescriptionMessage {
     /// - Parameter developerData: DeveloperDataType
     func decodeString(developerData: DeveloperDataType) -> Result<String?, FitDeveloperDecodingError> {
         guard developerData.dataIndex == self.dataIndex else { return.failure(.dataIndexMismatch) }
-        if let fieldNumber = self.fieldNumber {
+        if let fieldNumber = self.definitionNumber {
             guard developerData.fieldNumber == fieldNumber else { return.failure(.fieldNumberMismatch) }
         }
-
+        
         if let baseInfo = self.baseInfo {
             var decoder = DecodeData()
-
+            
             switch baseInfo.type {
             case .string:
                 let stringData = decoder.decodeData(developerData.data, length: developerData.data.count)
@@ -211,75 +218,102 @@ public extension FieldDescriptionMessage {
     /// - Parameter developerData: DeveloperDataType
     func decodeDouble(developerData: DeveloperDataType) -> Result<Double, FitDeveloperDecodingError> {
         guard developerData.dataIndex == self.dataIndex else { return.failure(.dataIndexMismatch) }
-        if let fieldNumber = self.fieldNumber {
+        if let fieldNumber = self.definitionNumber {
             guard developerData.fieldNumber == fieldNumber else { return.failure(.fieldNumberMismatch) }
         }
 
         if let baseInfo = self.baseInfo {
             var decoder = DecodeData()
-
+            
             switch baseInfo.type {
             case .enumtype, .uint8, .uint8z, .byte:
                 let value = decoder.decodeUInt8(developerData.data)
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isValidForBaseType(baseInfo.type) {
+                    return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                }
+                return.success(0)
+                
             case .sint8:
                 let value = decoder.decodeInt8(developerData.data)
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isValidForBaseType(baseInfo.type) {
+                    return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                }
+                return.success(0)
+                
             case .sint16:
                 let value = developerData.architecture == .little ? decoder.decodeInt16(developerData.data).littleEndian : decoder.decodeInt16(developerData.data).bigEndian
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isValidForBaseType(baseInfo.type) {
+                    return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                }
+                return.success(0)
+                
             case .uint16, .uint16z:
                 let value = developerData.architecture == .little ? decoder.decodeUInt16(developerData.data).littleEndian : decoder.decodeUInt16(developerData.data).bigEndian
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isValidForBaseType(baseInfo.type) {
+                    return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                }
+                return.success(0)
+                
             case .sint32:
                 let value = developerData.architecture == .little ? decoder.decodeInt32(developerData.data).littleEndian : decoder.decodeInt32(developerData.data).bigEndian
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isValidForBaseType(baseInfo.type) {
+                    return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                }
+                return.success(0)
+                
             case .float32:
                 let value = decoder.decodeFloat32(developerData.data)
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isNaN {
+                    return.success(0)
+                }
+                return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                
             case .uint32, .uint32z:
                 let value = developerData.architecture == .little ? decoder.decodeUInt32(developerData.data).littleEndian : decoder.decodeUInt32(developerData.data).bigEndian
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isValidForBaseType(baseInfo.type) {
+                    return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                }
+                return.success(0)
+                
             case .string:
                 return.failure(.invalidReturnType)
-
+                
             case .sint64:
                 let value = developerData.architecture == .little ? decoder.decodeInt64(developerData.data).littleEndian : decoder.decodeInt64(developerData.data).bigEndian
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isValidForBaseType(baseInfo.type) {
+                    return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                }
+                return.success(0)
+                
             case .float64:
                 let value = decoder.decodeFloat64(developerData.data)
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                if value.isNaN {
+                    return.success(0)
+                }
+                return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                
             case .uint64, .uint64z:
                 let value = developerData.architecture == .little ? decoder.decodeUInt64(developerData.data).littleEndian : decoder.decodeUInt64(developerData.data).bigEndian
-                let resValue = value.resolution(.removing, resolution: baseInfo.resolution)
-                return.success(resValue)
-
+                
+                if value.isValidForBaseType(baseInfo.type) {
+                    return.success(value.resolution(.removing, resolution: baseInfo.resolution))
+                }
+                return.success(0)
+                
             case .unknown:
                 return.failure(.unknowBaseType)
             }
-            
-            return.success(Double())
         }
         
         return.failure(.noBaseType)
     }
-        
+    
 }

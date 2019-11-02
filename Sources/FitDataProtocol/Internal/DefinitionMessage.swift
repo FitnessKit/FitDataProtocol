@@ -98,7 +98,7 @@ internal extension DefinitionMessage {
         // Reserved Byte
         let _ = decoder.decodeUInt8(data)
 
-        let archvalue = decoder.decodeUInt8(data);
+        let archvalue = decoder.decodeUInt8(data)
 
         guard let architecture = Endian(rawValue: archvalue) else { return.failure(FitDecodingError.invalidArchitecture) }
 
