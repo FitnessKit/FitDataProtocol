@@ -56,7 +56,7 @@ open class MetZoneMessage: FitMessage {
         self.messageIndex = messageIndex
 
         if let hr = heartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.highBpm.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.highBpm.baseData.type)
             self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
         

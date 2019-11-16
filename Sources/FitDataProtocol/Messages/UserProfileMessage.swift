@@ -152,7 +152,7 @@ open class UserProfileMessage: FitMessage {
         self.gender = gender
 
         if let age = age {
-            let valid = age.isValidForBaseType(FitCodingKeys.age.baseType)
+            let valid = age.isValidForBaseType(FitCodingKeys.age.baseData.type)
             self.age = ValidatedMeasurement(value: Double(age), valid: valid, unit: UnitDuration.year)
         }
 
@@ -162,22 +162,22 @@ open class UserProfileMessage: FitMessage {
         self.weightSetting = weightSetting
 
         if let hr = restingHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.restingHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.restingHeartRate.baseData.type)
             self.restingHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
 
         if let hr = maxRunningHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.defaultMaxRunningHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.defaultMaxRunningHeartRate.baseData.type)
             self.maxRunningHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
 
         if let hr = maxBikingHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.defaultMaxRunningHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.defaultMaxRunningHeartRate.baseData.type)
             self.maxBikingHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
 
         if let hr = maxHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.defaultMaxHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.defaultMaxHeartRate.baseData.type)
             self.maxHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
     }

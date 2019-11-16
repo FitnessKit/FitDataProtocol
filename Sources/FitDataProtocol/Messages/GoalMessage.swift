@@ -98,7 +98,7 @@ open class GoalMessage: FitMessage {
         self.goalType = goalType
 
         if let goalValue = goalValue {
-            let valid = goalValue.isValidForBaseType(FitCodingKeys.goalValue.baseType)
+            let valid = goalValue.isValidForBaseType(FitCodingKeys.goalValue.baseData.type)
             self.goalValue = ValidatedBinaryInteger(value: goalValue, valid: valid)
         }
 

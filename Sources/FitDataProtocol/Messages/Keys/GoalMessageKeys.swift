@@ -65,8 +65,6 @@ extension GoalMessage: FitMessageKeys {
 }
 
 extension GoalMessage.FitCodingKeys: BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { return self.baseData.type }
     
     /// Key Base Data
     var baseData: BaseTypeData {
@@ -108,15 +106,15 @@ extension GoalMessage.FitCodingKeys: KeyedEncoder {}
 internal extension GoalMessage.FitCodingKeys {
 
     func encodeKeyed(value: Goal) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
     func encodeKeyed(value: GoalRecurrence) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
     func encodeKeyed(value: GoalSource) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 

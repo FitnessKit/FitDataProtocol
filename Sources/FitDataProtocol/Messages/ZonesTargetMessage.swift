@@ -58,12 +58,12 @@ open class ZonesTargetMessage: FitMessage {
                 powerZoneType: PowerZoneCalculation? = nil) {
 
         if let hr = maxHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.maxHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.maxHeartRate.baseData.type)
             self.maxHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
 
         if let hr = thresholdHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.thresholdHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.thresholdHeartRate.baseData.type)
             self.thresholdHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
 

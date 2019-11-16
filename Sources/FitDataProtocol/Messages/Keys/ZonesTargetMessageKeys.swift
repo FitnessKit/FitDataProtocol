@@ -48,8 +48,6 @@ extension ZonesTargetMessage: FitMessageKeys {
 }
 
 extension ZonesTargetMessage.FitCodingKeys: BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { return self.baseData.type }
     
     /// Key Base Data
     var baseData: BaseTypeData {
@@ -76,11 +74,11 @@ extension ZonesTargetMessage.FitCodingKeys: KeyedEncoder {}
 internal extension ZonesTargetMessage.FitCodingKeys {
 
     func encodeKeyed(value: HeartRateZoneCalculation) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
     func encodeKeyed(value: PowerZoneCalculation) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 

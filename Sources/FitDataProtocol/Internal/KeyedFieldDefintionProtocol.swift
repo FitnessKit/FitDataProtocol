@@ -53,8 +53,8 @@ extension KeyedFieldDefintion where Self: BaseTypeable {
         
         let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.keyRawValue),
                                               size: size,
-                                              endianAbility: self.baseType.hasEndian,
-                                              baseType: self.baseType)
+                                              endianAbility: self.baseData.type.hasEndian,
+                                              baseType: self.baseData.type)
         
         return fieldDefinition
     }
@@ -65,9 +65,9 @@ extension KeyedFieldDefintion where Self: BaseTypeable {
     internal func fieldDefinition() -> FieldDefinition {
         
         let fieldDefinition = FieldDefinition(fieldDefinitionNumber: UInt8(self.keyRawValue),
-                                              size: self.baseType.dataSize,
-                                              endianAbility: self.baseType.hasEndian,
-                                              baseType: self.baseType)
+                                              size: self.baseData.type.dataSize,
+                                              endianAbility: self.baseData.type.hasEndian,
+                                              baseType: self.baseData.type)
         
         return fieldDefinition
     }

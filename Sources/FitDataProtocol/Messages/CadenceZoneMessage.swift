@@ -53,7 +53,7 @@ open class CadenceZoneMessage: FitMessage {
         self.name = name
 
         if let value = highLevel {
-            let valid = value.isValidForBaseType(FitCodingKeys.highValue.baseType)
+            let valid = value.isValidForBaseType(FitCodingKeys.highValue.baseData.type)
             self.highLevel = ValidatedMeasurement(value: Double(value), valid: valid, unit: UnitCadence.revolutionsPerMinute)
         }
     }

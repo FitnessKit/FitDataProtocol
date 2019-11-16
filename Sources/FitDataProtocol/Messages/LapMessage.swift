@@ -310,22 +310,22 @@ open class LapMessage: FitMessage {
         self.maximumSpeed = maximumSpeed
 
         if let hr = averageHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.averageHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.averageHeartRate.baseData.type)
             self.averageHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
 
         if let hr = maximumHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.maximumHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.maximumHeartRate.baseData.type)
             self.maximumHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
 
         if let cadence = averageCadence {
-            let valid = cadence.isValidForBaseType(FitCodingKeys.averageCadence.baseType)
+            let valid = cadence.isValidForBaseType(FitCodingKeys.averageCadence.baseData.type)
             self.averageCadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
         }
 
         if let cadence = maximumCadence {
-            let valid = cadence.isValidForBaseType(FitCodingKeys.maximumCadence.baseType)
+            let valid = cadence.isValidForBaseType(FitCodingKeys.maximumCadence.baseData.type)
             self.maximumCadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
         }
         
@@ -364,7 +364,7 @@ open class LapMessage: FitMessage {
         self.minimumAltitude = minimumAltitude
 
         if let hr = minimumHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.minimumHeartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.minimumHeartRate.baseData.type)
             self.minimumHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
         

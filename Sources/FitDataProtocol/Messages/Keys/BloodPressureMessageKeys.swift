@@ -61,8 +61,6 @@ extension BloodPressureMessage: FitMessageKeys {
 }
 
 extension BloodPressureMessage.FitCodingKeys: BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { return self.baseData.type }
     
     /// Key Base Data
     var baseData: BaseTypeData {
@@ -107,11 +105,11 @@ extension BloodPressureMessage.FitCodingKeys: KeyedEncoder {}
 internal extension BloodPressureMessage.FitCodingKeys {
 
     func encodeKeyed(value: HeartRateType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
     func encodeKeyed(value: BloodPressureStatus) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 

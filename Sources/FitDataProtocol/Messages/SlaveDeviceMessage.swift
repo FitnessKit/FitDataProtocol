@@ -47,7 +47,7 @@ open class SlaveDeviceMessage: FitMessage {
         self.manufacturer = manufacturer
 
         if let product = product {
-            let valid = product.isValidForBaseType(FitCodingKeys.product.baseType)
+            let valid = product.isValidForBaseType(FitCodingKeys.product.baseData.type)
             self.product = ValidatedBinaryInteger(value: product, valid: valid)
         }
     }

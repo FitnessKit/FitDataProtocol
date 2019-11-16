@@ -26,8 +26,6 @@ import Foundation
 
 /// Items that need to contain a BaseType
 internal protocol BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { get }
     /// Key Base Data
     var baseData: BaseTypeData { get }
 }

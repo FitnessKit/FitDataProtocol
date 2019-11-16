@@ -173,12 +173,12 @@ open class RecordMessage: FitMessage {
         self.stanceTime = stanceTime
 
         if let hr = heartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.heartRate.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.heartRate.baseData.type)
             self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
 
         if let cadence = cadence {
-            let valid = cadence.isValidForBaseType(FitCodingKeys.cadence.baseType)
+            let valid = cadence.isValidForBaseType(FitCodingKeys.cadence.baseData.type)
             self.cadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.genericUnitsPerMinute)
         }
         

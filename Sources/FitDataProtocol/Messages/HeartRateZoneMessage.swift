@@ -53,7 +53,7 @@ open class HeartRateZoneMessage: FitMessage {
         self.name = name
 
         if let hr = heartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.highBpm.baseType)
+            let valid = hr.isValidForBaseType(FitCodingKeys.highBpm.baseData.type)
             self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
         }
     }

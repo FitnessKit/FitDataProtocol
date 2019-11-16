@@ -57,8 +57,6 @@ extension FieldDescriptionMessage: FitMessageKeys {
 }
 
 extension FieldDescriptionMessage.FitCodingKeys: BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { return self.baseData.type }
     
     /// Key Base Data
     var baseData: BaseTypeData {

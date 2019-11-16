@@ -206,8 +206,6 @@ extension LapMessage: FitMessageKeys {
 }
 
 extension LapMessage.FitCodingKeys: BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { return self.baseData.type }
     
     /// Key Base Data
     var baseData: BaseTypeData {
@@ -454,15 +452,15 @@ extension LapMessage.FitCodingKeys: KeyedEncoder {}
 internal extension LapMessage.FitCodingKeys {
 
     func encodeKeyed(value: Intensity) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
     func encodeKeyed(value: LapTrigger) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
     func encodeKeyed(value: SwimStroke) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 

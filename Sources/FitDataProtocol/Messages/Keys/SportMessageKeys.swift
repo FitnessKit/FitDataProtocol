@@ -47,8 +47,6 @@ extension SportMessage: FitMessageKeys {
 }
 
 extension SportMessage.FitCodingKeys: BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { return self.baseData.type }
     
     /// Key Base Data
     var baseData: BaseTypeData {

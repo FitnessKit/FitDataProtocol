@@ -48,35 +48,35 @@ internal protocol KeyedEncoder {
 extension KeyedEncoder where Self: BaseTypeable {
     
     internal func encodeKeyed(value: Bool) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
     
     internal func encodeKeyed(value: UInt8) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
     
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt8>) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
     
     internal func encodeKeyed(value: UInt16) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
     
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt16>) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
     
     internal func encodeKeyed(value: UInt32) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
     
     internal func encodeKeyed(value: ValidatedBinaryInteger<UInt32>) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
     
     internal func encodeKeyed(value: Double) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value, resolution: self.baseData.resolution)
     }
 }
 
@@ -90,11 +90,11 @@ internal protocol KeyedEncoderFitFile {
 extension KeyedEncoderFitFile where Self: BaseTypeable {
     
     func encodeKeyed(value: FileType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: FitFileFlag) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 
@@ -109,11 +109,11 @@ internal protocol KeyedEncoderSport {
 extension KeyedEncoderSport where Self: BaseTypeable {
     
     func encodeKeyed(value: Sport) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: SubSport) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 
@@ -127,11 +127,11 @@ internal protocol KeyedEncoderEvent {
 extension KeyedEncoderEvent where Self: BaseTypeable {
     
     func encodeKeyed(value: Event) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: EventType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 
@@ -146,11 +146,11 @@ internal protocol KeyedEncoderExercise {
 extension KeyedEncoderExercise where Self: BaseTypeable {
     
     func encodeKeyed(value: ExerciseCategory) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: ExerciseNameType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.number, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.number, resolution: self.baseData.resolution)
     }
 }
 
@@ -169,19 +169,19 @@ internal protocol KeyedEncoderDisplayType {
 extension KeyedEncoderDisplayType where Self: BaseTypeable {
 
     func encodeKeyed(value: MeasurementDisplayType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: HeartRateDisplayType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: PositionDisplayType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: PowerDisplayType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 
@@ -204,27 +204,27 @@ internal protocol KeyedEncoderAntDevice {
 extension KeyedEncoderAntDevice where Self: BaseTypeable {
 
     func encodeKeyed(value: DeviceType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: BatteryStatus) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: BodyLocation) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: TransmissionType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: NetworkType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: SourceType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
 }

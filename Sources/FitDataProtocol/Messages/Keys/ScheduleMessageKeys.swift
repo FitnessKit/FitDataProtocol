@@ -52,8 +52,6 @@ extension ScheduleMessage: FitMessageKeys {
 }
 
 extension ScheduleMessage.FitCodingKeys: BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { return self.baseData.type }
     
     /// Key Base Data
     var baseData: BaseTypeData {
@@ -82,7 +80,7 @@ extension ScheduleMessage.FitCodingKeys: KeyedEncoder {}
 internal extension ScheduleMessage.FitCodingKeys {
 
     func encodeKeyed(value: ScheduleType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 

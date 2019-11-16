@@ -91,8 +91,6 @@ extension UserProfileMessage: FitMessageKeys {
 }
 
 extension UserProfileMessage.FitCodingKeys: BaseTypeable {
-    /// Key Base Type
-    var baseType: BaseType { return self.baseData.type }
     
     /// Key Base Data
     var baseData: BaseTypeData {
@@ -175,11 +173,11 @@ extension UserProfileMessage.FitCodingKeys: KeyedEncoderDisplayType {}
 internal extension UserProfileMessage.FitCodingKeys {
 
     func encodeKeyed(value: Gender) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 
     func encodeKeyed(value: Language) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
+        return self.baseData.type.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 
