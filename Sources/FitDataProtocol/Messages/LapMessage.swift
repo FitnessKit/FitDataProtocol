@@ -502,7 +502,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         startPositionlatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         startPositionlatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -512,7 +512,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         startPositionlongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         startPositionlongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -522,7 +522,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         endPositionlatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         endPositionlatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -532,7 +532,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         endPositionlongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
                     } else {
                         endPositionlongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
@@ -542,7 +542,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0, Time (includes pauses)
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         totalElapsedTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
                     
@@ -550,7 +550,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0, Time (excludes pauses)
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
                     
@@ -558,7 +558,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         totalDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         totalDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -593,7 +593,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         averageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -603,7 +603,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         maximumSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         maximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -665,7 +665,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averagePower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         averagePower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -675,7 +675,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         maximumPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         maximumPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -685,7 +685,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         totalAscent = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         totalAscent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -695,7 +695,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * m + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         totalDescent = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         totalDescent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -736,7 +736,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1 * watts + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         normalizedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
                     } else {
                         normalizedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
@@ -755,7 +755,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageStrokeDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         averageStrokeDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -793,7 +793,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         averageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -803,7 +803,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         maximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         maximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -822,7 +822,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         averageGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -832,7 +832,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averagePositiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         averagePositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -842,7 +842,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageNegitiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         averageNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -852,7 +852,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         maximumPositiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         maximumPositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -862,7 +862,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         maximumNegitiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         maximumNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -890,7 +890,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         totalMovingTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
                     
@@ -898,7 +898,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averagePositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         averagePositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -908,7 +908,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         averageNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -918,7 +918,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         maximumPositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         maximumPositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -928,7 +928,7 @@ open class LapMessage: FitMessage {
                     let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         maximumNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         maximumNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -956,7 +956,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         minimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         minimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -997,7 +997,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * mm + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageVerticalOscillation = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.millimeters)
                     } else {
                         averageVerticalOscillation = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.millimeters)
@@ -1007,7 +1007,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageStancePercent = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         averageStancePercent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -1017,7 +1017,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * ms + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageStanceTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.millisecond)
                     } else {
                         averageStanceTime = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitDuration.millisecond)
@@ -1060,7 +1060,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         enhancedAverageSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         enhancedAverageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1070,7 +1070,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         enhancedMaximumSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         enhancedMaximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
@@ -1080,7 +1080,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         enhancedAverageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedAverageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1090,7 +1090,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         enhancedMinimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedMinimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1100,7 +1100,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         enhancedMaximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         enhancedMaximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
@@ -1110,7 +1110,7 @@ open class LapMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * m/s + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         averageAscentSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
                     } else {
                         averageAscentSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)

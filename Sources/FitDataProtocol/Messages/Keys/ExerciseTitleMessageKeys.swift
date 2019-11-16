@@ -49,8 +49,6 @@ extension ExerciseTitleMessage: FitMessageKeys {
 extension ExerciseTitleMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-    /// Key Base Resolution
-    var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
     var baseData: BaseTypeData {

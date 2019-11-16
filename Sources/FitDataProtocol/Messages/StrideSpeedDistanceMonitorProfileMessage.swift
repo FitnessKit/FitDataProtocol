@@ -137,7 +137,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * % + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         calibrationFactor = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
                     } else {
                         calibrationFactor = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
@@ -147,7 +147,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         odometer = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         odometer = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)

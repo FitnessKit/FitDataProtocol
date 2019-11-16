@@ -116,7 +116,7 @@ open class MetZoneMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * kcal / min + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         calories = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
                         calories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
@@ -126,7 +126,7 @@ open class MetZoneMessage: FitMessage {
                     let value = localDecoder.decodeUInt8(fieldData.fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 10 * kcal / min + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         fatCalories = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
                     } else {
                         fatCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)

@@ -236,7 +236,7 @@ open class DeviceInfoMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 256 * V + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         batteryVoltage = ValidatedMeasurement(value: value, valid: true, unit: UnitElectricPotentialDifference.volts)
                     } else {
                         batteryVoltage = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitElectricPotentialDifference.volts)

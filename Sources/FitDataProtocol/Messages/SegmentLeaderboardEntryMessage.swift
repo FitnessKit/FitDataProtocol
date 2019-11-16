@@ -135,7 +135,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         /// 1000 * s + 0
-                        let value = value.resolution(type: UInt32.self, .removing, resolution: key.resolution)
+                        let value = value.resolution(type: UInt32.self, .removing, resolution: key.baseData.resolution)
                         segmentTime = ValidatedBinaryInteger(value: value, valid: true)
                     } else {
                         segmentTime = ValidatedBinaryInteger.invalidValue(definition.baseType, dataStrategy: dataStrategy)

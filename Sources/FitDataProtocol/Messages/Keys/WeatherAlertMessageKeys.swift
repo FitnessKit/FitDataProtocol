@@ -53,8 +53,6 @@ extension WeatherAlertMessage: FitMessageKeys {
 extension WeatherAlertMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-    /// Key Base Resolution
-    var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
     var baseData: BaseTypeData {
@@ -84,11 +82,11 @@ extension WeatherAlertMessage.FitCodingKeys: KeyedEncoder {}
 internal extension WeatherAlertMessage.FitCodingKeys {
 
     func encodeKeyed(value: WeatherSeverity) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
     
     func encodeKeyed(value: WeatherSeverityType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 

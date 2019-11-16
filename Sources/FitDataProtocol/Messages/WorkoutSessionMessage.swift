@@ -141,7 +141,7 @@ open class WorkoutSessionMessage: FitMessage {
                     let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 100 * m + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         poolLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
                     } else {
                         poolLength = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)

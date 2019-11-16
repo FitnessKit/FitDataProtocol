@@ -127,7 +127,7 @@ open class ActivityMessage: FitMessage {
                     let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
                     if value.isValidForBaseType(definition.baseType) {
                         // 1000 * s + 0
-                        let value = value.resolution(.removing, resolution: key.resolution)
+                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
                         totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
                     }
                     

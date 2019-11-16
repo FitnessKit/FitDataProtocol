@@ -87,7 +87,7 @@ open class HrvMessage: FitMessage {
                     
                     while seconds != 0 {
                         /// 1000 * s + 0, Time between beats
-                        let value = seconds.resolution(.removing, resolution: key.resolution)
+                        let value = seconds.resolution(.removing, resolution: key.baseData.resolution)
                         let interval = Measurement(value: value, unit: UnitDuration.seconds)
                         
                         if hrv == nil {

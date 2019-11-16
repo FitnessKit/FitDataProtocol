@@ -53,8 +53,6 @@ extension SegmentLeaderboardEntryMessage: FitMessageKeys {
 extension SegmentLeaderboardEntryMessage.FitCodingKeys: BaseTypeable {
     /// Key Base Type
     var baseType: BaseType { return self.baseData.type }
-    /// Key Base Resolution
-    var resolution: Resolution { return self.baseData.resolution }
     
     /// Key Base Data
     var baseData: BaseTypeData {
@@ -83,7 +81,7 @@ extension SegmentLeaderboardEntryMessage.FitCodingKeys: KeyedEncoder {}
 internal extension SegmentLeaderboardEntryMessage.FitCodingKeys {
 
     func encodeKeyed(value: LeaderboardType) -> Result<Data, FitEncodingError> {
-        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.resolution)
+        return self.baseType.encodedResolution(value: value.rawValue, resolution: self.baseData.resolution)
     }
 }
 
