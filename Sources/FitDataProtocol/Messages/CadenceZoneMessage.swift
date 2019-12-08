@@ -85,9 +85,8 @@ open class CadenceZoneMessage: FitMessage {
     /// - Parameters:
     ///   - fieldData: FileData
     ///   - definition: Definition Message
-    ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
-    override func decode<F: CadenceZoneMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
+    override func decode<F: CadenceZoneMessage>(fieldData: FieldData, definition: DefinitionMessage) -> Result<F, FitDecodingError> {
         
         var testDecoder = DecodeData()
         

@@ -61,7 +61,7 @@ open class FieldDescriptionMessage: FitMessage {
     
     @FitField(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 7)
-    private var offset: UInt8?
+    private var offset: Int8?
     
     /// Base Unit Type Information
     private(set) public var baseInfo: BaseTypeData? {
@@ -78,7 +78,7 @@ open class FieldDescriptionMessage: FitMessage {
             self.baseTypeId = newValue?.type
             if let res = newValue?.resolution {
                 self.scale = UInt8(res.scale)
-                self.offset = UInt8(res.offset)
+                self.offset = Int8(res.offset)
             }
         }
     }
@@ -145,9 +145,8 @@ open class FieldDescriptionMessage: FitMessage {
     /// - Parameters:
     ///   - fieldData: FileData
     ///   - definition: Definition Message
-    ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
-    override func decode<F: FieldDescriptionMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
+    override func decode<F: FieldDescriptionMessage>(fieldData: FieldData, definition: DefinitionMessage) -> Result<F, FitDecodingError> {
         
         var testDecoder = DecodeData()
         

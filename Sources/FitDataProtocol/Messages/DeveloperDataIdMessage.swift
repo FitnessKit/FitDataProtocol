@@ -96,9 +96,8 @@ open class DeveloperDataIdMessage: FitMessage {
     /// - Parameters:
     ///   - fieldData: FileData
     ///   - definition: Definition Message
-    ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
-    override func decode<F: DeveloperDataIdMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
+    override func decode<F: DeveloperDataIdMessage>(fieldData: FieldData, definition: DefinitionMessage) -> Result<F, FitDecodingError> {
         
         var testDecoder = DecodeData()
         

@@ -23,8 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import FitnessUnits
-import DataDecoder
 
 /// Defines Base Type Data
 public struct BaseTypeData {
@@ -119,24 +117,12 @@ internal extension BaseType {
         return encodedResolution(value: Double(value), resolution: resolution)
     }
 
-    func encodedResolution(value: ValidatedBinaryInteger<UInt8>, resolution: Resolution) -> Result<Data, FitEncodingError> {
-        return encodedResolution(value: value.value, resolution: resolution)
-    }
-
     func encodedResolution(value: UInt16, resolution: Resolution) -> Result<Data, FitEncodingError> {
         return encodedResolution(value: Double(value), resolution: resolution)
     }
 
-    func encodedResolution(value: ValidatedBinaryInteger<UInt16>, resolution: Resolution) -> Result<Data, FitEncodingError> {
-        return encodedResolution(value: value.value, resolution: resolution)
-    }
-
     func encodedResolution(value: UInt32, resolution: Resolution) -> Result<Data, FitEncodingError> {
         return encodedResolution(value: Double(value), resolution: resolution)
-    }
-
-    func encodedResolution(value: ValidatedBinaryInteger<UInt32>, resolution: Resolution) -> Result<Data, FitEncodingError> {
-        return encodedResolution(value: value.value, resolution: resolution)
     }
 
     /// Encode Value into data with resolution to a BaseType Value
@@ -393,134 +379,4 @@ internal extension BinaryFloatingPoint {
             return Double(self) != Double(0x0000000000000000)
         }
     }
-}
-
-internal extension ValidatedMeasurement {
-
-    static func invalidValue<T>(_ base: BaseType, dataStrategy: FitFileDecoder.DataDecodingStrategy, unit: T) -> ValidatedMeasurement<T>? {
-
-        switch dataStrategy {
-        case .nil:
-            return nil
-        case .useInvalid:
-            switch base {
-            case .enumtype:
-                return ValidatedMeasurement<T>(value: Double(0xFF), valid: false, unit: unit)
-            case .sint8:
-                return ValidatedMeasurement<T>(value: Double(0x7F), valid: false, unit: unit)
-            case .uint8:
-                return ValidatedMeasurement<T>(value: Double(0xFF), valid: false, unit: unit)
-            case .sint16:
-                return ValidatedMeasurement<T>(value: Double(0x7FFF), valid: false, unit: unit)
-            case .uint16:
-                return ValidatedMeasurement<T>(value: Double(0xFFFF), valid: false, unit: unit)
-            case .sint32:
-                return ValidatedMeasurement<T>(value: Double(Int32.max), valid: false, unit: unit)
-            case .uint32:
-                return ValidatedMeasurement<T>(value: Double(UInt32.max), valid: false, unit: unit)
-            case .string:
-                return ValidatedMeasurement<T>(value: Double(0x00), valid: false, unit: unit)
-            case .float32:
-                return ValidatedMeasurement<T>(value: Double(UInt32.max), valid: false, unit: unit)
-            case .float64:
-                return ValidatedMeasurement<T>(value: Double(UInt64.max), valid: false, unit: unit)
-            case .uint8z:
-                return ValidatedMeasurement<T>(value: Double(0x00), valid: false, unit: unit)
-            case .uint16z:
-                return ValidatedMeasurement<T>(value: Double(0x0000), valid: false, unit: unit)
-            case .uint32z:
-                return ValidatedMeasurement<T>(value: Double(0x00000000), valid: false, unit: unit)
-            case .byte:
-                return ValidatedMeasurement<T>(value: Double(0xFF), valid: false, unit: unit)
-            case .sint64:
-                return ValidatedMeasurement<T>(value: Double(Int64.max), valid: false, unit: unit)
-            case .uint64:
-                return ValidatedMeasurement<T>(value: Double(UInt64.max), valid: false, unit: unit)
-            case .uint64z:
-                return ValidatedMeasurement<T>(value: Double(0x0000000000000000), valid: false, unit: unit)
-            case .unknown:
-                return ValidatedMeasurement<T>(value: Double(0xFF), valid: false, unit: unit)
-            }
-        }
-    }
-}
-
-
-// MARK: ValidatedBinaryInteger
-internal extension ValidatedBinaryInteger {
-
-    static func validated<T>(value: T, base: BaseType, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ValidatedBinaryInteger<T>? where T: BinaryInteger {
-        
-        if value.isValidForBaseType(base) {
-            return ValidatedBinaryInteger<T>(value: value, valid: true)
-        } else {
-            return ValidatedBinaryInteger<T>.invalidValue(base, dataStrategy: dataStrategy)
-        }
-        
-    }
-
-    static func validated<T>(value: T, definition: FieldDefinition, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ValidatedBinaryInteger<T>? where T: BinaryInteger {
-
-        if value.isValidForBaseType(definition.baseType) {
-            return ValidatedBinaryInteger<T>(value: value, valid: true)
-        } else {
-            return ValidatedBinaryInteger<T>.invalidValue(definition.baseType, dataStrategy: dataStrategy)
-        }
-
-    }
-
-    /// Invalid ValidatedBinaryInteger based off BaseType
-    ///
-    /// - Parameters:
-    ///   - base: BaseType
-    ///   - dataStrategy: FitFileDecoder.DataDecodingStrategy
-    /// - Returns: ValidatedBinaryInteger?
-    static func invalidValue(_ base: BaseType, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ValidatedBinaryInteger? {
-
-        switch dataStrategy {
-        case .nil:
-            return nil
-        case .useInvalid:
-            switch base {
-            case .enumtype:
-                return ValidatedBinaryInteger(value: 0xFF, valid: false)
-            case .sint8:
-                return ValidatedBinaryInteger(value: 0x7F, valid: false)
-            case .uint8:
-                return ValidatedBinaryInteger(value: 0xFF, valid: false)
-            case .sint16:
-                return ValidatedBinaryInteger(value: 0x7FFF, valid: false)
-            case .uint16:
-                return ValidatedBinaryInteger(value: 0xFFFF, valid: false)
-            case .sint32:
-                return ValidatedBinaryInteger(value: 0x7FFFFFFF, valid: false)
-            case .uint32:
-                return ValidatedBinaryInteger(value: 0xFFFFFFFF, valid: false)
-            case .string:
-                return ValidatedBinaryInteger(value: 0x00, valid: false)
-            case .float32:
-                return ValidatedBinaryInteger(value: 0xFFFFFFFF, valid: false)
-            case .float64:
-                return ValidatedBinaryInteger(value: 0xFFFFFFFFFFFFFFFF, valid: false)
-            case .uint8z:
-                return ValidatedBinaryInteger(value: 0x00, valid: false)
-            case .uint16z:
-                return ValidatedBinaryInteger(value: 0x0000, valid: false)
-            case .uint32z:
-                return ValidatedBinaryInteger(value: 0x00000000, valid: false)
-            case .byte:
-                return ValidatedBinaryInteger(value: 0xFF, valid: false)
-            case .sint64:
-                return ValidatedBinaryInteger(value: 0x7FFFFFFFFFFFFFFF, valid: false)
-            case .uint64:
-                return ValidatedBinaryInteger(value: 0xFFFFFFFFFFFFFFFF, valid: false)
-            case .uint64z:
-                return ValidatedBinaryInteger(value: 0x0000000000000000, valid: false)
-            case .unknown:
-                return ValidatedBinaryInteger(value: 0xFF, valid: false)
-            }
-        }
-
-    }
-
 }
