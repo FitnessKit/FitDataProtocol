@@ -59,7 +59,7 @@ open class FieldDescriptionMessage: FitMessage {
               fieldNumber: 6)
     private var scale: UInt8?
     
-    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitField(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 7)
     private var offset: UInt8?
     

@@ -82,12 +82,19 @@ public enum BaseType: UInt8 {
 extension BaseType: FitFieldCodeable {
     
     public func encode(base: BaseTypeData) -> Data? {
-        Data(from: self.rawValue.littleEndian)
+        var encode = Data()
+
+        var value: UInt8 = self.rawValue
+        value |= self.hasEndian.uint8Value << 7
+
+        encode.append(Data(from: value.littleEndian))
+
+        return encode
     }
     
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
-            return BaseType(rawValue: value) as? T
+            return BaseType(rawValue: (value & 0x1F)) as? T
         }
         
         return nil

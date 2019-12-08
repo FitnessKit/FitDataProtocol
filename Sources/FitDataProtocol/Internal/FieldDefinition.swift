@@ -69,7 +69,6 @@ internal extension FieldDefinition {
         msgData.append(size)
 
         var value: UInt8 = baseType.rawValue
-
         value |= endianAbility.uint8Value << 7
 
         msgData.append(value)
