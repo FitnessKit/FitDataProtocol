@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// FIT Stroke Type
 public enum Stroke: UInt8 {
@@ -59,24 +58,5 @@ extension Stroke: FitFieldCodeable {
         }
         
         return nil
-    }
-}
-
-internal extension Stroke {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Stroke? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return Stroke(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return Stroke.invalid
-            }
-        }
     }
 }

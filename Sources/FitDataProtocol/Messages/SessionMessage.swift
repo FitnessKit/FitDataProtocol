@@ -711,11 +711,11 @@ open class SessionMessage: FitMessage {
     private var avgCombinedPedalSmoothness: Measurement<UnitPercent>?
     
     /// Average Pedal Smoothness
-    private(set) public var averagePedalSmoothness: PedalSmoothnessValue? {
+    private(set) public var averagePedalSmoothness: PedalSmoothness? {
         get {
-            return PedalSmoothnessValue(right: self.avgRightPedalSmoothness,
-                                        left: self.avgLeftPedalSmoothness,
-                                        combined: self.avgCombinedPedalSmoothness)
+            return PedalSmoothness(right: self.avgRightPedalSmoothness,
+                                   left: self.avgLeftPedalSmoothness,
+                                   combined: self.avgCombinedPedalSmoothness)
         }
         set {
             self.avgLeftPedalSmoothness = newValue?.left
@@ -739,18 +739,18 @@ open class SessionMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 113)
     private(set) public var standCount: UInt16?
-
+    
     /// Average Step Length
     @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                     fieldNumber: 134,
                     unit: UnitLength.millimeters)
     private(set) public var averageStepLength: Measurement<UnitLength>?
-
+    
     /// Total Anaerobic Training Effect
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 10.0, offset: 0.0)),
               fieldNumber: 137)
     private(set) public var totalAnaerobicTrainingEffect: UInt8?
-
+    
     /// Velocità Ascensionale Media
     ///
     /// VAM - Average Ascent Speed
@@ -776,7 +776,7 @@ open class SessionMessage: FitMessage {
                   fieldNumber: 182,
                   unit: UnitFitFlow.flow)
     private(set) public var totalFlow: Measurement<UnitFitFlow>?
-
+    
     /// Jump Count
     @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
                    fieldNumber: 183,
@@ -800,7 +800,7 @@ open class SessionMessage: FitMessage {
                   fieldNumber: 187,
                   unit: UnitFitFlow.flow)
     private(set) public var averageFlow: Measurement<UnitFitFlow>?
-
+    
     /// Timestamp
     ///
     /// Sesson end time
@@ -995,7 +995,7 @@ open class SessionMessage: FitMessage {
                             averageVerticalOscillation: Measurement<UnitLength>? = nil,
                             averageStanceTime: StanceTime? = nil,
                             averageTorqueEffectiveness: TorqueEffectiveness? = nil,
-                            averagePedalSmoothness: PedalSmoothnessValue? = nil,
+                            averagePedalSmoothness: PedalSmoothness? = nil,
                             sportIndex: UInt8? = nil,
                             timeStanding: Measurement<UnitDuration>? = nil,
                             standCount: UInt16? = nil,

@@ -26,34 +26,7 @@ import Foundation
 import FitnessUnits
 
 /// FIT Pedal Smoothness
-public struct PedalSmoothness: NilInitializer {
-
-    /// Right Pedal Smoothness
-    private(set) public var right: ValidatedMeasurement<UnitPercent>?
-
-    /// Left Pedal Smoothness
-    private(set) public var left: ValidatedMeasurement<UnitPercent>?
-
-    /// Combined Pedal Smoothness
-    private(set) public var combined: ValidatedMeasurement<UnitPercent>?
-
-    /// Create nil Object
-    public static var nilSelf: PedalSmoothness {
-        return PedalSmoothness(right: nil, left: nil, combined: nil)
-    }
-
-    internal init(right: ValidatedMeasurement<UnitPercent>?,
-                  left: ValidatedMeasurement<UnitPercent>?,
-                  combined: ValidatedMeasurement<UnitPercent>?) {
-
-        self.right = right
-        self.left = left
-        self.combined = combined
-    }
-}
-
-/// FIT Pedal Smoothness
-public struct PedalSmoothnessValue {
+public struct PedalSmoothness {
 
     /// Right Pedal Smoothness
     private(set) public var right: Measurement<UnitPercent>?

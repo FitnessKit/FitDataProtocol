@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// FIT Blood Pressure Status
 public enum BloodPressureStatus: UInt8 {

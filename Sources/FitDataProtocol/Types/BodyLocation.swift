@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// Body Location
 public enum BodyLocation: UInt8 {

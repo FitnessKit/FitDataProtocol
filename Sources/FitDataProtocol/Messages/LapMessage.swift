@@ -538,8 +538,8 @@ open class LapMessage: FitMessage {
     private(set) public var averageStanceTime: StanceTime? {
         get {
             return StanceTime(percent: self.avgStanceTimePercent,
-                                   time: self.avgStanceTimeDuration,
-                                   balance: self.avgStanceTimeBalance)
+                              time: self.avgStanceTimeDuration,
+                              balance: self.avgStanceTimeBalance)
         }
         set {
             self.avgStanceTimePercent = newValue?.percent
@@ -639,11 +639,11 @@ open class LapMessage: FitMessage {
     private var avgCombinedPedalSmoothness: Measurement<UnitPercent>?
     
     /// Average Pedal Smoothness
-    private(set) public var averagePedalSmoothness: PedalSmoothnessValue? {
+    private(set) public var averagePedalSmoothness: PedalSmoothness? {
         get {
-            return PedalSmoothnessValue(right: self.avgRightPedalSmoothness,
-                                        left: self.avgLeftPedalSmoothness,
-                                        combined: self.avgCombinedPedalSmoothness)
+            return PedalSmoothness(right: self.avgRightPedalSmoothness,
+                                   left: self.avgLeftPedalSmoothness,
+                                   combined: self.avgCombinedPedalSmoothness)
         }
         set {
             self.avgLeftPedalSmoothness = newValue?.left
@@ -662,7 +662,7 @@ open class LapMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 99)
     private(set) public var standCount: UInt16?
-
+    
     /// Average Step Length
     @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                     fieldNumber: 120,
@@ -889,7 +889,7 @@ open class LapMessage: FitMessage {
                             averageVerticalOscillation: Measurement<UnitLength>? = nil,
                             averageStanceTime: StanceTime? = nil,
                             averageTorqueEffectiveness: TorqueEffectiveness? = nil,
-                            averagePedalSmoothness: PedalSmoothnessValue? = nil,
+                            averagePedalSmoothness: PedalSmoothness? = nil,
                             timeStanding: Measurement<UnitDuration>? = nil,
                             standCount: UInt16? = nil,
                             averageStepLength: Measurement<UnitLength>? = nil,

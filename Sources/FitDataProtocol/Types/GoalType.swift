@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// FIT Goal type
 public enum Goal: UInt8 {

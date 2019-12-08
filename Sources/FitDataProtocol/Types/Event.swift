@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// FIT Event
 public enum Event: UInt8 {

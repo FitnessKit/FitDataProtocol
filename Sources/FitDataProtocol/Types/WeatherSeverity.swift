@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// Weather Severity
 public enum WeatherSeverity: UInt8 {

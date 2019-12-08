@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// Message Index
 public struct MessageIndex {
@@ -49,39 +48,6 @@ public struct MessageIndex {
 }
 
 extension MessageIndex: Equatable {}
-
-internal extension MessageIndex {
-
-    func encode() -> Data {
-        var encode = Data()
-
-        let selected: UInt16 = isSelected == true ? kSelected : 0
-        let value = index | selected
-
-        encode.append(Data(from: value.littleEndian))
-
-        return encode
-    }
-
-    /// Decodes the Message Index
-    ///
-    /// - Parameters:
-    ///   - decoder: Decoder
-    ///   - endian: Endian
-    ///   - definition: Field Definition Message
-    ///   - data: Field Data Message
-    /// - Returns: Message Index
-    static func decode(decoder: inout DecodeData, endian: Endian, definition: FieldDefinition, data: FieldData) -> MessageIndex? {
-
-        let value = endian == .little ? decoder.decodeUInt16(data.fieldData).littleEndian : decoder.decodeUInt16(data.fieldData).bigEndian
-        
-        if value.isValidForBaseType(definition.baseType) {
-            return MessageIndex(value: value)
-        }
-
-        return nil
-    }
-}
 
 // MARK: - FitFieldCodeable
 extension MessageIndex: FitFieldCodeable {

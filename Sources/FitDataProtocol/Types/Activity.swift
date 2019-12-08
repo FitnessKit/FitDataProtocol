@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// FIT Activity
 public enum Activity: UInt8 {
@@ -33,25 +32,6 @@ public enum Activity: UInt8 {
     case multisport         = 1
     /// Invalid
     case invalid            = 255
-}
-
-internal extension Activity {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Activity? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return Activity(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return Activity.invalid
-            }
-        }
-    }
 }
 
 // MARK: - FitFieldCodeable
@@ -109,25 +89,6 @@ extension ActivityType: FitFieldCodeable {
         }
         
         return nil
-    }
-}
-
-internal extension ActivityType {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ActivityType? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return ActivityType(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return ActivityType.invalid
-            }
-        }
     }
 }
 

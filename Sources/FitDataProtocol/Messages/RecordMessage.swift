@@ -250,8 +250,8 @@ open class RecordMessage: FitMessage {
     private(set) public var stanceTime: StanceTime? {
         get {
             return StanceTime(percent: self.stanceTimePercent,
-                                   time: self.stanceTimeDuration,
-                                   balance: self.stanceTimeBalance)
+                              time: self.stanceTimeDuration,
+                              balance: self.stanceTimeBalance)
         }
         set {
             self.stanceTimePercent = newValue?.percent
@@ -302,11 +302,11 @@ open class RecordMessage: FitMessage {
     private var combinedPedalSmoothness: Measurement<UnitPercent>?
     
     /// Pedal Smoothness
-    private(set) public var pedalSmoothness: PedalSmoothnessValue? {
+    private(set) public var pedalSmoothness: PedalSmoothness? {
         get {
-            return PedalSmoothnessValue(right: self.rightPedalSmoothness,
-                                        left: self.leftPedalSmoothness,
-                                        combined: self.combinedPedalSmoothness)
+            return PedalSmoothness(right: self.rightPedalSmoothness,
+                                   left: self.leftPedalSmoothness,
+                                   combined: self.combinedPedalSmoothness)
         }
         set {
             self.leftPedalSmoothness = newValue?.left
@@ -492,7 +492,7 @@ open class RecordMessage: FitMessage {
                             temperature: Measurement<UnitTemperature>? = nil,
                             activity: ActivityType? = nil,
                             torqueEffectiveness: TorqueEffectiveness? = nil,
-                            pedalSmoothness: PedalSmoothnessValue? = nil,
+                            pedalSmoothness: PedalSmoothness? = nil,
                             stroke: Stroke? = nil,
                             zone: UInt8? = nil,
                             ballSpeed: Measurement<UnitSpeed>? = nil,

@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// Intensity
 public enum Intensity: UInt8 {
@@ -53,24 +52,5 @@ extension Intensity: FitFieldCodeable {
         }
         
         return nil
-    }
-}
-
-internal extension Intensity {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Intensity? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return Intensity(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return Intensity.invalid
-            }
-        }
     }
 }
