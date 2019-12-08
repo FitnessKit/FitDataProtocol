@@ -31,6 +31,7 @@ import DataDecoder
 public struct FitFileDecoder {
     private var messageData: Data
     private var definitionDict: [UInt8 : DefinitionMessage]
+    private var fieldDescription: [FieldDescriptionMessage] = [FieldDescriptionMessage]()
 
     /// Default FIT Messages for Decoding
     public static let defaultMessages = [FileIdMessage.self,
@@ -133,7 +134,7 @@ public struct FitFileDecoder {
         var decoder = DecodeData()
 
         repeat {
-            let header = RecordHeader.decode(decoder: &decoder, data: messageData)            
+            let header = RecordHeader.decode(decoder: &decoder, data: messageData)
             //print(header)
 
             if header.isDataMessage == false {
@@ -146,14 +147,16 @@ public struct FitFileDecoder {
                 // We have a Data Message
                 var hasMessageDecoder = false
                 var messageType: FitMessage!
+                var currentGlobalMessage: UInt16!
 
                 if let message = messages.filter({
                     $0.globalMessageNumber() == definitionDict[header.localMessageType]!.globalMessageNumber
                 }).first {
                     hasMessageDecoder = true
                     messageType = message.init()
+                    currentGlobalMessage = message.globalMessageNumber()
                 }
-
+                                
                 var fieldSize: Int = 0
                 for msg in definitionDict[header.localMessageType]!.fieldDefinitions {
                     fieldSize = fieldSize + Int(msg.size)
@@ -171,13 +174,24 @@ public struct FitFileDecoder {
                 let fieldData = FieldData(fieldData: stdData, developerFieldData: devData)
 
                 if hasMessageDecoder == true {
-
+                    let fieldDescriptions = self.fieldDescription.compactMap { $0.messageNumber == currentGlobalMessage ? $0 : nil }
+                    
+                    if fieldDescriptions.count > 0 {
+                        print(fieldDescriptions)
+                    }
+                
                     let result = messageType.decode(fieldData: fieldData,
                                                     definition: definitionDict[header.localMessageType]!)
                     
                     switch result {
                     case .success(let message):
-                        decoded?(message)
+                        if let message = message as? FieldDescriptionMessage {
+                            self.fieldDescription.append(message)
+                        } else {
+                            let devData = unwrapDeveloperData(message: message, fieldsDescriptions: fieldDescriptions)
+                            message.developerValues = devData
+                            decoded?(message)
+                        }
                     case .failure(let error):
                         throw error
                     }
@@ -191,6 +205,32 @@ public struct FitFileDecoder {
         } while decoder.index != messageData.count
 
     }
+}
+
+private extension FitFileDecoder {
+    
+    func unwrapDeveloperData(message: FitMessage, fieldsDescriptions: [FieldDescriptionMessage]) -> [DeveloperDataValue] {
+        
+        var values = [DeveloperDataValue]()
+        
+        if let devData = message.developerData {
+            
+            for def in fieldsDescriptions {
+                
+                for devDataType in devData {
+                    switch def.decodeDouble(developerData: devDataType) {
+                    case .success(let value):
+                        values.append(DeveloperDataValue(fieldName: def.fieldName, units: def.units, value: value))
+                    case .failure(_):
+                        break
+                    }
+                }
+            }
+        }
+        
+        return values
+    }
+    
 }
 
 @available(swift 4.2)

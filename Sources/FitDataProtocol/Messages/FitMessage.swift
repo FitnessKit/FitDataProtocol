@@ -53,9 +53,10 @@ open class FitMessage {
     internal var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
     internal var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
     internal var architecture: Endian = .little
-
-    /// Developer Data 
-    internal(set) public var developerData: [DeveloperDataType]?
+    internal var developerData: [DeveloperDataType]?
+    
+    /// Developer Data Values
+    internal(set) public var developerValues: [DeveloperDataValue] = [DeveloperDataValue]()
     
     /// FIT Message Global Number
     public class func globalMessageNumber() -> UInt16 {

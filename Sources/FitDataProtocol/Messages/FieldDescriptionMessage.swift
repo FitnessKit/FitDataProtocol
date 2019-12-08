@@ -171,7 +171,7 @@ open class FieldDescriptionMessage: FitMessage {
     }
 }
 
-public extension FieldDescriptionMessage {
+internal extension FieldDescriptionMessage {
     
     /// Decode Developer Data into String
     /// - Parameter developerData: DeveloperDataType
