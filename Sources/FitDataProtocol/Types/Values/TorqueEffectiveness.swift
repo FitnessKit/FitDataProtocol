@@ -34,9 +34,7 @@ public struct TorqueEffectiveness {
     /// Right Torque Effectiveness
     private(set) public var right: Measurement<UnitPercent>?
 
-    internal init(left: Measurement<UnitPercent>?,
-                  right: Measurement<UnitPercent>?) {
-        
+    public init(left: Measurement<UnitPercent>?, right: Measurement<UnitPercent>?) {
         self.left = left
         self.right = right
     }

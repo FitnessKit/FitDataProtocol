@@ -27,20 +27,20 @@ import FitnessUnits
 
 /// FIT Pedal Smoothness
 public struct PedalSmoothness {
-
+    
     /// Right Pedal Smoothness
     private(set) public var right: Measurement<UnitPercent>?
-
+    
     /// Left Pedal Smoothness
     private(set) public var left: Measurement<UnitPercent>?
-
+    
     /// Combined Pedal Smoothness
     private(set) public var combined: Measurement<UnitPercent>?
-
-    internal init(right: Measurement<UnitPercent>?,
-                  left: Measurement<UnitPercent>?,
-                  combined: Measurement<UnitPercent>?) {
-
+    
+    public init(right: Measurement<UnitPercent>?,
+                left: Measurement<UnitPercent>?,
+                combined: Measurement<UnitPercent>?) {
+        
         self.right = right
         self.left = left
         self.combined = combined

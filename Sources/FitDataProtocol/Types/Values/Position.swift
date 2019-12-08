@@ -33,9 +33,7 @@ public struct Position {
     /// Position in Longitude
     public let longitude: Measurement<UnitAngle>?
 
-    public init(latitude: Measurement<UnitAngle>?,
-                longitude: Measurement<UnitAngle>?) {
-        
+    public init(latitude: Measurement<UnitAngle>?, longitude: Measurement<UnitAngle>?) {
         self.latitude = latitude
         self.longitude = longitude
     }

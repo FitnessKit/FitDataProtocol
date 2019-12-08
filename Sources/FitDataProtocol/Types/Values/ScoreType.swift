@@ -33,9 +33,7 @@ public struct Score {
     /// Opponent Score
     private(set) public var opponentScore: UInt16?
 
-    public init(playerScore: UInt16?,
-                opponentScore: UInt16?) {
-
+    public init(playerScore: UInt16?, opponentScore: UInt16?) {
         self.playerScore = playerScore
         self.opponentScore = opponentScore
     }
