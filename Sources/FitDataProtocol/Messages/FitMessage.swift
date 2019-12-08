@@ -125,63 +125,6 @@ internal extension FitMessage {
 
         return devDataTypes
     }
-
-    /// Decode Int16
-    ///
-    /// - Parameters:
-    ///   - decoder: Decoder
-    ///   - endian: Endian
-    ///   - data: Field Data
-    /// - Returns: Decoded Int32
-    func decodeInt16(decoder: inout DecodeData, endian: Endian, data: FieldData) -> Int16 {
-
-        let value = endian == .little ? decoder.decodeInt16(data.fieldData).littleEndian : decoder.decodeInt16(data.fieldData).bigEndian
-
-        return value
-    }
-
-    /// Decode UInt16
-    ///
-    /// - Parameters:
-    ///   - decoder: Decoder
-    ///   - endian: Endian
-    ///   - data: Field Data
-    /// - Returns: Decoded Int32
-    func decodeUInt16(decoder: inout DecodeData, endian: Endian, data: FieldData) -> UInt16 {
-
-        let value = endian == .little ? decoder.decodeUInt16(data.fieldData).littleEndian : decoder.decodeUInt16(data.fieldData).bigEndian
-
-        return value
-    }
-
-    /// Decode Int32
-    ///
-    /// - Parameters:
-    ///   - decoder: Decoder
-    ///   - endian: Endian
-    ///   - data: Field Data
-    /// - Returns: Decoded Int32
-    func decodeInt32(decoder: inout DecodeData, endian: Endian, data: FieldData) -> Int32 {
-
-        let value = endian == .little ? decoder.decodeInt32(data.fieldData).littleEndian : decoder.decodeInt32(data.fieldData).bigEndian
-
-        return value
-    }
-
-    /// Decode UInt32
-    ///
-    /// - Parameters:
-    ///   - decoder: Decoder
-    ///   - endian: Endian
-    ///   - data: Field Data
-    /// - Returns: Decoded Int32
-    func decodeUInt32(decoder: inout DecodeData, endian: Endian, data: FieldData) -> UInt32 {
-
-        let value = endian == .little ? decoder.decodeUInt32(data.fieldData).littleEndian : decoder.decodeUInt32(data.fieldData).bigEndian
-
-        return value
-    }
-
 }
 
 internal extension FitMessage {
@@ -221,7 +164,7 @@ internal extension FitMessage {
     ///   - localMessageType: Local Message Type
     ///   - msgData: Message Data
     /// - Returns: Encoded DataMessage
-    func encodedDataMessage(localMessageType: UInt8, msgData: Data) -> Data {
+    private func encodedDataMessage(localMessageType: UInt8, msgData: Data) -> Data {
         var encodedMsg = Data()
 
         let recHeader = RecordHeader(localMessageType: localMessageType,
@@ -245,48 +188,4 @@ internal extension FitMessage {
     func preferredField<T>(preferred: Measurement<T>?, fallbakck: Measurement<T>?) -> Measurement<T>? {
         return preferred != nil ? preferred : fallbakck
     }
-
-    /// Pick a Preferred Value for Unit Type
-    ///
-    /// - Parameters:
-    ///   - valueOne: Value for First Unit type
-    ///   - valueTwo: Value for Second Unit type
-    /// - Returns: Preferred Value for Unit Type
-    func preferredValue<T>(valueOne: ValidatedMeasurement<T>?, valueTwo: ValidatedMeasurement<T>?) -> ValidatedMeasurement<T>? {
-
-        var newValue: ValidatedMeasurement<T>?
-
-        /// Pick the First one
-        /// it will be:
-        /// - nil
-        /// - contain a value
-        newValue = valueOne
-
-        if let value = valueTwo {
-
-            // if the first value is not valid, but present
-            // replace it no matter what
-            if let v1 = valueOne {
-
-                if v1.valid == false {
-                    newValue = value
-                } else {
-
-                    // if v1 is valid and v2 is also valid
-                    // replace it with v2
-                    if value.valid {
-                        newValue = value
-                    }
-                }
-
-            } else {
-                // if v1 is nil, just replace it with v2
-                newValue = value
-            }
-        }
-
-        return newValue
-
-    }
-
 }

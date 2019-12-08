@@ -56,11 +56,6 @@ public class FitField<T>: FieldWrapper where T: FitFieldCodeable {
                                          data: data,
                                          base: base,
                                          arch: owner?.architecture ?? .little)
-                
-                //                let value = self.base.type.decode(type: Value.self,
-                //                                                  data: data,
-                //                                                  resolution: base.resolution,
-                //                                                  arch: owner?.architecture ?? .little)
                 return value
             }
             
