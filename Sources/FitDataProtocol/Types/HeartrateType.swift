@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// FIT Heart Rate Type
 public enum HeartRateType: UInt8 {
@@ -36,22 +35,19 @@ public enum HeartRateType: UInt8 {
     case invalid        = 255
 }
 
-internal extension HeartRateType {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> HeartRateType? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return HeartRateType(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return HeartRateType.invalid
-            }
+// MARK: - FitFieldCodeable
+extension HeartRateType: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return HeartRateType(rawValue: value) as? T
         }
+        
+        return nil
     }
 }
 
@@ -68,21 +64,18 @@ public enum HeartRateZoneCalculation: UInt8 {
     case invalid        = 255
 }
 
-internal extension HeartRateZoneCalculation {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> HeartRateZoneCalculation? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return HeartRateZoneCalculation(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return HeartRateZoneCalculation.invalid
-            }
+// MARK: - FitFieldCodeable
+extension HeartRateZoneCalculation: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return HeartRateZoneCalculation(rawValue: value) as? T
         }
+        
+        return nil
     }
 }

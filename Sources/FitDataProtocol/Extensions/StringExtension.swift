@@ -23,17 +23,21 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
-internal extension String {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> String? {
-
-        let stringData = decoder.decodeData(data.fieldData, length: Int(definition.size))
-        if stringData.count != 0 {
-            return stringData.smartString
+extension String: FitFieldCodeable {
+    public func encode(base: BaseTypeData) -> Data? {
+        if let stringData = self.data(using: .utf8) {
+            return stringData
         }
-
+        
+        return nil
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if data.isEmpty == false {
+            return data.smartString as? T
+        }
+        
         return nil
     }
 }

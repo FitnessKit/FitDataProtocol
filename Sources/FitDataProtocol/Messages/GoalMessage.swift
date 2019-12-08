@@ -31,64 +31,108 @@ import AntMessageProtocol
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class GoalMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 15 }
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
-    /// Start Date
-    private(set) public var startDate: FitTime?
-
-    /// End Date
-    private(set) public var endDate: FitTime?
-
+    
     /// Sport
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var sport: Sport?
-
+    
     /// Sub Sport
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
     private(set) public var subSport: SubSport?
 
+    /// Start Date
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 2, local: true)
+    private(set) public var startDate: FitTime?
+    
+    /// End Date
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 3, local: true)
+    private(set) public var endDate: FitTime?
+        
     /// Goal Type
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 4)
     private(set) public var goalType: Goal?
-
+    
     /// Goal Value
-    private(set) public var goalValue: ValidatedBinaryInteger<UInt32>?
-
+    @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 5)
+    private(set) public var goalValue: UInt32?
+    
     /// Repeat Goal
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 6)
     private(set) public var repeatGoal: Bool?
-
+    
     /// Goal Target Value
-    private(set) public var targetValue: ValidatedBinaryInteger<UInt32>?
-
+    @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 7)
+    private(set) public var targetValue: UInt32?
+    
     /// Goals Recurrence
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 8)
     private(set) public var recurrence: GoalRecurrence?
-
+    
     /// Goal Recurrence Value
-    private(set) public var recurrenceValue: ValidatedBinaryInteger<UInt16>?
-
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 9)
+    private(set) public var recurrenceValue: UInt16?
+    
     /// Goal Enabled
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 10)
     private(set) public var enabled: Bool?
-
+    
     /// Goal Source
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 11)
     private(set) public var source: GoalSource?
+    
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    public required init() {
+        super.init()
+        
+        self.$messageIndex.owner = self
 
-    public required init() {}
-
-    public init(messageIndex: MessageIndex? = nil,
-                startDate: FitTime? = nil,
-                endDate: FitTime? = nil,
-                sport: Sport? = nil,
-                subSport: SubSport? = nil,
-                goalType: Goal? = nil,
-                goalValue: UInt32? = nil,
-                repeatGoal: Bool? = nil,
-                targetValue: ValidatedBinaryInteger<UInt32>? = nil,
-                recurrence: GoalRecurrence? = nil,
-                recurrenceValue: ValidatedBinaryInteger<UInt16>? = nil,
-                enabled: Bool? = nil,
-                source: GoalSource? = nil) {
+        self.$sport.owner = self
+        self.$subSport.owner = self
+        self.$startDate.owner = self
+        self.$endDate.owner = self
+        self.$goalType.owner = self
+        self.$goalValue.owner = self
+        self.$repeatGoal.owner = self
+        self.$targetValue.owner = self
+        self.$recurrence.owner = self
+        self.$recurrenceValue.owner = self
+        self.$enabled.owner = self
+        self.$source.owner = self
+    }
+    
+    public convenience init(messageIndex: MessageIndex? = nil,
+                            startDate: FitTime? = nil,
+                            endDate: FitTime? = nil,
+                            sport: Sport? = nil,
+                            subSport: SubSport? = nil,
+                            goalType: Goal? = nil,
+                            goalValue: UInt32? = nil,
+                            repeatGoal: Bool? = nil,
+                            targetValue: UInt32? = nil,
+                            recurrence: GoalRecurrence? = nil,
+                            recurrenceValue: UInt16? = nil,
+                            enabled: Bool? = nil,
+                            source: GoalSource? = nil) {
+        self.init()
         
         self.messageIndex = messageIndex
         self.startDate = startDate
@@ -96,12 +140,7 @@ open class GoalMessage: FitMessage {
         self.sport = sport
         self.subSport = subSport
         self.goalType = goalType
-
-        if let goalValue = goalValue {
-            let valid = goalValue.isValidForBaseType(FitCodingKeys.goalValue.baseData.type)
-            self.goalValue = ValidatedBinaryInteger(value: goalValue, valid: valid)
-        }
-
+        self.goalValue = goalValue
         self.repeatGoal = repeatGoal
         self.targetValue = targetValue
         self.recurrence = recurrence
@@ -109,7 +148,7 @@ open class GoalMessage: FitMessage {
         self.enabled = enabled
         self.source = source
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -118,145 +157,27 @@ open class GoalMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: GoalMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var messageIndex: MessageIndex?
-        var startDate: FitTime?
-        var endDate: FitTime?
-        var sport: Sport?
-        var subSport: SubSport?
-        var goalType: Goal?
-        var goalValue: UInt32?
-        var repeatGoal: Bool?
-        var targetValue: ValidatedBinaryInteger<UInt32>?
-        var recurrence: GoalRecurrence?
-        var recurrenceValue: ValidatedBinaryInteger<UInt16>?
-        var enabled: Bool?
-        var source: GoalSource?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("GoalMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                    
-                case .sport:
-                    sport = Sport.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-                    
-                case .subSport:
-                    subSport = SubSport.decode(decoder: &localDecoder,
-                                               definition: definition,
-                                               data: fieldData,
-                                               dataStrategy: dataStrategy)
-                    
-                case .startDate:
-                    startDate = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData,
-                                               isLocal: true)
-                    
-                    
-                case .endDate:
-                    endDate = FitTime.decode(decoder: &localDecoder,
-                                             endian: arch,
-                                             definition: definition,
-                                             data: fieldData,
-                                             isLocal: true)
-                    
-                case .goalType:
-                    goalType = Goal.decode(decoder: &localDecoder,
-                                           definition: definition,
-                                           data: fieldData,
-                                           dataStrategy: dataStrategy)
-                    
-                case .goalValue:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        goalValue = value
-                    } else {
-                        if let value = ValidatedBinaryInteger<UInt32>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                            goalValue = value.value
-                        } else {
-                            goalValue = nil
-                        }
-                    }
-                    
-                case .repeatGoal:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        repeatGoal = value.boolValue
-                    }
-                    
-                case .targetValue:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    targetValue = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                           definition: definition,
-                                                                           dataStrategy: dataStrategy)
-                    
-                case .recurrence:
-                    recurrence = GoalRecurrence.decode(decoder: &localDecoder,
-                                                       definition: definition,
-                                                       data: fieldData,
-                                                       dataStrategy: dataStrategy)
-                    
-                case .recurrenceValue:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    recurrenceValue = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                               definition: definition,
-                                                                               dataStrategy: dataStrategy)
-                    
-                case .enabled:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        enabled = value.boolValue
-                    }
-                    
-                case .goalSource:
-                    source = GoalSource.decode(decoder: &localDecoder,
-                                               definition: definition,
-                                               data: fieldData,
-                                               dataStrategy: dataStrategy)
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = GoalMessage(messageIndex: messageIndex,
-                              startDate: startDate,
-                              endDate: endDate,
-                              sport: sport,
-                              subSport: subSport,
-                              goalType: goalType,
-                              goalValue: goalValue,
-                              repeatGoal: repeatGoal,
-                              targetValue: targetValue,
-                              recurrence: recurrence,
-                              recurrenceValue: recurrenceValue,
-                              enabled: enabled,
-                              source: source)
+        let msg = GoalMessage(fieldDict: fieldDict,
+                              fieldDataDict: fieldDataDict,
+                              architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
     
     /// Encodes the Definition Message for FitMessage
@@ -266,64 +187,20 @@ open class GoalMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
-            case .sport:
-                if let _ = sport { fileDefs.append(key.fieldDefinition()) }
-            case .subSport:
-                if let _ = subSport { fileDefs.append(key.fieldDefinition()) }
-            case .startDate:
-                if let _ = startDate { fileDefs.append(key.fieldDefinition()) }
-            case .endDate:
-                if let _ = endDate { fileDefs.append(key.fieldDefinition()) }
-            case .goalType:
-                if let _ = goalType { fileDefs.append(key.fieldDefinition()) }
-            case .goalValue:
-                if let _ = goalValue { fileDefs.append(key.fieldDefinition()) }
-            case .repeatGoal:
-                if let _ = repeatGoal { fileDefs.append(key.fieldDefinition()) }
-            case .targetValue:
-                if let _ = recurrenceValue { fileDefs.append(key.fieldDefinition()) }
-            case .recurrence:
-                if let _ = recurrence { fileDefs.append(key.fieldDefinition()) }
-            case .recurrenceValue:
-                if let _ = recurrenceValue { fileDefs.append(key.fieldDefinition()) }
-            case .enabled:
-                if let _ = enabled { fileDefs.append(key.fieldDefinition()) }
-            case .goalSource:
-                if let _ = source { fileDefs.append(key.fieldDefinition()) }
-            }
-        }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: GoalMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+        
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: GoalMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -331,108 +208,11 @@ open class GoalMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .sport:
-                if let sport = sport {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sport)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .subSport:
-                if let subSport = subSport {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: subSport)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .startDate:
-                if let startDate = startDate {
-                    msgData.append(startDate.encode())
-                }
-
-            case .endDate:
-                if let endDate = endDate {
-                    msgData.append(endDate.encode())
-                }
-
-            case .goalType:
-                if let goalType = goalType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: goalType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .goalValue:
-                if let goalValue = goalValue {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: goalValue)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .repeatGoal:
-                if let repeatGoal = repeatGoal {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: repeatGoal)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .targetValue:
-                if let targetValue = targetValue {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetValue)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .recurrence:
-                if let recurrence = recurrence {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: recurrence)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .recurrenceValue:
-                if let recurrenceValue = recurrenceValue {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: recurrenceValue)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .enabled:
-                if let enabled = enabled {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: enabled)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .goalSource:
-                if let goalSource = source {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: goalSource)) {
-                        return.failure(error)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

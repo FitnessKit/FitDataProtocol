@@ -24,7 +24,6 @@
 
 import Foundation
 import DataDecoder
-import FitnessUnits
 
 /// FIT Activity Message
 ///
@@ -33,46 +32,76 @@ import FitnessUnits
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class ActivityMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 34 }
-
-    /// Timestamp
-    private(set) public var timeStamp: FitTime?
-
+    
     /// Total Timer Time
     ///
     /// Excludes pauses
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 0,
+                      unit: UnitDuration.seconds)
     private(set) public var totalTimerTime: Measurement<UnitDuration>?
-
-    /// Local Timestamp
-    private(set) public var localTimeStamp: FitTime?
-
+    
     /// Number of Sessions
-    private(set) public var numberOfSessions: ValidatedBinaryInteger<UInt16>?
-
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
+    private(set) public var numberOfSessions: UInt16?
+    
     /// Activity
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
     private(set) public var activity: Activity?
-
+    
     /// Event
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 3)
     private(set) public var event: Event?
-
+    
     /// Event Type
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 4)
     private(set) public var eventType: EventType?
-
+    
+    /// Local Timestamp
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 5, local: true)
+    private(set) public var localTimeStamp: FitTime?
+    
     /// Event Group
-    private(set) public var eventGroup: ValidatedBinaryInteger<UInt8>?
-
-    public required init() {}
-
-    public init(timeStamp: FitTime? = nil,
-                totalTimerTime: Measurement<UnitDuration>? = nil,
-                localTimeStamp: FitTime? = nil,
-                numberOfSessions: ValidatedBinaryInteger<UInt16>? = nil,
-                activity: Activity? = nil,
-                event: Event? = nil,
-                eventType: EventType? = nil,
-                eventGroup: ValidatedBinaryInteger<UInt8>? = nil) {
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 6)
+    private(set) public var eventGroup: UInt8?
+    
+    /// Timestamp
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 253, local: false)
+    private(set) public var timeStamp: FitTime?
+    
+    public required init() {
+        super.init()
+        
+        self.$timeStamp.owner = self
+        
+        self.$totalTimerTime.owner = self
+        self.$numberOfSessions.owner = self
+        self.$activity.owner = self
+        self.$event.owner = self
+        self.$eventType.owner = self
+        self.$localTimeStamp.owner = self
+        self.$eventGroup.owner = self
+    }
+    
+    public convenience init(timeStamp: FitTime? = nil,
+                            totalTimerTime: Measurement<UnitDuration>? = nil,
+                            localTimeStamp: FitTime? = nil,
+                            numberOfSessions: UInt16? = nil,
+                            activity: Activity? = nil,
+                            event: Event? = nil,
+                            eventType: EventType? = nil,
+                            eventGroup: UInt8? = nil) {
+        self.init()
         
         self.timeStamp = timeStamp
         self.totalTimerTime = totalTimerTime
@@ -83,7 +112,7 @@ open class ActivityMessage: FitMessage {
         self.eventType = eventType
         self.eventGroup = eventGroup
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -92,101 +121,29 @@ open class ActivityMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: ActivityMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var timeStamp: FitTime?
-        var totalTimerTime: Measurement<UnitDuration>?
-        var localTimeStamp: FitTime?
-        var numberOfSessions: ValidatedBinaryInteger<UInt16>?
-        var activity: Activity?
-        var event: Event?
-        var eventType: EventType?
-        var eventGroup: ValidatedBinaryInteger<UInt8>?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("ActivityMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .timestamp:
-                    timeStamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-                    
-                case .totalTimerTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1000 * s + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
-                    }
-                    
-                case .numberOfSessions:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    numberOfSessions = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                                definition: definition,
-                                                                                dataStrategy: dataStrategy)
-                    
-                case .activityType:
-                    activity = Activity.decode(decoder: &localDecoder,
-                                               definition: definition,
-                                               data: fieldData,
-                                               dataStrategy: dataStrategy)
-                    
-                case .event:
-                    event = Event.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-                    
-                case .eventType:
-                    eventType = EventType.decode(decoder: &localDecoder,
-                                                 definition: definition,
-                                                 data: fieldData,
-                                                 dataStrategy: dataStrategy)
-                    
-                case .localTimestamp:
-                    localTimeStamp = FitTime.decode(decoder: &localDecoder,
-                                                    endian: arch,
-                                                    definition: definition,
-                                                    data: fieldData,
-                                                    isLocal: true)
-                    
-                case .eventGroup:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    eventGroup = ValidatedBinaryInteger<UInt8>.validated(value: value,
-                                                                         definition: definition,
-                                                                         dataStrategy: dataStrategy)
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = ActivityMessage(timeStamp: timeStamp,
-                                  totalTimerTime: totalTimerTime,
-                                  localTimeStamp: localTimeStamp,
-                                  numberOfSessions: numberOfSessions,
-                                  activity: activity,
-                                  event: event,
-                                  eventType: eventType,
-                                  eventGroup: eventGroup)
+        let msg = ActivityMessage(fieldDict: fieldDict,
+                                  fieldDataDict: fieldDataDict,
+                                  architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
         
-        return.success(msg as! F)
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -194,7 +151,7 @@ open class ActivityMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) ->  Result<DefinitionMessage, FitEncodingError> {
-
+        
         do {
             try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
         } catch let error as FitEncodingError {
@@ -202,46 +159,20 @@ open class ActivityMessage: FitMessage {
         } catch {
             return.failure(FitEncodingError.fileType(error.localizedDescription))
         }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
 
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-
-            case .totalTimerTime:
-                if let _ = totalTimerTime { fileDefs.append(key.fieldDefinition()) }
-            case .numberOfSessions:
-                if let _ = numberOfSessions { fileDefs.append(key.fieldDefinition()) }
-            case .activityType:
-                if let _ = activity { fileDefs.append(key.fieldDefinition()) }
-            case .event:
-                if let _ = event { fileDefs.append(key.fieldDefinition()) }
-            case .eventType:
-                if let _ = eventType { fileDefs.append(key.fieldDefinition()) }
-            case .localTimestamp:
-                if let _ = localTimeStamp { fileDefs.append(key.fieldDefinition()) }
-            case .eventGroup:
-                if let _ = eventGroup { fileDefs.append(key.fieldDefinition()) }
-            }
-        }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: ActivityMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: ActivityMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -249,82 +180,17 @@ open class ActivityMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
-            case .totalTimerTime:
-                if var totalTimerTime = totalTimerTime {
-                    totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalTimerTime.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .numberOfSessions:
-                if let numberOfSessions = numberOfSessions {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: numberOfSessions)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .activityType:
-                if let activityType = activity {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: activityType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .event:
-                if let event = event {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: event)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .eventType:
-                if let eventType = eventType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: eventType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .localTimestamp:
-                if let localTimeStamp = localTimeStamp {
-                    msgData.append(localTimeStamp.encode(isLocal: true))
-                }
-
-            case .eventGroup:
-                if let eventGroup = eventGroup {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: eventGroup)) {
-                        return.failure(error)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }
 
 extension ActivityMessage: MessageValidator {
-
+    
     /// Validate Message
     ///
     /// - Parameters:
@@ -332,7 +198,7 @@ extension ActivityMessage: MessageValidator {
     ///   - dataValidityStrategy: Data Validity Strategy
     /// - Throws: FitError
     internal func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
-
+        
         switch dataValidityStrategy {
         case .none:
         break // do nothing
@@ -346,30 +212,30 @@ extension ActivityMessage: MessageValidator {
             }
         }
     }
-
+    
     private func validateActivity(isGarmin: Bool) throws {
-
+        
         let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
-
+        
         guard self.timeStamp != nil else {
             throw FitEncodingError.fileType("\(msg) require ActivityMessage to contain timeStamp, can not be nil")
         }
-
+        
         guard self.numberOfSessions != nil else {
             throw FitEncodingError.fileType("\(msg) require ActivityMessage to contain numberOfSessions, can not be nil")
         }
-
+        
         guard self.activity != nil else {
             throw FitEncodingError.fileType("\(msg) require ActivityMessage to contain activity, can not be nil")
         }
-
+        
         guard self.event != nil else {
             throw FitEncodingError.fileType("\(msg) require ActivityMessage to contain event, can not be nil")
         }
-
+        
         guard self.eventType != nil else {
             throw FitEncodingError.fileType("\(msg) require ActivityMessage to contain eventType, can not be nil")
         }
-
+        
     }
 }

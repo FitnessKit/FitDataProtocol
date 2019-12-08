@@ -32,25 +32,54 @@ import DataDecoder
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class HrvMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 78 }
-
+    
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+              fieldNumber: 0)
+    private var hrvData: Data?
+    
     /// Heart Rate Variability
     ///
     /// Time between beats
-    private(set) public var hrv: [Measurement<UnitDuration>]?
-
-    public required init() {}
-
-    internal init(_ hrv: [Measurement<UnitDuration>]?) {
-        self.hrv = hrv
+    public var hrv: [Measurement<UnitDuration>]? {
+        return getHrvMessages()
     }
-
-    public init(hrv: [Measurement<UnitDuration>]) {
-        self.hrv = hrv
+    
+    public required init() {
+        super.init()
+        
+        self.$hrvData.owner = self
     }
-
+    
+    public convenience init(hrv: [Measurement<UnitDuration>]) {
+        self.init()
+        
+        if hrv.isEmpty == false {
+            
+            var msgData = [Data]()
+            for time in hrv {
+                let hrvTime = time.converted(to: UnitDuration.seconds)
+                let result = self.$hrvData.base.type.encodedResolution(value: hrvTime.value,
+                                                                       resolution: self.$hrvData.base.resolution)
+                
+                switch result {
+                case .success(let data):
+                    msgData.append(data)
+                case .failure(_):
+                    break
+                }
+            }
+            
+            if msgData.isEmpty == false {
+                let fields = msgData.compactMap { $0 }.joined()
+                self.hrvData = Data(Array(fields))
+            }
+        }
+        
+    }
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -59,57 +88,29 @@ open class HrvMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: HrvMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var hrv: [Measurement<UnitDuration>]?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("HrvMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                    
-                case .time:
-                    let timeData = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    
-                    var localDecoder = DecodeData()
-                    
-                    var seconds = arch == .little ? localDecoder.decodeUInt16(timeData).littleEndian : localDecoder.decodeUInt16(timeData).bigEndian
-                    
-                    while seconds != 0 {
-                        /// 1000 * s + 0, Time between beats
-                        let value = seconds.resolution(.removing, resolution: key.baseData.resolution)
-                        let interval = Measurement(value: value, unit: UnitDuration.seconds)
-                        
-                        if hrv == nil {
-                            hrv = [Measurement<UnitDuration>]()
-                        }
-                        hrv?.append(interval)
-                        
-                        seconds = arch == .little ? localDecoder.decodeUInt16(timeData).littleEndian : localDecoder.decodeUInt16(timeData).bigEndian
-                    }
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = HrvMessage(hrv)
+        let msg = HrvMessage(fieldDict: fieldDict,
+                             fieldDataDict: fieldDataDict,
+                             architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -117,43 +118,20 @@ open class HrvMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
         
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .time:
-                if let hrv = hrv {
-                    if hrv.count > 0 {
-                        fileDefs.append(key.fieldDefinition(size: UInt8(hrv.count)))
-                    }
-                }
-            }
-        }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: HrvMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+        
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: HrvMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -161,34 +139,34 @@ open class HrvMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
+    }
+}
 
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .time:
-                if let hrv = hrv {
-                    if hrv.count > 0 {
-                        for time in hrv {
-                            let hrvTime = time.converted(to: UnitDuration.seconds)
-                            if let error = msgData.shouldAppend(key.encodeKeyed(value: hrvTime.value)) {
-                                return.failure(error)
-                            }
-                        }
-                    }
-                }
+private extension HrvMessage {
+    
+    func getHrvMessages() -> [Measurement<UnitDuration>]? {
+        let vals = self.fieldDataDict[self.$hrvData.fieldNumber]?.segment(size: MemoryLayout<UInt16>.size)
+        
+        guard let values = vals else { return nil }
+        
+        var hrvMsg = [Measurement<UnitDuration>?]()
+        for hrv in values {
+            if hrv.isValidForBaseType(self.$hrvData.base.type) {
+                
+                let value = self.$hrvData.base.type.decode(unit: UnitDuration.seconds,
+                                                           data: hrv,
+                                                           resolution: self.$hrvData.base.resolution,
+                                                           arch: self.architecture)
+                hrvMsg.append(value)
             }
+            
         }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        return hrvMsg.compactMap { $0 }
     }
 }

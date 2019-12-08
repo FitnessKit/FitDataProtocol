@@ -31,304 +31,979 @@ import AntMessageProtocol
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class SessionMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 18 }
-
-    /// Timestamp
-    ///
-    /// Sesson end time
-    private(set) public var timeStamp: FitTime?
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
+    
     /// Event
     ///
     /// - note: Event should be .session
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var event: Event?
-
+    
     /// Event Type
     ///
     /// - note: EventType should be .stop
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
     private(set) public var eventType: EventType?
-
+    
     /// Start Time
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 2, local: false)
     private(set) public var startTime: FitTime?
-
+    
+    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 3,
+                   unit: UnitAngle.garminSemicircle)
+    private var startLatitude: Measurement<UnitAngle>?
+    
+    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 4,
+                   unit: UnitAngle.garminSemicircle)
+    private var startLongitude: Measurement<UnitAngle>?
+    
     /// Start Position
-    private(set) public var startPosition: Position
-
+    private(set) public var startPosition: Position? {
+        get {
+            return Position(latitude: self.startLatitude, longitude: self.startLongitude)
+        }
+        set {
+            self.startLatitude = newValue?.latitude
+            self.startLongitude = newValue?.longitude
+        }
+    }
+    
     /// Sport
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 5)
     private(set) public var sport: Sport?
-
+    
     /// Sub Sport
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 6)
     private(set) public var subSport: SubSport?
-
+    
     /// Total Elapsed Time
     ///
     /// Includes pauses
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 7,
+                      unit: UnitDuration.seconds)
     private(set) public var totalElapsedTime: Measurement<UnitDuration>?
-
+    
     /// Total Timer Time
     ///
     /// Excludes pauses
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 8,
+                      unit: UnitDuration.seconds)
     private(set) public var totalTimerTime: Measurement<UnitDuration>?
-
+    
     /// Total Distance
-    private(set) public var totalDistance: ValidatedMeasurement<UnitLength>?
-
+    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                    fieldNumber: 9,
+                    unit: UnitLength.meters)
+    private(set) public var totalDistance: Measurement<UnitLength>?
+    
     /// Total Cycles
-    private(set) public var totalCycles: ValidatedBinaryInteger<UInt32>?
-
+    @FitFieldCount(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 10,
+                   unit: UnitCount.cycles)
+    private(set) public var totalCycles: Measurement<UnitCount>?
+    
     /// Total Calories
-    private(set) public var totalCalories: ValidatedMeasurement<UnitEnergy>?
-
+    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                    fieldNumber: 11,
+                    unit: UnitEnergy.kilocalories)
+    private(set) public var totalCalories: Measurement<UnitEnergy>?
+    
     /// Total Fat Calories
-    private(set) public var totalFatCalories: ValidatedMeasurement<UnitEnergy>?
-
+    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                    fieldNumber: 13,
+                    unit: UnitEnergy.kilocalories)
+    private(set) public var totalFatCalories: Measurement<UnitEnergy>?
+    
+    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 14,
+                   unit: UnitSpeed.metersPerSecond)
+    private var _averageSpeed: Measurement<UnitSpeed>?
+    
+    @FitFieldSpeed(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 124,
+                   unit: UnitSpeed.metersPerSecond)
+    private var enhancedAvgSpeed: Measurement<UnitSpeed>?
+    
     /// Average Speed
-    private(set) public var averageSpeed: ValidatedMeasurement<UnitSpeed>?
-
+    private(set) public var averageSpeed: Measurement<UnitSpeed>? {
+        get {
+            return preferredField(preferred: self.enhancedAvgSpeed, fallbakck: self._averageSpeed)
+        }
+        set {
+            self.enhancedAvgSpeed = newValue
+        }
+    }
+    
+    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 15,
+                   unit: UnitSpeed.metersPerSecond)
+    private var _maximumSpeed: Measurement<UnitSpeed>?
+    
+    @FitFieldSpeed(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 125,
+                   unit: UnitSpeed.metersPerSecond)
+    private var enhancedMaximumSpeed: Measurement<UnitSpeed>?
+    
     /// Maximum Speed
-    private(set) public var maximumSpeed: ValidatedMeasurement<UnitSpeed>?
-
+    private(set) public var maximumSpeed: Measurement<UnitSpeed>? {
+        get {
+            return preferredField(preferred: self.enhancedMaximumSpeed, fallbakck: self._maximumSpeed)
+        }
+        set {
+            self.enhancedMaximumSpeed = newValue
+        }
+    }
+    
     /// Average Heart Rate
-    private(set) public var averageHeartRate: ValidatedMeasurement<UnitCadence>?
-
+    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                     fieldNumber: 16,
+                     unit: UnitCadence.beatsPerMinute)
+    private(set) public var averageHeartRate: Measurement<UnitCadence>?
+    
     /// Maximum Heart Rate
-    private(set) public var maximumHeartRate: ValidatedMeasurement<UnitCadence>?
-
+    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                     fieldNumber: 17,
+                     unit: UnitCadence.beatsPerMinute)
+    private(set) public var maximumHeartRate: Measurement<UnitCadence>?
+    
     /// Average Cadence
     ///
     /// If nil you can use totalCycles / totalTimerTime
-    private(set) public var averageCadence: ValidatedMeasurement<UnitCadence>?
-
+    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                     fieldNumber: 18,
+                     unit: UnitCadence.revolutionsPerMinute)
+    private(set) public var averageCadence: Measurement<UnitCadence>?
+    
     /// Maximum Cadence
-    private(set) public var maximumCadence: ValidatedMeasurement<UnitCadence>?
-
+    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                     fieldNumber: 19,
+                     unit: UnitCadence.revolutionsPerMinute)
+    private(set) public var maximumCadence: Measurement<UnitCadence>?
+    
     /// Average Power
     ///
     /// If nil you can use totalPower / totalTimerTime
-    private(set) public var averagePower: ValidatedMeasurement<UnitPower>?
-
+    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 20,
+                   unit: UnitPower.watts)
+    private(set) public var averagePower: Measurement<UnitPower>?
+    
     /// Maximum Power
-    private(set) public var maximumPower: ValidatedMeasurement<UnitPower>?
-
+    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 21,
+                   unit: UnitPower.watts)
+    private(set) public var maximumPower: Measurement<UnitPower>?
+    
     /// Total Ascent
-    private(set) public var totalAscent: ValidatedMeasurement<UnitLength>?
-
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                    fieldNumber: 22,
+                    unit: UnitLength.meters)
+    private(set) public var totalAscent: Measurement<UnitLength>?
+    
     /// Total Descent
-    private(set) public var totalDescent: ValidatedMeasurement<UnitLength>?
-
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                    fieldNumber: 23,
+                    unit: UnitLength.meters)
+    private(set) public var totalDescent: Measurement<UnitLength>?
+    
     /// Total Training Effect
-    private(set) public var totalTrainingEffect: ValidatedBinaryInteger<UInt8>?
-
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 24)
+    private(set) public var totalTrainingEffect: UInt8?
+    
     /// First Lap Index
-    private(set) public var firstLapIndex: ValidatedBinaryInteger<UInt16>?
-
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 25)
+    private(set) public var firstLapIndex: UInt16?
+    
     /// Number of Laps
-    private(set) public var numberOfLaps: ValidatedBinaryInteger<UInt16>?
-
+    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 26,
+                   unit: UnitCount.laps)
+    private(set) public var numberOfLaps: Measurement<UnitCount>?
+    
     /// Event Group
-    private(set) public var eventGroup: ValidatedBinaryInteger<UInt8>?
-
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 27)
+    private(set) public var eventGroup: UInt8?
+    
     /// Session Trigger
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 28)
     private(set) public var trigger: SessionTrigger?
-
+    
+    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 29,
+                   unit: UnitAngle.garminSemicircle)
+    private var necLatitude: Measurement<UnitAngle>?
+    
+    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 30,
+                   unit: UnitAngle.garminSemicircle)
+    private var necLongitude: Measurement<UnitAngle>?
+    
     /// NEC Position
-    private(set) public var necPosition: Position
-
+    private(set) public var necPosition: Position? {
+        get {
+            return Position(latitude: self.necLatitude, longitude: self.necLongitude)
+        }
+        set {
+            self.necLatitude = newValue?.latitude
+            self.necLongitude = newValue?.longitude
+        }
+    }
+    
+    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 31,
+                   unit: UnitAngle.garminSemicircle)
+    private var swcLatitude: Measurement<UnitAngle>?
+    
+    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 32,
+                   unit: UnitAngle.garminSemicircle)
+    private var swcLongitude: Measurement<UnitAngle>?
+    
     /// SWC Position
-    private(set) public var swcPosition: Position
-
+    private(set) public var swcPosition: Position? {
+        get {
+            return Position(latitude: self.swcLatitude, longitude: self.swcLongitude)
+        }
+        set {
+            self.swcLatitude = newValue?.latitude
+            self.swcLongitude = newValue?.longitude
+        }
+    }
+    
     /// Normalized Power
-    private(set) public var normalizedPower: ValidatedMeasurement<UnitPower>?
-
+    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 34,
+                   unit: UnitPower.watts)
+    private(set) public var normalizedPower: Measurement<UnitPower>?
+    
+    /// Training Stress Score
+    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                   fieldNumber: 35,
+                   unit: UnitCount.trainingStress)
+    private(set) public var trainingStressScore: Measurement<UnitCount>?
+    
+    /// Intensity Factor
+    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 36,
+                   unit: UnitCount.intensityFactor)
+    private(set) public var intensityFactor: Measurement<UnitCount>?
+    
+    /// Left Right Balance scaled by 100
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 37)
+    private(set) public var leftRightBalance: LeftRightBalance100?
+    
+    /// Average Stroke Count
+    @FitFieldCount(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                   fieldNumber: 41,
+                   unit: UnitCount.strokes)
+    private(set) public var averageStrokeCount: Measurement<UnitCount>?
+    
     /// Average Stroke Distance
-    private(set) public var averageStrokeDistance: ValidatedMeasurement<UnitLength>?
-
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                    fieldNumber: 42,
+                    unit: UnitLength.meters)
+    private(set) public var averageStrokeDistance: Measurement<UnitLength>?
+    
     /// Swim Stroke
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 43)
     private(set) public var swimStroke: SwimStroke?
-
+    
     /// Pool Length
-    private(set) public var poolLength: ValidatedMeasurement<UnitLength>?
-
-    /// Pool Length Unit
-    private(set) public var poolLengthUnit: MeasurementDisplayType?
-
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                    fieldNumber: 44,
+                    unit: UnitLength.meters)
+    private(set) public var poolLength: Measurement<UnitLength>?
+    
     /// Threshold Power
-    private(set) public var thresholdPower: ValidatedMeasurement<UnitPower>?
-
+    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 45,
+                   unit: UnitPower.watts)
+    private(set) public var thresholdPower: Measurement<UnitPower>?
+    
+    /// Pool Length Unit
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 46)
+    private(set) public var poolLengthUnit: MeasurementDisplayType?
+    
     /// Number of Active Lengths
     ///
     /// Number of active lengths of swim pool
-    private(set) public var activeLengths: ValidatedBinaryInteger<UInt16>?
-
+    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 47,
+                   unit: UnitCount.lengths)
+    private(set) public var activeLengths: Measurement<UnitCount>?
+    
     /// Total Work
-    private(set) public var totalWork: ValidatedMeasurement<UnitEnergy>?
-
+    @FitFieldEnergy(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                    fieldNumber: 48,
+                    unit: UnitEnergy.joules)
+    private(set) public var totalWork: Measurement<UnitEnergy>?
+    
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                    fieldNumber: 49,
+                    unit: UnitLength.meters)
+    private var _averageAltitude: Measurement<UnitLength>?
+    
+    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                    fieldNumber: 126,
+                    unit: UnitLength.meters)
+    private var enhancedAverageAltitude: Measurement<UnitLength>?
+    
     /// Average Altitude
-    private(set) public var averageAltitude: ValidatedMeasurement<UnitLength>?
-
+    private(set) public var averageAltitude: Measurement<UnitLength>? {
+        get {
+            return preferredField(preferred: self.enhancedAverageAltitude, fallbakck: self._averageAltitude)
+        }
+        set {
+            self.enhancedAverageAltitude = newValue
+        }
+    }
+    
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                    fieldNumber: 50,
+                    unit: UnitLength.meters)
+    private var _maximumAltitude: Measurement<UnitLength>?
+    
+    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                    fieldNumber: 128,
+                    unit: UnitLength.meters)
+    private var enhancedMaximumAltitude: Measurement<UnitLength>?
+    
     /// Maximum Altitude
-    private(set) public var maximumAltitude: ValidatedMeasurement<UnitLength>?
-
+    private(set) public var maximumAltitude: Measurement<UnitLength>? {
+        get {
+            return preferredField(preferred: self.enhancedMaximumAltitude, fallbakck: self._maximumAltitude)
+        }
+        set {
+            self.enhancedMaximumAltitude = newValue
+        }
+    }
+    
     /// GPS Accuracy
-    private(set) public var gpsAccuracy: ValidatedMeasurement<UnitLength>?
-
+    @FitFieldLength(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                    fieldNumber: 51,
+                    unit: UnitLength.meters)
+    private(set) public var gpsAccuracy: Measurement<UnitLength>?
+    
     /// Average Grade
-    private(set) public var averageGrade: ValidatedMeasurement<UnitPercent>?
-
+    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 52,
+                     unit: UnitPercent.percent)
+    private(set) public var averageGrade: Measurement<UnitPercent>?
+    
     /// Average Positive Grade
-    private(set) public var averagePositiveGrade: ValidatedMeasurement<UnitPercent>?
-
+    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 53,
+                     unit: UnitPercent.percent)
+    private(set) public var averagePositiveGrade: Measurement<UnitPercent>?
+    
     /// Average Negitive Grade
-    private(set) public var averageNegitiveGrade: ValidatedMeasurement<UnitPercent>?
-
+    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 54,
+                     unit: UnitPercent.percent)
+    private(set) public var averageNegitiveGrade: Measurement<UnitPercent>?
+    
     /// Maximum Positive Grade
-    private(set) public var maximumPositiveGrade: ValidatedMeasurement<UnitPercent>?
-
+    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 55,
+                     unit: UnitPercent.percent)
+    private(set) public var maximumPositiveGrade: Measurement<UnitPercent>?
+    
     /// Maximum Negitive Grade
-    private(set) public var maximumNegitiveGrade: ValidatedMeasurement<UnitPercent>?
-
+    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 56,
+                     unit: UnitPercent.percent)
+    private(set) public var maximumNegitiveGrade: Measurement<UnitPercent>?
+    
     /// Average Temperature
-    private(set) public var averageTemperature: ValidatedMeasurement<UnitTemperature>?
-
+    @FitFieldTemperature(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                         fieldNumber: 57,
+                         unit: UnitTemperature.celsius)
+    private(set) public var averageTemperature: Measurement<UnitTemperature>?
+    
     /// Maximum Temperature
-    private(set) public var maximumTemperature: ValidatedMeasurement<UnitTemperature>?
-
+    @FitFieldTemperature(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                         fieldNumber: 58,
+                         unit: UnitTemperature.celsius)
+    private(set) public var maximumTemperature: Measurement<UnitTemperature>?
+    
     /// Total Moving Time
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 59,
+                      unit: UnitDuration.seconds)
     private(set) public var totalMovingTime: Measurement<UnitDuration>?
-
+    
     /// Average Positive Vertical Speed
-    private(set) public var averagePositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-
+    @FitFieldSpeed(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 60,
+                   unit: UnitSpeed.metersPerSecond)
+    private(set) public var averagePositiveVerticalSpeed: Measurement<UnitSpeed>?
+    
     /// Average Negitive Vertical Speed
-    private(set) public var averageNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-
+    @FitFieldSpeed(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 61,
+                   unit: UnitSpeed.metersPerSecond)
+    private(set) public var averageNegitiveVerticalSpeed: Measurement<UnitSpeed>?
+    
     /// Maximum Positive Vertical Speed
-    private(set) public var maximumPositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-
+    @FitFieldSpeed(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 62,
+                   unit: UnitSpeed.metersPerSecond)
+    private(set) public var maximumPositiveVerticalSpeed: Measurement<UnitSpeed>?
+    
     /// Maximum Negitive Vertical Speed
-    private(set) public var maximumNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-
+    @FitFieldSpeed(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 63,
+                   unit: UnitSpeed.metersPerSecond)
+    private(set) public var maximumNegitiveVerticalSpeed: Measurement<UnitSpeed>?
+    
     /// Minimum Heart Rate
-    private(set) public var minimumHeartRate: ValidatedMeasurement<UnitCadence>?
-
+    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                     fieldNumber: 64,
+                     unit: UnitCadence.beatsPerMinute)
+    private(set) public var minimumHeartRate: Measurement<UnitCadence>?
+    
+    /// Time in HeartRate Zone
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 65,
+                      unit: UnitDuration.seconds)
+    private(set) public var timeInHrZone: Measurement<UnitDuration>?
+    
+    /// Time in Speed Zone
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 66,
+                      unit: UnitDuration.seconds)
+    private(set) public var timeInSpeedZone: Measurement<UnitDuration>?
+    
+    /// Time in Cadence Zone
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 67,
+                      unit: UnitDuration.seconds)
+    private(set) public var timeInCadenceZone: Measurement<UnitDuration>?
+    
+    /// Time in Power Zone
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 68,
+                      unit: UnitDuration.seconds)
+    private(set) public var timeInPowerZone: Measurement<UnitDuration>?
+    
     /// Average Lap Time
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 69,
+                      unit: UnitDuration.seconds)
     private(set) public var averageLapTime: Measurement<UnitDuration>?
-
+    
     /// Best Lap Index
-    private(set) public var bestLapIndex: ValidatedBinaryInteger<UInt16>?
-
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 70)
+    private(set) public var bestLapIndex: UInt16?
+    
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                    fieldNumber: 71,
+                    unit: UnitLength.meters)
+    private var _minimumAltitude: Measurement<UnitLength>?
+    
+    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                    fieldNumber: 127,
+                    unit: UnitLength.meters)
+    private var enhancedMinimumAltitude: Measurement<UnitLength>?
+    
     /// Minimum Altitude
-    private(set) public var minimumAltitude: ValidatedMeasurement<UnitLength>?
-
+    private(set) public var minimumAltitude: Measurement<UnitLength>? {
+        get {
+            return preferredField(preferred: self.enhancedMinimumAltitude, fallbakck: self._minimumAltitude)
+        }
+        set {
+            self.enhancedMinimumAltitude = newValue
+        }
+    }
+    
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 82)
+    private var opponentScore: UInt16?
+    
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 83)
+    private var playerScore: UInt16?
+    
     /// Score Information
     ///
     /// Include Opponent Score, Player Score
-    private(set) public var score: Score
-
+    private(set) public var score: Score? {
+        get {
+            return Score(playerScore: self.playerScore, opponentScore: self.opponentScore)
+        }
+        set {
+            self.playerScore = newValue?.playerScore
+            self.opponentScore = newValue?.opponentScore
+        }
+    }
+    
     /// Opponent Name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 84)
     private(set) public var opponentName: String?
-
+    
+    /// Stroke Count
+    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 85,
+                   unit: UnitCount.counts)
+    private(set) public var strokeCount: Measurement<UnitCount>?
+    
+    /// Zone Count
+    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 86,
+                   unit: UnitCount.counts)
+    private(set) public var zoneCount: Measurement<UnitCount>?
+    
     /// Maximum Ball Speed
-    private(set) public var maximumBallSpeed: ValidatedMeasurement<UnitSpeed>?
-
+    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                   fieldNumber: 87,
+                   unit: UnitSpeed.metersPerSecond)
+    private(set) public var maximumBallSpeed: Measurement<UnitSpeed>?
+    
     /// Average Ball Speed
-    private(set) public var averageBallSpeed: ValidatedMeasurement<UnitSpeed>?
-
+    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                   fieldNumber: 88,
+                   unit: UnitSpeed.metersPerSecond)
+    private(set) public var averageBallSpeed: Measurement<UnitSpeed>?
+    
     /// Average Vertical Oscillation
-    private(set) public var averageVerticalOscillation: ValidatedMeasurement<UnitLength>?
-
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                    fieldNumber: 89,
+                    unit: UnitLength.millimeters)
+    private(set) public var averageVerticalOscillation: Measurement<UnitLength>?
+    
+    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 90,
+                     unit: UnitPercent.percent)
+    private var avgStanceTimePercent: Measurement<UnitPercent>?
+    
+    @FitFieldDuration(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                      fieldNumber: 91,
+                      unit: UnitDuration.millisecond)
+    private var avgStanceTimeDuration: Measurement<UnitDuration>?
+    
+    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 133,
+                     unit: UnitPercent.percent)
+    private var avgStanceTimeBalance: Measurement<UnitPercent>?
+    
     /// Average Stance Time
-    private(set) public var averageStanceTime: StanceTime
-
+    private(set) public var averageStanceTime: StanceTime? {
+        get {
+            return StanceTime(percent: self.avgStanceTimePercent,
+                              time: self.avgStanceTimeDuration,
+                              balance: self.avgStanceTimeBalance)
+        }
+        set {
+            self.avgStanceTimePercent = newValue?.percent
+            self.avgStanceTimeDuration = newValue?.time
+            self.avgStanceTimeBalance = newValue?.balance
+        }
+    }
+    
+    /// Average Fractional Cadence
+    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
+                     fieldNumber: 92,
+                     unit: UnitCadence.revolutionsPerMinute)
+    private(set) public var averageFractionalCadence: Measurement<UnitCadence>?
+    
+    /// Maximum Fractional Cadence
+    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
+                     fieldNumber: 93,
+                     unit: UnitCadence.revolutionsPerMinute)
+    private(set) public var maximumFractionalCadence: Measurement<UnitCadence>?
+    
+    /// Total Fractional Cadence
+    @FitFieldCount(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
+                   fieldNumber: 94,
+                   unit: UnitCount.cycles)
+    private(set) public var totalFractionalCadence: Measurement<UnitCount>?
+    
+    /// Average Total Hemoglobin Concentration
+    @FitFieldConcentrationMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                               fieldNumber: 95,
+                               unit: UnitConcentrationMass.gramPerDeciliter)
+    private(set) public var averageTotalHemoglobinConcentration: Measurement<UnitConcentrationMass>?
+    
+    /// Minimum Total Hemoglobin Concentration
+    @FitFieldConcentrationMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                               fieldNumber: 96,
+                               unit: UnitConcentrationMass.gramPerDeciliter)
+    private(set) public var minimumTotalHemoglobinConcentration: Measurement<UnitConcentrationMass>?
+    
+    /// Maximum Total Hemoglobin Concentration
+    @FitFieldConcentrationMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                               fieldNumber: 97,
+                               unit: UnitConcentrationMass.gramPerDeciliter)
+    private(set) public var maximumTotalHemoglobinConcentration: Measurement<UnitConcentrationMass>?
+    
+    /// Average Saturated Hemoglobin Percent
+    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                     fieldNumber: 98,
+                     unit: UnitPercent.percent)
+    private(set) public var averageSaturatedHemoglobinPercent: Measurement<UnitPercent>?
+    
+    /// Minimum Saturated Hemoglobin Percent
+    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                     fieldNumber: 99,
+                     unit: UnitPercent.percent)
+    private(set) public var minimumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
+    
+    /// Maximum Saturated Hemoglobin Percent
+    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                     fieldNumber: 100,
+                     unit: UnitPercent.percent)
+    private(set) public var maximumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
+    
+    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                     fieldNumber: 101,
+                     unit: UnitPercent.percent)
+    private var avgLeftTorqueEffectiveness: Measurement<UnitPercent>?
+    
+    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                     fieldNumber: 102,
+                     unit: UnitPercent.percent)
+    private var avgRightTorqueEffectiveness: Measurement<UnitPercent>?
+    
+    /// Average Torque Effectiveness
+    private(set) public var averageTorqueEffectiveness: TorqueEffectiveness? {
+        get {
+            return TorqueEffectiveness(left: self.avgLeftTorqueEffectiveness, right: self.avgRightTorqueEffectiveness)
+        }
+        set {
+            self.avgLeftTorqueEffectiveness = newValue?.left
+            self.avgRightTorqueEffectiveness = newValue?.right
+        }
+    }
+    
+    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                     fieldNumber: 103,
+                     unit: UnitPercent.percent)
+    private var avgLeftPedalSmoothness: Measurement<UnitPercent>?
+    
+    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                     fieldNumber: 104,
+                     unit: UnitPercent.percent)
+    private var avgRightPedalSmoothness: Measurement<UnitPercent>?
+    
+    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                     fieldNumber: 105,
+                     unit: UnitPercent.percent)
+    private var avgCombinedPedalSmoothness: Measurement<UnitPercent>?
+    
+    /// Average Pedal Smoothness
+    private(set) public var averagePedalSmoothness: PedalSmoothnessValue? {
+        get {
+            return PedalSmoothnessValue(right: self.avgRightPedalSmoothness,
+                                        left: self.avgLeftPedalSmoothness,
+                                        combined: self.avgCombinedPedalSmoothness)
+        }
+        set {
+            self.avgLeftPedalSmoothness = newValue?.left
+            self.avgRightPedalSmoothness = newValue?.right
+            self.avgCombinedPedalSmoothness = newValue?.combined
+        }
+    }
+    
     /// Sport Group
-    private(set) public var sportIndex: ValidatedBinaryInteger<UInt8>?
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 111)
+    private(set) public var sportIndex: UInt8?
+    
+    /// Time Standing
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                      fieldNumber: 112,
+                      unit: UnitDuration.seconds)
+    private(set) public var timeStanding: Measurement<UnitDuration>?
+    
+    /// Stand Count
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 113)
+    private(set) public var standCount: UInt16?
+
+    /// Average Step Length
+    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                    fieldNumber: 134,
+                    unit: UnitLength.millimeters)
+    private(set) public var averageStepLength: Measurement<UnitLength>?
+
+    /// Total Anaerobic Training Effect
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 10.0, offset: 0.0)),
+              fieldNumber: 137)
+    private(set) public var totalAnaerobicTrainingEffect: UInt8?
 
     /// Velocità Ascensionale Media
     ///
     /// VAM - Average Ascent Speed
-    private(set) public var averageAscentSpeed: ValidatedMeasurement<UnitSpeed>?
+    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                   fieldNumber: 139,
+                   unit: UnitSpeed.metersPerSecond)
+    private(set) public var averageAscentSpeed: Measurement<UnitSpeed>?
+    
+    /// Total Grit
+    ///
+    /// The grit score estimates how challenging a route could be for a cyclist
+    /// in terms of time spent going over sharp turns or large grade slopes
+    @FitFieldGrit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 181,
+                  unit: UnitFitGrit.kiloGrit)
+    private(set) public var totalGrit: Measurement<UnitFitGrit>?
+    
+    /// Total Flow
+    ///
+    /// The flow score estimates how long distance wise a cyclist deaccelerates over intervals
+    /// where deacceleration is unnecessary such as smooth turns or small grade angle intervals
+    @FitFieldFlow(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 182,
+                  unit: UnitFitFlow.flow)
+    private(set) public var totalFlow: Measurement<UnitFitFlow>?
 
+    /// Jump Count
+    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 183,
+                   unit: UnitCount.jumps)
+    private(set) public var jumpCount: Measurement<UnitCount>?
+    
+    /// Average Grit
+    ///
+    /// The grit score estimates how challenging a route could be for a cyclist
+    /// in terms of time spent going over sharp turns or large grade slopes
+    @FitFieldGrit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 186,
+                  unit: UnitFitGrit.kiloGrit)
+    private(set) public var averageGrit: Measurement<UnitFitGrit>?
+    
+    /// Average Flow
+    ///
+    /// The flow score estimates how long distance wise a cyclist deaccelerates over intervals
+    /// where deacceleration is unnecessary such as smooth turns or small grade angle intervals
+    @FitFieldFlow(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 187,
+                  unit: UnitFitFlow.flow)
+    private(set) public var averageFlow: Measurement<UnitFitFlow>?
+
+    /// Timestamp
+    ///
+    /// Sesson end time
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 253, local: false)
+    private(set) public var timeStamp: FitTime?
+    
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    
     ///sportIndex
     public required init() {
-        self.startPosition = Position(latitude: nil, longitude: nil)
-        self.necPosition = Position(latitude: nil, longitude: nil)
-        self.swcPosition = Position(latitude: nil, longitude: nil)
-        self.score = Score(playerScore: nil, opponentScore: nil)
-        self.averageStanceTime = StanceTime(percent: nil, time: nil)
+        super.init()
+        
+        self.$timeStamp.owner = self
+        self.$messageIndex.owner = self
+        
+        self.$event.owner = self
+        self.$eventType.owner = self
+        self.$startTime.owner = self
+        self.$startLatitude.owner = self
+        self.$startLongitude.owner = self
+        self.$sport.owner = self
+        self.$subSport.owner = self
+        self.$totalElapsedTime.owner = self
+        self.$totalTimerTime.owner = self
+        self.$totalDistance.owner = self
+        self.$totalCycles.owner = self
+        self.$totalCalories.owner = self
+        self.$totalFatCalories.owner = self
+        self.$_averageSpeed.owner = self
+        self.$enhancedAvgSpeed.owner = self
+        self.$_maximumSpeed.owner = self
+        self.$enhancedMaximumSpeed.owner = self
+        self.$averageHeartRate.owner = self
+        self.$maximumHeartRate.owner = self
+        self.$averageCadence.owner = self
+        self.$maximumCadence.owner = self
+        self.$averagePower.owner = self
+        self.$maximumPower.owner = self
+        self.$totalAscent.owner = self
+        self.$totalTrainingEffect.owner = self
+        self.$firstLapIndex.owner = self
+        self.$numberOfLaps.owner = self
+        self.$eventGroup.owner = self
+        self.$trigger.owner = self
+        self.$necLatitude.owner = self
+        self.$necLongitude.owner = self
+        self.$swcLatitude.owner = self
+        self.$swcLongitude.owner = self
+        self.$normalizedPower.owner = self
+        self.$trainingStressScore.owner = self
+        self.$intensityFactor.owner = self
+        self.$leftRightBalance.owner = self
+        self.$averageStrokeCount.owner = self
+        self.$averageStrokeDistance.owner = self
+        self.$swimStroke.owner = self
+        self.$poolLength.owner = self
+        self.$thresholdPower.owner = self
+        self.$poolLengthUnit.owner = self
+        self.$activeLengths.owner = self
+        self.$totalWork.owner = self
+        self.$_averageAltitude.owner = self
+        self.$enhancedAverageAltitude.owner = self
+        self.$_maximumAltitude.owner = self
+        self.$enhancedMaximumAltitude.owner = self
+        self.$gpsAccuracy.owner = self
+        self.$averageGrade.owner = self
+        self.$averagePositiveGrade.owner = self
+        self.$averageNegitiveGrade.owner = self
+        self.$maximumPositiveGrade.owner = self
+        self.$maximumNegitiveGrade.owner = self
+        self.$averageTemperature.owner = self
+        self.$maximumTemperature.owner = self
+        self.$totalMovingTime.owner = self
+        self.$averagePositiveVerticalSpeed.owner = self
+        self.$averageNegitiveVerticalSpeed.owner = self
+        self.$maximumPositiveVerticalSpeed.owner = self
+        self.$maximumNegitiveVerticalSpeed.owner = self
+        self.$minimumHeartRate.owner = self
+        self.$timeInHrZone.owner = self
+        self.$timeInSpeedZone.owner = self
+        self.$timeInCadenceZone.owner = self
+        self.$timeInPowerZone.owner = self
+        self.$averageLapTime.owner = self
+        self.$bestLapIndex.owner = self
+        self.$_minimumAltitude.owner = self
+        self.$enhancedMinimumAltitude.owner = self
+        self.$opponentScore.owner = self
+        self.$playerScore.owner = self
+        self.$opponentName.owner = self
+        self.$strokeCount.owner = self
+        self.$zoneCount.owner = self
+        self.$maximumBallSpeed.owner = self
+        self.$averageBallSpeed.owner = self
+        self.$averageVerticalOscillation.owner = self
+        self.$avgStanceTimePercent.owner = self
+        self.$avgStanceTimeDuration.owner = self
+        self.$avgStanceTimeBalance.owner = self
+        self.$averageFractionalCadence.owner = self
+        self.$maximumFractionalCadence.owner = self
+        self.$totalFractionalCadence.owner = self
+        self.$averageTotalHemoglobinConcentration.owner = self
+        self.$minimumTotalHemoglobinConcentration.owner = self
+        self.$maximumTotalHemoglobinConcentration.owner = self
+        self.$averageSaturatedHemoglobinPercent.owner = self
+        self.$minimumSaturatedHemoglobinPercent.owner = self
+        self.$maximumSaturatedHemoglobinPercent.owner = self
+        self.$avgLeftTorqueEffectiveness.owner = self
+        self.$avgRightTorqueEffectiveness.owner = self
+        self.$avgLeftPedalSmoothness.owner = self
+        self.$avgRightPedalSmoothness.owner = self
+        self.$avgCombinedPedalSmoothness.owner = self
+        self.$sportIndex.owner = self
+        self.$timeStanding.owner = self
+        self.$standCount.owner = self
+        self.$averageStepLength.owner = self
+        self.$totalAnaerobicTrainingEffect.owner = self
+        self.$averageAscentSpeed.owner = self
+        self.$totalGrit.owner = self
+        self.$totalFlow.owner = self
+        self.$jumpCount.owner = self
+        self.$averageGrit.owner = self
+        self.$averageFlow.owner = self
     }
-
-    public init(timeStamp: FitTime? = nil,
-                messageIndex: MessageIndex? = nil,
-                event: Event? = nil,
-                eventType: EventType? = nil,
-                startTime: FitTime? = nil,
-                startPosition: Position,
-                sport: Sport? = nil,
-                subSport: SubSport? = nil,
-                totalElapsedTime: Measurement<UnitDuration>? = nil,
-                totalTimerTime: Measurement<UnitDuration>? = nil,
-                totalDistance: ValidatedMeasurement<UnitLength>? = nil,
-                totalCycles: ValidatedBinaryInteger<UInt32>? = nil,
-                totalCalories: ValidatedMeasurement<UnitEnergy>? = nil,
-                totalFatCalories: ValidatedMeasurement<UnitEnergy>? = nil,
-                averageSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                maximumSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                averageHeartRate: UInt8? = nil,
-                maximumHeartRate: UInt8? = nil,
-                averageCadence: UInt8? = nil,
-                maximumCadence: UInt8? = nil,
-                averagePower: ValidatedMeasurement<UnitPower>? = nil,
-                maximumPower: ValidatedMeasurement<UnitPower>? = nil,
-                totalAscent: ValidatedMeasurement<UnitLength>? = nil,
-                totalDescent: ValidatedMeasurement<UnitLength>? = nil,
-                totalTrainingEffect: ValidatedBinaryInteger<UInt8>? = nil,
-                firstLapIndex: ValidatedBinaryInteger<UInt16>? = nil,
-                numberOfLaps: ValidatedBinaryInteger<UInt16>? = nil,
-                eventGroup: ValidatedBinaryInteger<UInt8>? = nil,
-                trigger: SessionTrigger? = nil,
-                necPosition: Position,
-                swcPosition: Position,
-                normalizedPower: ValidatedMeasurement<UnitPower>? = nil,
-                averageStrokeDistance: ValidatedMeasurement<UnitLength>? = nil,
-                swimStroke: SwimStroke? = nil,
-                poolLength: ValidatedMeasurement<UnitLength>? = nil,
-                poolLengthUnit: MeasurementDisplayType? = nil,
-                thresholdPower: ValidatedMeasurement<UnitPower>? = nil,
-                activeLengths: ValidatedBinaryInteger<UInt16>? = nil,
-                totalWork: ValidatedMeasurement<UnitEnergy>? = nil,
-                averageAltitude: ValidatedMeasurement<UnitLength>? = nil,
-                maximumAltitude: ValidatedMeasurement<UnitLength>? = nil,
-                gpsAccuracy: ValidatedMeasurement<UnitLength>? = nil,
-                averageGrade: ValidatedMeasurement<UnitPercent>? = nil,
-                averagePositiveGrade: ValidatedMeasurement<UnitPercent>? = nil,
-                averageNegitiveGrade: ValidatedMeasurement<UnitPercent>? = nil,
-                maximumPositiveGrade: ValidatedMeasurement<UnitPercent>? = nil,
-                maximumNegitiveGrade: ValidatedMeasurement<UnitPercent>? = nil,
-                averageTemperature: ValidatedMeasurement<UnitTemperature>? = nil,
-                maximumTemperature: ValidatedMeasurement<UnitTemperature>? = nil,
-                totalMovingTime: Measurement<UnitDuration>? = nil,
-                averagePositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                averageNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                maximumPositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                maximumNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                minimumHeartRate: UInt8? = nil,
-                averageLapTime: Measurement<UnitDuration>? = nil,
-                bestLapIndex: ValidatedBinaryInteger<UInt16>? = nil,
-                minimumAltitude: ValidatedMeasurement<UnitLength>? = nil,
-                score: Score,
-                opponentName: String? = nil,
-                maximumBallSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                averageBallSpeed: ValidatedMeasurement<UnitSpeed>? = nil,
-                averageVerticalOscillation: ValidatedMeasurement<UnitLength>? = nil,
-                averageStanceTime: StanceTime,
-                sportIndex: ValidatedBinaryInteger<UInt8>? = nil,
-                averageAscentSpeed: ValidatedMeasurement<UnitSpeed>? = nil) {
-
+    
+    public convenience init(timeStamp: FitTime? = nil,
+                            messageIndex: MessageIndex? = nil,
+                            event: Event? = nil,
+                            eventType: EventType? = nil,
+                            startTime: FitTime? = nil,
+                            startPosition: Position? = nil,
+                            sport: Sport? = nil,
+                            subSport: SubSport? = nil,
+                            totalElapsedTime: Measurement<UnitDuration>? = nil,
+                            totalTimerTime: Measurement<UnitDuration>? = nil,
+                            totalDistance: Measurement<UnitLength>? = nil,
+                            totalCycles: UInt32? = nil,
+                            totalCalories: Measurement<UnitEnergy>? = nil,
+                            totalFatCalories: Measurement<UnitEnergy>? = nil,
+                            averageSpeed: Measurement<UnitSpeed>? = nil,
+                            maximumSpeed: Measurement<UnitSpeed>? = nil,
+                            averageHeartRate: UInt8? = nil,
+                            maximumHeartRate: UInt8? = nil,
+                            averageCadence: UInt8? = nil,
+                            maximumCadence: UInt8? = nil,
+                            averagePower: Measurement<UnitPower>? = nil,
+                            maximumPower: Measurement<UnitPower>? = nil,
+                            totalAscent: Measurement<UnitLength>? = nil,
+                            totalDescent: Measurement<UnitLength>? = nil,
+                            totalTrainingEffect: UInt8? = nil,
+                            firstLapIndex: UInt16? = nil,
+                            numberOfLaps: UInt16? = nil,
+                            eventGroup: UInt8? = nil,
+                            trigger: SessionTrigger? = nil,
+                            necPosition: Position? = nil,
+                            swcPosition: Position? = nil,
+                            normalizedPower: Measurement<UnitPower>? = nil,
+                            averageStrokeDistance: Measurement<UnitLength>? = nil,
+                            swimStroke: SwimStroke? = nil,
+                            poolLength: Measurement<UnitLength>? = nil,
+                            poolLengthUnit: MeasurementDisplayType? = nil,
+                            thresholdPower: Measurement<UnitPower>? = nil,
+                            activeLengths: UInt16? = nil,
+                            totalWork: Measurement<UnitEnergy>? = nil,
+                            averageAltitude: Measurement<UnitLength>? = nil,
+                            maximumAltitude: Measurement<UnitLength>? = nil,
+                            gpsAccuracy: Measurement<UnitLength>? = nil,
+                            averageGrade: Measurement<UnitPercent>? = nil,
+                            averagePositiveGrade: Measurement<UnitPercent>? = nil,
+                            averageNegitiveGrade: Measurement<UnitPercent>? = nil,
+                            maximumPositiveGrade: Measurement<UnitPercent>? = nil,
+                            maximumNegitiveGrade: Measurement<UnitPercent>? = nil,
+                            averageTemperature: Measurement<UnitTemperature>? = nil,
+                            maximumTemperature: Measurement<UnitTemperature>? = nil,
+                            totalMovingTime: Measurement<UnitDuration>? = nil,
+                            averagePositiveVerticalSpeed: Measurement<UnitSpeed>? = nil,
+                            averageNegitiveVerticalSpeed: Measurement<UnitSpeed>? = nil,
+                            maximumPositiveVerticalSpeed: Measurement<UnitSpeed>? = nil,
+                            maximumNegitiveVerticalSpeed: Measurement<UnitSpeed>? = nil,
+                            minimumHeartRate: UInt8? = nil,
+                            averageLapTime: Measurement<UnitDuration>? = nil,
+                            bestLapIndex: UInt16? = nil,
+                            minimumAltitude: Measurement<UnitLength>? = nil,
+                            score: Score? = nil,
+                            opponentName: String? = nil,
+                            maximumBallSpeed: Measurement<UnitSpeed>? = nil,
+                            averageBallSpeed: Measurement<UnitSpeed>? = nil,
+                            averageVerticalOscillation: Measurement<UnitLength>? = nil,
+                            averageStanceTime: StanceTime? = nil,
+                            averageTorqueEffectiveness: TorqueEffectiveness? = nil,
+                            averagePedalSmoothness: PedalSmoothnessValue? = nil,
+                            sportIndex: UInt8? = nil,
+                            timeStanding: Measurement<UnitDuration>? = nil,
+                            standCount: UInt16? = nil,
+                            averageStepLength: Measurement<UnitLength>? = nil,
+                            totalAnaerobicTrainingEffect: UInt8? = nil,
+                            averageAscentSpeed: Measurement<UnitSpeed>? = nil) {
+        self.init()
+        
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
         self.event = event
@@ -340,30 +1015,28 @@ open class SessionMessage: FitMessage {
         self.totalElapsedTime = totalElapsedTime
         self.totalTimerTime = totalTimerTime
         self.totalDistance = totalDistance
-        self.totalCycles = totalCycles
+        if let totalCycles = totalCycles {
+            self.totalCycles = Measurement(value: Double(totalCycles), unit: self.$totalCycles.unitType)
+        }
         self.totalCalories = totalCalories
         self.totalFatCalories = totalFatCalories
         self.averageSpeed = averageSpeed
         self.maximumSpeed = maximumSpeed
-
+        
         if let hr = averageHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.averageHeartRate.baseData.type)
-            self.averageHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
+            self.averageHeartRate = Measurement(value: Double(hr), unit: self.$averageHeartRate.unitType)
         }
-
+        
         if let hr = maximumHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.maximumHeartRate.baseData.type)
-            self.maximumHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
+            self.maximumHeartRate = Measurement(value: Double(hr), unit: self.$maximumHeartRate.unitType)
         }
-
+        
         if let cadence = averageCadence {
-            let valid = cadence.isValidForBaseType(FitCodingKeys.averageCadence.baseData.type)
-            self.averageCadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
+            self.averageCadence = Measurement(value: Double(cadence), unit: self.$averageCadence.unitType)
         }
-
+        
         if let cadence = maximumCadence {
-            let valid = cadence.isValidForBaseType(FitCodingKeys.maximumCadence.baseData.type)
-            self.maximumCadence = ValidatedMeasurement(value: Double(cadence), valid: valid, unit: UnitCadence.revolutionsPerMinute)
+            self.maximumCadence = Measurement(value: Double(cadence), unit: self.$maximumCadence.unitType)
         }
         
         self.averagePower = averagePower
@@ -372,7 +1045,11 @@ open class SessionMessage: FitMessage {
         self.totalDescent = totalDescent
         self.totalTrainingEffect = totalTrainingEffect
         self.firstLapIndex = firstLapIndex
-        self.numberOfLaps = numberOfLaps
+        
+        if let laps = numberOfLaps {
+            self.numberOfLaps = Measurement(value: Double(laps), unit: self.$numberOfLaps.unitType)
+        }
+        
         self.eventGroup = eventGroup
         self.trigger = trigger
         self.necPosition = necPosition
@@ -383,7 +1060,11 @@ open class SessionMessage: FitMessage {
         self.poolLength = poolLength
         self.poolLengthUnit = poolLengthUnit
         self.thresholdPower = thresholdPower
-        self.activeLengths = activeLengths
+        
+        if let lengths = activeLengths {
+            self.activeLengths = Measurement(value: Double(lengths), unit: self.$activeLengths.unitType)
+        }
+        
         self.totalWork = totalWork
         self.averageAltitude = averageAltitude
         self.maximumAltitude = maximumAltitude
@@ -400,12 +1081,11 @@ open class SessionMessage: FitMessage {
         self.averageNegitiveVerticalSpeed = averageNegitiveVerticalSpeed
         self.maximumPositiveVerticalSpeed = maximumPositiveVerticalSpeed
         self.maximumNegitiveVerticalSpeed = maximumNegitiveVerticalSpeed
-
+        
         if let hr = minimumHeartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.minimumHeartRate.baseData.type)
-            self.minimumHeartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
+            self.minimumHeartRate = Measurement(value: Double(hr), unit: self.$minimumHeartRate.unitType)
         }
-
+        
         self.averageLapTime = averageLapTime
         self.bestLapIndex = bestLapIndex
         self.minimumAltitude = minimumAltitude
@@ -415,11 +1095,16 @@ open class SessionMessage: FitMessage {
         self.averageBallSpeed = averageBallSpeed
         self.averageVerticalOscillation = averageVerticalOscillation
         self.averageStanceTime = averageStanceTime
+        self.averageTorqueEffectiveness = averageTorqueEffectiveness
+        self.averagePedalSmoothness = averagePedalSmoothness
         self.sportIndex = sportIndex
+        self.timeStanding = timeStanding
+        self.standCount = standCount
+        self.averageStepLength = averageStepLength
+        self.totalAnaerobicTrainingEffect = totalAnaerobicTrainingEffect
         self.averageAscentSpeed = averageAscentSpeed
-
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -428,923 +1113,29 @@ open class SessionMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: SessionMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var timestamp: FitTime?
-        var messageIndex: MessageIndex?
-        var event: Event?
-        var eventType: EventType?
-        var startTime: FitTime?
-        var startPositionlatitude: ValidatedMeasurement<UnitAngle>?
-        var startPositionlongitude: ValidatedMeasurement<UnitAngle>?
-        var sport: Sport?
-        var subSport: SubSport?
-        var totalElapsedTime: Measurement<UnitDuration>?
-        var totalTimerTime: Measurement<UnitDuration>?
-        var totalDistance: ValidatedMeasurement<UnitLength>?
-        var totalCycles: ValidatedBinaryInteger<UInt32>?
-        var totalCalories: ValidatedMeasurement<UnitEnergy>?
-        var totalFatCalories: ValidatedMeasurement<UnitEnergy>?
-        var averageSpeed: ValidatedMeasurement<UnitSpeed>?
-        var maximumSpeed: ValidatedMeasurement<UnitSpeed>?
-        var averageHeartRate: UInt8?
-        var maximumHeartRate: UInt8?
-        var averageCadence: UInt8?
-        var maximumCadence: UInt8?
-        var averagePower: ValidatedMeasurement<UnitPower>?
-        var maximumPower: ValidatedMeasurement<UnitPower>?
-        var totalAscent: ValidatedMeasurement<UnitLength>?
-        var totalDescent: ValidatedMeasurement<UnitLength>?
-        var totalTrainingEffect: ValidatedBinaryInteger<UInt8>?
-        var firstLapIndex: ValidatedBinaryInteger<UInt16>?
-        var numberOfLaps: ValidatedBinaryInteger<UInt16>?
-        var eventGroup: ValidatedBinaryInteger<UInt8>?
-        var trigger: SessionTrigger?
-        var necLatitude: ValidatedMeasurement<UnitAngle>?
-        var necLongitude: ValidatedMeasurement<UnitAngle>?
-        var swcLatitude: ValidatedMeasurement<UnitAngle>?
-        var swcLongitude: ValidatedMeasurement<UnitAngle>?
-        var normalizedPower: ValidatedMeasurement<UnitPower>?
-        var averageStrokeDistance: ValidatedMeasurement<UnitLength>?
-        var swimStroke: SwimStroke?
-        var poolLength: ValidatedMeasurement<UnitLength>?
-        var poolLengthUnit: MeasurementDisplayType?
-        var thresholdPower: ValidatedMeasurement<UnitPower>?
-        var activeLengths: ValidatedBinaryInteger<UInt16>?
-        var totalWork: ValidatedMeasurement<UnitEnergy>?
-        var averageAltitude: ValidatedMeasurement<UnitLength>?
-        var maximumAltitude: ValidatedMeasurement<UnitLength>?
-        var gpsAccuracy: ValidatedMeasurement<UnitLength>?
-        var averageGrade: ValidatedMeasurement<UnitPercent>?
-        var averagePositiveGrade: ValidatedMeasurement<UnitPercent>?
-        var averageNegitiveGrade: ValidatedMeasurement<UnitPercent>?
-        var maximumPositiveGrade: ValidatedMeasurement<UnitPercent>?
-        var maximumNegitiveGrade: ValidatedMeasurement<UnitPercent>?
-        var averageTemperature: ValidatedMeasurement<UnitTemperature>?
-        var maximumTemperature: ValidatedMeasurement<UnitTemperature>?
-        var totalMovingTime: Measurement<UnitDuration>?
-        var averagePositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-        var averageNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-        var maximumPositiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-        var maximumNegitiveVerticalSpeed: ValidatedMeasurement<UnitSpeed>?
-        var minimumHeartRate: UInt8?
-        var averageLapTime: Measurement<UnitDuration>?
-        var bestLapIndex: ValidatedBinaryInteger<UInt16>?
-        var minimumAltitude: ValidatedMeasurement<UnitLength>?
-        var opponentScore: ValidatedBinaryInteger<UInt16>?
-        var playerScore: ValidatedBinaryInteger<UInt16>?
-        var opponentName: String?
-        var maximumBallSpeed: ValidatedMeasurement<UnitSpeed>?
-        var averageBallSpeed: ValidatedMeasurement<UnitSpeed>?
-        var averageVerticalOscillation: ValidatedMeasurement<UnitLength>?
-        var averageStancePercent: ValidatedMeasurement<UnitPercent>?
-        var averageStanceTime: ValidatedMeasurement<UnitDuration>?
-        var sportIndex: ValidatedBinaryInteger<UInt8>?
-        var enhancedAverageSpeed: ValidatedMeasurement<UnitSpeed>?
-        var enhancedMaximumSpeed: ValidatedMeasurement<UnitSpeed>?
-        var enhancedAverageAltitude: ValidatedMeasurement<UnitLength>?
-        var enhancedMinimumAltitude: ValidatedMeasurement<UnitLength>?
-        var enhancedMaximumAltitude: ValidatedMeasurement<UnitLength>?
-        var averageAscentSpeed: ValidatedMeasurement<UnitSpeed>?
-
-        let arch = definition.architecture
-
-        var localDecoder = DecodeData()
-
+        
+        var testDecoder = DecodeData()
+        
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
+        
         for definition in definition.fieldDefinitions {
-
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("SessionMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
-            case .some(let key):
-                switch key {
-
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
-                case .event:
-                    event = Event.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-
-                case .eventType:
-                    eventType = EventType.decode(decoder: &localDecoder,
-                                                 definition: definition,
-                                                 data: fieldData,
-                                                 dataStrategy: dataStrategy)
-
-                case .startTime:
-                    startTime = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
-                case .startPositionLatitude:
-                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        startPositionlatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
-                    } else {
-                        startPositionlatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
-                    }
-
-                case .startPositionLongitude:
-                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        startPositionlongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
-                    } else {
-                        startPositionlongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
-                    }
-
-                case .sport:
-                    sport = Sport.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-
-                case .subSport:
-                    subSport = SubSport.decode(decoder: &localDecoder,
-                                               definition: definition,
-                                               data: fieldData,
-                                               dataStrategy: dataStrategy)
-
-                case .totalElapsedTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1000 * s + 0, Time (includes pauses)
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        totalElapsedTime = Measurement(value: value, unit: UnitDuration.seconds)
-                    }
-
-                case .totalTimerTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1000 * s + 0, Time (excludes pauses)
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        totalTimerTime = Measurement(value: value, unit: UnitDuration.seconds)
-                    }
-
-                case .totalDistance:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * m + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        totalDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        totalDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .totalCycles:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    // 1 * cycles + 0
-                    totalCycles = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                           definition: definition,
-                                                                           dataStrategy: dataStrategy)
-
-                case .totalCalories:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * kcal + 0
-                        totalCalories = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.kilocalories)
-                    } else {
-                        totalCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
-                    }
-
-                case .totalFatCalories:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * kcal + 0
-                        totalFatCalories = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.kilocalories)
-                    } else {
-                        totalFatCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
-                    }
-
-                case .averageSpeed:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        averageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .maximumSpeed:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        maximumSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        maximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .averageHeartRate:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * bpm + 0
-                        averageHeartRate = value
-                    } else {
-                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                            averageHeartRate = value.value
-                        } else {
-                            averageHeartRate = nil
-                        }
-                    }
-
-                case .maximumHeartRate:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * bpm + 0
-                        maximumHeartRate = value
-                    } else {
-                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                            maximumHeartRate = value.value
-                        } else {
-                            maximumHeartRate = nil
-                        }
-                    }
-
-                case .averageCadence:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * rpm + 0
-                        averageCadence = value
-                    } else {
-                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                            averageCadence = value.value
-                        } else {
-                            averageCadence = nil
-                        }
-                    }
-
-                case .maximumCadence:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * rpm + 0
-                        maximumCadence = value
-                    } else {
-                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                            maximumCadence = value.value
-                        } else {
-                            maximumCadence = nil
-                        }
-                    }
-
-                case .averagePower:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * watts + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averagePower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
-                    } else {
-                        averagePower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
-                    }
-
-                case .maximumPower:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * watts + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        maximumPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
-                    } else {
-                        maximumPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
-                    }
-
-                case .totalAscent:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * m + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        totalAscent = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        totalAscent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .totalDescent:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * m + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        totalDescent = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        totalDescent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .totalTrainingEffect:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    totalTrainingEffect = ValidatedBinaryInteger<UInt8>.validated(value: value,
-                                                                                  definition: definition,
-                                                                                  dataStrategy: dataStrategy)
-
-                case .firstLapIndex:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    firstLapIndex = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                             definition: definition,
-                                                                             dataStrategy: dataStrategy)
-
-                case .numberOfLaps:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    numberOfLaps = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                            definition: definition,
-                                                                            dataStrategy: dataStrategy)
-
-                case .eventGroup:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    eventGroup = ValidatedBinaryInteger<UInt8>.validated(value: value,
-                                                                         definition: definition,
-                                                                         dataStrategy: dataStrategy)
-
-                case .trigger:
-                    trigger = SessionTrigger.decode(decoder: &localDecoder,
-                                                    definition: definition,
-                                                    data: fieldData,
-                                                    dataStrategy: dataStrategy)
-
-                case .necLatitude:
-                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        necLatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
-                    } else {
-                        necLatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
-                    }
-
-                case .necLongitude:
-                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        necLongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
-                    } else {
-                        necLongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
-                    }
-
-                case .swcLatitude:
-                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        swcLatitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
-                    } else {
-                        swcLatitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
-                    }
-
-                case .swcLongitude:
-                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        swcLongitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
-                    } else {
-                        swcLongitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
-                    }
-
-                case .normalizedPower:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * watts + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        normalizedPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
-                    } else {
-                        normalizedPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
-                    }
-
-                case .trainingStressScore:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .intensityFactor:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .leftRightBalance:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .averageStrokeCount:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .averageStrokeDistance:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * m + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageStrokeDistance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        averageStrokeDistance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .swimStroke:
-                    swimStroke = SwimStroke.decode(decoder: &localDecoder,
-                                                   definition: definition,
-                                                   data: fieldData,
-                                                   dataStrategy: dataStrategy)
-
-                case .poolLength:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  100 * m + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        poolLength = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        poolLength = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .thresholdPower:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * watts + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        thresholdPower = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
-                    } else {
-                        thresholdPower = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
-                    }
-
-                case .poolLengthUnit:
-                    poolLengthUnit = MeasurementDisplayType.decode(decoder: &localDecoder, definition: definition, data: fieldData, dataStrategy: dataStrategy)
-
-                case .numberActiveLengths:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    // 1 * lengths + 0
-                    activeLengths = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                             definition: definition,
-                                                                             dataStrategy: dataStrategy)
-
-                case .totalWork:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * j + 0
-                        totalWork = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitEnergy.joules)
-                    } else {
-                        totalWork = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.joules)
-                    }
-
-                case .averageAltitude:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        averageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .maximumAltitude:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        maximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        maximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .gpsAccuracy:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * m + 0
-                        gpsAccuracy = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitLength.meters)
-                    } else {
-                        gpsAccuracy = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .averageGrade:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
-                    } else {
-                        averageGrade = ValidatedMeasurement.invalidValue(definition.baseType,
-                                                                         dataStrategy: dataStrategy,
-                                                                         unit: UnitPercent.percent)
-                    }
-
-                case .averagePositiveGrade:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averagePositiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
-                    } else {
-                        averagePositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
-                    }
-
-                case .averageNegitiveGrade:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageNegitiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
-                    } else {
-                        averageNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
-                    }
-
-                case .maximumPositiveGrade:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        maximumPositiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
-                    } else {
-                        maximumPositiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
-                    }
-
-                case .maximumNegitiveGrade:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        maximumNegitiveGrade = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
-                    } else {
-                        maximumNegitiveGrade = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
-                    }
-
-                case .averageTemperature:
-                    let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * C + 0
-                        averageTemperature = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitTemperature.celsius)
-                    } else {
-                        averageTemperature = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitTemperature.celsius)
-                    }
-
-                case .maximumTemperature:
-                    let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * C + 0
-                        maximumTemperature = ValidatedMeasurement(value: Double(value), valid: true, unit: UnitTemperature.celsius)
-                    } else {
-                        maximumTemperature = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitTemperature.celsius)
-                    }
-
-                case .totalMovingTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1000 * s + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        totalMovingTime = Measurement(value: value, unit: UnitDuration.seconds)
-                    }
-                    
-                case .averagePositiveVerticalSpeed:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averagePositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        averagePositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .averageNegitiveVerticalSpeed:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        averageNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .maximumPositiveVerticalSpeed:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        maximumPositiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        maximumPositiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .maximumNegitiveVerticalSpeed:
-                    let value = decodeInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        maximumNegitiveVerticalSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        maximumNegitiveVerticalSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .minimumHeartRate:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * bpm + 0
-                        minimumHeartRate = value
-                    } else {
-                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                            minimumHeartRate = value.value
-                        } else {
-                            minimumHeartRate = nil
-                        }
-                    }
-
-                case .timeInHeartRateZone:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .timeInSpeedZone:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .timeInCadenceZone:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .timeInPowerZone:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .averageLapTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1000 * s + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageLapTime = Measurement(value: value, unit: UnitDuration.seconds)
-                    }
-
-                case .bestLapIndex:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    bestLapIndex = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                            definition: definition,
-                                                                            dataStrategy: dataStrategy)
-
-                case .minimumAltitude:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        minimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        minimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .playerScore:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    playerScore = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                           definition: definition,
-                                                                           dataStrategy: dataStrategy)
-
-                case .opponentScore:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    opponentScore = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                             definition: definition,
-                                                                             dataStrategy: dataStrategy)
-
-                case .opponentName:
-                    opponentName = String.decode(decoder: &localDecoder,
-                                                 definition: definition,
-                                                 data: fieldData,
-                                                 dataStrategy: dataStrategy)
-
-                case .strokeCount:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .zoneCount:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .maximumBallSpeed:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  100 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        maximumBallSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        maximumBallSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .averageBallSpeed:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  100 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageBallSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        averageBallSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .averageVerticalOscillation:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 10 * mm + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageVerticalOscillation = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.millimeters)
-                    } else {
-                        averageVerticalOscillation = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.millimeters)
-                    }
-
-                case .averageStanceTimePercent:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageStancePercent = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
-                    } else {
-                        averageStancePercent = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
-                    }
-
-                case .averageStanceTime:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 10 * ms + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageStanceTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.millisecond)
-                    } else {
-                        averageStanceTime = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitDuration.millisecond)
-                    }
-
-                case .averageFractionalCadence:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .maximumFractionalCadence:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .totalFractionalCycles:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .sportIndex:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    sportIndex = ValidatedBinaryInteger<UInt8>.validated(value: value,
-                                                                         definition: definition,
-                                                                         dataStrategy: dataStrategy)
-
-                case .enhancedAverageSpeed:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        enhancedAverageSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        enhancedAverageSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .enhancedMaximumSpeed:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  1000 * m/s + 0,
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        enhancedMaximumSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        enhancedMaximumSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                case .enhancedAverageAltitude:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        enhancedAverageAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        enhancedAverageAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .enhancedMinimumAltitude:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        enhancedMinimumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        enhancedMinimumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .enhancedMaximumAltitude:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        //  5 * m + 500
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        enhancedMaximumAltitude = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        enhancedMaximumAltitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-
-                case .totalAnaerobicTrainingEffect:
-                    let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
-                case .averageVam:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1000 * m/s + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        averageAscentSpeed = ValidatedMeasurement(value: value, valid: true, unit: UnitSpeed.metersPerSecond)
-                    } else {
-                        averageAscentSpeed = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitSpeed.metersPerSecond)
-                    }
-
-                }
-            }
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+            
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
-
-        /// Determine which Avg Speed to use
-        let recordAvgSpeed = preferredValue(valueOne: averageSpeed, valueTwo: enhancedAverageSpeed)
-
-        /// Determine which Avg Speed to use
-        let recordMaxSpeed = preferredValue(valueOne: maximumSpeed, valueTwo: enhancedMaximumSpeed)
-
-        /// Determine which Avg Altitude to use
-        let recordAvgAltitude = preferredValue(valueOne: averageAltitude, valueTwo: enhancedAverageAltitude)
-
-        /// Determine which Min Altitude to use
-        let recordMinAltitude = preferredValue(valueOne: minimumAltitude, valueTwo: enhancedMinimumAltitude)
-
-        /// Determine which Max Altitude to use
-        let recordMaxAltitude = preferredValue(valueOne: maximumAltitude, valueTwo: enhancedMaximumAltitude)
-
-
-        /// Start Position
-        let startPosition = Position(latitude: startPositionlatitude, longitude: startPositionlongitude)
-        /// NEC Position
-        let necPosition = Position(latitude: necLatitude, longitude: necLongitude)
-        /// SWC Position
-        let swcPosition = Position(latitude: swcLatitude, longitude: swcLongitude)
-        /// Score Information
-        let score = Score(playerScore: playerScore, opponentScore: opponentScore)
-        /// Avarage Stance Time
-        let averageStance = StanceTime(percent: averageStancePercent, time: averageStanceTime)
-
-        let msg = SessionMessage(timeStamp: timestamp,
-                                 messageIndex: messageIndex,
-                                 event: event,
-                                 eventType: eventType,
-                                 startTime: startTime,
-                                 startPosition: startPosition,
-                                 sport: sport,
-                                 subSport: subSport,
-                                 totalElapsedTime: totalElapsedTime,
-                                 totalTimerTime: totalTimerTime,
-                                 totalDistance: totalDistance,
-                                 totalCycles: totalCycles,
-                                 totalCalories: totalCalories,
-                                 totalFatCalories: totalFatCalories,
-                                 averageSpeed: recordAvgSpeed,
-                                 maximumSpeed: recordMaxSpeed,
-                                 averageHeartRate: averageHeartRate,
-                                 maximumHeartRate: maximumHeartRate,
-                                 averageCadence: averageCadence,
-                                 maximumCadence: maximumCadence,
-                                 averagePower: averagePower,
-                                 maximumPower: maximumPower,
-                                 totalAscent: totalAscent,
-                                 totalDescent: totalDescent,
-                                 totalTrainingEffect: totalTrainingEffect,
-                                 firstLapIndex: firstLapIndex,
-                                 numberOfLaps: numberOfLaps,
-                                 eventGroup: eventGroup,
-                                 trigger: trigger,
-                                 necPosition: necPosition,
-                                 swcPosition: swcPosition,
-                                 normalizedPower: normalizedPower,
-                                 averageStrokeDistance: averageStrokeDistance,
-                                 swimStroke: swimStroke,
-                                 poolLength: poolLength,
-                                 poolLengthUnit: poolLengthUnit,
-                                 thresholdPower: thresholdPower,
-                                 activeLengths: activeLengths,
-                                 totalWork: totalWork,
-                                 averageAltitude: recordAvgAltitude,
-                                 maximumAltitude: recordMaxAltitude,
-                                 gpsAccuracy: gpsAccuracy,
-                                 averageGrade: averageGrade,
-                                 averagePositiveGrade: averagePositiveGrade,
-                                 averageNegitiveGrade: averageNegitiveGrade,
-                                 maximumPositiveGrade: maximumPositiveGrade,
-                                 maximumNegitiveGrade: maximumNegitiveGrade,
-                                 averageTemperature: averageTemperature,
-                                 maximumTemperature: maximumTemperature,
-                                 totalMovingTime: totalMovingTime,
-                                 averagePositiveVerticalSpeed: averagePositiveVerticalSpeed,
-                                 averageNegitiveVerticalSpeed: averageNegitiveVerticalSpeed,
-                                 maximumPositiveVerticalSpeed: maximumPositiveVerticalSpeed,
-                                 maximumNegitiveVerticalSpeed: maximumNegitiveVerticalSpeed,
-                                 minimumHeartRate: minimumHeartRate,
-                                 averageLapTime: averageLapTime,
-                                 bestLapIndex: bestLapIndex,
-                                 minimumAltitude: recordMinAltitude,
-                                 score: score,
-                                 opponentName: opponentName,
-                                 maximumBallSpeed: maximumBallSpeed,
-                                 averageBallSpeed: averageBallSpeed,
-                                 averageVerticalOscillation: averageVerticalOscillation,
-                                 averageStanceTime: averageStance,
-                                 sportIndex: sportIndex,
-                                 averageAscentSpeed: averageAscentSpeed)
-
+        
+        let msg = SessionMessage(fieldDict: fieldDict,
+                                 fieldDataDict: fieldDataDict,
+                                 architecture: definition.architecture)
+        
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -1352,7 +1143,7 @@ open class SessionMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
+        
         do {
             try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
         } catch let error as FitEncodingError {
@@ -1361,222 +1152,24 @@ open class SessionMessage: FitMessage {
             return.failure(FitEncodingError.fileType(error.localizedDescription))
         }
         
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-
-            case .event:
-                if let _ = event { fileDefs.append(key.fieldDefinition()) }
-            case .eventType:
-                if let _ = eventType { fileDefs.append(key.fieldDefinition()) }
-            case .startTime:
-                if let _ = startTime { fileDefs.append(key.fieldDefinition()) }
-            case .startPositionLatitude:
-                if let _ = startPosition.latitude { fileDefs.append(key.fieldDefinition()) }
-            case .startPositionLongitude:
-                if let _ = startPosition.longitude { fileDefs.append(key.fieldDefinition()) }
-            case .sport:
-                if let _ = sport { fileDefs.append(key.fieldDefinition()) }
-            case .subSport:
-                if let _ = subSport { fileDefs.append(key.fieldDefinition()) }
-            case .totalElapsedTime:
-                if let _ = totalElapsedTime { fileDefs.append(key.fieldDefinition()) }
-            case .totalTimerTime:
-                if let _ = totalTimerTime { fileDefs.append(key.fieldDefinition()) }
-            case .totalDistance:
-                if let _ = totalDistance { fileDefs.append(key.fieldDefinition()) }
-            case .totalCycles:
-                if let _ = totalCycles { fileDefs.append(key.fieldDefinition()) }
-            case .totalCalories:
-                if let _ = totalCalories { fileDefs.append(key.fieldDefinition()) }
-            case .totalFatCalories:
-                if let _ = totalFatCalories { fileDefs.append(key.fieldDefinition()) }
-            case .averageSpeed:
-                /// use enhancedAverageSpeed
-                break
-            case .maximumSpeed:
-                /// use enhancedMaximumSpeed
-                break
-            case .averageHeartRate:
-                if let _ = averageHeartRate { fileDefs.append(key.fieldDefinition()) }
-            case .maximumHeartRate:
-                if let _ = maximumHeartRate { fileDefs.append(key.fieldDefinition()) }
-            case .averageCadence:
-                if let _ = averageCadence { fileDefs.append(key.fieldDefinition()) }
-            case .maximumCadence:
-                if let _ = maximumCadence { fileDefs.append(key.fieldDefinition()) }
-            case .averagePower:
-                if let _ = averagePower { fileDefs.append(key.fieldDefinition()) }
-            case .maximumPower:
-                if let _ = maximumPower { fileDefs.append(key.fieldDefinition()) }
-            case .totalAscent:
-                if let _ = totalAscent { fileDefs.append(key.fieldDefinition()) }
-            case .totalDescent:
-                if let _ = totalDescent { fileDefs.append(key.fieldDefinition()) }
-            case .totalTrainingEffect:
-                if let _ = totalTrainingEffect { fileDefs.append(key.fieldDefinition()) }
-            case .firstLapIndex:
-                if let _ = firstLapIndex { fileDefs.append(key.fieldDefinition()) }
-            case .numberOfLaps:
-                if let _ = numberOfLaps { fileDefs.append(key.fieldDefinition()) }
-            case .eventGroup:
-                if let _ = eventGroup { fileDefs.append(key.fieldDefinition()) }
-            case .trigger:
-                if let _ = trigger { fileDefs.append(key.fieldDefinition()) }
-            case .necLatitude:
-                if let _ = necPosition.encodeLatitude() { fileDefs.append(key.fieldDefinition()) }
-            case .necLongitude:
-                if let _ = necPosition.longitude { fileDefs.append(key.fieldDefinition()) }
-            case .swcLatitude:
-                if let _ = swcPosition.latitude { fileDefs.append(key.fieldDefinition()) }
-            case .swcLongitude:
-                if let _ = swcPosition.longitude { fileDefs.append(key.fieldDefinition()) }
-            case .normalizedPower:
-                if let _ = normalizedPower { fileDefs.append(key.fieldDefinition()) }
-            case .trainingStressScore:
-                break
-            case .intensityFactor:
-                break
-            case .leftRightBalance:
-                break
-            case .averageStrokeCount:
-                break
-            case .averageStrokeDistance:
-                if let _ = averageStrokeDistance { fileDefs.append(key.fieldDefinition()) }
-            case .swimStroke:
-                if let _ = swimStroke { fileDefs.append(key.fieldDefinition()) }
-            case .poolLength:
-                if let _ = poolLength { fileDefs.append(key.fieldDefinition()) }
-            case .thresholdPower:
-                if let _ = thresholdPower { fileDefs.append(key.fieldDefinition()) }
-            case .poolLengthUnit:
-                if let _ = poolLengthUnit { fileDefs.append(key.fieldDefinition()) }
-            case .numberActiveLengths:
-                if let _ = activeLengths { fileDefs.append(key.fieldDefinition()) }
-            case .totalWork:
-                if let _ = totalWork { fileDefs.append(key.fieldDefinition()) }
-            case .averageAltitude:
-                /// use enhancedAverageAltitude
-                break
-            case .maximumAltitude:
-                /// use enhancedMaximumAltitude
-                break
-            case .gpsAccuracy:
-                if let _ = gpsAccuracy { fileDefs.append(key.fieldDefinition()) }
-            case .averageGrade:
-                if let _ = averageGrade { fileDefs.append(key.fieldDefinition()) }
-            case .averagePositiveGrade:
-                if let _ = averagePositiveGrade { fileDefs.append(key.fieldDefinition()) }
-            case .averageNegitiveGrade:
-                if let _ = averageNegitiveGrade { fileDefs.append(key.fieldDefinition()) }
-            case .maximumPositiveGrade:
-                if let _ = maximumPositiveGrade { fileDefs.append(key.fieldDefinition()) }
-            case .maximumNegitiveGrade:
-                if let _ = maximumNegitiveGrade { fileDefs.append(key.fieldDefinition()) }
-            case .averageTemperature:
-                if let _ = averageTemperature { fileDefs.append(key.fieldDefinition()) }
-            case .maximumTemperature:
-                if let _ = maximumTemperature { fileDefs.append(key.fieldDefinition()) }
-            case .totalMovingTime:
-                if let _ = totalMovingTime { fileDefs.append(key.fieldDefinition()) }
-            case .averagePositiveVerticalSpeed:
-                if let _ = averagePositiveVerticalSpeed { fileDefs.append(key.fieldDefinition()) }
-            case .averageNegitiveVerticalSpeed:
-                if let _ = averageNegitiveVerticalSpeed { fileDefs.append(key.fieldDefinition()) }
-            case .maximumPositiveVerticalSpeed:
-                if let _ = maximumPositiveVerticalSpeed { fileDefs.append(key.fieldDefinition()) }
-            case .maximumNegitiveVerticalSpeed:
-                if let _ = maximumNegitiveVerticalSpeed { fileDefs.append(key.fieldDefinition()) }
-            case .minimumHeartRate:
-                if let _ = minimumHeartRate { fileDefs.append(key.fieldDefinition()) }
-            case .timeInHeartRateZone:
-                break
-            case .timeInSpeedZone:
-                break
-            case .timeInCadenceZone:
-                break
-            case .timeInPowerZone:
-                break
-            case .averageLapTime:
-                if let _ = averageLapTime { fileDefs.append(key.fieldDefinition()) }
-            case .bestLapIndex:
-                if let _ = bestLapIndex { fileDefs.append(key.fieldDefinition()) }
-            case .minimumAltitude:
-                /// use enhancedMinimumAltitude
-                break
-            case .playerScore:
-                if let _ = score.playerScore { fileDefs.append(key.fieldDefinition()) }
-            case .opponentScore:
-                if let _ = score.opponentScore { fileDefs.append(key.fieldDefinition()) }
-            case .opponentName:
-                if let stringData = opponentName?.data(using: .utf8) {
-                    //16 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("opponentName size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            case .strokeCount:
-                break
-            case .zoneCount:
-                break
-            case .maximumBallSpeed:
-                if let _ = maximumBallSpeed { fileDefs.append(key.fieldDefinition()) }
-            case .averageBallSpeed:
-                if let _ = averageBallSpeed { fileDefs.append(key.fieldDefinition()) }
-            case .averageVerticalOscillation:
-                if let _ = averageVerticalOscillation { fileDefs.append(key.fieldDefinition()) }
-            case .averageStanceTimePercent:
-                if let _ = averageStanceTime.percent { fileDefs.append(key.fieldDefinition()) }
-            case .averageStanceTime:
-                if let _ = averageStanceTime.time { fileDefs.append(key.fieldDefinition()) }
-            case .averageFractionalCadence:
-                break
-            case .maximumFractionalCadence:
-                break
-            case .totalFractionalCycles:
-                break
-            case .sportIndex:
-                if let _ = sportIndex { fileDefs.append(key.fieldDefinition()) }
-            case .enhancedAverageSpeed:
-                if let _ = averageSpeed { fileDefs.append(key.fieldDefinition()) }
-            case .enhancedMaximumSpeed:
-                if let _ = maximumSpeed { fileDefs.append(key.fieldDefinition()) }
-            case .enhancedAverageAltitude:
-                if let _ = averageAltitude { fileDefs.append(key.fieldDefinition()) }
-            case .enhancedMinimumAltitude:
-                if let _ = minimumAltitude { fileDefs.append(key.fieldDefinition()) }
-            case .enhancedMaximumAltitude:
-                if let _ = maximumAltitude { fileDefs.append(key.fieldDefinition()) }
-            case .totalAnaerobicTrainingEffect:
-                break
-            case .averageVam:
-                if let _ = averageAscentSpeed { fileDefs.append(key.fieldDefinition()) }
-            }
+        guard opponentName?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("opponentName size can not exceed 255"))
         }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: SessionMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+        
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: SessionMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
+        
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -1584,591 +1177,17 @@ open class SessionMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
-            case .event:
-                if let event = event {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: event)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .eventType:
-                if let eventType = eventType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: eventType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .startTime:
-                if let startTime = startTime {
-                    msgData.append(startTime.encode())
-                }
-
-            case .startPositionLatitude:
-                if let value = startPosition.encodeLatitude() {
-                    msgData.append(value)
-                }
-
-            case .startPositionLongitude:
-                if let value = startPosition.encodeLongitude() {
-                    msgData.append(value)
-                }
-
-            case .sport:
-                if let sport = sport {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sport)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .subSport:
-                if let subSport = subSport {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: subSport)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalElapsedTime:
-                if var totalElapsedTime = totalElapsedTime {
-                    totalElapsedTime = totalElapsedTime.converted(to: UnitDuration.seconds)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalElapsedTime.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalTimerTime:
-                if var totalTimerTime = totalTimerTime {
-                    totalTimerTime = totalTimerTime.converted(to: UnitDuration.seconds)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalTimerTime.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalDistance:
-                if var totalDistance = totalDistance {
-                    totalDistance = totalDistance.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalDistance.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalCycles:
-                if let totalCycles = totalCycles {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalCycles)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalCalories:
-                if var totalCalories = totalCalories {
-                    totalCalories = totalCalories.converted(to: UnitEnergy.kilocalories)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalCalories.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalFatCalories:
-                if var totalFatCalories = totalFatCalories {
-                    totalFatCalories = totalFatCalories.converted(to: UnitEnergy.kilocalories)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalFatCalories.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageSpeed:
-                /// use EnhancedAverageSpeed
-                break
-            case .maximumSpeed:
-                /// use enhancedMaximumSpeed
-                break
-            case .averageHeartRate:
-                if let averageHeartRate = averageHeartRate {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageHeartRate.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maximumHeartRate:
-                if let maximumHeartRate = maximumHeartRate {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumHeartRate.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageCadence:
-                if let averageCadence = averageCadence {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageCadence.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maximumCadence:
-                if let maximumCadence = maximumCadence {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumCadence.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averagePower:
-                if var power = averagePower {
-                    power = power.converted(to: UnitPower.watts)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: power.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maximumPower:
-                if var power = maximumPower {
-                    power = power.converted(to: UnitPower.watts)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: power.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalAscent:
-                if var totalAscent = totalAscent {
-                    totalAscent = totalAscent.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalAscent.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalDescent:
-                if var totalDescent = totalDescent {
-                    totalDescent = totalDescent.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalDescent.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalTrainingEffect:
-                if let totalTrainingEffect = totalTrainingEffect {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalTrainingEffect)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .firstLapIndex:
-                if let firstLapIndex = firstLapIndex {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: firstLapIndex)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .numberOfLaps:
-                if let numberOfLaps = numberOfLaps {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: numberOfLaps)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .eventGroup:
-                if let eventGroup = eventGroup {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: eventGroup)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .trigger:
-                if let trigger = trigger {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: trigger)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .necLatitude:
-                if let value = necPosition.encodeLatitude() {
-                    msgData.append(value)
-                }
-
-            case .necLongitude:
-                if let value = necPosition.encodeLongitude() {
-                    msgData.append(value)
-                }
-
-            case .swcLatitude:
-                if let value = swcPosition.encodeLatitude() {
-                    msgData.append(value)
-                }
-
-            case .swcLongitude:
-                if let value = swcPosition.encodeLongitude() {
-                    msgData.append(value)
-                }
-
-            case .normalizedPower:
-                if var normalizedPower = normalizedPower {
-                    normalizedPower = normalizedPower.converted(to: UnitPower.watts)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: normalizedPower.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .trainingStressScore:
-                break
-            case .intensityFactor:
-                break
-            case .leftRightBalance:
-                break
-            case .averageStrokeCount:
-                break
-
-            case .averageStrokeDistance:
-                if var averageStrokeDistance = averageStrokeDistance {
-                    averageStrokeDistance = averageStrokeDistance.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageStrokeDistance.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .swimStroke:
-                if let swimStroke = swimStroke {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: swimStroke)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .poolLength:
-                if var poolLength = poolLength {
-                    // 100 * m + 0
-                    poolLength = poolLength.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: poolLength.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .thresholdPower:
-                if var thresholdPower = thresholdPower {
-                    thresholdPower = thresholdPower.converted(to: UnitPower.watts)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: thresholdPower.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .poolLengthUnit:
-                if let poolLengthUnit = poolLengthUnit {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: poolLengthUnit)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .numberActiveLengths:
-                if let numberActiveLengths = activeLengths {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: numberActiveLengths)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalWork:
-                if var totalWork = totalWork {
-                    totalWork = totalWork.converted(to: UnitEnergy.joules)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalWork.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageAltitude:
-                /// use enhancedAverageAltitude
-                break
-            case .maximumAltitude:
-                /// use enhancedMaximumAltitude
-                break
-            case .gpsAccuracy:
-                if var gpsAccuracy = gpsAccuracy {
-                    gpsAccuracy = gpsAccuracy.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: gpsAccuracy.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageGrade:
-                if let averageGrade = averageGrade {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageGrade.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averagePositiveGrade:
-                if let averagePositiveGrade = averagePositiveGrade {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averagePositiveGrade.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageNegitiveGrade:
-                if let averageNegitiveGrade = averageNegitiveGrade {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageNegitiveGrade.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maximumPositiveGrade:
-                if let maximumPositiveGrade = maximumPositiveGrade {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumPositiveGrade.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maximumNegitiveGrade:
-                if let maximumNegitiveGrade = maximumNegitiveGrade {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumNegitiveGrade.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageTemperature:
-                if var averageTemperature = averageTemperature {
-                    averageTemperature = averageTemperature.converted(to: UnitTemperature.celsius)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageTemperature.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maximumTemperature:
-                if var maximumTemperature = maximumTemperature {
-                    maximumTemperature = maximumTemperature.converted(to: UnitTemperature.celsius)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumTemperature.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalMovingTime:
-                if var totalMovingTime = totalMovingTime {
-                    totalMovingTime = totalMovingTime.converted(to: UnitDuration.seconds)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: totalMovingTime.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averagePositiveVerticalSpeed:
-                if var vspeed = averagePositiveVerticalSpeed {
-                    vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: vspeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageNegitiveVerticalSpeed:
-                if var vspeed = averageNegitiveVerticalSpeed {
-                    vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: vspeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maximumPositiveVerticalSpeed:
-                if var vspeed = maximumPositiveVerticalSpeed {
-                    vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: vspeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maximumNegitiveVerticalSpeed:
-                if var vspeed = maximumNegitiveVerticalSpeed {
-                    vspeed = vspeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: vspeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .minimumHeartRate:
-                if let heartRate = minimumHeartRate {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heartRate.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .timeInHeartRateZone:
-                break
-            case .timeInSpeedZone:
-                break
-            case .timeInCadenceZone:
-                break
-            case .timeInPowerZone:
-                break
-
-            case .averageLapTime:
-                if var averageLapTime = averageLapTime {
-                    averageLapTime = averageLapTime.converted(to: UnitDuration.seconds)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageLapTime.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .bestLapIndex:
-                if let bestLapIndex = bestLapIndex {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: bestLapIndex)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .minimumAltitude:
-                /// use enhancedMinimumAltitude
-                break
-            case .playerScore:
-                if let playerScore = score.playerScore {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: playerScore)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .opponentScore:
-                if let opponentScore = score.opponentScore {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: opponentScore)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .opponentName:
-                if let opponentName = opponentName {
-                    if let stringData = opponentName.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            case .strokeCount:
-                break
-            case .zoneCount:
-                break
-
-            case .maximumBallSpeed:
-                if var maximumBallSpeed = maximumBallSpeed {
-                    maximumBallSpeed = maximumBallSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maximumBallSpeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageBallSpeed:
-                if var averageBallSpeed = averageBallSpeed {
-                    averageBallSpeed = averageBallSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageBallSpeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageVerticalOscillation:
-                if var averageVerticalOscillation = averageVerticalOscillation {
-                    averageVerticalOscillation = averageVerticalOscillation.converted(to: UnitLength.millimeters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageVerticalOscillation.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageStanceTimePercent:
-                if let averageStanceTimePercent = averageStanceTime.percent {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageStanceTimePercent.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageStanceTime:
-                if var averageStanceTime = averageStanceTime.time {
-                    // 10 * ms + 0
-                    averageStanceTime = averageStanceTime.converted(to: UnitDuration.millisecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageStanceTime.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .averageFractionalCadence:
-                break
-            case .maximumFractionalCadence:
-                break
-            case .totalFractionalCycles:
-                break
-
-            case .sportIndex:
-                if let sportIndex = sportIndex {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sportIndex)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .enhancedAverageSpeed:
-                if var enhancedAverageSpeed = averageSpeed {
-                    enhancedAverageSpeed = enhancedAverageSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: enhancedAverageSpeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .enhancedMaximumSpeed:
-                if var enhancedMaximumSpeed = maximumSpeed {
-                    enhancedMaximumSpeed = enhancedMaximumSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: enhancedMaximumSpeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .enhancedAverageAltitude:
-                if var altitude = averageAltitude {
-                    altitude = altitude.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: altitude.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .enhancedMinimumAltitude:
-                if var altitude = minimumAltitude {
-                    altitude = altitude.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: altitude.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .enhancedMaximumAltitude:
-                if var altitude = maximumAltitude {
-                    altitude = altitude.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: altitude.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .totalAnaerobicTrainingEffect:
-                break
-            case .averageVam:
-                if var averageAscentSpeed = averageAscentSpeed {
-                    averageAscentSpeed = averageAscentSpeed.converted(to: UnitSpeed.metersPerSecond)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: averageAscentSpeed.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }
 
 extension SessionMessage: MessageValidator {
-
+    
     /// Validate Message
     ///
     /// - Parameters:
@@ -2176,7 +1195,7 @@ extension SessionMessage: MessageValidator {
     ///   - dataValidityStrategy: Data Validity Strategy
     /// - Throws: FitError
     internal func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
-
+        
         switch dataValidityStrategy {
         case .none:
         break // do nothing
@@ -2190,34 +1209,42 @@ extension SessionMessage: MessageValidator {
             }
         }
     }
-
+    
     private func validateActivity(isGarmin: Bool) throws {
-
+        
         let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
-
+        
         guard self.timeStamp != nil else {
             throw FitEncodingError.fileType("\(msg) require SessionMessage to contain timeStamp, can not be nil")
         }
-
+        
         guard self.startTime != nil else {
             throw FitEncodingError.fileType("\(msg) require SessionMessage to contain startTime, can not be nil")
         }
-
+        
         guard self.totalElapsedTime != nil else {
             throw FitEncodingError.fileType("\(msg) require SessionMessage to contain totalElapsedTime, can not be nil")
         }
-
+        
         guard self.sport != nil else {
             throw FitEncodingError.fileType("\(msg) require SessionMessage to contain sport, can not be nil")
         }
-
-        guard self.event != nil else {
+        
+        guard let event = self.event else {
             throw FitEncodingError.fileType("\(msg) require SessionMessage to contain event, can not be nil")
         }
-
-        guard self.eventType != nil else {
+        
+        guard event == .session else {
+            throw FitEncodingError.propertyValue("\(msg) SessionMessage event must be .session")
+        }
+        
+        guard let eventType = self.eventType else {
             throw FitEncodingError.fileType("\(msg) require SessionMessage to contain eventType, can not be nil")
         }
-
+        
+        guard eventType == .stop else {
+            throw FitEncodingError.propertyValue("\(msg) SessionMessage eventType must be .stop")
+        }
+        
     }
 }

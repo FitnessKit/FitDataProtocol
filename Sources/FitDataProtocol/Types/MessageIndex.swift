@@ -48,6 +48,8 @@ public struct MessageIndex {
     }
 }
 
+extension MessageIndex: Equatable {}
+
 internal extension MessageIndex {
 
     func encode() -> Data {
@@ -77,6 +79,29 @@ internal extension MessageIndex {
             return MessageIndex(value: value)
         }
 
+        return nil
+    }
+}
+
+// MARK: - FitFieldCodeable
+extension MessageIndex: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        var encode = Data()
+
+        let selected: UInt16 = isSelected == true ? kSelected : 0
+        let value = index | selected
+
+        encode.append(Data(from: value.littleEndian))
+
+        return encode
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt16.self, data: data, resolution: base.resolution, arch: arch) {
+            return MessageIndex(value: value) as? T
+        }
+        
         return nil
     }
 }

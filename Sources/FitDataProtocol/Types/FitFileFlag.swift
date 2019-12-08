@@ -36,3 +36,19 @@ public struct FitFileFlag: OptionSet {
     /// Erase
     public static let erase: FitFileFlag    = FitFileFlag(rawValue: 0x08)
 }
+
+// MARK: - FitFieldCodeable
+extension FitFileFlag: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return FitFileFlag(rawValue: value) as? T
+        }
+        
+        return nil
+    }
+}

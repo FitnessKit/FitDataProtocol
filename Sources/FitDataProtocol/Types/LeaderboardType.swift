@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// FIT Leaderboard Type
 public enum LeaderboardType: UInt8 {
@@ -54,21 +53,18 @@ public enum LeaderboardType: UInt8 {
     case invalid            = 255
 }
 
-internal extension LeaderboardType {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> LeaderboardType? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return LeaderboardType(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return LeaderboardType.invalid
-            }
+// MARK: - FitFieldCodeable
+extension LeaderboardType: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return LeaderboardType(rawValue: value) as? T
         }
+        
+        return nil
     }
 }

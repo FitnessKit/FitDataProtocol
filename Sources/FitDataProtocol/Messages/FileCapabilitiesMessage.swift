@@ -30,37 +30,60 @@ import FitnessUnits
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class FileCapabilitiesMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 37 }
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
+    
     /// File Type
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var fileType: FileType?
-
+    
     /// Hardware Version
+    @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
     private(set) public var fileFlags: FitFileFlag?
-
+    
     /// Directory
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
     private(set) public var directory: String?
-
+    
     /// Max Count
-    private(set) public var maxCount: ValidatedBinaryInteger<UInt16>?
-
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 3)
+    private(set) public var maxCount: UInt16?
+    
     /// Max Size
-    private(set) public var maxSize: ValidatedBinaryInteger<UInt32>?
-
-    public required init() {}
-
-    public init(messageIndex: MessageIndex? = nil,
-                fileType: FileType? = nil,
-                fileFlags: FitFileFlag? = nil,
-                directory: String? = nil,
-                maxCount: ValidatedBinaryInteger<UInt16>? = nil,
-                maxSize: ValidatedBinaryInteger<UInt32>? = nil) {
-
+    @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 4)
+    private(set) public var maxSize: UInt32?
+    
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    public required init() {
+        super.init()
+        
+        self.$messageIndex.owner = self
+        
+        self.$fileType.owner = self
+        self.$fileFlags.owner = self
+        self.$directory.owner = self
+        self.$maxCount.owner = self
+        self.$maxSize.owner = self
+    }
+    
+    public convenience init(messageIndex: MessageIndex? = nil,
+                            fileType: FileType? = nil,
+                            fileFlags: FitFileFlag? = nil,
+                            directory: String? = nil,
+                            maxCount: UInt16? = nil,
+                            maxSize: UInt32? = nil) {
+        self.init()
+        
         self.messageIndex = messageIndex
         self.fileType = fileType
         self.fileFlags = fileFlags
@@ -68,7 +91,7 @@ open class FileCapabilitiesMessage: FitMessage {
         self.maxCount = maxCount
         self.maxSize = maxSize
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -77,88 +100,26 @@ open class FileCapabilitiesMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: FileCapabilitiesMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var messageIndex: MessageIndex?
-        var fileType: FileType?
-        var fileFlags: FitFileFlag?
-        var directory: String?
-        var maxCount: ValidatedBinaryInteger<UInt16>?
-        var maxSize: ValidatedBinaryInteger<UInt32>?
+        var testDecoder = DecodeData()
         
-        let arch = definition.architecture
-        
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("FileCapabilitiesMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                    
-                case .fileType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        fileType = FileType(rawValue: value)
-                    } else {
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            fileType = FileType.invalid
-                        }
-                    }
-                    
-                case .fileFlags:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        fileFlags = FitFileFlag(rawValue: value)
-                    }
-                    
-                    
-                case .directory:
-                    directory = String.decode(decoder: &localDecoder,
-                                              definition: definition,
-                                              data: fieldData,
-                                              dataStrategy: dataStrategy)
-                    
-                case .maxCount:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    maxCount = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                        definition: definition,
-                                                                        dataStrategy: dataStrategy)
-                    
-                case .maxSize:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    maxSize = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                       definition: definition,
-                                                                       dataStrategy: dataStrategy)
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = FileCapabilitiesMessage(messageIndex: messageIndex,
-                                          fileType: fileType,
-                                          fileFlags: fileFlags,
-                                          directory: directory,
-                                          maxCount: maxCount,
-                                          maxSize: maxSize)
+        let msg = FileCapabilitiesMessage(fieldDict: fieldDict,
+                                          fieldDataDict: fieldDataDict,
+                                          architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
     
     /// Encodes the Definition Message for FitMessage
@@ -168,58 +129,24 @@ open class FileCapabilitiesMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
-            case .fileType:
-                if let _ = fileType { fileDefs.append(key.fieldDefinition()) }
-            case .fileFlags:
-                if let _ = fileFlags { fileDefs.append(key.fieldDefinition()) }
-            case .directory:
-                if let stringData = directory?.data(using: .utf8) {
-                    //16 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("directory size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            case .maxCount:
-                if let _ = maxCount { fileDefs.append(key.fieldDefinition()) }
-            case .maxSize:
-                if let _ = maxSize { fileDefs.append(key.fieldDefinition()) }
-            }
+        
+        guard directory?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("directory size can not exceed 255"))
         }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
 
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: FileCapabilitiesMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: FileCapabilitiesMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -227,63 +154,11 @@ open class FileCapabilitiesMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .fileType:
-                if let fileType = fileType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: fileType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .fileFlags:
-                if let fileFlags = fileFlags {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: fileFlags)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .directory:
-                if let directory = directory {
-                    if let stringData = directory.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            case .maxCount:
-                if let maxCount = maxCount {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maxCount)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .maxSize:
-                if let maxSize = maxSize {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: maxSize)) {
-                        return.failure(error)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -14,7 +14,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/FitnessKit/FitnessUnits", from: "3.0.0"),
+        .package(url: "../FitnessUnits", .branch("master")),
+//        .package(url: "https://github.com/FitnessKit/FitnessUnits", from: "3.0.0"),
         .package(url: "https://github.com/FitnessKit/DataDecoder", from: "5.0.0"),
         .package(url: "https://github.com/FitnessKit/AntMessageProtocol", from: "1.0.0"),
     ],

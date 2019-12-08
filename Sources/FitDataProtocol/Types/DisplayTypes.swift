@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 import Foundation
-import DataDecoder
 
 /// Display Type for Measurement
 public enum MeasurementDisplayType: UInt8 {
@@ -38,23 +37,18 @@ public enum MeasurementDisplayType: UInt8 {
     case invalid        = 255
 }
 
-internal extension MeasurementDisplayType {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> MeasurementDisplayType? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return MeasurementDisplayType(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return MeasurementDisplayType.invalid
-            }
+extension MeasurementDisplayType: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return MeasurementDisplayType(rawValue: value) as? T
         }
-
+        
+        return nil
     }
 }
 
@@ -71,22 +65,18 @@ public enum HeartRateDisplayType: UInt8 {
     case invalid            = 255
 }
 
-internal extension HeartRateDisplayType {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> HeartRateDisplayType? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return HeartRateDisplayType(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return HeartRateDisplayType.invalid
-            }
+extension HeartRateDisplayType: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return HeartRateDisplayType(rawValue: value) as? T
         }
+        
+        return nil
     }
 }
 
@@ -101,131 +91,17 @@ public enum PowerDisplayType: UInt8 {
     case invalid            = 255
 }
 
-internal extension PowerDisplayType {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> PowerDisplayType? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return PowerDisplayType(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return PowerDisplayType.invalid
-            }
-        }
+extension PowerDisplayType: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
     }
-}
-
-/// Display Type for Position
-public enum PositionDisplayType: UInt8 {
-    /// Degree (dd.dddddd)
-    case degree                         = 0
-    /// Degree Minute (dddmm.mmm)
-    case degreeMinute                   = 1
-    /// Degree Minute Second (dddmmss)
-    case degreeMinuteSecond             = 2
-    /// Austrian Grid (BMN)
-    case austrianGrid                   = 3
-    /// British National Grid
-    case britishNationalGrid            = 4
-    /// Dutch grid system
-    case dutchGridSystem                = 5
-    /// Hungarian grid system
-    case hungarianGridSystem            = 6
-    /// Finnish grid system Zone3 KKJ27
-    case finnishGridSystem              = 7
-    /// Gausss Krueger (German)
-    case germanGrid                     = 8
-    /// Icelandic Grid
-    case icelandicGrid                  = 9
-    /// Indonesian Equatorial LCO
-    case indonesianEquatorial           = 10
-    /// Indonesian Irian LCO
-    case indonesianIrian                = 11
-    /// Indonesian Southern LCO
-    case indonesianSouthern             = 12
-    /// India zone 0
-    case indiaZone0                     = 13
-    /// India zone IA
-    case indiaZoneIA                    = 14
-    /// India zone IB
-    case indiaZoneIB                    = 15
-    /// India zone IIA
-    case indiaZoneIIA                   = 16
-    /// India zone IIB
-    case indiaZoneIIB                   = 17
-    /// India zone IIIA
-    case indiaZoneIIIA                  = 18
-    /// India zone IIIB
-    case indiaZoneIIIB                  = 19
-    /// India zone IVA
-    case indiaZoneIVA                   = 20
-    /// India zone IVB
-    case indiaZoneIVB                   = 21
-    /// Irish Transverse Mercator
-    case irishTransverseMercator        = 22
-    /// Irish Grid
-    case irishGrid                      = 23
-    /// Loran TD
-    case loranTD                        = 24
-    /// Maidenhead grid system
-    case maidenheadGridSystem           = 25
-    /// MGRS grid system
-    case mgrsGridSystem                 = 26
-    /// New Zealand grid system
-    case newZealandGridSystem           = 27
-    /// New Zealand Transverse Mercator
-    case newZealandTransverseMercator   = 28
-    /// Qatar National Grid
-    case qatarNationalGrid              = 29
-    /// Modified RT-90 (Sweden)
-    case modifiedSwedishGrid            = 30
-    /// RT-90 (Sweden)
-    case swedishGrid                    = 31
-    /// South African Grid
-    case southAfricanGrid               = 32
-    /// Swiss CH-1903 grid
-    case swissGrid                      = 33
-    /// Taiwan Grid
-    case taiwanGrid                     = 34
-    /// United States National Grid
-    case unitedStatesNationalGrid       = 35
-    /// UTM/UPS grid system
-    case utmUpsGrid                     = 36
-    /// West Malayan RSO
-    case westMalayan                    = 37
-    /// Borneo RSO
-    case borneo                         = 38
-    /// Estonian grid system
-    case estonianGrid                   = 39
-    /// Latvian Transverse Mercator
-    case latvianTransverseMercator      = 40
-    /// Reference Grid 99 TM (Swedish)
-    case swedishReferenceGrid99         = 41
-
-    /// Invalid
-    case invalid                        = 255
-}
-
-internal extension PositionDisplayType {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> PositionDisplayType? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return PositionDisplayType(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return PositionDisplayType.invalid
-            }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return PowerDisplayType(rawValue: value) as? T
         }
+        
+        return nil
     }
 }

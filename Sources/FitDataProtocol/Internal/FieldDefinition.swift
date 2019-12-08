@@ -35,6 +35,26 @@ internal struct FieldDefinition {
 
     private(set) var baseType: BaseType
 
+    internal init(fieldDefinitionNumber: UInt8, size: UInt8, endianAbility: Bool, baseType: BaseType) {
+        self.fieldDefinitionNumber = fieldDefinitionNumber
+        self.size = size
+        self.endianAbility = endianAbility
+        self.baseType = baseType
+    }
+
+    internal init(fieldDefinitionNumber: UInt8, size: UInt8, type: BaseTypeData) {
+        self.fieldDefinitionNumber = fieldDefinitionNumber
+        self.size = size
+        self.endianAbility = type.type.hasEndian
+        self.baseType = type.type
+    }
+
+    internal init(fieldDefinitionNumber: UInt8, type: BaseTypeData) {
+        self.fieldDefinitionNumber = fieldDefinitionNumber
+        self.size = type.type.dataSize
+        self.endianAbility = type.type.hasEndian
+        self.baseType = type.type
+    }
 }
 
 internal extension FieldDefinition {

@@ -29,6 +29,9 @@ typealias ExerciseName = ExerciseNameType & ExerciseNameSupportable
 /// Exercise Name Protocol
 public protocol ExerciseNameType {
 
+    /// Exercise Catagory Type
+    var catagory: ExerciseCategory { get }
+
     /// Name of Exercise
     var name: String { get }
 

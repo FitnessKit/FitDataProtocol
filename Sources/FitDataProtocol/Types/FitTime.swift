@@ -90,21 +90,9 @@ internal extension FitTime {
 
         return msgData
     }
-
-    /// Decodes the FitTime
-    ///
-    /// - Parameters:
-    ///   - decoder: Decoder
-    ///   - endian: Endian
-    ///   - definition: Field Definition Message
-    ///   - data: Field Data Message
-    ///   - isLocal: If Time is Local
-    /// - Returns: Message Index
-    static func decode(decoder: inout DecodeData, endian: Endian, definition: FieldDefinition, data: FieldData, isLocal: Bool = false) -> FitTime? {
-
-        let value = endian == .little ? decoder.decodeUInt32(data.fieldData).littleEndian : decoder.decodeUInt32(data.fieldData).bigEndian
-
-        if value.isValidForBaseType(definition.baseType) {
+    
+    static func decode(data: Data, base: BaseTypeData, arch: Endian, isLocal: Bool = false) -> FitTime? {
+        if let value = base.type.decode(type: UInt32.self, data: data, resolution: base.resolution, arch: arch) {
             return FitTime(time: value, isLocal: isLocal)
         }
 

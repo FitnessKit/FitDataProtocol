@@ -30,64 +30,59 @@ import AntMessageProtocol
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class CourseMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 31 }
-
-    /// Course Capabilities Options
-    public struct Capabilities: OptionSet {
-        public let rawValue: UInt32
-        public init(rawValue: UInt32) { self.rawValue = rawValue }
-
-        /// Processed
-        public static let processed: Capabilities   = Capabilities(rawValue: 0x00000001)
-        /// Valid
-        public static let valid: Capabilities       = Capabilities(rawValue: 0x00000002)
-        /// Time
-        public static let time: Capabilities        = Capabilities(rawValue: 0x00000004)
-        /// Distance
-        public static let distance: Capabilities    = Capabilities(rawValue: 0x00000008)
-        /// Position
-        public static let position: Capabilities    = Capabilities(rawValue: 0x00000010)
-        /// Heart Rate
-        public static let heartRate: Capabilities   = Capabilities(rawValue: 0x00000020)
-        /// Power
-        public static let power: Capabilities       = Capabilities(rawValue: 0x00000040)
-        /// Cadence
-        public static let cadence: Capabilities     = Capabilities(rawValue: 0x00000080)
-        /// Training
-        public static let training: Capabilities    = Capabilities(rawValue: 0x00000100)
-        /// Navigation
-        public static let navigation: Capabilities  = Capabilities(rawValue: 0x00000200)
-        /// Bikeway
-        public static let bikeway: Capabilities     = Capabilities(rawValue: 0x00000400)
-    }
-
-    /// Course Name
-    private(set) public var name: String?
-
-    /// Course Capabilities
-    private(set) public var capabilities: Capabilities?
-
+        
     /// Sport
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 4)
     private(set) public var sport: Sport?
-
+    
+    /// Course Name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 5)
+    private(set) public var name: String?
+    
+    /// Course Capabilities
+    @FitField(base: BaseTypeData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 6)
+    private(set) public var capabilities: Capabilities?
+    
     /// Sub Sport
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 7)
     private(set) public var subSport: SubSport?
-
-    public required init() {}
-
-    public init(name: String? = nil,
-                capabilities: Capabilities? = nil,
-                sport: Sport? = nil,
-                subSport: SubSport? = nil) {
-
+    
+    public required init() {
+        super.init()
+        
+        self.$sport.owner = self
+        self.$name.owner = self
+        self.$capabilities.owner = self
+        self.$subSport.owner = self
+    }
+    
+    public convenience init(name: String? = nil,
+                            capabilities: Capabilities? = nil,
+                            sport: Sport? = nil,
+                            subSport: SubSport? = nil) {
+        self.init()
+        
         self.name = name
         self.capabilities = capabilities
         self.sport = sport
         self.subSport = subSport
     }
-
+    
+    private convenience init(fieldDict: [UInt8: FieldDefinition], fieldDataDict: [UInt8: Data], architecture: Endian) {
+        self.init()
+        
+        self.fieldDict = fieldDict
+        self.fieldDataDict = fieldDataDict
+        self.architecture = architecture
+    }
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -96,68 +91,29 @@ open class CourseMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: CourseMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var name: String?
-        var capabilities: Capabilities?
-        var sport: Sport?
-        var subSport: SubSport?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("CourseMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                    
-                case .sport:
-                    sport = Sport.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-                    
-                case .name:
-                    name = String.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-                    
-                case .capabilities:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        capabilities = Capabilities(rawValue: value)
-                    }
-                    
-                case .subSport:
-                    subSport = SubSport.decode(decoder: &localDecoder,
-                                               definition: definition,
-                                               data: fieldData,
-                                               dataStrategy: dataStrategy)
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = CourseMessage(name: name,
-                                capabilities: capabilities,
-                                sport: sport,
-                                subSport: subSport)
+        let msg = CourseMessage(fieldDict: fieldDict,
+                                fieldDataDict: fieldDataDict,
+                                architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
-
+        
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -165,54 +121,24 @@ open class CourseMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .sport:
-                if let _ = sport { fileDefs.append(key.fieldDefinition()) }
-            case .name:
-                if let stringData = name?.data(using: .utf8) {
-                    //16 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("name size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            case .capabilities:
-                if let _ = capabilities { fileDefs.append(key.fieldDefinition()) }
-            case .subSport:
-                if let _ = subSport {fileDefs.append(key.fieldDefinition()) }
-
-            }
+        
+        guard name?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("name size can not exceed 255"))
         }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
 
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: CourseMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: CourseMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -220,44 +146,60 @@ open class CourseMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
+    }
+}
 
-        let msgData = MessageData()
+public extension CourseMessage {
+    
+    /// Course Capabilities Options
+    struct Capabilities: OptionSet {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) { self.rawValue = rawValue }
+        
+        /// Processed
+        public static let processed = Capabilities(rawValue: 0x00000001)
+        /// Valid
+        public static let valid = Capabilities(rawValue: 0x00000002)
+        /// Time
+        public static let time = Capabilities(rawValue: 0x00000004)
+        /// Distance
+        public static let distance = Capabilities(rawValue: 0x00000008)
+        /// Position
+        public static let position = Capabilities(rawValue: 0x00000010)
+        /// Heart Rate
+        public static let heartRate = Capabilities(rawValue: 0x00000020)
+        /// Power
+        public static let power = Capabilities(rawValue: 0x00000040)
+        /// Cadence
+        public static let cadence = Capabilities(rawValue: 0x00000080)
+        /// Training
+        public static let training = Capabilities(rawValue: 0x00000100)
+        /// Navigation
+        public static let navigation  = Capabilities(rawValue: 0x00000200)
+        /// Bikeway
+        public static let bikeway = Capabilities(rawValue: 0x00000400)
+    }
 
-        for key in FitCodingKeys.allCases {
+}
 
-            switch key {
-            case .sport:
-                if let sport = sport {
-                    msgData.append(sport.rawValue)
-                }
-
-            case .name:
-                if let name = name {
-                    if let stringData = name.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            case .capabilities:
-                if let capabilities = capabilities {
-                    msgData.append(Data(from: capabilities.rawValue.littleEndian))
-                }
-
-            case .subSport:
-                if let subSport = subSport {
-                    msgData.append(subSport.rawValue)
-                }
-            }
+// MARK: - FitFieldCodeable
+extension CourseMessage.Capabilities: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt32.self, data: data, resolution: base.resolution, arch: arch) {
+            return CourseMessage.Capabilities(rawValue: value) as? T
         }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return nil
     }
 }

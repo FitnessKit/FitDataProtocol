@@ -326,10 +326,68 @@ public enum GarminProduct: UInt16 {
     case fenix5x                = 2604
     /// Vivo Fit Jr.
     case vivoFitJr              = 2606
+    /// Vivo Smart3
+    case vivoSmart3             = 2622
+    /// Vivo Sport
+    case vivoSport              = 2623
+    /// Approach S60
+    case approachS60            = 2656
+    /// Virb 360
+    case virb360                = 2687
     /// Forerunner 930
     case forerunner935          = 2691
     /// Fenix X5
     case fenixX5                = 2697
+    /// Vivo Active 3
+    case vivoActive3            = 2700
+    /// ForeTrex 601-701
+    case foreTrex               = 2769
+    /// Vivo Move HR
+    case vivoMoveHr             = 2772
+    /// Edge 1030
+    case edge1030               = 2713
+    /// Approach Z80
+    case approachZ80            = 2806
+    /// Vivo Smart 3 APAC
+    case vivoSmart3Apac         = 2831
+    /// Vivo Sport APAC
+    case vivoSportApac          = 2832
+    /// Descent
+    case descent                = 2859
+    /// Forerunner 645
+    case forerunner645          = 2886
+    /// Forerunner 645M
+    case forerunner645m         = 2888
+    /// Fenix 53 Plus
+    case fenix5sPlus            = 2900
+    /// Edge 130
+    case edge130                = 2909
+    /// Vivo Smart 4
+    case vivoSmart4             = 2927
+    /// Approach X10
+    case approachX10            = 2962
+    /// Vivo Active 3M W
+    case vivoActive3mw          = 2988
+    /// Edge Explore
+    case edgeExplore            = 3011
+    /// GPS Map 66
+    case gspMap66               = 3028
+    /// Approach S10
+    case approachS10            = 3049
+    /// Vivo Active 3M L
+    case vivoActive3ml          = 3066
+    /// Approach G80
+    case approachG80            = 3085
+    /// Fenix 5 Plus
+    case fenix5Plus             = 3110
+    /// Fenix 5X Plus
+    case fenix5xPlus            = 3111
+    /// Edge 520 Plus
+    case edge520Plus            = 3112
+    /// HRM Dual
+    case hrmDual                = 3299
+    /// Approach S40
+    case approachS40            = 3314
     /// SDM4 Footpod
     case sdm4Footpod            = 10007
     /// EDGE Remote

@@ -24,36 +24,49 @@
 
 import Foundation
 import DataDecoder
-import FitnessUnits
 
 /// FIT Power Zone Message
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class PowerZoneMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 9 }
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
+    
+    /// Power Zone High Level
+    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 1, unit: UnitPower.watts)
+    private(set) public var highLevel: Measurement<UnitPower>?
 
     /// Power Zone Name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
     private(set) public var name: String?
-
-    /// Power Zone High Level
-    private(set) public var highLevel: ValidatedMeasurement<UnitPower>?
-
-    public required init() {}
-
-    public init(messageIndex: MessageIndex? = nil,
-                name: String? = nil,
-                highLevel: ValidatedMeasurement<UnitPower>? = nil) {
-
+        
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    public required init() {
+        super.init()
+        
+        self.$messageIndex.owner = self
+        
+        self.$highLevel.owner = self
+        self.$name.owner = self
+    }
+    
+    public convenience init(messageIndex: MessageIndex? = nil,
+                            name: String? = nil,
+                            highLevel: Measurement<UnitPower>? = nil) {
+        self.init()
+        
         self.messageIndex = messageIndex
         self.name = name
         self.highLevel = highLevel
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -62,62 +75,29 @@ open class PowerZoneMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: PowerZoneMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var messageIndex: MessageIndex?
-        var name: String?
-        var highLevel: ValidatedMeasurement<UnitPower>?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("PowerZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                    
-                case .highValue:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * watts + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        highLevel = ValidatedMeasurement(value: value, valid: true, unit: UnitPower.watts)
-                    } else {
-                        highLevel = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPower.watts)
-                    }
-                    
-                case .name:
-                    name = String.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = PowerZoneMessage(messageIndex: messageIndex,
-                                   name: name,
-                                   highLevel: highLevel)
+        let msg = PowerZoneMessage(fieldDict: fieldDict,
+                                   fieldDataDict: fieldDataDict,
+                                   architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -125,52 +105,24 @@ open class PowerZoneMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
-            case .highValue:
-                if var _ = highLevel { fileDefs.append(key.fieldDefinition()) }
-            case .name:
-                if let stringData = name?.data(using: .utf8) {
-                    //16 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("name size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            }
+        
+        guard name?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("name size can not exceed 255"))
         }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: PowerZoneMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+        
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: PowerZoneMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -178,42 +130,11 @@ open class PowerZoneMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .highValue:
-                if var highLevel = highLevel {
-                    highLevel = highLevel.converted(to: UnitPower.watts)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: highLevel.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .name:
-                if let name = name {
-                    if let stringData = name.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

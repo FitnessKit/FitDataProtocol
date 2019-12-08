@@ -46,6 +46,22 @@ public enum Stroke: UInt8 {
     case invalid        = 255
 }
 
+// MARK: - FitFieldCodeable
+extension Stroke: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return Stroke(rawValue: value) as? T
+        }
+        
+        return nil
+    }
+}
+
 internal extension Stroke {
 
     static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Stroke? {

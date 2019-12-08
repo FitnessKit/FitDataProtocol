@@ -24,7 +24,6 @@
 
 import Foundation
 import DataDecoder
-import FitnessUnits
 import AntMessageProtocol
 
 /// FIT Developer Data ID Message
@@ -36,33 +35,60 @@ open class DeveloperDataIdMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 207 }
 
     /// Developer ID
+    @FitField(base: BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var developerId: Data?
 
     /// Application ID
+    @FitField(base: BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
     private(set) public var applicationId: Data?
 
-    /// Application Version
-    private(set) public var applicationVersion: ValidatedBinaryInteger<UInt32>?
-
     /// Manufacturer
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
     private(set) public var manufacturer: Manufacturer?
-
+    
     /// Data Index
-    private(set) public var dataIndex: ValidatedBinaryInteger<UInt8>?
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 3)
+    private(set) public var dataIndex: UInt8?
 
-    public required init() {}
+    /// Application Version
+    @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 4)
+    private(set) public var applicationVersion: UInt32?
 
-    public init(developerId: Data? = nil,
+    public required init() {
+        super.init()
+        
+        self.$developerId.owner = self
+        self.$applicationId.owner = self
+        self.$manufacturer.owner = self
+        self.$dataIndex.owner = self
+        self.$applicationVersion.owner = self
+    }
+
+    public convenience init(developerId: Data? = nil,
                 applicationId: Data? = nil,
-                applicationVersion: ValidatedBinaryInteger<UInt32>? = nil,
+                applicationVersion: UInt32? = nil,
                 manufacturer: Manufacturer? = nil,
-                dataIndex: ValidatedBinaryInteger<UInt8>? = nil) {
+                dataIndex: UInt8? = nil) {
+        self.init()
         
         self.developerId = developerId
         self.applicationId = applicationId
         self.applicationVersion = applicationVersion
         self.manufacturer = manufacturer
         self.dataIndex = dataIndex
+    }
+    
+    private convenience init(fieldDict: [UInt8: FieldDefinition], fieldDataDict: [UInt8: Data], architecture: Endian) {
+        self.init()
+        
+        self.fieldDict = fieldDict
+        self.fieldDataDict = fieldDataDict
+        self.architecture = architecture
     }
 
     /// Decode Message Data into FitMessage
@@ -73,73 +99,27 @@ open class DeveloperDataIdMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: DeveloperDataIdMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var developerId: Data?
-        var applicationId: Data?
-        var applicationVersion: ValidatedBinaryInteger<UInt32>?
-        var manufacturer: Manufacturer?
-        var dataIndex: ValidatedBinaryInteger<UInt8>?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
-        
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
+
         for definition in definition.fieldDefinitions {
-            
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("DeveloperDataIdMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                    
-                case .developerId:
-                    let value = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if value.isValidForBaseType(definition.baseType) {
-                        developerId = value
-                    }
-                    
-                case .applicationId:
-                    let value = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                    if value.isValidForBaseType(definition.baseType) {
-                        applicationId = value
-                    }
-                    
-                case .manufacturerId:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        manufacturer = Manufacturer.company(id: value)
-                    }
-                    
-                case .dataIndex:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    dataIndex = ValidatedBinaryInteger<UInt8>.validated(value: value,
-                                                                        definition: definition,
-                                                                        dataStrategy: dataStrategy)
-                    
-                case .applicationVersion:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    applicationVersion = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                                  definition: definition,
-                                                                                  dataStrategy: dataStrategy)
-                    
-                }
-            }
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = DeveloperDataIdMessage(developerId: developerId,
-                                         applicationId: applicationId,
-                                         applicationVersion: applicationVersion,
-                                         manufacturer: manufacturer,
-                                         dataIndex: dataIndex)
+        let msg = DeveloperDataIdMessage(fieldDict: fieldDict,
+                                         fieldDataDict: fieldDataDict,
+                                         architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
 
-        return.success(msg as! F)
+        return .success(msg as! F)
     }
 
     /// Encodes the Definition Message for FitMessage
@@ -150,60 +130,25 @@ open class DeveloperDataIdMessage: FitMessage {
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
 
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .developerId:
-                if let developerId = developerId {
-                    //16 typical size..
-
-                    guard developerId.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("developerId size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(developerId.count)))
-                }
-            case .applicationId:
-                if let applicationId = applicationId {
-                    //16 typical size..
-
-                    guard applicationId.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("applicationId size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(applicationId.count)))
-                }
-            case .manufacturerId:
-                if let _ = manufacturer { fileDefs.append(key.fieldDefinition()) }
-            case .dataIndex:
-                if let _ = dataIndex { fileDefs.append(key.fieldDefinition()) }
-            case .applicationVersion:
-                if let _ = applicationVersion { fileDefs.append(key.fieldDefinition()) }
-            }
+        guard developerId?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("developerId size can not exceed 255"))
         }
 
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: DeveloperDataIdMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
+        guard applicationId?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("applicationId size can not exceed 255"))
         }
+
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: DeveloperDataIdMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+
+        return.success(defMessage)
     }
 
     /// Encodes the Message into Data
@@ -218,48 +163,6 @@ open class DeveloperDataIdMessage: FitMessage {
             return.failure(self.encodeWrongDefinitionMessage())
         }
 
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .developerId:
-                if let developerId = developerId {
-                    msgData.append(developerId)
-                }
-
-            case .applicationId:
-                if let applicationId = applicationId {
-                    msgData.append(applicationId)
-                }
-
-            case .manufacturerId:
-                if let manufacturer = manufacturer {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: manufacturer.manufacturerID)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .dataIndex:
-                if let dataIndex = dataIndex {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: dataIndex)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .applicationVersion:
-                if let applicationVersion = applicationVersion {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: applicationVersion)) {
-                        return.failure(error)
-                    }
-                }
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

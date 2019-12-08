@@ -53,7 +53,7 @@ extension FitDeveloperDecodingError: LocalizedError {
             return "Field Numbers don't match"
         }
     }
-
+    
 }
 
 /// Errors for FIT File Decoding
@@ -75,7 +75,7 @@ public enum FitDecodingError: Error {
 }
 
 extension FitDecodingError: LocalizedError {
-
+    
     /// A localized message describing what error occurred.
     public var errorDescription: String? {
         switch self {
@@ -109,6 +109,8 @@ public enum FitEncodingError: Error {
     case notSupported
     /// Property Size Issue
     case properySize(String)
+    /// Properties Value not Correct
+    case propertyValue(String)
     /// No Properties available to Encdode
     case noProperties(String)
     /// File Type
@@ -138,6 +140,8 @@ extension FitEncodingError: LocalizedError {
         case .properySize(let msg):
             return msg
         case .noProperties(let msg):
+            return msg
+        case .propertyValue(let msg):
             return msg
         case .fileType(let msg):
             return msg

@@ -63,6 +63,31 @@ public protocol FixedWidthIntegerResolutionable {
     func resolution<T>(type: T.Type, _ direction: ResolutionDirection, resolution: Resolution) -> T where T: FixedWidthInteger
 }
 
+extension FixedWidthInteger {
+    /// Apply Resolution With Direction
+    ///
+    /// - Parameters:
+    ///   - type: Type to resolve to
+    ///   - direction: Resolution Direction
+    ///   - resolution: Resolution
+    /// - Returns: Number with Resolution Applied
+    public func resolution<T>(type: T.Type, _ direction: ResolutionDirection, resolution: Resolution) -> T where T: FixedWidthInteger {
+        var value = Double(T.min)
+
+        switch direction {
+        case .adding:
+            value = (Double(self) + resolution.offset) * resolution.scale
+        case .removing:
+            value = (Double(self) * (1 / resolution.scale)) - resolution.offset
+        }
+
+        guard value >= Double(T.min) else { return T.min }
+        guard value <= Double(T.max) else { return T.max }
+
+        return T(value)
+    }
+}
+
 extension Double: Resolutionable, FixedWidthIntegerResolutionable {
 
     /// Apply Resolution with Direction
@@ -123,7 +148,7 @@ extension Float32: Resolutionable {
     
 }
 
-extension UInt8: Resolutionable {
+extension UInt8: Resolutionable, FixedWidthIntegerResolutionable {
 
     /// Apply Resolution with Direction
     ///
@@ -196,7 +221,7 @@ extension Int16: Resolutionable {
 }
 
 extension UInt32: Resolutionable, FixedWidthIntegerResolutionable {
-
+    
     /// Apply Resolution with Direction
     ///
     /// - Parameters:
@@ -221,17 +246,17 @@ extension UInt32: Resolutionable, FixedWidthIntegerResolutionable {
     /// - Returns: Number with Resolution Applied
     public func resolution<T>(type: T.Type, _ direction: ResolutionDirection, resolution: Resolution) -> T where T: FixedWidthInteger {
         var value = Double(T.min)
-
+        
         switch direction {
         case .adding:
             value = (Double(self) + resolution.offset) * resolution.scale
         case .removing:
             value = (Double(self) * (1 / resolution.scale)) - resolution.offset
         }
-
+        
         guard value >= Double(T.min) else { return T.min }
         guard value <= Double(T.max) else { return T.max }
-
+        
         return T(value)
     }
 }

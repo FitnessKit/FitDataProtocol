@@ -3,6 +3,7 @@ import XCTest
 
 XCTMain([
     testCase(FitDataProtocolTests.allTests),
+    testCase(FitMessageTests.allTests),
     testCase(ExerciseNameTests.allTests),
     testCase(ResolutionTest.allTests)
 ])

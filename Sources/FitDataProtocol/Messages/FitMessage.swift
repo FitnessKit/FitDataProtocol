@@ -35,6 +35,8 @@ public protocol FitMessageKeys {
 /// Message Validator
 internal protocol MessageValidator {
 
+    // kah - Result<Bool, FitEncodingError>
+    
     /// Validate Message
     ///
     /// - Parameters:
@@ -48,17 +50,28 @@ internal protocol MessageValidator {
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class FitMessage {
+    internal var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+    internal var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
+    internal var architecture: Endian = .little
 
     /// Developer Data 
     internal(set) public var developerData: [DeveloperDataType]?
     
-    public required init() {}
-
     /// FIT Message Global Number
     public class func globalMessageNumber() -> UInt16 {
         fatalError("*** You must override in your class.")
     }
     
+    public required init() {}
+
+    internal convenience init(fieldDict: [UInt8: FieldDefinition], fieldDataDict: [UInt8: Data], architecture: Endian) {
+        self.init()
+        
+        self.fieldDict = fieldDict
+        self.fieldDataDict = fieldDataDict
+        self.architecture = architecture
+    }
+
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -92,7 +105,7 @@ open class FitMessage {
 
 }
 
-//MARK: - Standrd Decodes
+//MARK: - Standard Decodes
 internal extension FitMessage {
     
     func decodeDeveloperData(data: FieldData, definition: DefinitionMessage) -> [DeveloperDataType] {
@@ -190,8 +203,20 @@ internal extension FitMessage {
     var messageName: String {
         return String(describing: self)
     }
-
-    /// Encofed Data Message with Header
+    
+    /// Encode Message Fields
+    /// - Parameter localMessageType: Local Message Type
+    /// - Returns: Encoded Data Result
+    func encodeMessageFields(localMessageType: UInt8) -> Result<Data, FitEncodingError> {
+        let fields = self.fieldDataDict.sorted { $0.key < $1.key }.compactMap { $0.value }.joined()
+        let msgData = Data(Array(fields))
+        
+        guard msgData.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+        
+        return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData))
+    }
+    
+    /// Encoded Data Message with Header
     ///
     /// - Parameters:
     ///   - localMessageType: Local Message Type
@@ -211,6 +236,16 @@ internal extension FitMessage {
 
 //MARK: - Preferred Values
 internal extension FitMessage {
+    
+    /// Pick a Preferred Value
+    ///
+    ///  If the Preferred is nil it will use the fallback else nil
+    ///
+    /// - Parameter preferred: preferred value to use
+    /// - Parameter fallbakck: fallback value to use
+    func preferredField<T>(preferred: Measurement<T>?, fallbakck: Measurement<T>?) -> Measurement<T>? {
+        return preferred != nil ? preferred : fallbakck
+    }
 
     /// Pick a Preferred Value for Unit Type
     ///

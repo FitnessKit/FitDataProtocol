@@ -31,88 +31,148 @@ import AntMessageProtocol
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class DeviceInfoMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 23 }
-
-    /// Timestamp
-    private(set) public var timeStamp: FitTime?
-
+    
+    /// Device Index
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
+    private(set) public var deviceIndex: DeviceIndex?
+    
+    /// Device Type
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
+    private(set) public var deviceType: DeviceType?
+    
+    /// Manufacturer
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
+    private(set) public var manufacturer: Manufacturer?
+    
     /// Serial Number
-    private(set) public var serialNumber: ValidatedBinaryInteger<UInt32>?
-
+    @FitField(base: BaseTypeData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 3)
+    private(set) public var serialNumber: UInt32?
+    
+    /// Product
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 4)
+    private(set) public var product: UInt16?
+    
+    /// Software Version
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 5)
+    private(set) public var softwareVersion: UInt16?
+    
+    /// Hardware Version
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 6)
+    private(set) public var hardwareVersion: UInt8?
+    
     /// Cumulative Operating Time
     ///
     /// Reset by new battery or charge
-    private(set) public var cumulativeOpTime: ValidatedMeasurement<UnitDuration>?
-
-    /// Product Name
-    private(set) public var productName: String?
-
-    /// Manufacturer
-    private(set) public var manufacturer: Manufacturer?
-
-    /// Product
-    private(set) public var product: ValidatedBinaryInteger<UInt16>?
-
-    /// Software Version
-    private(set) public var softwareVersion: ValidatedBinaryInteger<UInt16>?
-
-    /// Hardware Version
-    private(set) public var hardwareVersion: ValidatedBinaryInteger<UInt8>?
-
+    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                      fieldNumber: 7,
+                      unit: UnitDuration.seconds)
+    private(set) public var cumulativeOpTime: Measurement<UnitDuration>?
+    
     /// Battery Voltage
-    private(set) public var batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>?
-
+    @FitFieldVoltage(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 256.0, offset: 0.0)),
+                     fieldNumber: 10,
+                     unit: UnitElectricPotentialDifference.volts)
+    private(set) public var batteryVoltage: Measurement<UnitElectricPotentialDifference>?
+    
     /// Battery Status
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 11)
     private(set) public var batteryStatus: BatteryStatus?
-
-    /// Device Number
-    private(set) public var deviceNumber: ValidatedBinaryInteger<UInt16>?
-
-    /// Device Type
-    private(set) public var deviceType: DeviceType?
-
-    /// Device Index
-    private(set) public var deviceIndex: DeviceIndex?
-
-    /// Sensor Description
-    private(set) public var sensorDescription: String?
-
+    
     /// Sensor Body Location
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 18)
     private(set) public var bodylocation: BodyLocation?
-
+    
+    /// Sensor Description
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 19)
+    private(set) public var sensorDescription: String?
+    
     /// Transmission Type
+    @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 20)
     private(set) public var transmissionType: TransmissionType?
-
+    
+    /// Device Number
+    @FitField(base: BaseTypeData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 20)
+    private(set) public var deviceNumber: UInt16?
+    
     /// ANT Network Type
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 22)
     private(set) public var antNetwork: NetworkType?
-
+    
     /// Source
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 25)
     private(set) public var source: SourceType?
-
-
-    public required init() {}
-
-    public init(timeStamp: FitTime? = nil,
-                serialNumber: ValidatedBinaryInteger<UInt32>? = nil,
-                cumulativeOpTime: ValidatedMeasurement<UnitDuration>? = nil,
-                productName: String? = nil,
-                manufacturer: Manufacturer? = nil,
-                product: ValidatedBinaryInteger<UInt16>? = nil,
-                softwareVersion: ValidatedBinaryInteger<UInt16>? = nil,
-                hardwareVersion: ValidatedBinaryInteger<UInt8>? = nil,
-                batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>? = nil,
-                batteryStatus: BatteryStatus? = nil,
-                deviceNumber: ValidatedBinaryInteger<UInt16>? = nil,
-                deviceType: DeviceType? = nil,
-                deviceIndex: DeviceIndex? = nil,
-                sensorDescription: String? = nil,
-                bodylocation: BodyLocation? = nil,
-                transmissionType: TransmissionType? = nil,
-                antNetwork: NetworkType? = nil,
-                source: SourceType? = nil) {
-
+    
+    /// Product Name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 27)
+    private(set) public var productName: String?
+    
+    /// Timestamp
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 253, local: false)
+    private(set) public var timeStamp: FitTime?
+    
+    public required init() {
+        super.init()
+        
+        self.$timeStamp.owner = self
+        
+        self.$deviceIndex.owner = self
+        self.$deviceType.owner = self
+        self.$manufacturer.owner = self
+        self.$serialNumber.owner = self
+        self.$product.owner = self
+        self.$softwareVersion.owner = self
+        self.$hardwareVersion.owner = self
+        self.$cumulativeOpTime.owner = self
+        self.$batteryVoltage.owner = self
+        self.$batteryStatus.owner = self
+        self.$bodylocation.owner = self
+        self.$sensorDescription.owner = self
+        self.$transmissionType.owner = self
+        self.$deviceNumber.owner = self
+        self.$antNetwork.owner = self
+        self.$source.owner = self
+        self.$productName.owner = self
+    }
+    
+    public convenience init(timeStamp: FitTime? = nil,
+                            serialNumber: UInt32? = nil,
+                            cumulativeOpTime: Measurement<UnitDuration>? = nil,
+                            productName: String? = nil,
+                            manufacturer: Manufacturer? = nil,
+                            product: UInt16? = nil,
+                            softwareVersion: UInt16? = nil,
+                            hardwareVersion: UInt8? = nil,
+                            batteryVoltage: Measurement<UnitElectricPotentialDifference>? = nil,
+                            batteryStatus: BatteryStatus? = nil,
+                            deviceNumber: UInt16? = nil,
+                            deviceType: DeviceType? = nil,
+                            deviceIndex: DeviceIndex? = nil,
+                            sensorDescription: String? = nil,
+                            bodylocation: BodyLocation? = nil,
+                            transmissionType: TransmissionType? = nil,
+                            antNetwork: NetworkType? = nil,
+                            source: SourceType? = nil) {
+        self.init()
+        
         self.timeStamp = timeStamp
         self.serialNumber = serialNumber
         self.cumulativeOpTime = cumulativeOpTime
@@ -132,7 +192,7 @@ open class DeviceInfoMessage: FitMessage {
         self.antNetwork = antNetwork
         self.source = source
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -141,182 +201,27 @@ open class DeviceInfoMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: DeviceInfoMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var timestamp: FitTime?
-        var serialNumber: ValidatedBinaryInteger<UInt32>?
-        var cumulativeOpTime: ValidatedMeasurement<UnitDuration>?
-        var productname: String?
-        var manufacturer: Manufacturer?
-        var product: ValidatedBinaryInteger<UInt16>?
-        var softwareVersion: ValidatedBinaryInteger<UInt16>?
-        var hardwareVersion: ValidatedBinaryInteger<UInt8>?
-        var batteryVoltage: ValidatedMeasurement<UnitElectricPotentialDifference>?
-        var batteryStatus: BatteryStatus?
-        var deviceNumber: ValidatedBinaryInteger<UInt16>?
-        var deviceType: DeviceType?
-        var deviceIndex: DeviceIndex?
-        var sensorDescription: String?
-        var bodylocation: BodyLocation?
-        var transmissionType: TransmissionType?
-        var antNetwork: NetworkType?
-        var source: SourceType?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("DeviceInfoMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-                    
-                case .deviceIndex:
-                    deviceIndex = DeviceIndex.decode(decoder: &localDecoder,
-                                                     definition: definition,
-                                                     data: fieldData,
-                                                     dataStrategy: dataStrategy)
-                    
-                case .deviceType:
-                    deviceType = DeviceType.decode(decoder: &localDecoder,
-                                                   definition: definition,
-                                                   data: fieldData,
-                                                   dataStrategy: dataStrategy)
-                    
-                case .manufacturer:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        manufacturer = Manufacturer.company(id: value)
-                    }
-                    
-                case .serialNumber:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    serialNumber = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                            definition: definition,
-                                                                            dataStrategy: dataStrategy)
-                    
-                case .product:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    product = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                       definition: definition,
-                                                                       dataStrategy: dataStrategy)
-                    
-                case .softwareVersion:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    softwareVersion = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                               definition: definition,
-                                                                               dataStrategy: dataStrategy)
-                    
-                case .hardwareVersion:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    hardwareVersion = ValidatedBinaryInteger<UInt8>.validated(value: value,
-                                                                              definition: definition,
-                                                                              dataStrategy: dataStrategy)
-                    
-                case .cumulativeOpTime:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * s + 0
-                        let value = Double(value)
-                        cumulativeOpTime = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.seconds)
-                    }
-                    
-                case .batteryVoltage:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 256 * V + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        batteryVoltage = ValidatedMeasurement(value: value, valid: true, unit: UnitElectricPotentialDifference.volts)
-                    } else {
-                        batteryVoltage = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitElectricPotentialDifference.volts)
-                    }
-                    
-                case .batteryStatus:
-                    batteryStatus = BatteryStatus.decode(decoder: &localDecoder,
-                                                         definition: definition,
-                                                         data: fieldData,
-                                                         dataStrategy: dataStrategy)
-                    
-                case .sensorPosition:
-                    bodylocation = BodyLocation.decode(decoder: &localDecoder,
-                                                       definition: definition,
-                                                       data: fieldData,
-                                                       dataStrategy: dataStrategy)
-                    
-                case .description:
-                    sensorDescription = String.decode(decoder: &localDecoder,
-                                                      definition: definition,
-                                                      data: fieldData,
-                                                      dataStrategy: dataStrategy)
-                    
-                case .transmissionType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        transmissionType = TransmissionType(value)
-                    }
-                    
-                case .deviceNumber:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    deviceNumber = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                            definition: definition,
-                                                                            dataStrategy: dataStrategy)
-                    
-                case .antNetwork:
-                    antNetwork = NetworkType.decode(decoder: &localDecoder,
-                                                    definition: definition,
-                                                    data: fieldData,
-                                                    dataStrategy: dataStrategy)
-                    
-                case .sourcetype:
-                    source = SourceType.decode(decoder: &localDecoder,
-                                               definition: definition,
-                                               data: fieldData,
-                                               dataStrategy: dataStrategy)
-                    
-                case .productName:
-                    productname = String.decode(decoder: &localDecoder,
-                                                definition: definition,
-                                                data: fieldData,
-                                                dataStrategy: dataStrategy)
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = DeviceInfoMessage(timeStamp: timestamp,
-                                    serialNumber: serialNumber,
-                                    cumulativeOpTime: cumulativeOpTime,
-                                    productName: productname,
-                                    manufacturer: manufacturer,
-                                    product: product,
-                                    softwareVersion: softwareVersion,
-                                    hardwareVersion: hardwareVersion,
-                                    batteryVoltage: batteryVoltage,
-                                    batteryStatus: batteryStatus,
-                                    deviceNumber: deviceNumber,
-                                    deviceType: deviceType,
-                                    deviceIndex: deviceIndex,
-                                    sensorDescription: sensorDescription,
-                                    bodylocation: bodylocation,
-                                    transmissionType: transmissionType,
-                                    antNetwork: antNetwork,
-                                    source: source)
+        let msg = DeviceInfoMessage(fieldDict: fieldDict,
+                                    fieldDataDict: fieldDataDict,
+                                    architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
     
     /// Encodes the Definition Message for FitMessage
@@ -326,7 +231,7 @@ open class DeviceInfoMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
+        
         do {
             try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
         } catch let error as FitEncodingError {
@@ -334,82 +239,28 @@ open class DeviceInfoMessage: FitMessage {
         } catch {
             return.failure(FitEncodingError.fileType(error.localizedDescription))
         }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-
-            case .deviceIndex:
-                if let _ = deviceIndex { fileDefs.append(key.fieldDefinition()) }
-            case .deviceType:
-                if let _ = deviceType { fileDefs.append(key.fieldDefinition()) }
-            case .manufacturer:
-                if let _ = manufacturer { fileDefs.append(key.fieldDefinition()) }
-            case .serialNumber:
-                if let _ = serialNumber { fileDefs.append(key.fieldDefinition()) }
-            case .product:
-                if let _ = product { fileDefs.append(key.fieldDefinition()) }
-            case .softwareVersion:
-                if let _ = softwareVersion { fileDefs.append(key.fieldDefinition()) }
-            case .hardwareVersion:
-                if let _ = hardwareVersion { fileDefs.append(key.fieldDefinition()) }
-            case .cumulativeOpTime:
-                if let _ = cumulativeOpTime { fileDefs.append(key.fieldDefinition()) }
-            case .batteryVoltage:
-                if var _ = batteryVoltage { fileDefs.append(key.fieldDefinition()) }
-            case .batteryStatus:
-                if let _ = batteryStatus { fileDefs.append(key.fieldDefinition()) }
-            case .sensorPosition:
-                if let _ = bodylocation { fileDefs.append(key.fieldDefinition()) }
-            case .description:
-                if let stringData = sensorDescription?.data(using: .utf8) {
-                    //1 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("sensorDescription size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            case .transmissionType:
-                if let _ = transmissionType { fileDefs.append(key.fieldDefinition()) }
-            case .deviceNumber:
-                if let _ = deviceNumber { fileDefs.append(key.fieldDefinition()) }
-            case .antNetwork:
-                if let _ = antNetwork { fileDefs.append(key.fieldDefinition()) }
-            case .sourcetype:
-                if let _ = source { fileDefs.append(key.fieldDefinition()) }
-            case .productName:
-                if let stringData = productName?.data(using: .utf8) {
-                    //20 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("productName size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            }
+        
+        guard sensorDescription?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("sensorDescription size can not exceed 255"))
         }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: DeviceInfoMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
+        
+        guard productName?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("productName size can not exceed 255"))
         }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+        
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: DeviceInfoMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -417,155 +268,17 @@ open class DeviceInfoMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
-            case .deviceIndex:
-                if let deviceIndex = deviceIndex {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: deviceIndex.index)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .deviceType:
-                if let deviceType = deviceType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: deviceType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .manufacturer:
-                if let manufacturer = manufacturer {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: manufacturer.manufacturerID)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .serialNumber:
-                if let serialNumber = serialNumber {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: serialNumber)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .product:
-                if let product = product {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: product)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .softwareVersion:
-                if let softwareVersion = softwareVersion {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: softwareVersion)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .hardwareVersion:
-                if let hardwareVersion = hardwareVersion {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: hardwareVersion.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .cumulativeOpTime:
-                if var cumulativeOpTime = cumulativeOpTime {
-                    cumulativeOpTime = cumulativeOpTime.converted(to: UnitDuration.seconds)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: cumulativeOpTime.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .batteryVoltage:
-                if var batteryVoltage = batteryVoltage {
-                    batteryVoltage = batteryVoltage.converted(to: UnitElectricPotentialDifference.volts)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: batteryVoltage.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .batteryStatus:
-                if let batteryStatus = batteryStatus {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: batteryStatus)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .sensorPosition:
-                if let sensorPosition = bodylocation {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sensorPosition)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .description:
-                if let description = sensorDescription {
-                    if let stringData = description.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            case .transmissionType:
-                if let transmissionType = transmissionType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: transmissionType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .deviceNumber:
-                if let deviceNumber = deviceNumber {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: deviceNumber)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .antNetwork:
-                if let antNetwork = antNetwork {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: antNetwork)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .sourcetype:
-                if let sourcetype = source {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: sourcetype)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .productName:
-                if let productName = productName {
-                    if let stringData = productName.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }
 
 extension DeviceInfoMessage: MessageValidator {
-
+    
     /// Validate Message
     ///
     /// - Parameters:
@@ -573,7 +286,7 @@ extension DeviceInfoMessage: MessageValidator {
     ///   - dataValidityStrategy: Data Validity Strategy
     /// - Throws: FitError
     internal func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
-
+        
         switch dataValidityStrategy {
         case .none:
         break // do nothing
@@ -587,14 +300,14 @@ extension DeviceInfoMessage: MessageValidator {
             }
         }
     }
-
+    
     private func validateActivity(isGarmin: Bool) throws {
-
+        
         let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
-
+        
         guard self.timeStamp != nil else {
             throw FitEncodingError.fileType("\(msg) require DeviceInfoMessage to contain timeStamp, can not be nil")
         }
-
+        
     }
 }

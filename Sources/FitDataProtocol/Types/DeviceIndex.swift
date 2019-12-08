@@ -61,20 +61,18 @@ public struct DeviceIndex {
     }
 }
 
-internal extension DeviceIndex {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> DeviceIndex? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return DeviceIndex(index: value)
-        } else {
-
-            if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                return DeviceIndex(index: value.value)
-            } else {
-                return nil
-            }
+// MARK: - FitFieldCodeable
+extension DeviceIndex: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.index.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return DeviceIndex(index: value) as? T
         }
+        
+        return nil
     }
 }

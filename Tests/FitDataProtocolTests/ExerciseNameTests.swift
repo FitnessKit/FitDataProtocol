@@ -21,7 +21,7 @@ class ExerciseNameTests: XCTestCase {
     }
 
     func testBenchPressDups() {
-
+        
         let x = BenchPressExerciseName.supportedExerciseNames
 
         let duplicates = Array(Set(x.filter({ (i: BenchPressExerciseName) in x.filter({ $0.number == i.number }).count > 1})))

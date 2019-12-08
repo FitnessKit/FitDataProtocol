@@ -24,60 +24,110 @@
 
 import Foundation
 import DataDecoder
-import AntMessageProtocol
-import FitnessUnits
 
 /// FIT Course Message
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class CoursePointMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 32 }
-
+    
     /// Timestamp
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 1, local: false)
     private(set) public var timeStamp: FitTime?
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
-    /// Course Point Name
-    private(set) public var name: String?
+    
+    /// Position in Latitude
+    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 2,
+                   unit: UnitAngle.garminSemicircle)
+    private var latitude: Measurement<UnitAngle>?
+    
+    /// Position in Longitude
+    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                   fieldNumber: 3,
+                   unit: UnitAngle.garminSemicircle)
+    private var longitude: Measurement<UnitAngle>?
 
     /// Position
-    private(set) public var position: Position
-
-    /// Distance
-    private(set) public var distance: ValidatedMeasurement<UnitLength>?
-
-    /// Course Point Type
-    private(set) public var pointType: CoursePoint?
-
-    /// Is Favorite Point
-    private(set) public var isFavorite: Bool?
-
-    public required init() {
-        self.position = Position(latitude: nil, longitude: nil)
+    private(set) public var position: Position? {
+        get {
+            return Position(latitude: self.latitude, longitude: self.longitude)
+        }
+        set {
+            self.latitude = newValue?.latitude
+            self.longitude = newValue?.longitude
+        }
     }
 
-    public init(timeStamp: FitTime? = nil,
-                messageIndex: MessageIndex? = nil,
-                name: String? = nil,
-                position: Position,
-                distance: ValidatedMeasurement<UnitLength>? = nil,
-                pointType: CoursePoint? = nil,
-                isFavorite: Bool? = nil) {
+    /// Distance
+    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                    fieldNumber: 4,
+                    unit: UnitLength.meters)
+    private(set) public var distance: Measurement<UnitLength>?
+    
+    /// Course Point Type
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 5)
+    private(set) public var pointType: CoursePoint?
+    
+    /// Course Point Name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 6)
+    private(set) public var name: String?
+    
+    /// Is Favorite Point
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 7)
+    private(set) public var isFavorite: Bool?
+    
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    public required init() {
+        super.init()
+        
+        self.$messageIndex.owner = self
+        
+        self.$timeStamp.owner = self
+        
+        self.$latitude.owner = self
+        self.$longitude.owner = self
+        self.$distance.owner = self
+        self.$pointType.owner = self
+        self.$name.owner = self
+        self.$isFavorite.owner = self
+    }
+    
+    public convenience init(timeStamp: FitTime? = nil,
+                            messageIndex: MessageIndex? = nil,
+                            name: String? = nil,
+                            position: Position? = nil,
+                            distance: Measurement<UnitLength>? = nil,
+                            pointType: CoursePoint? = nil,
+                            isFavorite: Bool? = nil) {
+        self.init()
         
         self.timeStamp = timeStamp
         self.messageIndex = messageIndex
-
         self.name = name
         self.position = position
         self.distance = distance
         self.pointType = pointType
         self.isFavorite = isFavorite
     }
-
+    
+    private convenience init(fieldDict: [UInt8: FieldDefinition], fieldDataDict: [UInt8: Data], architecture: Endian) {
+        self.init()
+        
+        self.fieldDict = fieldDict
+        self.fieldDataDict = fieldDataDict
+        self.architecture = architecture
+    }
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -86,121 +136,29 @@ open class CoursePointMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: CoursePointMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var timestamp: FitTime?
-        var messageIndex: MessageIndex?
         
-        var name: String?
-        var latitude: ValidatedMeasurement<UnitAngle>?
-        var longitude: ValidatedMeasurement<UnitAngle>?
-        var distance: ValidatedMeasurement<UnitLength>?
-        var pointType: CoursePoint?
-        var isFavorite: Bool?
+        var testDecoder = DecodeData()
         
-        let arch = definition.architecture
-        
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("CoursePointMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                    
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-                    
-                case .latitude:
-                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        latitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
-                    } else {
-                        latitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
-                    }
-                    
-                case .longitude:
-                    let value = decodeInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * semicircles + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        longitude = ValidatedMeasurement(value: value, valid: true, unit: UnitAngle.garminSemicircle)
-                    } else {
-                        longitude = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitAngle.garminSemicircle)
-                    }
-                    
-                case .distance:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * m + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        distance = ValidatedMeasurement(value: value, valid: true, unit: UnitLength.meters)
-                    } else {
-                        distance = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitLength.meters)
-                    }
-                    
-                case .pointType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        pointType = CoursePoint(rawValue: value)
-                    } else {
-                        
-                        switch dataStrategy {
-                        case .nil:
-                            break
-                        case .useInvalid:
-                            pointType = CoursePoint.invalid
-                        }
-                    }
-                    
-                case .name:
-                    name = String.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-                    
-                case .favorite:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        isFavorite = value.boolValue
-                    }
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        /// setup Position
-        let position = Position(latitude: latitude, longitude: longitude)
-        
-        let msg = CoursePointMessage(timeStamp: timestamp,
-                                     messageIndex: messageIndex,
-                                     name: name,
-                                     position: position,
-                                     distance: distance,
-                                     pointType: pointType,
-                                     isFavorite: isFavorite)
+        let msg = CoursePointMessage(fieldDict: fieldDict,
+                                     fieldDataDict: fieldDataDict,
+                                     architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -208,62 +166,24 @@ open class CoursePointMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-            case .latitude:
-                if let _ = position.latitude { fileDefs.append(key.fieldDefinition()) }
-            case .longitude:
-                if let _ = position.longitude { fileDefs.append(key.fieldDefinition()) }
-            case .distance:
-                if let _ = distance { fileDefs.append(key.fieldDefinition()) }
-            case .pointType:
-                if let _ = pointType { fileDefs.append(key.fieldDefinition()) }
-            case .name:
-                if let stringData = name?.data(using: .utf8) {
-                    //16 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("name size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            case .favorite:
-                if let _ = isFavorite { fileDefs.append(key.fieldDefinition()) }
-            }
+        
+        guard name?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("name size can not exceed 255"))
         }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
 
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: CoursePointMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: CoursePointMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -271,77 +191,11 @@ open class CoursePointMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
-            case .latitude:
-                if var latitude = position.latitude {
-                    latitude = latitude.converted(to: UnitAngle.garminSemicircle)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: latitude.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .longitude:
-                if var longitude = position.longitude {
-                    longitude = longitude.converted(to: UnitAngle.garminSemicircle)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: longitude.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .distance:
-                if var distance = distance {
-                    distance = distance.converted(to: UnitLength.meters)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: distance.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .pointType:
-                if let pointType = pointType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: pointType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .name:
-                if let name = name {
-                    if let stringData = name.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            case .favorite:
-                if let favorite = isFavorite {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: favorite)) {
-                        return.failure(error)
-                    }
-                }
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

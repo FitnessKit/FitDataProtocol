@@ -30,35 +30,64 @@ import FitnessUnits
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class ExerciseTitleMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 264 }
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
-    /// Workout Step Name
-    private(set) public var stepName: String?
-
+    
     /// Exercise Category
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var category: ExerciseCategory?
-
+    
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
+    private var _exerciseName: UInt16?
+    
     /// Exercise Name
-    private(set) public var exerciseName: ExerciseNameType?
+    public var exerciseName: ExerciseNameType? {
+        get {
+            guard let name = _exerciseName else { return nil}
+            return category?.exerciseName(from: name)
+        }
+    }
+    
+    /// Workout Step Name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
+    private(set) public var stepName: String?
+    
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    public required init() {
+        super.init()
+        
+        self.$messageIndex.owner = self
+        
+        self.$category.owner = self
+        self.$_exerciseName.owner = self
+        self.$stepName.owner = self
+    }
+    
+    public convenience init(messageIndex: MessageIndex? = nil,
+                            stepName: String? = nil,
+                            category: ExerciseCategory? = nil,
+                            exerciseName: ExerciseNameType? = nil) {
+        self.init()
+                
+        let catPre = category ?? .invalid
+        let namePre = exerciseName?.catagory ?? ExerciseCategory.invalid
 
-    public required init() {}
-
-    public init(messageIndex: MessageIndex? = nil,
-                stepName: String? = nil,
-                category: ExerciseCategory? = nil,
-                exerciseName: ExerciseNameType? = nil) {
+        precondition(catPre == namePre, "exerciseName is not of ExerciseCategory type")
         
         self.messageIndex = messageIndex
         self.stepName = stepName
         self.category = category
-        self.exerciseName = exerciseName
+        self._exerciseName = exerciseName?.number
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -67,73 +96,29 @@ open class ExerciseTitleMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: ExerciseTitleMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var messageIndex: MessageIndex?
         
-        var stepName: String?
-        var category: ExerciseCategory?
-        var exerciseName: ExerciseNameType?
+        var testDecoder = DecodeData()
         
-        var exerciseNumber: UInt16?
-        
-        let arch = definition.architecture
-        
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("ExerciseTitleMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                    
-                case .category:
-                    category = ExerciseCategory.decode(decoder: &localDecoder,
-                                                       definition: definition,
-                                                       data: fieldData,
-                                                       dataStrategy: dataStrategy)
-                    
-                case .exerciseName:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        exerciseNumber = value
-                    }
-                    
-                case .stepName:
-                    stepName = String.decode(decoder: &localDecoder,
-                                             definition: definition,
-                                             data: fieldData,
-                                             dataStrategy: dataStrategy)
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        if let exerciseNumber = exerciseNumber {
-            exerciseName = category?.exerciseName(from: exerciseNumber)
-        }
-        
-        let msg = ExerciseTitleMessage(messageIndex: messageIndex,
-                                       stepName: stepName,
-                                       category: category,
-                                       exerciseName: exerciseName)
+        let msg = ExerciseTitleMessage(fieldDict: fieldDict,
+                                       fieldDataDict: fieldDataDict,
+                                       architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
         
-        return.success(msg as! F)
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -141,54 +126,24 @@ open class ExerciseTitleMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
-            case .category:
-                if let _ = category { fileDefs.append(key.fieldDefinition()) }
-            case .exerciseName:
-                if let _ = exerciseName { fileDefs.append(key.fieldDefinition()) }
-            case .stepName:
-                if let stringData = stepName?.data(using: .utf8) {
-                    //200 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("stepName size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            }
+        
+        guard stepName?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("stepName size can not exceed 255"))
         }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
 
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: ExerciseTitleMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: ExerciseTitleMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -196,49 +151,11 @@ open class ExerciseTitleMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .category:
-                if let category = category {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: category)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .exerciseName:
-                if let exerciseName = exerciseName {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: exerciseName)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .stepName:
-                if let stepName = stepName {
-                    if let stringData = stepName.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

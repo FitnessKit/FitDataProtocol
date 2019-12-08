@@ -25,7 +25,7 @@ import Foundation
 /// Workout File Validator
 internal struct WorkoutFileEncoderValidator: EncoderFileTypeValidator {
 
-    internal static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitEncodingError> {
+    static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitEncodingError> {
         //Workout file shall contain file_id, workout, and workout_step
         
         let msg = "Workout Files"

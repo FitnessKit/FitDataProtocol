@@ -30,72 +30,126 @@ import FitnessUnits
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class WeightScaleMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 30 }
-
-    /// Timestamp
-    private(set) public var timeStamp: FitTime?
-
+    
     /// Weight
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var weight: Weight?
-
+    
     /// Percent Fat
-    private(set) public var percentFat: ValidatedMeasurement<UnitPercent>?
-
+    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 1,
+                     unit: UnitPercent.percent)
+    private(set) public var percentFat: Measurement<UnitPercent>?
+    
     /// Percent Hydration
-    private(set) public var percentHydration: ValidatedMeasurement<UnitPercent>?
-
+    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                     fieldNumber: 2,
+                     unit: UnitPercent.percent)
+    private(set) public var percentHydration: Measurement<UnitPercent>?
+    
     /// Visceral Fat Mass
-    private(set) public var visceralFatMass: ValidatedMeasurement<UnitMass>?
-
+    @FitFieldMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 3,
+                  unit: UnitMass.kilograms)
+    private(set) public var visceralFatMass: Measurement<UnitMass>?
+    
     /// Bone Mass
-    private(set) public var boneMass: ValidatedMeasurement<UnitMass>?
-
+    @FitFieldMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 4,
+                  unit: UnitMass.kilograms)
+    private(set) public var boneMass: Measurement<UnitMass>?
+    
     /// Muscle Mass
-    private(set) public var muscleMass: ValidatedMeasurement<UnitMass>?
-
+    @FitFieldMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 5,
+                  unit: UnitMass.kilograms)
+    private(set) public var muscleMass: Measurement<UnitMass>?
+    
     /// Basal MET
     ///
     /// Units are per day
-    private(set) public var basalMet: ValidatedMeasurement<UnitEnergy>?
-
+    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0)),
+                    fieldNumber: 7,
+                    unit: UnitEnergy.kilocalories)
+    private(set) public var basalMet: Measurement<UnitEnergy>?
+    
     /// Physique Rating
-    private(set) public var physiqueRating: ValidatedMeasurement<RatingUnit>?
-
+    @FitFieldRatingUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                        fieldNumber: 8,
+                        unit: RatingUnit.physique)
+    private(set) public var physiqueRating: Measurement<RatingUnit>?
+    
     /// Active MET
     ///
     /// Units are per day
-    private(set) public var activeMet: ValidatedMeasurement<UnitEnergy>?
-
+    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0)),
+                    fieldNumber: 9,
+                    unit: UnitEnergy.kilocalories)
+    private(set) public var activeMet: Measurement<UnitEnergy>?
+    
     /// Metabolic Age
-    private(set) public var metabolicAge: ValidatedMeasurement<UnitDuration>?
-
+    @FitFieldDuration(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                      fieldNumber: 10,
+                      unit: UnitDuration.year)
+    private(set) public var metabolicAge: Measurement<UnitDuration>?
+    
     /// Visceral Fat Rating
-    private(set) public var visceralFatRating: ValidatedMeasurement<RatingUnit>?
-
+    @FitFieldRatingUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                        fieldNumber: 11,
+                        unit: RatingUnit.visceralFat)
+    private(set) public var visceralFatRating: Measurement<RatingUnit>?
+    
     /// User Profile Index
     ///
     /// Associates this blood pressure message to a user.  This corresponds to the index of the user profile message in the blood pressure file.
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 12)
     private(set) public var userProfileIndex: MessageIndex?
-
-
-    public required init() {}
-
-    public init(timeStamp: FitTime? = nil,
-                weight: Weight? = nil,
-                percentFat: ValidatedMeasurement<UnitPercent>? = nil,
-                percentHydration: ValidatedMeasurement<UnitPercent>? = nil,
-                visceralFatMass: ValidatedMeasurement<UnitMass>? = nil,
-                boneMass: ValidatedMeasurement<UnitMass>? = nil,
-                muscleMass: ValidatedMeasurement<UnitMass>? = nil,
-                basalMet: ValidatedMeasurement<UnitEnergy>? = nil,
-                physiqueRating: ValidatedMeasurement<RatingUnit>? = nil,
-                activeMet: ValidatedMeasurement<UnitEnergy>? = nil,
-                metabolicAge: ValidatedMeasurement<UnitDuration>? = nil,
-                visceralFatRating: ValidatedMeasurement<RatingUnit>? = nil,
-                userProfileIndex: MessageIndex? = nil) {
-
+    
+    /// Timestamp
+    @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 253, local: false)
+    private(set) public var timeStamp: FitTime?
+    
+    
+    public required init() {
+        super.init()
+        
+        self.$timeStamp.owner = self
+        
+        self.$weight.owner = self
+        self.$percentFat.owner = self
+        self.$percentHydration.owner = self
+        self.$visceralFatMass.owner = self
+        self.$boneMass.owner = self
+        self.$muscleMass.owner = self
+        self.$basalMet.owner = self
+        self.$physiqueRating.owner = self
+        self.$activeMet.owner = self
+        self.$metabolicAge.owner = self
+        self.$visceralFatRating.owner = self
+        self.$userProfileIndex.owner = self
+    }
+    
+    public convenience init(timeStamp: FitTime? = nil,
+                            weight: Weight? = nil,
+                            percentFat: Measurement<UnitPercent>? = nil,
+                            percentHydration: Measurement<UnitPercent>? = nil,
+                            visceralFatMass: Measurement<UnitMass>? = nil,
+                            boneMass: Measurement<UnitMass>? = nil,
+                            muscleMass: Measurement<UnitMass>? = nil,
+                            basalMet: Measurement<UnitEnergy>? = nil,
+                            physiqueRating: UInt8? = nil,
+                            activeMet: Measurement<UnitEnergy>? = nil,
+                            metabolicAge: Measurement<UnitDuration>? = nil,
+                            visceralFatRating: UInt8? = nil,
+                            userProfileIndex: MessageIndex? = nil) {
+        self.init()
+        
         self.timeStamp = timeStamp
         self.weight = weight
         self.percentFat = percentFat
@@ -104,13 +158,21 @@ open class WeightScaleMessage: FitMessage {
         self.boneMass = boneMass
         self.muscleMass = muscleMass
         self.basalMet = basalMet
-        self.physiqueRating = physiqueRating
+        
+        if let physiqueRating = physiqueRating {
+            self.physiqueRating = Measurement(value: Double(physiqueRating), unit: self.$physiqueRating.unitType)
+        }
+        
         self.activeMet = activeMet
         self.metabolicAge = metabolicAge
-        self.visceralFatRating = visceralFatRating
+        
+        if let visceralFatRating = visceralFatRating {
+            self.visceralFatRating = Measurement(value: Double(visceralFatRating), unit: self.$visceralFatRating.unitType)
+        }
+        
         self.userProfileIndex = userProfileIndex
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -119,184 +181,29 @@ open class WeightScaleMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: WeightScaleMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var timestamp: FitTime?
-        var weight: Weight?
-        var percentFat: ValidatedMeasurement<UnitPercent>?
-        var percentHydration: ValidatedMeasurement<UnitPercent>?
-        var visceralFatMass: ValidatedMeasurement<UnitMass>?
-        var boneMass: ValidatedMeasurement<UnitMass>?
-        var muscleMass: ValidatedMeasurement<UnitMass>?
-        var basalMet: ValidatedMeasurement<UnitEnergy>?
-        var physiqueRating: ValidatedMeasurement<RatingUnit>?
-        var activeMet: ValidatedMeasurement<UnitEnergy>?
-        var metabolicAge: ValidatedMeasurement<UnitDuration>?
-        var visceralFatRating: ValidatedMeasurement<RatingUnit>?
-        var userProfileIndex: MessageIndex?
-
-        let arch = definition.architecture
-
-        var localDecoder = DecodeData()
-
+        
+        var testDecoder = DecodeData()
+        
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
+        
         for definition in definition.fieldDefinitions {
-
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("WeightScaleMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
-            case .some(let key):
-                switch key {
-                case .timestamp:
-                    timestamp = FitTime.decode(decoder: &localDecoder,
-                                               endian: arch,
-                                               definition: definition,
-                                               data: fieldData)
-
-                case .weight:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        /// 100 * kg + 0
-                        weight = Weight(rawValue: value, scale: 100.0)
-                    } else {
-                        if let value = ValidatedBinaryInteger<UInt16>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                            weight = Weight(rawValue: value.value, scale: 1.0, valid: false)
-                        } else {
-                            weight = nil
-                        }
-                    }
-
-                case .percentFat:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        percentFat = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
-                    } else {
-                        percentFat = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
-                    }
-
-                case .percentHydration:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * % + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        percentHydration = ValidatedMeasurement(value: value, valid: true, unit: UnitPercent.percent)
-                    } else {
-                        percentHydration = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitPercent.percent)
-                    }
-
-                case .visceralFatMass:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * kg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        visceralFatMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
-                    } else {
-                        visceralFatMass = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitMass.kilograms)
-                    }
-
-                case .boneMass:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * kg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        boneMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
-                    } else {
-                        boneMass = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitMass.kilograms)
-                    }
-
-                case .muscleMass:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 100 * kg + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        muscleMass = ValidatedMeasurement(value: value, valid: true, unit: UnitMass.kilograms)
-                    } else {
-                        muscleMass = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitMass.kilograms)
-                    }
-
-                case .basalMet:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 4 * kcal/day + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        basalMet = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
-                    } else {
-                        basalMet = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
-                    }
-
-                case .physiqueRating:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        let value = Double(value)
-                        physiqueRating = ValidatedMeasurement(value: value, valid: true, unit: RatingUnit.physique)
-                    } else {
-                        physiqueRating = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: RatingUnit.physique)
-                    }
-
-                case .activeMet:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 4 * kcal/day + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        activeMet = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
-                    } else {
-                        activeMet = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
-                    }
-
-                case .metabolicAge:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        /// 1 * years
-                        let value = Double(value)
-                        metabolicAge = ValidatedMeasurement(value: value, valid: true, unit: UnitDuration.year)
-                    } else {
-                        metabolicAge = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitDuration.year)
-                    }
-
-                case .visceralFatRating:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        let value = Double(value)
-                        visceralFatRating = ValidatedMeasurement(value: value, valid: true, unit: RatingUnit.visceralFat)
-                    } else {
-                        visceralFatRating = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: RatingUnit.visceralFat)
-                    }
-
-
-                case .userProfileIndex:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        userProfileIndex = MessageIndex(value: value)
-                    }
-
-                }
-            }
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+            
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
-
-        let msg = WeightScaleMessage(timeStamp: timestamp,
-                                     weight: weight,
-                                     percentFat: percentFat,
-                                     percentHydration: percentHydration,
-                                     visceralFatMass: visceralFatMass,
-                                     boneMass: boneMass,
-                                     muscleMass: muscleMass,
-                                     basalMet: basalMet,
-                                     physiqueRating: physiqueRating,
-                                     activeMet: activeMet,
-                                     metabolicAge: metabolicAge,
-                                     visceralFatRating: visceralFatRating,
-                                     userProfileIndex: userProfileIndex)
+        
+        let msg = WeightScaleMessage(fieldDict: fieldDict,
+                                     fieldDataDict: fieldDataDict,
+                                     architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -304,64 +211,20 @@ open class WeightScaleMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .timestamp:
-                if let _ = timeStamp { fileDefs.append(key.fieldDefinition()) }
-
-            case .weight:
-                if let _ = weight { fileDefs.append(key.fieldDefinition()) }
-            case .percentFat:
-                if let _ = percentFat { fileDefs.append(key.fieldDefinition()) }
-            case .percentHydration:
-                if let _ = percentHydration { fileDefs.append(key.fieldDefinition()) }
-            case .visceralFatMass:
-                if let _ = visceralFatMass { fileDefs.append(key.fieldDefinition()) }
-            case .boneMass:
-                if let _ = boneMass { fileDefs.append(key.fieldDefinition()) }
-            case .muscleMass:
-                if let _ = muscleMass { fileDefs.append(key.fieldDefinition()) }
-            case .basalMet:
-                if let _ = basalMet { fileDefs.append(key.fieldDefinition()) }
-            case .physiqueRating:
-                if let _ = physiqueRating { fileDefs.append(key.fieldDefinition()) }
-            case .activeMet:
-                if let _ = activeMet { fileDefs.append(key.fieldDefinition()) }
-            case .metabolicAge:
-                if let _ = metabolicAge { fileDefs.append(key.fieldDefinition()) }
-            case .visceralFatRating:
-                if let _ = visceralFatRating { fileDefs.append(key.fieldDefinition()) }
-            case .userProfileIndex:
-                if let _ = userProfileIndex { fileDefs.append(key.fieldDefinition()) }
-            }
-        }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: WeightScaleMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+        
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: WeightScaleMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -369,114 +232,11 @@ open class WeightScaleMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .timestamp:
-                if let timestamp = timeStamp {
-                    msgData.append(timestamp.encode())
-                }
-
-            case .weight:
-                if let weight = weight {
-                    msgData.append(weight.encode())
-                }
-
-            case .percentFat:
-                if let percentFat = percentFat {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: percentFat.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .percentHydration:
-                if let percentHydration = percentHydration {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: percentHydration.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .visceralFatMass:
-                if var visceralFatMass = visceralFatMass {
-                    visceralFatMass = visceralFatMass.converted(to: UnitMass.kilograms)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: visceralFatMass.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .boneMass:
-                if var boneMass = boneMass {
-                    boneMass = boneMass.converted(to: UnitMass.kilograms)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: boneMass.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .muscleMass:
-                if var muscleMass = muscleMass {
-                    muscleMass = muscleMass.converted(to: UnitMass.kilograms)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: muscleMass.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .basalMet:
-                if var basalMet = basalMet {
-                    basalMet = basalMet.converted(to: UnitEnergy.kilocalories)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: basalMet.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .physiqueRating:
-                if let physiqueRating = physiqueRating {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: physiqueRating.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .activeMet:
-                if var activeMet = activeMet {
-                    activeMet = activeMet.converted(to: UnitEnergy.kilocalories)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: activeMet.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .metabolicAge:
-                if var metabolicAge = metabolicAge {
-                    metabolicAge = metabolicAge.converted(to: UnitDuration.year)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: metabolicAge.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .visceralFatRating:
-                if let visceralFatRating = visceralFatRating {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: visceralFatRating.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .userProfileIndex:
-                if let userProfileIndex = userProfileIndex {
-                    msgData.append(userProfileIndex.encode())
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

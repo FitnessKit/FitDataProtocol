@@ -25,10 +25,22 @@
 import Foundation
 
 extension Data {
-
+    
     init<T>(from value: T) {
-        var value = value
-        self.init(buffer: UnsafeBufferPointer(start: &value, count: 1))
+        self = Swift.withUnsafeBytes(of: value) { Data($0) }
+    }
+    
+    func to<T>(type: T.Type) -> T? where T: ExpressibleByIntegerLiteral {
+        var value: T = 0
+        guard count >= MemoryLayout.size(ofValue: value) else { return nil }
+        _ = Swift.withUnsafeMutableBytes(of: &value, { copyBytes(to: $0)} )
+        return value
+    }
+    
+    func to<T>(type: T.Type) -> T where T: ExpressibleByIntegerLiteral {
+        var value: T = 0
+        _ = Swift.withUnsafeMutableBytes(of: &value, { copyBytes(to: $0)} )
+        return value as T
     }
 
     /// Smartly Decodes String
@@ -65,28 +77,26 @@ extension Data {
     ///
     /// - Parameters:
     ///   - size: Size of the Segments
+    ///   - offset: Starting Index position
     /// - Returns: Array of Segmented Data
-    func segment(size _size: Int, offset: Int = 0) -> [Data] {
-
-        var messages: [Data] = [Data]()
-
-        let myData = self
-        let length = self.count
-        var internalOffset = offset
-
-        repeat {
-
-            let thisChuckSize = length - internalOffset > _size ? _size : length - internalOffset
-
-            let chunk = myData.subdata(in: (internalOffset..<(internalOffset + thisChuckSize)))
-
-            internalOffset = internalOffset + thisChuckSize
-
-            messages.append(chunk)
-
-        } while (internalOffset < length)
-
-        return messages
+    func segment(size: Int, offset: Int = 0) -> [Data] {
+        return stride(from: offset, to: count, by: size).map {
+            self[$0 ..< Swift.min($0 + size, count)]
+        }
     }
 
+}
+
+extension Data: FitFieldCodeable {
+    public func encode(base: BaseTypeData) -> Data? {
+        return self
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if data.isEmpty == false {
+            return data as? T
+        }
+        
+        return nil
+    }
 }

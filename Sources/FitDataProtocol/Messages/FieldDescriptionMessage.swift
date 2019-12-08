@@ -37,41 +37,99 @@ open class FieldDescriptionMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 206 }
     
     /// Developer Data Index
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var dataIndex: UInt8?
     
     /// Developer Definition Number
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
     private(set) public var definitionNumber: UInt8?
     
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
+    private var baseTypeId: BaseType?
+    
     /// Field name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 3)
     private(set) public var fieldName: String?
     
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 6)
+    private var scale: UInt8?
+    
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 7)
+    private var offset: UInt8?
+    
     /// Base Unit Type Information
-    private(set) public var baseInfo: BaseTypeData?
+    private(set) public var baseInfo: BaseTypeData? {
+        get {
+            let base = self.baseTypeId ?? .unknown
+            let scale = self.scale ?? 1
+            let offset = self.offset ?? 0
+            
+            return BaseTypeData(type: base,
+                                resolution: Resolution(scale: Double(scale),
+                                                       offset: Double(offset)))
+        }
+        set {
+            self.baseTypeId = newValue?.type
+            if let res = newValue?.resolution {
+                self.scale = UInt8(res.scale)
+                self.offset = UInt8(res.offset)
+            }
+        }
+    }
     
     /// Units name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 8)
     private(set) public var units: String?
     
     /// Base Units
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 13)
     private(set) public var baseUnits: BaseUnitType?
     
     /// Message Number
     ///
     /// This will match up with the FitMessage.globalMessageNumber()
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 14)
     private(set) public var messageNumber: UInt16?
     
     /// Field Number
+    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 15)
     private(set) public var fieldNumber: UInt8?
     
-    public required init() {}
+    public required init() {
+        super.init()
+        
+        self.$dataIndex.owner = self
+        self.$definitionNumber.owner = self
+        self.$baseTypeId.owner = self
+        self.$fieldName.owner = self
+        self.$scale.owner = self
+        self.$offset.owner = self
+        self.$units.owner = self
+        self.$baseUnits.owner = self
+        self.$messageNumber.owner = self
+        self.$fieldNumber.owner = self
+    }
     
-    public init(dataIndex: UInt8?,
-                definitionNumber: UInt8?,
-                fieldName: String?,
-                baseInfo: BaseTypeData?,
-                units: String?,
-                baseUnits: BaseUnitType?,
-                messageNumber: UInt16?,
-                fieldNumber: UInt8?) {
+    public convenience init(dataIndex: UInt8?,
+                            definitionNumber: UInt8?,
+                            fieldName: String?,
+                            baseInfo: BaseTypeData?,
+                            units: String?,
+                            baseUnits: BaseUnitType?,
+                            messageNumber: UInt16?,
+                            fieldNumber: UInt8?) {
+        self.init()
+        
         self.dataIndex = dataIndex
         self.definitionNumber = definitionNumber
         self.fieldName = fieldName
@@ -90,97 +148,28 @@ open class FieldDescriptionMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: FieldDescriptionMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var dataIndex: UInt8?
-        var definitionNumber: UInt8?
-        var baseTypeId: BaseType = .unknown
-        var fieldName: String?
-        var scale: UInt8 = 1
-        var offset: Int8 = 0
-        var units: String?
-        var baseUnits: BaseUnitType?
-        var messageNumber: UInt16?
-        var fieldNumber: UInt8?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("FieldDescriptionMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .dataIndex:
-                    dataIndex = localDecoder.decodeUInt8(fieldData.fieldData)
-                    
-                case .definitionNumber:
-                    definitionNumber = localDecoder.decodeUInt8(fieldData.fieldData)
-                    
-                case .baseTypeId:
-                    let base = localDecoder.decodeUInt8(fieldData.fieldData)
-                    baseTypeId = BaseType(rawValue: (base & 0x1F)) ?? .unknown
-                    
-                case .fieldName:
-                    fieldName = String.decode(decoder: &localDecoder,
-                                              definition: definition,
-                                              data: fieldData,
-                                              dataStrategy: dataStrategy)
-                    
-                case .scale:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        scale = value
-                    }
-                    
-                case .offset:
-                    let value = localDecoder.decodeInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        offset = value
-                    }
-                    
-                case .units:
-                    units = String.decode(decoder: &localDecoder,
-                                          definition: definition,
-                                          data: fieldData,
-                                          dataStrategy: dataStrategy)
-                    
-                case .baseUnits:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        baseUnits = BaseUnitType(rawValue: value)
-                    }
-                    
-                case .messageNumber:
-                    messageNumber = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    
-                case .fieldNumber:
-                    fieldNumber = localDecoder.decodeUInt8(fieldData.fieldData)
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let baseInfo = BaseTypeData(type: baseTypeId,
-                                    resolution: Resolution(scale: Double(scale), offset: Double(offset)))
+        let msg = FieldDescriptionMessage(fieldDict: fieldDict,
+                                          fieldDataDict: fieldDataDict,
+                                          architecture: definition.architecture)
         
-        let msg = FieldDescriptionMessage(dataIndex: dataIndex,
-                                          definitionNumber: definitionNumber,
-                                          fieldName: fieldName,
-                                          baseInfo: baseInfo,
-                                          units: units,
-                                          baseUnits: baseUnits,
-                                          messageNumber: messageNumber,
-                                          fieldNumber: fieldNumber)
+        let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
+        msg.developerData = devData.isEmpty ? nil : devData
         
-        return.success(msg as! F)
+        return .success(msg as! F)
     }
-    
 }
 
 public extension FieldDescriptionMessage {
@@ -189,6 +178,7 @@ public extension FieldDescriptionMessage {
     /// - Parameter developerData: DeveloperDataType
     func decodeString(developerData: DeveloperDataType) -> Result<String?, FitDeveloperDecodingError> {
         guard developerData.dataIndex == self.dataIndex else { return.failure(.dataIndexMismatch) }
+      
         if let fieldNumber = self.definitionNumber {
             guard developerData.fieldNumber == fieldNumber else { return.failure(.fieldNumberMismatch) }
         }
@@ -218,10 +208,11 @@ public extension FieldDescriptionMessage {
     /// - Parameter developerData: DeveloperDataType
     func decodeDouble(developerData: DeveloperDataType) -> Result<Double, FitDeveloperDecodingError> {
         guard developerData.dataIndex == self.dataIndex else { return.failure(.dataIndexMismatch) }
+       
         if let fieldNumber = self.definitionNumber {
             guard developerData.fieldNumber == fieldNumber else { return.failure(.fieldNumberMismatch) }
         }
-
+        
         if let baseInfo = self.baseInfo {
             var decoder = DecodeData()
             

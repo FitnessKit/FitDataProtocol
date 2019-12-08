@@ -46,3 +46,19 @@ internal extension Bool {
         return self == true ? 1 : 0
     }
 }
+
+// MARK: - FitFieldCodeable
+extension Bool: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.uint8Value.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return value.boolValue as? T
+        }
+        
+        return nil
+    }
+}

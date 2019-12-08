@@ -52,7 +52,7 @@ internal extension Date {
         var comps = DateComponents(year: 1989,
                                    month: 12,
                                    day: 31)
-        comps.timeZone = TimeZone(abbreviation: "UTC")
+        comps.timeZone = TimeZone(secondsFromGMT: 0)
 
         return Calendar(identifier: .gregorian).date(from: comps)!
     }

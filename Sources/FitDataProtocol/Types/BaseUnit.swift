@@ -36,3 +36,19 @@ public enum BaseUnitType: UInt16 {
     /// Invalid
     case invalid        = 65535
 }
+
+// MARK: - FitFieldCodeable
+extension BaseUnitType: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt16.self, data: data, resolution: base.resolution, arch: arch) {
+            return BaseUnitType(rawValue: value) as? T
+        }
+        
+        return nil
+    }
+}

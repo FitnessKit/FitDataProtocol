@@ -23,39 +23,23 @@
 //  THE SOFTWARE.
 
 import Foundation
-import FitnessUnits
 
 /// FIT Weight
 @available(swift 3.1)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 public struct Weight {
-    private let kCalculatingValue: UInt16 = 0xFFFE
-
-    /// 100 * kg + 0
-    private let resolution = Resolution(scale: 100.0, offset: 0.0)
-
+    private static let calculatingValue: UInt16 = 0xFFFE
+    
     /// Weight is being Calculated
     private(set) public var calculating: Bool
-
+    
     /// Weight
-    private(set) public var weight: ValidatedMeasurement<UnitMass>?
-
-    internal init(rawValue: UInt16, scale: Double, valid: Bool = true) {
-        self.calculating = false
-
-        if rawValue == kCalculatingValue {
-            self.calculating = true
-        } else {
-            //  scale * kg + 0
-            let value = Double(rawValue) / scale
-            weight = ValidatedMeasurement(value: value, valid: valid, unit: UnitMass.kilograms)
-        }
-    }
-
-    public init(weight: ValidatedMeasurement<UnitMass>?, calculating: Bool) {
-
+    private(set) public var weight: Measurement<UnitMass>?
+    
+    public init(weight: Measurement<UnitMass>?, calculating: Bool) {
+        
         self.calculating = calculating
-
+        
         if calculating == false {
             self.weight = weight
         }
@@ -63,7 +47,7 @@ public struct Weight {
 }
 
 extension Weight: Equatable {
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -77,36 +61,47 @@ extension Weight: Equatable {
     }
 }
 
-
-internal extension Weight {
-    /// Encodes the FileIdMessage into Data
-    ///
-    /// - Returns: Data representation
-    func encode() -> Data {
+// MARK: - FitFieldCodeable
+extension Weight: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
         var msgData = Data()
-
+        
         if calculating {
-            msgData.append(Data(from: kCalculatingValue.littleEndian))
+            msgData.append(Data(from: Weight.calculatingValue.littleEndian))
         } else {
-
-            if let weightV = self.weight {
-
-                var weightMes = Measurement<UnitMass>(value: weightV.value, unit: weightV.unit)
-                weightMes = weightMes.converted(to: UnitMass.kilograms)
-
-                let value = weightMes.value.resolution(type: UInt16.self,
-                                                       ResolutionDirection.adding,
-                                                       resolution: resolution)
-
+            
+            if var weightV = self.weight {
+                weightV = weightV.converted(to: UnitMass.kilograms)
+                
+                let value = weightV.value.resolution(type: UInt16.self,
+                                                     ResolutionDirection.adding,
+                                                     resolution: base.resolution)
+                
                 msgData.append(Data(from: value.littleEndian))
                 
             } else {
-                msgData.append(Data(from: kCalculatingValue.littleEndian))
+                return nil
             }
-
         }
-
+        
         return msgData
     }
-
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        let calculating = Data(from: Weight.calculatingValue.littleEndian)
+        
+        if calculating == data {
+            return Weight(weight: nil, calculating: true) as? T
+        }
+        
+        if let value = base.type.decode(unit: UnitMass.kilograms,
+                                        data: data,
+                                        resolution: base.resolution,
+                                        arch: arch) {
+            return Weight(weight: value, calculating: false) as? T
+        }
+        
+        return nil
+    }
 }

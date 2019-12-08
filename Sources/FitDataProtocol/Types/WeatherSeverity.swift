@@ -42,22 +42,19 @@ public enum WeatherSeverity: UInt8 {
     case invalid        = 255
 }
 
-internal extension WeatherSeverity {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> WeatherSeverity? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return WeatherSeverity(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return WeatherSeverity.invalid
-            }
+// MARK: - FitFieldCodeable
+extension WeatherSeverity: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return WeatherSeverity(rawValue: value) as? T
         }
+        
+        return nil
     }
 }
 
@@ -238,21 +235,18 @@ public enum WeatherSeverityType: UInt8 {
     case invalid                = 255
 }
 
-internal extension WeatherSeverityType {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> WeatherSeverityType? {
-
-        let value = decoder.decodeUInt8(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return WeatherSeverityType(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return WeatherSeverityType.invalid
-            }
+// MARK: - FitFieldCodeable
+extension WeatherSeverityType: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return WeatherSeverityType(rawValue: value) as? T
         }
+        
+        return nil
     }
 }

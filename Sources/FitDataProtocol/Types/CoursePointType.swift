@@ -82,3 +82,19 @@ public enum CoursePoint: UInt8 {
     /// Invalid
     case invalid            = 255
 }
+
+// MARK: - FitFieldCodeable
+extension CoursePoint: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return CoursePoint(rawValue: value) as? T
+        }
+        
+        return nil
+    }
+}

@@ -24,39 +24,58 @@
 
 import Foundation
 import DataDecoder
-import FitnessUnits
 import AntMessageProtocol
 
 /// FIT HRM Profile Message
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class HeartrateProfileMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 4 }
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
+    
     /// Enabled
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var enabled: Bool?
-
+    
     /// ANT ID
-    private(set) public var antID: ValidatedBinaryInteger<UInt16>?
-
+    @FitField(base: BaseTypeData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
+    private(set) public var antID: UInt16?
+    
     /// Log HRV
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
     private(set) public var logHrv: Bool?
-
+    
     /// Transmission Type
+    @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 3)
     private(set) public var transmissionType: TransmissionType?
+    
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    public required init() {
+        super.init()
+        
+        self.$messageIndex.owner = self
 
-    public required init() {}
-
-    public init(messageIndex: MessageIndex? = nil,
-                enabled: Bool? = nil,
-                antID: ValidatedBinaryInteger<UInt16>? = nil,
-                logHrv: Bool? = nil,
-                transmissionType: TransmissionType? = nil) {
+        self.$enabled.owner = self
+        self.$antID.owner = self
+        self.$logHrv.owner = self
+        self.$transmissionType.owner = self
+    }
+    
+    public convenience init(messageIndex: MessageIndex? = nil,
+                            enabled: Bool? = nil,
+                            antID: UInt16? = nil,
+                            logHrv: Bool? = nil,
+                            transmissionType: TransmissionType? = nil) {
+        self.init()
         
         self.messageIndex = messageIndex
         self.enabled = enabled
@@ -64,7 +83,7 @@ open class HeartrateProfileMessage: FitMessage {
         self.logHrv = logHrv
         self.transmissionType = transmissionType
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -73,74 +92,29 @@ open class HeartrateProfileMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: HeartrateProfileMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var messageIndex: MessageIndex?
-        var enabled: Bool?
-        var antID: ValidatedBinaryInteger<UInt16>?
-        var logHrv: Bool?
-        var transmissionType: TransmissionType?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("HeartrateProfileMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                    
-                case .enabled:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        enabled = value.boolValue
-                    }
-                    
-                case .antID:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    antID = ValidatedBinaryInteger<UInt16>.validated(value: value,
-                                                                     definition: definition,
-                                                                     dataStrategy: dataStrategy)
-                    
-                case .logHrv:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        logHrv = value.boolValue
-                    }
-                    
-                case .transType:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        transmissionType = TransmissionType(value)
-                    }
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = HeartrateProfileMessage(messageIndex: messageIndex,
-                                          enabled: enabled,
-                                          antID: antID,
-                                          logHrv: logHrv,
-                                          transmissionType: transmissionType)
+        let msg = HeartrateProfileMessage(fieldDict: fieldDict,
+                                          fieldDataDict: fieldDataDict,
+                                          architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -148,48 +122,20 @@ open class HeartrateProfileMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
 
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
-            case .enabled:
-                if let _ = enabled {fileDefs.append(key.fieldDefinition()) }
-            case .antID:
-                if let _ = antID { fileDefs.append(key.fieldDefinition()) }
-            case .logHrv:
-                if let _ = logHrv { fileDefs.append(key.fieldDefinition()) }
-            case .transType:
-                if let _ = transmissionType { fileDefs.append(key.fieldDefinition()) }
-            }
-        }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: HeartrateProfileMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: HeartrateProfileMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -197,56 +143,11 @@ open class HeartrateProfileMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .enabled:
-                if let enabled = enabled {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: enabled)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .antID:
-                if let antID = antID {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: antID)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .logHrv:
-                if let logHrv = logHrv {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: logHrv)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .transType:
-                if let transmissionType = transmissionType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: transmissionType)) {
-                        return.failure(error)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

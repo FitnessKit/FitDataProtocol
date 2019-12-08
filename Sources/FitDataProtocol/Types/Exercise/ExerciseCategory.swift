@@ -100,6 +100,22 @@ public enum ExerciseCategory: UInt16 {
     case invalid            = 65535
 }
 
+// MARK: - FitFieldCodeable
+extension ExerciseCategory: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt16.self, data: data, resolution: base.resolution, arch: arch) {
+            return ExerciseCategory(rawValue: value) as? T
+        }
+        
+        return nil
+    }
+}
+
 internal extension ExerciseCategory {
 
     /// Gets the Valid Exercise Name Type
@@ -184,24 +200,5 @@ internal extension ExerciseCategory {
 
     func exerciseName(from: UInt16) -> ExerciseNameType? {
         return validExerciseNameType?.create(rawValue: from)
-    }
-}
-
-internal extension ExerciseCategory {
-
-    static func decode(decoder: inout DecodeData, definition: FieldDefinition, data: FieldData, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> ExerciseCategory? {
-
-        let value = decoder.decodeUInt16(data.fieldData)
-        if value.isValidForBaseType(definition.baseType) {
-            return ExerciseCategory(rawValue: value)
-        } else {
-
-            switch dataStrategy {
-            case .nil:
-                return nil
-            case .useInvalid:
-                return ExerciseCategory.invalid
-            }
-        }
     }
 }

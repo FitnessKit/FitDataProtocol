@@ -30,40 +30,55 @@ import FitnessUnits
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class MetZoneMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 10 }
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
+    
     /// Heart Rate High Level
-    private(set) public var heartRate: ValidatedMeasurement<UnitCadence>?
-
+    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                     fieldNumber: 1, unit: UnitCadence.beatsPerMinute)
+    private(set) public var heartRate: Measurement<UnitCadence>?
+    
     /// Calories per Minute
-    private(set) public var calories: ValidatedMeasurement<UnitEnergy>?
-
+    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                    fieldNumber: 2, unit: UnitEnergy.kilocalories)
+    private(set) public var calories: Measurement<UnitEnergy>?
+    
     /// Fat Calories per Minute
-    private(set) public var fatCalories: ValidatedMeasurement<UnitEnergy>?
-
-    public required init() {}
-
-    public init(messageIndex: MessageIndex? = nil,
-                heartRate: UInt8? = nil,
-                calories: ValidatedMeasurement<UnitEnergy>? = nil,
-                fatCalories: ValidatedMeasurement<UnitEnergy>? = nil) {
-
-        self.messageIndex = messageIndex
-
-        if let hr = heartRate {
-            let valid = hr.isValidForBaseType(FitCodingKeys.highBpm.baseData.type)
-            self.heartRate = ValidatedMeasurement(value: Double(hr), valid: valid, unit: UnitCadence.beatsPerMinute)
-        }
+    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                    fieldNumber: 3, unit: UnitEnergy.kilocalories)
+    private(set) public var fatCalories: Measurement<UnitEnergy>?
+    
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    public required init() {
+        super.init()
         
+        self.$messageIndex.owner = self
+        
+        self.$heartRate.owner = self
+        self.$calories.owner = self
+        self.$fatCalories.owner = self
+    }
+    
+    public convenience init(messageIndex: MessageIndex? = nil,
+                            heartRate: UInt8? = nil,
+                            calories: Measurement<UnitEnergy>? = nil,
+                            fatCalories: Measurement<UnitEnergy>? = nil) {
+        self.init()
+        
+        self.messageIndex = messageIndex
+        
+        if let hr = heartRate {
+            self.heartRate = Measurement(value: Double(hr), unit: self.$heartRate.unitType)
+        }
         self.calories = calories
         self.fatCalories = fatCalories
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -72,81 +87,29 @@ open class MetZoneMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: MetZoneMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var messageIndex: MessageIndex?
-        var heartRate: UInt8?
-        var calories: ValidatedMeasurement<UnitEnergy>?
-        var fatCalories: ValidatedMeasurement<UnitEnergy>?
         
-        let arch = definition.architecture
+        var testDecoder = DecodeData()
         
-        var localDecoder = DecodeData()
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
         
         for definition in definition.fieldDefinitions {
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
             
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-            
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("MetZoneMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-                
-            case .some(let key):
-                switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-                    
-                case .highBpm:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 1 * bpm + 0
-                        heartRate = value
-                    } else {
-                        if let value = ValidatedBinaryInteger<UInt8>.invalidValue(definition.baseType, dataStrategy: dataStrategy) {
-                            heartRate = value.value
-                        } else {
-                            heartRate = nil
-                        }
-                    }
-                    
-                case .calories:
-                    let value = decodeUInt16(decoder: &localDecoder, endian: arch, data: fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 10 * kcal / min + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        calories = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
-                    } else {
-                        calories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
-                    }
-                    
-                case .fatCalories:
-                    let value = localDecoder.decodeUInt8(fieldData.fieldData)
-                    if value.isValidForBaseType(definition.baseType) {
-                        // 10 * kcal / min + 0
-                        let value = value.resolution(.removing, resolution: key.baseData.resolution)
-                        fatCalories = ValidatedMeasurement(value: value, valid: true, unit: UnitEnergy.kilocalories)
-                    } else {
-                        fatCalories = ValidatedMeasurement.invalidValue(definition.baseType, dataStrategy: dataStrategy, unit: UnitEnergy.kilocalories)
-                    }
-                    
-                }
-            }
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
         
-        let msg = MetZoneMessage(messageIndex: messageIndex,
-                                 heartRate: heartRate,
-                                 calories: calories,
-                                 fatCalories: fatCalories)
+        let msg = MetZoneMessage(fieldDict: fieldDict,
+                                 fieldDataDict: fieldDataDict,
+                                 architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
-        return.success(msg as! F)
+        
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -154,46 +117,20 @@ open class MetZoneMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
 
-//        do {
-//            try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
-//        } catch let error as FitEncodingError {
-//            return.failure(error)
-//        } catch {
-//            return.failure(FitEncodingError.fileType(error.localizedDescription))
-//        }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
-            case .highBpm:
-                if let _ = heartRate { fileDefs.append(key.fieldDefinition()) }
-            case .calories:
-                if let _ = calories { fileDefs.append(key.fieldDefinition()) }
-            case .fatCalories:
-                if let _ = fatCalories { fileDefs.append(key.fieldDefinition()) }
-            }
-        }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: MetZoneMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: MetZoneMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -201,51 +138,11 @@ open class MetZoneMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .highBpm:
-                if let heartRate = heartRate {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: heartRate.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .calories:
-                if var calories = calories {
-                    calories = calories.converted(to: UnitEnergy.kilocalories)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: calories.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .fatCalories:
-                if var fatCalories = fatCalories {
-                    fatCalories = fatCalories.converted(to: UnitEnergy.kilocalories)
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: fatCalories.value)) {
-                        return.failure(error)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

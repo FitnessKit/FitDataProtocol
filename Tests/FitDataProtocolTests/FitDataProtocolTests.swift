@@ -17,7 +17,8 @@ class FitDataProtocolTests: XCTestCase {
         ("testBadProtocolFitFile", testBadProtocolFitFile),
         ("testBadProtocolBadFitFile", testBadProtocolBadFitFile),
         ("testHeaderSizeWrong", testHeaderSizeWrong),
-        ("testSparseData", testSparseData)
+        ("testSparseData", testSparseData),
+        ("testExampleEncodeDecode", testExampleEncodeDecode)
     ]
 }
 
@@ -123,28 +124,37 @@ extension FitDataProtocolTests {
             XCTFail("Error should have been nonFitFile")
         }
     }
-
+        
     func testExampleEncodeDecode() {
         
-        let fTime = FitTime(date: Date())
-        
+        let fTime = FitTime(date: Date())        
         let timer = Measurement(value: 200.0, unit: UnitDuration.seconds)
         
         let act = ActivityMessage(timeStamp: fTime,
                                   totalTimerTime: timer,
                                   localTimeStamp: nil,
-                                  numberOfSessions: ValidatedBinaryInteger(value: UInt16(22), valid: true),
+                                  numberOfSessions: 22,
                                   activity: Activity.multisport,
-                                  event: nil,
-                                  eventType: nil,
-                                  eventGroup: nil)
+                                  event: Event.virtualPatnerPace,
+                                  eventType: EventType.marker,
+                                  eventGroup: 54)
         
         print(act.messageName)
         
-        let fiel = FileIdMessage(deviceSerialNumber: ValidatedBinaryInteger(value: UInt32(22), valid: true),
+        let stance = StanceTime(percent: Measurement(value: 10, unit: UnitPercent.percent), time: nil, balance: nil)
+        let rec = RecordMessage(timeStamp: fTime,
+                                cycles: 55,
+                                totalCycles: 444,
+                                stanceTime: stance,
+                                heartRate: 80,
+                                cadence: 10,
+                                activity: ActivityType.cycling,
+                                zone: 4)
+        
+        let fiel = FileIdMessage(deviceSerialNumber: 22,
                                  fileCreationDate: fTime,
                                  manufacturer: Manufacturer.northPoleEngineering,
-                                 product: ValidatedBinaryInteger(value: UInt16(22), valid: true),
+                                 product: 22,
                                  fileNumber: nil,
                                  fileType: FileType.activity,
                                  productName: "sdf--22")
@@ -153,13 +163,14 @@ extension FitDataProtocolTests {
         
         var encodedData: Data!
         
-        let result = encoder.encode(fildIdMessage: fiel, messages: [act, act])
+        let result = encoder.encode(fildIdMessage: fiel, messages: [act, rec])
         switch result {
         case .success(let data):
             print(data as NSData)
             encodedData = data
         case .failure(let error):
             XCTFail(error.localizedDescription)
+            return
         }
 
         
@@ -172,15 +183,33 @@ extension FitDataProtocolTests {
                     if fileId.manufacturer != Manufacturer.northPoleEngineering {
                         XCTFail()
                     }
-                    if fileId.product?.value != UInt16(22) {
+                    if fileId.product != 22 {
                         XCTFail()
                     }
                     if fileId.productName != "sdf--22" {
                         XCTFail()
                     }
-
+                }
+                if let activity = message as? ActivityMessage {
+                    if activity.totalTimerTime != timer { XCTFail() }
+                    if activity.numberOfSessions != 22 { XCTFail() }
+                    if activity.activity != Activity.multisport { XCTFail() }
+                    if activity.event != Event.virtualPatnerPace { XCTFail() }
+                    if activity.eventType != EventType.marker { XCTFail() }
+                    if activity.eventGroup != 54 { XCTFail() }
+                }
+                
+                if let record = message as? RecordMessage {
+                    if record.cycles?.value != 55.0 { XCTFail() }
+                    if record.totalCycles?.value != 444.0 { XCTFail() }
+                    if record.stanceTime?.percent != stance.percent { XCTFail() }
+                    if record.heartRate?.value != 80.0 { XCTFail() }
+                    if record.cadence?.value != 10.0 { XCTFail() }
+                    if record.activity != ActivityType.cycling { XCTFail() }
+                    if record.zone != 4 { XCTFail() }
 
                 }
+
                 print(message)
             })
             

@@ -54,6 +54,22 @@ internal extension Activity {
     }
 }
 
+// MARK: - FitFieldCodeable
+extension Activity: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return Activity(rawValue: value) as? T
+        }
+        
+        return nil
+    }
+}
+
 //MARK: - FIT Activity Type
 
 /// FIT Activity Type
@@ -78,6 +94,22 @@ public enum ActivityType: UInt8 {
     case all                = 254
     /// Invalid Activity
     case invalid            = 255
+}
+
+// MARK: - FitFieldCodeable
+extension ActivityType: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return ActivityType(rawValue: value) as? T
+        }
+        
+        return nil
+    }
 }
 
 internal extension ActivityType {

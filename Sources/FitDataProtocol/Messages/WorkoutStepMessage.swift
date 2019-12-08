@@ -30,62 +30,104 @@ import FitnessUnits
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class WorkoutStepMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 27 }
-
-    /// Message Index
-    private(set) public var messageIndex: MessageIndex?
-
+    
     /// Workout Step Name
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 0)
     private(set) public var name: String?
-
-    /// Duration
-    private(set) public var duration: ValidatedBinaryInteger<UInt32>?
-
+    
     /// Durationm Type
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 1)
     private(set) public var durationType: WorkoutStepDurationType?
-
-    /// Target
-    private(set) public var target: ValidatedBinaryInteger<UInt32>?
-
-    /// Target Value Low
-    private(set) public var targetLow: ValidatedBinaryInteger<UInt32>?
-
-    /// Target Value High
-    private(set) public var targetHigh: ValidatedBinaryInteger<UInt32>?
-
+    
+    /// Duration
+    @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 2)
+    private(set) public var duration: UInt32?
+    
     /// Target Type
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 3)
     private(set) public var targetType: WorkoutStepTargetType?
-
-    /// Exercise Category
-    private(set) public var category: ExerciseCategory?
-
+    
+    /// Target
+    @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 4)
+    private(set) public var target: UInt32?
+    
+    /// Target Value Low
+    @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 5)
+    private(set) public var targetLow: UInt32?
+    
+    /// Target Value High
+    @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 6)
+    private(set) public var targetHigh: UInt32?
+    
     /// Intensity Level
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 7)
     private(set) public var intensity: Intensity?
-
+    
     /// Notes
+    @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 8)
     private(set) public var notes: String?
-
+    
     /// Equipment
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 9)
     private(set) public var equipment: WorkoutEquipment?
-
-
-    public required init() {}
-
-    public init(messageIndex: MessageIndex? = nil,
-                name: String? = nil,
-                duration: ValidatedBinaryInteger<UInt32>? = nil,
-                durationType: WorkoutStepDurationType? = nil,
-                target: ValidatedBinaryInteger<UInt32>? = nil,
-                targetLow: ValidatedBinaryInteger<UInt32>? = nil,
-                targetHigh: ValidatedBinaryInteger<UInt32>? = nil,
-                targetType: WorkoutStepTargetType? = nil,
-                category: ExerciseCategory? = nil,
-                intensity: Intensity? = nil,
-                notes: String? = nil,
-                equipment: WorkoutEquipment? = nil) {
-
+    
+    /// Exercise Category
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 10)
+    private(set) public var category: ExerciseCategory?
+    
+    /// Message Index
+    @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+              fieldNumber: 254)
+    private(set) public var messageIndex: MessageIndex?
+    
+    public required init() {
+        super.init()
+        
+        // TODO: targetLow/targetHigh Change to a Protocol that provides the value for targetType
+        
+        self.$messageIndex.owner = self
+        
+        self.$name.owner = self
+        self.$durationType.owner = self
+        self.$duration.owner = self
+        self.$targetType.owner = self
+        self.$target.owner = self
+        self.$targetLow.owner = self
+        self.$targetHigh.owner = self
+        self.$intensity.owner = self
+        self.$notes.owner = self
+        self.$equipment.owner = self
+        self.$category.owner = self
+    }
+    
+    public convenience init(messageIndex: MessageIndex? = nil,
+                            name: String? = nil,
+                            duration: UInt32? = nil,
+                            durationType: WorkoutStepDurationType? = nil,
+                            target: UInt32? = nil,
+                            targetLow: UInt32? = nil,
+                            targetHigh: UInt32? = nil,
+                            targetType: WorkoutStepTargetType? = nil,
+                            category: ExerciseCategory? = nil,
+                            intensity: Intensity? = nil,
+                            notes: String? = nil,
+                            equipment: WorkoutEquipment? = nil) {
+        self.init()
+        
         self.messageIndex = messageIndex
         self.name = name
         self.duration = duration
@@ -99,7 +141,7 @@ open class WorkoutStepMessage: FitMessage {
         self.notes = notes
         self.equipment = equipment
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -108,130 +150,29 @@ open class WorkoutStepMessage: FitMessage {
     ///   - dataStrategy: Decoding Strategy
     /// - Returns: FitMessage Result
     override func decode<F: WorkoutStepMessage>(fieldData: FieldData, definition: DefinitionMessage, dataStrategy: FitFileDecoder.DataDecodingStrategy) -> Result<F, FitDecodingError> {
-        var messageIndex: MessageIndex?
-        var name: String?
-        var duration: ValidatedBinaryInteger<UInt32>?
-        var durationType: WorkoutStepDurationType?
-        var target: ValidatedBinaryInteger<UInt32>?
-        var targetLow: ValidatedBinaryInteger<UInt32>?
-        var targetHigh: ValidatedBinaryInteger<UInt32>?
-        var targetType: WorkoutStepTargetType?
-        var category: ExerciseCategory?
-        var intensity: Intensity?
-        var notes: String?
-        var equipment: WorkoutEquipment?
-
-        let arch = definition.architecture
-
-        var localDecoder = DecodeData()
-
+        
+        var testDecoder = DecodeData()
+        
+        var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
+        var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
+        
         for definition in definition.fieldDefinitions {
-
-            let fitKey = FitCodingKeys(intValue: Int(definition.fieldDefinitionNumber))
-
-            switch fitKey {
-            case .none:
-                // We still need to pull this data off the stack
-                let _ = localDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-                //print("WorkoutStepMessage Unknown Field Number: \(definition.fieldDefinitionNumber)")
-
-            case .some(let key):
-                switch key {
-                case .messageIndex:
-                    messageIndex = MessageIndex.decode(decoder: &localDecoder,
-                                                       endian: arch,
-                                                       definition: definition,
-                                                       data: fieldData)
-
-                case .stepName:
-                    name = String.decode(decoder: &localDecoder,
-                                         definition: definition,
-                                         data: fieldData,
-                                         dataStrategy: dataStrategy)
-
-                case .durationType:
-                    durationType = WorkoutStepDurationType.decode(decoder: &localDecoder,
-                                                                  definition: definition,
-                                                                  data: fieldData,
-                                                                  dataStrategy: dataStrategy)
-
-                case .durationValue:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    duration = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                        definition: definition,
-                                                                        dataStrategy: dataStrategy)
-
-                case .targetType:
-                    targetType = WorkoutStepTargetType.decode(decoder: &localDecoder,
-                                                              definition: definition,
-                                                              data: fieldData,
-                                                              dataStrategy: dataStrategy)
-
-                case .targetValue:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    target = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                      definition: definition,
-                                                                      dataStrategy: dataStrategy)
-
-                case .customTargetValueLow:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    targetLow = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                         definition: definition,
-                                                                         dataStrategy: dataStrategy)
-
-                case .customTargetValueHigh:
-                    let value = decodeUInt32(decoder: &localDecoder, endian: arch, data: fieldData)
-                    targetHigh = ValidatedBinaryInteger<UInt32>.validated(value: value,
-                                                                          definition: definition,
-                                                                          dataStrategy: dataStrategy)
-
-                case .intensity:
-                    intensity = Intensity.decode(decoder: &localDecoder,
-                                                 definition: definition,
-                                                 data: fieldData,
-                                                 dataStrategy: dataStrategy)
-
-                case .notes:
-                    notes = String.decode(decoder: &localDecoder,
-                                          definition: definition,
-                                          data: fieldData,
-                                          dataStrategy: dataStrategy)
-
-                case .equipment:
-                    equipment = WorkoutEquipment.decode(decoder: &localDecoder,
-                                                        definition: definition,
-                                                        data: fieldData,
-                                                        dataStrategy: dataStrategy)
-
-                case .category:
-                    category = ExerciseCategory.decode(decoder: &localDecoder,
-                                                       definition: definition,
-                                                       data: fieldData,
-                                                       dataStrategy: dataStrategy)
-
-                }
-            }
+            let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
+            
+            fieldDict[definition.fieldDefinitionNumber] = definition
+            fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
-
-        let msg = WorkoutStepMessage(messageIndex: messageIndex,
-                                     name: name,
-                                     duration: duration,
-                                     durationType: durationType,
-                                     target: target,
-                                     targetLow: targetLow,
-                                     targetHigh: targetHigh,
-                                     targetType: targetType,
-                                     category: category,
-                                     intensity: intensity,
-                                     notes: notes,
-                                     equipment: equipment)
+        
+        let msg = WorkoutStepMessage(fieldDict: fieldDict,
+                                     fieldDataDict: fieldDataDict,
+                                     architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
         
-        return.success(msg as! F)
+        return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -239,7 +180,7 @@ open class WorkoutStepMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
+        
         do {
             try validateMessage(fileType: fileType, dataValidityStrategy: dataValidityStrategy)
         } catch let error as FitEncodingError {
@@ -247,70 +188,28 @@ open class WorkoutStepMessage: FitMessage {
         } catch {
             return.failure(FitEncodingError.fileType(error.localizedDescription))
         }
-
-        var fileDefs = [FieldDefinition]()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let _ = messageIndex { fileDefs.append(key.fieldDefinition()) }
-
-            case .stepName:
-                if let stringData = name?.data(using: .utf8) {
-                    //16 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("name size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            case .durationType:
-                if let _ = durationType { fileDefs.append(key.fieldDefinition()) }
-            case .durationValue:
-                if let _ = duration { fileDefs.append(key.fieldDefinition()) }
-            case .targetType:
-                if let _ = targetType { fileDefs.append(key.fieldDefinition()) }
-            case .targetValue:
-                if let _ = target { fileDefs.append(key.fieldDefinition()) }
-            case .customTargetValueLow:
-                if let _ = targetLow { fileDefs.append(key.fieldDefinition()) }
-            case .customTargetValueHigh:
-                if let _ = targetHigh { fileDefs.append(key.fieldDefinition()) }
-            case .intensity:
-                if let _ = intensity { fileDefs.append(key.fieldDefinition()) }
-            case .notes:
-                if let stringData = notes?.data(using: .utf8) {
-                    //50 typical size... but we will count the String
-
-                    guard stringData.count <= UInt8.max else {
-                        return.failure(FitEncodingError.properySize("notes size can not exceed 255"))
-                    }
-
-                    fileDefs.append(key.fieldDefinition(size: UInt8(stringData.count)))
-                }
-            case .equipment:
-                if let _ = equipment { fileDefs.append(key.fieldDefinition()) }
-            case .category:
-                if let _ = category { fileDefs.append(key.fieldDefinition()) }
-            }
+        
+        guard name?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("name size can not exceed 255"))
         }
-
-        if fileDefs.count > 0 {
-
-            let defMessage = DefinitionMessage(architecture: .little,
-                                               globalMessageNumber: WorkoutStepMessage.globalMessageNumber(),
-                                               fields: UInt8(fileDefs.count),
-                                               fieldDefinitions: fileDefs,
-                                               developerFieldDefinitions: [DeveloperFieldDefinition]())
-
-            return.success(defMessage)
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
+        
+        guard notes?.count ?? 0 <= UInt8.max else {
+            return.failure(FitEncodingError.properySize("notes size can not exceed 255"))
         }
+        
+        let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
+        
+        guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
+
+        let defMessage = DefinitionMessage(architecture: .little,
+                                           globalMessageNumber: WorkoutStepMessage.globalMessageNumber(),
+                                           fields: UInt8(fields.count),
+                                           fieldDefinitions: fields,
+                                           developerFieldDefinitions: [DeveloperFieldDefinition]())
+        
+        return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -318,111 +217,17 @@ open class WorkoutStepMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
-        let msgData = MessageData()
-
-        for key in FitCodingKeys.allCases {
-
-            switch key {
-            case .messageIndex:
-                if let messageIndex = messageIndex {
-                    msgData.append(messageIndex.encode())
-                }
-
-            case .stepName:
-                if let stepName = name {
-                    if let stringData = stepName.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            case .durationType:
-                if let durationType = durationType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: durationType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .durationValue:
-                if let durationValue = duration {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: durationValue)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .targetType:
-                if let targetType = targetType {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetType)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .targetValue:
-                if let targetValue = target {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetValue)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .customTargetValueLow:
-                if let targetLow = targetLow {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetLow)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .customTargetValueHigh:
-                if let targetHigh = targetHigh {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: targetHigh)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .intensity:
-                if let intensity = intensity {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: intensity)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .notes:
-                if let notes = notes {
-                    if let stringData = notes.data(using: .utf8) {
-                        msgData.append(stringData)
-                    }
-                }
-
-            case .equipment:
-                if let equipment = equipment {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: equipment)) {
-                        return.failure(error)
-                    }
-                }
-
-            case .category:
-                if let category = category {
-                    if let error = msgData.shouldAppend(key.encodeKeyed(value: category)) {
-                        return.failure(error)
-                    }
-                }
-
-            }
-        }
-
-        if msgData.message.count > 0 {
-            return.success(encodedDataMessage(localMessageType: localMessageType, msgData: msgData.message))
-        } else {
-            return.failure(self.encodeNoPropertiesAvailable())
-        }
+        
+        return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }
 
 extension WorkoutStepMessage: MessageValidator {
-
+    
     /// Validate Message
     ///
     /// - Parameters:
@@ -430,7 +235,7 @@ extension WorkoutStepMessage: MessageValidator {
     ///   - dataValidityStrategy: Data Validity Strategy
     /// - Throws: FitError
     internal func validateMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) throws {
-
+        
         switch dataValidityStrategy {
         case .none:
         break // do nothing
@@ -442,22 +247,22 @@ extension WorkoutStepMessage: MessageValidator {
             break // do nothing
         }
     }
-
+    
     private func validateWorkout() throws {
-
+        
         let msg = "Workout Files"
-
+        
         guard self.messageIndex != nil else {
             throw FitEncodingError.fileType("\(msg) require WorkoutStepMessage to contain messageIndex, can not be nil")
         }
-
+        
         guard self.durationType != nil else {
             throw FitEncodingError.fileType("\(msg) require WorkoutStepMessage to contain durationType, can not be nil")
         }
-
+        
         guard self.targetType != nil else {
             throw FitEncodingError.fileType("\(msg) require WorkoutStepMessage to contain targetType, can not be nil")
         }
-
+        
     }
 }

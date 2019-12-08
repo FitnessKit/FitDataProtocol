@@ -29,6 +29,9 @@ public struct TricepExtensionExerciseName: ExerciseName {
     /// Exercise Name Type
     public typealias ExerciseNameType = TricepExtensionExerciseName
 
+    /// Exercise Catagory Type
+    public var catagory: ExerciseCategory { .tricepExtension }
+
     /// Exercise Name
     private(set) public var name: String
 
@@ -41,39 +44,7 @@ public struct TricepExtensionExerciseName: ExerciseName {
     }
 }
 
-extension TricepExtensionExerciseName: Hashable {
-
-    /// Hashes the essential components of this value by feeding them into the
-    /// given hasher.
-    ///
-    /// Implement this method to conform to the `Hashable` protocol. The
-    /// components used for hashing must be the same as the components compared
-    /// in your type's `==` operator implementation. Call `hasher.combine(_:)`
-    /// with each of these components.
-    ///
-    /// - Important: Never call `finalize()` on `hasher`. Doing so may become a
-    ///   compile-time error in the future.
-    ///
-    /// - Parameter hasher: The hasher to use when combining the components
-    ///   of this instance.
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(name)
-        hasher.combine(number)
-    }
-
-    /// Returns a Boolean value indicating whether two values are equal.
-    ///
-    /// Equality is the inverse of inequality. For any values `a` and `b`,
-    /// `a == b` implies that `a != b` is `false`.
-    ///
-    /// - Parameters:
-    ///   - lhs: A value to compare.
-    ///   - rhs: Another value to compare.
-    public static func == (lhs: TricepExtensionExerciseName, rhs: TricepExtensionExerciseName) -> Bool {
-        return lhs.name == rhs.name &&
-            lhs.number == rhs.number
-    }
-}
+extension TricepExtensionExerciseName: Hashable {}
 
 public extension TricepExtensionExerciseName {
 
@@ -132,14 +103,7 @@ public extension TricepExtensionExerciseName {
     /// - Parameter rawValue: exerciseNumber
     /// - Returns: ExerciseName Object
     static func create(rawValue: UInt16) -> TricepExtensionExerciseName? {
-
-        for name in TricepExtensionExerciseName.supportedExerciseNames {
-            if name.number == rawValue {
-                return name
-            }
-        }
-
-        return nil
+        return supportedExerciseNames.first { $0.number == rawValue }
     }
 }
 

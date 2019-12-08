@@ -41,6 +41,8 @@ internal var protocolVersion20: UInt8 {
 
 /// FIT File Header
 internal struct FileHeader {
+    /// Header Size
+    private static var kHeaderSize: UInt8 = 14
 
     /// Size of Header
     private(set) public var headerSize: UInt8
@@ -58,7 +60,7 @@ internal struct FileHeader {
     private(set) public var crc: UInt16?
 
     internal init(dataSize: UInt32) {
-        self.headerSize = 14
+        self.headerSize = FileHeader.kHeaderSize
         self.protocolVersion = protocolVersion20
         self.profileVersion = (UInt16(kProtocolVersionMajor) * 100) + UInt16(kProtocolVersionMinor)
         self.dataSize = dataSize
@@ -104,7 +106,7 @@ internal extension FileHeader {
         encode.append(Data(from: dataSize.littleEndian))
         _ = String([ ".", "F", "I", "T"]).utf8.map{ encode.append(UInt8($0)) }
 
-        if headerSize == 14 {
+        if headerSize == FileHeader.kHeaderSize {
             let crcCheck = CRC16(data: encode).crc
             encode.append(Data(from:crcCheck.littleEndian))
         }
@@ -140,7 +142,7 @@ internal extension FileHeader {
 
         // If we have a size of 14 in Header check CRC
         var crc: UInt16?
-        if headerSize == 14 {
+        if headerSize == FileHeader.kHeaderSize {
             let crcValue = decoder.decodeUInt16(data)
 
             if crcValue != 0 {
@@ -165,4 +167,3 @@ internal extension FileHeader {
         return.success(fileHeader)
     }
 }
-

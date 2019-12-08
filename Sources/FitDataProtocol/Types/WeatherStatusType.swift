@@ -72,3 +72,19 @@ public enum WeatherStatus: UInt8 {
     /// Invalid
     case invalid                    = 255
 }
+
+// MARK: - FitFieldCodeable
+extension WeatherStatus: FitFieldCodeable {
+    
+    public func encode(base: BaseTypeData) -> Data? {
+        Data(from: self.rawValue.littleEndian)
+    }
+    
+    public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
+        if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
+            return WeatherSeverityType(rawValue: value) as? T
+        }
+        
+        return nil
+    }
+}
