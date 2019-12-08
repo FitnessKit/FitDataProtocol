@@ -100,3 +100,25 @@ custom_categories:
     - TotalBodyExerciseName
     - TricepExtensionExerciseName
     - WarmUpExerciseName
+
+  - name: PropertyWrapper
+    children:
+    - FieldWrapper
+    - FitField
+    - FitFieldAngle
+    - FitFieldCadence
+    - FitFieldCount
+    - FitFieldDuration
+    - FitFieldEnergy
+    - FitFieldFlow
+    - FitFieldGrit
+    - FitFieldLength
+    - FitFieldMass
+    - FitFieldPercent
+    - FitFieldPower
+    - FitFieldPressure
+    - FitFieldRatingUnit
+    - FitFieldSpeed
+    - FitFieldTemperature
+    - FitFieldTime
+    - FitFieldVoltage
