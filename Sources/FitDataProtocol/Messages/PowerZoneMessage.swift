@@ -34,15 +34,15 @@ open class PowerZoneMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 9 }
     
     /// Power Zone High Level
-    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 1, unit: UnitPower.watts)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 1, unit: UnitPower.watts)
     private(set) public var highLevel: Measurement<UnitPower>?
-
+    
     /// Power Zone Name
     @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 2)
     private(set) public var name: String?
-        
+    
     /// Message Index
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 254)
@@ -133,7 +133,7 @@ open class PowerZoneMessage: FitMessage {
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
+        
         return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

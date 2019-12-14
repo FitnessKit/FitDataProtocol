@@ -40,67 +40,67 @@ open class WeightScaleMessage: FitMessage {
     private(set) public var weight: Weight?
     
     /// Percent Fat
-    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 1,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 1,
+                  unit: UnitPercent.percent)
     private(set) public var percentFat: Measurement<UnitPercent>?
     
     /// Percent Hydration
-    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 2,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 2,
+                  unit: UnitPercent.percent)
     private(set) public var percentHydration: Measurement<UnitPercent>?
     
     /// Visceral Fat Mass
-    @FitFieldMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                  fieldNumber: 3,
-                  unit: UnitMass.kilograms)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 3,
+                       unit: UnitMass.kilograms)
     private(set) public var visceralFatMass: Measurement<UnitMass>?
     
     /// Bone Mass
-    @FitFieldMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                  fieldNumber: 4,
-                  unit: UnitMass.kilograms)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 4,
+                       unit: UnitMass.kilograms)
     private(set) public var boneMass: Measurement<UnitMass>?
     
     /// Muscle Mass
-    @FitFieldMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                  fieldNumber: 5,
-                  unit: UnitMass.kilograms)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 5,
+                       unit: UnitMass.kilograms)
     private(set) public var muscleMass: Measurement<UnitMass>?
     
     /// Basal MET
     ///
     /// Units are per day
-    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0)),
-                    fieldNumber: 7,
-                    unit: UnitEnergy.kilocalories)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0)),
+                       fieldNumber: 7,
+                       unit: UnitEnergy.kilocalories)
     private(set) public var basalMet: Measurement<UnitEnergy>?
     
     /// Physique Rating
-    @FitFieldRatingUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                        fieldNumber: 8,
-                        unit: RatingUnit.physique)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 8,
+                  unit: RatingUnit.physique)
     private(set) public var physiqueRating: Measurement<RatingUnit>?
     
     /// Active MET
     ///
     /// Units are per day
-    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0)),
-                    fieldNumber: 9,
-                    unit: UnitEnergy.kilocalories)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 4.0, offset: 0.0)),
+                       fieldNumber: 9,
+                       unit: UnitEnergy.kilocalories)
     private(set) public var activeMet: Measurement<UnitEnergy>?
     
     /// Metabolic Age
-    @FitFieldDuration(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 10,
-                      unit: UnitDuration.year)
+    @FitFieldDimension(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 10,
+                       unit: UnitDuration.year)
     private(set) public var metabolicAge: Measurement<UnitDuration>?
     
     /// Visceral Fat Rating
-    @FitFieldRatingUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                        fieldNumber: 11,
-                        unit: RatingUnit.visceralFat)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 11,
+                  unit: RatingUnit.visceralFat)
     private(set) public var visceralFatRating: Measurement<RatingUnit>?
     
     /// User Profile Index

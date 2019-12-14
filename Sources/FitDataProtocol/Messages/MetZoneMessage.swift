@@ -35,18 +35,18 @@ open class MetZoneMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 10 }
     
     /// Heart Rate High Level
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 1, unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 1, unit: UnitCadence.beatsPerMinute)
     private(set) public var heartRate: Measurement<UnitCadence>?
     
     /// Calories per Minute
-    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                    fieldNumber: 2, unit: UnitEnergy.kilocalories)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                       fieldNumber: 2, unit: UnitEnergy.kilocalories)
     private(set) public var calories: Measurement<UnitEnergy>?
     
     /// Fat Calories per Minute
-    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                    fieldNumber: 3, unit: UnitEnergy.kilocalories)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                       fieldNumber: 3, unit: UnitEnergy.kilocalories)
     private(set) public var fatCalories: Measurement<UnitEnergy>?
     
     /// Message Index
@@ -120,7 +120,7 @@ open class MetZoneMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: MetZoneMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

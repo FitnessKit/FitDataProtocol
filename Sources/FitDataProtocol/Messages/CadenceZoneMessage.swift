@@ -35,9 +35,9 @@ open class CadenceZoneMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 131 }
     
     /// Cadence Zone High Level
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 0,
-                     unit: UnitCadence.revolutionsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 0,
+                  unit: UnitCadence.revolutionsPerMinute)
     private(set) public var highLevel: Measurement<UnitCadence>?
     
     /// Cadence Zone Name
@@ -125,7 +125,7 @@ open class CadenceZoneMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: CadenceZoneMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

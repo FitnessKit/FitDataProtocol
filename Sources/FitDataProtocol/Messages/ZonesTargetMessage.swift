@@ -35,15 +35,15 @@ open class ZonesTargetMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 7 }
     
     /// Max Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 1,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 1,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var maxHeartRate: Measurement<UnitCadence>?
     
     /// Threshold Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 2,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 2,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var thresholdHeartRate: Measurement<UnitCadence>?
     
     /// Functional Threshold Power (FTP)
@@ -145,7 +145,7 @@ open class ZonesTargetMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: ZonesTargetMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

@@ -54,14 +54,14 @@ open class SessionMessage: FitMessage {
                   fieldNumber: 2, local: false)
     private(set) public var startTime: FitTime?
     
-    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 3,
-                   unit: UnitAngle.garminSemicircle)
+    @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 3,
+                       unit: UnitAngle.garminSemicircle)
     private var startLatitude: Measurement<UnitAngle>?
     
-    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 4,
-                   unit: UnitAngle.garminSemicircle)
+    @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 4,
+                       unit: UnitAngle.garminSemicircle)
     private var startLongitude: Measurement<UnitAngle>?
     
     /// Start Position
@@ -88,51 +88,51 @@ open class SessionMessage: FitMessage {
     /// Total Elapsed Time
     ///
     /// Includes pauses
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 7,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 7,
+                       unit: UnitDuration.seconds)
     private(set) public var totalElapsedTime: Measurement<UnitDuration>?
     
     /// Total Timer Time
     ///
     /// Excludes pauses
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 8,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 8,
+                       unit: UnitDuration.seconds)
     private(set) public var totalTimerTime: Measurement<UnitDuration>?
     
     /// Total Distance
-    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                    fieldNumber: 9,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 9,
+                       unit: UnitLength.meters)
     private(set) public var totalDistance: Measurement<UnitLength>?
     
     /// Total Cycles
-    @FitFieldCount(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 10,
-                   unit: UnitCount.cycles)
+    @FitFieldUnit(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 10,
+                  unit: UnitCount.cycles)
     private(set) public var totalCycles: Measurement<UnitCount>?
     
     /// Total Calories
-    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                    fieldNumber: 11,
-                    unit: UnitEnergy.kilocalories)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 11,
+                       unit: UnitEnergy.kilocalories)
     private(set) public var totalCalories: Measurement<UnitEnergy>?
     
     /// Total Fat Calories
-    @FitFieldEnergy(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                    fieldNumber: 13,
-                    unit: UnitEnergy.kilocalories)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 13,
+                       unit: UnitEnergy.kilocalories)
     private(set) public var totalFatCalories: Measurement<UnitEnergy>?
     
-    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 14,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 14,
+                       unit: UnitSpeed.metersPerSecond)
     private var _averageSpeed: Measurement<UnitSpeed>?
     
-    @FitFieldSpeed(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 124,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 124,
+                       unit: UnitSpeed.metersPerSecond)
     private var enhancedAvgSpeed: Measurement<UnitSpeed>?
     
     /// Average Speed
@@ -145,14 +145,14 @@ open class SessionMessage: FitMessage {
         }
     }
     
-    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 15,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 15,
+                       unit: UnitSpeed.metersPerSecond)
     private var _maximumSpeed: Measurement<UnitSpeed>?
     
-    @FitFieldSpeed(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 125,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 125,
+                       unit: UnitSpeed.metersPerSecond)
     private var enhancedMaximumSpeed: Measurement<UnitSpeed>?
     
     /// Maximum Speed
@@ -166,55 +166,55 @@ open class SessionMessage: FitMessage {
     }
     
     /// Average Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 16,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 16,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var averageHeartRate: Measurement<UnitCadence>?
     
     /// Maximum Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 17,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 17,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var maximumHeartRate: Measurement<UnitCadence>?
     
     /// Average Cadence
     ///
     /// If nil you can use totalCycles / totalTimerTime
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 18,
-                     unit: UnitCadence.revolutionsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 18,
+                  unit: UnitCadence.revolutionsPerMinute)
     private(set) public var averageCadence: Measurement<UnitCadence>?
     
     /// Maximum Cadence
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 19,
-                     unit: UnitCadence.revolutionsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 19,
+                  unit: UnitCadence.revolutionsPerMinute)
     private(set) public var maximumCadence: Measurement<UnitCadence>?
     
     /// Average Power
     ///
     /// If nil you can use totalPower / totalTimerTime
-    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 20,
-                   unit: UnitPower.watts)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 20,
+                       unit: UnitPower.watts)
     private(set) public var averagePower: Measurement<UnitPower>?
     
     /// Maximum Power
-    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 21,
-                   unit: UnitPower.watts)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 21,
+                       unit: UnitPower.watts)
     private(set) public var maximumPower: Measurement<UnitPower>?
     
     /// Total Ascent
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                    fieldNumber: 22,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 22,
+                       unit: UnitLength.meters)
     private(set) public var totalAscent: Measurement<UnitLength>?
     
     /// Total Descent
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                    fieldNumber: 23,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 23,
+                       unit: UnitLength.meters)
     private(set) public var totalDescent: Measurement<UnitLength>?
     
     /// Total Training Effect
@@ -228,9 +228,9 @@ open class SessionMessage: FitMessage {
     private(set) public var firstLapIndex: UInt16?
     
     /// Number of Laps
-    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 26,
-                   unit: UnitCount.laps)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 26,
+                  unit: UnitCount.laps)
     private(set) public var numberOfLaps: Measurement<UnitCount>?
     
     /// Event Group
@@ -243,14 +243,14 @@ open class SessionMessage: FitMessage {
               fieldNumber: 28)
     private(set) public var trigger: SessionTrigger?
     
-    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 29,
-                   unit: UnitAngle.garminSemicircle)
+    @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 29,
+                       unit: UnitAngle.garminSemicircle)
     private var necLatitude: Measurement<UnitAngle>?
     
-    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 30,
-                   unit: UnitAngle.garminSemicircle)
+    @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 30,
+                       unit: UnitAngle.garminSemicircle)
     private var necLongitude: Measurement<UnitAngle>?
     
     /// NEC Position
@@ -264,14 +264,14 @@ open class SessionMessage: FitMessage {
         }
     }
     
-    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 31,
-                   unit: UnitAngle.garminSemicircle)
+    @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 31,
+                       unit: UnitAngle.garminSemicircle)
     private var swcLatitude: Measurement<UnitAngle>?
     
-    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 32,
-                   unit: UnitAngle.garminSemicircle)
+    @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 32,
+                       unit: UnitAngle.garminSemicircle)
     private var swcLongitude: Measurement<UnitAngle>?
     
     /// SWC Position
@@ -286,21 +286,21 @@ open class SessionMessage: FitMessage {
     }
     
     /// Normalized Power
-    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 34,
-                   unit: UnitPower.watts)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 34,
+                       unit: UnitPower.watts)
     private(set) public var normalizedPower: Measurement<UnitPower>?
     
     /// Training Stress Score
-    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                   fieldNumber: 35,
-                   unit: UnitCount.trainingStress)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                  fieldNumber: 35,
+                  unit: UnitCount.trainingStress)
     private(set) public var trainingStressScore: Measurement<UnitCount>?
     
     /// Intensity Factor
-    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 36,
-                   unit: UnitCount.intensityFactor)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                  fieldNumber: 36,
+                  unit: UnitCount.intensityFactor)
     private(set) public var intensityFactor: Measurement<UnitCount>?
     
     /// Left Right Balance scaled by 100
@@ -309,15 +309,15 @@ open class SessionMessage: FitMessage {
     private(set) public var leftRightBalance: LeftRightBalance100?
     
     /// Average Stroke Count
-    @FitFieldCount(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                   fieldNumber: 41,
-                   unit: UnitCount.strokes)
+    @FitFieldUnit(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                  fieldNumber: 41,
+                  unit: UnitCount.strokes)
     private(set) public var averageStrokeCount: Measurement<UnitCount>?
     
     /// Average Stroke Distance
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                    fieldNumber: 42,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 42,
+                       unit: UnitLength.meters)
     private(set) public var averageStrokeDistance: Measurement<UnitLength>?
     
     /// Swim Stroke
@@ -326,15 +326,15 @@ open class SessionMessage: FitMessage {
     private(set) public var swimStroke: SwimStroke?
     
     /// Pool Length
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                    fieldNumber: 44,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 44,
+                       unit: UnitLength.meters)
     private(set) public var poolLength: Measurement<UnitLength>?
     
     /// Threshold Power
-    @FitFieldPower(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 45,
-                   unit: UnitPower.watts)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 45,
+                       unit: UnitPower.watts)
     private(set) public var thresholdPower: Measurement<UnitPower>?
     
     /// Pool Length Unit
@@ -345,25 +345,25 @@ open class SessionMessage: FitMessage {
     /// Number of Active Lengths
     ///
     /// Number of active lengths of swim pool
-    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 47,
-                   unit: UnitCount.lengths)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 47,
+                  unit: UnitCount.lengths)
     private(set) public var activeLengths: Measurement<UnitCount>?
     
     /// Total Work
-    @FitFieldEnergy(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                    fieldNumber: 48,
-                    unit: UnitEnergy.joules)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 48,
+                       unit: UnitEnergy.joules)
     private(set) public var totalWork: Measurement<UnitEnergy>?
     
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
-                    fieldNumber: 49,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                       fieldNumber: 49,
+                       unit: UnitLength.meters)
     private var _averageAltitude: Measurement<UnitLength>?
     
-    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
-                    fieldNumber: 126,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                       fieldNumber: 126,
+                       unit: UnitLength.meters)
     private var enhancedAverageAltitude: Measurement<UnitLength>?
     
     /// Average Altitude
@@ -376,14 +376,14 @@ open class SessionMessage: FitMessage {
         }
     }
     
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
-                    fieldNumber: 50,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                       fieldNumber: 50,
+                       unit: UnitLength.meters)
     private var _maximumAltitude: Measurement<UnitLength>?
     
-    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
-                    fieldNumber: 128,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                       fieldNumber: 128,
+                       unit: UnitLength.meters)
     private var enhancedMaximumAltitude: Measurement<UnitLength>?
     
     /// Maximum Altitude
@@ -397,117 +397,117 @@ open class SessionMessage: FitMessage {
     }
     
     /// GPS Accuracy
-    @FitFieldLength(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                    fieldNumber: 51,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 51,
+                       unit: UnitLength.meters)
     private(set) public var gpsAccuracy: Measurement<UnitLength>?
     
     /// Average Grade
-    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 52,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 52,
+                  unit: UnitPercent.percent)
     private(set) public var averageGrade: Measurement<UnitPercent>?
     
     /// Average Positive Grade
-    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 53,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 53,
+                  unit: UnitPercent.percent)
     private(set) public var averagePositiveGrade: Measurement<UnitPercent>?
     
     /// Average Negitive Grade
-    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 54,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 54,
+                  unit: UnitPercent.percent)
     private(set) public var averageNegitiveGrade: Measurement<UnitPercent>?
     
     /// Maximum Positive Grade
-    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 55,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 55,
+                  unit: UnitPercent.percent)
     private(set) public var maximumPositiveGrade: Measurement<UnitPercent>?
     
     /// Maximum Negitive Grade
-    @FitFieldPercent(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 56,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 56,
+                  unit: UnitPercent.percent)
     private(set) public var maximumNegitiveGrade: Measurement<UnitPercent>?
     
     /// Average Temperature
-    @FitFieldTemperature(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                         fieldNumber: 57,
-                         unit: UnitTemperature.celsius)
+    @FitFieldDimension(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 57,
+                       unit: UnitTemperature.celsius)
     private(set) public var averageTemperature: Measurement<UnitTemperature>?
     
     /// Maximum Temperature
-    @FitFieldTemperature(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                         fieldNumber: 58,
-                         unit: UnitTemperature.celsius)
+    @FitFieldDimension(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 58,
+                       unit: UnitTemperature.celsius)
     private(set) public var maximumTemperature: Measurement<UnitTemperature>?
     
     /// Total Moving Time
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 59,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 59,
+                       unit: UnitDuration.seconds)
     private(set) public var totalMovingTime: Measurement<UnitDuration>?
     
     /// Average Positive Vertical Speed
-    @FitFieldSpeed(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 60,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 60,
+                       unit: UnitSpeed.metersPerSecond)
     private(set) public var averagePositiveVerticalSpeed: Measurement<UnitSpeed>?
     
     /// Average Negitive Vertical Speed
-    @FitFieldSpeed(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 61,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 61,
+                       unit: UnitSpeed.metersPerSecond)
     private(set) public var averageNegitiveVerticalSpeed: Measurement<UnitSpeed>?
     
     /// Maximum Positive Vertical Speed
-    @FitFieldSpeed(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 62,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 62,
+                       unit: UnitSpeed.metersPerSecond)
     private(set) public var maximumPositiveVerticalSpeed: Measurement<UnitSpeed>?
     
     /// Maximum Negitive Vertical Speed
-    @FitFieldSpeed(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 63,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 63,
+                       unit: UnitSpeed.metersPerSecond)
     private(set) public var maximumNegitiveVerticalSpeed: Measurement<UnitSpeed>?
     
     /// Minimum Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 64,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 64,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var minimumHeartRate: Measurement<UnitCadence>?
     
     /// Time in HeartRate Zone
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 65,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 65,
+                       unit: UnitDuration.seconds)
     private(set) public var timeInHrZone: Measurement<UnitDuration>?
     
     /// Time in Speed Zone
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 66,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 66,
+                       unit: UnitDuration.seconds)
     private(set) public var timeInSpeedZone: Measurement<UnitDuration>?
     
     /// Time in Cadence Zone
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 67,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 67,
+                       unit: UnitDuration.seconds)
     private(set) public var timeInCadenceZone: Measurement<UnitDuration>?
     
     /// Time in Power Zone
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 68,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 68,
+                       unit: UnitDuration.seconds)
     private(set) public var timeInPowerZone: Measurement<UnitDuration>?
     
     /// Average Lap Time
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 69,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 69,
+                       unit: UnitDuration.seconds)
     private(set) public var averageLapTime: Measurement<UnitDuration>?
     
     /// Best Lap Index
@@ -515,14 +515,14 @@ open class SessionMessage: FitMessage {
               fieldNumber: 70)
     private(set) public var bestLapIndex: UInt16?
     
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
-                    fieldNumber: 71,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                       fieldNumber: 71,
+                       unit: UnitLength.meters)
     private var _minimumAltitude: Measurement<UnitLength>?
     
-    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
-                    fieldNumber: 127,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 5.0, offset: 500.0)),
+                       fieldNumber: 127,
+                       unit: UnitLength.meters)
     private var enhancedMinimumAltitude: Measurement<UnitLength>?
     
     /// Minimum Altitude
@@ -562,48 +562,48 @@ open class SessionMessage: FitMessage {
     private(set) public var opponentName: String?
     
     /// Stroke Count
-    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 85,
-                   unit: UnitCount.counts)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 85,
+                  unit: UnitCount.counts)
     private(set) public var strokeCount: Measurement<UnitCount>?
     
     /// Zone Count
-    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 86,
-                   unit: UnitCount.counts)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 86,
+                  unit: UnitCount.counts)
     private(set) public var zoneCount: Measurement<UnitCount>?
     
     /// Maximum Ball Speed
-    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                   fieldNumber: 87,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 87,
+                       unit: UnitSpeed.metersPerSecond)
     private(set) public var maximumBallSpeed: Measurement<UnitSpeed>?
     
     /// Average Ball Speed
-    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                   fieldNumber: 88,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 88,
+                       unit: UnitSpeed.metersPerSecond)
     private(set) public var averageBallSpeed: Measurement<UnitSpeed>?
     
     /// Average Vertical Oscillation
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                    fieldNumber: 89,
-                    unit: UnitLength.millimeters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                       fieldNumber: 89,
+                       unit: UnitLength.millimeters)
     private(set) public var averageVerticalOscillation: Measurement<UnitLength>?
     
-    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 90,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 90,
+                  unit: UnitPercent.percent)
     private var avgStanceTimePercent: Measurement<UnitPercent>?
     
-    @FitFieldDuration(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                      fieldNumber: 91,
-                      unit: UnitDuration.millisecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                       fieldNumber: 91,
+                       unit: UnitDuration.millisecond)
     private var avgStanceTimeDuration: Measurement<UnitDuration>?
     
-    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                     fieldNumber: 133,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                  fieldNumber: 133,
+                  unit: UnitPercent.percent)
     private var avgStanceTimeBalance: Measurement<UnitPercent>?
     
     /// Average Stance Time
@@ -621,67 +621,67 @@ open class SessionMessage: FitMessage {
     }
     
     /// Average Fractional Cadence
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
-                     fieldNumber: 92,
-                     unit: UnitCadence.revolutionsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
+                  fieldNumber: 92,
+                  unit: UnitCadence.revolutionsPerMinute)
     private(set) public var averageFractionalCadence: Measurement<UnitCadence>?
     
     /// Maximum Fractional Cadence
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
-                     fieldNumber: 93,
-                     unit: UnitCadence.revolutionsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
+                  fieldNumber: 93,
+                  unit: UnitCadence.revolutionsPerMinute)
     private(set) public var maximumFractionalCadence: Measurement<UnitCadence>?
     
     /// Total Fractional Cadence
-    @FitFieldCount(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
-                   fieldNumber: 94,
-                   unit: UnitCount.cycles)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
+                  fieldNumber: 94,
+                  unit: UnitCount.cycles)
     private(set) public var totalFractionalCadence: Measurement<UnitCount>?
     
     /// Average Total Hemoglobin Concentration
-    @FitFieldConcentrationMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                               fieldNumber: 95,
-                               unit: UnitConcentrationMass.gramPerDeciliter)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 95,
+                       unit: UnitConcentrationMass.gramPerDeciliter)
     private(set) public var averageTotalHemoglobinConcentration: Measurement<UnitConcentrationMass>?
     
     /// Minimum Total Hemoglobin Concentration
-    @FitFieldConcentrationMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                               fieldNumber: 96,
-                               unit: UnitConcentrationMass.gramPerDeciliter)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 96,
+                       unit: UnitConcentrationMass.gramPerDeciliter)
     private(set) public var minimumTotalHemoglobinConcentration: Measurement<UnitConcentrationMass>?
     
     /// Maximum Total Hemoglobin Concentration
-    @FitFieldConcentrationMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                               fieldNumber: 97,
-                               unit: UnitConcentrationMass.gramPerDeciliter)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 97,
+                       unit: UnitConcentrationMass.gramPerDeciliter)
     private(set) public var maximumTotalHemoglobinConcentration: Measurement<UnitConcentrationMass>?
     
     /// Average Saturated Hemoglobin Percent
-    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                     fieldNumber: 98,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                  fieldNumber: 98,
+                  unit: UnitPercent.percent)
     private(set) public var averageSaturatedHemoglobinPercent: Measurement<UnitPercent>?
     
     /// Minimum Saturated Hemoglobin Percent
-    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                     fieldNumber: 99,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                  fieldNumber: 99,
+                  unit: UnitPercent.percent)
     private(set) public var minimumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
     
     /// Maximum Saturated Hemoglobin Percent
-    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                     fieldNumber: 100,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                  fieldNumber: 100,
+                  unit: UnitPercent.percent)
     private(set) public var maximumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
     
-    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
-                     fieldNumber: 101,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                  fieldNumber: 101,
+                  unit: UnitPercent.percent)
     private var avgLeftTorqueEffectiveness: Measurement<UnitPercent>?
     
-    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
-                     fieldNumber: 102,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                  fieldNumber: 102,
+                  unit: UnitPercent.percent)
     private var avgRightTorqueEffectiveness: Measurement<UnitPercent>?
     
     /// Average Torque Effectiveness
@@ -695,19 +695,19 @@ open class SessionMessage: FitMessage {
         }
     }
     
-    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
-                     fieldNumber: 103,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                  fieldNumber: 103,
+                  unit: UnitPercent.percent)
     private var avgLeftPedalSmoothness: Measurement<UnitPercent>?
     
-    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
-                     fieldNumber: 104,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                  fieldNumber: 104,
+                  unit: UnitPercent.percent)
     private var avgRightPedalSmoothness: Measurement<UnitPercent>?
     
-    @FitFieldPercent(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
-                     fieldNumber: 105,
-                     unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
+                  fieldNumber: 105,
+                  unit: UnitPercent.percent)
     private var avgCombinedPedalSmoothness: Measurement<UnitPercent>?
     
     /// Average Pedal Smoothness
@@ -730,9 +730,9 @@ open class SessionMessage: FitMessage {
     private(set) public var sportIndex: UInt8?
     
     /// Time Standing
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 112,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 112,
+                       unit: UnitDuration.seconds)
     private(set) public var timeStanding: Measurement<UnitDuration>?
     
     /// Stand Count
@@ -741,9 +741,9 @@ open class SessionMessage: FitMessage {
     private(set) public var standCount: UInt16?
     
     /// Average Step Length
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                    fieldNumber: 134,
-                    unit: UnitLength.millimeters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                       fieldNumber: 134,
+                       unit: UnitLength.millimeters)
     private(set) public var averageStepLength: Measurement<UnitLength>?
     
     /// Total Anaerobic Training Effect
@@ -754,16 +754,16 @@ open class SessionMessage: FitMessage {
     /// Velocità Ascensionale Media
     ///
     /// VAM - Average Ascent Speed
-    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 139,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 139,
+                       unit: UnitSpeed.metersPerSecond)
     private(set) public var averageAscentSpeed: Measurement<UnitSpeed>?
     
     /// Total Grit
     ///
     /// The grit score estimates how challenging a route could be for a cyclist
     /// in terms of time spent going over sharp turns or large grade slopes
-    @FitFieldGrit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitFieldUnit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 181,
                   unit: UnitFitGrit.kiloGrit)
     private(set) public var totalGrit: Measurement<UnitFitGrit>?
@@ -772,22 +772,22 @@ open class SessionMessage: FitMessage {
     ///
     /// The flow score estimates how long distance wise a cyclist deaccelerates over intervals
     /// where deacceleration is unnecessary such as smooth turns or small grade angle intervals
-    @FitFieldFlow(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitFieldUnit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 182,
                   unit: UnitFitFlow.flow)
     private(set) public var totalFlow: Measurement<UnitFitFlow>?
     
     /// Jump Count
-    @FitFieldCount(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 183,
-                   unit: UnitCount.jumps)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 183,
+                  unit: UnitCount.jumps)
     private(set) public var jumpCount: Measurement<UnitCount>?
     
     /// Average Grit
     ///
     /// The grit score estimates how challenging a route could be for a cyclist
     /// in terms of time spent going over sharp turns or large grade slopes
-    @FitFieldGrit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitFieldUnit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 186,
                   unit: UnitFitGrit.kiloGrit)
     private(set) public var averageGrit: Measurement<UnitFitGrit>?
@@ -796,7 +796,7 @@ open class SessionMessage: FitMessage {
     ///
     /// The flow score estimates how long distance wise a cyclist deaccelerates over intervals
     /// where deacceleration is unnecessary such as smooth turns or small grade angle intervals
-    @FitFieldFlow(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitFieldUnit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 187,
                   unit: UnitFitFlow.flow)
     private(set) public var averageFlow: Measurement<UnitFitFlow>?

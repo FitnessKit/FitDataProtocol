@@ -35,45 +35,45 @@ open class BloodPressureMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 51 }
     
     /// Systolic Pressure
-    @FitFieldPressure(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 0,
-                      unit: UnitPressure.millimetersOfMercury)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 0,
+                       unit: UnitPressure.millimetersOfMercury)
     private(set) public var systolicPressure: Measurement<UnitPressure>?
     
     /// Diastolic Pressure
-    @FitFieldPressure(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 1,
-                      unit: UnitPressure.millimetersOfMercury)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 1,
+                       unit: UnitPressure.millimetersOfMercury)
     private(set) public var diastolicPressure: Measurement<UnitPressure>?
     
     /// Mean Arterial Pressure
-    @FitFieldPressure(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 2,
-                      unit: UnitPressure.millimetersOfMercury)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 2,
+                       unit: UnitPressure.millimetersOfMercury)
     private(set) public var meanArterialPressure: Measurement<UnitPressure>?
     
     /// MAP  Sample Mean
-    @FitFieldPressure(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 3,
-                      unit: UnitPressure.millimetersOfMercury)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 3,
+                       unit: UnitPressure.millimetersOfMercury)
     private(set) public var mapSampleMean: Measurement<UnitPressure>?
     
     /// MAP Morning Values
-    @FitFieldPressure(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 4,
-                      unit: UnitPressure.millimetersOfMercury)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 4,
+                       unit: UnitPressure.millimetersOfMercury)
     private(set) public var mapMorningValues: Measurement<UnitPressure>?
     
     /// MAP Evening Values
-    @FitFieldPressure(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 5,
-                      unit: UnitPressure.millimetersOfMercury)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 5,
+                       unit: UnitPressure.millimetersOfMercury)
     private(set) public var mapEveningValues: Measurement<UnitPressure>?
     
     /// Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 6,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 6,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var heartRate: Measurement<UnitCadence>?
     
     /// Heart Rate Type
@@ -194,7 +194,7 @@ open class BloodPressureMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: BloodPressureMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

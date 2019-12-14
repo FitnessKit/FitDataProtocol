@@ -38,21 +38,21 @@ open class TotalsMessage: FitMessage {
     /// Timer Time
     ///
     /// Excludes pauses
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 0,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 0,
+                       unit: UnitDuration.seconds)
     private(set) public var timerTime: Measurement<UnitDuration>?
     
     /// Distance
-    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                    fieldNumber: 1,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 1,
+                       unit: UnitLength.meters)
     private(set) public var distance: Measurement<UnitLength>?
     
     /// Calories
-    @FitFieldEnergy(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                    fieldNumber: 2,
-                    unit: UnitEnergy.kilocalories)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 2,
+                       unit: UnitEnergy.kilocalories)
     private(set) public var calories: Measurement<UnitEnergy>?
     
     /// Sport
@@ -63,9 +63,9 @@ open class TotalsMessage: FitMessage {
     /// Elapsed Time
     ///
     /// Includes pauses
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 4,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 4,
+                       unit: UnitDuration.seconds)
     private(set) public var elapsedTime: Measurement<UnitDuration>?
     
     /// Sessions
@@ -74,9 +74,9 @@ open class TotalsMessage: FitMessage {
     private(set) public var sessions: UInt16?
     
     /// Active Time
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 6,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 6,
+                       unit: UnitDuration.seconds)
     private(set) public var activeTime: Measurement<UnitDuration>?
     
     /// Timestamp
@@ -167,7 +167,7 @@ open class TotalsMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: TotalsMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

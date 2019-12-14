@@ -26,11 +26,6 @@ import Foundation
 import DataDecoder
 import FitnessUnits
 
-/// Protocol for FIT Message Keys
-public protocol FitMessageKeys {
-    /// CodingKeys for FIT Message Type
-    associatedtype FitCodingKeys: CodingKey
-}
 
 /// Message Validator
 internal protocol MessageValidator {

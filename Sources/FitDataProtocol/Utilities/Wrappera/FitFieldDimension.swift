@@ -1,8 +1,8 @@
 //
-//  FitFieldGrit.swift
+//  FitFieldDimension.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 12/7/19.
+//  Created by Kevin Hoogheem on 12/14/19.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,8 @@
 import Foundation
 
 @propertyWrapper
-public class FitFieldGrit: FieldWrapper {
-    public typealias Value = Measurement<UnitFitGrit>
+final public class FitFieldDimension<U: Dimension>: FieldWrapper {
+    public typealias Value = Measurement<U>
     
     weak internal var owner: FitMessage?
 
@@ -34,7 +34,7 @@ public class FitFieldGrit: FieldWrapper {
     
     private(set) public var fieldNumber: UInt8
     
-    private(set) public var unitType: UnitFitGrit
+    private(set) public var unitType: U
 
     public var wrappedValue: Value? {
         get {
@@ -60,7 +60,9 @@ public class FitFieldGrit: FieldWrapper {
                 owner?.fieldDict.removeValue(forKey: self.fieldNumber)
             }
             
-            if let value = newValue {
+            if var value = newValue {
+                
+                value = value.converted(to: self.unitType)
                 if value.value.isValidForBaseType(base.type) {
                     let result = base.type.encodedResolution(value: value.value, resolution: base.resolution)
                     switch result {
@@ -81,9 +83,9 @@ public class FitFieldGrit: FieldWrapper {
         }
     }
 
-    public var projectedValue: FitFieldGrit { self }
+    public var projectedValue: FitFieldDimension<U> { self }
 
-    public init(base: BaseTypeData, fieldNumber: UInt8, unit: UnitFitGrit) {
+    public init(base: BaseTypeData, fieldNumber: UInt8, unit: U) {
         self.base = base
         self.fieldNumber = fieldNumber
         self.unitType = unit

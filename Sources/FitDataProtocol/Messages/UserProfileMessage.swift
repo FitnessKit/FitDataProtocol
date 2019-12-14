@@ -46,21 +46,21 @@ open class UserProfileMessage: FitMessage {
     private(set) public var gender: Gender?
     
     /// Age in Years
-    @FitFieldDuration(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 2,
-                      unit: UnitDuration.year)
+    @FitFieldDimension(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 2,
+                       unit: UnitDuration.year)
     private(set) public var age: Measurement<UnitDuration>?
     
     /// Height
-    @FitFieldLength(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                    fieldNumber: 3,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 3,
+                       unit: UnitLength.meters)
     private(set) public var height: Measurement<UnitLength>?
     
     /// Weight
-    @FitFieldMass(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                  fieldNumber: 4,
-                  unit: UnitMass.kilograms)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                       fieldNumber: 4,
+                       unit: UnitMass.kilograms)
     private(set) public var weight: Measurement<UnitMass>?
     
     /// Language
@@ -79,27 +79,27 @@ open class UserProfileMessage: FitMessage {
     private(set) public var weightSetting: MeasurementDisplayType?
     
     /// Resting Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 8,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 8,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var restingHeartRate: Measurement<UnitCadence>?
     
     /// Max Running Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 9,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 9,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var maxRunningHeartRate: Measurement<UnitCadence>?
     
     /// Max Biking Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 10,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 10,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var maxBikingHeartRate: Measurement<UnitCadence>?
     
     /// Max Heart Rate
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 11,
-                     unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 11,
+                  unit: UnitCadence.beatsPerMinute)
     private(set) public var maxHeartRate: Measurement<UnitCadence>?
     
     /// Heartrate Display Setting
@@ -154,17 +154,17 @@ open class UserProfileMessage: FitMessage {
     /// Running Step Length
     ///
     /// User defined running step length set to 0 for auto length
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                    fieldNumber: 31,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 31,
+                       unit: UnitLength.meters)
     private(set) public var runningStepLength: Measurement<UnitLength>?
     
     /// Walking Step Length
     ///
     /// User defined step length set to 0 for auto length
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                    fieldNumber: 32,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 32,
+                       unit: UnitLength.meters)
     private(set) public var walkingStepLength: Measurement<UnitLength>?
     
     /// Timestamp

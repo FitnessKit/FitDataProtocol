@@ -36,7 +36,7 @@ public protocol FieldWrapper {
 }
 
 @propertyWrapper
-public class FitField<T>: FieldWrapper where T: FitFieldCodeable {
+final public class FitField<T>: FieldWrapper where T: FitFieldCodeable {
     public typealias Value = T
     
     weak internal var owner: FitMessage?

@@ -34,7 +34,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 5 }
-        
+    
     /// Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
@@ -46,15 +46,15 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     private(set) public var antID: UInt16?
     
     /// Calibration Factor
-    @FitFieldPercent(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                      fieldNumber: 2,
-                      unit: UnitPercent.percent)
+    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
+                  fieldNumber: 2,
+                  unit: UnitPercent.percent)
     private(set) public var calibrationFactor: Measurement<UnitPercent>?
     
     /// Odometer
-    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                      fieldNumber: 3,
-                      unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 3,
+                       unit: UnitLength.meters)
     private(set) public var odometer: Measurement<UnitLength>?
     
     /// Footpod should be used as speed source vs GPS
@@ -78,7 +78,7 @@ open class StrideSpeedDistanceMonitorProfileMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 254)
     private(set) public var messageIndex: MessageIndex?
-
+    
     public required init() {
         super.init()
         

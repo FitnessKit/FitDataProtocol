@@ -39,17 +39,17 @@ open class CoursePointMessage: FitMessage {
     private(set) public var timeStamp: FitTime?
     
     /// Position in Latitude
-    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 2,
-                   unit: UnitAngle.garminSemicircle)
+    @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 2,
+                       unit: UnitAngle.garminSemicircle)
     private var latitude: Measurement<UnitAngle>?
     
     /// Position in Longitude
-    @FitFieldAngle(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                   fieldNumber: 3,
-                   unit: UnitAngle.garminSemicircle)
+    @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 3,
+                       unit: UnitAngle.garminSemicircle)
     private var longitude: Measurement<UnitAngle>?
-
+    
     /// Position
     private(set) public var position: Position? {
         get {
@@ -60,11 +60,11 @@ open class CoursePointMessage: FitMessage {
             self.longitude = newValue?.longitude
         }
     }
-
+    
     /// Distance
-    @FitFieldLength(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                    fieldNumber: 4,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 4,
+                       unit: UnitLength.meters)
     private(set) public var distance: Measurement<UnitLength>?
     
     /// Course Point Type
@@ -173,7 +173,7 @@ open class CoursePointMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: CoursePointMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

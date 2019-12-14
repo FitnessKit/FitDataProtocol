@@ -25,7 +25,7 @@
 import Foundation
 
 @propertyWrapper
-public class FitFieldTime: FieldWrapper {
+final public class FitFieldTime: FieldWrapper {
     public typealias Value = FitTime
     
     weak internal var owner: FitMessage?

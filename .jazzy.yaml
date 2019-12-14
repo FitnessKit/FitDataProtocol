@@ -105,20 +105,6 @@ custom_categories:
     children:
     - FieldWrapper
     - FitField
-    - FitFieldAngle
-    - FitFieldCadence
-    - FitFieldCount
-    - FitFieldDuration
-    - FitFieldEnergy
-    - FitFieldFlow
-    - FitFieldGrit
-    - FitFieldLength
-    - FitFieldMass
-    - FitFieldPercent
-    - FitFieldPower
-    - FitFieldPressure
-    - FitFieldRatingUnit
-    - FitFieldSpeed
-    - FitFieldTemperature
+    - FitFieldDimension
     - FitFieldTime
-    - FitFieldVoltage
+    - FitFieldUnit

@@ -33,7 +33,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
     
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 149 }
-        
+    
     /// Friendly name assigned to leader
     @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
@@ -57,21 +57,21 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
     /// Segment Time (includes pauses)
     ///
     /// - note: Time in Seconds
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 4,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 4,
+                       unit: UnitDuration.seconds)
     private(set) public var segmentTime: Measurement<UnitDuration>?
     
     /// Message Index
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 254)
     private(set) public var messageIndex: MessageIndex?
-
+    
     public required init() {
         super.init()
         
         self.$messageIndex.owner = self
-
+        
         self.$name.owner = self
         self.$leaderType.owner = self
         self.$leaderId.owner = self
@@ -139,7 +139,7 @@ open class SegmentLeaderboardEntryMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: SegmentLeaderboardEntryMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

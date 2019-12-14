@@ -35,8 +35,8 @@ open class HeartRateZoneMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 8 }
     
     /// Heart Rate High Level
-    @FitFieldCadence(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                     fieldNumber: 1, unit: UnitCadence.beatsPerMinute)
+    @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                  fieldNumber: 1, unit: UnitCadence.beatsPerMinute)
     private(set) public var heartRate: Measurement<UnitCadence>?
     
     /// Heart Rate Zone Name
@@ -65,7 +65,7 @@ open class HeartRateZoneMessage: FitMessage {
         
         self.messageIndex = messageIndex
         self.name = name
-
+        
         if let hr = heartRate {
             self.heartRate = Measurement(value: Double(hr), unit: self.$heartRate.unitType)
         }
@@ -116,7 +116,7 @@ open class HeartRateZoneMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: HeartRateZoneMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

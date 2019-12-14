@@ -73,15 +73,15 @@ open class DeviceInfoMessage: FitMessage {
     /// Cumulative Operating Time
     ///
     /// Reset by new battery or charge
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                      fieldNumber: 7,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 7,
+                       unit: UnitDuration.seconds)
     private(set) public var cumulativeOpTime: Measurement<UnitDuration>?
     
     /// Battery Voltage
-    @FitFieldVoltage(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 256.0, offset: 0.0)),
-                     fieldNumber: 10,
-                     unit: UnitElectricPotentialDifference.volts)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 256.0, offset: 0.0)),
+                       fieldNumber: 10,
+                       unit: UnitElectricPotentialDifference.volts)
     private(set) public var batteryVoltage: Measurement<UnitElectricPotentialDifference>?
     
     /// Battery Status

@@ -35,9 +35,9 @@ open class SpeedZoneMessage: FitMessage {
     public override class func globalMessageNumber() -> UInt16 { return 53 }
     
     /// Speed Zone High Level
-    @FitFieldSpeed(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                   fieldNumber: 0,
-                   unit: UnitSpeed.metersPerSecond)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 0,
+                       unit: UnitSpeed.metersPerSecond)
     private(set) public var highLevel: Measurement<UnitSpeed>?
     
     /// Speed Zone Name
@@ -114,7 +114,7 @@ open class SpeedZoneMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: SpeedZoneMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

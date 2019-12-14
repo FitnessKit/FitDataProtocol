@@ -61,9 +61,9 @@ open class WorkoutMessage: FitMessage {
     private(set) public var subSport: SubSport?
     
     /// Pool Length
-    @FitFieldLength(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                    fieldNumber: 14,
-                    unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 100.0, offset: 0.0)),
+                       fieldNumber: 14,
+                       unit: UnitLength.meters)
     private(set) public var poolLength: Measurement<UnitLength>?
     
     /// Pool Length Unit
@@ -153,7 +153,7 @@ open class WorkoutMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: WorkoutMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

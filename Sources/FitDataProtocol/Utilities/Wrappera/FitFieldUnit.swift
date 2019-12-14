@@ -1,8 +1,8 @@
 //
-//  FitFieldPressure.swift
+//  FitFieldUnit.swift
 //  FitDataProtocol
 //
-//  Created by Kevin Hoogheem on 11/24/19.
+//  Created by Kevin Hoogheem on 12/14/19.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,8 @@
 import Foundation
 
 @propertyWrapper
-public class FitFieldPressure: FieldWrapper {
-    public typealias Value = Measurement<UnitPressure>
+final public class FitFieldUnit<U: Unit>: FieldWrapper {
+    public typealias Value = Measurement<U>
     
     weak internal var owner: FitMessage?
 
@@ -34,7 +34,7 @@ public class FitFieldPressure: FieldWrapper {
     
     private(set) public var fieldNumber: UInt8
     
-    private(set) public var unitType: UnitPressure
+    private(set) public var unitType: U
 
     public var wrappedValue: Value? {
         get {
@@ -60,10 +60,7 @@ public class FitFieldPressure: FieldWrapper {
                 owner?.fieldDict.removeValue(forKey: self.fieldNumber)
             }
             
-            if var value = newValue {
-                
-                value = value.converted(to: self.unitType)
-                
+            if let value = newValue {
                 if value.value.isValidForBaseType(base.type) {
                     let result = base.type.encodedResolution(value: value.value, resolution: base.resolution)
                     switch result {
@@ -84,9 +81,9 @@ public class FitFieldPressure: FieldWrapper {
         }
     }
 
-    public var projectedValue: FitFieldPressure { self }
+    public var projectedValue: FitFieldUnit<U> { self }
 
-    public init(base: BaseTypeData, fieldNumber: UInt8, unit: UnitPressure) {
+    public init(base: BaseTypeData, fieldNumber: UInt8, unit: U) {
         self.base = base
         self.fieldNumber = fieldNumber
         self.unitType = unit

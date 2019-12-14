@@ -39,9 +39,9 @@ open class ActivityMessage: FitMessage {
     /// Total Timer Time
     ///
     /// Excludes pauses
-    @FitFieldDuration(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                      fieldNumber: 0,
-                      unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 0,
+                       unit: UnitDuration.seconds)
     private(set) public var totalTimerTime: Measurement<UnitDuration>?
     
     /// Number of Sessions

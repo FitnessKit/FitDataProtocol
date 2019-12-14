@@ -24,38 +24,6 @@
 
 import Foundation
 
-public enum FitDeveloperDecodingError: Error {
-    /// No BaseType was available
-    case noBaseType
-    /// Unable to determine base type
-    case unknowBaseType
-    /// Invalid Return Type
-    case invalidReturnType
-    /// Data Index mismatch
-    case dataIndexMismatch
-    /// Field Number mismatch
-    case fieldNumberMismatch
-}
-
-extension FitDeveloperDecodingError: LocalizedError {
-    /// A localized message describing what error occurred.
-    public var errorDescription: String? {
-        switch self {
-        case .noBaseType:
-            return "No BaseType was available"
-        case .unknowBaseType:
-            return "Unknown BaseType"
-        case .invalidReturnType:
-            return "Return type does not match the data type"
-        case .dataIndexMismatch:
-            return "Data Index don't match"
-        case .fieldNumberMismatch:
-            return "Field Numbers don't match"
-        }
-    }
-    
-}
-
 /// Errors for FIT File Decoding
 public enum FitDecodingError: Error {
     /// Invalid Architecture Type
