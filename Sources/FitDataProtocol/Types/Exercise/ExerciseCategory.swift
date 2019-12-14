@@ -166,7 +166,7 @@ internal extension ExerciseCategory {
         case .pullUp:
             return PullUpExerciseName.self
         case .pushUp:
-            return nil
+            return PushUpExerciseName.self
         case .row:
             return RowExerciseName.self
         case .shoulderPress:

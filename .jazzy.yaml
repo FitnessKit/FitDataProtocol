@@ -91,6 +91,7 @@ custom_categories:
     - OlympicLiftExerciseName
     - PlyoExerciseName
     - PullUpExerciseName
+    - PushUpExerciseName
     - RowExerciseName
     - RunExerciseName
     - ShoulderPressExerciseName

@@ -26,16 +26,17 @@ import Foundation
 import DataDecoder
 
 /// Protocol Major Version
-public let kProtocolVersionMajor: UInt8 = 20
+public let kProtocolVersionMajor: UInt8 = 21
 
 /// Protocol Minor Version
-public let kProtocolVersionMinor: UInt8 = 80
+public let kProtocolVersionMinor: UInt8 = 16
 
 internal func ProtocolVersionMajor(_ value: UInt8) -> UInt8 {
     return (value >> 4)
 }
 
 internal var protocolVersion20: UInt8 {
+    // 4 is the major version shift
     return (2 << 4) | 0
 }
 
