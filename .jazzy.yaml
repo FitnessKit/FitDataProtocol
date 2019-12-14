@@ -29,6 +29,7 @@ custom_categories:
     children:
     - FitMessage
     - ActivityMessage
+    - AntChannelIdMessage
     - BloodPressureMessage
     - CadenceZoneMessage
     - ConnectivityMessage
