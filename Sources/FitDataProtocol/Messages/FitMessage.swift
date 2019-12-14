@@ -56,7 +56,7 @@ open class FitMessage {
     internal var developerData: [DeveloperDataType]?
     
     /// Developer Data Values
-    internal(set) public var developerValues: [DeveloperDataValue] = [DeveloperDataValue]()
+    internal(set) public var developerValues: [DeveloperDataBox] = [DeveloperDataBox]()
     
     /// FIT Message Global Number
     public class func globalMessageNumber() -> UInt16 {

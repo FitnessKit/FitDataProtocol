@@ -175,11 +175,7 @@ public struct FitFileDecoder {
 
                 if hasMessageDecoder == true {
                     let fieldDescriptions = self.fieldDescription.compactMap { $0.messageNumber == currentGlobalMessage ? $0 : nil }
-                    
-                    if fieldDescriptions.count > 0 {
-                        print(fieldDescriptions)
-                    }
-                
+                                    
                     let result = messageType.decode(fieldData: fieldData,
                                                     definition: definitionDict[header.localMessageType]!)
                     
@@ -209,20 +205,20 @@ public struct FitFileDecoder {
 
 private extension FitFileDecoder {
     
-    func unwrapDeveloperData(message: FitMessage, fieldsDescriptions: [FieldDescriptionMessage]) -> [DeveloperDataValue] {
+    /// Creates the Developer Data Values For the FitMessage
+    /// - Parameter message: FitMessage
+    /// - Parameter fieldsDescriptions: [FieldDescriptionMessage]
+    func unwrapDeveloperData(message: FitMessage, fieldsDescriptions: [FieldDescriptionMessage]) -> [DeveloperDataBox] {
         
-        var values = [DeveloperDataValue]()
+        var values = [DeveloperDataBox]()
         
         if let devData = message.developerData {
             
             for def in fieldsDescriptions {
                 
                 for devDataType in devData {
-                    switch def.decodeDouble(developerData: devDataType) {
-                    case .success(let value):
-                        values.append(DeveloperDataValue(fieldName: def.fieldName, units: def.units, value: value))
-                    case .failure(_):
-                        break
+                    if let box = def.decodeDeveloperDataType(developerData: devDataType) {
+                        values.append(box)
                     }
                 }
             }

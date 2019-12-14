@@ -25,8 +25,17 @@
 import Foundation
 import DataDecoder
 
+public protocol DeveloperDataBox {
+    
+    /// Field Name
+    var fieldName: String? { get }
+
+    /// Units
+    var units: String? { get }
+}
+
 /// Developer Data Value
-public struct DeveloperDataValue {
+public struct DeveloperDataValue<Value>: DeveloperDataBox {
     
     /// Field Name
     private(set) public var fieldName: String?
@@ -35,7 +44,7 @@ public struct DeveloperDataValue {
     private(set) public var units: String?
 
     /// Value
-    private(set) var value: Double?
+    private(set) var value: Value?
     
 }
 
