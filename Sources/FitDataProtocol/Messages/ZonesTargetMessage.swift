@@ -61,13 +61,7 @@ open class ZonesTargetMessage: FitMessage {
               fieldNumber: 7)
     private(set) public var powerZoneType: PowerZoneCalculation?
     
-    public required init() {}
-    
-    public init(maxHeartRate: UInt8? = nil,
-                thresholdHeartRate: UInt8? = nil,
-                heartRateZoneType: HeartRateZoneCalculation? = nil,
-                ftp: UInt16? = nil,
-                powerZoneType: PowerZoneCalculation? = nil) {
+    public required init() {
         super.init()
         
         self.$maxHeartRate.owner = self
@@ -75,6 +69,14 @@ open class ZonesTargetMessage: FitMessage {
         self.$ftp.owner = self
         self.$heartRateZoneType.owner = self
         self.$powerZoneType.owner = self
+    }
+    
+    public init(maxHeartRate: UInt8? = nil,
+                thresholdHeartRate: UInt8? = nil,
+                heartRateZoneType: HeartRateZoneCalculation? = nil,
+                ftp: UInt16? = nil,
+                powerZoneType: PowerZoneCalculation? = nil) {
+        super.init()
         
         if let max = maxHeartRate {
             self.maxHeartRate = Measurement(value: Double(max), unit: self.$maxHeartRate.unitType)
@@ -88,21 +90,6 @@ open class ZonesTargetMessage: FitMessage {
         self.ftp = ftp
         self.powerZoneType = powerZoneType
     }
-    
-    private init(fieldDict: [UInt8: FieldDefinition], fieldDataDict: [UInt8: Data], architecture: Endian) {
-        super.init()
-        
-        self.fieldDict = fieldDict
-        self.fieldDataDict = fieldDataDict
-        self.architecture = architecture
-        
-        self.$maxHeartRate.owner = self
-        self.$thresholdHeartRate.owner = self
-        self.$ftp.owner = self
-        self.$heartRateZoneType.owner = self
-        self.$powerZoneType.owner = self
-    }
-    
     
     /// Decode Message Data into FitMessage
     ///

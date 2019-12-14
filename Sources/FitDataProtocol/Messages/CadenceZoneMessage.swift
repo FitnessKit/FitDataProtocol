@@ -72,14 +72,6 @@ open class CadenceZoneMessage: FitMessage {
         }
     }
     
-    private convenience init(fieldDict: [UInt8: FieldDefinition], fieldDataDict: [UInt8: Data], architecture: Endian) {
-        self.init()
-        
-        self.fieldDict = fieldDict
-        self.fieldDataDict = fieldDataDict
-        self.architecture = architecture
-    }
-    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
