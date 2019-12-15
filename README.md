@@ -1,13 +1,13 @@
 # FitDataProtocol
 
-[![Swift5](https://img.shields.io/badge/swift5-compatible-4BC51D.svg?style=flat)](https://developer.apple.com/swift)
+[![Swift5.1](https://img.shields.io/badge/swift5.1-compatible-4BC51D.svg?style=flat)](https://developer.apple.com/swift)
 [![Version](https://img.shields.io/cocoapods/v/FitDataProtocol.svg?style=flat)](http://cocoapods.org/pods/FitDataProtocol)
 [![License](https://img.shields.io/cocoapods/l/FitDataProtocol.svg?style=flat)](http://cocoapods.org/pods/FitDataProtocol)
 [![Platform](https://img.shields.io/cocoapods/p/FitDataProtocol.svg?style=flat)](http://cocoapods.org/pods/FitDataProtocol)
 
 Swift Version of the Garmin Flexible and Interoperable Data Transfer Protocol.
 
-Supports Revision 2.3
+Supports SDK Revision 21.16.0
 
 ## Installation
 
@@ -20,7 +20,7 @@ pod 'FitDataProtocol'
 Swift Package Manager:
 ```swift
     dependencies: [
-        .package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "1.0.3")
+        .package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "2.0.0")
     ]
 ```
 
