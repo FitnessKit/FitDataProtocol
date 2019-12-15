@@ -35,6 +35,7 @@ public struct FitFileDecoder {
 
     /// Default FIT Messages for Decoding
     public static let defaultMessages = [FileIdMessage.self,
+                                         DeviceSettingsMessage.self,
                                          UserProfileMessage.self,
                                          HeartrateProfileMessage.self,
                                          StrideSpeedDistanceMonitorProfileMessage.self,
@@ -194,7 +195,7 @@ public struct FitFileDecoder {
                     }
                     
                 } else {
-                    //print("NO Decoder for type")
+                    //print("NO Decoder for Global Message: \(definitionDict[header.localMessageType]?.globalMessageNumber)")
                 }
 
             }

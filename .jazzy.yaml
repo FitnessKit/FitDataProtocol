@@ -37,6 +37,7 @@ custom_categories:
     - CoursePointMessage
     - DeveloperDataIdMessage
     - DeviceInfoMessage
+    - DeviceSettingsMessage
     - EventMessage
     - ExerciseTitleMessage
     - FileCapabilitiesMessage
