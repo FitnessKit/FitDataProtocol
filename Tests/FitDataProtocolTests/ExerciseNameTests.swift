@@ -59,7 +59,10 @@ class ExerciseNameTests: XCTestCase {
         ("testLegCurlCreate", testLegCurlCreate),
 
         ("testPushDups", testPushDups),
-        ("testPushCreate", testPushCreate)
+        ("testPushCreate", testPushCreate),
+        
+        ("testSquatDups", testSquatDups),
+        ("testSquatCreate", testSquatCreate)
     ]
 }
 
@@ -623,4 +626,42 @@ extension ExerciseNameTests {
         }
     }
 
+    func testSquatDups() {
+
+        let x = SquatExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: SquatExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("SquatExerciseName Count: \(SquatExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testSquatCreate() {
+
+        if let nametype = ExerciseCategory.squat.exerciseName(from: 0) {
+            if nametype is SquatExerciseName == false {
+                XCTFail("Wrong Type, Make sure it is added to the Exercise Category")
+            }
+        }
+
+        if SquatExerciseName.create(rawValue: 2) != .backSquats {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if SquatExerciseName.create(rawValue: 4) != .balancingSquat {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if SquatExerciseName.create(rawValue: UInt16(SquatExerciseName.supportedExerciseNames.count + 1)) != nil {
+            XCTFail("Past Current Max")
+        }
+    }
+
 }
+

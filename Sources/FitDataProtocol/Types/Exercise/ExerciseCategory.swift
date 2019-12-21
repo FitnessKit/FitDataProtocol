@@ -178,7 +178,7 @@ internal extension ExerciseCategory {
         case .sitUp:
             return SitUpExerciseName.self
         case .squat:
-            return nil
+            return SquatExerciseName.self
         case .totalBody:
             return TotalBodyExerciseName.self
         case .tricepExtension:
