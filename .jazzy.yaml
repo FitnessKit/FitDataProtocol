@@ -58,6 +58,7 @@ custom_categories:
     - SegmentLeaderboardEntryMessage
     - SpeedZoneMessage
     - SportMessage
+    - StressLevelMessage
     - StrideSpeedDistanceMonitorProfileMessage
     - TotalsMessage
     - UserProfileMessage

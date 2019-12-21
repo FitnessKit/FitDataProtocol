@@ -74,6 +74,7 @@ public struct FitFileDecoder {
                                          VideoMessage.self,
                                          FieldDescriptionMessage.self,
                                          DeveloperDataIdMessage.self,
+                                         StressLevelMessage.self,
                                          ExerciseTitleMessage.self
                                         ]
 
