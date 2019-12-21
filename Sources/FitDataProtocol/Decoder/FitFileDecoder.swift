@@ -71,6 +71,7 @@ public struct FitFileDecoder {
                                          CadenceZoneMessage.self,
                                          SegmentLeaderboardEntryMessage.self,
                                          WorkoutSessionMessage.self,
+                                         VideoMessage.self,
                                          FieldDescriptionMessage.self,
                                          DeveloperDataIdMessage.self,
                                          ExerciseTitleMessage.self
