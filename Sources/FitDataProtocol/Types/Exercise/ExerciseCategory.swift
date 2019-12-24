@@ -160,7 +160,7 @@ internal extension ExerciseCategory {
         case .olympicLift:
             return OlympicLiftExerciseName.self
         case .plank:
-            return nil
+            return PlankExerciseName.self
         case .plyo:
             return PlyoExerciseName.self
         case .pullUp:

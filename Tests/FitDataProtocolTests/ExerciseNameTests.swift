@@ -62,7 +62,10 @@ class ExerciseNameTests: XCTestCase {
         ("testPushCreate", testPushCreate),
         
         ("testSquatDups", testSquatDups),
-        ("testSquatCreate", testSquatCreate)
+        ("testSquatCreate", testSquatCreate),
+        
+        ("testPlankDups", testPlankDups),
+        ("testPlankCreate", testPlankCreate)
     ]
 }
 
@@ -659,6 +662,43 @@ extension ExerciseNameTests {
         }
 
         if SquatExerciseName.create(rawValue: UInt16(SquatExerciseName.supportedExerciseNames.count + 1)) != nil {
+            XCTFail("Past Current Max")
+        }
+    }
+
+    func testPlankDups() {
+
+        let x = PlankExerciseName.supportedExerciseNames
+
+        let duplicates = Array(Set(x.filter({ (i: PlankExerciseName) in x.filter({ $0.number == i.number }).count > 1})))
+
+        if duplicates.count > 0 {
+            for dup in duplicates {
+                print("Dup: \(dup.number) - \(dup.name)")
+            }
+            XCTFail("Multiple same IDs found")
+        }
+
+        print("PlankExerciseName Count: \(PlankExerciseName.supportedExerciseNames.count)")
+    }
+
+    func testPlankCreate() {
+
+        if let nametype = ExerciseCategory.plank.exerciseName(from: 0) {
+            if nametype is PlankExerciseName == false {
+                XCTFail("Wrong Type, Make sure it is added to the Exercise Category")
+            }
+        }
+
+        if PlankExerciseName.create(rawValue: 2) != .nintyDegreeStaticHold {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if PlankExerciseName.create(rawValue: 4) != .bearCrawl {
+            XCTFail("Wrong Exercise Name")
+        }
+
+        if PlankExerciseName.create(rawValue: UInt16(PlankExerciseName.supportedExerciseNames.count + 1)) != nil {
             XCTFail("Past Current Max")
         }
     }

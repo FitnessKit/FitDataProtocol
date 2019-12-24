@@ -93,6 +93,7 @@ custom_categories:
     - LegRaiseExerciseName
     - LungeExerciseName
     - OlympicLiftExerciseName
+    - PlankExerciseName
     - PlyoExerciseName
     - PullUpExerciseName
     - PushUpExerciseName
