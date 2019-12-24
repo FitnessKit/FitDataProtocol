@@ -35,7 +35,7 @@ internal extension Date {
 
      - returns: an Date object with the given
      */
-    init(year:Int, month:Int, day:Int) {
+    init(year: Int, month: Int, day: Int) {
         var c = DateComponents()
         c.year = year
         c.month = month
@@ -44,7 +44,7 @@ internal extension Date {
         let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
 
         let date = gregorian.date(from: c)
-        self.init(timeInterval:0, since:date!)
+        self.init(timeInterval: 0, since: date!)
     }
 
     /// ANT+ EPOCH

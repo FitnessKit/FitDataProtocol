@@ -65,6 +65,7 @@ custom_categories:
     - UserProfileMessage
     - VideoMessage
     - WeatherAlertMessage
+    - WeatherConditionsMessage
     - WeightScaleMessage
     - WorkoutMessage
     - WorkoutSessionMessage

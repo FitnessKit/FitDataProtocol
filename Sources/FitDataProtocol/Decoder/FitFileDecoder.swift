@@ -67,6 +67,7 @@ public struct FitFileDecoder {
                                          AntChannelIdMessage.self,
                                          SlaveDeviceMessage.self,
                                          ConnectivityMessage.self,
+                                         WeatherConditionsMessage.self,
                                          WeatherAlertMessage.self,
                                          CadenceZoneMessage.self,
                                          SegmentLeaderboardEntryMessage.self,

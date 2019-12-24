@@ -79,6 +79,8 @@ public enum FitEncodingError: Error {
     case properySize(String)
     /// Properties Value not Correct
     case propertyValue(String)
+    /// Property Bounds Issue
+    case properyBounds(String)
     /// No Properties available to Encdode
     case noProperties(String)
     /// File Type
@@ -107,6 +109,8 @@ extension FitEncodingError: LocalizedError {
             return "Message not currently supported for Encode"
         case .properySize(let msg):
             return msg
+        case .properyBounds(let msg):
+            return msg
         case .noProperties(let msg):
             return msg
         case .propertyValue(let msg):
@@ -120,3 +124,25 @@ extension FitEncodingError: LocalizedError {
         }
     }
 }
+
+internal extension FitEncodingError {
+    
+    /// Create a FitEncodingError Message for Bounded Types
+    ///
+    /// - Parameters:
+    ///   - title: Title of Error
+    ///   - msg: Optional Message at the end of error
+    ///   - range: Bunded Range
+    /// - Returns: BluetoothEncodeError
+    static func boundsError<T>(title: String,
+                               msg: String? = nil,
+                               range: ClosedRange<T>) -> FitEncodingError {
+        if let msg = msg {
+            return FitEncodingError.properyBounds("\(title) \(range.lowerBound) and \(range.upperBound) \(msg).")
+        }
+
+        return FitEncodingError.properyBounds("\(title) \(range.lowerBound) and \(range.upperBound).")
+    }
+
+}
+
