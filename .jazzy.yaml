@@ -53,6 +53,7 @@ custom_categories:
     - RecordMessage
     - ScheduleMessage
     - SessionMessage
+    - SetMessage
     - SlaveDeviceMessage
     - SoftwareMessage
     - SegmentLeaderboardEntryMessage

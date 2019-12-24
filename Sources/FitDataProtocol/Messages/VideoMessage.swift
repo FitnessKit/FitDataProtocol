@@ -44,7 +44,7 @@ open class VideoMessage: FitMessage {
     private(set) public var hostingProvider: String?
 
     /// Playback Duration Time
-    @FitFieldUnit(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitFieldUnit(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 2,
                   unit: UnitDuration.millisecond)
     private(set) public var duration: Measurement<UnitDuration>?
