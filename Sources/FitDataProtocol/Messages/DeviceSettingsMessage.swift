@@ -69,7 +69,7 @@ open class DeviceSettingsMessage: FitMessage {
     private(set) public var backLightMode: BacklightMode?
 
     /// Activity Tracker Enabled
-    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 36)
     private(set) public var activityTrackerEnabled: Bool?
 
@@ -86,7 +86,7 @@ open class DeviceSettingsMessage: FitMessage {
     private(set) public var pagesEnabled: Enabled?
 
     /// Move Alert Enabled
-    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 46)
     private(set) public var moveAlertEnabled: Bool?
 
@@ -127,12 +127,12 @@ open class DeviceSettingsMessage: FitMessage {
     private(set) public var autosyncMinimumTime: Measurement<UnitDuration>?
 
     /// Lactate Threshold Autodetect Enabled
-    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 80)
     private(set) public var lactateThresholdAutodetectEnabled: Bool?
 
     /// BLE Auto upload Enabled
-    @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
+    @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 80)
     private(set) public var bleAutoUploadEnabled: Bool?
 
