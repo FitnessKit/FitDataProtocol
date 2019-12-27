@@ -77,7 +77,8 @@ public struct FitFileDecoder {
                                          DeveloperDataIdMessage.self,
                                          SetMessage.self,
                                          StressLevelMessage.self,
-                                         ExerciseTitleMessage.self
+                                         ExerciseTitleMessage.self,
+                                         JumpMessage.self
                                         ]
 
     /// Options for CRC Checking

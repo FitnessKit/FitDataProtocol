@@ -47,6 +47,7 @@ custom_categories:
     - HeartrateProfileMessage
     - HeartRateZoneMessage
     - HrvMessage
+    - JumpMessage
     - LapMessage
     - MetZoneMessage
     - PowerZoneMessage
