@@ -32,35 +32,35 @@ open class JumpMessage: FitMessage {
     
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 285 }
-        
+    
     /// Distance
-    @FitFieldUnit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                  fieldNumber: 0,
-                  unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 0,
+                       unit: UnitLength.meters)
     private(set) public var distance: Measurement<UnitLength>?
     
     /// Height
-    @FitFieldUnit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                  fieldNumber: 1,
-                  unit: UnitLength.meters)
+    @FitFieldDimension(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 1,
+                       unit: UnitLength.meters)
     private(set) public var height: Measurement<UnitLength>?
-
+    
     /// Rotations
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 2)
     private(set) public var rotations: UInt8?
-
+    
     /// Hang Time
-    @FitFieldUnit(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                  fieldNumber: 3,
-                  unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
+                       fieldNumber: 3,
+                       unit: UnitDuration.seconds)
     private(set) public var hangTime: Measurement<UnitDuration>?
-
+    
     /// Score
     @FitField(base: BaseTypeData(type: .float32, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 4)
     private(set) public var score: Float32?
-
+    
     @FitFieldDimension(base: BaseTypeData(type: .sint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                        fieldNumber: 5,
                        unit: UnitAngle.garminSemicircle)
@@ -81,7 +81,7 @@ open class JumpMessage: FitMessage {
             self.longitude = newValue?.longitude
         }
     }
-
+    
     @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
                        fieldNumber: 7,
                        unit: UnitSpeed.metersPerSecond)
@@ -101,12 +101,12 @@ open class JumpMessage: FitMessage {
             self.enhanceSpeed = newValue
         }
     }
-
+    
     /// Timestamp
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 253, local: false)
     private(set) public var timeStamp: FitTime?
-
+    
     public required init() {
         super.init()
         

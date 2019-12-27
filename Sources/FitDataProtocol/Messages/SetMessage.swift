@@ -32,43 +32,43 @@ open class SetMessage: FitMessage {
     
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 225 }
-        
+    
     /// Set Duration
-    @FitFieldUnit(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                  fieldNumber: 0,
-                  unit: UnitDuration.seconds)
+    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+                       fieldNumber: 0,
+                       unit: UnitDuration.seconds)
     private(set) public var duration: Measurement<UnitDuration>?
     
     /// Repetitions
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 3)
     private(set) public var repetitions: UInt16?
-
+    
     /// Weight
-    @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 16, offset: 0.0)),
-                  fieldNumber: 4,
-                  unit: UnitMass.kilograms)
+    @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 16, offset: 0.0)),
+                       fieldNumber: 4,
+                       unit: UnitMass.kilograms)
     private(set) public var weight: Measurement<UnitMass>?
-
+    
     /// Set Type
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 5)
     private(set) public var setType: SetType?
-
+    
     /// Start Time of the Set
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 6, local: false)
     private(set) public var startTime: FitTime?
-
+    
     /// Start Time of the Set
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                  fieldNumber: 7)
+              fieldNumber: 7)
     private(set) public var category: ExerciseCategory?
-
+    
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 8)
     private var _exerciseName: UInt16?
-
+    
     /// Exercise Name
     public var exerciseName: ExerciseNameType? {
         get {
@@ -76,32 +76,32 @@ open class SetMessage: FitMessage {
             return category?.exerciseName(from: name)
         }
     }
-
+    
     /// Weight Display Unit
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 9)
     private(set) public var weightDisplayUnit: BaseUnitType?
-
+    
     /// Message Index
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 10)
     private(set) public var messageIndex: MessageIndex?
-
+    
     /// Workout Step Index
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 11)
     private(set) public var workoutSetpIndex: MessageIndex?
-
+    
     /// Timestamp
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 254, local: false)
     private(set) public var timeStamp: FitTime?
-
+    
     public required init() {
         super.init()
         
         self.$timeStamp.owner = self
-
+        
         self.$duration.owner = self
         self.$repetitions.owner = self
         self.$weight.owner = self
@@ -129,11 +129,11 @@ open class SetMessage: FitMessage {
         
         let catPre = category ?? .invalid
         let namePre = exerciseName?.catagory ?? ExerciseCategory.invalid
-
+        
         precondition(catPre == namePre, "exerciseName is not of ExerciseCategory type")
-
+        
         self.timeStamp = timeStamp
-
+        
         self.duration = duration
         self.repetitions = repetitions
         self.weight = weight
