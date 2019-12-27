@@ -39,6 +39,7 @@ public struct FitFileDecoder {
                                          UserProfileMessage.self,
                                          HeartrateProfileMessage.self,
                                          StrideSpeedDistanceMonitorProfileMessage.self,
+                                         BikeProfileMessage.self,
                                          ZonesTargetMessage.self,
                                          HeartRateZoneMessage.self,
                                          PowerZoneMessage.self,
