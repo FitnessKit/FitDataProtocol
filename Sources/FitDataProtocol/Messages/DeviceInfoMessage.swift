@@ -24,8 +24,8 @@
 
 import Foundation
 import DataDecoder
-import FitnessUnits
 import AntMessageProtocol
+import FitnessUnits
 
 /// FIT Device Information Message
 @available(swift 4.2)

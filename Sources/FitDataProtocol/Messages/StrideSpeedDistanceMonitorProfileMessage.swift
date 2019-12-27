@@ -24,8 +24,8 @@
 
 import Foundation
 import DataDecoder
-import FitnessUnits
 import AntMessageProtocol
+import FitnessUnits
 
 /// FIT Stride Based Speed and Distance Monitor (SDM) Profile Message
 @available(swift 4.2)
