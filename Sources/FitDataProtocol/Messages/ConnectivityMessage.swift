@@ -25,7 +25,7 @@
 import Foundation
 import DataDecoder
 
-/// FIT Slave Device Message
+/// Connectivity Message
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class ConnectivityMessage: FitMessage {
