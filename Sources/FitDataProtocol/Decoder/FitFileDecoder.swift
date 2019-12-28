@@ -73,6 +73,7 @@ public struct FitFileDecoder {
                                          CadenceZoneMessage.self,
                                          SegmentLeaderboardEntryMessage.self,
                                          WorkoutSessionMessage.self,
+                                         WatchfaceSettingsMessage.self,
                                          VideoMessage.self,
                                          FieldDescriptionMessage.self,
                                          DeveloperDataIdMessage.self,

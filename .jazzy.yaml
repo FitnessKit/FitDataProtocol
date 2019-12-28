@@ -65,6 +65,7 @@ custom_categories:
     - TotalsMessage
     - UserProfileMessage
     - VideoMessage
+    - WatchfaceSettingsMessage
     - WeatherAlertMessage
     - WeatherConditionsMessage
     - WeightScaleMessage
