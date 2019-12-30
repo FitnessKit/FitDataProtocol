@@ -72,7 +72,6 @@ extension DefinitionMessage: Equatable {
     }
 }
 
-
 internal extension DefinitionMessage {
 
     /// Encodes the DefinitionMessage into Data

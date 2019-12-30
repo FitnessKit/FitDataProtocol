@@ -95,7 +95,6 @@ extension FieldDefinition: Equatable {
     }
 }
 
-
 internal extension FieldDefinition {
 
     static func decode(decoder: inout DecodeData, data: Data) -> Result<FieldDefinition, FitDecodingError> {
