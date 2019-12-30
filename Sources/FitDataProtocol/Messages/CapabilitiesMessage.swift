@@ -32,11 +32,11 @@ open class CapabilitiesMessage: FitMessage {
     
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 1 }
-        
+    
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
     private var supportedLanguages: Data?
-
+    
     /// Supported Languages
     private(set) public var languages: LanguageCapabilities? {
         get {
@@ -46,11 +46,11 @@ open class CapabilitiesMessage: FitMessage {
             self.supportedLanguages = newValue?.encode()
         }
     }
-
+    
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private var supportedSports: Data?
-
+    
     /// Supported Sports
     private(set) public var sports: SportCapabilities? {
         get {
@@ -60,17 +60,17 @@ open class CapabilitiesMessage: FitMessage {
             self.supportedSports = newValue?.encode()
         }
     }
-
+    
     /// Workouts Supported
     @FitField(base: BaseTypeData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 21)
     private(set) public var workouts: WorkoutCapabilities?
-
+    
     /// Connectivity Supported
     @FitField(base: BaseTypeData(type: .uint32z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 23)
     private(set) public var connectivity: ConnectivityCapabilities?
-
+    
     public required init() {
         super.init()
         
@@ -113,8 +113,8 @@ open class CapabilitiesMessage: FitMessage {
         }
         
         let msg = CapabilitiesMessage(fieldDict: fieldDict,
-                              fieldDataDict: fieldDataDict,
-                              architecture: definition.architecture)
+                                      fieldDataDict: fieldDataDict,
+                                      architecture: definition.architecture)
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData

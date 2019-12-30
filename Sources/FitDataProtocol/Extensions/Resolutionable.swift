@@ -33,6 +33,7 @@ public struct Resolution {
     var offset: Double
 }
 
+/// Direction of the Resolution
 public enum ResolutionDirection {
     /// Adds Resolution
     case adding
@@ -40,6 +41,7 @@ public enum ResolutionDirection {
     case removing
 }
 
+/// Resolutionable Allows Applying Resolution with Direction
 public protocol Resolutionable {
 
     /// Apply Resolution with Direction
@@ -51,6 +53,7 @@ public protocol Resolutionable {
     func resolution(_ direction: ResolutionDirection, resolution: Resolution) -> Double
 }
 
+/// Resolutionable Allows Applying Resolution with Direction to Fixed Width Integers
 public protocol FixedWidthIntegerResolutionable {
 
     /// Apply Resolution With Direction

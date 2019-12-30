@@ -29,7 +29,7 @@ import FitnessUnits
 
 /// Message Validator
 internal protocol MessageValidator {
-
+    
     // kah - Result<Bool, FitEncodingError>
     
     /// Validate Message
@@ -59,7 +59,7 @@ open class FitMessage {
     }
     
     public required init() {}
-
+    
     internal convenience init(fieldDict: [UInt8: FieldDefinition], fieldDataDict: [UInt8: Data], architecture: Endian) {
         self.init()
         
@@ -67,7 +67,7 @@ open class FitMessage {
         self.fieldDataDict = fieldDataDict
         self.architecture = architecture
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -97,7 +97,7 @@ open class FitMessage {
     internal func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
         return.failure(FitEncodingError.notSupported)
     }
-
+    
 }
 
 //MARK: - Standard Decodes
@@ -108,7 +108,7 @@ internal extension FitMessage {
         var devDecoder = DecodeData()
         var devDataTypes = [DeveloperDataType]()
         let arch = definition.architecture
-
+        
         for definition in definition.developerFieldDefinitions {
             let devdata = devDecoder.decodeData(data.developerFieldData, length: Int(definition.size))
             let devType = DeveloperDataType(architecture: arch,
@@ -118,13 +118,13 @@ internal extension FitMessage {
             
             devDataTypes.append(devType)
         }
-
+        
         return devDataTypes
     }
 }
 
 internal extension FitMessage {
-
+    
     /// Create a FitError for Wrong DefinitionMessage for FitMessage
     ///
     /// - Parameter messageType: FitMessage Name
@@ -132,11 +132,11 @@ internal extension FitMessage {
     func encodeWrongDefinitionMessage() -> FitEncodingError {
         return FitEncodingError.wrongDefinitionMessage("Wrong DefinitionMessage used for Encoding \(self.messageName)")
     }
-
+    
     func encodeNoPropertiesAvailable() -> FitEncodingError {
         return FitEncodingError.noProperties("\(self.messageName) contains no Properties Available to Encode")
     }
-
+    
     /// Name of the FitMessage
     var messageName: String {
         return String(describing: self)
@@ -162,12 +162,12 @@ internal extension FitMessage {
     /// - Returns: Encoded DataMessage
     private func encodedDataMessage(localMessageType: UInt8, msgData: Data) -> Data {
         var encodedMsg = Data()
-
+        
         let recHeader = RecordHeader(localMessageType: localMessageType,
                                      isDataMessage: true).normalHeader
         encodedMsg.append(recHeader)
         encodedMsg.append(msgData)
-
+        
         return encodedMsg
     }
 }

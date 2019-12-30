@@ -41,7 +41,7 @@ open class WatchfaceSettingsMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private var layoutType: UInt8?
-
+    
     /// Watchface Layout
     private(set) public var layout: WatchfaceLayout? {
         get {
@@ -51,12 +51,12 @@ open class WatchfaceSettingsMessage: FitMessage {
             self.layoutType = newValue?.rawValue
         }
     }
-
+    
     /// Message Index
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 254)
     private(set) public var messageIndex: MessageIndex?
-
+    
     public required init() {
         super.init()
         
@@ -72,7 +72,7 @@ open class WatchfaceSettingsMessage: FitMessage {
         self.init()
         
         precondition(type(of: layout) == mode?.layout, "layout wrong type for mode")
-
+        
         self.messageIndex = messageIndex
         
         self.mode = mode
@@ -116,11 +116,11 @@ open class WatchfaceSettingsMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) ->  Result<DefinitionMessage, FitEncodingError> {
-                
+        
         guard type(of: layout) == mode?.layout else {
             return.failure(FitEncodingError.propertyValue("layout wrong type for mode"))
         }
-
+        
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }

@@ -47,122 +47,122 @@ open class DeviceSettingsMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private var utcOffset: UInt32?
-
+    
     /// Offset from system time in seconds
     @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 2)
     private var timeOffset: Data?
-
+    
     /// Time Mode
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 4)
     private(set) public var timeMode: TimeMode?
-
+    
     /// timezone offset in 1/4 hour increments
     @FitField(base: BaseTypeData(type: .sint8, resolution: Resolution(scale: 4.0, offset: 0.0)),
               fieldNumber: 5)
     private var timeZoneOffset: Data?
-
+    
     /// Backlight Mode
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 12)
     private(set) public var backLightMode: BacklightMode?
-
+    
     /// Activity Tracker Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 36)
     private(set) public var activityTrackerEnabled: Bool?
-
+    
     /// Clock Time
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 39, local: false)
     private(set) public var clockTime: FitTime?
-
+    
     /// Pages Enabled
     ///
     /// enabled screens for each supported loop
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                  fieldNumber: 40)
+              fieldNumber: 40)
     private(set) public var pagesEnabled: Enabled?
-
+    
     /// Move Alert Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 46)
     private(set) public var moveAlertEnabled: Bool?
-
+    
     /// Date Mode
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 47)
     private(set) public var dateMode: DateMode?
-
+    
     /// Display Orientation
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 55)
     private(set) public var displayOrientation: DisplayOrientation?
-
+    
     /// Mounting Side
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 56)
     private(set) public var mountingSide: Side?
-
+    
     /// Default Page
     ///
     /// indicate one page as default for each supported loop
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
-                  fieldNumber: 57)
+              fieldNumber: 57)
     private(set) public var defaultPage: Enabled?
-
+    
     /// Autosync Minimum Steps
     ///
     /// Minimum steps before an autosync can occur
     @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 58, unit: UnitCount.steps)
     private(set) public var autosyncMinimumSteps: Measurement<UnitCount>?
-
+    
     /// Autosync Minimum Time
     ///
     /// Minimum minutes before an autosync can occur
     @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
                        fieldNumber: 59, unit: UnitDuration.minutes)
     private(set) public var autosyncMinimumTime: Measurement<UnitDuration>?
-
+    
     /// Lactate Threshold Autodetect Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 80)
     private(set) public var lactateThresholdAutodetectEnabled: Bool?
-
+    
     /// BLE Auto upload Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 80)
     private(set) public var bleAutoUploadEnabled: Bool?
-
+    
     /// Auto Sync Frequency
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 89)
     private(set) public var autoSyncFrequency: AutoSyncFrequency?
-
+    
     /// Auto Activity Detect
     ///
     /// Allows setting specific activities auto-activity detect enabled/disabled settings
     @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 90)
     private(set) public var autoActivityDetect: AutoActivityDetect?
-
+    
     /// Number of screens configured to display
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 94)
     private(set) public var numberOfScreens: UInt8?
-
+    
     /// Smart Notification Display Orientation
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 95)
     private(set) public var smartNotificationDisplayOrientation: DisplayOrientation?
-
+    
     /// Tap Interace
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 134)
     private(set) public var tapInterface: Switch?
-
+    
     public required init() {
         super.init()
         
@@ -220,7 +220,7 @@ open class DeviceSettingsMessage: FitMessage {
         self.displayOrientation = displayOrientation
         self.mountingSide = mountingSide
         self.defaultPage = defaultPage
-
+        
         if let autosyncMinSteps = autosyncMinimumSteps {
             self.autosyncMinimumSteps = Measurement(value: Double(autosyncMinSteps), unit: UnitCount.steps)
         }
@@ -342,7 +342,7 @@ public extension DeviceSettingsMessage {
         /// Sixteen
         public static let sixteen   = Enabled(rawValue: 1 << 15)
     }
-
+    
 }
 
 // MARK: - FitFieldCodeable

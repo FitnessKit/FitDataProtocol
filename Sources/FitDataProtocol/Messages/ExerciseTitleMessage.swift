@@ -76,10 +76,10 @@ open class ExerciseTitleMessage: FitMessage {
                             category: ExerciseCategory? = nil,
                             exerciseName: ExerciseNameType? = nil) {
         self.init()
-                
+        
         let catPre = category ?? .invalid
         let namePre = exerciseName?.catagory ?? ExerciseCategory.invalid
-
+        
         precondition(catPre == namePre, "exerciseName is not of ExerciseCategory type")
         
         self.messageIndex = messageIndex
@@ -133,7 +133,7 @@ open class ExerciseTitleMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: ExerciseTitleMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

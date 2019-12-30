@@ -38,12 +38,12 @@ open class EventMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
     private(set) public var event: Event?
-
+    
     /// Event Type
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private(set) public var eventType: EventType?
-
+    
     /// Event Data
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 2)
@@ -63,7 +63,7 @@ open class EventMessage: FitMessage {
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 253, local: false)
     private(set) public var timeStamp: FitTime?
-
+    
     public required init() {
         super.init()
         // TODO: Subfields
@@ -130,7 +130,7 @@ open class EventMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: EventMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

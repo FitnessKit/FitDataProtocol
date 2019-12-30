@@ -33,7 +33,7 @@ open class CourseMessage: FitMessage {
     
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 31 }
-        
+    
     /// Sport
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 4)
@@ -120,7 +120,7 @@ open class CourseMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: CourseMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),
@@ -176,7 +176,7 @@ public extension CourseMessage {
         /// Bikeway
         public static let bikeway = Capabilities(rawValue: 0x00000400)
     }
-
+    
 }
 
 // MARK: - FitFieldCodeable

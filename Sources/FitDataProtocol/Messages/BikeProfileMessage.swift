@@ -44,7 +44,7 @@ open class BikeProfileMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private(set) public var sport: Sport?
-
+    
     /// Sub Sport
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 2)
@@ -52,100 +52,100 @@ open class BikeProfileMessage: FitMessage {
     
     /// Odometer
     @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 100.0, offset: 0.0)),
-                  fieldNumber: 3,
-                  unit: UnitLength.meters)
+                       fieldNumber: 3,
+                       unit: UnitLength.meters)
     private(set) public var odometer: Measurement<UnitLength>?
-
+    
     /// Bike Speed ANT Id
     @FitField(base: BaseTypeData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 4)
     private(set) public var speedAntId: UInt16?
-
+    
     /// Bike Cadence ANT Id
     @FitField(base: BaseTypeData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 5)
     private(set) public var cadenceAntId: UInt16?
-
+    
     /// Bike Speed Cadence ANT Id
     @FitField(base: BaseTypeData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 6)
     private(set) public var speedCadenceAntId: UInt16?
-
+    
     /// Bike Power ANT Id
     @FitField(base: BaseTypeData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 7)
     private(set) public var powerAntId: UInt16?
-
+    
     /// Custom Wheel Size
     @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                  fieldNumber: 8,
-                  unit: UnitLength.meters)
+                       fieldNumber: 8,
+                       unit: UnitLength.meters)
     private(set) public var customWheelSize: Measurement<UnitLength>?
-
+    
     /// Auto Wheel Size
     @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1000.0, offset: 0.0)),
-                  fieldNumber: 9,
-                  unit: UnitLength.meters)
+                       fieldNumber: 9,
+                       unit: UnitLength.meters)
     private(set) public var autoWheelSize: Measurement<UnitLength>?
-
+    
     /// Bike Weight
     @FitFieldDimension(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
-                  fieldNumber: 10,
-                  unit: UnitMass.kilograms)
+                       fieldNumber: 10,
+                       unit: UnitMass.kilograms)
     private(set) public var bikeWeight: Measurement<UnitMass>?
-
+    
     /// Power Calibration Factor
     @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                   fieldNumber: 11,
                   unit: UnitPercent.percent)
     private(set) public var powerCalibrationFactor: Measurement<UnitPercent>?
-
+    
     /// Auto Wheel Calibration
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 12)
     private(set) public var autoWheelCalibration: Bool?
-
+    
     /// Auto Power Zero
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 13)
     private(set) public var autoPowerZero: Bool?
-
+    
     /// Id
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 14)
     private(set) public var id: UInt8?
-
+    
     /// Speed Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 15)
     private(set) public var speedEnabled: Bool?
-
+    
     /// Cadence Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 16)
     private(set) public var cadenceEnabled: Bool?
-
+    
     /// Speed Cadence Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 17)
     private(set) public var speedCadenceEnabled: Bool?
-
+    
     /// Power Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 18)
     private(set) public var powerEnabled: Bool?
-
+    
     /// Crank Length
     @FitFieldDimension(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: -110.0)),
-                  fieldNumber: 19,
-                  unit: UnitLength.millimeters)
+                       fieldNumber: 19,
+                       unit: UnitLength.millimeters)
     private(set) public var crankLength: Measurement<UnitLength>?
-
+    
     /// Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 20)
     private(set) public var enbled: Bool?
-
+    
     /// Speed Transmission Type
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 21)
@@ -155,33 +155,33 @@ open class BikeProfileMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 22)
     private(set) public var cadenceTransmissionType: TransmissionType?
-
+    
     /// Speed Cadence Transmission Type
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 23)
     private(set) public var speedCadenceTransmissionType: TransmissionType?
-
+    
     /// Power Transmission Type
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 24)
     private(set) public var powerTransmissionType: TransmissionType?
-
+    
     /// Odometer Rollover
     ///
     /// Rollover counter that can be used to extend the odometer
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 37)
     private(set) public var odometerRollover: UInt8?
-
+    
     /// Number of Front Gears
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 38)
     private(set) public var frontGears: UInt8?
-
+    
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 39)
     private var _frontGearTeeth: Data?
-
+    
     /// Font Gear Teeth
     ///
     /// Number of Teeth on Each Gear
@@ -206,16 +206,16 @@ open class BikeProfileMessage: FitMessage {
             }
         }
     }
-
+    
     /// Number of Rear Gears
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 40)
     private(set) public var rearGears: UInt8?
-
+    
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 41)
     private var _rearGearTeeth: Data?
-
+    
     /// Rear Gear Teeth
     ///
     /// Number of Teeth on Each Gear
@@ -240,12 +240,12 @@ open class BikeProfileMessage: FitMessage {
             }
         }
     }
-
+    
     /// Shimano Di2 Enabled
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 44)
     private(set) public var shimanoDi2Enabled: Bool?
-
+    
     /// Message Index
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 254)
@@ -325,7 +325,7 @@ open class BikeProfileMessage: FitMessage {
         
         precondition(frontGears ?? 0 == frontGearTeeth?.count ?? 0, "frontGearTeeth count must equal fontGears")
         precondition(rearGears ?? 0 == rearGearTeeth?.count ?? 0, "rearGearTeeth count must equal rearGears")
-
+        
         self.messageIndex = messageIndex
         
         self.name = name
@@ -406,11 +406,11 @@ open class BikeProfileMessage: FitMessage {
         guard frontGears ?? 0 == frontGearTeeth?.count ?? 0 else {
             return.failure(FitEncodingError.properySize("frontGearTeeth count must equal fontGears"))
         }
-
+        
         guard rearGears ?? 0 == rearGearTeeth?.count ?? 0 else {
             return.failure(FitEncodingError.properySize("rearGearTeeth count must equal rearGears"))
         }
-
+        
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }

@@ -38,17 +38,17 @@ open class SportMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
     private(set) public var sport: Sport?
-
+    
     /// Sub Sport
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private(set) public var subSport: SubSport?
-
+    
     /// Sport Name
     @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 3)
     private(set) public var name: String?
-            
+    
     public required init() {
         super.init()
         
@@ -110,7 +110,7 @@ open class SportMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: SportMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

@@ -114,7 +114,7 @@ open class SoftwareMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: SoftwareMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

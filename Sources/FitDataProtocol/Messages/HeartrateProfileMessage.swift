@@ -63,7 +63,7 @@ open class HeartrateProfileMessage: FitMessage {
         super.init()
         
         self.$messageIndex.owner = self
-
+        
         self.$enabled.owner = self
         self.$antID.owner = self
         self.$logHrv.owner = self
@@ -125,7 +125,7 @@ open class HeartrateProfileMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: HeartrateProfileMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

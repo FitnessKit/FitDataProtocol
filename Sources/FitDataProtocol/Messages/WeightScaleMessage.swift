@@ -115,7 +115,6 @@ open class WeightScaleMessage: FitMessage {
                   fieldNumber: 253, local: false)
     private(set) public var timeStamp: FitTime?
     
-    
     public required init() {
         super.init()
         

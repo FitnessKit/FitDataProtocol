@@ -82,14 +82,14 @@ open class FileIdMessage: FitMessage {
     }
     
     public convenience init(deviceSerialNumber: UInt32? = nil,
-                fileCreationDate: FitTime? = nil,
-                manufacturer: Manufacturer? = nil,
-                product: UInt16? = nil,
-                fileNumber: UInt16? = nil,
-                fileType: FileType? = nil,
-                productName: String? = nil) {
+                            fileCreationDate: FitTime? = nil,
+                            manufacturer: Manufacturer? = nil,
+                            product: UInt16? = nil,
+                            fileNumber: UInt16? = nil,
+                            fileType: FileType? = nil,
+                            productName: String? = nil) {
         self.init()
-                
+        
         self.deviceSerialNumber = deviceSerialNumber
         self.fileCreationDate = fileCreationDate
         self.manufacturer = manufacturer
@@ -146,7 +146,7 @@ open class FileIdMessage: FitMessage {
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: FileIdMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),

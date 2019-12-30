@@ -33,32 +33,32 @@ open class AntChannelIdMessage: FitMessage {
     
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 82 }
-            
+    
     /// Channel Number
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
     private(set) public var channelNumber: UInt8?
-
+    
     /// Device Type
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private(set) public var deviceType: DeviceType?
-
+    
     /// Device Number
     @FitField(base: BaseTypeData(type: .uint16z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 2)
     private(set) public var deviceNumber: UInt16?
-
+    
     /// Transmission Type
     @FitField(base: BaseTypeData(type: .uint8z, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 3)
     private(set) public var transmissionType: TransmissionType?
-
+    
     /// Device Index
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 4)
     private(set) public var deviceIndex: DeviceIndex?
-
+    
     public required init() {
         super.init()
         
@@ -81,7 +81,7 @@ open class AntChannelIdMessage: FitMessage {
         self.deviceNumber = deviceNumber
         self.deviceIndex = deviceIndex
     }
-        
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -119,7 +119,7 @@ open class AntChannelIdMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-                
+        
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
         
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }

@@ -50,8 +50,7 @@ open class FileCreatorMessage: FitMessage {
         self.$hardwareVersion.owner = self
     }
 
-    public convenience init(softwareVersion: UInt16? = nil,
-                hardwareVersion: UInt8? = nil) {
+    public convenience init(softwareVersion: UInt16? = nil, hardwareVersion: UInt8? = nil) {
         self.init()
         
         self.softwareVersion = softwareVersion

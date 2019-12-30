@@ -30,20 +30,20 @@ import AntMessageProtocol
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class DeveloperDataIdMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 207 }
-
+    
     /// Developer ID
     @FitField(base: BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
     private(set) public var developerId: Data?
-
+    
     /// Application ID
     @FitField(base: BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private(set) public var applicationId: Data?
-
+    
     /// Manufacturer
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 2)
@@ -53,12 +53,12 @@ open class DeveloperDataIdMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 3)
     private(set) public var dataIndex: UInt8?
-
+    
     /// Application Version
     @FitField(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 4)
     private(set) public var applicationVersion: UInt32?
-
+    
     public required init() {
         super.init()
         
@@ -68,12 +68,12 @@ open class DeveloperDataIdMessage: FitMessage {
         self.$dataIndex.owner = self
         self.$applicationVersion.owner = self
     }
-
+    
     public convenience init(developerId: Data? = nil,
-                applicationId: Data? = nil,
-                applicationVersion: UInt32? = nil,
-                manufacturer: Manufacturer? = nil,
-                dataIndex: UInt8? = nil) {
+                            applicationId: Data? = nil,
+                            applicationVersion: UInt32? = nil,
+                            manufacturer: Manufacturer? = nil,
+                            dataIndex: UInt8? = nil) {
         self.init()
         
         self.developerId = developerId
@@ -95,10 +95,10 @@ open class DeveloperDataIdMessage: FitMessage {
         
         var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
         var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
-
+        
         for definition in definition.fieldDefinitions {
             let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+            
             fieldDict[definition.fieldDefinitionNumber] = definition
             fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
@@ -109,10 +109,10 @@ open class DeveloperDataIdMessage: FitMessage {
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
+        
         return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -120,28 +120,28 @@ open class DeveloperDataIdMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
+        
         guard developerId?.count ?? 0 <= UInt8.max else {
             return.failure(FitEncodingError.properySize("developerId size can not exceed 255"))
         }
-
+        
         guard applicationId?.count ?? 0 <= UInt8.max else {
             return.failure(FitEncodingError.properySize("applicationId size can not exceed 255"))
         }
-
+        
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
-
+        
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: DeveloperDataIdMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),
                                            fieldDefinitions: fields,
                                            developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+        
         return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -149,11 +149,11 @@ open class DeveloperDataIdMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
+        
         return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

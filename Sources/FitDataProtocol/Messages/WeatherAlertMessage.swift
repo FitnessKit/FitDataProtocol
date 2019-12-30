@@ -30,46 +30,46 @@ import FitnessUnits
 @available(swift 4.2)
 @available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)
 open class WeatherAlertMessage: FitMessage {
-
+    
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 129 }
-
+    
     /// Report ID
     ///
     /// Unique identifier from GCS report ID
     @FitField(base: BaseTypeData(type: .string, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
     private(set) public var reportID: String?
-
+    
     /// Issue Time
     ///
     /// Time alert was issued
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 1, local: false)
     private(set) public var issueTime: FitTime?
-
+    
     /// Expire Time
     ///
     /// Time alert expires
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 2, local: false)
     private(set) public var expireTime: FitTime?
-
+    
     /// Weather Severity
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 3)
     private(set) public var severity: WeatherSeverity?
-
+    
     /// Alert Type
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 4)
     private(set) public var alertType: WeatherSeverityType?
-
+    
     /// Timestamp
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 253, local: false)
     private(set) public var timeStamp: FitTime?
-
+    
     public required init() {
         super.init()
         
@@ -81,7 +81,7 @@ open class WeatherAlertMessage: FitMessage {
         self.$severity.owner = self
         self.$alertType.owner = self
     }
-
+    
     public convenience init(timeStamp: FitTime? = nil,
                             reportID: String? = nil,
                             issueTime: FitTime? = nil,
@@ -97,7 +97,7 @@ open class WeatherAlertMessage: FitMessage {
         self.severity = severity
         self.alertType = alertType
     }
-
+    
     /// Decode Message Data into FitMessage
     ///
     /// - Parameters:
@@ -109,10 +109,10 @@ open class WeatherAlertMessage: FitMessage {
         
         var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()
         var fieldDataDict: [UInt8: Data] = [UInt8: Data]()
-
+        
         for definition in definition.fieldDefinitions {
             let fieldData = testDecoder.decodeData(fieldData.fieldData, length: Int(definition.size))
-
+            
             fieldDict[definition.fieldDefinitionNumber] = definition
             fieldDataDict[definition.fieldDefinitionNumber] = fieldData
         }
@@ -123,10 +123,10 @@ open class WeatherAlertMessage: FitMessage {
         
         let devData = self.decodeDeveloperData(data: fieldData, definition: definition)
         msg.developerData = devData.isEmpty ? nil : devData
-
+        
         return .success(msg as! F)
     }
-
+    
     /// Encodes the Definition Message for FitMessage
     ///
     /// - Parameters:
@@ -134,24 +134,24 @@ open class WeatherAlertMessage: FitMessage {
     ///   - dataValidityStrategy: Validity Strategy
     /// - Returns: DefinitionMessage Result
     internal override func encodeDefinitionMessage(fileType: FileType?, dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<DefinitionMessage, FitEncodingError> {
-
+        
         guard reportID?.count ?? 0 <= UInt8.max else {
             return.failure(FitEncodingError.properySize("reportID size can not exceed 255"))
         }
-
+        
         let fields = self.fieldDict.sorted { $0.key < $1.key }.map { $0.value }
-
+        
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
-
+        
         let defMessage = DefinitionMessage(architecture: .little,
                                            globalMessageNumber: WeatherAlertMessage.globalMessageNumber(),
                                            fields: UInt8(fields.count),
                                            fieldDefinitions: fields,
                                            developerFieldDefinitions: [DeveloperFieldDefinition]())
-
+        
         return.success(defMessage)
     }
-
+    
     /// Encodes the Message into Data
     ///
     /// - Parameters:
@@ -159,11 +159,11 @@ open class WeatherAlertMessage: FitMessage {
     ///   - definition: DefinitionMessage
     /// - Returns: Data Result
     internal override func encode(localMessageType: UInt8, definition: DefinitionMessage) -> Result<Data, FitEncodingError> {
-
+        
         guard definition.globalMessageNumber == type(of: self).globalMessageNumber() else  {
             return.failure(self.encodeWrongDefinitionMessage())
         }
-
+        
         return self.encodeMessageFields(localMessageType: localMessageType)
     }
 }

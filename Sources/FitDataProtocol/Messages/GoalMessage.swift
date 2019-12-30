@@ -44,7 +44,7 @@ open class GoalMessage: FitMessage {
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 1)
     private(set) public var subSport: SubSport?
-
+    
     /// Start Date
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 2, local: true)
@@ -54,7 +54,7 @@ open class GoalMessage: FitMessage {
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 3, local: true)
     private(set) public var endDate: FitTime?
-        
+    
     /// Goal Type
     @FitField(base: BaseTypeData(type: .enumtype, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 4)
@@ -104,7 +104,7 @@ open class GoalMessage: FitMessage {
         super.init()
         
         self.$messageIndex.owner = self
-
+        
         self.$sport.owner = self
         self.$subSport.owner = self
         self.$startDate.owner = self

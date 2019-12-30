@@ -42,7 +42,7 @@ open class StressLevelMessage: FitMessage {
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 1, local: false)
     private(set) public var timeCalculated: FitTime?
-        
+    
     public required init() {
         super.init()
         
