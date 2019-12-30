@@ -30,8 +30,10 @@ custom_categories:
     - FitMessage
     - ActivityMessage
     - AntChannelIdMessage
+    - BikeProfileMessage
     - BloodPressureMessage
     - CadenceZoneMessage
+    - CapabilitiesMessage
     - ConnectivityMessage
     - CourseMessage
     - CoursePointMessage
@@ -40,6 +42,7 @@ custom_categories:
     - DeviceSettingsMessage
     - EventMessage
     - ExerciseTitleMessage
+    - FieldDescriptionMessage
     - FileCapabilitiesMessage
     - FileCreatorMessage
     - FileIdMessage
@@ -119,3 +122,11 @@ custom_categories:
     - FitFieldDimension
     - FitFieldTime
     - FitFieldUnit
+
+  - name: Units
+    children:
+    - RatingUnit
+    - UnitFitFlow
+    - UnitFitGrit
+
+

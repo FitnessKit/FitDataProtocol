@@ -189,7 +189,7 @@ open class BikeProfileMessage: FitMessage {
     /// - note: 0 is innermost
     private(set) public var frontGearTeeth: [UInt8]? {
         get {
-            if let values = _frontGearTeeth?.segment(size: MemoryLayout<UInt8>.size) {
+            if let values = self.fieldDataDict[self.$_frontGearTeeth.fieldNumber]?.segment(size: MemoryLayout<UInt8>.size) {
                 var teeth = [UInt8]()
                 for val in values {
                     teeth.append(val.to(type: UInt8.self))
