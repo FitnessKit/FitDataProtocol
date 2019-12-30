@@ -24,18 +24,25 @@
 
 import Foundation
 
+/// FitFieldUnit
+///
+/// Properpty Wrapper for Standard FIT Fields wrapped in a `Measurement<Dimension>`
 @propertyWrapper
 final public class FitFieldDimension<U: Dimension>: FieldWrapper {
     public typealias Value = Measurement<U>
     
     weak internal var owner: FitMessage?
 
+    /// Base Type
     private(set) public var base: BaseTypeData
     
+    /// Field Number
     private(set) public var fieldNumber: UInt8
     
+    /// Unit Type
     private(set) public var unitType: U
 
+    /// Wrapped Value
     public var wrappedValue: Value? {
         get {
             let fieldData = owner?.fieldDataDict[self.fieldNumber]
@@ -52,7 +59,6 @@ final public class FitFieldDimension<U: Dimension>: FieldWrapper {
 
             return nil
         }
-        
         set {
             func failure() {
                 // We remove these values
@@ -61,8 +67,8 @@ final public class FitFieldDimension<U: Dimension>: FieldWrapper {
             }
             
             if var value = newValue {
-                
                 value = value.converted(to: self.unitType)
+                
                 if value.value.isValidForBaseType(base.type) {
                     let result = base.type.encodedResolution(value: value.value, resolution: base.resolution)
                     switch result {
@@ -83,6 +89,7 @@ final public class FitFieldDimension<U: Dimension>: FieldWrapper {
         }
     }
 
+    /// Projected Value
     public var projectedValue: FitFieldDimension<U> { self }
 
     public init(base: BaseTypeData, fieldNumber: UInt8, unit: U) {

@@ -27,10 +27,20 @@ import AntMessageProtocol
 
 extension BatteryStatus: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return BatteryStatus(rawValue: value) as? T
@@ -42,10 +52,20 @@ extension BatteryStatus: FitFieldCodeable {
 
 extension DayOfWeek: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return DayOfWeek(rawValue: value) as? T
@@ -57,10 +77,20 @@ extension DayOfWeek: FitFieldCodeable {
 
 extension DeviceType: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return DeviceType(rawValue: value) as? T
@@ -72,10 +102,20 @@ extension DeviceType: FitFieldCodeable {
 
 extension Gender: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return Gender(rawValue: value) as? T
@@ -86,10 +126,21 @@ extension Gender: FitFieldCodeable {
 }
 
 extension Manufacturer: FitFieldCodeable {
+    
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.manufacturerID.littleEndian)
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt16.self, data: data, resolution: base.resolution, arch: arch) {
             return Manufacturer.company(id: value) as? T
@@ -101,10 +152,20 @@ extension Manufacturer: FitFieldCodeable {
 
 extension NetworkType: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return NetworkType(rawValue: value) as? T
@@ -115,10 +176,21 @@ extension NetworkType: FitFieldCodeable {
 }
 
 extension Sport: FitFieldCodeable {
+    
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return Sport(rawValue: value) as? T
@@ -129,10 +201,21 @@ extension Sport: FitFieldCodeable {
 }
 
 extension SubSport: FitFieldCodeable {
+    
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return SubSport(rawValue: value) as? T
@@ -143,10 +226,22 @@ extension SubSport: FitFieldCodeable {
 }
 
 extension TransmissionType: FitFieldCodeable {
+    
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }
+
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return TransmissionType(value) as? T

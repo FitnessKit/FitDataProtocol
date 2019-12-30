@@ -109,6 +109,8 @@ public enum Event: UInt8 {
 // MARK: - FitFieldCodeable
 extension Event: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         Data(from: self.rawValue.littleEndian)
     }

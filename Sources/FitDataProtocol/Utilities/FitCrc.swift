@@ -24,7 +24,6 @@
 
 import Foundation
 
-
 /**
  Table of FIT 16 bit CRC
  */

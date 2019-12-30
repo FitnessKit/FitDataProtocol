@@ -64,6 +64,8 @@ extension Weight: Equatable {
 // MARK: - FitFieldCodeable
 extension Weight: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         var msgData = Data()
         
@@ -88,6 +90,14 @@ extension Weight: FitFieldCodeable {
         return msgData
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         let calculating = Data(from: Weight.calculatingValue.littleEndian)
         

@@ -24,18 +24,25 @@
 
 import Foundation
 
+/// FitFieldTime
+///
+/// Properpty Wrapper for Time Values
 @propertyWrapper
 final public class FitFieldTime: FieldWrapper {
     public typealias Value = FitTime
     
     weak internal var owner: FitMessage?
 
+    /// Base Type
     private(set) public var base: BaseTypeData
     
+    /// Field Number
     private(set) public var fieldNumber: UInt8
     
+    /// Time is Local
     private(set) public var local: Bool
 
+    /// Wrapped Value
     public var wrappedValue: FitTime? {
         get {
             let fieldData = owner?.fieldDataDict[self.fieldNumber]
@@ -51,7 +58,6 @@ final public class FitFieldTime: FieldWrapper {
 
             return nil
         }
-        
         set {
             
             func failure() {
@@ -76,6 +82,7 @@ final public class FitFieldTime: FieldWrapper {
         }
     }
 
+    /// Projected Value
     public var projectedValue: FitFieldTime { self }
 
     public init(base: BaseTypeData, fieldNumber: UInt8, local: Bool) {

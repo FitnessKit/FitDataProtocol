@@ -49,6 +49,8 @@ public struct LeftRightBalance {
 // MARK: - FitFieldCodeable
 extension LeftRightBalance: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         var encode = Data()
 
@@ -60,6 +62,14 @@ extension LeftRightBalance: FitFieldCodeable {
         return encode
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt8.self, data: data, resolution: base.resolution, arch: arch) {
             return LeftRightBalance(value: value) as? T
@@ -96,6 +106,8 @@ public struct LeftRightBalance100 {
 // MARK: - FitFieldCodeable
 extension LeftRightBalance100: FitFieldCodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         var encode = Data()
 
@@ -107,6 +119,14 @@ extension LeftRightBalance100: FitFieldCodeable {
         return encode
     }
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = base.type.decode(type: UInt16.self, data: data, resolution: base.resolution, arch: arch) {
             return LeftRightBalance100(value: value) as? T

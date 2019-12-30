@@ -25,26 +25,36 @@
 import Foundation
 import FitnessUnits
 
+/// Wrapper Protocol for FIT values
 public protocol FieldWrapper {
     associatedtype Value
     
+    /// Base Type
     var base: BaseTypeData { get }
     
+    /// Field Number
     var fieldNumber: UInt8 { get }
     
+    /// Wrapped Value
     var wrappedValue: Value? { get set }
 }
 
+/// FitField
+///
+/// Properpty Wrapper for Standard FIT Fields
 @propertyWrapper
 final public class FitField<T>: FieldWrapper where T: FitFieldCodeable {
     public typealias Value = T
     
     weak internal var owner: FitMessage?
     
+    /// Base Type
     private(set) public var base: BaseTypeData
     
+    /// Field Number
     private(set) public var fieldNumber: UInt8
     
+    /// Wrapped Value
     public var wrappedValue: T? {
         get {
             let fieldData = owner?.fieldDataDict[self.fieldNumber]
@@ -61,7 +71,6 @@ final public class FitField<T>: FieldWrapper where T: FitFieldCodeable {
             
             return nil
         }
-        
         set {
             
             func failure() {
@@ -94,6 +103,7 @@ final public class FitField<T>: FieldWrapper where T: FitFieldCodeable {
         }
     }
     
+    /// Projected Value
     public var projectedValue: FitField<T> { self }
     
     public init(base: BaseTypeData, fieldNumber: UInt8) {
@@ -105,20 +115,40 @@ final public class FitField<T>: FieldWrapper where T: FitFieldCodeable {
 public typealias FitFieldCodeable = FitFieldEncodeable & FitFieldDecodeable
 public protocol FitFieldEncodeable {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     func encode(base: BaseTypeData) -> Data?
 }
 
 public protocol FitFieldDecodeable {
-    
+
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T?
 }
 
 extension Double: FitFieldCodeable {
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         return base.type.decode(type: T.self, data: data, resolution: base.resolution, arch: arch)
     }
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         if self.isValidForBaseType(base.type) {
             let result = base.type.encodedResolution(value: self, resolution: base.resolution)
@@ -136,6 +166,14 @@ extension Double: FitFieldCodeable {
 
 extension Float: FitFieldCodeable {
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         if let value = data.to(type: Float32.self) {
             return (value.resolution(.removing, resolution: base.resolution) as! T)
@@ -144,6 +182,8 @@ extension Float: FitFieldCodeable {
         return nil
     }
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         if self.isValidForBaseType(base.type) {
             let result = base.type.encodedResolution(value: self, resolution: base.resolution)
@@ -170,6 +210,8 @@ extension Int64: FitFieldCodeable {}
 
 extension FixedWidthInteger {
     
+    /// Encode Into Data
+    /// - Parameter base: BaseTypeData
     public func encode(base: BaseTypeData) -> Data? {
         if self.isValidForBaseType(base.type) {
             let result = base.type.encodedResolution(value: self, resolution: base.resolution)
@@ -187,6 +229,14 @@ extension FixedWidthInteger {
 
 extension FixedWidthInteger {
     
+    /// Decode FIT Field
+    ///
+    /// - Parameters:
+    ///   - type: Type of Field
+    ///   - data: Data to Decode
+    ///   - base: BaseTypeData
+    ///   - arch: Endian
+    /// - Returns: Decoded Value
     public static func decode<T>(type: T.Type, data: Data, base: BaseTypeData, arch: Endian) -> T? {
         return base.type.decode(type: type, data: data, resolution: base.resolution, arch: arch)
     }
