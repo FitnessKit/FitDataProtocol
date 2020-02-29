@@ -25,7 +25,7 @@
 import Foundation
 
 /// FIT Swim Stroke Type
-public enum SwimStroke: UInt8 {
+public enum SwimStroke: UInt8, CaseIterable {
     /// Freestyle
     case freestyle      = 0
     /// Backstroke
@@ -44,7 +44,6 @@ public enum SwimStroke: UInt8 {
     /// of lengths for each of: Butterfly, Backstroke, Breaststroke,
     /// Freestyle, swam in that order
     case im             = 6
-
 
     /// Invalid
     case invalid        = 255

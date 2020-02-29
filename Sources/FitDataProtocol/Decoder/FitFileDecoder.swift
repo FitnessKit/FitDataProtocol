@@ -127,21 +127,16 @@ public struct FitFileDecoder {
             throw FitDecodingError.duplicateFitMessage
         }
 
-        var shouldValidate: Bool = true
+        let shouldValidate: Bool
         switch crcCheckingStrategy {
         case .ignore:
             shouldValidate = false
-        default:
+        case .throws:
             shouldValidate = true
         }
 
-        switch readFitFile(data: data, validateCrc: shouldValidate) {
-        case .success(let data):
-            messageData = data
-        case .failure(let error):
-            throw error
-        }
-
+        messageData = try readFitFile(data: data, validateCrc: shouldValidate).get()
+        
         var decoder = DecodeData()
 
         repeat {
