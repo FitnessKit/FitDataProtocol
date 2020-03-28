@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FitDataProtocol'
-  s.version          = '2.0.0'
+  s.version          = '2.1.0'
   s.summary          = 'Garmin Flexible and Interoperable Data Transfer Protocol.'
 
 
@@ -40,6 +40,6 @@ Swift version of the Garmin Flexible and Interoperable Data Transfer Protocol.
 #Dependancy
   s.dependency 'DataDecoder', '>= 5.0.0'
   s.dependency 'FitnessUnits', '>= 3.1.0'
-  s.dependency 'AntMessageProtocol', '>= 1.0.0'
+  s.dependency 'AntMessageProtocol', '>= 1.1.0'
 
 end

@@ -30,7 +30,7 @@ public struct AutoActivityDetect: OptionSet {
     public init(rawValue: UInt32) { self.rawValue = rawValue }
     
     /// None
-    public static let none          = AutoActivityDetect(rawValue: 0x00000000)
+    public static let none          = AutoActivityDetect([])
     /// Running
     public static let running       = AutoActivityDetect(rawValue: 0x00000001)
     /// Cycling

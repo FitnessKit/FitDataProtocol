@@ -139,8 +139,7 @@ open class SegmentPointMessage: FitMessage {
     ///   - fieldData: FileData
     ///   - definition: Definition Message
     /// - Returns: FitMessage Result
-    override func decode<F: SegmentPointMessage>(fieldData: FieldData, definition: DefinitionMessage) -> Result<F, FitDecodingError> {
-        
+    override func decode<F>(fieldData: FieldData, definition: DefinitionMessage) -> Result<F, FitDecodingError> where F: FitMessage {
         var testDecoder = DecodeData()
         
         var fieldDict: [UInt8: FieldDefinition] = [UInt8: FieldDefinition]()

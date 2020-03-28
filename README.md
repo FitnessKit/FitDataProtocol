@@ -1,6 +1,6 @@
 # FitDataProtocol
 
-[![Swift5.1](https://img.shields.io/badge/swift5.1-compatible-4BC51D.svg?style=flat)](https://developer.apple.com/swift)
+[![Swift5.2](https://img.shields.io/badge/swift5.2-compatible-4BC51D.svg?style=flat)](https://developer.apple.com/swift)
 [![Version](https://img.shields.io/cocoapods/v/FitDataProtocol.svg?style=flat)](http://cocoapods.org/pods/FitDataProtocol)
 [![License](https://img.shields.io/cocoapods/l/FitDataProtocol.svg?style=flat)](http://cocoapods.org/pods/FitDataProtocol)
 [![Platform](https://img.shields.io/cocoapods/p/FitDataProtocol.svg?style=flat)](http://cocoapods.org/pods/FitDataProtocol)
@@ -20,7 +20,7 @@ pod 'FitDataProtocol'
 Swift Package Manager:
 ```swift
     dependencies: [
-        .package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "2.0.0")
+        .package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "2.1.0")
     ]
 ```
 

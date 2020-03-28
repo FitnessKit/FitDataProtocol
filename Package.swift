@@ -16,7 +16,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/FitnessKit/FitnessUnits", from: "3.1.0"),
         .package(url: "https://github.com/FitnessKit/DataDecoder", from: "5.0.0"),
-        .package(url: "https://github.com/FitnessKit/AntMessageProtocol", from: "1.0.0"),
+        .package(url: "https://github.com/FitnessKit/AntMessageProtocol", from: "1.1.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
