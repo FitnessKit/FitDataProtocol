@@ -131,6 +131,10 @@ internal extension FileHeader {
         
         let profileVersion = decoder.decodeUInt16(data)
         let dataSize = decoder.decodeUInt32(data)
+        
+        if Int(dataSize) > data.count {
+            return .failure(.invalidDataMessageSize)
+        }
 
         let fitCheckData = decoder.decodeData(data, length: 4)
         let fitString = String(bytes: fitCheckData, encoding: .ascii)

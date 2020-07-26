@@ -40,6 +40,8 @@ public enum FitDecodingError: Error {
     case invalidFileCrc
     /// Duplicate FitMessage types
     case duplicateFitMessage
+    /// Invalid Data Message Size
+    case invalidDataMessageSize
 }
 
 extension FitDecodingError: LocalizedError {
@@ -61,6 +63,8 @@ extension FitDecodingError: LocalizedError {
             return "Invalid File CRC"
         case .duplicateFitMessage:
             return "Duplicate FitMessage.Type is not allowed."
+        case .invalidDataMessageSize:
+            return "Header Indicates more Data then Filesize."
         }
     }
 }
