@@ -46,9 +46,6 @@ extension Data {
     /// Smartly Decodes String
     var smartString: String? {
         var stringvalue: String?
-        
-        var charSet = CharacterSet()
-        charSet.insert("\0")
 
         guard self.count > 1 else { return stringvalue }
 
@@ -61,14 +58,13 @@ extension Data {
         }
 
         if let checkString = stringvalue {
-            /* FIXME: Wrong trimming
+            /* Wrong trimming
              In German I got"Laufen\0\0n\0\0\u{04}Èî»p\0\0\0\u{04})Ä\u{13}\u{08}" for
              the sport message  „Running“. The trimming with “\0 “at the end
              doesn’t work. I am using the prefix function to get
              the substring “Laufen” until “\0 “.
             */
 
-            // let trimmed = checkString.trimmingCharacters(in: charSet)
             let substring = checkString.prefix(while: { (character) -> Bool in
                 return character != "\0"
             })
