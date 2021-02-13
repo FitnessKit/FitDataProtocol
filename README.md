@@ -36,7 +36,7 @@ Swift4
 
 ### Decoding FIT Files
 
-```
+```swift
 let fileUrl = URL(fileURLWithPath: "WeightScaleMultiUser" + ".fit")
 let fileData = try? Data(contentsOf: fileUrl)
 
@@ -85,7 +85,7 @@ The options are
 * garminConnect - Special Check for creating FIT files for GarminConnect
 
 Example:
-```
+``` swift
 let activity = ActivityMessage(timeStamp: FitTime(date: Date()),
                                totalTimerTime: nil,
                                localTimeStamp: nil,
