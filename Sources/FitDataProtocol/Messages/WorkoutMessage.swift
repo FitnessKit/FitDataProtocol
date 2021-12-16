@@ -98,6 +98,7 @@ open class WorkoutMessage: FitMessage {
         self.poolLengthUnit = poolLengthUnit
         self.sport = sport
         self.subSport = subSport
+        self.capabilities = capabilities
     }
     
     /// Decode Message Data into FitMessage
