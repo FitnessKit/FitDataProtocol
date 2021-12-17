@@ -46,26 +46,26 @@ if let fileData = fileData {
     do {
 
         try decoder.decode(data: fileData,
-                       messages: FitFileDecoder.defaultMessages,
-            decoded: { (message: FitMessage) in
+                           messages: FitFileDecoder.defaultMessages,
+                           decoded: { (message: FitMessage) in
 
-                print("Got Message: \(message)")
+            print("Got Message: \(message)")
 
-                if let message = message as? FileIdMessage {
-                    print("mssage", message.deviceSerialNumber)
-                }
+            if let message = message as? FileIdMessage {
+                print("mssage", message.deviceSerialNumber)
+            }
 
-                if let message = message as? RecordMessage {
-                    records.append(message)
-                }
+            if let message = message as? RecordMessage {
+                records.append(message)
+            }
 
-                if let message = message as? SportMessage {
-                    sports.append(message)
-                }
+            if let message = message as? SportMessage {
+                sports.append(message)
+            }
 
-                if let message = message as? ActivityMessage {
-                    activity.append(message)
-                }
+            if let message = message as? ActivityMessage {
+                activity.append(message)
+            }
         })
 
     } catch {
