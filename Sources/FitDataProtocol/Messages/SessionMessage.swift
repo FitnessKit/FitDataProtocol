@@ -666,14 +666,26 @@ open class SessionMessage: FitMessage {
     @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                   fieldNumber: 99,
                   unit: UnitPercent.percent)
-    private(set) public var minimumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
+    private var minimumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
     
     /// Maximum Saturated Hemoglobin Percent
     @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                   fieldNumber: 100,
                   unit: UnitPercent.percent)
-    private(set) public var maximumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
+    private var maximumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
     
+    /// Saturated Hemoglobin Percent
+    private(set) public var saturatedHemoglobinPercent: HemoglobinPercent? {
+        get {
+            return HemoglobinPercent(minimum: self.minimumSaturatedHemoglobinPercent,
+                                     maximum: self.maximumSaturatedHemoglobinPercent)
+        }
+        set {
+            self.minimumSaturatedHemoglobinPercent = newValue?.minimum
+            self.maximumSaturatedHemoglobinPercent = newValue?.maximum
+        }
+    }
+
     @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
                   fieldNumber: 101,
                   unit: UnitPercent.percent)
@@ -994,6 +1006,8 @@ open class SessionMessage: FitMessage {
                             averageBallSpeed: Measurement<UnitSpeed>? = nil,
                             averageVerticalOscillation: Measurement<UnitLength>? = nil,
                             averageStanceTime: StanceTime? = nil,
+                            averageSaturatedHemoglobinPercent: Measurement<UnitPercent>? = nil,
+                            saturatedHemoglobinPercent: HemoglobinPercent? = nil,
                             averageTorqueEffectiveness: TorqueEffectiveness? = nil,
                             averagePedalSmoothness: PedalSmoothness? = nil,
                             sportIndex: UInt8? = nil,
@@ -1001,7 +1015,12 @@ open class SessionMessage: FitMessage {
                             standCount: UInt16? = nil,
                             averageStepLength: Measurement<UnitLength>? = nil,
                             totalAnaerobicTrainingEffect: UInt8? = nil,
-                            averageAscentSpeed: Measurement<UnitSpeed>? = nil) {
+                            averageAscentSpeed: Measurement<UnitSpeed>? = nil,
+                            totalGrit: Measurement<UnitFitGrit>? = nil,
+                            totalFlow: Measurement<UnitFitFlow>? = nil,
+                            jumpCount: UInt16? = nil,
+                            averageGrit: Measurement<UnitFitGrit>? = nil,
+                            averageFlow: Measurement<UnitFitFlow>? = nil) {
         self.init()
         
         self.timeStamp = timeStamp
@@ -1095,6 +1114,8 @@ open class SessionMessage: FitMessage {
         self.averageBallSpeed = averageBallSpeed
         self.averageVerticalOscillation = averageVerticalOscillation
         self.averageStanceTime = averageStanceTime
+        self.averageSaturatedHemoglobinPercent = averageSaturatedHemoglobinPercent
+        self.saturatedHemoglobinPercent = saturatedHemoglobinPercent
         self.averageTorqueEffectiveness = averageTorqueEffectiveness
         self.averagePedalSmoothness = averagePedalSmoothness
         self.sportIndex = sportIndex
@@ -1103,6 +1124,15 @@ open class SessionMessage: FitMessage {
         self.averageStepLength = averageStepLength
         self.totalAnaerobicTrainingEffect = totalAnaerobicTrainingEffect
         self.averageAscentSpeed = averageAscentSpeed
+        self.totalGrit = totalGrit
+        self.totalFlow = totalFlow
+        
+        if let jumpCount = jumpCount {
+            self.jumpCount = Measurement(value: Double(jumpCount), unit: self.$jumpCount.unitType)
+        }
+        
+        self.averageGrit = averageGrit
+        self.averageFlow = averageFlow
     }
     
     /// Decode Message Data into FitMessage

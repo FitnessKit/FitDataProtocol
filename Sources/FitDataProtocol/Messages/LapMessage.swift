@@ -594,14 +594,26 @@ open class LapMessage: FitMessage {
     @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                   fieldNumber: 88,
                   unit: UnitPercent.percent)
-    private(set) public var minimumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
+    private var minimumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
     
     /// Maximum Saturated Hemoglobin Percent
     @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                   fieldNumber: 89,
                   unit: UnitPercent.percent)
-    private(set) public var maximumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
+    private var maximumSaturatedHemoglobinPercent: Measurement<UnitPercent>?
     
+    /// Saturated Hemoglobin Percent
+    private(set) public var saturatedHemoglobinPercent: HemoglobinPercent? {
+        get {
+            return HemoglobinPercent(minimum: self.minimumSaturatedHemoglobinPercent,
+                                     maximum: self.maximumSaturatedHemoglobinPercent)
+        }
+        set {
+            self.minimumSaturatedHemoglobinPercent = newValue?.minimum
+            self.maximumSaturatedHemoglobinPercent = newValue?.maximum
+        }
+    }
+
     @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 2.0, offset: 0.0)),
                   fieldNumber: 91,
                   unit: UnitPercent.percent)
@@ -861,6 +873,7 @@ open class LapMessage: FitMessage {
                             eventGroup: UInt8? = nil,
                             lengths: UInt16? = nil,
                             normalizedPower: Measurement<UnitPower>? = nil,
+                            leftRightBalance: LeftRightBalance100? = nil,
                             firstLengthIndex: UInt16? = nil,
                             averageStrokeDistance: Measurement<UnitLength>? = nil,
                             swimStroke: SwimStroke? = nil,
@@ -886,14 +899,23 @@ open class LapMessage: FitMessage {
                             minimumHeartRate: UInt8? = nil,
                             workoutStepIndex: MessageIndex? = nil,
                             score: Score? = nil,
+                            strokeCount: UInt16? = nil,
+                            zoneCount: UInt16? = nil,
                             averageVerticalOscillation: Measurement<UnitLength>? = nil,
                             averageStanceTime: StanceTime? = nil,
+                            averageSaturatedHemoglobinPercent: Measurement<UnitPercent>? = nil,
+                            saturatedHemoglobinPercent: HemoglobinPercent? = nil,
                             averageTorqueEffectiveness: TorqueEffectiveness? = nil,
                             averagePedalSmoothness: PedalSmoothness? = nil,
                             timeStanding: Measurement<UnitDuration>? = nil,
                             standCount: UInt16? = nil,
                             averageStepLength: Measurement<UnitLength>? = nil,
-                            averageAscentSpeed: Measurement<UnitSpeed>? = nil){
+                            averageAscentSpeed: Measurement<UnitSpeed>? = nil,
+                            totalGrit: Measurement<UnitFitGrit>? = nil,
+                            totalFlow: Measurement<UnitFitFlow>? = nil,
+                            jumpCount: UInt16? = nil,
+                            averageGrit: Measurement<UnitFitGrit>? = nil,
+                            averageFlow: Measurement<UnitFitFlow>? = nil){
         self.init()
         
         self.timeStamp = timeStamp
@@ -945,6 +967,7 @@ open class LapMessage: FitMessage {
         }
         
         self.normalizedPower = normalizedPower
+        self.leftRightBalance = leftRightBalance
         self.firstLengthIndex = firstLengthIndex
         self.averageStrokeDistance = averageStrokeDistance
         self.swimStroke = swimStroke
@@ -978,14 +1001,34 @@ open class LapMessage: FitMessage {
         
         self.workoutStepIndex = workoutStepIndex
         self.score = score
+        
+        if let strokeCount = strokeCount {
+            self.strokeCount = Measurement(value: Double(strokeCount), unit: self.$strokeCount.unitType)
+        }
+        
+        if let zoneCount = zoneCount {
+            self.zoneCount = Measurement(value: Double(zoneCount), unit: self.$zoneCount.unitType)
+        }
+
         self.averageVerticalOscillation = averageVerticalOscillation
         self.averageStanceTime = averageStanceTime
+        self.averageSaturatedHemoglobinPercent = averageSaturatedHemoglobinPercent
+        self.saturatedHemoglobinPercent = saturatedHemoglobinPercent
         self.averageTorqueEffectiveness = averageTorqueEffectiveness
         self.averagePedalSmoothness = averagePedalSmoothness
         self.timeStanding = timeStanding
         self.standCount = standCount
         self.averageStepLength = averageStepLength
         self.averageAscentSpeed = averageAscentSpeed
+        self.totalGrit = totalGrit
+        self.totalFlow = totalFlow
+        
+        if let jumpCount = jumpCount {
+            self.jumpCount = Measurement(value: Double(jumpCount), unit: self.$jumpCount.unitType)
+        }
+        
+        self.averageGrit = averageGrit
+        self.averageFlow = averageFlow
     }
     
     /// Decode Message Data into FitMessage
