@@ -1,3 +1,7 @@
+/*! Jazzy - https://github.com/realm/jazzy
+ *  Copyright Realm Inc.
+ *  SPDX-License-Identifier: MIT
+ */
 html, body, div, span, h1, h3, h4, p, a, code, em, img, ul, li, table, tbody, tr, td {
   background: transparent;
   border: 0;
@@ -52,9 +56,14 @@ pre, code {
   color: #777;
   word-wrap: normal; }
 
+pre {
+  line-height: 1.6; }
+
 a {
   color: #0088cc;
   text-decoration: none; }
+  a code {
+    color: inherit; }
 
 ul {
   padding-left: 15px; }
@@ -69,6 +78,18 @@ blockquote {
   margin-left: 0;
   padding: 0 10px;
   border-left: 4px solid #ccc; }
+
+hr {
+  height: 1px;
+  border: none;
+  background-color: #e2e2e2; }
+
+.footnote-ref {
+  display: inline-block;
+  scroll-margin-top: 87px; }
+
+.footnote-def {
+  scroll-margin-top: 87px; }
 
 .content-wrapper {
   margin: 0 auto;
@@ -103,10 +124,10 @@ header {
   background-color: #2C2C2C;
   position: fixed;
   width: 100%;
-  z-index: 2; }
+  z-index: 3; }
   header img {
     padding-right: 6px;
-    vertical-align: -4px;
+    vertical-align: -2px;
     height: 16px; }
   header a {
     color: #fff; }
@@ -120,7 +141,7 @@ header {
 #breadcrumbs-container {
   background-color: #2C2C2C;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   width: 100%; }
 
 #breadcrumbs {
@@ -192,6 +213,11 @@ header {
       display: block;
       padding-top: 87px;
       margin: -87px 0 0; }
+  .main-content .section-name p {
+    margin-bottom: inherit;
+    line-height: inherit; }
+  .main-content .section-name code {
+    color: inherit; }
 
 .highlight {
   background-color: #eee;
@@ -213,6 +239,7 @@ header {
   margin: 0; }
 
 .task-group-section {
+  margin-top: 10px;
   border-top: 1px solid #e2e2e2; }
 
 .task-group {
@@ -225,6 +252,23 @@ header {
   display: block;
   padding-top: 87px;
   margin: -87px 0 0; }
+
+.section-name-container {
+  position: relative;
+  display: inline-block; }
+  .section-name-container .section-name-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 0; }
+  .section-name-container .section-name {
+    position: relative;
+    pointer-events: none;
+    z-index: 1; }
+    .section-name-container .section-name a {
+      pointer-events: auto; }
 
 .item {
   padding-top: 8px;
@@ -239,13 +283,15 @@ header {
     background-color: transparent;
     padding: 0; }
   .item .token, .item .direct-link {
+    display: inline-block;
+    text-indent: -20px;
     padding-left: 3px;
-    margin-left: 35px;
+    margin-left: 55px;
     transition: all 300ms; }
   .item .discouraged {
     text-decoration: line-through; }
   .item .token-open {
-    margin-left: 25px; }
+    margin-left: 45px; }
   .item .declaration-note {
     font-size: .85em;
     color: gray;

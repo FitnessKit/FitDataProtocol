@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>FitTime Structure Reference</title>
+    <title>HemoglobinPercent Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -11,8 +11,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/FitTime" class="dashAnchor"></a>
-    <a title="FitTime Structure Reference"></a>
+    <a name="//apple_ref/swift/Struct/HemoglobinPercent" class="dashAnchor"></a>
+    <a title="HemoglobinPercent Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p>
@@ -36,7 +36,7 @@
             <a href="../index.html">FitDataProtocol Reference</a>
             <img id="carat" src="../img/carat.png" />
           </span>
-          FitTime Structure Reference
+          HemoglobinPercent Structure Reference
         </p>
       </div>
     </div>
@@ -45,15 +45,17 @@
         <article class="main-content">
           <section>
             <section class="section">
-              <h1>FitTime</h1>
+              <h1>HemoglobinPercent</h1>
                 <div class="declaration">
                   <div class="language">
                     
-                    <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FitTime</span></code></pre>
+                    <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">HemoglobinPercent</span></code></pre>
 
                   </div>
                 </div>
-              <p>FIT Time</p>
+              <p>FIT Hemoglobin Precentages</p>
+
+<p>Provides the Minimum and Maximum Saturated Hemoglobin Percent</p>
 
             </section>
             <section class="section task-group-section">
@@ -62,9 +64,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol0A4TimeV10recordDate10Foundation0F0VSgvp"></a>
-                      <a name="//apple_ref/swift/Property/recordDate" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol0A4TimeV10recordDate10Foundation0F0VSgvp">recordDate</a>
+                      <a name="/s:15FitDataProtocol17HemoglobinPercentV7minimum10Foundation11MeasurementVy12FitnessUnits04UnitE0CGSgvp"></a>
+                      <a name="//apple_ref/swift/Property/minimum" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol17HemoglobinPercentV7minimum10Foundation11MeasurementVy12FitnessUnits04UnitE0CGSgvp">minimum</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -72,14 +74,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Timestamp in UTC</p>
+                          <p>Minimum Saturated Hemoglobin Percent</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">recordDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">minimum</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -89,9 +91,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol0A4TimeV18secondSincePowerUpSdSgvp"></a>
-                      <a name="//apple_ref/swift/Property/secondSincePowerUp" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol0A4TimeV18secondSincePowerUpSdSgvp">secondSincePowerUp</a>
+                      <a name="/s:15FitDataProtocol17HemoglobinPercentV7maximum10Foundation11MeasurementVy12FitnessUnits04UnitE0CGSgvp"></a>
+                      <a name="//apple_ref/swift/Property/maximum" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol17HemoglobinPercentV7maximum10Foundation11MeasurementVy12FitnessUnits04UnitE0CGSgvp">maximum</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -99,14 +101,14 @@
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Time since device power up</p>
+                          <p>Maximum Saturated Hemoglobin Percent</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">secondSincePowerUp</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">maximum</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -116,36 +118,9 @@
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol0A4TimeV7isLocalSbvp"></a>
-                      <a name="//apple_ref/swift/Property/isLocal" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol0A4TimeV7isLocalSbvp">isLocal</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Is Local Date</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">isLocal</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol0A4TimeV4date7isLocalAC10Foundation4DateV_Sbtcfc"></a>
-                      <a name="//apple_ref/swift/Method/init(date:isLocal:)" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol0A4TimeV4date7isLocalAC10Foundation4DateV_Sbtcfc">init(date:<wbr>isLocal:<wbr>)</a>
+                      <a name="/s:15FitDataProtocol17HemoglobinPercentV7minimum7maximumAC10Foundation11MeasurementVy12FitnessUnits04UnitE0CGSg_AMtcfc"></a>
+                      <a name="//apple_ref/swift/Method/init(minimum:maximum:)" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol17HemoglobinPercentV7minimum7maximumAC10Foundation11MeasurementVy12FitnessUnits04UnitE0CGSg_AMtcfc">init(minimum:<wbr>maximum:<wbr>)</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -160,34 +135,7 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">isLocal</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol0A4TimeV18secondSincePowerUpACSd_tcfc"></a>
-                      <a name="//apple_ref/swift/Method/init(secondSincePowerUp:)" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol0A4TimeV18secondSincePowerUpACSd_tcfc">init(secondSincePowerUp:<wbr>)</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Undocumented</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">secondSincePowerUp</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">)</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">minimum</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?,</span> <span class="nv">maximum</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?)</span></code></pre>
 
                           </div>
                         </div>
