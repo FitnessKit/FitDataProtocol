@@ -33,7 +33,7 @@ open class StressLevelMessage: FitMessage {
     /// FIT Message Global Number
     public override class func globalMessageNumber() -> UInt16 { return 227 }
     
-    /// URL
+    /// Stress Level
     @FitField(base: BaseTypeData(type: .sint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 0)
     private(set) public var stressLevel: Int16?
