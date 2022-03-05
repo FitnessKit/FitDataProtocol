@@ -10,7 +10,7 @@ theme: jony
 
 copyright: '© 2017 Kevin A. Hoogheem'
 
-xcodebuild_arguments: [-scheme,FitDataProtocol-Package]
+#xcodebuild_arguments: [-scheme,FitDataProtocol-Package]
 
 custom_categories:
   - name: Decoder

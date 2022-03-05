@@ -15,7 +15,7 @@
     <header>
       <div class="content-wrapper">
         <p>
-          <a href="index.html">FitDataProtocol Docs</a>
+          <a href="index.html">FitDataProtocol 2.1.1 Docs</a>
           <span class="no-mobile"> (96% documented)</span>
         </p>
     
@@ -74,41 +74,41 @@
 </code></pre>
 <h2 id='how-to-use' class='heading'>How to Use</h2>
 <h3 id='decoding-fit-files' class='heading'>Decoding FIT Files</h3>
-<pre class="highlight plaintext"><code>let fileUrl = URL(fileURLWithPath: "WeightScaleMultiUser" + ".fit")
-let fileData = try? Data(contentsOf: fileUrl)
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">fileUrl</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">fileURLWithPath</span><span class="p">:</span> <span class="s">"WeightScaleMultiUser"</span> <span class="o">+</span> <span class="s">".fit"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">fileData</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">Data</span><span class="p">(</span><span class="nv">contentsOf</span><span class="p">:</span> <span class="n">fileUrl</span><span class="p">)</span>
 
-if let fileData = fileData {
-    var decoder = FitFileDecoder(crcCheckingStrategy: .throws)
+<span class="k">if</span> <span class="k">let</span> <span class="nv">fileData</span> <span class="o">=</span> <span class="n">fileData</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">decoder</span> <span class="o">=</span> <span class="kt">FitFileDecoder</span><span class="p">(</span><span class="nv">crcCheckingStrategy</span><span class="p">:</span> <span class="o">.</span><span class="k">throws</span><span class="p">)</span>
 
-    do {
+    <span class="k">do</span> <span class="p">{</span>
 
-        try decoder.decode(data: fileData,
-                       messages: FitFileDecoder.defaultMessages,
-            decoded: { (message: FitMessage) in
+        <span class="k">try</span> <span class="n">decoder</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">fileData</span><span class="p">,</span>
+                           <span class="nv">messages</span><span class="p">:</span> <span class="kt">FitFileDecoder</span><span class="o">.</span><span class="n">defaultMessages</span><span class="p">,</span>
+                           <span class="nv">decoded</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">FitMessage</span><span class="p">)</span> <span class="k">in</span>
 
-                print("Got Message: \(message)")
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Got Message: </span><span class="se">\(</span><span class="n">message</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 
-                if let message = message as? FileIdMessage {
-                    print("mssage", message.deviceSerialNumber)
-                }
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">message</span> <span class="o">=</span> <span class="n">message</span> <span class="k">as?</span> <span class="kt">FileIdMessage</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"mssage"</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">deviceSerialNumber</span><span class="p">)</span>
+            <span class="p">}</span>
 
-                if let message = message as? RecordMessage {
-                    records.append(message)
-                }
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">message</span> <span class="o">=</span> <span class="n">message</span> <span class="k">as?</span> <span class="kt">RecordMessage</span> <span class="p">{</span>
+                <span class="n">records</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="p">}</span>
 
-                if let message = message as? SportMessage {
-                    sports.append(message)
-                }
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">message</span> <span class="o">=</span> <span class="n">message</span> <span class="k">as?</span> <span class="kt">SportMessage</span> <span class="p">{</span>
+                <span class="n">sports</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="p">}</span>
 
-                if let message = message as? ActivityMessage {
-                    activity.append(message)
-                }
-        })
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">message</span> <span class="o">=</span> <span class="n">message</span> <span class="k">as?</span> <span class="kt">ActivityMessage</span> <span class="p">{</span>
+                <span class="n">activity</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
 
-    } catch {
-        print(error)
-    }
-}
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
 <h3 id='encoding-fit-files' class='heading'>Encoding FIT Files</h3>
 
@@ -123,49 +123,49 @@ if let fileData = fileData {
 </ul>
 
 <p>Example:</p>
-<pre class="highlight plaintext"><code>let activity = ActivityMessage(timeStamp: FitTime(date: Date()),
-                               totalTimerTime: nil,
-                               localTimeStamp: nil,
-                               numberOfSessions: nil,
-                               activity: Activity.multisport,
-                               event: nil,
-                               eventType: nil,
-                               eventGroup: nil)
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">activity</span> <span class="o">=</span> <span class="kt">ActivityMessage</span><span class="p">(</span><span class="nv">timeStamp</span><span class="p">:</span> <span class="kt">FitTime</span><span class="p">(</span><span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">()),</span>
+                               <span class="nv">totalTimerTime</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                               <span class="nv">localTimeStamp</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                               <span class="nv">numberOfSessions</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                               <span class="nv">activity</span><span class="p">:</span> <span class="kt">Activity</span><span class="o">.</span><span class="n">multisport</span><span class="p">,</span>
+                               <span class="nv">event</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                               <span class="nv">eventType</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                               <span class="nv">eventGroup</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 
 
-let fieldId = FileIdMessage(deviceSerialNumber: nil,
-                            fileCreationDate: time,
-                            manufacturer: Manufacturer.garmin,
-                            product: nil,
-                            fileNumber: nil,
-                            fileType: FileType.activity,
-                            productName: nil)
+<span class="k">let</span> <span class="nv">fieldId</span> <span class="o">=</span> <span class="kt">FileIdMessage</span><span class="p">(</span><span class="nv">deviceSerialNumber</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                            <span class="nv">fileCreationDate</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+                            <span class="nv">manufacturer</span><span class="p">:</span> <span class="kt">Manufacturer</span><span class="o">.</span><span class="n">garmin</span><span class="p">,</span>
+                            <span class="nv">product</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                            <span class="nv">fileNumber</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+                            <span class="nv">fileType</span><span class="p">:</span> <span class="kt">FileType</span><span class="o">.</span><span class="n">activity</span><span class="p">,</span>
+                            <span class="nv">productName</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 
-let encoder = FitFileEncoder(dataValidityStrategy: .none)
+<span class="k">let</span> <span class="nv">encoder</span> <span class="o">=</span> <span class="kt">FitFileEncoder</span><span class="p">(</span><span class="nv">dataValidityStrategy</span><span class="p">:</span> <span class="o">.</span><span class="k">none</span><span class="p">)</span>
 
-let result = encoder.encode(fildIdMessage: fiel, messages: [activity])
-switch result {
-case .success(let encodedData):
-    print(encodedData as NSData)
-    /// you can save off the file data
-case .failure(let error):
-    print(error.localizedDescription)
-}
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">fildIdMessage</span><span class="p">:</span> <span class="n">fiel</span><span class="p">,</span> <span class="nv">messages</span><span class="p">:</span> <span class="p">[</span><span class="n">activity</span><span class="p">])</span>
+<span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+<span class="k">case</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="k">let</span> <span class="nv">encodedData</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">encodedData</span> <span class="k">as</span> <span class="kt">NSData</span><span class="p">)</span>
+    <span class="c1">/// you can save off the file data</span>
+<span class="k">case</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="k">let</span> <span class="nv">error</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="p">)</span>
+<span class="p">}</span>
 
-///
-/// You can still use doCatch 
-///
-do {
-    let encoder = FitFileEncoder(dataValidityStrategy: .none)
+<span class="c1">///</span>
+<span class="c1">/// You can still use doCatch </span>
+<span class="c1">///</span>
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">encoder</span> <span class="o">=</span> <span class="kt">FitFileEncoder</span><span class="p">(</span><span class="nv">dataValidityStrategy</span><span class="p">:</span> <span class="o">.</span><span class="k">none</span><span class="p">)</span>
 
-    let data = try encoder.encode(fildIdMessage: fieldId, messages: [activity]).get()
-    print(data as NSData)
+    <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="k">try</span> <span class="n">encoder</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">fildIdMessage</span><span class="p">:</span> <span class="n">fieldId</span><span class="p">,</span> <span class="nv">messages</span><span class="p">:</span> <span class="p">[</span><span class="n">activity</span><span class="p">])</span><span class="o">.</span><span class="nf">get</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">data</span> <span class="k">as</span> <span class="kt">NSData</span><span class="p">)</span>
 
-    /// you can save off the file data
+    <span class="c1">/// you can save off the file data</span>
 
-} catch  {
-    print(error)
-}
+<span class="p">}</span> <span class="k">catch</span>  <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre>
 <h2 id='author' class='heading'>Author</h2>
 
@@ -839,6 +839,9 @@ do {
                   <a href="Structs/FitTime.html">FitTime</a>
                 </li>
                 <li class="nav-group-task">
+                  <a href="Structs/HemoglobinPercent.html">HemoglobinPercent</a>
+                </li>
+                <li class="nav-group-task">
                   <a href="Structs/LanguageCapabilities.html">LanguageCapabilities</a>
                 </li>
                 <li class="nav-group-task">
@@ -929,7 +932,7 @@ do {
       <div class="footer-wrapper">
         <section id="footer">
           <p>© 2017 Kevin A. Hoogheem</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.12.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="noopener" rel="external">jazzy ♪♫ v0.14.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="noopener" rel="external">Realm</a> project.</p>
         </section>
       </div>
     </div>

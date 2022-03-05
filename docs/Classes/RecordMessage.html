@@ -16,7 +16,7 @@
     <header>
       <div class="content-wrapper">
         <p>
-          <a href="../index.html">FitDataProtocol Docs</a>
+          <a href="../index.html">FitDataProtocol 2.1.1 Docs</a>
           <span class="no-mobile"> (96% documented)</span>
         </p>
     
@@ -48,8 +48,9 @@
               <h1>RecordMessage</h1>
                 <div class="declaration">
                   <div class="language">
-                    <pre class="highlight swift"><code><span class="kd">@available(swift 4.2)</span>
-<span class="kd">@available(iOS 10.0, tvOS 10.0, watchOS 3.0, OSX 10.12, *)</span>
+                    
+                    <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">swift</span> <span class="mf">4.2</span><span class="p">)</span>
+<span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">10.12</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
 <span class="kd">open</span> <span class="kd">class</span> <span class="kt">RecordMessage</span> <span class="p">:</span> <span class="kt"><a href="../Classes/FitMessage.html">FitMessage</a></span></code></pre>
 
                   </div>
@@ -161,7 +162,7 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">heartRate</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitCadence</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -189,7 +190,7 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">cadence</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitCadence</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -217,7 +218,7 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">distance</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -272,7 +273,7 @@
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">power</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPower</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -303,7 +304,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitField</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitField.html">@FitField</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">compressedSpeedDistance</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -331,7 +332,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">grade</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -361,7 +362,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitField</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitField.html">@FitField</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">resistance</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -389,7 +390,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">timeFromCourse</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -417,7 +418,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">cycleLength</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -445,7 +446,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">temperature</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitTemperature</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -500,7 +501,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">cycles</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitCount</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -528,7 +529,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">totalCycles</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitCount</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -583,7 +584,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitField</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitField.html">@FitField</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">leftRightBalance</span><span class="p">:</span> <span class="kt"><a href="../Structs/LeftRightBalance.html">LeftRightBalance</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -611,7 +612,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">gpsAccuracy</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -639,7 +640,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">verticalSpeed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -667,7 +668,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">calories</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitEnergy</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -695,7 +696,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">verticalOscillation</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -750,7 +751,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitField</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitField.html">@FitField</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">activity</span><span class="p">:</span> <span class="kt"><a href="../Enums/ActivityType.html">ActivityType</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -832,7 +833,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">time128Second</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -860,7 +861,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitField</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitField.html">@FitField</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">stroke</span><span class="p">:</span> <span class="kt"><a href="../Enums/Stroke.html">Stroke</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -888,7 +889,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitField</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitField.html">@FitField</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">zone</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -916,7 +917,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">ballSpeed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -944,7 +945,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">cadence256</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitCadence</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -972,7 +973,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">fractionalCadence</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitCadence</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1000,7 +1001,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">totalHemoglobinConcentration</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitConcentrationMass</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1028,7 +1029,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">totalHemoglobinConcentrationMin</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitConcentrationMass</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1056,7 +1057,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldDimension</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldDimension.html">@FitFieldDimension</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">totalHemoglobinConcentrationMax</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitConcentrationMass</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1084,7 +1085,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">saturatedHemoglobinPercent</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1095,9 +1096,9 @@ distance 16 * m + 0</p>
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol13RecordMessageC29saturatedHemoglobinPercentMin10Foundation11MeasurementVy12FitnessUnits04UnitH0CGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/saturatedHemoglobinPercentMin" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol13RecordMessageC29saturatedHemoglobinPercentMin10Foundation11MeasurementVy12FitnessUnits04UnitH0CGSgvp">saturatedHemoglobinPercentMin</a>
+                      <a name="/s:15FitDataProtocol13RecordMessageC32minMaxSaturatedHemoglobinPercentAA0iJ0VSgvp"></a>
+                      <a name="//apple_ref/swift/Property/minMaxSaturatedHemoglobinPercent" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol13RecordMessageC32minMaxSaturatedHemoglobinPercentAA0iJ0VSgvp">minMaxSaturatedHemoglobinPercent</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -1105,43 +1106,14 @@ distance 16 * m + 0</p>
                       <section class="section">
                         <div class="pointer"></div>
                         <div class="abstract">
-                          <p>Saturated Hemoglobin Percent Minimum</p>
+                          <p>Saturated Hemoglobin Percent for Minimum and Maximum</p>
 
                         </div>
                         <div class="declaration">
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
-<span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">saturatedHemoglobinPercentMin</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                  </li>
-                  <li class="item">
-                    <div>
-                      <code>
-                      <a name="/s:15FitDataProtocol13RecordMessageC29saturatedHemoglobinPercentMax10Foundation11MeasurementVy12FitnessUnits04UnitH0CGSgvp"></a>
-                      <a name="//apple_ref/swift/Property/saturatedHemoglobinPercentMax" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol13RecordMessageC29saturatedHemoglobinPercentMax10Foundation11MeasurementVy12FitnessUnits04UnitH0CGSgvp">saturatedHemoglobinPercentMax</a>
-                      </code>
-                    </div>
-                    <div class="height-container">
-                      <div class="pointer-container"></div>
-                      <section class="section">
-                        <div class="pointer"></div>
-                        <div class="abstract">
-                          <p>Saturated Hemoglobin Percent Maximum</p>
-
-                        </div>
-                        <div class="declaration">
-                          <h4>Declaration</h4>
-                          <div class="language">
-                            <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
-<span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">saturatedHemoglobinPercentMax</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+                            <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">minMaxSaturatedHemoglobinPercent</span><span class="p">:</span> <span class="kt"><a href="../Structs/HemoglobinPercent.html">HemoglobinPercent</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
                         </div>
@@ -1168,7 +1140,7 @@ distance 16 * m + 0</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitField</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitField.html">@FitField</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">deviceIndex</span><span class="p">:</span> <span class="kt"><a href="../Structs/DeviceIndex.html">DeviceIndex</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1199,7 +1171,7 @@ in terms of time spent going over sharp turns or large grade slopes</p>
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">grit</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/UnitFitGrit.html">UnitFitGrit</a></span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1230,7 +1202,7 @@ where deacceleration is unnecessary such as smooth turns or small grade angle in
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldUnit</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldUnit.html">@FitFieldUnit</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">flow</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/UnitFitFlow.html">UnitFitFlow</a></span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1258,7 +1230,7 @@ where deacceleration is unnecessary such as smooth turns or small grade angle in
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">@FitFieldTime</span>
+                            <pre class="highlight swift"><code><span class="kd"><a href="../Classes/FitFieldTime.html">@FitFieldTime</a></span>
 <span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                           </div>
@@ -1296,9 +1268,9 @@ where deacceleration is unnecessary such as smooth turns or small grade angle in
                   <li class="item">
                     <div>
                       <code>
-                      <a name="/s:15FitDataProtocol13RecordMessageC9timeStamp8position8distance0F10FromCourse6cycles11totalCycles16accumulatedPower8altitude5speed5power11gpsAccuracy13verticalSpeed8calories0V11Oscillation10stanceTime9heartRate7cadence5grade10resistance11cycleLength11temperature8activity19torqueEffectiveness15pedalSmoothness6stroke4zone04ballW011deviceIndexAcA0A4TimeVSg_AA8PositionVSg10Foundation11MeasurementVySo12NSUnitLengthCGSgA12_ySo14NSUnitDurationCGSgs5UInt8VSgs6UInt32VSgA12_ySo06NSUnitP0CGSgA16_A12_ySo06NSUnitW0CGSgA30_A16_A34_A12_ySo12NSUnitEnergyCGSgA16_AA10StanceTimeVSgA23_A23_A12_y12FitnessUnits11UnitPercentCGSgA23_A16_A12_ySo17NSUnitTemperatureCGSgAA12ActivityTypeOSgAA19TorqueEffectivenessVSgAA15PedalSmoothnessVSgAA6StrokeOSgA23_A34_AA11DeviceIndexVSgtcfc"></a>
-                      <a name="//apple_ref/swift/Method/init(timeStamp:position:distance:timeFromCourse:cycles:totalCycles:accumulatedPower:altitude:speed:power:gpsAccuracy:verticalSpeed:calories:verticalOscillation:stanceTime:heartRate:cadence:grade:resistance:cycleLength:temperature:activity:torqueEffectiveness:pedalSmoothness:stroke:zone:ballSpeed:deviceIndex:)" class="dashAnchor"></a>
-                      <a class="token" href="#/s:15FitDataProtocol13RecordMessageC9timeStamp8position8distance0F10FromCourse6cycles11totalCycles16accumulatedPower8altitude5speed5power11gpsAccuracy13verticalSpeed8calories0V11Oscillation10stanceTime9heartRate7cadence5grade10resistance11cycleLength11temperature8activity19torqueEffectiveness15pedalSmoothness6stroke4zone04ballW011deviceIndexAcA0A4TimeVSg_AA8PositionVSg10Foundation11MeasurementVySo12NSUnitLengthCGSgA12_ySo14NSUnitDurationCGSgs5UInt8VSgs6UInt32VSgA12_ySo06NSUnitP0CGSgA16_A12_ySo06NSUnitW0CGSgA30_A16_A34_A12_ySo12NSUnitEnergyCGSgA16_AA10StanceTimeVSgA23_A23_A12_y12FitnessUnits11UnitPercentCGSgA23_A16_A12_ySo17NSUnitTemperatureCGSgAA12ActivityTypeOSgAA19TorqueEffectivenessVSgAA15PedalSmoothnessVSgAA6StrokeOSgA23_A34_AA11DeviceIndexVSgtcfc">init(timeStamp:position:distance:timeFromCourse:cycles:totalCycles:accumulatedPower:altitude:speed:power:gpsAccuracy:verticalSpeed:calories:verticalOscillation:stanceTime:heartRate:cadence:grade:resistance:cycleLength:temperature:activity:torqueEffectiveness:pedalSmoothness:stroke:zone:ballSpeed:deviceIndex:)</a>
+                      <a name="/s:15FitDataProtocol13RecordMessageC9timeStamp8position8distance0F10FromCourse6cycles11totalCycles16accumulatedPower8altitude5speed5power16leftRightBalance11gpsAccuracy13verticalSpeed8calories0Y11Oscillation10stanceTime9heartRate7cadence5grade10resistance11cycleLength11temperature8activity19torqueEffectiveness15pedalSmoothness6stroke4zone04ballZ026saturatedHemoglobinPercent32minMaxSaturatedHemoglobinPercent11deviceIndex4grit4flowAcA0A4TimeVSg_AA8PositionVSg10Foundation11MeasurementVySo12NSUnitLengthCGSgA17_ySo14NSUnitDurationCGSgs5UInt8VSgs6UInt32VSgA17_ySo06NSUnitP0CGSgA21_A17_ySo06NSUnitZ0CGSgA35_AA04LeftuV0VSgA21_A39_A17_ySo12NSUnitEnergyCGSgA21_AA10StanceTimeVSgA28_A28_A17_y12FitnessUnits11UnitPercentCGSgA28_A21_A17_ySo17NSUnitTemperatureCGSgAA12ActivityTypeOSgAA19TorqueEffectivenessVSgAA15PedalSmoothnessVSgAA6StrokeOSgA28_A39_A54_AA17HemoglobinPercentVSgAA11DeviceIndexVSgA17_yAA04UnitA4GritCGSgA17_yAA04UnitA4FlowCGSgtcfc"></a>
+                      <a name="//apple_ref/swift/Method/init(timeStamp:position:distance:timeFromCourse:cycles:totalCycles:accumulatedPower:altitude:speed:power:leftRightBalance:gpsAccuracy:verticalSpeed:calories:verticalOscillation:stanceTime:heartRate:cadence:grade:resistance:cycleLength:temperature:activity:torqueEffectiveness:pedalSmoothness:stroke:zone:ballSpeed:saturatedHemoglobinPercent:minMaxSaturatedHemoglobinPercent:deviceIndex:grit:flow:)" class="dashAnchor"></a>
+                      <a class="token" href="#/s:15FitDataProtocol13RecordMessageC9timeStamp8position8distance0F10FromCourse6cycles11totalCycles16accumulatedPower8altitude5speed5power16leftRightBalance11gpsAccuracy13verticalSpeed8calories0Y11Oscillation10stanceTime9heartRate7cadence5grade10resistance11cycleLength11temperature8activity19torqueEffectiveness15pedalSmoothness6stroke4zone04ballZ026saturatedHemoglobinPercent32minMaxSaturatedHemoglobinPercent11deviceIndex4grit4flowAcA0A4TimeVSg_AA8PositionVSg10Foundation11MeasurementVySo12NSUnitLengthCGSgA17_ySo14NSUnitDurationCGSgs5UInt8VSgs6UInt32VSgA17_ySo06NSUnitP0CGSgA21_A17_ySo06NSUnitZ0CGSgA35_AA04LeftuV0VSgA21_A39_A17_ySo12NSUnitEnergyCGSgA21_AA10StanceTimeVSgA28_A28_A17_y12FitnessUnits11UnitPercentCGSgA28_A21_A17_ySo17NSUnitTemperatureCGSgAA12ActivityTypeOSgAA19TorqueEffectivenessVSgAA15PedalSmoothnessVSgAA6StrokeOSgA28_A39_A54_AA17HemoglobinPercentVSgAA11DeviceIndexVSgA17_yAA04UnitA4GritCGSgA17_yAA04UnitA4FlowCGSgtcfc">init(timeStamp:<wbr>position:<wbr>distance:<wbr>timeFromCourse:<wbr>cycles:<wbr>totalCycles:<wbr>accumulatedPower:<wbr>altitude:<wbr>speed:<wbr>power:<wbr>leftRightBalance:<wbr>gpsAccuracy:<wbr>verticalSpeed:<wbr>calories:<wbr>verticalOscillation:<wbr>stanceTime:<wbr>heartRate:<wbr>cadence:<wbr>grade:<wbr>resistance:<wbr>cycleLength:<wbr>temperature:<wbr>activity:<wbr>torqueEffectiveness:<wbr>pedalSmoothness:<wbr>stroke:<wbr>zone:<wbr>ballSpeed:<wbr>saturatedHemoglobinPercent:<wbr>minMaxSaturatedHemoglobinPercent:<wbr>deviceIndex:<wbr>grit:<wbr>flow:<wbr>)</a>
                       </code>
                     </div>
                     <div class="height-container">
@@ -1313,7 +1285,7 @@ where deacceleration is unnecessary such as smooth turns or small grade angle in
                           <h4>Declaration</h4>
                           <div class="language">
                             <p class="aside-title">Swift</p>
-                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                            <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Structs/FitTime.html">FitTime</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">position</span><span class="p">:</span> <span class="kt"><a href="../Structs/Position.html">Position</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">distance</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">timeFromCourse</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitDuration</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
@@ -1323,6 +1295,7 @@ where deacceleration is unnecessary such as smooth turns or small grade angle in
                         <span class="nv">altitude</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">speed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">power</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPower</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">leftRightBalance</span><span class="p">:</span> <span class="kt"><a href="../Structs/LeftRightBalance.html">LeftRightBalance</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">gpsAccuracy</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitLength</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">verticalSpeed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">calories</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitEnergy</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
@@ -1340,7 +1313,11 @@ where deacceleration is unnecessary such as smooth turns or small grade angle in
                         <span class="nv">stroke</span><span class="p">:</span> <span class="kt"><a href="../Enums/Stroke.html">Stroke</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">zone</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">ballSpeed</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitSpeed</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-                        <span class="nv">deviceIndex</span><span class="p">:</span> <span class="kt"><a href="../Structs/DeviceIndex.html">DeviceIndex</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+                        <span class="nv">saturatedHemoglobinPercent</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt">UnitPercent</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">minMaxSaturatedHemoglobinPercent</span><span class="p">:</span> <span class="kt"><a href="../Structs/HemoglobinPercent.html">HemoglobinPercent</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">deviceIndex</span><span class="p">:</span> <span class="kt"><a href="../Structs/DeviceIndex.html">DeviceIndex</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">grit</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/UnitFitGrit.html">UnitFitGrit</a></span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">flow</span><span class="p">:</span> <span class="kt">Measurement</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/UnitFitFlow.html">UnitFitFlow</a></span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                           </div>
                         </div>
@@ -2014,6 +1991,9 @@ where deacceleration is unnecessary such as smooth turns or small grade angle in
                   <a href="../Structs/FitTime.html">FitTime</a>
                 </li>
                 <li class="nav-group-task">
+                  <a href="../Structs/HemoglobinPercent.html">HemoglobinPercent</a>
+                </li>
+                <li class="nav-group-task">
                   <a href="../Structs/LanguageCapabilities.html">LanguageCapabilities</a>
                 </li>
                 <li class="nav-group-task">
@@ -2104,7 +2084,7 @@ where deacceleration is unnecessary such as smooth turns or small grade angle in
       <div class="footer-wrapper">
         <section id="footer">
           <p>© 2017 Kevin A. Hoogheem</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.12.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="noopener" rel="external">jazzy ♪♫ v0.14.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="noopener" rel="external">Realm</a> project.</p>
         </section>
       </div>
     </div>

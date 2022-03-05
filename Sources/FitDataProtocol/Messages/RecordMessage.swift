@@ -377,14 +377,26 @@ open class RecordMessage: FitMessage {
     @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                   fieldNumber: 58,
                   unit: UnitPercent.percent)
-    private(set) public var saturatedHemoglobinPercentMin: Measurement<UnitPercent>?
+    private var saturatedHemoglobinPercentMin: Measurement<UnitPercent>?
     
     /// Saturated Hemoglobin Percent Maximum
     @FitFieldUnit(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 10.0, offset: 0.0)),
                   fieldNumber: 59,
                   unit: UnitPercent.percent)
-    private(set) public var saturatedHemoglobinPercentMax: Measurement<UnitPercent>?
+    private var saturatedHemoglobinPercentMax: Measurement<UnitPercent>?
     
+    /// Saturated Hemoglobin Percent for Minimum and Maximum
+    private(set) public var minMaxSaturatedHemoglobinPercent: HemoglobinPercent? {
+        get {
+            return HemoglobinPercent(minimum: self.saturatedHemoglobinPercentMin,
+                                     maximum: self.saturatedHemoglobinPercentMax)
+        }
+        set {
+            self.saturatedHemoglobinPercentMin = newValue?.minimum
+            self.saturatedHemoglobinPercentMax = newValue?.maximum
+        }
+    }
+
     /// Device Index
     @FitField(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 62)
@@ -467,6 +479,7 @@ open class RecordMessage: FitMessage {
         self.$saturatedHemoglobinPercentMax.owner = self
         self.$deviceIndex.owner = self
         self.$grit.owner = self
+        self.$flow.owner = self
     }
     
     public convenience init(timeStamp: FitTime? = nil,
@@ -479,6 +492,7 @@ open class RecordMessage: FitMessage {
                             altitude: Measurement<UnitLength>? = nil,
                             speed: Measurement<UnitSpeed>? = nil,
                             power: Measurement<UnitPower>? = nil,
+                            leftRightBalance: LeftRightBalance? = nil,
                             gpsAccuracy: Measurement<UnitLength>? = nil,
                             verticalSpeed: Measurement<UnitSpeed>? = nil,
                             calories: Measurement<UnitEnergy>? = nil,
@@ -496,7 +510,11 @@ open class RecordMessage: FitMessage {
                             stroke: Stroke? = nil,
                             zone: UInt8? = nil,
                             ballSpeed: Measurement<UnitSpeed>? = nil,
-                            deviceIndex: DeviceIndex? = nil) {
+                            saturatedHemoglobinPercent: Measurement<UnitPercent>? = nil,
+                            minMaxSaturatedHemoglobinPercent: HemoglobinPercent? = nil,
+                            deviceIndex: DeviceIndex? = nil,
+                            grit: Measurement<UnitFitGrit>? = nil,
+                            flow: Measurement<UnitFitFlow>? = nil) {
         self.init()
         
         self.timeStamp = timeStamp
@@ -515,6 +533,7 @@ open class RecordMessage: FitMessage {
         self.altitude = altitude
         self.speed = speed
         self.power = power
+        self.leftRightBalance = leftRightBalance
         self.gpsAccuracy = gpsAccuracy
         self.verticalSpeed = verticalSpeed
         self.calories = calories
@@ -539,7 +558,12 @@ open class RecordMessage: FitMessage {
         self.stroke = stroke
         self.zone = zone
         self.ballSpeed = ballSpeed
+        self.saturatedHemoglobinPercent = saturatedHemoglobinPercent
+        self.minMaxSaturatedHemoglobinPercent = minMaxSaturatedHemoglobinPercent
         self.deviceIndex = deviceIndex
+        self.grit = grit
+        self.flow = flow
+
     }
     
     /// Decode Message Data into FitMessage

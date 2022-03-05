@@ -141,7 +141,7 @@ open class UserProfileMessage: FitMessage {
               fieldNumber: 22)
     private(set) public var localId: UInt16?
     
-    /// Local ID
+    /// Global ID
     @FitField(base: BaseTypeData(type: .byte, resolution: Resolution(scale: 1.0, offset: 0.0)),
               fieldNumber: 23)
     private(set) public var globalId: Data?
@@ -184,21 +184,11 @@ open class UserProfileMessage: FitMessage {
         self.$messageIndex.owner = self
         
         self.$friendlyName.owner = self
-        self.$gender.owner = self
-        self.$age.owner = self
-        self.$height.owner = self
         self.$weight.owner = self
-        self.$language.owner = self
-        self.$elevationSetting.owner = self
-        self.$weightSetting.owner = self
-        self.$restingHeartRate.owner = self
-        self.$maxRunningHeartRate.owner = self
-        self.$maxBikingHeartRate.owner = self
-        self.$maxHeartRate.owner = self
-        self.$heartRateSetting.owner = self
         self.$speedSetting.owner = self
+        self.$heartRateSetting.owner = self
+        self.$distanceSetting.owner = self
         self.$powerSetting.owner = self
-        self.$activityClass.owner = self
         self.$positionSetting.owner = self
         self.$temperatureSetting.owner = self
         self.$localId.owner = self
@@ -206,6 +196,17 @@ open class UserProfileMessage: FitMessage {
         self.$heightSetting.owner = self
         self.$runningStepLength.owner = self
         self.$walkingStepLength.owner = self
+        self.$gender.owner = self
+        self.$age.owner = self
+        self.$height.owner = self
+        self.$language.owner = self
+        self.$elevationSetting.owner = self
+        self.$weightSetting.owner = self
+        self.$restingHeartRate.owner = self
+        self.$maxRunningHeartRate.owner = self
+        self.$maxBikingHeartRate.owner = self
+        self.$maxHeartRate.owner = self
+        self.$activityClass.owner = self
     }
     
     public convenience init(timeStamp: FitTime? = nil,
