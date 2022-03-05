@@ -343,7 +343,7 @@ open class RecordMessage: FitMessage {
                   unit: UnitCadence.revolutionsPerMinute)
     private(set) public var cadence256: Measurement<UnitCadence>?
     
-    /// Cadence 256
+    /// Fractional Cadence
     @FitFieldUnit(base: BaseTypeData(type: .uint8, resolution: Resolution(scale: 128.0, offset: 0.0)),
                   fieldNumber: 53,
                   unit: UnitCadence.revolutionsPerMinute)
@@ -510,6 +510,7 @@ open class RecordMessage: FitMessage {
                             stroke: Stroke? = nil,
                             zone: UInt8? = nil,
                             ballSpeed: Measurement<UnitSpeed>? = nil,
+                            fractionalCadence: Measurement<UnitCadence>?,
                             saturatedHemoglobinPercent: Measurement<UnitPercent>? = nil,
                             minMaxSaturatedHemoglobinPercent: HemoglobinPercent? = nil,
                             deviceIndex: DeviceIndex? = nil,
@@ -558,6 +559,7 @@ open class RecordMessage: FitMessage {
         self.stroke = stroke
         self.zone = zone
         self.ballSpeed = ballSpeed
+        self.fractionalCadence = fractionalCadence
         self.saturatedHemoglobinPercent = saturatedHemoglobinPercent
         self.minMaxSaturatedHemoglobinPercent = minMaxSaturatedHemoglobinPercent
         self.deviceIndex = deviceIndex
