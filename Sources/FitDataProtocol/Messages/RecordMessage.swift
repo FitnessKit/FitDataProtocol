@@ -510,7 +510,7 @@ open class RecordMessage: FitMessage {
                             stroke: Stroke? = nil,
                             zone: UInt8? = nil,
                             ballSpeed: Measurement<UnitSpeed>? = nil,
-                            fractionalCadence: Measurement<UnitCadence>?,
+                            fractionalCadence: Float? = nil,
                             saturatedHemoglobinPercent: Measurement<UnitPercent>? = nil,
                             minMaxSaturatedHemoglobinPercent: HemoglobinPercent? = nil,
                             deviceIndex: DeviceIndex? = nil,
@@ -559,7 +559,11 @@ open class RecordMessage: FitMessage {
         self.stroke = stroke
         self.zone = zone
         self.ballSpeed = ballSpeed
-        self.fractionalCadence = fractionalCadence
+        
+        if let fractionalCadence = fractionalCadence {
+            self.fractionalCadence = Measurement(value: Double(fractionalCadence), unit: self.$fractionalCadence.unitType)
+        }
+
         self.saturatedHemoglobinPercent = saturatedHemoglobinPercent
         self.minMaxSaturatedHemoglobinPercent = minMaxSaturatedHemoglobinPercent
         self.deviceIndex = deviceIndex
