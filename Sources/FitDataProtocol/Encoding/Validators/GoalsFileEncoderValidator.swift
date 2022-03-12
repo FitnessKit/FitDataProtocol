@@ -30,7 +30,7 @@ internal struct GoalsFileEncoderValidator: EncoderFileTypeValidator {
 
         let msg = "Goals Files"
 
-        /// this should have already been established
+        // this should have already been established
         guard fildIdMessage.fileType == FileType.goals else {
             return.failure(FitEncodingError.fileType("\(msg) require FileType.goals"))
         }

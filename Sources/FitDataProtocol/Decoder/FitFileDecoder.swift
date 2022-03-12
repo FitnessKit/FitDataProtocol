@@ -141,13 +141,13 @@ public struct FitFileDecoder {
 
         repeat {
             let header = RecordHeader.decode(decoder: &decoder, data: messageData)
-            //print(header)
+            // print(header)
 
             if header.isDataMessage == false {
                 let lastDefinition = try DefinitionMessage.decode(decoder: &decoder, data: messageData, header: header).get()
                 definitionDict[header.localMessageType] = lastDefinition
 
-                //print(definitionDict[header.localMessageType] as Any)
+                // print(definitionDict[header.localMessageType] as Any)
 
             } else {
                 // We have a Data Message
@@ -199,7 +199,7 @@ public struct FitFileDecoder {
                     }
                     
                 } else {
-                    //print("NO Decoder for Global Message: \(definitionDict[header.localMessageType]?.globalMessageNumber)")
+                    // print("NO Decoder for Global Message: \(definitionDict[header.localMessageType]?.globalMessageNumber)")
                 }
 
             }

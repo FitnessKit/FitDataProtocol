@@ -25,16 +25,12 @@
 import Foundation
 
 internal extension Date {
-
-    /**
-     Creates a Date from a given year, month, day
-
-     - parameter year: Int value of Year
-     - parameter month: Int value of Month
-     - parameter day: Int value of the Day
-
-     - returns: an Date object with the given
-     */
+    
+    /// Creates a Date from a given year, month, day
+    /// - Parameters:
+    ///   - year: Int value of Year
+    ///   - month: Int value of Month
+    ///   - day: Int value of the Day
     init(year: Int, month: Int, day: Int) {
         var c = DateComponents()
         c.year = year

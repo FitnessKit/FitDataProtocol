@@ -68,6 +68,7 @@ extension Data {
             let substring = checkString.prefix(while: { (character) -> Bool in
                 return character != "\0"
             })
+            
             let trimmed = String(substring)
             
             if trimmed.isEmpty {

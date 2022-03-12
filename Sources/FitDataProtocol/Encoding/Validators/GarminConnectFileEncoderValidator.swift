@@ -28,13 +28,13 @@ import Foundation
 internal struct GarminConnectFileEncoderValidator: EncoderFileTypeValidator {
 
     static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitEncodingError> {
-        /// Garmin Connect Requires
-        /// - File type == 4 Activity
-        /// - DeviceInfo message
-        /// - Record messages
-        /// - Lap Message ( however we know it works without)
-        /// - Session message - 1 Only
-        /// - Activity Message
+        // Garmin Connect Requires
+        // - File type == 4 Activity
+        // - DeviceInfo message
+        // - Record messages
+        // - Lap Message ( however we know it works without)
+        // - Session message - 1 Only
+        // - Activity Message
         
         if containsMessage(DeviceInfoMessage.self, messages: messages) == false {
             return.failure(FitEncodingError.fileType("Garmin Connect requires DeviceInfoMessage"))

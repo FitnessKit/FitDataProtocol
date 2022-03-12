@@ -113,7 +113,7 @@ public extension FitFileEncoder {
                 return.failure(FitEncodingError.multipleFileIdMessage)
             }
 
-            /// Endocde the Definition
+            // Endocde the Definition
             let def = message.encodeDefinitionMessage(fileType: fildIdMessage.fileType, dataValidityStrategy: dataValidityStrategy)
             switch def {
             case .success(let definition):
@@ -126,7 +126,7 @@ public extension FitFileEncoder {
                 return.failure(error)
             }
 
-            /// Endode the Message
+            // Endode the Message
             switch message.encode(localMessageType: 0, definition: lastDefiniton) {
             case .success(let data):
                 msgData.append(data)

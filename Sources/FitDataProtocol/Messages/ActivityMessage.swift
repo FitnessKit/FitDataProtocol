@@ -199,7 +199,7 @@ extension ActivityMessage: MessageValidator {
         
         switch dataValidityStrategy {
         case .none:
-        break // do nothing
+            break // do nothing
         case .fileType:
             if fileType == FileType.activity {
                 try validateActivity(isGarmin: false)

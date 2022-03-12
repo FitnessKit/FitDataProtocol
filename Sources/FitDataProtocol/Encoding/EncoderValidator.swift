@@ -110,11 +110,11 @@ internal struct EncoderValidator: EncoderFileTypeValidator {
 private extension EncoderValidator {
     
     static func validateActivity(fildIdMessage: FileIdMessage, messages: [FitMessage], isGarmin: Bool) -> Result<Bool, FitEncodingError> {
-        //An activity file shall contain file_id, activity, session, and lap messages
+        // An activity file shall contain file_id, activity, session, and lap messages
         
         let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
         
-        /// this should have already been established
+        // this should have already been established
         guard fildIdMessage.fileType == FileType.activity else {
             return.failure(FitEncodingError.fileType("\(msg) require FileType.activity"))
         }

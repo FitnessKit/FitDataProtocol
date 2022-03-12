@@ -26,11 +26,11 @@ import Foundation
 internal struct WorkoutFileEncoderValidator: EncoderFileTypeValidator {
 
     static func validate(fildIdMessage: FileIdMessage, messages: [FitMessage], dataValidityStrategy: FitFileEncoder.ValidityStrategy) -> Result<Bool, FitEncodingError> {
-        //Workout file shall contain file_id, workout, and workout_step
+        // Workout file shall contain file_id, workout, and workout_step
         
         let msg = "Workout Files"
         
-        /// this should have already been established
+        // this should have already been established
         guard fildIdMessage.fileType == FileType.workout else {
             return.failure(FitEncodingError.fileType("\(msg) require FileType.workout"))
         }
