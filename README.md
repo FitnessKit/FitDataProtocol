@@ -20,7 +20,7 @@ pod 'FitDataProtocol'
 Swift Package Manager:
 ```swift
     dependencies: [
-        .package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "2.1.3")
+        .package(url: "https://github.com/FitnessKit/FitDataProtocol", from: "2.1.4")
     ]
 ```
 
