@@ -53,7 +53,9 @@ extension Data {
 
         if self[(self.endIndex - 1)] == 0 {
             stringvalue = String(bytes: self, encoding: .utf8)
-        } else {
+        }
+
+        if stringvalue == nil {
             stringvalue = String(bytes: self, encoding: .ascii)
         }
 
