@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FitDataProtocol'
-  s.version          = '2.1.2'
+  s.version          = '2.1.5'
   s.summary          = 'Garmin Flexible and Interoperable Data Transfer Protocol.'
 
 
