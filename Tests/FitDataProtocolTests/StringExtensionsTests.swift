@@ -10,5 +10,7 @@ final class StringExtensionsTests: XCTestCase {
         ]
 
         XCTAssertEqual("Keeper", String.decode(type: String.self, data: Data(data), base: .init(type: .string, resolution: Resolution(scale: 1, offset: 0)), arch: .little))
+
+        XCTAssertEqual("Laufen", String.decode(type: String.self, data: Data( Array("Laufen\0\0n\0\0\u{04}Èî»p\0\0\0\u{04})Ä\u{13}\u{08}".utf8)), base: .init(type: .string, resolution: Resolution(scale: 1, offset: 0)), arch: .little))
     }
 }
