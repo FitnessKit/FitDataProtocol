@@ -63,7 +63,23 @@ open class EventMessage: FitMessage {
     @FitFieldTime(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1.0, offset: 0.0)),
                   fieldNumber: 253, local: false)
     private(set) public var timeStamp: FitTime?
-    
+	
+	/// Front gear
+	@FitFieldEventGear(base: BaseTypeData(type: .uint8), generatedFromDataFieldNumber: 3, byteIndex: 0)
+	public var frontGear: UInt8?
+
+	/// Front gear number
+	@FitFieldEventGear(base: BaseTypeData(type: .uint8), generatedFromDataFieldNumber: 3, byteIndex: 1)
+	public var frontGearNum: UInt8?
+
+	/// Rear gear
+	@FitFieldEventGear(base: BaseTypeData(type: .uint8), generatedFromDataFieldNumber: 3, byteIndex: 2)
+	public var rearGear: UInt8?
+	
+	/// Rear gear number
+	@FitFieldEventGear(base: BaseTypeData(type: .uint8), generatedFromDataFieldNumber: 3, byteIndex: 3)
+	public var rearGearNum: UInt8?
+	
     public required init() {
         super.init()
         // TODO: Subfields
@@ -75,6 +91,11 @@ open class EventMessage: FitMessage {
         self.$eventData.owner = self
         self.$eventMoreData.owner = self
         self.$eventGroup.owner = self
+		
+		self.$frontGear.owner = self
+		self.$frontGearNum.owner = self
+		self.$rearGear.owner = self
+		self.$rearGearNum.owner = self
     }
     
     public convenience init(timeStamp: FitTime? = nil,
