@@ -421,28 +421,28 @@ open class LapMessage: FitMessage {
     private(set) public var maximumNegitiveVerticalSpeed: Measurement<UnitSpeed>?
     
     /// Time in HeartRate Zone
-    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+    @FitFieldArray(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
                        fieldNumber: 57,
                        unit: UnitDuration.seconds)
-    private(set) public var timeInHrZone: Measurement<UnitDuration>?
+    private(set) public var timeInHrZone: [Measurement<UnitDuration>]
     
     /// Time in Speed Zone
-    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+    @FitFieldArray(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
                        fieldNumber: 58,
                        unit: UnitDuration.seconds)
-    private(set) public var timeInSpeedZone: Measurement<UnitDuration>?
+    private(set) public var timeInSpeedZone: [Measurement<UnitDuration>]
     
     /// Time in Cadence Zone
-    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+    @FitFieldArray(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
                        fieldNumber: 59,
                        unit: UnitDuration.seconds)
-    private(set) public var timeInCadenceZone: Measurement<UnitDuration>?
+    private(set) public var timeInCadenceZone: [Measurement<UnitDuration>]
     
     /// Time in Power Zone
-    @FitFieldDimension(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
+    @FitFieldArray(base: BaseTypeData(type: .uint32, resolution: Resolution(scale: 1000.0, offset: 0.0)),
                        fieldNumber: 59,
                        unit: UnitDuration.seconds)
-    private(set) public var timeInPowerZone: Measurement<UnitDuration>?
+    private(set) public var timeInPowerZone: [Measurement<UnitDuration>]
     
     /// Repetion Number
     @FitField(base: BaseTypeData(type: .uint16, resolution: Resolution(scale: 1.0, offset: 0.0)),
