@@ -30,12 +30,14 @@ public protocol DeveloperDataBox {
     /// Field Name
     var fieldName: String? { get }
 
+	var value: Any? { get }
+	
     /// Units
     var units: String? { get }
 }
 
 /// Developer Data Value
-public struct DeveloperDataValue<Value>: DeveloperDataBox {
+public struct DeveloperDataValue: DeveloperDataBox {
     
     /// Field Name
     private(set) public var fieldName: String?
@@ -44,7 +46,7 @@ public struct DeveloperDataValue<Value>: DeveloperDataBox {
     private(set) public var units: String?
 
     /// Value
-    private(set) var value: Value?
+    private(set) public var value: Any?
     
 }
 
