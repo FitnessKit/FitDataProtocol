@@ -154,9 +154,14 @@ public struct FitFileDecoder {
                 var hasMessageDecoder = false
                 var messageType: FitMessage!
                 var currentGlobalMessage: UInt16!
+				
+				// make sure this definition exists before continuing.
+				guard let currentDef = definitionDict[header.localMessageType] else {
+					continue
+				}
 
                 if let message = messages.filter({
-                    $0.globalMessageNumber() == definitionDict[header.localMessageType]!.globalMessageNumber
+                    $0.globalMessageNumber() == currentDef.globalMessageNumber
                 }).first {
                     hasMessageDecoder = true
                     messageType = message.init()
@@ -164,14 +169,14 @@ public struct FitFileDecoder {
                 }
                                 
                 var fieldSize: Int = 0
-                for msg in definitionDict[header.localMessageType]!.fieldDefinitions {
+                for msg in currentDef.fieldDefinitions {
                     fieldSize = fieldSize + Int(msg.size)
                 }
 
                 let stdData = decoder.decodeData(messageData, length: fieldSize)
 
                 var devSize: Int = 0
-                for msg in definitionDict[header.localMessageType]!.developerFieldDefinitions {
+                for msg in currentDef.developerFieldDefinitions {
                     devSize = devSize + Int(msg.size)
                 }
 
