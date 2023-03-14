@@ -619,15 +619,15 @@ extension SegmentLapMessage: MessageValidator {
 		let msg = isGarmin == true ? "GarminConnect" : "Activity Files"
 		
 		guard self.timeStamp != nil else {
-			throw FitEncodingError.fileType("\(msg) require LapMessage to contain timeStamp, can not be nil")
+			throw FitEncodingError.fileType("\(msg) require SegmentLapMessage to contain timeStamp, can not be nil")
 		}
 		
 		guard self.event != nil else {
-			throw FitEncodingError.fileType("\(msg) require LapMessage to contain event, can not be nil")
+			throw FitEncodingError.fileType("\(msg) require SegmentLapMessage to contain event, can not be nil")
 		}
 		
 		guard self.eventType != nil else {
-			throw FitEncodingError.fileType("\(msg) require LapMessage to contain eventType, can not be nil")
+			throw FitEncodingError.fileType("\(msg) require SegmentLapMessage to contain eventType, can not be nil")
 		}
 	}
 }
