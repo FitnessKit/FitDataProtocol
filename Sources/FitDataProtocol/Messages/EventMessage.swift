@@ -131,7 +131,7 @@ open class EventMessage: FitMessage {
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
         
         let defMessage = DefinitionMessage(architecture: .little,
-                                           globalMessageNumber: EventMessage.globalMessageNumber(),
+                                           globalMessageNumber: Self.globalMessageNumber(),
                                            fields: UInt8(fields.count),
                                            fieldDefinitions: fields,
                                            developerFieldDefinitions: [DeveloperFieldDefinition]())

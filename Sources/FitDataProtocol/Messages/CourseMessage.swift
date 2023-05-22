@@ -121,7 +121,7 @@ open class CourseMessage: FitMessage {
         guard fields.isEmpty == false else { return.failure(self.encodeNoPropertiesAvailable()) }
         
         let defMessage = DefinitionMessage(architecture: .little,
-                                           globalMessageNumber: CourseMessage.globalMessageNumber(),
+                                           globalMessageNumber: Self.globalMessageNumber(),
                                            fields: UInt8(fields.count),
                                            fieldDefinitions: fields,
                                            developerFieldDefinitions: [DeveloperFieldDefinition]())
