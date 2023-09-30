@@ -27,7 +27,7 @@ class FitMessageTests: XCTestCase {
 }
 
 extension FitMessageTests {
-        
+    
     func testFileIdMessage() {
         let time = Date()
         
@@ -160,7 +160,7 @@ extension FitMessageTests {
         let index = MessageIndex(isSelected: true, value: 399)
         
         let pos = Position(latitude: Measurement(value: 40, unit: UnitAngle.garminSemicircle),
-                                longitude: Measurement(value: 80, unit: UnitAngle.garminSemicircle))
+                           longitude: Measurement(value: 80, unit: UnitAngle.garminSemicircle))
         
         let msg = CoursePointMessage(timeStamp: fTime,
                                      messageIndex: index,

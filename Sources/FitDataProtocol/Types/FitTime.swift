@@ -92,7 +92,12 @@ internal extension FitTime {
     
     static func decode(data: Data, base: BaseTypeData, arch: Endian, isLocal: Bool = false) -> FitTime? {
         if let value = base.type.decode(type: UInt32.self, data: data, resolution: base.resolution, arch: arch) {
-            return FitTime(time: value, isLocal: isLocal)
+            // if date_time is < 0x10000000 then it is system time (seconds from device power on)
+            if value < 0x10000000 {
+                return FitTime(secondSincePowerUp: TimeInterval(value))
+            }
+            
+            return FitTime(date: Date(timeInterval: TimeInterval(value), since: Date.antEPOCH), isLocal: isLocal)
         }
 
         return nil
