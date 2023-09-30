@@ -388,12 +388,166 @@ public enum GarminProduct: UInt16 {
     case hrmDual                = 3299
     /// Approach S40
     case approachS40            = 3314
+    /// Forerunner 245M Asia
+    case forerunner245MAsia     = 3321
+    /// Edge 530 Apac
+    case edge530Apac            = 3349
+    /// Edge 830 Apac
+    case edge830Apac            = 3350
+    /// Vivo Move 3
+    case vivoMove3              = 3378
+    /// Vivo Active 4 - Small Asia
+    case vivoActive4SmallAsia   = 3387
+    /// Vivo Active 4 - Large Asia
+    case vivoActive4LargeAsia   = 3388
+    /// Vivo Active 4 - Oled Asia
+    case vivoActive4OledAsia    = 3389
+    /// Swim 2
+    case swim2                  = 3405
+    /// MARQ Driver Asia
+    case marqDriverAsia         = 3420
+    /// MARQ Aviator Asia
+    case marqAviatorAsia        = 3421
+    /// Vivo Move 3 Asia
+    case vivoMove3Asia          = 3422
+    /// Forerunner 945 Asia
+    case forerunner945Asia      = 3441
+    /// Vivo Active 3T China
+    case vivoActive3TChina      = 3446
+    /// MARQ Captian Asia
+    case marqCaptianAsia        = 3448
+    /// MARQ Commander Asia
+    case marqCommanderAsia      = 3449
+    /// MARQ Expedition Asia
+    case marqExpeditionAsia     = 3450
+    /// MARQ Athlete Asia
+    case marqAthleteAsia        = 3451
+    /// Instinct Solar
+    case instinctSolar          = 3466
+    /// Forerunner 45 Asia
+    case forerunner45Asia       = 3469
+    /// Vivo Active 3 Daimler
+    case vivoActive3Daimler     = 3473
+    /// Legecy Rey
+    case legecyRey              = 3498
+    /// Legecy Darth Vader
+    case legecyDarthVader       = 3499
+    /// Legecy Captain Marvel
+    case legecyCaptainMarvel    = 3500
+    /// Legecy First Avenger
+    case legecyFirstAvenger     = 3501
+    /// Fenix 6S Sport Asia
+    case fenix6sSportAsia       = 3512
+    /// Fenix 6S Asia
+    case fenix6SAsia            = 3513
+    /// Fenix 6 Sport Asia
+    case fenix6SportAsia        = 3514
+    /// Fenix 6 Asia
+    case fenix6Asia             = 3515
+    /// Fenix 6X Asia
+    case fenix6XAsia            = 3516
+    /// Legecy Captain Marvel Asia
+    case legecyCaptainMarvelAsia = 3535
+    /// Legecy First Avenger Asia
+    case legecyFirstAvengerAsia = 3536
+    /// Legecy Rey Asia
+    case legecyReyAsia          = 3537
+    /// Legecy Darth Vader Asia
+    case legecyDarthVaderAsia   = 3538
+    /// Descent MK 2S
+    case descentMk2s            = 3542
+    /// Edge 130 Plus
+    case edge130Plus            = 3558
+    /// Edge 1030 Plus
+    case edge1030Plus           = 3570
+    /// Rally 100/200 Power Meter
+    case rally200               = 3578
+    /// Forerunner 745
+    case forerunner745          = 3589
+    /// Venu Sq
+    case venuSq                 = 3600
+    /// Lily
+    case lily                   = 3615
+    /// MARQ Adventurer
+    case marqAdventurer         = 3624
+    /// Enduro
+    case enduro                 = 3638
+    /// Swim 2 APAC
+    case swim2Apac              = 3639
+    /// MARQ Adventurer Asia
+    case marqAdventurerAsia     = 3648
+    /// Forerunner 945 LTE
+    case forerunner945Lte       = 3652
+    /// Edge 540
+    case edge540                = 4061
+    /// Edge 840
+    case edge840                = 4062
+    /// Edge Explore 2
+    case edgeExplore2           = 4169
+    /// Approach S70
+    case approachS70            = 4233
+    /// Forerunner 265 Large
+    case forerunner265Large     = 4257
+    /// Forerunner 265 Small
+    case forerunner265Small     = 4258
+    /// Tacx Neo Smart
+    case tacxNeoSmart           = 4265
+    /// Tacx Neo 2 Smart
+    case tacxNeo2Smart          = 4266
+    /// Tacx Neo 2T Smart
+    case tacxNeo2TSmart         = 4267
+    /// Tacx Neo Smart Bike
+    case tacxNeoSmartBike       = 4268
+    /// Tacx Satori Smart
+    case tacxSatoriSmart        = 4269
+    /// Tacx Flow Smart
+    case tacxFlowSmart          = 4270
+    /// Tacx Vortex Smart
+    case tacxVortexSmart        = 4271
+    /// Tacx Bushido Smart
+    case tacxBushidoSmart       = 4272
+    /// Tacx Flux/Flux S Smart
+    case tacxFluxSmart          = 4274
+    /// Tacx Flux 2 Smart
+    case tacxFlux2Smart         = 4275
+    /// Tacx Magnum
+    case taxcMagnum             = 4276
+    /// Edge 1040 Asia
+    case edge1040Asia           = 4305
+    /// Epix Gen 2 Pro 42
+    case epixGen2Pro42          = 4312
+    /// Epix Gen 2 Pro 47
+    case epixGen2Pro47          = 4313
+    /// Epix Gen 2 Pro 51
+    case epixGen2Pro51          = 4314
+    /// FR 965
+    case forerunner965          = 4315
+    /// Enduro 2
+    case enduro2                = 4341
+    /// Fenix 7 Pro Solar
+    case fenix7ProSolar         = 4375
+    /// Instinct 2X
+    case instinct2X             = 4394
+    /// Descent T2
+    case descentT2              = 4442
     /// SDM4 Footpod
     case sdm4Footpod            = 10007
     /// EDGE Remote
     case edgeRemote             = 10014
+    /// Tacx Training App Windows
+    case tacxTrainingWindows    = 20533
+    /// Tacx Training App Mac
+    case tacxTrainingMac        = 20534
+    /// Tacx Training App Mac Catalyst
+    case tacxTrainingMacCat     = 20565
     /// Training Center
     case trainingCenter         = 20119
+    /// Tacx Training App Android
+    case tacxTrainingAndroid    = 30045
+    /// Tacx Training App iOS
+    case tacxTrainingiOS        = 30046
+    /// Tacx Training App Legecy
+    case ttacxTrainingLegecy    = 30047
     /// Connect IQ Simulator
     case connectIqSimulator     = 65531
     /// Android ANT+ Plugin
